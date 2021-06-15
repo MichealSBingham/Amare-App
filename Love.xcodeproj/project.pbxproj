@@ -3,18 +3,19 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		26B1AFD62678FFE500A170B3 /* LoveApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B1AFD52678FFE500A170B3 /* LoveApp.swift */; };
-		26B1AFD82678FFE500A170B3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B1AFD72678FFE500A170B3 /* ContentView.swift */; };
+		26B1AFD82678FFE500A170B3 /* SignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B1AFD72678FFE500A170B3 /* SignupView.swift */; };
 		26B1AFDA2678FFE700A170B3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 26B1AFD92678FFE700A170B3 /* Assets.xcassets */; };
 		26B1AFDD2678FFE700A170B3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 26B1AFDC2678FFE700A170B3 /* Preview Assets.xcassets */; };
 		26B1AFDF2678FFE700A170B3 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B1AFDE2678FFE700A170B3 /* Persistence.swift */; };
 		26B1AFE22678FFE700A170B3 /* Love.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 26B1AFE02678FFE700A170B3 /* Love.xcdatamodeld */; };
 		26B1AFED2678FFE700A170B3 /* LoveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B1AFEC2678FFE700A170B3 /* LoveTests.swift */; };
 		26B1AFF82678FFE700A170B3 /* LoveUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B1AFF72678FFE700A170B3 /* LoveUITests.swift */; };
+		26B1B0072679566E00A170B3 /* iPhoneNumberField in Frameworks */ = {isa = PBXBuildFile; productRef = 26B1B0062679566E00A170B3 /* iPhoneNumberField */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,7 +38,7 @@
 /* Begin PBXFileReference section */
 		26B1AFD22678FFE500A170B3 /* Love.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Love.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		26B1AFD52678FFE500A170B3 /* LoveApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoveApp.swift; sourceTree = "<group>"; };
-		26B1AFD72678FFE500A170B3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		26B1AFD72678FFE500A170B3 /* SignupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupView.swift; sourceTree = "<group>"; };
 		26B1AFD92678FFE700A170B3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		26B1AFDC2678FFE700A170B3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		26B1AFDE2678FFE700A170B3 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
@@ -56,6 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				26B1B0072679566E00A170B3 /* iPhoneNumberField in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,7 +102,7 @@
 			isa = PBXGroup;
 			children = (
 				26B1AFD52678FFE500A170B3 /* LoveApp.swift */,
-				26B1AFD72678FFE500A170B3 /* ContentView.swift */,
+				26B1AFD72678FFE500A170B3 /* SignupView.swift */,
 				26B1AFD92678FFE700A170B3 /* Assets.xcassets */,
 				26B1AFDE2678FFE700A170B3 /* Persistence.swift */,
 				26B1AFE32678FFE700A170B3 /* Info.plist */,
@@ -152,6 +154,9 @@
 			dependencies = (
 			);
 			name = Love;
+			packageProductDependencies = (
+				26B1B0062679566E00A170B3 /* iPhoneNumberField */,
+			);
 			productName = Love;
 			productReference = 26B1AFD22678FFE500A170B3 /* Love.app */;
 			productType = "com.apple.product-type.application";
@@ -223,6 +228,9 @@
 				Base,
 			);
 			mainGroup = 26B1AFC92678FFE500A170B3;
+			packageReferences = (
+				26B1B0052679566E00A170B3 /* XCRemoteSwiftPackageReference "iPhoneNumberField" */,
+			);
 			productRefGroup = 26B1AFD32678FFE500A170B3 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -266,7 +274,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				26B1AFDF2678FFE700A170B3 /* Persistence.swift in Sources */,
-				26B1AFD82678FFE500A170B3 /* ContentView.swift in Sources */,
+				26B1AFD82678FFE500A170B3 /* SignupView.swift in Sources */,
 				26B1AFD62678FFE500A170B3 /* LoveApp.swift in Sources */,
 				26B1AFE22678FFE700A170B3 /* Love.xcdatamodeld in Sources */,
 			);
@@ -588,6 +596,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		26B1B0052679566E00A170B3 /* XCRemoteSwiftPackageReference "iPhoneNumberField" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/MojtabaHs/iPhoneNumberField.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.6.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		26B1B0062679566E00A170B3 /* iPhoneNumberField */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 26B1B0052679566E00A170B3 /* XCRemoteSwiftPackageReference "iPhoneNumberField" */;
+			productName = iPhoneNumberField;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		26B1AFE02678FFE700A170B3 /* Love.xcdatamodeld */ = {
