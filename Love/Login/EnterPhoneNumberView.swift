@@ -23,9 +23,6 @@ struct EnterPhoneNumberView: View {
     @State private var shouldDisablePhoneTextField = false
     
  
-    
-    
-    
 
 
     var body: some View {
@@ -44,24 +41,20 @@ struct EnterPhoneNumberView: View {
                         .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
                         .navigationTitle("Phone Number")
                         .navigationBarColor(backgroundColor: .clear, titleColor: .white)
+                 
                 
         
-                // transistion to Verification Code View Screen
+                // ******* ======  Transitions -- Navigation Links =======
+                        // Goes to Enter Verification Code View
                 NavigationLink(destination: VerificationCodeView(), isActive: $shouldGoToVerifyCodeScreen){ EmptyView() }
                 
-    
+                // ******* ======++++++++++++++++ =======
+
                 
                     VStack {
                         
                 
-                /*
-                        Text("Enter Your Phone Number")
-                            .font(.title)
-                            .fontWeight(.bold)
-                            .foregroundColor(Color.white)
-                            .padding()
-                        */
-                            
+              
                    
                     
                         
@@ -85,31 +78,26 @@ struct EnterPhoneNumberView: View {
                                     
                                     shouldDisablePhoneTextField = true
                                     shouldGoToVerifyCodeScreen = true
-                            
-                                   
                                     
                                     
-                                    PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber.numberString, uiDelegate: nil) { verificationID, error in
+                                 Account.sendVerificationCode(to: phoneNumber.numberString,
+                    butIfSomeError: {  error in
                                         
-                                        if let error = error{
-                                            // An error happened after entering the phone number
-                                            print("An error happened: \(error.localizedDescription)")
-                                            
-                                            // Enable the phone text field again
-                                            shouldDisablePhoneTextField = false
-                                            
-                                            // Goes back to EnterPhoneNumberView if there's an error
-                                            shouldGoToVerifyCodeScreen = false
-                                            
-                                           // Erase phone number field text
-                                            phone_number_field_text  = ""
-                                        
-                                            
-                                        }
-                                        
-                                        
+                                     // An error happened after entering the phone number
+
+                                    print("\n\nThe error is : \(error)")
+                                     
+                                     // Enable the phone text field again
+                                     shouldDisablePhoneTextField = false
+                                     
+                                     // Goes back to EnterPhoneNumberView if there's an error
+                                     shouldGoToVerifyCodeScreen = false
+                                     
+                                    // Erase phone number field text
+                                     phone_number_field_text  = ""
                                        
-                                    }
+                                        
+                                    })
                                     
                                     
                                
@@ -125,21 +113,12 @@ struct EnterPhoneNumberView: View {
                         
                         
                         
-                        
                     }
                 }
             
             
           
               
-            // View Transitions
-               /*
-                .navigate(to: VerificationCodeView(maxDigits: 6, label: "Enter Verification Code", pin: "", showPin: true){
-                    x, y in
-                }, when: $shouldGoToVerifyCodeScreen)
-            
-                
-            .navigate(to: EnterPhoneNumberView(), when: $goBackDueToError) */
         }
    
        

@@ -1,20 +1,21 @@
 //
-//  EnterBirthdayView.swift
+//  EnterNameView.swift
 //  Love
 //
-//  Created by Micheal Bingham on 6/18/21.
+//  Created by Micheal Bingham on 6/19/21.
 //
 
 import SwiftUI
 
-struct EnterBirthdayView: View {
+struct EnterNameView: View {
     
-    @State private var goToNext: Bool = false 
+    @State  private var name: String = ""
+    @State private var goToNext: Bool = false
     
     
     var body: some View {
-        
-        NavigationView{
+       
+      //  NavigationView{ // comment this out when running code. for some reason, if this is not here, the navigation title will not show in the preview canvas
             
             ZStack{
                 
@@ -23,41 +24,50 @@ struct EnterBirthdayView: View {
                     .resizable()
                     .scaledToFill()
                     .edgesIgnoringSafeArea(.all)
-                    .navigationTitle("When Is Your Birthday?")
+                    .navigationTitle("What is your name?")
                     .navigationBarColor(backgroundColor: .clear, titleColor: .white)
                 
                 // ******* ======  Transitions -- Navigation Links =======
                 
                 // Goes to the Profile
                 NavigationLink(
-                    destination: FromWhereView(),
+                    destination: EnterBirthdayView(),
                     isActive: $goToNext,
                     label: {  EmptyView()  }
                 )
                 
                 // ******* ================================ **********
                 
-                
-                
-                
                 VStack{
                     
-                    DatePicker(selection: .constant(Date()), label: { Text("Birthday") })
-
+                    TextField("Micheal S. Bingham", text: $name, onCommit:  {
+                        
+                        // User pressed enter
+                        print("The name is \(name)")
+                        
+                    })
+                    .font(.largeTitle)
+                    
+                    
+                    
                 }
                 
+                
+                    
+
+               
                 
                 
                 
             }
             
-        }
-        
+      //  }
+
     }
 }
 
-struct EnterBirthdayView_Previews: PreviewProvider {
+struct EnterNameView_Previews: PreviewProvider {
     static var previews: some View {
-        EnterBirthdayView()
+        EnterNameView()
     }
 }

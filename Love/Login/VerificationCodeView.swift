@@ -5,7 +5,8 @@ import Firebase
 
 public struct VerificationCodeView: View {
 
-
+/// State variable for when there is a successful sign in
+    @State var goToProfile: Bool = false
 
     
 // Part of VerificationCodeView UI
@@ -14,28 +15,54 @@ var label = "Enter One Time Password"
 @State var pin: String = ""
 @State var showPin = true
     
-//var handler: (String, (Bool) -> Void) -> Void
+
 
     
     
 public var body: some View {
     
     
-    ZStack {
-        Image("backgrounds/background1")
-            .resizable()
-            .scaledToFill()
-            .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+  
         
-        VStack {
-            Text(label).font(.title)
+        ZStack {
             
-            ZStack {
-                pinDots
-                backgroundField
+            Image("backgrounds/background1")
+                .resizable()
+                .scaledToFill()
+                .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+                .navigationBarTitle("Enter Verification Code")
+                .navigationBarColor(backgroundColor: .clear, titleColor: .white)
+                
+             
+            
+            
+            
+            // ******* ======  Transitions -- Navigation Links =======
+            
+            // Goes to the Profile
+            NavigationLink(
+                destination: ProfileView(),
+                isActive: $goToProfile,
+                label: {  EmptyView()  }
+            )
+            
+            // ******* ================================ **********
+
+            
+            VStack {
+                
+                
+                ZStack {
+                    pinDots
+                    backgroundField
+                }
             }
         }
-    }
+        
+        
+        
+    
+    
 }
     
 private var pinDots: some View {
@@ -70,6 +97,7 @@ private var backgroundField: some View {
         .foregroundColor(.clear)
         .keyboardType(.numberPad)
         .textContentType(.oneTimeCode)
+        
     
     
 }
@@ -90,22 +118,31 @@ private var showPinButton: some View {
 private func submitPin() {
     if pin.count == maxDigits {
         
-     /*   Auth.auth().signIn(with: <#T##AuthCredential#>) { authResult, error in
+        Account.login(with: pin) { error in
             
+            // Could not Log in
             
-        }*/
-        
-        
-       /* handler(pin) { isSuccess in
-            if isSuccess {
-                print("pin matched, go to next page, no action to perfrom here")
-            } else {
-                pin = ""
-                print("this has to called after showing toast why is the failure")
-              }
-           } */
+        } afterSuccess: { user in
+            
+                // Successfully signed in
+                goToProfile = true 
+            
+        } onFirstSignIn: {
+            
+            // 
         }
-    }
+
+    
+       
+        }
+        
+        
+      
+        }
+    
+    
+    
+}
 
 struct VerificationCodeView_Previews: PreviewProvider {
     static var previews: some View {
@@ -118,7 +155,7 @@ struct VerificationCodeView_Previews: PreviewProvider {
 }
 
 
-}
+
 extension String {
 var digits: [Int] {
     var result = [Int]()

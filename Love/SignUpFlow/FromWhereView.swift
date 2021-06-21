@@ -1,14 +1,18 @@
 //
-//  EnterBirthdayView.swift
+//  FromWhereView.swift
 //  Love
 //
-//  Created by Micheal Bingham on 6/18/21.
+//  Created by Micheal Bingham on 6/19/21.
 //
 
 import SwiftUI
+import MapKit
 
-struct EnterBirthdayView: View {
+struct FromWhereView: View {
     
+        /// Center of map view. Change to current location in future.
+    @State private var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275), span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5))
+
     @State private var goToNext: Bool = false 
     
     
@@ -23,14 +27,14 @@ struct EnterBirthdayView: View {
                     .resizable()
                     .scaledToFill()
                     .edgesIgnoringSafeArea(.all)
-                    .navigationTitle("When Is Your Birthday?")
+                    .navigationTitle("Where are you from?")
                     .navigationBarColor(backgroundColor: .clear, titleColor: .white)
                 
                 // ******* ======  Transitions -- Navigation Links =======
                 
                 // Goes to the Profile
                 NavigationLink(
-                    destination: FromWhereView(),
+                    destination: LiveWhereView(),
                     isActive: $goToNext,
                     label: {  EmptyView()  }
                 )
@@ -38,13 +42,8 @@ struct EnterBirthdayView: View {
                 // ******* ================================ **********
                 
                 
-                
-                
-                VStack{
-                    
-                    DatePicker(selection: .constant(Date()), label: { Text("Birthday") })
-
-                }
+                Map(coordinateRegion: $region)
+                    .frame(width: 400, height: 300)
                 
                 
                 
@@ -52,12 +51,14 @@ struct EnterBirthdayView: View {
             }
             
         }
-        
+       
     }
+    
+    
 }
 
-struct EnterBirthdayView_Previews: PreviewProvider {
+struct FromWhereView_Previews: PreviewProvider {
     static var previews: some View {
-        EnterBirthdayView()
+        FromWhereView()
     }
 }
