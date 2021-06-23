@@ -28,3 +28,6 @@ extension String{
 }
 
 
+extension NSNotification {
+    static let logout = NSNotification.Name.init("logout")
+}

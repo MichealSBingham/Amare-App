@@ -16,10 +16,15 @@ struct LoveApp: App {
     let persistenceController = PersistenceController.shared
     
 
+
     var body: some Scene {
+        
         WindowGroup {
-            EnterPhoneNumberView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+           
+                EnterPhoneNumberView()
+                    .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            
+            
         }
     }
 }
@@ -29,10 +34,14 @@ struct LoveApp: App {
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
+    var account: Account = Account()
+
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         print("Did finish launching with options")
         FirebaseApp.configure()
+        
+        
         return true
     }
     
@@ -43,6 +52,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             completionHandler(.noData)
             return
         }
+    }
+    
+    
+    func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
+        
+        return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
+
     }
     
 }

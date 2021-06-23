@@ -8,7 +8,8 @@ public struct VerificationCodeView: View {
 /// State variable for when there is a successful sign in
     @State var goToProfile: Bool = false
 
-    
+    @State private var account: Account = Account()
+
 // Part of VerificationCodeView UI
 var maxDigits: Int = 6
 var label = "Enter One Time Password"
@@ -41,10 +42,10 @@ public var body: some View {
             
             // Goes to the Profile
             NavigationLink(
-                destination: ProfileView(),
-                isActive: $goToProfile,
-                label: {  EmptyView()  }
-            )
+                destination: ProfileView().environmentObject(account),
+                isActive: $goToProfile)
+                {  EmptyView()  }
+            
             
             // ******* ================================ **********
 
@@ -57,6 +58,8 @@ public var body: some View {
                     backgroundField
                 }
             }
+            
+            
         }
         
         
@@ -118,14 +121,19 @@ private var showPinButton: some View {
 private func submitPin() {
     if pin.count == maxDigits {
         
-        Account.login(with: pin) { error in
+        account.login(with: pin) { error in
             
             // Could not Log in
             
         } afterSuccess: { user in
-            
+            print("After success")
                 // Successfully signed in
+            print("The user is ... \(user.uid)")
+            
+            print("The account user is \(account.user?.uid)")
                 goToProfile = true 
+            
+           
             
         } onFirstSignIn: {
             
@@ -150,7 +158,7 @@ struct VerificationCodeView_Previews: PreviewProvider {
         //label =  Set Title
         //Pin Count
         
-        VerificationCodeView(maxDigits: 6, label: "Enter Verification Code", pin: "", showPin: true)
+        VerificationCodeView()
     }
 }
 

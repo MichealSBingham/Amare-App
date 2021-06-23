@@ -8,8 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		225A16E8E5F88253BDE4C217 /* Pods_Love_LoveUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 304B5FDCEBDF87809D4E9687 /* Pods_Love_LoveUITests.framework */; };
+		263D6F9426829F2200CBBECC /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263D6F9326829F2200CBBECC /* RootView.swift */; };
 		268F26BF2680094A00FBEA7D /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268F26BE2680094A00FBEA7D /* Account.swift */; };
 		268F26C1268018EE00FBEA7D /* ForNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268F26C0268018EE00FBEA7D /* ForNavigation.swift */; };
+		26970699268101B0007E7961 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26970698268101B0007E7961 /* SceneDelegate.swift */; };
 		26B1AFD62678FFE500A170B3 /* LoveApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B1AFD52678FFE500A170B3 /* LoveApp.swift */; };
 		26B1AFD82678FFE500A170B3 /* EnterPhoneNumberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B1AFD72678FFE500A170B3 /* EnterPhoneNumberView.swift */; };
 		26B1AFDA2678FFE700A170B3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 26B1AFD92678FFE700A170B3 /* Assets.xcassets */; };
@@ -54,8 +56,10 @@
 /* Begin PBXFileReference section */
 		17BD1E386A3872B5C49DF647 /* Pods-LoveTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LoveTests.release.xcconfig"; path = "Target Support Files/Pods-LoveTests/Pods-LoveTests.release.xcconfig"; sourceTree = "<group>"; };
 		228F6C268EF5041B0FAF2CF8 /* Pods-Love-LoveUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Love-LoveUITests.debug.xcconfig"; path = "Target Support Files/Pods-Love-LoveUITests/Pods-Love-LoveUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		263D6F9326829F2200CBBECC /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		268F26BE2680094A00FBEA7D /* Account.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		268F26C0268018EE00FBEA7D /* ForNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForNavigation.swift; sourceTree = "<group>"; };
+		26970698268101B0007E7961 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		26B1AFD22678FFE500A170B3 /* Love.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Love.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		26B1AFD52678FFE500A170B3 /* LoveApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoveApp.swift; sourceTree = "<group>"; };
 		26B1AFD72678FFE500A170B3 /* EnterPhoneNumberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterPhoneNumberView.swift; sourceTree = "<group>"; };
@@ -163,6 +167,8 @@
 			children = (
 				26BBF08A267D321F00C84019 /* Love.entitlements */,
 				26B1AFD52678FFE500A170B3 /* LoveApp.swift */,
+				26970698268101B0007E7961 /* SceneDelegate.swift */,
+				263D6F9326829F2200CBBECC /* RootView.swift */,
 				268F26BD2680080F00FBEA7D /* UserAccount */,
 				26B1B0082679956200A170B3 /* Login */,
 				26BBF08D267D807F00C84019 /* SignUpFlow */,
@@ -498,8 +504,10 @@
 				26B1B011267C28E000A170B3 /* Extensions.swift in Sources */,
 				26BBF093267EBB1300C84019 /* LiveWhereView.swift in Sources */,
 				26BBF08F267D80FC00C84019 /* EnterBirthdayView.swift in Sources */,
+				26970699268101B0007E7961 /* SceneDelegate.swift in Sources */,
 				26B1AFD82678FFE500A170B3 /* EnterPhoneNumberView.swift in Sources */,
 				26B1AFD62678FFE500A170B3 /* LoveApp.swift in Sources */,
+				263D6F9426829F2200CBBECC /* RootView.swift in Sources */,
 				26BBF091267EA5FF00C84019 /* FromWhereView.swift in Sources */,
 				26B1AFE22678FFE700A170B3 /* Love.xcdatamodeld in Sources */,
 				268F26C1268018EE00FBEA7D /* ForNavigation.swift in Sources */,

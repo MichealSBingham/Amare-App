@@ -10,9 +10,12 @@ import Foundation
 
 enum LoginError: Error{
     
+    case networkError
+    case tooManyRequests
+    case captchaCheckFailed
     case wrongVerificationCode
     case accountDisabled
-    case InvalidInput
-    case Unknown
-    case CantGetVerificationID
+    case invalidInput
+    case unknown
+    case cantGetVerificationID
 }
