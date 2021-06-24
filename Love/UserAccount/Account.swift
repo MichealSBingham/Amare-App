@@ -10,7 +10,7 @@ import Firebase
 import FirebaseAuth
 import Combine
 
-/// Class for handling user account related things such as signing in, signing out, listening for auth changes, etc.
+/// Class for handling user account related things such as signing in, signing out, listening for auth changes, etc. An account is associated with one user.
 class Account: ObservableObject {
 
     
@@ -20,6 +20,12 @@ class Account: ObservableObject {
     @Published var isSignedIn: Bool = false
     var isListening: Bool = false
     var isListeningForSignOut: Bool = false
+    
+    var db = Firestore.firestore()
+    
+    /// User Data saved to an account object
+    @Published var data: UserData?
+    
     
     /// Sends a verification code to the user's phone number to be used to login or create an account
     /// - Parameters:
@@ -31,7 +37,7 @@ class Account: ObservableObject {
     /// - Author: Micheal S. Bingham
      func sendVerificationCode(to phoneNumber: String,
                                     andifItWorks onSuccess: (() -> Void)? = nil,
-                                    butIfSomeError onFailure: ((_ error: LoginError) -> Void)? = nil ) {
+                                    butIfSomeError onFailure: ((_ error: AuthentificationError) -> Void)? = nil ) {
         
         PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber, uiDelegate: nil) { verificationID, error in
             
@@ -45,24 +51,24 @@ class Account: ObservableObject {
                     
                     switch error {
                     case .networkError:
-                        onFailure!(LoginError.networkError)
+                        onFailure!(AuthentificationError.networkError)
                     case .tooManyRequests:
-                        onFailure!(LoginError.tooManyRequests)
+                        onFailure!(AuthentificationError.tooManyRequests)
                     case .captchaCheckFailed:
-                        onFailure!(LoginError.captchaCheckFailed)
+                        onFailure!(AuthentificationError.captchaCheckFailed)
                     case .userDisabled:
-                        onFailure!(LoginError.accountDisabled)
+                        onFailure!(AuthentificationError.accountDisabled)
                     case .invalidPhoneNumber:
-                        onFailure!(LoginError.invalidInput)
+                        onFailure!(AuthentificationError.invalidInput)
                     default:
-                        onFailure!(LoginError.unknown)
+                        onFailure!(AuthentificationError.unknown)
                     }
                     
                     return
                     
                 } else{
                     
-                    onFailure!(LoginError.unknown)
+                    onFailure!(AuthentificationError.unknown)
                     return
                 }
             
@@ -75,7 +81,7 @@ class Account: ObservableObject {
             
             guard let vID = verificationID else{
                 
-                onFailure!(LoginError.cantGetVerificationID)
+                onFailure!(AuthentificationError.cantGetVerificationID)
                 
                 return
             }
@@ -103,7 +109,7 @@ class Account: ObservableObject {
     /// - Author: Micheal S. Bingham
     /// - TODO: Handle Login Errors, Detect if it is first sign In
      func login(with verification_code: String,
-                     failedToLogin couldNotLogin: ((_ error: LoginError) -> Void)? = nil ,
+                     failedToLogin couldNotLogin: ((_ error: AuthentificationError) -> Void)? = nil ,
                      afterSuccess  didLogIn: @escaping (_ user: User) -> Void,
                      onFirstSignIn shouldSignUp: (() -> Void)? = nil ) {
         
@@ -112,7 +118,7 @@ class Account: ObservableObject {
         
             print("Some Error happened. Can't grab Verification ID.  ")
             
-            couldNotLogin!(LoginError.cantGetVerificationID)
+            couldNotLogin!(AuthentificationError.cantGetVerificationID)
             
             return
         }
@@ -137,26 +143,26 @@ class Account: ObservableObject {
                     
                     switch error {
                     case .networkError:
-                        couldNotLogin!(LoginError.networkError)
+                        couldNotLogin!(AuthentificationError.networkError)
                     case .tooManyRequests:
-                        couldNotLogin!(LoginError.tooManyRequests)
+                        couldNotLogin!(AuthentificationError.tooManyRequests)
                     case .captchaCheckFailed:
-                        couldNotLogin!(LoginError.captchaCheckFailed)
+                        couldNotLogin!(AuthentificationError.captchaCheckFailed)
                     case .userDisabled:
-                        couldNotLogin!(LoginError.accountDisabled)
+                        couldNotLogin!(AuthentificationError.accountDisabled)
                     case .wrongPassword:
-                        couldNotLogin!(LoginError.wrongVerificationCode)
+                        couldNotLogin!(AuthentificationError.wrongVerificationCode)
                     case .invalidVerificationCode:
-                        couldNotLogin!(LoginError.wrongVerificationCode)
+                        couldNotLogin!(AuthentificationError.wrongVerificationCode)
                     default:
-                        couldNotLogin!(LoginError.unknown)
+                        couldNotLogin!(AuthentificationError.unknown)
                     }
                     
                     return
                     
                 } else{
                     
-                    couldNotLogin!(LoginError.unknown)
+                    couldNotLogin!(AuthentificationError.unknown)
                     return
                 }
             
@@ -189,7 +195,7 @@ class Account: ObservableObject {
                 
                 print("Error... for some reason, auth().signIn returned an empty FIRUser object. ")
                 
-                couldNotLogin!(LoginError.unknown)
+                couldNotLogin!(AuthentificationError.unknown)
                 
             }
             
@@ -212,7 +218,7 @@ class Account: ObservableObject {
     ///   - error: A `NSError` is passed in the `cantSignOut ` block. If sign out fails, it is most likely just a network error.
     /// - Author: Micheal S. Bingham
      func signOut(success didSignOut: () -> Void,
-                       cantSignOut failure: (_ error: LoginError) -> Void) {
+                       cantSignOut failure: (_ error: AuthentificationError) -> Void) {
         
         let firebaseAuth = Auth.auth()
     do {
@@ -229,12 +235,12 @@ class Account: ObservableObject {
         let e = AuthErrorCode(rawValue: signOutError.code)
         switch e {
         case .networkError:
-            failure(LoginError.networkError)
+            failure(AuthentificationError.networkError)
         default:
-            failure(LoginError.unknown)
+            failure(AuthentificationError.unknown)
         }
         
-        failure(LoginError.unknown)
+        failure(AuthentificationError.unknown)
     }
       
     }
@@ -303,4 +309,79 @@ class Account: ObservableObject {
             }
         }
     
+    /// Reads the user data once from the database and saves it in the object. The completion block is ran with no error if successful. Assigns a `UserData` object to `self.data`
+    /// - Parameter completion: Possible errors that can be passed are...
+    /// - TODO: Error Handling ...
+    func getUserData(completion:( (_ err: Error?) -> Void)?  = nil )  {
+        
+        guard let id  = self.user?.uid else {
+            
+            completion!(AuthentificationError.notSignedIn)
+            
+            return
+        }
+        
+        db.collection("users").document(id).getDocument { document, error in
+            
+            guard error == nil else{
+                completion!(error!)
+                return
+            }
+            
+            if let document = document, document.exists {
+                
+                    let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                    print("User  data retreived once : \(dataDescription)")
+                
+                    // Reading the data from the database as a UserData object
+                
+                let result = Result {
+                    try document.data(as: UserData.self)
+                }
+                
+                switch result {
+                
+                
+                case .success(let data):
+                    
+                    if let data = data{
+                        
+                        // Data object contains all of the user's data
+                        self.data = data
+                        completion!(nil)
+                        
+                        
+                    } else{
+                        
+                        // Could not retreive the data for some reason
+                        completion!(AccountError.doesNotExist)
+                    }
+                    
+                
+                case .failure(let error):
+                    print("Some error happened trying to convert the user data to a User Data object: \(error.localizedDescription)")
+                    completion!(error)
+              
+                }
+
+                
+                
+                
+                } else {
+                    print("Document does not exist")
+                    // User does not exist
+                    completion!(AccountError.doesNotExist)
+                }
+            
+            
+            return
+        }
+        
+    }
+    
+    
 }
+
+
+
+

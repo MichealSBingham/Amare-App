@@ -8,7 +8,7 @@
 import Foundation
 
 
-enum LoginError: Error{
+enum AuthentificationError: Error{
     
     case networkError
     case tooManyRequests
@@ -18,4 +18,5 @@ enum LoginError: Error{
     case invalidInput
     case unknown
     case cantGetVerificationID
+    case notSignedIn
 }
