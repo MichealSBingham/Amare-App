@@ -18,6 +18,7 @@ struct ProfileView: View {
         
         ZStack{
             
+                
             Image("backgrounds/background1")
                 .resizable()
                 .scaledToFill()
@@ -71,11 +72,13 @@ struct ProfileView: View {
             
         } .onAppear(perform: {
             
-      
+            doneWithSignUp()
             account.listen()
             account.stopListening()
             account.listenOnlyForSignOut()
+            
         })
+        
     }
 }
 

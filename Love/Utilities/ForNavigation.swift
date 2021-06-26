@@ -49,6 +49,8 @@ extension View {
     /// - Returns: View
     func navigationBarColor(backgroundColor: UIColor?, titleColor: UIColor?) -> some View {
         self.modifier(NavigationBarModifier(backgroundColor: backgroundColor, titleColor: titleColor))
+        
+        
     }
     
 }
@@ -85,4 +87,16 @@ struct NavigationBarModifier: ViewModifier {
             }
         }
     }
+}
+
+
+
+/// Checks if the user finished the sign up process .
+func isDoneWithSignUp() -> Bool {
+    return UserDefaults.standard.bool(forKey: "isDoneWithSignUp")
+}
+
+/// Call this every time the profile is loaded so system knows  that when the app quits it does not need to restore sign up state . Set to false on screens during sign up flow 
+func doneWithSignUp(state: Bool = true )  {
+    UserDefaults.standard.set(state, forKey: "isDoneWithSignUp")
 }

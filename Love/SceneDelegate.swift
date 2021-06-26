@@ -32,4 +32,27 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
     }
     
+    
+    
+    
+func sceneDidEnterBackground(_ scene: UIScene) {
+    
+    if !(isDoneWithSignUp()){
+            // if not done with sign up... log user out.
+        account.signOut {
+            //
+        } cantSignOut: { error in
+            //
+        }
+
+    }
+   
+    
+    
+}
+    func sceneWillResignActive(_ scene: UIScene) {
+       
+
+    }
+    
 }

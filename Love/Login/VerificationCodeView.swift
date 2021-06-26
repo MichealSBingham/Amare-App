@@ -9,12 +9,23 @@ public struct VerificationCodeView: View {
     @State var goToProfile: Bool = false
 
     @State private var account: Account = Account()
+    
+    
+    
+    /// Sign Up States to go to if user did not finish sign up flow
+    @State private var goToEnterNameView: Bool = false
+    @State private var goToEnterBirthdayView: Bool = false
+    @State private var goToFromWhereView: Bool = false
+    @State private var goToLiveWhereView: Bool = false
 
+    
 // Part of VerificationCodeView UI
 var maxDigits: Int = 6
 var label = "Enter One Time Password"
 @State var pin: String = ""
 @State var showPin = true
+    
+
     
 
 
@@ -47,6 +58,31 @@ public var body: some View {
                 {  EmptyView()  }
             
             
+            
+ //\\//\\///\\/\/\/\/\/\\/\/\/\  GOES TO PROPER PAGE IN SIGN UP FLOW IF USER DID NOT FINISH SIGN UP
+            //\\//\\///\\/\/\/\/\/\\/\/\/\
+            NavigationLink(
+                destination: EnterNameView().environmentObject(account),
+                isActive: $goToEnterNameView)
+                {  EmptyView()  }
+            
+            
+            NavigationLink(
+                destination: EnterBirthdayView().environmentObject(account),
+                isActive: $goToEnterBirthdayView)
+                {  EmptyView()  }
+            
+            NavigationLink(
+                destination: FromWhereView().environmentObject(account),
+                isActive: $goToFromWhereView)
+                {  EmptyView()  }
+            
+            NavigationLink(
+                destination: LiveWhereView().environmentObject(account),
+                isActive: $goToLiveWhereView)
+                {  EmptyView()  }
+            
+            
             // ******* ================================ **********
 
             
@@ -61,6 +97,8 @@ public var body: some View {
             
             
         }
+    
+    
         
         
         
@@ -137,7 +175,45 @@ private func submitPin() {
             
         } onFirstSignIn: {
             
-            // 
+            //
+            if let data = account.data{
+                // There is some profile data saved in the user
+                
+               // Go to the appropiate screen since they haven't finished sign up process
+                print("there is some profile data saved ")
+                
+                
+                switch data.getFirstNilInSignUpState(){
+                                        
+                case .name:
+                    goToEnterNameView = true
+                case .birthday:
+                    goToEnterBirthdayView = true
+                case .hometown:
+                    goToFromWhereView = true
+                case .residence:
+                    goToLiveWhereView = true
+              default: // should not run if code is written properly
+                    goToEnterNameView = true
+                
+                }
+                
+                
+            } else{
+                
+                // It is the user's very first sign in
+                
+              // Go to First Field in Sign Up Flow (Enter Name)
+                print("User's very first sign in")
+                goToEnterNameView = true
+                
+                
+                
+            }
+            
+            
+            
+            
         }
 
     

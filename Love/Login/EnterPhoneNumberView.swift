@@ -138,29 +138,12 @@ struct EnterPhoneNumberView: View {
                         
                         
                     }
-            } .onDisappear(perform: {
-                
-                print("Should disappear")
-              //  account.stopListening()
-            })
-            
-           
+            }            
             
           
         }
    
-    // Switch to right screen depending on if user is logged in or now
-        .onAppear(perform: {
-            print("Enter Phone Number View did appear ")
-            
-          
-            
-            //account.listen()
-            
-            
-            
-        })
-        
+       
         
     }
 

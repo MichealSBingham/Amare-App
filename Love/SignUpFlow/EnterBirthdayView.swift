@@ -9,6 +9,8 @@ import SwiftUI
 
 struct EnterBirthdayView: View {
     
+    @EnvironmentObject private var account: Account
+    
     @State private var goToNext: Bool = false 
     
     
@@ -49,7 +51,12 @@ struct EnterBirthdayView: View {
                 
                 
                 
+            } .onAppear {
+                doneWithSignUp(state: false)
             }
+            
+           
+       
             
         }
         

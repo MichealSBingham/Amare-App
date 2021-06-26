@@ -9,10 +9,14 @@ import Foundation
 import Firebase
 import FirebaseAuth
 import Combine
+import FirebaseFirestoreSwift
+import SwiftUI
+
 
 /// Class for handling user account related things such as signing in, signing out, listening for auth changes, etc. An account is associated with one user.
 class Account: ObservableObject {
 
+   
     
         var didChange = PassthroughSubject<Account, Never>()
     @Published var user: User? { didSet { self.didChange.send(self) }}
@@ -21,10 +25,13 @@ class Account: ObservableObject {
     var isListening: Bool = false
     var isListeningForSignOut: Bool = false
     
-    var db = Firestore.firestore()
+    var db: Firestore?
+    
     
     /// User Data saved to an account object
     @Published var data: UserData?
+    
+    
     
     
     /// Sends a verification code to the user's phone number to be used to login or create an account
@@ -179,15 +186,73 @@ class Account: ObservableObject {
                 
                 print("Inside login function we just set the new user ....  with ID\(user.uid)")
                 self.user = user
-                print("Now self id is ... \(self.user?.uid)")
-              //  self.isSignedIn = true Vould be causing error. Should only do this when .listen()
+                
                 if self.isListening{
-                    self.isListening = true
+                     self.isSignedIn = true
+                        
+                 }
+                
+                self.getUserData { error in
+                    
+                    print("The error getting user data is ... \(error)")
+                    print("The data is ... \(self.data)")
+                    
+                    
+                    if let error = error as? AccountError {
+                        // There was some error getting user data
+                        print("There was some accounteerror getting user data")
+                        
+                        switch error {
+                        case .doesNotExist: // It is probably the user's first sign in
+                            self.data = nil
+                            shouldSignUp!()
+                            
+                            return
+                        }
+                        // competion
+                        
+                        
+                        
+                    }
+                    
+                    if let error = error as? AuthentificationError {
+                        // there was an authentification error instead
+                        print("There was some auth error getting user data")
+                        couldNotLogin!(error)
+                        
+                        return
+                        
+                    }
+                    
+                    
+                    if let error = error {
+                        print("There was some other error getting user data")
+                        couldNotLogin!(AuthentificationError.unknown)
+                        return
+                    }
+               
+            // No error passed ...
+                  
+                    guard (self.data?.isComplete())! else{
+                        
+                        shouldSignUp!()
+                        
+                        return
+                        
+                    }
+                   
+                  
+                   didLogIn(user)
+                    
+                   return
                 }
+                
+                
+               
                 
           // \\//\\     // Check if it is user's first sign in or not \\//\\//\\//\\//\\//\\/
                 
-                didLogIn(user)
+                //didLogIn(user)
                 
             } else{
                 
@@ -196,6 +261,7 @@ class Account: ObservableObject {
                 print("Error... for some reason, auth().signIn returned an empty FIRUser object. ")
                 
                 couldNotLogin!(AuthentificationError.unknown)
+                return
                 
             }
             
@@ -217,8 +283,8 @@ class Account: ObservableObject {
     ///   - failure: Complettion block for when sign out fails
     ///   - error: A `NSError` is passed in the `cantSignOut ` block. If sign out fails, it is most likely just a network error.
     /// - Author: Micheal S. Bingham
-     func signOut(success didSignOut: () -> Void,
-                       cantSignOut failure: (_ error: AuthentificationError) -> Void) {
+     func signOut(success didSignOut: (() -> Void)? = nil,
+                       cantSignOut failure: ((_ error: AuthentificationError) -> Void)? = nil) {
         
         let firebaseAuth = Auth.auth()
     do {
@@ -228,19 +294,19 @@ class Account: ObservableObject {
         if  self.isListening{
             self.isSignedIn = false
         }
-        didSignOut()
+        didSignOut!()
         
     } catch let signOutError as NSError {
       print ("Error signing out: %@", signOutError)
         let e = AuthErrorCode(rawValue: signOutError.code)
         switch e {
         case .networkError:
-            failure(AuthentificationError.networkError)
+            failure!(AuthentificationError.networkError)
         default:
-            failure(AuthentificationError.unknown)
+            failure!(AuthentificationError.unknown)
         }
         
-        failure(AuthentificationError.unknown)
+        failure!(AuthentificationError.unknown)
     }
       
     }
@@ -314,6 +380,12 @@ class Account: ObservableObject {
     /// - TODO: Error Handling ...
     func getUserData(completion:( (_ err: Error?) -> Void)?  = nil )  {
         
+        
+        let DB =  (self.db == nil) ? Firestore.firestore()   :  self.db!
+        self.db = DB
+        
+    
+        
         guard let id  = self.user?.uid else {
             
             completion!(AuthentificationError.notSignedIn)
@@ -321,7 +393,7 @@ class Account: ObservableObject {
             return
         }
         
-        db.collection("users").document(id).getDocument { document, error in
+        DB.collection("users").document(id).getDocument { document, error in
             
             guard error == nil else{
                 completion!(error!)
@@ -379,6 +451,51 @@ class Account: ObservableObject {
         
     }
     
+    
+    /// Sets and updates user data to the account in the database. Will not override if nil data is provided. 
+    /// - Parameters:
+    ///   - data: `UserData` object that contains profile information. See `UserData`
+    ///   - completion: Will pass an error (TODO) otherwise nil if it is successful
+    func set(data: UserData, completion:( (_ error: Error?) -> () )? = nil )  {
+        
+        let DB =  (self.db == nil) ? Firestore.firestore()   :  self.db!
+        self.db = DB
+        
+        
+        if let uid = self.user?.uid{
+            
+         
+            
+            
+            do {
+                
+                
+               try DB.collection("users").document(uid).setData(from: data, merge: true) { error in
+                    
+                   print("The error setting data is ... \(error)")
+                   
+                    completion!(error)
+                }
+                
+            } catch let error{
+                
+                print("Error writing data to Firestore: \(error)")
+                completion!(error)
+            }
+            
+            
+            
+            
+        } else{
+            
+            completion!(AuthentificationError.notSignedIn)
+            
+            
+        }
+        
+       
+        
+    }
     
 }
 

@@ -10,6 +10,9 @@ import SwiftUI
 
 
 
+
+
+
 /// Gets the Verification ID from signing in the phone number
 /// - Returns: The verification id string from UserDefaults 
 func getVerificationID() -> String? {

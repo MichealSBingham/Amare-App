@@ -9,8 +9,16 @@ import SwiftUI
 
 struct EnterNameView: View {
     
+
+    
+    
+    @EnvironmentObject private var account: Account
+    
     @State  private var name: String = ""
     @State private var goToNext: Bool = false
+    
+   
+    
     
     
     var body: some View {
@@ -42,8 +50,33 @@ struct EnterNameView: View {
                     
                     TextField("Micheal S. Bingham", text: $name, onCommit:  {
                         
-                        // User pressed enter
-                        print("The name is \(name)")
+                        guard !(name.isEmpty) else{
+                            
+                            // User entered an empty name
+                            print("Name is empty")
+                            return
+                        }
+                        
+                        // Go to next page
+                        goToNext = true
+                        
+                        var userdata = UserData(id: account.user?.uid ?? "")
+                        userdata.name = name
+                        
+                        account.set(data: userdata) { error in
+                            
+                          
+                            
+                            guard error == nil else {
+                                // There is some error
+                               
+                                
+                                goToNext = false
+                                return
+                            }
+                            
+                           
+                        }
                         
                     })
                     .font(.largeTitle)
@@ -54,14 +87,19 @@ struct EnterNameView: View {
                 
                 
                     
-
+                
                
                 
                 
                 
+            } .onAppear {
+                doneWithSignUp(state: false)
             }
             
+          
+            
       //  }
+            
 
     }
 }
