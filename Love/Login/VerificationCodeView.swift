@@ -14,7 +14,7 @@ public struct VerificationCodeView: View {
     
     /// Sign Up States to go to if user did not finish sign up flow
     @State private var goToEnterNameView: Bool = false
-    @State private var goToEnterBirthdayView: Bool = false
+   // @State private var goToEnterBirthdayView: Bool = false
     @State private var goToFromWhereView: Bool = false
     @State private var goToLiveWhereView: Bool = false
 
@@ -66,11 +66,11 @@ public var body: some View {
                 isActive: $goToEnterNameView)
                 {  EmptyView()  }
             
-            
-            NavigationLink(
+                //Do not need to go here
+                /*  NavigationLink(
                 destination: EnterBirthdayView().environmentObject(account),
                 isActive: $goToEnterBirthdayView)
-                {  EmptyView()  }
+                {  EmptyView()  } */
             
             NavigationLink(
                 destination: FromWhereView().environmentObject(account),
@@ -187,10 +187,10 @@ private func submitPin() {
                                         
                 case .name:
                     goToEnterNameView = true
-                case .birthday:
-                    goToEnterBirthdayView = true
                 case .hometown:
                     goToFromWhereView = true
+                case .birthday:
+                    goToFromWhereView = true //** You should go to FromWhereView instead because it needs to pass the time zone variable from 'FromWhereView' to the 'EnterBirthdayView'
                 case .residence:
                     goToLiveWhereView = true
               default: // should not run if code is written properly
@@ -233,8 +233,11 @@ struct VerificationCodeView_Previews: PreviewProvider {
         //maxDigits =  Set According to your condition
         //label =  Set Title
         //Pin Count
+        NavigationView{
+            
+            VerificationCodeView()
+        }
         
-        VerificationCodeView()
     }
 }
 

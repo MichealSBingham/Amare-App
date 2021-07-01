@@ -28,8 +28,8 @@ class Account: ObservableObject {
     var db: Firestore?
     
     
-    /// User Data saved to an account object
-    @Published var data: UserData?
+    /// User Data saved to an account object. This won't always have the user's saved data as it is stored in the `Account` object so you must pull the UserData from the dataset first before expecting this attribute to have the updated information.
+    @Published var data: UserData? = UserData()
     
     
     
@@ -186,6 +186,7 @@ class Account: ObservableObject {
                 
                 print("Inside login function we just set the new user ....  with ID\(user.uid)")
                 self.user = user
+                self.data?.id = user.uid
                 
                 if self.isListening{
                      self.isSignedIn = true
@@ -204,7 +205,7 @@ class Account: ObservableObject {
                         
                         switch error {
                         case .doesNotExist: // It is probably the user's first sign in
-                            self.data = nil
+                                // self.data = nil no need to do this, this may be causing an error on FromWhereView.
                             shouldSignUp!()
                             
                             return
@@ -471,6 +472,54 @@ class Account: ObservableObject {
                 
                 
                try DB.collection("users").document(uid).setData(from: data, merge: true) { error in
+                    
+                   print("The error setting data is ... \(error)")
+                   
+                    completion!(error)
+                }
+                
+            } catch let error{
+                
+                print("Error writing data to Firestore: \(error)")
+                completion!(error)
+            }
+            
+            
+            
+            
+        } else{
+            
+            completion!(AuthentificationError.notSignedIn)
+            
+            
+        }
+        
+       
+        
+    }
+    
+    
+    
+    
+    /// Saves and updates user data to the account in the database. Will not override if nil data is provided. The difference between this and `set()` is that this uses the `UserData` that the   `Account` object is already holding as its `self.data` property
+    /// - Parameters:
+    ///   - completion: Will pass an error (TODO) otherwise nil if it is successful
+    func save( completion:( (_ error: Error?) -> () )? = nil )  {
+        
+        let DB =  (self.db == nil) ? Firestore.firestore()   :  self.db!
+        self.db = DB
+        
+        
+        if let uid = self.user?.uid{
+            
+            self.data?.id = uid
+         
+            
+            
+            do {
+                
+                
+                try DB.collection("users").document(uid).setData(from: self.data, merge: true) { error in
                     
                    print("The error setting data is ... \(error)")
                    

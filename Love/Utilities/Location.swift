@@ -10,6 +10,7 @@ import Foundation
 
 import MapKit
 import Contacts
+import GeoFire
 
 
 class Location {
@@ -73,6 +74,9 @@ extension CLPlacemark {
         guard let postalAddress = postalAddress else { return nil }
         return CNPostalAddressFormatter().string(from: postalAddress)
     }
+    
+    /// Returns the Geohash string of the location
+    var geohash: String? { return GFUtils.geoHash(forLocation: CLLocationCoordinate2D(latitude: self.location?.coordinate.latitude ?? 0, longitude: self.location?.coordinate.longitude ?? 0) ) }
 }
 
 extension CLLocation {

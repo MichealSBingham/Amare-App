@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		225A16E8E5F88253BDE4C217 /* Pods_Love_LoveUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 304B5FDCEBDF87809D4E9687 /* Pods_Love_LoveUITests.framework */; };
+		2608CF40268BAC7E00826FDA /* Pods_Love.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EDE679A0A37DBB6F44DBFAF9 /* Pods_Love.framework */; };
 		263D6F9426829F2200CBBECC /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263D6F9326829F2200CBBECC /* RootView.swift */; };
 		263D6F962683F77C00CBBECC /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263D6F952683F77C00CBBECC /* Location.swift */; };
 		263D6F982684012000CBBECC /* AccountErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263D6F972684012000CBBECC /* AccountErrors.swift */; };
@@ -36,7 +37,6 @@
 		26BBF095267EBBEF00C84019 /* EnterNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BBF094267EBBEF00C84019 /* EnterNameView.swift */; };
 		26BBF099267FA85C00C84019 /* AuthentificationErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BBF098267FA85C00C84019 /* AuthentificationErrors.swift */; };
 		E881DE03697A813DF6948B84 /* Pods_LoveTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AA8E3B73CEDE60E9B66507C /* Pods_LoveTests.framework */; };
-		EDC2225E4AA580C8ACB38C31 /* Pods_Love.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EDE679A0A37DBB6F44DBFAF9 /* Pods_Love.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -104,8 +104,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2608CF40268BAC7E00826FDA /* Pods_Love.framework in Frameworks */,
 				26B1B0072679566E00A170B3 /* iPhoneNumberField in Frameworks */,
-				EDC2225E4AA580C8ACB38C31 /* Pods_Love.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -242,8 +242,8 @@
 			isa = PBXGroup;
 			children = (
 				26BBF094267EBBEF00C84019 /* EnterNameView.swift */,
-				26BBF08E267D80FC00C84019 /* EnterBirthdayView.swift */,
 				26BBF090267EA5FF00C84019 /* FromWhereView.swift */,
+				26BBF08E267D80FC00C84019 /* EnterBirthdayView.swift */,
 				26BBF092267EBB1300C84019 /* LiveWhereView.swift */,
 			);
 			path = SignUpFlow;

@@ -37,7 +37,20 @@ struct LoveApp: App {
                 
             case .background:
                 print("\n\n Scence Phase: Background")
+                
+                /*
                 // Log out the user if they are in the sign up process
+                if !(isDoneWithSignUp()){
+                        // if not done with sign up... log user out.
+                    Account().signOut {
+                        //
+                        NavigationUtil.popToRootView()
+                    } cantSignOut: { error in
+                        //
+                    }
+
+                } */
+
                 
                 break
             case .inactive:
@@ -63,7 +76,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-        print("Did finish launching with options")
+        
         FirebaseApp.configure()
         
         return true
@@ -92,6 +105,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 // if not done with sign up... log user out.
             account.signOut {
                 //
+                NavigationUtil.popToRootView()
             } cantSignOut: { error in
                 //
             }
@@ -103,15 +117,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func applicationDidEnterBackground(_ application: UIApplication) {
         
+        /*
         if !(isDoneWithSignUp()){
                 // if not done with sign up... log user out.
             account.signOut {
                 //
+                NavigationUtil.popToRootView()
             } cantSignOut: { error in
                 //
             }
 
         }
+        
+        */
 
     }
     

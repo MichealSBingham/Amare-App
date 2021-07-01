@@ -23,7 +23,7 @@ struct EnterNameView: View {
     
     var body: some View {
        
-      //  NavigationView{ // comment this out when running code. for some reason, if this is not here, the navigation title will not show in the preview canvas
+
             
             ZStack{
                 
@@ -39,7 +39,7 @@ struct EnterNameView: View {
                 
                 // Goes to the Profile
                 NavigationLink(
-                    destination: EnterBirthdayView(),
+                    destination: FromWhereView().environmentObject(account),
                     isActive: $goToNext,
                     label: {  EmptyView()  }
                 )
@@ -98,14 +98,32 @@ struct EnterNameView: View {
             
           
             
-      //  }
+  
             
 
     }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+// Previewing in canvas 
 struct EnterNameView_Previews: PreviewProvider {
     static var previews: some View {
-        EnterNameView()
+        
+        NavigationView{
+            EnterNameView().environmentObject(Account())
+                .preferredColorScheme(.dark)
+        }
+        
     }
 }

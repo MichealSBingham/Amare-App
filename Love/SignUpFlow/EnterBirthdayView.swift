@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import Firebase
+
 
 struct EnterBirthdayView: View {
     
@@ -13,10 +15,13 @@ struct EnterBirthdayView: View {
     
     @State private var goToNext: Bool = false 
     
+    @State private var date = Date()
+    
+    @Binding public var timezone: TimeZone?
     
     var body: some View {
         
-        NavigationView{
+     
             
             ZStack{
                 
@@ -32,7 +37,7 @@ struct EnterBirthdayView: View {
                 
                 // Goes to the Profile
                 NavigationLink(
-                    destination: FromWhereView(),
+                    destination: LiveWhereView().environmentObject(account),
                     isActive: $goToNext,
                     label: {  EmptyView()  }
                 )
@@ -44,7 +49,43 @@ struct EnterBirthdayView: View {
                 
                 VStack{
                     
-                    DatePicker(selection: .constant(Date()), label: { Text("Birthday") })
+                    Spacer()
+                    
+                    DatePicker(selection: $date, in :...Date() , displayedComponents: [.date, .hourAndMinute], label: { Text("Birthday") }).datePickerStyle(.graphical).environment(\.timeZone, timezone!)
+                    
+                    
+                    
+                    Spacer()
+                    
+                    Button("Done") {
+                        
+                        
+                        // Corrects the time zone of the date
+                        
+                              
+                        
+                        
+                        let bday = Birthday(timestamp: Timestamp(date: date), month: date.month(), day: date.day(), year: date.year())
+                        
+                        
+                        let userData = UserData(id: account.user?.uid ?? "", birthday: bday)
+                         
+                        print("The user data inside button is .. \(userData)")
+                        
+                        goToNext = true
+                        account.set(data: userData) { error in
+                            
+                            if let error = error {
+                                goToNext = false // an error occured so come back
+                            }
+                            
+                        }
+                        
+                    }
+                    
+                    Spacer()
+                    Spacer()
+                    Spacer()
 
                 }
                 
@@ -58,13 +99,19 @@ struct EnterBirthdayView: View {
            
        
             
-        }
+     
         
     }
 }
 
 struct EnterBirthdayView_Previews: PreviewProvider {
+    
+    
     static var previews: some View {
-        EnterBirthdayView()
+        NavigationView{
+            EnterBirthdayView(timezone: .constant(TimeZone.current)).environmentObject(Account())
+                .preferredColorScheme(.dark)
+        }
+        
     }
 }

@@ -16,8 +16,8 @@ public struct UserData: Codable{
     @DocumentID var id: String?
     
     var name: String? = nil
-    var birthday: Birthday? = nil
     var hometown: Place? = nil
+    var birthday: Birthday? = nil
     var residence: Place? = nil
     
     
@@ -29,8 +29,8 @@ public struct UserData: Codable{
     
     enum CodingKeys: String, CodingKey {
         case name
-        case birthday
         case hometown
+        case birthday
         case residence 
     }
     
@@ -47,13 +47,15 @@ public struct UserData: Codable{
             return .name
         }
         
+        else if self.hometown == nil{
+            return .hometown
+        }
+        
         else if self.birthday == nil {
             return .birthday
         }
         
-        else if self.hometown == nil{
-            return .hometown
-        }
+       
         
         else if self.residence == nil{
             return .residence
@@ -69,9 +71,13 @@ public struct UserData: Codable{
 struct Birthday: Codable{
     
     var timestamp: Timestamp?
+    
+    
     var month: String?
     var day: Int?
     var year: Int?
+    
+    
 }
 
 

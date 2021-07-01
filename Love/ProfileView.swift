@@ -19,19 +19,7 @@ struct ProfileView: View {
         ZStack{
             
                 
-            Image("backgrounds/background1")
-                .resizable()
-                .scaledToFill()
-                .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
-                .navigationBarBackButtonHidden(true)
-                .navigationBarTitle("Profile")
-                
-
-                .onReceive(NotificationCenter.default.publisher(for: NSNotification.logout), perform: { _ in
-                    
-                    NavigationUtil.popToRootView()
-                
-                })
+           SetBackground()
           
             
             VStack{
@@ -51,9 +39,7 @@ struct ProfileView: View {
                 Button("Sign Out") {
                     // Signs out of profile
                     account.signOut {
-                        
-                       
-
+            
                         
                     }
                         
@@ -80,10 +66,58 @@ struct ProfileView: View {
         })
         
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+// // /// // /// /// / /// /// =================  /// // SETTING UP  Up UI // //  /// =============================
+    // PUT ALL FUNCTIONS RELATED TO BUILDING THE UI HERE.
+    
+    
+    func SetBackground() -> some View {
+        
+        return Image("backgrounds/background1")
+            .resizable()
+            .scaledToFill()
+            .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+            .navigationBarBackButtonHidden(true)
+            .navigationBarTitle("Profile")
+            .onReceive(NotificationCenter.default.publisher(for: NSNotification.logout), perform: { _ in
+                
+                NavigationUtil.popToRootView()
+            
+            })
+        
+    }
+    
+    
+    
+    
+// // /// // /// /// / /// /// =================  /// // SETTING UP  Up UI // //  /// =============================
+
 }
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView()
+        
+        NavigationView{
+            
+            ProfileView().environmentObject(Account())
+                            .preferredColorScheme(.dark)
+        }
+        
+            
     }
 }
