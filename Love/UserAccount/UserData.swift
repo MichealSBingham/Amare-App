@@ -13,6 +13,7 @@ import SwiftUI
 /// Helper class we're using to store and read data from our backend. All user data properties read from database are here.
 public struct UserData: Codable{
     
+        ///Unique user id of the user.
     @DocumentID var id: String?
     
     var name: String? = nil
