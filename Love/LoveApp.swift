@@ -10,6 +10,7 @@ import Firebase
 import FirebaseAuth
 
 
+@available(iOS 15.0, *)
 @main
 struct LoveApp: App {
  
@@ -25,8 +26,8 @@ struct LoveApp: App {
         
         WindowGroup {
            
-                EnterPhoneNumberView()
-                    .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                //EnterPhoneNumberView()
+                //    .environment(\.managedObjectContext, persistenceController.container.viewContext)
             
             
         }

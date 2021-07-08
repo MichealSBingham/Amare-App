@@ -8,6 +8,7 @@
 import SwiftUI
 import MapKit
 
+@available(iOS 15.0, *)
 struct LiveWhereView: View {
     
     @EnvironmentObject private var account: Account
@@ -39,7 +40,7 @@ var body: some View {
             //                Goes to the Profile                   //
             //                                                      //
          /* || */           NavigationLink(                       /* || */
-        /* || */   destination: ProfileView().environmentObject(account),
+        /* || */   destination: ImageUploadView().environmentObject(account),
         /* || */           isActive: $goToNext,                  /* || */
         /* || */           label: {  EmptyView()  })             /* || */
         /* || */                                                 /* || */
@@ -235,6 +236,7 @@ var body: some View {
     
 }
 
+@available(iOS 15.0, *)
 struct LiveWhereView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView{

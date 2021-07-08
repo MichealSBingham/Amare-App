@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@available(iOS 15.0, *)
 struct EnterNameView: View {
     
 
@@ -39,7 +40,7 @@ struct EnterNameView: View {
                 
                 // Goes to the Profile
                 NavigationLink(
-                    destination: FromWhereView().environmentObject(account),
+                    destination: EnterGenderView().environmentObject(account),
                     isActive: $goToNext,
                     label: {  EmptyView()  }
                 )
@@ -102,6 +103,8 @@ struct EnterNameView: View {
             
 
     }
+    
+    
 }
 
 
@@ -117,6 +120,7 @@ struct EnterNameView: View {
 
 
 // Previewing in canvas 
+@available(iOS 15.0, *)
 struct EnterNameView_Previews: PreviewProvider {
     static var previews: some View {
         

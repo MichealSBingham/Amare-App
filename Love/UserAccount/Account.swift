@@ -11,21 +11,34 @@ import FirebaseAuth
 import Combine
 import FirebaseFirestoreSwift
 import SwiftUI
+import FirebaseStorage
 
 
-/// Class for handling user account related things such as signing in, signing out, listening for auth changes, etc. An account is associated with one user.
+/// Class for handling user account related things such as signing in, signing out, listening for auth changes, adding and reading from the database, etc. An account is associated with one user.
+///
+///  - Warning: If unexpected behavior occurs, set handle, didChange to public
 class Account: ObservableObject {
 
    
+    /// Helper property that assists us in listening to real time changes to certain published attributes of the `Account` object
+               private var didChange = PassthroughSubject<Account, Never>()
+    /// User object (Firebase- `FIRUSER`). Stores the user id but do not confuse this with the `UserData` object.
+    @Published public var user: User? { didSet { self.didChange.send(self) }}
+    /// Helper property that assists us in listening to real time changes to certain published attributes of the `Account` object
+               private var handle: AuthStateDidChangeListenerHandle?
+    ///  Boolean value of whether the current user associated with the `Account` is signed in or not. This is `@Published` so a real-time observer listens for it the state change provided that the `Account` is listening for it.
+    @Published public var isSignedIn: Bool = false
+    ///  If true, the `isSignedIn` attribute is listening for authentification state changes. This changes to true if `listen()` or `listenOnlyForSignOut()` is called.
+               private var isListening: Bool = false
+               private  var isListeningForSignOut: Bool = false
     
-        var didChange = PassthroughSubject<Account, Never>()
-    @Published var user: User? { didSet { self.didChange.send(self) }}
-        var handle: AuthStateDidChangeListenerHandle?
-    @Published var isSignedIn: Bool = false
-    var isListening: Bool = false
-    var isListeningForSignOut: Bool = false
+    /// Reference to the firebase database
+    private var db: Firestore?
     
-    var db: Firestore?
+    /// Reference to cloud storage (firebase)
+    private var storage: StorageReference?
+    
+    
     
     
     /// User Data saved to an account object. This won't always have the user's saved data as it is stored in the `Account` object so you must pull the UserData from the dataset first before expecting this attribute to have the updated information.
@@ -470,7 +483,7 @@ class Account: ObservableObject {
             
             do {
                 
-                
+               
                try DB.collection("users").document(uid).setData(from: data, merge: true) { error in
                     
                    print("The error setting data is ... \(error)")
@@ -545,6 +558,174 @@ class Account: ObservableObject {
        
         
     }
+    
+    
+    
+    func upload(image: UIImage, isProfileImage: Bool = false, completion: ( (_ error: Error?) -> () )? = nil)  {
+        
+        guard let userid = self.user?.uid else {
+            
+            // There is no signed in user, throw error or pass in handler
+            completion!(AuthentificationError.notSignedIn)
+            return
+        }
+        
+        let DB =  (self.db == nil) ? Firestore.firestore()   :  self.db!
+        self.db = DB
+        
+       // Get reference to cloud storage
+        let ref =  (self.storage == nil) ? Storage.storage().reference()   :  self.storage!
+        self.storage = ref
+        
+        
+        let nameOfImage = isProfileImage ? "profile_image.jpg" : "\(UUID.init().uuidString).jpg"
+        
+        let uploadRef = ref.child("users").child(userid).child("images").child(nameOfImage)
+        
+       
+        guard let imageData = image.jpegData(compressionQuality: 1) else {  /* Some error compresing the  image */ return  }
+        let uploadMetaData = StorageMetadata.init()
+        uploadMetaData.contentType = "image/jpeg"
+        
+    
+        
+        let taskReference = uploadRef.putData(imageData, metadata: uploadMetaData) { downloadMetaData, error in
+            
+            if let error = error {
+                // some error occured
+                completion!(error)
+
+            }
+            
+            //  No error, get the image URL
+            
+            uploadRef.downloadURL { url, error in
+                
+                if let error = error{
+                    completion!(error)
+                }
+                
+                // No error after getting url
+                
+                let imageURL = url?.absoluteString
+                
+                // Set the url link in the database
+                
+                if isProfileImage{  self.data?.profile_image_url = imageURL }
+
+                // Now add it to the images array
+                //****************************
+               
+             //  let data =  UserData(id: self.user?.uid, images: [imageURL!])
+                
+                DB.collection("users").document(userid).updateData(["images": FieldValue.arrayUnion([imageURL!])]) { error in
+                    
+                    if let error = error {
+                        completion!(error)
+                    } // else completion success
+                    
+                    
+                    completion!(nil)
+                    
+                }
+                
+                
+                
+            }
+            
+           
+            
+            
+            //
+        }
+        
+        
+        // for keepign track of download progress
+        taskReference.observe(.progress) { [weak self ] snapshot in
+            
+            guard  let pctThere = snapshot.progress?.fractionCompleted else { return  }
+                
+                print("Image upload progress : \(pctThere)")
+                
+        }
+        
+        
+    }
+    
+  
+    
+    /// Listen for real time updates on the user's data in the database.
+    /// - TODO:  Throw an error when it doesn't work .
+    func listen_for_user_data_updates()  {
+        
+        let DB =  (self.db == nil) ? Firestore.firestore()   :  self.db!
+        self.db = DB
+        
+        guard let userid = self.user?.uid else {
+            
+            // There is no signed in user, throw error or pass in handler
+                // Throw error here
+            return
+        }
+        
+        
+        
+        DB.collection("users").document(userid)
+            .addSnapshotListener { documentSnapshot, error in
+                
+              guard let document = documentSnapshot else {
+                print("Error fetching document: \(error!)")
+                  // Throw error
+                return
+              }
+                
+              guard let data = document.data() else {
+                print("Document data was empty.")
+                  // Throw error
+                return
+              }
+                
+              
+                
+                // Reading the data from the database as a UserData object
+            
+            let result = Result {
+                try document.data(as: UserData.self)
+            }
+            
+            switch result {
+            
+            
+            case .success(let data):
+                
+                if let data = data{
+                    
+                    // Data object contains all of the user's data
+                    self.data = data
+                  //  completion!(nil) .no error.
+                    
+                    
+                } else{
+                    
+                    // Could not retreive the data for some reason
+                    // Throw error
+                    //completion!(AccountError.doesNotExist)
+                }
+                
+            
+            case .failure(let error):
+                print("Some error happened trying to convert the user data to a User Data object: \(error.localizedDescription)")
+                    // completion!(error) Throw error
+          
+            }
+                
+            }
+        
+    }
+    
+
+    
+    
     
 }
 

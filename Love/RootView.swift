@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@available(iOS 15.0, *)
 struct RootView: View {
     
     @EnvironmentObject private var account: Account
@@ -16,19 +17,22 @@ struct RootView: View {
         
         
      
-        Group{
+        NavigationView {
             
-            if account.isSignedIn{
+            Group{
                 
-                ProfileView().environmentObject(self.account)
-                
-            } else{
-                
-                EnterPhoneNumberView()
-            }
-        } .onDisappear(perform: {
-            account.stopListening()
+                if account.isSignedIn{
+                    
+                    ProfileView().environmentObject(self.account)
+                    
+                } else{
+                    
+                    EnterPhoneNumberView()
+                }
+            } .onDisappear(perform: {
+                account.stopListening()
         })
+        }
         
        
         
@@ -36,6 +40,7 @@ struct RootView: View {
     }
 }
 
+@available(iOS 15.0, *)
 struct RootView_Previews: PreviewProvider {
     static var previews: some View {
         RootView().environmentObject(Account())

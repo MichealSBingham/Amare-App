@@ -12,6 +12,7 @@ import Firebase
 import FirebaseAuth
 import PhoneNumberKit
 
+@available(iOS 15.0, *)
 struct EnterPhoneNumberView: View {
     
     @State var phone_number_field_text = ""
@@ -35,7 +36,7 @@ struct EnterPhoneNumberView: View {
         
         
             
-        NavigationView {
+       // NavigationView {
             
             
             
@@ -68,7 +69,7 @@ struct EnterPhoneNumberView: View {
             }
             
             
-        }
+        //}
    
        
         
@@ -245,11 +246,16 @@ struct EnterPhoneNumberView: View {
 
 
 
+@available(iOS 15.0, *)
 struct EnterPhoneNumberView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
-            EnterPhoneNumberView().preferredColorScheme(.dark)
-            
+        
+        
+        NavigationView {
+            Group {
+                EnterPhoneNumberView().preferredColorScheme(.dark)
+            }
         }
+        
     }
 }

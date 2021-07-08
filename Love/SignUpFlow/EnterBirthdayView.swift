@@ -9,6 +9,7 @@ import SwiftUI
 import Firebase
 
 
+@available(iOS 15.0, *)
 struct EnterBirthdayView: View {
     
     @EnvironmentObject private var account: Account
@@ -104,6 +105,7 @@ struct EnterBirthdayView: View {
     }
 }
 
+@available(iOS 15.0, *)
 struct EnterBirthdayView_Previews: PreviewProvider {
     
     

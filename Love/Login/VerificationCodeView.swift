@@ -3,6 +3,8 @@ import Firebase
 
 
 
+@available(iOS 15.0, *)
+@available(iOS 15.0, *)
 public struct VerificationCodeView: View {
 
 /// State variable for when there is a successful sign in
@@ -15,8 +17,11 @@ public struct VerificationCodeView: View {
     /// Sign Up States to go to if user did not finish sign up flow
     @State private var goToEnterNameView: Bool = false
    // @State private var goToEnterBirthdayView: Bool = false
+    @State private var goToEnterGenderView: Bool = false
+    @State private var goToEnterOrientationView: Bool = false
     @State private var goToFromWhereView: Bool = false
     @State private var goToLiveWhereView: Bool = false
+    @State private var goToImageUploadView: Bool = false
 
     
 // Part of VerificationCodeView UI
@@ -73,6 +78,16 @@ public var body: some View {
                 {  EmptyView()  } */
             
             NavigationLink(
+                destination: EnterGenderView().environmentObject(account),
+                isActive: $goToEnterGenderView)
+                {  EmptyView()  }
+            
+            NavigationLink(
+                destination: EnterOrientationView().environmentObject(account),
+                isActive: $goToEnterOrientationView)
+                {  EmptyView()  }
+            
+            NavigationLink(
                 destination: FromWhereView().environmentObject(account),
                 isActive: $goToFromWhereView)
                 {  EmptyView()  }
@@ -80,6 +95,11 @@ public var body: some View {
             NavigationLink(
                 destination: LiveWhereView().environmentObject(account),
                 isActive: $goToLiveWhereView)
+                {  EmptyView()  }
+            
+            NavigationLink(
+                destination: ImageUploadView().environmentObject(account),
+                isActive: $goToImageUploadView)
                 {  EmptyView()  }
             
             
@@ -162,7 +182,7 @@ private func submitPin() {
         account.login(with: pin) { error in
             
             // Could not Log in
-            
+           
         } afterSuccess: { user in
             print("After success")
                 // Successfully signed in
@@ -187,12 +207,18 @@ private func submitPin() {
                                         
                 case .name:
                     goToEnterNameView = true
+                case .sex:
+                    goToEnterGenderView = true
+                case .orientation:
+                    goToEnterOrientationView = true
                 case .hometown:
                     goToFromWhereView = true
                 case .birthday:
                     goToFromWhereView = true //** You should go to FromWhereView instead because it needs to pass the time zone variable from 'FromWhereView' to the 'EnterBirthdayView'
                 case .residence:
                     goToLiveWhereView = true
+                case .imageUpload:
+                    goToImageUploadView = true 
               default: // should not run if code is written properly
                     goToEnterNameView = true
                 
@@ -228,6 +254,7 @@ private func submitPin() {
     
 }
 
+@available(iOS 15.0, *)
 struct VerificationCodeView_Previews: PreviewProvider {
     static var previews: some View {
         //maxDigits =  Set According to your condition
@@ -235,7 +262,7 @@ struct VerificationCodeView_Previews: PreviewProvider {
         //Pin Count
         NavigationView{
             
-            VerificationCodeView()
+            VerificationCodeView().preferredColorScheme(.dark)
         }
         
     }

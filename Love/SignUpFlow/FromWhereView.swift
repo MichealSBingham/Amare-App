@@ -8,6 +8,7 @@
 import SwiftUI
 import MapKit
 
+@available(iOS 15.0, *)
 struct FromWhereView: View {
     
     @EnvironmentObject private var account: Account
@@ -271,6 +272,7 @@ struct FromWhereView: View {
     
 }
 
+@available(iOS 15.0, *)
 struct FromWhereView_Previews: PreviewProvider {
     static var previews: some View {
         

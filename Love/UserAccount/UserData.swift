@@ -20,51 +20,53 @@ public struct UserData: Codable{
     var hometown: Place? = nil
     var birthday: Birthday? = nil
     var residence: Place? = nil
-    
-    
-    
-    
-    
-    
+    var profile_image_url: String? = nil
+    private(set) var images: [String]? = nil
+    var sex: String? = nil  // M , F, or something else the user enters as a custom gender
+    var orientation: String? = nil // M, F, MF (male and female), or A (everything) 
     
     
     enum CodingKeys: String, CodingKey {
         case name
         case hometown
         case birthday
-        case residence 
+        case residence
+        case profile_image_url
+        case images
+        case sex
+        case orientation
     }
     
     /// Returns if all user data attributes for the sign up flow are completed. Or if the user completed the sign up flow, i.e. the UserData object is complete
     func isComplete() -> Bool {
         
-        return (self.name != nil && self.birthday != nil && self.hometown != nil && self.residence != nil)
+        return (self.name != nil && self.birthday != nil && self.hometown != nil && self.residence != nil && self.profile_image_url != nil && self.sex != nil && self.orientation != nil)
     }
     
     /// Returns the SignUpState the user should be sent to. So let's say the user did not complete their birthday, this will return .birthday. This is a helper function to determine what part of the sign up flow to direct the user if they failed to finish the sign up process before going to thier program. Usually it's because they logged out, got unauthenticated, or quit the app during sign up. It's important to keep the signupflow in its set order otherwise this will not work. Returns nil if nothing is nil (user compeleted sign up)
     func getFirstNilInSignUpState() -> SignUpState? {
         
-        if self.name == nil {
-            return .name
-        }
+        if self.name == nil { return .name }
         
-        else if self.hometown == nil{
-            return .hometown
-        }
+        else if self.sex == nil { return .sex}
         
-        else if self.birthday == nil {
-            return .birthday
-        }
+        else if self.orientation == nil { return .orientation}
         
-       
+        else if self.hometown == nil{ return .hometown }
         
-        else if self.residence == nil{
-            return .residence
-        }
+        
+        else if self.birthday == nil { return .birthday }
+        
+        
+        else if self.residence == nil{ return .residence }
+        
+        else if self.profile_image_url == nil { return .imageUpload}
         
         return nil
     
     }
+    
+    
     
 }
 
@@ -72,12 +74,9 @@ public struct UserData: Codable{
 struct Birthday: Codable{
     
     var timestamp: Timestamp?
-    
-    
     var month: String?
     var day: Int?
     var year: Int?
-    
     
 }
 
@@ -95,14 +94,18 @@ struct Place: Codable  {
     var geohash: String?
     
     
-    
 }
 
 
 /// Part of sign up flow  user did not complete
 enum SignUpState{
+    
     case name
-    case birthday
+    case sex
+    case orientation
     case hometown
+    case birthday
     case residence
+    case imageUpload
+    
 }
