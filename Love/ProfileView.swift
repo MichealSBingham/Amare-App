@@ -8,17 +8,19 @@
 import SwiftUI
 import Firebase
 
+@available(iOS 15.0, *)
 struct ProfileView: View {
     
     
      @EnvironmentObject private var account: Account
+    
+    @State private var someErrorOccured: Bool = false
+    @State private var alertMessage: String = ""
 
 
     var body: some View {
         
         ZStack{
-            
-                
            SetBackground()
           
             
@@ -26,31 +28,23 @@ struct ProfileView: View {
                 
                 Spacer()
                 
-                Text(account.user?.displayName ?? "The User's Name Goes Here")//.colorInvert()
-                
-                Text(account.user?.uid ?? "The User's ID Goes Here")//.colorInvert()
-
-                
+                Text(account.data?.name ?? "First Name Last Name")
                 
                 Spacer()
                 
-               
-                
-                Button("Sign Out") {
-                    // Signs out of profile
-                    account.signOut {
+                    
+                    MakeProfileImage()
+                    MakeQRCode()
             
-                        
-                    }
-                        
-                        cantSignOut: { error in
-                        
-                        // Some error happened when attempting to sign out
-                        print("Some sign out error happened \(error)")
-                            
-                    }
+                
+                Spacer()
+                
+                MakeSignOutButton()
 
-                }
+                
+                Spacer()
+                
+                Spacer()
                 
                 Spacer()
                 
@@ -58,9 +52,12 @@ struct ProfileView: View {
             
         } .onAppear(perform: {
             
+            
+           // account.listen() not sure if I need these are not yet
+           // account.stopListening()
+            
             doneWithSignUp()
-            account.listen()
-            account.stopListening()
+            account.listen_for_user_data_updates()
             account.listenOnlyForSignOut()
             
         })
@@ -88,12 +85,13 @@ struct ProfileView: View {
     
     func SetBackground() -> some View {
         
-        return Image("backgrounds/background1")
+        return Image("backgrounds/background2")
             .resizable()
             .scaledToFill()
             .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
             .navigationBarBackButtonHidden(true)
-            .navigationBarTitle("Profile")
+            .navigationBarTitle(account.data?.name ?? "Profile")
+            .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
             .onReceive(NotificationCenter.default.publisher(for: NSNotification.logout), perform: { _ in
                 
                 NavigationUtil.popToRootView()
@@ -103,19 +101,58 @@ struct ProfileView: View {
     }
     
     
+    func MakeSignOutButton() -> some View {
+        
+        return   Button("Sign Out") {
+            // Signs out of profile
+            
+            account.signOut { error in
+                
+                guard error == nil else{
+                    someErrorOccured = true
+                    alertMessage = "Some error when trying to sign out"
+                    return
+                }
+            }
+            
+       
+
+        }
+
+    }
+    
+    func MakeProfileImage() -> some View {
+        
+        return AsyncImage(url: URL(string: (account.data?.profile_image_url) ?? "")).frame(width: 200, height: 200, alignment: .center)
+    }
+    
+    func MakeQRCode() -> some View {
+        
+        return  Image(uiImage: generateQRCode(from: account.data?.id ?? ""))
+            .resizable()
+            .scaledToFit()
+            .frame(width: 100, height: 100)
+    }
+    
     
     
 // // /// // /// /// / /// /// =================  /// // SETTING UP  Up UI // //  /// =============================
 
+    
+    
+    
+    
+    
 }
 
+@available(iOS 15.0, *)
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
         
         NavigationView{
             
             ProfileView().environmentObject(Account())
-                            .preferredColorScheme(.dark)
+                          //  .preferredColorScheme(.dark)
         }
         
             

@@ -8,6 +8,7 @@
 import SwiftUI
 import UIKit
 
+@available(iOS 15.0, *)
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
@@ -16,7 +17,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
         account.listen()
-        
         
         
         if let windowScene = scene as? UIWindowScene {
@@ -37,6 +37,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
 func sceneDidEnterBackground(_ scene: UIScene) {
     
+    /*  We MIGHT not need this. This signs out user if app goes into background and if they aren't finished signing up in app
+     
     if !(isDoneWithSignUp()){
             // if not done with sign up... log user out.
         account.signOut {
@@ -46,10 +48,11 @@ func sceneDidEnterBackground(_ scene: UIScene) {
         }
 
     }
-   
+    */
     
     
 }
+    
     func sceneWillResignActive(_ scene: UIScene) {
        
 

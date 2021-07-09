@@ -10,6 +10,7 @@ import Firebase
 import FirebaseAuth
 
 
+@available(iOS 15.0, *)
 @main
 struct LoveApp: App {
  
@@ -25,8 +26,8 @@ struct LoveApp: App {
         
         WindowGroup {
            
-                EnterPhoneNumberView()
-                    .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                //EnterPhoneNumberView()
+                //    .environment(\.managedObjectContext, persistenceController.container.viewContext)
             
             
         }
@@ -103,13 +104,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if !(isDoneWithSignUp()){
                 // if not done with sign up... log user out.
-            account.signOut {
-                //
+            account.signOut { error in
+                
+                guard error == nil else{
+                    return
+                }
+                
                 NavigationUtil.popToRootView()
-            } cantSignOut: { error in
-                //
             }
-
+            
+          
         }
 
         

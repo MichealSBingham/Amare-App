@@ -9,6 +9,7 @@ import SwiftUI
 import Firebase
 
 
+@available(iOS 15.0, *)
 struct EnterBirthdayView: View {
     
     @EnvironmentObject private var account: Account
@@ -18,6 +19,9 @@ struct EnterBirthdayView: View {
     @State private var date = Date()
     
     @Binding public var timezone: TimeZone?
+    
+    @State private var someErrorOccured: Bool = false
+    @State private var alertMessage: String  = ""
     
     var body: some View {
         
@@ -32,6 +36,7 @@ struct EnterBirthdayView: View {
                     .edgesIgnoringSafeArea(.all)
                     .navigationTitle("When Is Your Birthday?")
                     .navigationBarColor(backgroundColor: .clear, titleColor: .white)
+                    .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
                 
                 // ******* ======  Transitions -- Navigation Links =======
                 
@@ -104,6 +109,7 @@ struct EnterBirthdayView: View {
     }
 }
 
+@available(iOS 15.0, *)
 struct EnterBirthdayView_Previews: PreviewProvider {
     
     

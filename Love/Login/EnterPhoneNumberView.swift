@@ -12,6 +12,7 @@ import Firebase
 import FirebaseAuth
 import PhoneNumberKit
 
+@available(iOS 15.0, *)
 struct EnterPhoneNumberView: View {
     
     @State var phone_number_field_text = ""
@@ -28,6 +29,7 @@ struct EnterPhoneNumberView: View {
     
 
     @State private var someErrorOccured: Bool = false
+    @State private var alertMessage: String  = ""
  
 
 
@@ -35,7 +37,7 @@ struct EnterPhoneNumberView: View {
         
         
             
-        NavigationView {
+       // NavigationView {
             
             
             
@@ -48,9 +50,9 @@ struct EnterPhoneNumberView: View {
                 
                 
             
-                // Set the background
+                // Set the background, along with other base properties to set about the view
                 SetBackground()
-                    .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text("Some Error Occured")) })
+                    
                 
                 
                 
@@ -68,7 +70,7 @@ struct EnterPhoneNumberView: View {
             }
             
             
-        }
+        //}
    
        
         
@@ -116,7 +118,7 @@ struct EnterPhoneNumberView: View {
             .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
             .navigationTitle("Phone Number")
             .navigationBarColor(backgroundColor: .clear, titleColor: .white)
-        
+            .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
      
     }
     
@@ -195,29 +197,20 @@ struct EnterPhoneNumberView: View {
             shouldDisablePhoneTextField = true
             shouldGoToVerifyCodeScreen = true
             
-            
-            
-            
-            Account().sendVerificationCode(to: phoneNumber.numberString,
-                                           butIfSomeError: {  error in
+            Account().sendVerificationCode(to: phoneNumber.numberString) { error in
                 
-                // An error happened after entering the phone number
-                someErrorOccured = true
-                
-                print("\n\nThe error is : \(error)")
-                
-                // Enable the phone text field again
-                shouldDisablePhoneTextField = false
+                guard error == nil else {
+                    
+                    someErrorOccured = true
+                    shouldDisablePhoneTextField = false
+                    isEditing = true
+                    handle(error: error!)
+                    
+                    return
+                }
                 
                 
-                isEditing = true
-                
-                
-                
-                
-            })
-            
-            
+            }
             
             
             
@@ -237,7 +230,57 @@ struct EnterPhoneNumberView: View {
     
     
     
-    
+    func handle(error: Error)  {
+        
+        // Handle Error
+        if let error = error as? AccountError{
+            
+            switch error {
+            case .doesNotExist:
+                alertMessage = "You do not exist."
+            case .disabledUser:
+                alertMessage = "Sorry, your account is disabled."
+            case .expiredVerificationCode:
+                alertMessage = "Your verification code has expired."
+            case .wrong:
+                alertMessage = "You entered the wrong code"
+            case .notSignedIn:
+                alertMessage = "You are not signed in."
+            case .uploadError:
+                alertMessage = "There was some upload Error"
+            case .notAuthorized:
+                alertMessage = "You are not authorized to do this."
+            }
+        }
+        
+        if let error = error as? GlobalError{
+            
+            switch error {
+            case .networkError:
+                alertMessage = "There is a network error. Lost internet connection"
+            case .tooManyRequests:
+                alertMessage = "You're trying too many times to ping our servers. Wait a bit."
+            case .captchaCheckFailed:
+                alertMessage = "You might be a robot because you failed the captcha check and that's quite rare. Goodbye."
+            case .invalidInput:
+                alertMessage = "You entered something wrong with the wrong format."
+            case .quotaExceeded:
+                alertMessage = "This isn't your fault. We need to scale to be able to withstand the current quota. Just try again in a bit."
+            case .notAllowed:
+                alertMessage = "You are not allowed to do that."
+            case .internalError:
+                alertMessage = "There was some internal error with us. Not your fault."
+            case .cantGetVerificationID:
+                alertMessage = "This isn't an end-user error and you honestly should not be seeing this. If you did, something is broken. Report it to us because your verification ID is not being saved."
+            case .unknown:
+                alertMessage = "I'm not sure what this error is, lol."
+            }
+        }
+        
+        
+        // Handle Error
+        
+    }
 
     
 }
@@ -245,11 +288,16 @@ struct EnterPhoneNumberView: View {
 
 
 
+@available(iOS 15.0, *)
 struct EnterPhoneNumberView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
-            EnterPhoneNumberView().preferredColorScheme(.dark)
-            
+        
+        
+        NavigationView {
+            Group {
+                EnterPhoneNumberView().preferredColorScheme(.dark)
+            }
         }
+        
     }
 }
