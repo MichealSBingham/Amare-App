@@ -8,6 +8,10 @@
 import SwiftUI
 
 struct PickAttractivePeopleView: View {
+    
+    @State private var someErrorOccured: Bool = false
+    @State private var alertMessage: String  = ""
+    
     var body: some View {
         Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/) 
     }

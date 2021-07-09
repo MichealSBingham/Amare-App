@@ -17,13 +17,15 @@ struct ImageUploadView: View {
     
     @State private var goToNext: Bool = false
     
-    @State private var someErrorOccured: Bool = false
     
     @State var showImagePicker: Bool = false
     
     @State var image: UIImage?
 
     @State var profileimage: UIImage?
+    
+    @State private var someErrorOccured: Bool = false
+    @State private var alertMessage: String  = ""
     
     
     var body: some View {
@@ -130,6 +132,7 @@ struct ImageUploadView: View {
             .edgesIgnoringSafeArea(.all)
             .navigationTitle("Upload Profile Images")
             .navigationBarColor(backgroundColor: .clear, titleColor: .white)
+            .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
     }
     
     

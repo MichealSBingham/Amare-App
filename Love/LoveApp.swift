@@ -104,13 +104,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if !(isDoneWithSignUp()){
                 // if not done with sign up... log user out.
-            account.signOut {
-                //
+            account.signOut { error in
+                
+                guard error == nil else{
+                    return
+                }
+                
                 NavigationUtil.popToRootView()
-            } cantSignOut: { error in
-                //
             }
-
+            
+          
         }
 
         

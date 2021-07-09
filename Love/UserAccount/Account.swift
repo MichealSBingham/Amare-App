@@ -30,6 +30,7 @@ class Account: ObservableObject {
     @Published public var isSignedIn: Bool = false
     ///  If true, the `isSignedIn` attribute is listening for authentification state changes. This changes to true if `listen()` or `listenOnlyForSignOut()` is called.
                private var isListening: Bool = false
+    ///  Whether or not  `Account`  is listening only for sign out changes. Will not update sign in status if this is true but it will update sign out status.
                private  var isListeningForSignOut: Bool = false
     
     /// Reference to the firebase database
@@ -50,45 +51,63 @@ class Account: ObservableObject {
     /// Sends a verification code to the user's phone number to be used to login or create an account
     /// - Parameters:
     ///   - phoneNumber: Must include country code, ex:  "+19176990590"
-    ///   - onSuccess: Completion block to run after code is succesfully sent
-    ///   - onFailure: Completion block to run if some error occured. Error is passed in this closure
-    ///   - error: `LoginError` passed if `onFailure` completion block is ran
+    ///   - runThisClosure: Closure to run after the verification code was sent (or attempted) with an optional error passed.
+    ///   - error: Of type `AccountError`or `GlobalError`. This will be `nil` if a verification code was successfully sent.
     ///
     /// - Author: Micheal S. Bingham
      func sendVerificationCode(to phoneNumber: String,
-                                    andifItWorks onSuccess: (() -> Void)? = nil,
-                                    butIfSomeError onFailure: ((_ error: AuthentificationError) -> Void)? = nil ) {
+                               andAfter  runThisClosure: ((_ error: Error?) -> Void)? = nil ) {
         
         PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber, uiDelegate: nil) { verificationID, error in
             
 // ============================================  Handling Errors ==============================================================================
             if let error = error{
                 
-              
-                print("\n\nAn error happened when trying to send verification code to phone \(error.localizedDescription)")
-                
+                              
                 if let error = AuthErrorCode(rawValue: error._code){
                     
+                    
+                        
                     switch error {
                     case .networkError:
-                        onFailure!(AuthentificationError.networkError)
+                        runThisClosure!(GlobalError.networkError)
                     case .tooManyRequests:
-                        onFailure!(AuthentificationError.tooManyRequests)
+                        runThisClosure!(GlobalError.tooManyRequests)
                     case .captchaCheckFailed:
-                        onFailure!(AuthentificationError.captchaCheckFailed)
-                    case .userDisabled:
-                        onFailure!(AuthentificationError.accountDisabled)
+                        runThisClosure!(GlobalError.captchaCheckFailed)
                     case .invalidPhoneNumber:
-                        onFailure!(AuthentificationError.invalidInput)
+                        runThisClosure!(GlobalError.invalidInput)
+                    case .quotaExceeded:
+                        runThisClosure!(GlobalError.quotaExceeded)
+                    case .operationNotAllowed:
+                        runThisClosure!(GlobalError.notAllowed)
+                    case .internalError:
+                        runThisClosure!(GlobalError.internalError)
+                        
+                    case .expiredActionCode:
+                        runThisClosure!(AccountError.expiredVerificationCode)
+                    case .sessionExpired:
+                        runThisClosure!(AccountError.expiredVerificationCode)
+                    case .userTokenExpired:
+                        runThisClosure!(AccountError.expiredVerificationCode)
+                    case .userDisabled:
+                        runThisClosure!(AccountError.disabledUser)
+                    case .wrongPassword:
+                        runThisClosure!(AccountError.wrong)
+                    case .invalidVerificationCode:
+                        runThisClosure!(AccountError.wrong)
+                    case .missingVerificationCode:
+                        runThisClosure!(AccountError.wrong)
                     default:
-                        onFailure!(AuthentificationError.unknown)
+                        print("Some error happened, likely an unhandled error from firebase : \(error). This happened inside Account.sendVerificationCode()")
+                        runThisClosure!(GlobalError.unknown)
                     }
                     
                     return
                     
                 } else{
-                    
-                    onFailure!(AuthentificationError.unknown)
+                    print("\n\nSome error happened, likely an unhandled error from firebase : \(error). This happened inside Account.sendVerificationCode()")
+                    runThisClosure!(GlobalError.unknown)
                     return
                 }
             
@@ -101,14 +120,14 @@ class Account: ObservableObject {
             
             guard let vID = verificationID else{
                 
-                onFailure!(AuthentificationError.cantGetVerificationID)
+                runThisClosure!(GlobalError.cantGetVerificationID)
                 
                 return
             }
             
             vID.save()
             
-            onSuccess?()
+            runThisClosure!(nil)
             
             
            
@@ -118,27 +137,22 @@ class Account: ObservableObject {
     
     
     
-    /// Logs in the user with the verification code sent via SMS.
+    
+    /// Signs in the user `Account` with the verification code SMS sent to the user's device.
     /// - Parameters:
-    ///   - verification_code: Verification code SMS sent
-    ///   - couldNotLogin: `LoginError `  passed in completion block if some error happened attemtping to sign in
-    ///   - error: `LoginError`passed in if could not log in
-    ///   - didLogIn: Completion block for when the user successfully signed in.  FirebaseAuth.User object is passed here
-    ///   -  user: ` `FIRUser` object of the signed in user
-    ///   - onFirstSignIn: Completion block for if either it is the user's first sign in, or they did not complete the sign up flow and should
-    /// - Author: Micheal S. Bingham
-    /// - TODO: Handle Login Errors, Detect if it is first sign In
+    ///   - verification_code: SMS code sent to the user
+    ///   - runThisClosure: Closure called after SMS is sent (or attempt).
+    ///   - error:   `AccountError`  or   `GlobalError` type error if an error happens. Will be `nil` if no error occurred and it was successful.
+    ///   - user:  an optional `User` object. Do  not confuse with a `UserData` object. This `User` object is the object returned by Firebase and it contains the unique UID.
+    ///   - SignUpState: The first missing peice of data from the sign up process. For example if .name is returned, the user should be taken to the screen to enter his/her name because for some reason it's misssing from the user data. If this is nil it's either done or some other erorr happened. But if .done is returned, the data is complete.
+    /// - Author: Mcheal S. Bingham
      func login(with verification_code: String,
-                     failedToLogin couldNotLogin: ((_ error: AuthentificationError) -> Void)? = nil ,
-                     afterSuccess  didLogIn: @escaping (_ user: User) -> Void,
-                     onFirstSignIn shouldSignUp: (() -> Void)? = nil ) {
+                     andAfter      runThisClosure: ((_ error: Error?, _ user: User?, _ signUpState: SignUpState?) -> Void)?  = nil) {
         
         // Sign in User
         guard let verificationID = getVerificationID() else{
-        
-            print("Some Error happened. Can't grab Verification ID.  ")
             
-            couldNotLogin!(AuthentificationError.cantGetVerificationID)
+            runThisClosure!(GlobalError.cantGetVerificationID, nil, nil)
             
             return
         }
@@ -152,9 +166,7 @@ class Account: ObservableObject {
         Auth.auth().signIn(with: credential) { authData, error in
             
             if let error = error { // Some error happened
-                
-                print("Some Error Happened Signing In : \(error.localizedDescription)")
-                
+                                
                 // TODO: Handle Login Errors
                 
 // ============================================  Handling Errors ==============================================================================
@@ -162,27 +174,49 @@ class Account: ObservableObject {
                 if let error = AuthErrorCode(rawValue: error._code){
                     
                     switch error {
+                        
+                        // Handle Global Errors
                     case .networkError:
-                        couldNotLogin!(AuthentificationError.networkError)
+                        runThisClosure!(GlobalError.networkError, nil, nil)
                     case .tooManyRequests:
-                        couldNotLogin!(AuthentificationError.tooManyRequests)
+                        runThisClosure!(GlobalError.tooManyRequests, nil, nil)
                     case .captchaCheckFailed:
-                        couldNotLogin!(AuthentificationError.captchaCheckFailed)
+                        runThisClosure!(GlobalError.captchaCheckFailed, nil, nil)
+                    case .invalidPhoneNumber:
+                        runThisClosure!(GlobalError.invalidInput, nil, nil)
+                    case .quotaExceeded:
+                        runThisClosure!(GlobalError.quotaExceeded, nil, nil)
+                    case .operationNotAllowed:
+                        runThisClosure!(GlobalError.notAllowed, nil, nil)
+                    case .internalError:
+                        runThisClosure!(GlobalError.internalError, nil, nil)
+                        
+                        // Handle Account Errors
+                    case .expiredActionCode:
+                        runThisClosure!(AccountError.expiredVerificationCode, nil, nil)
+                    case .sessionExpired:
+                        runThisClosure!(AccountError.expiredVerificationCode, nil, nil)
+                    case .userTokenExpired:
+                        runThisClosure!(AccountError.expiredVerificationCode, nil, nil)
                     case .userDisabled:
-                        couldNotLogin!(AuthentificationError.accountDisabled)
+                        runThisClosure!(AccountError.disabledUser, nil, nil)
                     case .wrongPassword:
-                        couldNotLogin!(AuthentificationError.wrongVerificationCode)
+                        runThisClosure!(AccountError.wrong, nil, nil)
                     case .invalidVerificationCode:
-                        couldNotLogin!(AuthentificationError.wrongVerificationCode)
+                        runThisClosure!(AccountError.wrong, nil, nil )
+                    case .missingVerificationCode:
+                        runThisClosure!(AccountError.wrong, nil , nil )
                     default:
-                        couldNotLogin!(AuthentificationError.unknown)
+                        print("\n\nSome error happened, likely an unhandled error from firebase : \(error). This happened inside Account.login()")
+                        runThisClosure!(GlobalError.unknown, nil, nil)
                     }
                     
-                    return
+                   return
                     
                 } else{
                     
-                    couldNotLogin!(AuthentificationError.unknown)
+                    print("\n\nSome error happened, likely an unhandled error from firebase : \(error). This happened inside Account.login()")
+                    runThisClosure!(GlobalError.unknown, nil, nil)
                     return
                 }
             
@@ -195,68 +229,70 @@ class Account: ObservableObject {
             
             if let  user = authData?.user{
                 
-                // User logged in
+                // User is logged in
                 
-                print("Inside login function we just set the new user ....  with ID\(user.uid)")
                 self.user = user
-                self.data?.id = user.uid
+                self.data?.id = user.uid // won't set if data is nil already which it is likely unless the account signed in already
                 
-                if self.isListening{
+                if self.isListening{ // only if it's listening should you change the sign in status
                      self.isSignedIn = true
                         
                  }
                 
-                self.getUserData { error in
+                self.getUserData { [self] error in
                     
-                    print("The error getting user data is ... \(error)")
-                    print("The data is ... \(self.data)")
-                    
-                    
-                    if let error = error as? AccountError {
-                        // There was some error getting user data
-                        print("There was some accounteerror getting user data")
+                    guard error == nil else {
+                        // Handle Errors Now...
                         
-                        switch error {
-                        case .doesNotExist: // It is probably the user's first sign in
-                                // self.data = nil no need to do this, this may be causing an error on FromWhereView.
-                            shouldSignUp!()
-                            
-                            return
+                        // Check if it's an AccountError or global error
+                        
+                        if let error = error as? AccountError{
+                            // It's an account error
+                            if error == .doesNotExist{ // it's the user's first sign in
+                                runThisClosure!(nil, user, .name)
+                            } else {
+                                // It was some other account error
+                                runThisClosure!(error, nil, nil)
+                            }
                         }
-                        // competion
                         
                         
                         
-                    }
-                    
-                    if let error = error as? AuthentificationError {
-                        // there was an authentification error instead
-                        print("There was some auth error getting user data")
-                        couldNotLogin!(error)
+                        
+                        if let error = error as? GlobalError{
+                            // It's a global error so pass the error
+                           runThisClosure!(error, nil, nil )
+                        } else {
+                            
+                            
+                        runThisClosure!(GlobalError.unknown, nil, nil)
+                            
+                        }
+                        
+                        // Otherwise we don't know what error it is so just let it be a global error
                         
                         return
                         
                     }
                     
                     
-                    if let error = error {
-                        print("There was some other error getting user data")
-                        couldNotLogin!(AuthentificationError.unknown)
-                        return
-                    }
-               
-            // No error passed ...
+                    // No Error occured
+                  
                   
                     guard (self.data?.isComplete())! else{
                         
-                        shouldSignUp!()
-                        
+                        // The user data isn't complete so should go to the sign up state
+                        // Means the user did not finish signing up
+                        self.data = data
+                        runThisClosure!(nil, user, data?.getFirstNilInSignUpState())
+    
                         return
                         
                     }
                    
-                  
-                   didLogIn(user)
+                  // Otherwise sign in the user. False because it finished signing up and doesn't need to be taken to the sign up state
+                    self.data = data
+                    runThisClosure!(nil, user, .done )
                     
                    return
                 }
@@ -264,17 +300,13 @@ class Account: ObservableObject {
                 
                
                 
-          // \\//\\     // Check if it is user's first sign in or not \\//\\//\\//\\//\\//\\/
-                
-                //didLogIn(user)
-                
             } else{
                 
                 // Unknown Why
                 
-                print("Error... for some reason, auth().signIn returned an empty FIRUser object. ")
+                print("\n\n Some error happened. Error... for some reason, auth().signIn returned an empty FIRUser object. Unknown Global Error")
                 
-                couldNotLogin!(AuthentificationError.unknown)
+                runThisClosure!(GlobalError.unknown, nil, nil)
                 return
                 
             }
@@ -291,51 +323,63 @@ class Account: ObservableObject {
 }
     
     
-    /// Signs the user out
+    /// Signs the user out of the account
     /// - Parameters:
-    ///   - didSignOut: Completion block for when sign out succeeds
-    ///   - failure: Complettion block for when sign out fails
-    ///   - error: A `NSError` is passed in the `cantSignOut ` block. If sign out fails, it is most likely just a network error.
+    ///   - completion: Closure ran after sign out is called.
+    ///   - error: An `AccountError` or `GlobalError` passed . If the sign out is successful, this will be `nil`.
     /// - Author: Micheal S. Bingham
-     func signOut(success didSignOut: (() -> Void)? = nil,
-                       cantSignOut failure: ((_ error: AuthentificationError) -> Void)? = nil) {
+     func signOut(_ completion: ((_ error: Error?) -> Void )? = nil ) {
         
         let firebaseAuth = Auth.auth()
     do {
         
       try firebaseAuth.signOut()
-        //self.isSignedIn = false  will casue an error because of navigation links and $boolean values
         if  self.isListening{
             self.isSignedIn = false
         }
-        didSignOut!()
+        completion?(nil)
         
     } catch let signOutError as NSError {
-      print ("Error signing out: %@", signOutError)
+    
         let e = AuthErrorCode(rawValue: signOutError.code)
+        
+        
         switch e {
+            
+            // Handle Global Errors
         case .networkError:
-            failure!(AuthentificationError.networkError)
+            completion?(GlobalError.networkError)
+        case .tooManyRequests:
+            completion?(GlobalError.tooManyRequests)
+        case .operationNotAllowed:
+            completion?(GlobalError.notAllowed)
+        case .internalError:
+            completion?(GlobalError.internalError)
+            
+            // Handle Account Errors
+        case .userDisabled:
+            completion?(AccountError.disabledUser)
         default:
-            failure!(AuthentificationError.unknown)
+            print ("Some Error happened signing out: %@", signOutError)
+            completion?(GlobalError.unknown)
         }
         
-        failure!(AuthentificationError.unknown)
+        print ("Some Error happened signing out: %@", signOutError)
+        completion?(GlobalError.unknown)
     }
       
     }
     
     
     
-    /// Monitors for authentification changes. Uses Firebase.
+    /// Monitors for authentification changes by adding an observer to `.isSignedIn`. Uses Firebase. Call this before expecting `.isSignedIn`. to update in realtime.
+    /// - Author: Micheal S. Bingham
     func listen () {
             // monitor authentication changes using firebase
         self.isListening = true
-        print("Listening...")
             handle = Auth.auth().addStateDidChangeListener { (auth, user) in
                 if let user = user {
                     // if we have a user, create a new user model
-                    print("Got user: \(user)")
                     self.user = user
                     if self.isListening{
                         self.isSignedIn = true
@@ -344,7 +388,6 @@ class Account: ObservableObject {
                     
                 } else {
                     // if we don't have a user, set our session to nil
-                    print("No user signed in  detected")
                     self.user = nil
                     
                     NotificationCenter.default.post(name: NSNotification.logout, object: nil)// consider placing this under if statement below
@@ -358,16 +401,15 @@ class Account: ObservableObject {
         }
     
     
-    /// Monitor a user signing out 
+    /// Similiar to `listen()` but instead the observer is only activated when the user signs out so the user signing in won't update the attribute .
+    /// - Author: Micheal S. Bingham
     func listenOnlyForSignOut()  {
         
         // monitor authentication changes using firebase
     self.isListeningForSignOut = true
-    print("Listening...")
         handle = Auth.auth().addStateDidChangeListener { (auth, user) in
             if (user == nil)  {
                 // if we don't have a user, set our session to nil user is signed out
-                print("No user signed in  detected")
                 self.user = nil
                 
                 NotificationCenter.default.post(name: NSNotification.logout, object: nil)// consider placing this under if statement below
@@ -381,17 +423,18 @@ class Account: ObservableObject {
     }
 
     /// Unbinds listener so that it is no longer listening for auth changes    
+   /// - Author: Micheal S. Bingham
     func stopListening () {
         self.isListening = false
             if let handle = handle {
-                print("Just Stopped Listening...")
                 Auth.auth().removeStateDidChangeListener(handle)
             }
         }
     
-    /// Reads the user data once from the database and saves it in the object. The completion block is ran with no error if successful. Assigns a `UserData` object to `self.data`
-    /// - Parameter completion: Possible errors that can be passed are...
-    /// - TODO: Error Handling ...
+    /// Reads the user data once from the database and saves it in the object (Saves it to `account.data`). l. Assigns a `UserData` object to `self.data`
+    /// - Parameter completion: Completion block ran after an attempt to fetch the user data beloning to the `Account`
+    /// - Parameter error: Will be nil if it was successful or an error of type `AccountError` or `GlobalError` will be passed.
+    /// - Author: Micheal S. Bingham
     func getUserData(completion:( (_ err: Error?) -> Void)?  = nil )  {
         
         
@@ -402,7 +445,7 @@ class Account: ObservableObject {
         
         guard let id  = self.user?.uid else {
             
-            completion!(AuthentificationError.notSignedIn)
+            completion?(AccountError.notSignedIn)
             
             return
         }
@@ -410,16 +453,59 @@ class Account: ObservableObject {
         DB.collection("users").document(id).getDocument { document, error in
             
             guard error == nil else{
-                completion!(error!)
-                return
+                // Handle these errors....
+                
+                if let error = AuthErrorCode(rawValue: error?._code ?? 17999){
+                    
+                    switch error {
+                        
+                        // Handle Global Errors
+                    case .networkError:
+                        completion?(GlobalError.networkError)
+                    case .tooManyRequests:
+                        completion?(GlobalError.tooManyRequests)
+                    case .captchaCheckFailed:
+                        completion?(GlobalError.captchaCheckFailed)
+                    case .quotaExceeded:
+                        completion?(GlobalError.quotaExceeded)
+                    case .operationNotAllowed:
+                        completion?(GlobalError.notAllowed)
+                    case .internalError:
+                        print("\n\nSome error happened, likely an unhandled error from firebase : \(error). This happened inside Account.getUserData()")
+                        completion?(GlobalError.internalError)
+                        
+                        // Handle Account Errors
+                    case .expiredActionCode:
+                        completion?(AccountError.expiredVerificationCode)
+                    case .sessionExpired:
+                        completion?(AccountError.expiredVerificationCode)
+                    case .userTokenExpired:
+                        completion?(AccountError.expiredVerificationCode)
+                    case .userDisabled:
+                        completion?(AccountError.disabledUser)
+                    case .wrongPassword:
+                        completion?(AccountError.wrong)
+                    default:
+                        print("\n\nSome error happened, likely an unhandled error from firebase : \(error). This happened inside Account.getUserData()")
+                        completion?(GlobalError.unknown)
+                    }
+                    
+                   return
+                    
+                } else{
+                    
+                    print("\n\nSome error happened, likely an unhandled error from firebase : \(error). This happened inside Account.getUserData()")
+                    completion?(GlobalError.unknown)
+                    return
+                }
+            
+                
+                
             }
             
             if let document = document, document.exists {
                 
-                    let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-                    print("User  data retreived once : \(dataDescription)")
-                
-                    // Reading the data from the database as a UserData object
+                  
                 
                 let result = Result {
                     try document.data(as: UserData.self)
@@ -434,19 +520,20 @@ class Account: ObservableObject {
                         
                         // Data object contains all of the user's data
                         self.data = data
-                        completion!(nil)
+                        completion?(nil)
                         
                         
                     } else{
                         
                         // Could not retreive the data for some reason
-                        completion!(AccountError.doesNotExist)
+                        completion?(AccountError.doesNotExist)
                     }
                     
                 
                 case .failure(let error):
+                    // Handle errors
                     print("Some error happened trying to convert the user data to a User Data object: \(error.localizedDescription)")
-                    completion!(error)
+                    completion?(GlobalError.unknown)
               
                 }
 
@@ -454,9 +541,8 @@ class Account: ObservableObject {
                 
                 
                 } else {
-                    print("Document does not exist")
                     // User does not exist
-                    completion!(AccountError.doesNotExist)
+                    completion?(AccountError.doesNotExist)
                 }
             
             
@@ -469,7 +555,9 @@ class Account: ObservableObject {
     /// Sets and updates user data to the account in the database. Will not override if nil data is provided. 
     /// - Parameters:
     ///   - data: `UserData` object that contains profile information. See `UserData`
-    ///   - completion: Will pass an error (TODO) otherwise nil if it is successful
+    ///   - completion: Will pass an error otherwise nil if it is successful
+    ///   - error: Of type `AccountError` or `GlobalError`
+    ///   -  Warning: Do not try to add images (with the exception of the profile image) to the Account this way. Use `upload()`.
     func set(data: UserData, completion:( (_ error: Error?) -> () )? = nil )  {
         
         let DB =  (self.db == nil) ? Firestore.firestore()   :  self.db!
@@ -486,15 +574,112 @@ class Account: ObservableObject {
                
                try DB.collection("users").document(uid).setData(from: data, merge: true) { error in
                     
-                   print("The error setting data is ... \(error)")
                    
-                    completion!(error)
+                   guard error == nil else {
+                   // Handling the error
+                   if let error = AuthErrorCode(rawValue: error?._code ?? 17999){
+                       
+                       switch error {
+                           
+                           // Handle Global Errors
+                       case .networkError:
+                           completion?(GlobalError.networkError)
+                       case .tooManyRequests:
+                           completion?(GlobalError.tooManyRequests)
+                       case .captchaCheckFailed:
+                           completion?(GlobalError.captchaCheckFailed)
+                       case .quotaExceeded:
+                           completion?(GlobalError.quotaExceeded)
+                       case .operationNotAllowed:
+                           completion?(GlobalError.notAllowed)
+                       case .internalError:
+                           print("\n\nSome error happened, likely an unhandled error from firebase : \(error). This happened inside Account.set()")
+                           completion?(GlobalError.internalError)
+                           
+                           // Handle Account Errors
+                       case .expiredActionCode:
+                           completion?(AccountError.expiredVerificationCode)
+                       case .sessionExpired:
+                           completion?(AccountError.expiredVerificationCode)
+                       case .userTokenExpired:
+                           completion?(AccountError.expiredVerificationCode)
+                       case .userDisabled:
+                           completion?(AccountError.disabledUser)
+                       case .wrongPassword:
+                           completion?(AccountError.wrong)
+                       default:
+                           print("\n\nSome error happened, likely an unhandled error from firebase : \(error). This happened inside Account.set()")
+                           completion?(GlobalError.unknown)
+                       }
+                       
+                      return
+                       
+                   } else{
+                       
+                       print("\n\nSome error happened, likely an unhandled error from firebase : \(error). This happened inside Account.set()")
+                       completion?(GlobalError.unknown)
+                       return
+                   }
+                   
+                    
+            
+                       
+               }
+                   
+                   
                 }
                 
             } catch let error{
                 
-                print("Error writing data to Firestore: \(error)")
-                completion!(error)
+                if let error = AuthErrorCode(rawValue: error._code ?? 17999){
+                    
+                    switch error {
+                        
+                        // Handle Global Errors
+                    case .networkError:
+                        completion?(GlobalError.networkError)
+                    case .tooManyRequests:
+                        completion?(GlobalError.tooManyRequests)
+                    case .captchaCheckFailed:
+                        completion?(GlobalError.captchaCheckFailed)
+                    case .quotaExceeded:
+                        completion?(GlobalError.quotaExceeded)
+                    case .operationNotAllowed:
+                        completion?(GlobalError.notAllowed)
+                    case .internalError:
+                        print("\n\nSome error happened, likely an unhandled error from firebase : \(error). This happened inside Account.login()")
+                        completion?(GlobalError.internalError)
+                        
+                        // Handle Account Errors
+                    case .expiredActionCode:
+                        completion?(AccountError.expiredVerificationCode)
+                    case .sessionExpired:
+                        completion?(AccountError.expiredVerificationCode)
+                    case .userTokenExpired:
+                        completion?(AccountError.expiredVerificationCode)
+                    case .userDisabled:
+                        completion?(AccountError.disabledUser)
+                    case .wrongPassword:
+                        completion?(AccountError.wrong)
+                    default:
+                        print("\n\nSome error happened, likely an unhandled error from firebase : \(error). This happened inside Account.login()")
+                        completion?(GlobalError.unknown)
+                    }
+                    
+                   return
+                    
+                } else{
+                    
+                    print("\n\nSome error happened, likely an unhandled error from firebase : \(error). This happened inside Account.login()")
+                    completion?(GlobalError.unknown)
+                    return
+                }
+                
+                
+                completion?(error)
+                
+                
+                
             }
             
             
@@ -502,7 +687,7 @@ class Account: ObservableObject {
             
         } else{
             
-            completion!(AuthentificationError.notSignedIn)
+            completion?(AccountError.notSignedIn)
             
             
         }
@@ -516,8 +701,11 @@ class Account: ObservableObject {
     
     /// Saves and updates user data to the account in the database. Will not override if nil data is provided. The difference between this and `set()` is that this uses the `UserData` that the   `Account` object is already holding as its `self.data` property
     /// - Parameters:
-    ///   - completion: Will pass an error (TODO) otherwise nil if it is successful
-    func save( completion:( (_ error: Error?) -> () )? = nil )  {
+    ///   - completion: You do not need to use this as it's optional and you can acheive same functionality by just catching the error that's thrown.Will pass an error otherwise nil if it is successful. This competion block is optional because the function will throw an error of `AccountError` or `GlobalError` type.
+    ///  - Throws: `AccountError` or `GlobalError `
+    ///  - Note: Just do save(),  and catch for any errors using the completion block is unnecessary.
+    ///  - Author: Micheal S. Bingham
+    func save( completion:( (_ error: Error?) -> () )? = nil ) throws {
         
         let DB =  (self.db == nil) ? Firestore.firestore()   :  self.db!
         self.db = DB
@@ -533,16 +721,73 @@ class Account: ObservableObject {
                 
                 
                 try DB.collection("users").document(uid).setData(from: self.data, merge: true) { error in
+
+                   // No error
+                    completion?(nil)
                     
-                   print("The error setting data is ... \(error)")
-                   
-                    completion!(error)
                 }
                 
             } catch let error{
                 
-                print("Error writing data to Firestore: \(error)")
-                completion!(error)
+                
+                if let error = AuthErrorCode(rawValue: error._code ?? 17999){
+                    
+                    switch error {
+                        
+                        // Handle Global Errors
+                    case .networkError:
+                        completion?(GlobalError.networkError)
+                        throw GlobalError.networkError
+                    case .tooManyRequests:
+                        completion?(GlobalError.tooManyRequests)
+                        throw GlobalError.tooManyRequests
+                    case .captchaCheckFailed:
+                        completion?(GlobalError.captchaCheckFailed)
+                        throw GlobalError.captchaCheckFailed
+                    case .quotaExceeded:
+                        completion?(GlobalError.quotaExceeded)
+                        throw GlobalError.quotaExceeded
+                    case .operationNotAllowed:
+                        completion?(GlobalError.notAllowed)
+                        throw GlobalError.notAllowed
+                    case .internalError:
+                        print("\n\nSome error happened, likely an unhandled error from firebase : \(error). This happened inside Account.login()")
+                        completion?(GlobalError.internalError)
+                        throw GlobalError.internalError
+                        
+                        // Handle Account Errors
+                    case .expiredActionCode:
+                        completion?(AccountError.expiredVerificationCode)
+                        throw AccountError.expiredVerificationCode
+                    case .sessionExpired:
+                        completion?(AccountError.expiredVerificationCode)
+                        throw AccountError.expiredVerificationCode
+                    case .userTokenExpired:
+                        completion?(AccountError.expiredVerificationCode)
+                        throw AccountError.expiredVerificationCode
+                    case .userDisabled:
+                        completion?(AccountError.disabledUser)
+                        throw AccountError.disabledUser
+                    case .wrongPassword:
+                        completion?(AccountError.wrong)
+                        throw AccountError.wrong
+                    default:
+                        print("\n\nSome error happened, likely an unhandled error from firebase : \(error). This happened inside Account.login()")
+                        completion?(GlobalError.unknown)
+                        throw GlobalError.unknown
+                    }
+                    
+                   
+                    
+                } else{
+                    
+                    print("\n\nSome error happened, likely an unhandled error from firebase : \(error). This happened inside Account.login()")
+                    completion?(GlobalError.unknown)
+                    throw GlobalError.unknown
+                    
+                }
+                
+                
             }
             
             
@@ -550,8 +795,9 @@ class Account: ObservableObject {
             
         } else{
             
-            completion!(AuthentificationError.notSignedIn)
-            
+    
+            completion?(AccountError.notSignedIn)
+            throw AccountError.notSignedIn
             
         }
         
@@ -561,12 +807,17 @@ class Account: ObservableObject {
     
     
     
+    /// Uploads an image to the database for the user.
+    /// - Parameters:
+    ///   - image: UIImage to upload
+    ///   - isProfileImage: Whether or not we should set this image as the user's profile image
+    ///   - completion: An `AccountError` , `SystemError` or `GlobalError` could be passed here but will be nil if it was a success
     func upload(image: UIImage, isProfileImage: Bool = false, completion: ( (_ error: Error?) -> () )? = nil)  {
         
         guard let userid = self.user?.uid else {
             
             // There is no signed in user, throw error or pass in handler
-            completion!(AuthentificationError.notSignedIn)
+            completion?(AccountError.notSignedIn)
             return
         }
         
@@ -583,7 +834,7 @@ class Account: ObservableObject {
         let uploadRef = ref.child("users").child(userid).child("images").child(nameOfImage)
         
        
-        guard let imageData = image.jpegData(compressionQuality: 1) else {  /* Some error compresing the  image */ return  }
+        guard let imageData = image.jpegData(compressionQuality: 1) else { completion?(SystemError.imageCompress) ;/* Some error compresing the  image */ return  }
         let uploadMetaData = StorageMetadata.init()
         uploadMetaData.contentType = "image/jpeg"
         
@@ -593,7 +844,7 @@ class Account: ObservableObject {
             
             if let error = error {
                 // some error occured
-                completion!(error)
+                completion?(AccountError.uploadError)
 
             }
             
@@ -602,7 +853,7 @@ class Account: ObservableObject {
             uploadRef.downloadURL { url, error in
                 
                 if let error = error{
-                    completion!(error)
+                    completion?(AccountError.uploadError)
                 }
                 
                 // No error after getting url
@@ -618,14 +869,89 @@ class Account: ObservableObject {
                
              //  let data =  UserData(id: self.user?.uid, images: [imageURL!])
                 
+             
+                
                 DB.collection("users").document(userid).updateData(["images": FieldValue.arrayUnion([imageURL!])]) { error in
                     
-                    if let error = error {
-                        completion!(error)
-                    } // else completion success
                     
+                    guard error == nil else {
+                        // There is an error when trying to update the data
+                        
+                        if let error = StorageErrorCode(rawValue: error?._code ?? 17999){
+                            // We try to read the error
+
+                            
+                            switch error {
+                                
+                                // Handle Global Errors
+                            case .quotaExceeded:
+                                completion?(GlobalError.quotaExceeded)
+                            case .unauthorized:
+                                completion?(AccountError.notAuthorized)
+                            case .unauthenticated:
+                                completion?(AccountError.notSignedIn)
+                            case .objectNotFound:
+                                // There is no object located here so we need to create one and add it.
+                                DB.collection("users").document(self.data?.id ?? self.user!.uid).setData(["images": []]) { error in
+                                    
+                                    
+                                   guard error == nil else  {
+                                        print("We failed to upload it in the databases, we tried to set the images data to an empty array but it dind't work")
+                                        completion?(GlobalError.unknown)
+                                       return
+                                    }
+                                    
+                                    // It worked so let's just try again
+                                    self.upload(image: image, isProfileImage: isProfileImage) { error in
+                                        
+                                        guard error == nil else {
+                                            // It didn't work so just try again
+                                            print("We failed trying to recursiviely upload the image if .objectNotfound with error \(error!.localizedDescription)")
+                                            completion?(GlobalError.unknown)
+                                            return
+                                            
+                                        }
+                                        // It worked.
+                                        
+                                        self.set(data: self.data ?? UserData(profile_image_url: imageURL)) { error in
+                                            
+                                            guard error == nil else {
+                                                completion?(error)
+                                                return
+                                            }
+                                            completion?(nil)
+                                        }
+                                    }
+                                }
+                           
+                            default:
+                                print("\n\nSome error happened, likely an unhandled error from firebase : \(error). This happened inside Account.upload()")
+                                completion?(GlobalError.unknown)
+                            }
+                            
+                            
+                        }
+                        
+                        // it's some other error , unknown to us
+                        print("\n\nSome error happened, global \(error?.localizedDescription) happened at the end of upload ")
+                        completion?(GlobalError.unknown)
+                        return
+                    }
+                   
                     
-                    completion!(nil)
+                    // It worked
+                    completion?(nil)
+                    // Set the profile image url to the user data as well
+                    
+                    self.set(data: self.data ?? UserData(profile_image_url: imageURL)) { error in
+                        
+                        guard error == nil else {
+                            completion?(error)
+                            return
+                        }
+                        completion?(nil)
+                    }
+
                     
                 }
                 
@@ -702,20 +1028,20 @@ class Account: ObservableObject {
                     
                     // Data object contains all of the user's data
                     self.data = data
-                  //  completion!(nil) .no error.
+                  //  completion?(nil) .no error.
                     
                     
                 } else{
                     
                     // Could not retreive the data for some reason
                     // Throw error
-                    //completion!(AccountError.doesNotExist)
+                    //completion?(AccountError.doesNotExist)
                 }
                 
             
             case .failure(let error):
                 print("Some error happened trying to convert the user data to a User Data object: \(error.localizedDescription)")
-                    // completion!(error) Throw error
+                    // completion?(error) Throw error
           
             }
                 
@@ -728,6 +1054,7 @@ class Account: ObservableObject {
     
     
 }
+
 
 
 

@@ -46,6 +46,8 @@ public struct UserData: Codable{
     /// Returns the SignUpState the user should be sent to. So let's say the user did not complete their birthday, this will return .birthday. This is a helper function to determine what part of the sign up flow to direct the user if they failed to finish the sign up process before going to thier program. Usually it's because they logged out, got unauthenticated, or quit the app during sign up. It's important to keep the signupflow in its set order otherwise this will not work. Returns nil if nothing is nil (user compeleted sign up)
     func getFirstNilInSignUpState() -> SignUpState? {
         
+        if self.isComplete() { return .done}
+        
         if self.name == nil { return .name }
         
         else if self.sex == nil { return .sex}
@@ -100,12 +102,17 @@ struct Place: Codable  {
 /// Part of sign up flow  user did not complete
 enum SignUpState{
     
+    /// Go to EnterNameView.
     case name
+    /// Go to EnterGenderView
     case sex
+    /// Go to EnterOrientationView
     case orientation
+    /// Go to EnterHome
     case hometown
     case birthday
     case residence
     case imageUpload
+    case done
     
 }

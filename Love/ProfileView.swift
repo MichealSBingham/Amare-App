@@ -13,6 +13,9 @@ struct ProfileView: View {
     
     
      @EnvironmentObject private var account: Account
+    
+    @State private var someErrorOccured: Bool = false
+    @State private var alertMessage: String = ""
 
 
     var body: some View {
@@ -88,6 +91,7 @@ struct ProfileView: View {
             .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
             .navigationBarBackButtonHidden(true)
             .navigationBarTitle(account.data?.name ?? "Profile")
+            .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
             .onReceive(NotificationCenter.default.publisher(for: NSNotification.logout), perform: { _ in
                 
                 NavigationUtil.popToRootView()
@@ -101,16 +105,17 @@ struct ProfileView: View {
         
         return   Button("Sign Out") {
             // Signs out of profile
-            account.signOut {
-
-            }
+            
+            account.signOut { error in
                 
-                cantSignOut: { error in
-                
-                // Some error happened when attempting to sign out
-                print("Some sign out error happened \(error)")
-                    
+                guard error == nil else{
+                    someErrorOccured = true
+                    alertMessage = "Some error when trying to sign out"
+                    return
+                }
             }
+            
+       
 
         }
 
@@ -118,7 +123,7 @@ struct ProfileView: View {
     
     func MakeProfileImage() -> some View {
         
-       return AsyncImage(url: URL(string: (account.data?.profile_image_url) ?? "")).frame(width: 200, height: 200, alignment: .center)
+        return AsyncImage(url: URL(string: (account.data?.profile_image_url) ?? "")).frame(width: 200, height: 200, alignment: .center)
     }
     
     func MakeQRCode() -> some View {

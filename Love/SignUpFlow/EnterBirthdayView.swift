@@ -20,6 +20,9 @@ struct EnterBirthdayView: View {
     
     @Binding public var timezone: TimeZone?
     
+    @State private var someErrorOccured: Bool = false
+    @State private var alertMessage: String  = ""
+    
     var body: some View {
         
      
@@ -33,6 +36,7 @@ struct EnterBirthdayView: View {
                     .edgesIgnoringSafeArea(.all)
                     .navigationTitle("When Is Your Birthday?")
                     .navigationBarColor(backgroundColor: .clear, titleColor: .white)
+                    .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
                 
                 // ******* ======  Transitions -- Navigation Links =======
                 
