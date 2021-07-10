@@ -12,7 +12,7 @@ import FirebaseAuth
 
 @available(iOS 15.0, *)
 @main
-struct LoveApp: App {
+struct AmareApp: App {
  
     // Need to keep track of app's life cycle. They should be signed out if they are during sign up process and app quits or exits. Sign the user out if the app enters 
     @Environment(\.scenePhase) var scenePhase
