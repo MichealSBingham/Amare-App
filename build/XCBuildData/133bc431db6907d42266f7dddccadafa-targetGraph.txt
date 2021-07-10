@@ -1,0 +1,13 @@
+Target dependency graph (6 targets)
+PhoneNumberKit_PhoneNumberKit in PhoneNumberKit
+PhoneNumberKit in PhoneNumberKit, depends on:
+PhoneNumberKit_PhoneNumberKit in PhoneNumberKit (explicit)
+PhoneNumberKit in PhoneNumberKit, depends on:
+PhoneNumberKit in PhoneNumberKit (explicit)
+iPhoneNumberField in iPhoneNumberField, depends on:
+PhoneNumberKit in PhoneNumberKit (explicit)
+iPhoneNumberField in iPhoneNumberField, depends on:
+iPhoneNumberField in iPhoneNumberField (explicit)
+PhoneNumberKit in PhoneNumberKit (explicit)
+Love in Love, depends on:
+iPhoneNumberField in iPhoneNumberField (explicit)
