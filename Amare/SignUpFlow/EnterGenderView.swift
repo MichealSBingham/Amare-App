@@ -110,7 +110,7 @@ struct EnterGenderView: View {
             .resizable()
             .scaledToFill()
             .edgesIgnoringSafeArea(.all)
-            .navigationTitle("Hey Micheal, you are a ...")
+            .navigationTitle("Hey.. you are a ...")
             .navigationBarColor(backgroundColor: .clear, titleColor: .white)
             .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
     }

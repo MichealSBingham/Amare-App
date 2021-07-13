@@ -163,7 +163,6 @@ class Account: ObservableObject {
             return
         }
          
-         print("the verificationid in login is .. \(verificationID)")
         
         let credential = PhoneAuthProvider.provider().credential(
             withVerificationID: verificationID,
@@ -173,7 +172,6 @@ class Account: ObservableObject {
         
         Auth.auth().signIn(with: credential) { authData, error in
             
-            print("the error in auth.signIn is .. \(error?.localizedDescription)")
             
             if let error = error { // Some error happened
                                 
