@@ -24,6 +24,12 @@ enum AccountError: Error {
     case uploadError
     /// Not authorized to add data here. Check security rules.
     case notAuthorized
+    ///
+    case expiredActionCode
+    ///
+    case sessionExpired
+    ///
+    case userTokenExpired
 
     
 }

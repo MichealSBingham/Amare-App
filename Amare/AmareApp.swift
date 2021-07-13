@@ -121,19 +121,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func applicationDidEnterBackground(_ application: UIApplication) {
         
-        /*
+        
         if !(isDoneWithSignUp()){
                 // if not done with sign up... log user out.
-            account.signOut {
+            account.signOut { error in
                 //
+                guard error == nil else { return }
                 NavigationUtil.popToRootView()
-            } cantSignOut: { error in
-                //
             }
 
         }
         
-        */
+    
 
     }
     

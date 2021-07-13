@@ -110,9 +110,13 @@ enum SignUpState{
     case orientation
     /// Go to EnterHome
     case hometown
+    /// Go to EnterBirthdayView
     case birthday
+    /// Go to LiveWhereView
     case residence
+    /// Go to ImageUploadView
     case imageUpload
+    /// Go to the home/profile screen because the user has completed the Sign up process. 
     case done
     
 }

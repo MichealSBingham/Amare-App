@@ -262,6 +262,12 @@ func handle(_ error: Error)  {
             alertMessage = "There was some upload Error"
         case .notAuthorized:
             alertMessage = "You are not authorized to do this."
+        case .expiredActionCode:
+            alertMessage = "The action code has expired"
+        case .sessionExpired:
+            alertMessage = "The session has expired"
+        case .userTokenExpired:
+            alertMessage = "The user token has expired"
         }
     }
     

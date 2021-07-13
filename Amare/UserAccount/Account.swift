@@ -57,8 +57,12 @@ class Account: ObservableObject {
     /// - Author: Micheal S. Bingham
      func sendVerificationCode(to phoneNumber: String,
                                andAfter  runThisClosure: ((_ error: Error?) -> Void)? = nil ) {
-        
+         
+       //  Auth.auth().settings?.isAppVerificationDisabledForTesting = true
         PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber, uiDelegate: nil) { verificationID, error in
+            
+            
+            
             
 // ============================================  Handling Errors ==============================================================================
             if let error = error{
@@ -85,11 +89,11 @@ class Account: ObservableObject {
                         runThisClosure!(GlobalError.internalError)
                         
                     case .expiredActionCode:
-                        runThisClosure!(AccountError.expiredVerificationCode)
+                        runThisClosure!(AccountError.expiredActionCode)
                     case .sessionExpired:
-                        runThisClosure!(AccountError.expiredVerificationCode)
+                        runThisClosure!(AccountError.sessionExpired)
                     case .userTokenExpired:
-                        runThisClosure!(AccountError.expiredVerificationCode)
+                        runThisClosure!(AccountError.userTokenExpired)
                     case .userDisabled:
                         runThisClosure!(AccountError.disabledUser)
                     case .wrongPassword:
@@ -118,6 +122,7 @@ class Account: ObservableObject {
                 
             }
             
+            
             guard let vID = verificationID else{
                 
                 runThisClosure!(GlobalError.cantGetVerificationID)
@@ -126,7 +131,8 @@ class Account: ObservableObject {
             }
             
             vID.save()
-            
+            print("the verificationid in send verification code is .. \(vID)")
+
             runThisClosure!(nil)
             
             
@@ -147,7 +153,7 @@ class Account: ObservableObject {
     ///   - SignUpState: The first missing peice of data from the sign up process. For example if .name is returned, the user should be taken to the screen to enter his/her name because for some reason it's misssing from the user data. If this is nil it's either done or some other erorr happened. But if .done is returned, the data is complete.
     /// - Author: Mcheal S. Bingham
      func login(with verification_code: String,
-                     andAfter      runThisClosure: ((_ error: Error?, _ user: User?, _ signUpState: SignUpState?) -> Void)?  = nil) {
+                andAfter      runThisClosure:  ((_ error: Error?, _ user: User?, _ signUpState: SignUpState?) -> Void)?  = nil) {
         
         // Sign in User
         guard let verificationID = getVerificationID() else{
@@ -156,6 +162,8 @@ class Account: ObservableObject {
             
             return
         }
+         
+         print("the verificationid in login is .. \(verificationID)")
         
         let credential = PhoneAuthProvider.provider().credential(
             withVerificationID: verificationID,
@@ -165,10 +173,12 @@ class Account: ObservableObject {
         
         Auth.auth().signIn(with: credential) { authData, error in
             
+            print("the error in auth.signIn is .. \(error?.localizedDescription)")
+            
             if let error = error { // Some error happened
                                 
                 // TODO: Handle Login Errors
-                
+                print("The error is ...\(error) with code .. \(error._code)")
 // ============================================  Handling Errors ==============================================================================
 
                 if let error = AuthErrorCode(rawValue: error._code){
@@ -193,11 +203,11 @@ class Account: ObservableObject {
                         
                         // Handle Account Errors
                     case .expiredActionCode:
-                        runThisClosure!(AccountError.expiredVerificationCode, nil, nil)
+                        runThisClosure!(AccountError.expiredActionCode, nil, nil)
                     case .sessionExpired:
-                        runThisClosure!(AccountError.expiredVerificationCode, nil, nil)
+                        runThisClosure!(AccountError.sessionExpired, nil, nil)
                     case .userTokenExpired:
-                        runThisClosure!(AccountError.expiredVerificationCode, nil, nil)
+                        runThisClosure!(AccountError.userTokenExpired, nil, nil)
                     case .userDisabled:
                         runThisClosure!(AccountError.disabledUser, nil, nil)
                     case .wrongPassword:
@@ -244,15 +254,19 @@ class Account: ObservableObject {
                     guard error == nil else {
                         // Handle Errors Now...
                         
+                        
+                      
                         // Check if it's an AccountError or global error
                         
                         if let error = error as? AccountError{
                             // It's an account error
                             if error == .doesNotExist{ // it's the user's first sign in
                                 runThisClosure!(nil, user, .name)
+                                return
                             } else {
                                 // It was some other account error
                                 runThisClosure!(error, nil, nil)
+                                return
                             }
                         }
                         
@@ -262,13 +276,13 @@ class Account: ObservableObject {
                         if let error = error as? GlobalError{
                             // It's a global error so pass the error
                            runThisClosure!(error, nil, nil )
-                        } else {
-                            
-                            
-                        runThisClosure!(GlobalError.unknown, nil, nil)
-                            
+                            return
                         }
+                            
                         
+                        print("There was some error get user data .. \(error?.localizedDescription) ")
+                        runThisClosure!(GlobalError.unknown, nil, nil)
+
                         // Otherwise we don't know what error it is so just let it be a global error
                         
                         return
@@ -337,6 +351,8 @@ class Account: ObservableObject {
         if  self.isListening{
             self.isSignedIn = false
         }
+        //clear verification code
+        UserDefaults.standard.removeObject(forKey: "authVerificationID")
         completion?(nil)
         
     } catch let signOutError as NSError {
@@ -476,11 +492,11 @@ class Account: ObservableObject {
                         
                         // Handle Account Errors
                     case .expiredActionCode:
-                        completion?(AccountError.expiredVerificationCode)
+                        completion?(AccountError.expiredActionCode)
                     case .sessionExpired:
-                        completion?(AccountError.expiredVerificationCode)
+                        completion?(AccountError.sessionExpired)
                     case .userTokenExpired:
-                        completion?(AccountError.expiredVerificationCode)
+                        completion?(AccountError.userTokenExpired)
                     case .userDisabled:
                         completion?(AccountError.disabledUser)
                     case .wrongPassword:
@@ -598,11 +614,11 @@ class Account: ObservableObject {
                            
                            // Handle Account Errors
                        case .expiredActionCode:
-                           completion?(AccountError.expiredVerificationCode)
+                           completion?(AccountError.expiredActionCode)
                        case .sessionExpired:
-                           completion?(AccountError.expiredVerificationCode)
+                           completion?(AccountError.sessionExpired)
                        case .userTokenExpired:
-                           completion?(AccountError.expiredVerificationCode)
+                           completion?(AccountError.userTokenExpired)
                        case .userDisabled:
                            completion?(AccountError.disabledUser)
                        case .wrongPassword:
@@ -652,11 +668,11 @@ class Account: ObservableObject {
                         
                         // Handle Account Errors
                     case .expiredActionCode:
-                        completion?(AccountError.expiredVerificationCode)
+                        completion?(AccountError.expiredActionCode)
                     case .sessionExpired:
-                        completion?(AccountError.expiredVerificationCode)
+                        completion?(AccountError.sessionExpired)
                     case .userTokenExpired:
-                        completion?(AccountError.expiredVerificationCode)
+                        completion?(AccountError.userTokenExpired)
                     case .userDisabled:
                         completion?(AccountError.disabledUser)
                     case .wrongPassword:
@@ -757,14 +773,14 @@ class Account: ObservableObject {
                         
                         // Handle Account Errors
                     case .expiredActionCode:
-                        completion?(AccountError.expiredVerificationCode)
-                        throw AccountError.expiredVerificationCode
+                        completion?(AccountError.expiredActionCode)
+                        throw AccountError.expiredActionCode
                     case .sessionExpired:
-                        completion?(AccountError.expiredVerificationCode)
-                        throw AccountError.expiredVerificationCode
+                        completion?(AccountError.sessionExpired)
+                        throw AccountError.sessionExpired
                     case .userTokenExpired:
-                        completion?(AccountError.expiredVerificationCode)
-                        throw AccountError.expiredVerificationCode
+                        completion?(AccountError.userTokenExpired)
+                        throw AccountError.userTokenExpired
                     case .userDisabled:
                         completion?(AccountError.disabledUser)
                         throw AccountError.disabledUser
