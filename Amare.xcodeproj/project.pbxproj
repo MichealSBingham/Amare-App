@@ -41,6 +41,7 @@
 		26BBF091267EA5FF00C84019 /* FromWhereView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BBF090267EA5FF00C84019 /* FromWhereView.swift */; };
 		26BBF093267EBB1300C84019 /* LiveWhereView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BBF092267EBB1300C84019 /* LiveWhereView.swift */; };
 		26BBF095267EBBEF00C84019 /* EnterNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BBF094267EBBEF00C84019 /* EnterNameView.swift */; };
+		26F9205F26A760E500A4F8C6 /* Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F9205E26A760E500A4F8C6 /* Animations.swift */; };
 		4991A09671FED39DE178963C /* Pods_AmareTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD7CA76CDE93457088787B0A /* Pods_AmareTests.framework */; };
 		8DCFACC80E53A7772880AF41 /* Pods_Amare_AmareUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D295B9701F008ED6D38DA62B /* Pods_Amare_AmareUITests.framework */; };
 		B5872B85B225F1F914D48FA4 /* Pods_Amare.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BF2E6662C1D2B1599EA9ADC /* Pods_Amare.framework */; };
@@ -103,6 +104,7 @@
 		26BBF090267EA5FF00C84019 /* FromWhereView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FromWhereView.swift; sourceTree = "<group>"; };
 		26BBF092267EBB1300C84019 /* LiveWhereView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveWhereView.swift; sourceTree = "<group>"; };
 		26BBF094267EBBEF00C84019 /* EnterNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterNameView.swift; sourceTree = "<group>"; };
+		26F9205E26A760E500A4F8C6 /* Animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animations.swift; sourceTree = "<group>"; };
 		2CB41826EE5B592E25AF610C /* Pods-Amare-AmareUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Amare-AmareUITests.release.xcconfig"; path = "Target Support Files/Pods-Amare-AmareUITests/Pods-Amare-AmareUITests.release.xcconfig"; sourceTree = "<group>"; };
 		30F564BFC9F7E73A868DCDAA /* Pods-Amare.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Amare.debug.xcconfig"; path = "Target Support Files/Pods-Amare/Pods-Amare.debug.xcconfig"; sourceTree = "<group>"; };
 		3B758FB20EEB270182725F31 /* Pods-Amare-AmareUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Amare-AmareUITests.debug.xcconfig"; path = "Target Support Files/Pods-Amare-AmareUITests/Pods-Amare-AmareUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -251,6 +253,7 @@
 				263D6F952683F77C00CBBECC /* Location.swift */,
 				2608CF45268FE27300826FDA /* ImagePickerView.swift */,
 				2608CF472691425E00826FDA /* QR.swift */,
+				26F9205E26A760E500A4F8C6 /* Animations.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -553,6 +556,7 @@
 				263D6F962683F77C00CBBECC /* Location.swift in Sources */,
 				26970699268101B0007E7961 /* SceneDelegate.swift in Sources */,
 				26B1AFD82678FFE500A170B3 /* EnterPhoneNumberView.swift in Sources */,
+				26F9205F26A760E500A4F8C6 /* Animations.swift in Sources */,
 				26B1AFD62678FFE500A170B3 /* AmareApp.swift in Sources */,
 				263D6F9426829F2200CBBECC /* RootView.swift in Sources */,
 				2608CF4C2695136F00826FDA /* EnterGenderView.swift in Sources */,

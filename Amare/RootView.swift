@@ -16,6 +16,9 @@ struct RootView: View {
     
     /// Terms and conditions
     @State private var termsAreAccepted: Bool = false
+    
+    /// Attempts the user tried to tap signin/signout without accepting terms. This is so that we can animate the view , see the modifier on accepting terms view to understand
+    @State private var attempts: Int = 0
 
     
     /// Help needed
@@ -68,7 +71,8 @@ struct RootView: View {
                             Spacer()
                             
                 
-                            HStack{  box(); agreeToPolicyText }
+                            HStack{  box(); agreeToPolicyText }.modifier(ShakeEffect(shakes: attempts*2)).animation(Animation.default, value: attempts)
+                            
                             
                             Spacer()
                             
@@ -119,9 +123,8 @@ struct RootView: View {
                 
                 signInandSignUpAreEnabled = false // disable the button
             
-                // TODO: Shake the agree to terms view (Animation)
-                print("Shake the terms and policy")
-                    //shakeAgreeToTerms()
+               
+                attempts+=1
             
                 
                 return
@@ -167,7 +170,7 @@ struct RootView: View {
                 
                 signInandSignUpAreEnabled = false
                 
-                print("Shake policy and terms")
+                attempts+=1
                 
                 return
             }
@@ -357,6 +360,7 @@ struct RootView: View {
         
         Button {
             needsHelp = true
+            print("The number of attemps: \(attempts)")
         } label: {
             
             needHelpText()
