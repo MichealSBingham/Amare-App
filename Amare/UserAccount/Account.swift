@@ -690,7 +690,7 @@ class Account: ObservableObject {
                 }
                 
                 
-                completion?(error)
+            //    completion?(error)
                 
                 
                 

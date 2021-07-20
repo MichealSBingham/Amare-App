@@ -13,6 +13,19 @@ struct RootView: View {
     @EnvironmentObject private var account: Account
     
     
+    
+    /// Terms and conditions
+    @State private var termsAreAccepted: Bool = false
+
+    
+    /// Help needed
+    @State private var needsHelp: Bool = false
+    
+    /// By default, we let the sign up and sign in buttons to be enabled purely just for asthetic reasons when the user opens the app.
+    @State private var signInandSignUpAreEnabled: Bool = true
+
+    
+    
     var body: some View {
         
         
@@ -33,78 +46,35 @@ struct RootView: View {
                     ZStack{
                         
                       AnimatedBackground()
+                            
                         
                         VStack{
                             
-                           // Logo .......................
-                            Group{
-                                ZStack{ ringImage() ; moleculeImage()  }
-                                ZStack{ verticleCrossImage() ; horizontalCrossImage() }
-                            }//.border(.white)
-                            
-                            AmareText()//.border(.white)
-                            taglineText()//.border(.white)
+                           
+                            createLogo()
+                            AmareText()
+                            taglineText()
                             
                             Spacer()
                            
                             Group{
-                                
-                                
-                                // Sign in // Sign up buttons
-                                ZStack{
-                                    
-                                    rectangle().padding(.bottom, 5)
-                                    signInText()
-                                    
-                                    HStack{
-                                        
-                                       Spacer()
-                                       Spacer()
-                                    rightArrow()
-                                       Spacer()
-                                        
-                                    }
-                                   
-                                    
-                                }
-                                
-                                
-                                ZStack{
-                                    
-                                    rectangle().padding(.bottom, 5)
-                                    signUpText()
-                                    
-                                    HStack{
-                                        
-                                       Spacer()
-                                       Spacer()
-                                    rightArrow()
-                                       Spacer()
-                                        
-                                    }
-                                   
-                                    
-                                }
-                                
+                                createSignInButton()
+                                createSignUpButton()
                             }
                             
                             
                             
                             Spacer()
+                            Spacer()
+                            
+                
+                            HStack{  box(); agreeToPolicyText }
                             
                             Spacer()
                             
-                       
-                            
-                            HStack{  box(); agreeToPolicyText() }
-                            
-                            Spacer()
-                            
-                            needHelpText()
+                            needHelp()
                             
                             
-                           
-                          
                             
                         }
                        
@@ -114,9 +84,11 @@ struct RootView: View {
                     
                     
                 }
-            } .onDisappear(perform: {
-                account.stopListening()
-        })
+            } // On Group View
+            .onDisappear(perform: { account.stopListening() })
+            .alert(isPresented: $needsHelp) { Alert(title: Text("ToDo: Password Reset"), message: Text("This is not finished yet. Contact me (Micheal) if you need assistance. (917).699.0590 or micheal@xiris.ai")) }
+            
+            
         }
         
        
@@ -124,12 +96,111 @@ struct RootView: View {
         
     }
     
+    /// Creates the logo image for the view (The Amare Logo)
+    func createLogo() -> some View {
+        
+        return Group{
+            ZStack{ ringImage() ; moleculeImage()  }
+            ZStack{ verticleCrossImage() ; horizontalCrossImage() }
+        }
+    }
     
+    /// Creates the sign in button for the view
+    func createSignInButton() -> some View {
+        
+        
+        
+        return  Button {
+            
+                // Pressed sign in button
+            guard termsAreAccepted else {
+                
+                // User did not accept terms and conditions,
+                
+                signInandSignUpAreEnabled = false // disable the button
+            
+                // TODO: Shake the agree to terms view (Animation)
+                print("Shake the terms and policy")
+                    //shakeAgreeToTerms()
+            
+                
+                return
+            }
+            
+            // TODO: Go to next screen
+            print("Go to next screen")
+            
+        } label: {
+            // Creating the view
+            
+            ZStack{
+                
+                rectangle().padding(.bottom, 5)
+                signInText()
+                
+                HStack{
+                    
+                   Spacer()
+                   Spacer()
+                   rightArrow()
+                   Spacer()
+                    
+                }
+             
+               
+                
+            }
+        }.disabled(!signInandSignUpAreEnabled)
+        .opacity(signInandSignUpAreEnabled ? 1: 0.5)
+            
+
+        
+    }
     
+    /// Creates the sign up button for the view
+    func createSignUpButton() -> some View {
+        
+        
+        return Button {
+            
+            guard termsAreAccepted else {
+                
+                signInandSignUpAreEnabled = false
+                
+                print("Shake policy and terms")
+                
+                return
+            }
+            
+            
+            print("Go to next screen")
+        } label: {
+            
+            ZStack{
+                
+                rectangle().padding(.bottom, 5)
+                signUpText()
+                
+                HStack{
+                    
+                   Spacer()
+                   Spacer()
+                rightArrow()
+                   Spacer()
+                    
+                }
+             
+               
+                
+            }
+        }.disabled(!signInandSignUpAreEnabled)
+         .opacity(signInandSignUpAreEnabled ? 1: 0.5)
+
+        
     
+    }
     
-    
-    
+    /// The molecule (center) part of the logo (image)
     func moleculeImage() -> some View {
         
         return Image("branding/molecule")
@@ -139,6 +210,7 @@ struct RootView: View {
            
     }
     
+    /// The ring part of the logo (Image)
     func ringImage() -> some View {
         
         return Image("branding/ring")
@@ -148,6 +220,7 @@ struct RootView: View {
            
     }
     
+    ///The horizontal  part of the cross that's a part of the logo
     func horizontalCrossImage() -> some View {
         
         return Image("branding/cross-h")
@@ -156,6 +229,7 @@ struct RootView: View {
             .frame(width: 60, height: 6)
     }
     
+    /// The verticle part of the cross that's a part of the logo
     func verticleCrossImage() -> some View {
         
         return Image("branding/cross-v")
@@ -167,8 +241,7 @@ struct RootView: View {
             
     }
     
-   
-    
+    /// Amare text view below the logo
     func AmareText() -> some View {
         
         return Image("branding/Amare-text")
@@ -182,18 +255,18 @@ struct RootView: View {
             
     }
     
-    
+    /// Tagline text view below the logo
     func taglineText() -> some View {
         return Image("branding/tagline")
             .resizable()
             .scaledToFit()
             .frame(width: 200, height: 200)
             .padding(.top, -88)
-            .padding(.bottom, -75)
+            .padding(.bottom, -85)
           
     }
     
-    
+    /// Rectange image for the sign in and sign up buttons
     func rectangle() -> some View {
         
         return Image("RootView/rectangle")
@@ -205,7 +278,7 @@ struct RootView: View {
             
     }
     
-    
+    /// Sign up text on the sign up button
     func signUpText() -> some View {
         
         return Text("Sign Up")
@@ -215,6 +288,7 @@ struct RootView: View {
 
     }
     
+    /// Sign in text on the sign in button
     func signInText() -> some View {
         
         return Text("Sign In")
@@ -223,43 +297,121 @@ struct RootView: View {
               .font(.system(size: 16))
     }
         
-    
+    /// Right arrow image
     func rightArrow() -> some View {
         
         return Image("RootView/right-arrow")
             .resizable()
             .scaledToFit()
             .frame(width: 25, height: 50)
-            .offset(x: -15)
+           // .offset(x: -15)
             
             
             
     }
     
-    
+    /// Button for the box to check
     func box() -> some View {
+        
+        
+       return  Button {
+            // Box tapped to agree to terms
+            termsAreAccepted.toggle()
+           signInandSignUpAreEnabled = termsAreAccepted
+       
+            
+        } label: {
+        
+            if termsAreAccepted{
+                
+                box_filled()
+                
+            } else{  boxImage() }
+           
+        }
+            
+    }
+    
+    /// Returns image of a blank box (for terms and policy acceptance)
+    func boxImage() -> some View {
         
         return Image("RootView/box")
             .resizable()
             .scaledToFit()
-            .frame(width: 20, height: 20)
-            //.offset(x: -15)
-        
+            .frame(width: 18, height: 18)
+            .padding(-2)
     }
     
-    func agreeToPolicyText() -> some View  {
+    /// Returns image of a filled box (for the terms and policy acceptance)
+    func box_filled() -> some View {
         
-        return Text("I agree to the 9 Laws, Privacy Policy, Terms, and Cookie Policy.")
-                .foregroundColor(.white)
+        return Image("RootView/box-filled")
+            .resizable()
+            .scaledToFit()
+            .frame(width: 14, height: 14)
             
     }
     
+    /// Button for 'Need Help?'
+    func needHelp() -> some View {
+        
+        Button {
+            needsHelp = true
+        } label: {
+            
+            needHelpText()
+        }
+
+    }
+   
+    /// Text for the needs help view
     func needHelpText() -> some View {
         
         return Text("Need Help?")
             .foregroundColor(.white)
             .font(.subheadline)
+           
     }
+    
+    
+    /// Text for agreeing to the policy
+    private var agreeToPolicyText: some View {
+        
+        Text(agreeToPolicyTextAttributedString()).foregroundColor(.white).font(.system(size: 16))
+    }
+    
+    /// Function to generate the formatted text for the policy
+    func agreeToPolicyTextAttributedString() -> AttributedString{
+    
+        var attributedString = try! AttributedString(markdown:"I agree to the **9 Laws**, Privacy Policy, Terms, and Cookie Policy.")
+        
+        let ninelaws = attributedString.range(of: "9 Laws")!
+        attributedString[ninelaws].link = URL(string: "https://www.example.com")
+        attributedString[ninelaws].foregroundColor = .white
+        attributedString[ninelaws].underlineColor = .white
+        
+        let pp = attributedString.range(of: "Privacy Policy")!
+        attributedString[pp].link = URL(string: "https://www.example.com")
+        attributedString[pp].foregroundColor = .white
+        attributedString[pp].underlineColor = .white
+        
+        let terms = attributedString.range(of: "Terms")!
+        attributedString[terms].link = URL(string: "https://www.example.com")
+        attributedString[terms].foregroundColor = .white
+        attributedString[terms].underlineColor = .white
+        
+        let cp = attributedString.range(of: "Cookie Policy")!
+        attributedString[cp].link = URL(string: "https://www.example.com")
+        attributedString[cp].foregroundColor = .white
+        attributedString[cp].underlineColor = .white
+        
+        
+        
+        return attributedString
+        
+
+        
+}
     
     
     
