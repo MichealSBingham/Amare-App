@@ -51,8 +51,10 @@ struct EnterPhoneNumberView: View {
                 
             
                 // Set the background, along with other base properties to set about the view
-                SetBackground()
-                    
+                AnimatedBackground()
+                    .navigationTitle(Text("What is your phone number?"))
+                    .navigationBarColor(backgroundColor: .clear, titleColor: .white)
+                    .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
                 
                 
                 
@@ -77,27 +79,6 @@ struct EnterPhoneNumberView: View {
     } // End of View 
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    // ===********************************************************** // \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\\//\/\\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\\/\/\/\/\/
-    
-    
-    // ===********************************************************** // \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\\//\/\\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\\/\/\/\/\/
-    
-    
-    // ===********************************************************** // \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\\//\/\\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\\/\/\/\/\/
-    
-    
-    // ===********************************************************** // \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\\//\/\\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\\/\/\/\/\/
     
     
     

@@ -27,7 +27,8 @@ struct RootView: View {
     /// By default, we let the sign up and sign in buttons to be enabled purely just for asthetic reasons when the user opens the app.
     @State private var signInandSignUpAreEnabled: Bool = true
 
-    
+    /// Tells us when to go to next screen/view
+    @State private var goToNextView: Bool = false
     
     var body: some View {
         
@@ -35,6 +36,8 @@ struct RootView: View {
      
         NavigationView {
             
+            
+            NavigationLink(destination: EnterPhoneNumberView(), isActive: $goToNextView){ EmptyView() }
 
             Group{
                 
@@ -131,7 +134,7 @@ struct RootView: View {
             }
             
             // TODO: Go to next screen
-            print("Go to next screen")
+            goToNextView = true
             
         } label: {
             // Creating the view
@@ -175,7 +178,7 @@ struct RootView: View {
             }
             
             
-            print("Go to next screen")
+            goToNextView = true
         } label: {
             
             ZStack{
