@@ -153,8 +153,7 @@ struct RootView: View {
                
                 
             }
-        }.disabled(!signInandSignUpAreEnabled)
-        .opacity(signInandSignUpAreEnabled ? 1: 0.5)
+        }.opacity(signInandSignUpAreEnabled ? 1: 0.5)
             
 
         
@@ -196,8 +195,7 @@ struct RootView: View {
                
                 
             }
-        }.disabled(!signInandSignUpAreEnabled)
-         .opacity(signInandSignUpAreEnabled ? 1: 0.5)
+        }.opacity(signInandSignUpAreEnabled ? 1: 0.5)
 
         
     
@@ -360,7 +358,7 @@ struct RootView: View {
         
         Button {
             needsHelp = true
-            print("The number of attemps: \(attempts)")
+            
         } label: {
             
             needHelpText()
