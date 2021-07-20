@@ -37,69 +37,74 @@ struct RootView: View {
         NavigationView {
             
             
-            NavigationLink(destination: EnterPhoneNumberView(), isActive: $goToNextView){ EmptyView() }
+            
 
-            Group{
+            ZStack {
                 
-                if account.isSignedIn{
-                    // Go to the profile if signed in
-                    ProfileView().environmentObject(self.account)
+                NavigationLink(destination: EnterPhoneNumberView(), isActive: $goToNextView){ EmptyView() }
+                
+                Group{
                     
-                } else{
-                    
-                    // Show sign in screen
-                    
-                    ZStack{
+                    if account.isSignedIn{
+                        // Go to the profile if signed in
+                        ProfileView().environmentObject(self.account)
                         
-                      AnimatedBackground()
-                            
+                    } else{
                         
-                        VStack{
+                        // Show sign in screen
+                        
+                        ZStack{
                             
-                           
-                            createLogo()
-                            AmareText()
-                            taglineText()
+                          AnimatedBackground()
+                                
                             
-                            Spacer()
-                           
-                            Group{
-                                createSignInButton()
-                                createSignUpButton()
+                            VStack{
+                                
+                               
+                                createLogo()
+                                AmareText()
+                                taglineText()
+                                
+                                Spacer()
+                               
+                                Group{
+                                    createSignInButton()
+                                    createSignUpButton()
+                                }
+                                
+                                
+                                
+                                Spacer()
+                                Spacer()
+                                
+                    
+                                HStack{  box(); agreeToPolicyText }.modifier(ShakeEffect(shakes: attempts*2)).animation(Animation.default, value: attempts)
+                                
+                                
+                                Spacer()
+                                
+                                needHelp()
+                                
+                                
+                                
                             }
-                            
-                            
-                            
-                            Spacer()
-                            Spacer()
-                            
-                
-                            HStack{  box(); agreeToPolicyText }.modifier(ShakeEffect(shakes: attempts*2)).animation(Animation.default, value: attempts)
-                            
-                            
-                            Spacer()
-                            
-                            needHelp()
-                            
-                            
+                           
                             
                         }
-                       
+                        
+                        
                         
                     }
-                    
-                    
-                    
-                }
-            } // On Group View
-            .onDisappear(perform: { account.stopListening() })
+                } // On Group View
+                .onDisappear(perform: { account.stopListening() })
             .alert(isPresented: $needsHelp) { Alert(title: Text("ToDo: Password Reset"), message: Text("This is not finished yet. Contact me (Micheal) if you need assistance. (917).699.0590 or micheal@xiris.ai")) }
+            }
             
             
         }
         
        
-        
+       
         
     }
     
@@ -133,7 +138,7 @@ struct RootView: View {
                 return
             }
             
-            // TODO: Go to next screen
+           
             goToNextView = true
             
         } label: {

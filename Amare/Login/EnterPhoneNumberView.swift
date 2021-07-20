@@ -52,7 +52,7 @@ struct EnterPhoneNumberView: View {
             
                 // Set the background, along with other base properties to set about the view
                 AnimatedBackground()
-                    .navigationTitle(Text("What is your phone number?"))
+                    .navigationTitle(Text("Enter Phone Number"))
                     .navigationBarColor(backgroundColor: .clear, titleColor: .white)
                     .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
                 
