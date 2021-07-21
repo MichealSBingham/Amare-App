@@ -32,6 +32,8 @@ struct RootView: View {
     
     @State private var beginAnimation: Bool = false
     
+    @State private var language: Language = .Latin
+    
     var body: some View {
         
         
@@ -57,15 +59,38 @@ struct RootView: View {
                         
                         ZStack{
                             
+                            
+                            let timer = Timer.publish(every: 3, on: .main, in: .default).autoconnect()
+
                           AnimatedBackground()
+                                .onReceive(timer) { _ in language.toggle()}
                                 
                             
                             VStack{
                                 
                                
                                 createLogo()
-                                AmareText()
-                                taglineText()
+                                
+                                switch language {
+                                case .English:
+                                    
+                                    Group{
+                                        AmareTextTranslated()
+                                        taglineTextTranslated()
+                                    }.onTapGesture { language.toggle() }
+                                    
+                                    
+                                case .Latin:
+                                    
+                                    Group{
+                                        AmareText()
+                                        taglineText()
+                                    }.onTapGesture { language.toggle() }
+                                    
+                                }
+                                
+                                //AmareText()
+                               // taglineText()
                                 
                                 Spacer()
                                
@@ -116,7 +141,7 @@ struct RootView: View {
             ZStack{ ringImage() ; moleculeImage()  }
             ZStack{ verticleCrossImage() ; horizontalCrossImage() }
         }   .offset(y: beginAnimation ? -15: 0 )
-            .animation(.easeInOut(duration: 3.5).repeatForever(autoreverses: true), value: beginAnimation)
+            .animation(.easeInOut(duration: 3).repeatForever(autoreverses: true), value: beginAnimation)
             .onAppear(perform: {beginAnimation = true})
     }
     
@@ -257,26 +282,48 @@ struct RootView: View {
     /// Amare text view below the logo
     func AmareText() -> some View {
         
-        return Image("branding/Amare-text")
+    return Image("branding/Amare-text")
             .resizable()
             .scaledToFit()
             .frame(width: 120, height: 100)
             .padding(.top, -35)
             .padding(.bottom, -35)
+        
             
-            
-            
+    }
+    
+    func AmareTextTranslated() -> some View {
+        
+        return Text("LOVE")
+                .foregroundColor(.white)
+                .font((Font.custom("Montserrat-bold", size: 35))
+                .bold()
+                .weight(.heavy))
+                .padding(1)
     }
     
     /// Tagline text view below the logo
     func taglineText() -> some View {
+        
         return Image("branding/tagline")
             .resizable()
             .scaledToFit()
             .frame(width: 200, height: 200)
             .padding(.top, -88)
             .padding(.bottom, -85)
-          
+    
+                  
+    }
+    
+    func taglineTextTranslated() -> some View  {
+        
+         return Text("LOVE CONQUERS ALL.")
+            .foregroundColor(.white)
+            .font((Font.custom("Montserrat", size: 17))
+            //.bold()
+                  //.weight(.heavy)
+            )
+
     }
     
     /// Rectange image for the sign in and sign up buttons
@@ -504,4 +551,18 @@ func SetBackground() -> some View {
         .navigationBarColor(backgroundColor: .clear, titleColor: .white)
         // .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
  
+}
+
+
+enum Language {
+    case English
+    case Latin
+    
+    mutating func toggle()  {
+        if self == .English {
+            self = .Latin
+        } else {
+            self = .English
+        }
+    }
 }
