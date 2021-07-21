@@ -45,6 +45,7 @@
 		26F9206B26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 26F9206A26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf */; };
 		26F9206C26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 26F9206A26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf */; };
 		26F9206D26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 26F9206A26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf */; };
+		26F9207726A8C2E200A4F8C6 /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = 26F9207626A8C2E200A4F8C6 /* Shimmer */; };
 		4991A09671FED39DE178963C /* Pods_AmareTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD7CA76CDE93457088787B0A /* Pods_AmareTests.framework */; };
 		8DCFACC80E53A7772880AF41 /* Pods_Amare_AmareUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D295B9701F008ED6D38DA62B /* Pods_Amare_AmareUITests.framework */; };
 		B5872B85B225F1F914D48FA4 /* Pods_Amare.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BF2E6662C1D2B1599EA9ADC /* Pods_Amare.framework */; };
@@ -125,6 +126,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				26F9207726A8C2E200A4F8C6 /* Shimmer in Frameworks */,
 				26B1B0072679566E00A170B3 /* iPhoneNumberField in Frameworks */,
 				B5872B85B225F1F914D48FA4 /* Pods_Amare.framework in Frameworks */,
 			);
@@ -329,6 +331,7 @@
 			name = Amare;
 			packageProductDependencies = (
 				26B1B0062679566E00A170B3 /* iPhoneNumberField */,
+				26F9207626A8C2E200A4F8C6 /* Shimmer */,
 			);
 			productName = Love;
 			productReference = 26B1AFD22678FFE500A170B3 /* Amare.app */;
@@ -406,6 +409,7 @@
 			mainGroup = 26B1AFC92678FFE500A170B3;
 			packageReferences = (
 				26B1B0052679566E00A170B3 /* XCRemoteSwiftPackageReference "iPhoneNumberField" */,
+				26F9207526A8C2E200A4F8C6 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
 			);
 			productRefGroup = 26B1AFD32678FFE500A170B3 /* Products */;
 			projectDirPath = "";
@@ -928,6 +932,14 @@
 				minimumVersion = 0.6.1;
 			};
 		};
+		26F9207526A8C2E200A4F8C6 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/markiv/SwiftUI-Shimmer";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -935,6 +947,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 26B1B0052679566E00A170B3 /* XCRemoteSwiftPackageReference "iPhoneNumberField" */;
 			productName = iPhoneNumberField;
+		};
+		26F9207626A8C2E200A4F8C6 /* Shimmer */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 26F9207526A8C2E200A4F8C6 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */;
+			productName = Shimmer;
 		};
 /* End XCSwiftPackageProductDependency section */
 

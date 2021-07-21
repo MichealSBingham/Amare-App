@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Shimmer
 
 @available(iOS 15.0, *)
 struct RootView: View {
@@ -60,37 +61,20 @@ struct RootView: View {
                         ZStack{
                             
                             
-                            let timer = Timer.publish(every: 3, on: .main, in: .default).autoconnect()
+                            let timer = Timer.publish(every: 5, on: .main, in: .default).autoconnect()
 
                           AnimatedBackground()
-                                .onReceive(timer) { _ in language.toggle()}
+                                .onReceive(timer) { _ in language.toggle() }
                                 
                             
                             VStack{
                                 
                                
                                 createLogo()
+                                AmareText(language: language)
+                                taglineText(language: language)
                                 
-                                switch language {
-                                case .English:
-                                    
-                                    Group{
-                                        AmareTextTranslated()
-                                        taglineTextTranslated()
-                                    }.onTapGesture { language.toggle() }
-                                    
-                                    
-                                case .Latin:
-                                    
-                                    Group{
-                                        AmareText()
-                                        taglineText()
-                                    }.onTapGesture { language.toggle() }
-                                    
-                                }
                                 
-                                //AmareText()
-                               // taglineText()
                                 
                                 Spacer()
                                
@@ -116,7 +100,7 @@ struct RootView: View {
                                 
                             }
                            
-                            
+                          
                         }
                         
                         
@@ -124,6 +108,8 @@ struct RootView: View {
                 } // On Group View
                 .onDisappear(perform: { account.stopListening() })
                 .alert(isPresented: $needsHelp) { Alert(title: Text("ToDo: Password Reset"), message: Text("This is not finished yet. Contact me (Micheal) if you need assistance. (917).699.0590 or micheal@xiris.ai")) }
+                
+                
             }
             
             
@@ -141,8 +127,8 @@ struct RootView: View {
             ZStack{ ringImage() ; moleculeImage()  }
             ZStack{ verticleCrossImage() ; horizontalCrossImage() }
         }   .offset(y: beginAnimation ? -15: 0 )
-            .animation(.easeInOut(duration: 3).repeatForever(autoreverses: true), value: beginAnimation)
-            .onAppear(perform: {beginAnimation = true})
+            .animation(.easeInOut(duration: 2.5).repeatForever(autoreverses: true), value: beginAnimation)
+            .onAppear(perform: {withAnimation{beginAnimation = true}})
     }
     
     /// Creates the sign in button for the view
@@ -280,7 +266,7 @@ struct RootView: View {
     }
     
     /// Amare text view below the logo
-    func AmareText() -> some View {
+    func AmareText(language : Language) -> some View {
         
         /*
     return Image("branding/Amare-text")
@@ -291,7 +277,7 @@ struct RootView: View {
             .padding(.bottom, -35)
         */
         
-        return Text("AMARE")
+        return Text(language == .Latin ? "AMARE": "LOVE")
                 .foregroundColor(.white)
                 .font((Font.custom("MontserratAlternates-SemiBold", size: 35))
                 .bold()
@@ -312,7 +298,7 @@ struct RootView: View {
     }
     
     /// Tagline text view below the logo
-    func taglineText() -> some View {
+    func taglineText(language: Language) -> some View {
         /*
         return Image("branding/tagline")
             .resizable()
@@ -322,12 +308,12 @@ struct RootView: View {
             .padding(.bottom, -85)
         
         */
-        return Text("Amor Vincit Omnia.")
+        return Text(language == .Latin ? "Amor Vincit Omnia.": "Love Conquers All.")
            .foregroundColor(.white)
            .font((Font.custom("MontserratAlternates-SemiBold", size: 17))
            //.bold()
                  //.weight(.heavy)
-           )
+           ).shimmering(duration: 3)
     
                   
     }
@@ -383,7 +369,7 @@ struct RootView: View {
             .frame(width: 25, height: 50)
             .offset(x: beginAnimation ? 7: 0 )
             .animation(.easeInOut(duration: 3.5).repeatForever(autoreverses: true), value: beginAnimation)
-            .onAppear(perform: {beginAnimation = true})
+           // .onAppear(perform: {beginAnimation = true})
             
             
             
@@ -436,7 +422,7 @@ struct RootView: View {
         
         Button {
             needsHelp = true
-            beginAnimation = true
+           
             
         } label: {
             
@@ -551,11 +537,6 @@ struct AnimatedBackground: View {
             }).edgesIgnoringSafeArea(.all)
     }
 }
-
-
-
-
-
 
 
 func SetBackground() -> some View {
