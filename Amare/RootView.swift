@@ -32,8 +32,11 @@ struct RootView: View {
     @State private var goToNextView: Bool = false
     
     @State private var beginAnimation: Bool = false
+    @GestureState  var isTappingLogoAndTagline: Bool = false
     
     @State private var language: Language = .Latin
+    
+    
     
     var body: some View {
         
@@ -71,9 +74,15 @@ struct RootView: View {
                                 
                                
                                 createLogo()
+                                
+                                Group{
                                 AmareText(language: language)
                                 taglineText(language: language)
+                                }.onTapGesture {
+                                    language.toggle()
+                                }
                                 
+                            
                                 
                                 
                                 Spacer()
