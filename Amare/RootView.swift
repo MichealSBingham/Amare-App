@@ -30,6 +30,8 @@ struct RootView: View {
     /// Tells us when to go to next screen/view
     @State private var goToNextView: Bool = false
     
+    @State private var beginAnimation: Bool = false
+    
     var body: some View {
         
         
@@ -93,11 +95,10 @@ struct RootView: View {
                         }
                         
                         
-                        
                     }
                 } // On Group View
                 .onDisappear(perform: { account.stopListening() })
-            .alert(isPresented: $needsHelp) { Alert(title: Text("ToDo: Password Reset"), message: Text("This is not finished yet. Contact me (Micheal) if you need assistance. (917).699.0590 or micheal@xiris.ai")) }
+                .alert(isPresented: $needsHelp) { Alert(title: Text("ToDo: Password Reset"), message: Text("This is not finished yet. Contact me (Micheal) if you need assistance. (917).699.0590 or micheal@xiris.ai")) }
             }
             
             
@@ -114,7 +115,9 @@ struct RootView: View {
         return Group{
             ZStack{ ringImage() ; moleculeImage()  }
             ZStack{ verticleCrossImage() ; horizontalCrossImage() }
-        }
+        }   .offset(y: beginAnimation ? -15: 0 )
+            .animation(.easeInOut(duration: 3.5).repeatForever(autoreverses: true), value: beginAnimation)
+            .onAppear(perform: {beginAnimation = true})
     }
     
     /// Creates the sign in button for the view
@@ -226,6 +229,7 @@ struct RootView: View {
             .resizable()
             .scaledToFit()
             .frame(width: 100, height: 100)
+        
            
     }
     
@@ -313,7 +317,9 @@ struct RootView: View {
             .resizable()
             .scaledToFit()
             .frame(width: 25, height: 50)
-           // .offset(x: -15)
+            .offset(x: beginAnimation ? 7: 0 )
+            .animation(.easeInOut(duration: 3.5).repeatForever(autoreverses: true), value: beginAnimation)
+            .onAppear(perform: {beginAnimation = true})
             
             
             
@@ -366,6 +372,7 @@ struct RootView: View {
         
         Button {
             needsHelp = true
+            beginAnimation = true
             
         } label: {
             
