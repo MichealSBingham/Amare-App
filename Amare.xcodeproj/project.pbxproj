@@ -42,6 +42,9 @@
 		26BBF093267EBB1300C84019 /* LiveWhereView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BBF092267EBB1300C84019 /* LiveWhereView.swift */; };
 		26BBF095267EBBEF00C84019 /* EnterNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BBF094267EBBEF00C84019 /* EnterNameView.swift */; };
 		26F9205F26A760E500A4F8C6 /* Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F9205E26A760E500A4F8C6 /* Animations.swift */; };
+		26F9206B26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 26F9206A26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf */; };
+		26F9206C26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 26F9206A26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf */; };
+		26F9206D26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 26F9206A26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf */; };
 		4991A09671FED39DE178963C /* Pods_AmareTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD7CA76CDE93457088787B0A /* Pods_AmareTests.framework */; };
 		8DCFACC80E53A7772880AF41 /* Pods_Amare_AmareUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D295B9701F008ED6D38DA62B /* Pods_Amare_AmareUITests.framework */; };
 		B5872B85B225F1F914D48FA4 /* Pods_Amare.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BF2E6662C1D2B1599EA9ADC /* Pods_Amare.framework */; };
@@ -105,6 +108,7 @@
 		26BBF092267EBB1300C84019 /* LiveWhereView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveWhereView.swift; sourceTree = "<group>"; };
 		26BBF094267EBBEF00C84019 /* EnterNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterNameView.swift; sourceTree = "<group>"; };
 		26F9205E26A760E500A4F8C6 /* Animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animations.swift; sourceTree = "<group>"; };
+		26F9206A26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MontserratAlternates-SemiBold.ttf"; sourceTree = "<group>"; };
 		2CB41826EE5B592E25AF610C /* Pods-Amare-AmareUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Amare-AmareUITests.release.xcconfig"; path = "Target Support Files/Pods-Amare-AmareUITests/Pods-Amare-AmareUITests.release.xcconfig"; sourceTree = "<group>"; };
 		30F564BFC9F7E73A868DCDAA /* Pods-Amare.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Amare.debug.xcconfig"; path = "Target Support Files/Pods-Amare/Pods-Amare.debug.xcconfig"; sourceTree = "<group>"; };
 		3B758FB20EEB270182725F31 /* Pods-Amare-AmareUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Amare-AmareUITests.debug.xcconfig"; path = "Target Support Files/Pods-Amare-AmareUITests/Pods-Amare-AmareUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -189,6 +193,7 @@
 		26B1AFD42678FFE500A170B3 /* Amare */ = {
 			isa = PBXGroup;
 			children = (
+				26F9206926A8752200A4F8C6 /* FontResources */,
 				26BBF08A267D321F00C84019 /* Amare.entitlements */,
 				26B1AFD52678FFE500A170B3 /* AmareApp.swift */,
 				26970698268101B0007E7961 /* SceneDelegate.swift */,
@@ -271,6 +276,14 @@
 				2608CF492695131F00826FDA /* PickAttractivePeopleView.swift */,
 			);
 			path = SignUpFlow;
+			sourceTree = "<group>";
+		};
+		26F9206926A8752200A4F8C6 /* FontResources */ = {
+			isa = PBXGroup;
+			children = (
+				26F9206A26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf */,
+			);
+			path = FontResources;
 			sourceTree = "<group>";
 		};
 		805D8D6FEA81726841F9AFBC /* Pods */ = {
@@ -411,6 +424,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				26B1AFDD2678FFE700A170B3 /* Preview Assets.xcassets in Resources */,
+				26F9206B26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf in Resources */,
 				26B1AFDA2678FFE700A170B3 /* Assets.xcassets in Resources */,
 				263695ED269B7872006EEA79 /* GoogleService-Info.plist in Resources */,
 			);
@@ -421,6 +435,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				263695EE269B7872006EEA79 /* GoogleService-Info.plist in Resources */,
+				26F9206C26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -429,6 +444,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				263695EF269B7872006EEA79 /* GoogleService-Info.plist in Resources */,
+				26F9206D26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

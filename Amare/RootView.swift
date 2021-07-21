@@ -282,12 +282,21 @@ struct RootView: View {
     /// Amare text view below the logo
     func AmareText() -> some View {
         
+        /*
     return Image("branding/Amare-text")
             .resizable()
             .scaledToFit()
             .frame(width: 120, height: 100)
             .padding(.top, -35)
             .padding(.bottom, -35)
+        */
+        
+        return Text("AMARE")
+                .foregroundColor(.white)
+                .font((Font.custom("MontserratAlternates-SemiBold", size: 35))
+                .bold()
+                .weight(.heavy))
+                .padding(1)
         
             
     }
@@ -296,7 +305,7 @@ struct RootView: View {
         
         return Text("LOVE")
                 .foregroundColor(.white)
-                .font((Font.custom("Montserrat-bold", size: 35))
+                .font((Font.custom("MontserratAlternates-SemiBold", size: 35))
                 .bold()
                 .weight(.heavy))
                 .padding(1)
@@ -304,13 +313,21 @@ struct RootView: View {
     
     /// Tagline text view below the logo
     func taglineText() -> some View {
-        
+        /*
         return Image("branding/tagline")
             .resizable()
             .scaledToFit()
             .frame(width: 200, height: 200)
             .padding(.top, -88)
             .padding(.bottom, -85)
+        
+        */
+        return Text("Amor Vincit Omnia.")
+           .foregroundColor(.white)
+           .font((Font.custom("MontserratAlternates-SemiBold", size: 17))
+           //.bold()
+                 //.weight(.heavy)
+           )
     
                   
     }
@@ -319,7 +336,7 @@ struct RootView: View {
         
          return Text("LOVE CONQUERS ALL.")
             .foregroundColor(.white)
-            .font((Font.custom("Montserrat", size: 17))
+            .font((Font.custom("MontserratAlternates-SemiBold", size: 17))
             //.bold()
                   //.weight(.heavy)
             )
@@ -434,7 +451,7 @@ struct RootView: View {
         return Text("Need Help?")
             .foregroundColor(.white)
             .font(.subheadline)
-           
+                       
     }
     
     
