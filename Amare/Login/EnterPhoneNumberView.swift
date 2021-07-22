@@ -15,7 +15,7 @@ import PhoneNumberKit
 @available(iOS 15.0, *)
 struct EnterPhoneNumberView: View {
     
-    @State var phone_number_field_text = ""
+    @State var phone_number_field_text = "+15555555555"
     @State var isEditing = true
     
     //Goes to Verification Code Screen or back to Phone Number Screen
@@ -90,7 +90,8 @@ struct EnterPhoneNumberView: View {
     
     /// Sets the background of the view
     /// - Returns: Image()  =
-    func SetBackground() -> some View {
+    /// - Returns: Image()  =
+/*func SetBackground() -> some View {
         
         // Background Image
         return Image("backgrounds/background1")
@@ -101,7 +102,7 @@ struct EnterPhoneNumberView: View {
             .navigationBarColor(backgroundColor: .clear, titleColor: .white)
             .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
      
-    }
+    }*/
     
     
     
@@ -119,6 +120,7 @@ struct EnterPhoneNumberView: View {
             .formatted(false)
             .disabled(shouldDisablePhoneTextField)
             .clearsOnInsert(true)
+            .clearButtonMode(.whileEditing)
             .onEdit { numfield in
                 
                 

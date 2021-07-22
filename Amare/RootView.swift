@@ -292,18 +292,12 @@ struct RootView: View {
                 .bold()
                 .weight(.heavy))
                 .padding(1)
+                .modifier(FadeModifier(control: (language == .Latin)))
+                .animation(.easeInOut(duration: 2.5)) // Duration of the fade animation
+                
+                
         
             
-    }
-    
-    func AmareTextTranslated() -> some View {
-        
-        return Text("LOVE")
-                .foregroundColor(.white)
-                .font((Font.custom("MontserratAlternates-SemiBold", size: 35))
-                .bold()
-                .weight(.heavy))
-                .padding(1)
     }
     
     /// Tagline text view below the logo
@@ -319,25 +313,14 @@ struct RootView: View {
         */
         return Text(language == .Latin ? "Amor Vincit Omnia.": "Love Conquers All.")
            .foregroundColor(.white)
-           .font((Font.custom("MontserratAlternates-SemiBold", size: 17))
-           //.bold()
-                 //.weight(.heavy)
-           ).shimmering(duration: 3)
+           .font((Font.custom("MontserratAlternates-SemiBold", size: 17)))
+           .shimmering(duration: 3)
+           .modifier(FadeModifier(control: (language == .Latin)))
+           .animation(.easeInOut(duration: 2.5)) // Duration of the fade animation
     
                   
     }
-    
-    func taglineTextTranslated() -> some View  {
         
-         return Text("LOVE CONQUERS ALL.")
-            .foregroundColor(.white)
-            .font((Font.custom("MontserratAlternates-SemiBold", size: 17))
-            //.bold()
-                  //.weight(.heavy)
-            )
-
-    }
-    
     /// Rectange image for the sign in and sign up buttons
     func rectangle() -> some View {
         
@@ -510,40 +493,52 @@ struct RootView_Previews: PreviewProvider {
 
 
 
+
 /// Animated Gradient Background. I get odd behavior with this on device although it works in simulator.
 /// -TODO: Make this hypnotic by having tradient rotated in one direction.
 struct AnimatedBackground: View {
     @State var start = UnitPoint.leading
     @State var end = UnitPoint.trailing
-    
-  
-    
+
     let timer = Timer.publish(every: 1, on: .main, in: .default).autoconnect()
     let colors = [ Color(UIColor(red: 1.00, green: 0.01, blue: 0.40, alpha: 1.00)),
                    Color(UIColor(red: 0.94, green: 0.16, blue: 0.77, alpha: 1.00)) ]
-    
-    
+
     var body: some View {
-        
-        
         LinearGradient(gradient: Gradient(colors: colors), startPoint: start, endPoint: end)
-            .animation(Animation.easeInOut(duration: 3).repeatForever(), value: start)
-            .onReceive(timer, perform: { _ in
+            .animation(Animation.easeInOut(duration: 2).repeatForever(), value: start) /// don't forget the `value`!
+            .onReceive(timer) { _ in
                 
-               
+                self.start = nextPointFrom(self.start)
+                self.end = nextPointFrom(self.end)
+
+            }
+            .edgesIgnoringSafeArea(.all)
+    }
     
-                self.start = .trailing
-                self.end = .leading
-                
-                self.start = .top
-                self.end = .bottom
-                
-                self.start =  .bottomTrailing
-                self.end = .topLeading
-                
-             
-                
-            }).edgesIgnoringSafeArea(.all)
+    /// cycle to the next point
+    func nextPointFrom(_ currentPoint: UnitPoint) -> UnitPoint {
+        switch currentPoint {
+        case .top:
+            return .topLeading
+        case .topLeading:
+            return .leading
+        case .leading:
+            return .bottomLeading
+        case .bottomLeading:
+            return .bottom
+        case .bottom:
+            return .bottomTrailing
+        case .bottomTrailing:
+            return .trailing
+        case .trailing:
+            return .topTrailing
+        case .topTrailing:
+            return .top
+        default:
+            print("Unknown point")
+            return .top
+        }
     }
 }
 
