@@ -67,7 +67,7 @@ struct RootView: View {
                             
                             let timer = Timer.publish(every: 5, on: .main, in: .default).autoconnect()
 
-                          AnimatedBackground()
+                            Background()
                                 .onReceive(timer) { _ in language.toggle() }
                                 
                            
@@ -502,53 +502,6 @@ struct RootView_Previews: PreviewProvider {
 
 
 
-/// Animated Gradient Background. I get odd behavior with this on device although it works in simulator.
-/// -TODO: Make this hypnotic by having tradient rotated in one direction.
-struct AnimatedBackground: View {
-    @State var start = UnitPoint.leading
-    @State var end = UnitPoint.trailing
-
-    let timer = Timer.publish(every: 1, on: .main, in: .default).autoconnect()
-    let colors = [ Color(UIColor(red: 1.00, green: 0.01, blue: 0.40, alpha: 1.00)),
-                   Color(UIColor(red: 0.94, green: 0.16, blue: 0.77, alpha: 1.00)) ]
-
-    var body: some View {
-        LinearGradient(gradient: Gradient(colors: colors), startPoint: start, endPoint: end)
-            .animation(Animation.easeInOut(duration: 2).repeatForever(), value: start) /// don't forget the `value`!
-            .onReceive(timer) { _ in
-                
-                self.start = nextPointFrom(self.start)
-                self.end = nextPointFrom(self.end)
-
-            }
-            .edgesIgnoringSafeArea(.all)
-    }
-    
-    /// cycle to the next point
-    func nextPointFrom(_ currentPoint: UnitPoint) -> UnitPoint {
-        switch currentPoint {
-        case .top:
-            return .topLeading
-        case .topLeading:
-            return .leading
-        case .leading:
-            return .bottomLeading
-        case .bottomLeading:
-            return .bottom
-        case .bottom:
-            return .bottomTrailing
-        case .bottomTrailing:
-            return .trailing
-        case .trailing:
-            return .topTrailing
-        case .topTrailing:
-            return .top
-        default:
-            print("Unknown point")
-            return .top
-        }
-    }
-}
 
 
 func SetBackground() -> some View {

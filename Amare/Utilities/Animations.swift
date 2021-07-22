@@ -65,3 +65,63 @@ struct FadeModifier: AnimatableModifier {
 
 
 
+
+
+/// Sets the background of the view with a moving gradient of set colors.
+/// - Parameters
+///         - style: The style of the gradient's animation. By default, `.normal` swirls the colors in one direction
+struct Background: View {
+    /// Style of gradient animation rotation
+    var style: Style = .normal
+    @State var start = UnitPoint.leading
+    @State var end = UnitPoint.trailing
+
+    let timer = Timer.publish(every: 1, on: .main, in: .default).autoconnect()
+    let colors = [ Color(UIColor(red: 1.00, green: 0.01, blue: 0.40, alpha: 1.00)),
+                   Color(UIColor(red: 0.94, green: 0.16, blue: 0.77, alpha: 1.00)) ]
+
+    var body: some View {
+        LinearGradient(gradient: Gradient(colors: colors), startPoint: start, endPoint: end)
+            .animation(Animation.easeInOut(duration: 2).repeatForever(), value: start) /// don't forget the `value`!
+            .onReceive(timer) { _ in
+                
+                self.start = nextPointFrom(style == .normal ? self.start : self.end)
+                self.end = nextPointFrom(style == .normal ? self.end: self.start)
+
+            }
+            .edgesIgnoringSafeArea(.all)
+    }
+    
+    /// cycle to the next point
+    func nextPointFrom(_ currentPoint: UnitPoint) -> UnitPoint {
+        switch currentPoint {
+        case .top:
+            return .topTrailing
+        case .topLeading:
+            return .top
+        case .leading:
+            return .topLeading
+        case .bottomLeading:
+            return .leading
+        case .bottom:
+            return .bottomLeading
+        case .bottomTrailing:
+            return .bottom
+        case .trailing:
+            return .bottomTrailing
+        case .topTrailing:
+            return .trailing
+        default:
+            print("Unknown point")
+            return .top
+        }
+    }
+}
+
+/// Style of gradient view animating
+enum Style {
+    /// Color gradient swirls quickly and the point of rotation swifts
+    case fast
+    /// Color graident swirls in one clockwise direction
+    case normal
+}
