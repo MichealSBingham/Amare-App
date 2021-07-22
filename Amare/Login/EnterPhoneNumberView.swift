@@ -11,6 +11,7 @@ import iPhoneNumberField
 import Firebase
 import FirebaseAuth
 import PhoneNumberKit
+import NavigationStack
 
 @available(iOS 15.0, *)
 struct EnterPhoneNumberView: View {
@@ -32,12 +33,13 @@ struct EnterPhoneNumberView: View {
     @State private var alertMessage: String  = ""
  
 
+    static let id = String(describing: Self.self)
 
     var body: some View {
         
         
             
-       // NavigationView {
+        NavigationStackView(EnterPhoneNumberView.id) {
             
             
             
@@ -72,7 +74,7 @@ struct EnterPhoneNumberView: View {
             }
             
             
-        //}
+        }
    
        
         

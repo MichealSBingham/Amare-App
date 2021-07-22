@@ -7,10 +7,12 @@
 
 import SwiftUI
 import Shimmer
+import NavigationStack
 
 @available(iOS 15.0, *)
 struct RootView: View {
     
+    static let id = String(describing: Self.self)
     @EnvironmentObject private var account: Account
     
     
@@ -28,28 +30,27 @@ struct RootView: View {
     /// By default, we let the sign up and sign in buttons to be enabled purely just for asthetic reasons when the user opens the app.
     @State private var signInandSignUpAreEnabled: Bool = true
 
-    /// Tells us when to go to next screen/view
-    @State private var goToNextView: Bool = false
     
     @State private var beginAnimation: Bool = false
     @GestureState  var isTappingLogoAndTagline: Bool = false
     
     @State private var language: Language = .Latin
     
-    
+    @EnvironmentObject var navigation: NavigationModel
+
     
     var body: some View {
         
         
      
-        NavigationView {
+        NavigationStackView(RootView.id) {
             
             
-            
+        
 
             ZStack {
                 
-                NavigationLink(destination: EnterPhoneNumberView(), isActive: $goToNextView){ EmptyView() }
+       
                 
                 Group{
                     
@@ -69,10 +70,12 @@ struct RootView: View {
                           AnimatedBackground()
                                 .onReceive(timer) { _ in language.toggle() }
                                 
+                           
                             
                             VStack{
                                 
-                               
+                               Spacer()
+                                
                                 createLogo()
                                 
                                 Group{
@@ -162,7 +165,7 @@ struct RootView: View {
             }
             
            
-            goToNextView = true
+          goToNextView()
             
         } label: {
             // Creating the view
@@ -206,7 +209,8 @@ struct RootView: View {
             }
             
             
-            goToNextView = true
+            goToNextView()
+            
         } label: {
             
             ZStack{
@@ -473,7 +477,11 @@ struct RootView: View {
 }
     
     
-    
+    /// Goes to the next view. We are using the `NavigationStack` package from GitHub. Open source. It works better than `NavigationView`
+    func goToNextView()  {
+        
+        navigation.showView(RootView.id, animation: nil) { EnterPhoneNumberView() }
+    }
     
 }
 

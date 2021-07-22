@@ -7,6 +7,7 @@
 
 import SwiftUI
 import UIKit
+import NavigationStack
 
 @available(iOS 15.0, *)
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -23,7 +24,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let window = UIWindow(windowScene: windowScene)
             
           
-            let firstView = RootView().environmentObject(self.account)
+            let firstView = RootView()
+                                    .environmentObject(self.account)
+                                    .environmentObject(NavigationModel())
+                                        
             window.rootViewController = UIHostingController(rootView: firstView)
             
             

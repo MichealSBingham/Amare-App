@@ -11,6 +11,15 @@
         }
       },
       {
+        "package": "NavigationStack",
+        "repositoryURL": "https://github.com/indieSoftware/NavigationStack.git",
+        "state": {
+          "branch": null,
+          "revision": "663528a8602cf3f80681ac4667018c0ecaf3d96f",
+          "version": "1.0.2"
+        }
+      },
+      {
         "package": "PhoneNumberKit",
         "repositoryURL": "https://github.com/marmelroy/PhoneNumberKit",
         "state": {
