@@ -23,6 +23,7 @@ struct VerificationCodeView2: View {
     
     /// When to start animation
     @State  var beginAnimation: Bool = false
+    @State var resendCodeAnimation: Bool = false
     
     @State private var someErrorOccured: Bool = false
     /// Alert message for error
@@ -71,6 +72,26 @@ struct VerificationCodeView2: View {
                         pinDots
                         backgroundField
                     }
+                    
+                    Button {
+                        print("resend code")
+                        withAnimation {resendCodeAnimation.toggle()}
+                    } label: {
+                        
+                        HStack{
+                            Text("Resend Code").padding()
+                                .foregroundColor(.white)
+                            Image(systemName: "arrow.clockwise")
+                                //.resizable()
+                                .foregroundColor(.white)
+                                .scaledToFit()
+                                .rotationEffect(.degrees( (!resendCodeAnimation) ? 0: 360))
+                                .animation(.easeInOut, value: resendCodeAnimation)
+                                .offset(x: -14)
+                                
+                        }
+                    }
+
                     Spacer()
                     Spacer()
                     
