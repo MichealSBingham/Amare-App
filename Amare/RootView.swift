@@ -68,7 +68,7 @@ struct RootView: View {
                             let timer = Timer.publish(every: 5, on: .main, in: .default).autoconnect()
 
                             Background()
-                                .onReceive(timer) { _ in language.toggle() }
+                                .onReceive(timer) { _ in language.toggle(); withAnimation{beginAnimation = true} }
                                 
                            
                             
@@ -139,7 +139,7 @@ struct RootView: View {
             ZStack{ ringImage() ; moleculeImage()  }
             ZStack{ verticleCrossImage() ; horizontalCrossImage() }
         }   .offset(y: beginAnimation ? -15: 0 )
-            .animation(.easeInOut(duration: 2.5).repeatForever(autoreverses: true), value: beginAnimation)
+            .animation(.easeInOut(duration: 2.25).repeatForever(autoreverses: true), value: beginAnimation)
             .onAppear(perform: {withAnimation{beginAnimation = true}})
     }
     
@@ -364,8 +364,8 @@ struct RootView: View {
             .scaledToFit()
             .frame(width: 25, height: 50)
             .offset(x: beginAnimation ? 7: 0 )
-            .animation(.easeInOut(duration: 3.5).repeatForever(autoreverses: true), value: beginAnimation)
-           // .onAppear(perform: {beginAnimation = true})
+            .animation(.easeInOut(duration: 2.3).repeatForever(autoreverses: true), value: beginAnimation)
+            .onAppear(perform: withAnimation{{beginAnimation = true}})
             
             
             
