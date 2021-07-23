@@ -1,9 +1,9 @@
 import SwiftUI
 import Firebase
+import NavigationStack
 
 
 
-@available(iOS 15.0, *)
 @available(iOS 15.0, *)
 public struct VerificationCodeView: View {
 
@@ -29,14 +29,16 @@ var maxDigits: Int = 6
 var label = "Enter One Time Password"
 @State var pin: String = ""
 @State var showPin = true
-    
+//@FocusState private var isFocused: Bool
+
 
     
     @State private var someErrorOccured: Bool = false
     @State private var alertMessage: String  = ""
 
 
-    
+    @EnvironmentObject var navigation: NavigationModel
+
     
 public var body: some View {
     
@@ -45,13 +47,8 @@ public var body: some View {
         
         ZStack {
             
-            Image("backgrounds/background1")
-                .resizable()
-                .scaledToFill()
-                .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
-                .navigationBarTitle("Enter Verification Code")
-                .navigationBarColor(backgroundColor: .clear, titleColor: .white)
-                .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
+            
+                //.alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
              
             
             
@@ -133,7 +130,7 @@ private var pinDots: some View {
         Spacer()
         ForEach(0..<maxDigits) { index in
             Image(systemName: self.getImageName(at: index))
-                .font(.system(size: 60, weight: .thin, design: .default))
+                .font(.system(size: 50, weight: .thin, design: .default))
             Spacer()
         }
     }
@@ -141,12 +138,12 @@ private var pinDots: some View {
 
 private func getImageName(at index: Int) -> String {
     if index >= self.pin.count {
-        return "square"
+        return "circle"
     }
     if self.showPin {
-        return self.pin.digits[index].numberString + ".square"
+        return self.pin.digits[index].numberString + ".circle"
     }
-    return "square"
+    return "circle"
 }
 
 private var backgroundField: some View {
@@ -160,6 +157,7 @@ private var backgroundField: some View {
         .foregroundColor(.clear)
         .keyboardType(.numberPad)
         .textContentType(.oneTimeCode)
+        //.focused($isFocused)
         
     
     
@@ -169,6 +167,7 @@ private var backgroundField: some View {
 private var showPinButton: some View {
     Button(action: {
         self.showPin.toggle()
+      //  if (pin.isEmpty){isFocued = true}
     }, label: {
         self.showPin ?
             Image(systemName: "eye.slash.fill").foregroundColor(.primary) :

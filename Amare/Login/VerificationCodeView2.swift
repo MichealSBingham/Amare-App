@@ -1,73 +1,55 @@
 //
-//  ContentView.swift
-//  Love
+//  VerificationCodeView2.swift
+//  Amare
 //
-//  Created by Micheal Bingham on 6/15/21.
+//  Created by Micheal Bingham on 7/23/21.
 //
 
 import SwiftUI
-import CoreData
-import iPhoneNumberField
-import Firebase
-import FirebaseAuth
-import PhoneNumberKit
 import NavigationStack
 
 @available(iOS 15.0, *)
-struct EnterPhoneNumberView: View {
-    
-    @State var phone_number_field_text = "+15555555555"
-    @State var isEditing = true
-    
-    //Goes to Verification Code Screen or back to Phone Number Screen
-  //  @State private var shouldGoToVerifyCodeScreen = false
-    
-    //Prevents user from typing more digits
-    @State private var shouldDisablePhoneTextField = false
-    
-    @State private var shouldGoToProfile = false
-    
-    
+struct VerificationCodeView2: View {
+   // @FocusState private var isFocused: Bool
 
-    @State private var someErrorOccured: Bool = false
-    @State private var alertMessage: String  = ""
-    
-    @State  var beginAnimation: Bool = false
- 
-    @EnvironmentObject var navigation: NavigationModel
-    
-    @State var attempts: Int = 0
-
-
+    /// id of view
     static let id = String(describing: Self.self)
 
+    /// To manage navigation
+    @EnvironmentObject var navigation: NavigationModel
+    
+    /// The current user's account
+    @State private var account: Account = Account()
+    
+    /// When to start animation
+    @State  var beginAnimation: Bool = false
+    
+    @State private var someErrorOccured: Bool = false
+    /// Alert message for error
+    @State private var alertMessage: String  = ""
+    
+
+    
+    // Part of VerificationCodeView UI
+    var maxDigits: Int = 6
+    var label = "Enter One Time Password"
+    @State var pin: String = ""
+    @State var showPin = true
+
+
+    
     var body: some View {
-        
-        
+       
+        NavigationStackView(VerificationCodeView2.id) {
             
-     NavigationStackView(EnterPhoneNumberView.id) {
-            
-            
-            
-            ZStack {
+            ZStack{
                 
                 let timer = Timer.publish(every: 0.5, on: .main, in: .default).autoconnect()
 
-                // ******* ======  Transitions -- Navigation Links =======
-                // Goes to Enter Verification Code View
-                
-              
-            
-                // Set the background, along with other base properties to set about the view
+             
                 Background()
                     .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
                     .onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; timer.upstream.connect().cancel()}
-                    
-                  
-                
-
-                
-                    
                     
                 
                 VStack(alignment: .leading) {
@@ -85,60 +67,19 @@ struct EnterPhoneNumberView: View {
                        
                     
                     Spacer()
-                    makePhoneNumberField()
+                    ZStack {
+                        pinDots
+                        backgroundField
+                    }
                     Spacer()
                     Spacer()
                     
                     
                     
                 }
-                
-                
             }
-            
-            
-     }
-       
-        
-    } // End of View 
-    
-    
-    
-    
-    
-    
-    
-    
-
-    
-    
-    func makePhoneNumberField() -> some View {
-        
-        // Phone Number Field
-        // Used an external framework iPhoneNumberField
-        // Because it's easier to format numbers this way
-       return iPhoneNumberField("(000) 000-0000", text: $phone_number_field_text, isEditing: $isEditing)
-            .flagHidden(false)
-            .flagSelectable(true)
-            .font(UIFont(size: 30, weight: .bold, design: .rounded))
-            .prefixHidden(false)
-            .autofillPrefix(true)
-            .formatted(false)
-            .disabled(shouldDisablePhoneTextField)
-            .clearsOnInsert(true)
-            .clearButtonMode(.whileEditing)
-            .onEdit { numfield in
-                
-                
-                userEnteredPhoneNumberAction(number: numfield.phoneNumber)
-                
-                
-                
-            }
-
-        
+        }
     }
-
     
     
     /// Left Back Button
@@ -157,6 +98,7 @@ struct EnterPhoneNumberView: View {
                 .frame(width: 33, height: 66)
                 .offset(x: beginAnimation ? 7: 0)
                 .animation(.easeInOut(duration: 1.3).repeatForever(autoreverses: true), value: beginAnimation)
+                .onAppear { withAnimation { beginAnimation = true } }
                 
             
               
@@ -167,99 +109,118 @@ struct EnterPhoneNumberView: View {
             
             
     }
-  
-    /// Goes to the next screen / view,. Verification Code Screen
-    func goToNextView()  {
-        
-        
-        let animation = NavigationAnimation(
-            animation: .easeInOut(duration: 0.8),
-            defaultViewTransition: .static,
-            alternativeViewTransition: .opacity
-        )
-        
-        navigation.showView(EnterPhoneNumberView.id, animation: animation) { VerificationCodeView2().environmentObject(navigation)
-            
-              
-            
-        }
-        
-    }
     
     /// Goes back to the login screen
     func goBack()   {
         
-        navigation.hideViewWithReverseAnimation(RootView.id)        
+        navigation.hideViewWithReverseAnimation(EnterPhoneNumberView.id)
      
             
-    }
-    
-    /// Dismisses the keyboard
-    func dismissKeyboard(completion: (() -> Void)? = nil )  {
-        UIApplication.shared.dismissKeyboard()
-        completion?()
     }
     
     /// Title of the view text .
     func title() -> some View {
         
-        return Text("What is your Phone Number?")
+        return Text("What code was sent to your device?  ")
             .foregroundColor(.white)
             .font(.largeTitle)
             .bold()
-            .offset(x: -40)
-           
+
             
     }
     
-    
-    /// Delays code executiion by a specified time
-    func delay(_ seconds: Double, completion: @escaping () -> ()) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
-            completion()
+  
+
+    private var pinDots: some View {
+        HStack {
+            Spacer()
+            ForEach(0..<maxDigits) { index in
+                Image(systemName: self.getImageName(at: index))
+                    .font(.system(size: 50, weight: .thin, design: .default))
+                    .foregroundColor(.white)
+                Spacer()
+            }
         }
     }
-    
-    
 
-    
-    /// User entered the phone number
-    func userEnteredPhoneNumberAction(number: PhoneNumber?)  {
+    private func getImageName(at index: Int) -> String {
+        if index >= self.pin.count {
+            return "circle"
+        }
+        if self.showPin {
+            return self.pin.digits[index].numberString + ".circle"
+        }
+        return "circle"
+    }
+
+    private var backgroundField: some View {
+        let boundPin = Binding<String>(get: { self.pin }, set: { newValue in
+            self.pin = newValue
+            self.submitPin()
+        })
         
-        // A valid phone number was entered
-        if let phoneNumber = number{
+        return SecureField("", text: boundPin, onCommit: submitPin)
+            .accentColor(.clear)
+            .foregroundColor(.clear)
+            .keyboardType(.numberPad)
+            .textContentType(.oneTimeCode)
             
+          //  .focused($isFocused)
             
-            shouldDisablePhoneTextField = true
-            goToNextView()
+        
+        
+    }
+
+
+    private var showPinButton: some View {
+        Button(action: {
+            self.showPin.toggle()
+           // if (pin.isEmpty){ isFocused = true}
+        }, label: {
+            self.showPin ?
+                Image(systemName: "eye.slash.fill").foregroundColor(.primary) :
+                Image(systemName: "eye.fill").foregroundColor(.primary)
+        })
+    }
+
+        
+        /// Called when pin is submitted
+    private func submitPin() {
+        
+        if pin.count == maxDigits {
             
-            Account().sendVerificationCode(to: phoneNumber.numberString) { error in
+            account.login(with: pin) { error, user, signUpState in
                 
                 guard error == nil else {
                     
-                    someErrorOccured = true
-                    shouldDisablePhoneTextField = false
-                    isEditing = true
                     
-                    // Go from VerificationCodeView back to Here (EnterPhoneNumberView)
-                    navigation.hideViewWithReverseAnimation(EnterPhoneNumberView.id)
-
-                    handle(error: error!)
+                    handle(error!)
+                    someErrorOccured = true
+                    
                     
                     return
                 }
                 
+              goToNextView()
+                
+                
+                
+                
                 
             }
             
+
+                
+            }
+
+                                                   
+           
+            }
             
+        
             
-        }
-    }
-    
-    
-    
-    func handle(error: Error)  {
+           
+    func handle(_ error: Error)  {
         
         // Handle Error
         if let error = error as? AccountError{
@@ -316,26 +277,18 @@ struct EnterPhoneNumberView: View {
         // Handle Error
         
     }
-
     
+    
+    func goToNextView()  {
+        
+    }
 }
 
-
-
-
 @available(iOS 15.0, *)
-struct EnterPhoneNumberView_Previews: PreviewProvider {
+
+struct VerificationCodeView2_Previews: PreviewProvider {
     static var previews: some View {
-        
-        
-        NavigationView {
-            Group {
-                EnterPhoneNumberView().preferredColorScheme(.dark)
-                    .environmentObject(NavigationModel())
-                    
-                    
-            }
-        }
-        
+        VerificationCodeView2()
+            .environmentObject(NavigationModel())
     }
 }

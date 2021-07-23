@@ -505,6 +505,7 @@ struct RootView_Previews: PreviewProvider {
     static var previews: some View {
         RootView().environmentObject(Account())
             .previewDevice(PreviewDevice(rawValue: "iPhone 12 Pro Max"))
+            .environmentObject(NavigationModel())
     }
 }
 
