@@ -85,8 +85,8 @@ struct VerificationCodeView2: View {
                                 //.resizable()
                                 .foregroundColor(.white)
                                 .scaledToFit()
-                                .rotationEffect(.degrees( (!resendCodeAnimation) ? 0: 360))
-                                .animation(.easeInOut, value: resendCodeAnimation)
+                                .rotationEffect(.degrees( (!resendCodeAnimation) ? 0: 360*3))
+                                .animation(.easeInOut(duration: 1), value: resendCodeAnimation)
                                 .offset(x: -14)
                                 
                         }
