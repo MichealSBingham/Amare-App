@@ -480,7 +480,16 @@ struct RootView: View {
     /// Goes to the next view. We are using the `NavigationStack` package from GitHub. Open source. It works better than `NavigationView`
     func goToNextView()  {
         
-        navigation.showView(RootView.id, animation: nil) { EnterPhoneNumberView() }
+        let animation = NavigationAnimation(
+            animation: .easeInOut(duration: 0.8),
+            defaultViewTransition: .static,
+            alternativeViewTransition: .opacity
+        )
+        
+        navigation.showView(RootView.id, animation: animation) { EnterPhoneNumberView().environmentObject(navigation)
+              
+            
+        }
     }
     
 }
@@ -499,22 +508,6 @@ struct RootView_Previews: PreviewProvider {
 }
 
 
-
-
-
-
-
-func SetBackground() -> some View {
-    
-    // Background Image
-    return Image("RootView/background")
-        .resizable()
-        .scaledToFill()
-        .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
-        .navigationBarColor(backgroundColor: .clear, titleColor: .white)
-        // .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
- 
-}
 
 
 enum Language {

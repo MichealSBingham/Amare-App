@@ -26,7 +26,6 @@ struct ShakeEffect: GeometryEffect {
     }
 }
     
-
 /// Animation modifier  to have text fade when it changes
 struct FadeModifier: AnimatableModifier {
     // To trigger the animation as well as to hold its final state
@@ -63,13 +62,9 @@ struct FadeModifier: AnimatableModifier {
     }
 }
 
-
-
-
-
 /// Sets the background of the view with a moving gradient of set colors.
 /// - Parameters
-///         - style: The style of the gradient's animation. By default, `.normal` swirls the colors in one direction
+///    - style: The style of the gradient's animation. By default, `.normal` swirls the colors in one direction
 struct Background: View {
     /// Style of gradient animation rotation
     var style: Style = .normal

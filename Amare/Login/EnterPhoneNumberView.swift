@@ -31,7 +31,11 @@ struct EnterPhoneNumberView: View {
 
     @State private var someErrorOccured: Bool = false
     @State private var alertMessage: String  = ""
+    
+    @State  var beginAnimation: Bool = false
  
+    @EnvironmentObject var navigation: NavigationModel
+
 
     static let id = String(describing: Self.self)
 
@@ -39,11 +43,12 @@ struct EnterPhoneNumberView: View {
         
         
             
-        NavigationStackView(EnterPhoneNumberView.id) {
+     NavigationStackView(EnterPhoneNumberView.id) {
             
             
             
             ZStack {
+                
                 
                 // ******* ======  Transitions -- Navigation Links =======
                 // Goes to Enter Verification Code View
@@ -53,18 +58,30 @@ struct EnterPhoneNumberView: View {
                 
             
                 // Set the background, along with other base properties to set about the view
-                AnimatedBackground()
-                    .navigationTitle(Text("Enter Phone Number"))
-                    .navigationBarColor(backgroundColor: .clear, titleColor: .white)
+                Background()
                     .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
+                  
                 
                 
+                    
                 
-                
-                VStack {
+                VStack(alignment: .leading) {
                     
                     
+                    Spacer()
+                    
+                    HStack(alignment: .top){
+                        
+                        backButton()
+                        Spacer()
+                        title()
+                        Spacer()
+                    }.offset( y: -45)
+                    
+                    Spacer()
                     makePhoneNumberField()
+                    Spacer()
+                    Spacer()
                     
                     
                     
@@ -74,7 +91,7 @@ struct EnterPhoneNumberView: View {
             }
             
             
-        }
+    }
    
        
         
@@ -87,25 +104,7 @@ struct EnterPhoneNumberView: View {
     
     
     
-// // /// // /// /// / /// /// =================  /// // SETTING UP  Up UI // //  /// =============================
-    // PUT ALL FUNCTIONS RELATED TO BUILDING THE UI HERE.
-    
-    /// Sets the background of the view
-    /// - Returns: Image()  =
-    /// - Returns: Image()  =
-/*func SetBackground() -> some View {
-        
-        // Background Image
-        return Image("backgrounds/background1")
-            .resizable()
-            .scaledToFill()
-            .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
-            .navigationTitle("Phone Number")
-            .navigationBarColor(backgroundColor: .clear, titleColor: .white)
-            .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
-     
-    }*/
-    
+
     
     
     func makePhoneNumberField() -> some View {
@@ -137,16 +136,55 @@ struct EnterPhoneNumberView: View {
 
     
     
-    
+    /// Left Back Button
+    func backButton() -> some View {
+        
+       return Button {
+            
+            goBack()
+            
+        } label: {
+            
+             Image("RootView/right-arrow")
+                .resizable()
+                .scaledToFit()
+                .rotationEffect(.degrees(180))
+                .offset(x: beginAnimation ? 7: 0)
+                .frame(width: 33, height: 66)
+                .animation(.easeInOut(duration: 1.5).repeatForever(autoreverses: true), value: beginAnimation)
+            
+            
+              
+        }
+
+       
+            
+            
+            
+    }
   
+    /// Goes to the next screen / view
+    func goToNextView()  {
+        
+    }
     
-    // // /// // /// /// / /// /// =================  /// // End of Setting Up UI // //  /// =============================
+    /// Goes back to the login screen
+    func goBack()   {
+        
+        navigation.hideViewWithReverseAnimation(RootView.id)
+    }
     
-    
-    
-    
-    
-    
+    /// Title of the view text .
+    func title() -> some View {
+        
+        return Text("What is your Phone Number?")
+            .foregroundColor(.white)
+            .font(.largeTitle)
+            .bold()
+            .offset(x: -40)
+           
+            
+    }
     
     
     
