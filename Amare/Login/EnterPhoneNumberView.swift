@@ -178,7 +178,14 @@ struct EnterPhoneNumberView: View {
     /// Goes back to the login screen
     func goBack()   {
         
-        navigation.hideViewWithReverseAnimation(RootView.id)
+        navigation.hideViewWithReverseAnimation(RootView.id)        
+     
+            
+    }
+    
+    func dismissKeyboard(completion: (() -> Void)? = nil )  {
+        UIApplication.shared.dismissKeyboard()
+        completion?()
     }
     
     /// Title of the view text .
@@ -195,7 +202,11 @@ struct EnterPhoneNumberView: View {
     
     
     
-    
+    func delay(_ seconds: Double, completion: @escaping () -> ()) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
+            completion()
+        }
+    }
     
     
     
