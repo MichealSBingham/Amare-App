@@ -503,6 +503,7 @@ struct RootView: View {
 @available(iOS 15.0, *)
 struct RootView_Previews: PreviewProvider {
     static var previews: some View {
+        
         RootView().environmentObject(Account())
             .previewDevice(PreviewDevice(rawValue: "iPhone 12 Pro Max"))
             .environmentObject(NavigationModel())

@@ -36,6 +36,9 @@ struct VerificationCodeView2: View {
     var label = "Enter One Time Password"
     @State var pin: String = ""
     @State var showPin = true
+    
+    /// Used to shake the field when there has been an invalid code entered
+    @State var attempts: Int = 0
 
 
     
@@ -68,29 +71,20 @@ struct VerificationCodeView2: View {
                        
                     
                     Spacer()
+                    
+                    Text(attempts > 0 ? alertMessage : "")
+                        .foregroundColor(.white)
+                        .offset(x: 14)
+                        .animation(.easeInOut(duration: 1), value: attempts)
+
+                        
+                    
                     ZStack {
-                        pinDots
+                        verificationCodeField
                         backgroundField
                     }
                     
-                    Button {
-                        print("resend code")
-                        withAnimation {resendCodeAnimation.toggle()}
-                    } label: {
-                        
-                        HStack{
-                            Text("Resend Code").padding()
-                                .foregroundColor(.white)
-                            Image(systemName: "arrow.clockwise")
-                                //.resizable()
-                                .foregroundColor(.white)
-                                .scaledToFit()
-                                .rotationEffect(.degrees( (!resendCodeAnimation) ? 0: 360*3))
-                                .animation(.easeInOut(duration: 1), value: resendCodeAnimation)
-                                .offset(x: -14)
-                                
-                        }
-                    }
+                    resendCodeButton()
 
                     Spacer()
                     Spacer()
@@ -102,6 +96,45 @@ struct VerificationCodeView2: View {
         }
     }
     
+    /// Button for resending verification code
+    func resendCodeButton() -> some View {
+        return Button {
+            
+            alertMessage = ""
+
+            withAnimation {resendCodeAnimation.toggle()}
+            
+            guard let number = String.getPhoneNumber() else {
+                // Some error happened
+                someErrorOccured = true
+                alertMessage = "Please enter a phone number"
+                return
+            }
+            
+            Account().sendVerificationCode(to: number) { error in
+                print("the second num is \(number)")
+                guard error == nil else {
+                    handle(error!)
+                    return
+                }
+            }
+            
+        } label: {
+            
+            HStack{
+                Text("Resend Code").padding()
+                    .foregroundColor(.white)
+                Image(systemName: "arrow.clockwise")
+                    //.resizable()
+                    .foregroundColor(.white)
+                    .scaledToFit()
+                    .rotationEffect(.degrees( (!resendCodeAnimation) ? 0: 360*3))
+                    .animation(.easeInOut(duration: 1), value: resendCodeAnimation)
+                    .offset(x: -14)
+                    
+            }
+        }
+    }
     
     /// Left Back Button
     func backButton() -> some View {
@@ -152,13 +185,14 @@ struct VerificationCodeView2: View {
     
   
 
-    private var pinDots: some View {
+    private var verificationCodeField: some View {
         HStack {
             Spacer()
             ForEach(0..<maxDigits) { index in
                 Image(systemName: self.getImageName(at: index))
                     .font(.system(size: 50, weight: .thin, design: .default))
                     .foregroundColor(.white)
+                    .modifier(ShakeEffect(shakes: attempts*2)).animation(Animation.default, value: attempts)
                 Spacer()
             }
         }
@@ -216,7 +250,6 @@ struct VerificationCodeView2: View {
                     
                     
                     handle(error!)
-                    someErrorOccured = true
                     
                     
                     return
@@ -249,24 +282,34 @@ struct VerificationCodeView2: View {
             switch error {
             case .doesNotExist:
                 alertMessage = "You do not exist."
+                someErrorOccured = true
             case .disabledUser:
                 alertMessage = "Sorry, your account is disabled."
+                attempts+=1
             case .expiredVerificationCode:
-                alertMessage = "Your verification code has expired."
+                alertMessage = "Please resend your code because it expired."
+                attempts+=1
             case .wrong:
-                alertMessage = "You entered the wrong code"
+                alertMessage = "You entered the wrong code."
+                attempts+=1
             case .notSignedIn:
                 alertMessage = "You are not signed in."
+                someErrorOccured = true
             case .uploadError:
                 alertMessage = "There was some upload Error"
+                someErrorOccured = true
             case .notAuthorized:
                 alertMessage = "You are not authorized to do this."
+                attempts+=1
             case .expiredActionCode:
-                alertMessage = "The action code has expired"
+                alertMessage = "Please resend the code."
+                attempts+=1
             case .sessionExpired:
-                alertMessage = "The session has expired"
+                alertMessage = "Please resend the code, your session expired."
+                attempts+=1
             case .userTokenExpired:
-                alertMessage = "The user token has expired"
+                alertMessage = "Please send the code, your token expired."
+                attempts+=1
             }
         }
         
@@ -275,22 +318,38 @@ struct VerificationCodeView2: View {
             switch error {
             case .networkError:
                 alertMessage = "There is a network error. Lost internet connection"
+                someErrorOccured = true
+
             case .tooManyRequests:
-                alertMessage = "You're trying too many times to ping our servers. Wait a bit."
+                alertMessage = "Please wait a few moments. "
+                attempts+=1
             case .captchaCheckFailed:
                 alertMessage = "You might be a robot because you failed the captcha check and that's quite rare. Goodbye."
+                someErrorOccured = true
+
             case .invalidInput:
                 alertMessage = "You entered something wrong with the wrong format."
+                someErrorOccured = true
+
             case .quotaExceeded:
-                alertMessage = "This isn't your fault. We need to scale to be able to withstand the current quota. Just try again in a bit."
+                alertMessage = "Please wait a few moments. "
+                attempts+=1
             case .notAllowed:
                 alertMessage = "You are not allowed to do that."
+                someErrorOccured = true
+
             case .internalError:
                 alertMessage = "There was some internal error with us. Not your fault."
+                someErrorOccured = true
+
             case .cantGetVerificationID:
                 alertMessage = "This isn't an end-user error and you honestly should not be seeing this. If you did, something is broken. Report it to us because your verification ID is not being saved."
+                someErrorOccured = true
+
             case .unknown:
                 alertMessage = "I'm not sure what this error is, lol."
+                someErrorOccured = true
+
             }
         }
         

@@ -221,8 +221,6 @@ struct EnterPhoneNumberView: View {
     }
     
     
-
-    
     /// User entered the phone number
     func userEnteredPhoneNumberAction(number: PhoneNumber?)  {
         
@@ -234,7 +232,6 @@ struct EnterPhoneNumberView: View {
             goToNextView()
             
             Account().sendVerificationCode(to: phoneNumber.numberString) { error in
-                
                 guard error == nil else {
                     
                     someErrorOccured = true
@@ -248,15 +245,14 @@ struct EnterPhoneNumberView: View {
                     
                     return
                 }
-                
-                
+                phoneNumber.numberString.savePhoneNumber()
+                return
             }
             
             
             
         }
     }
-    
     
     
     func handle(error: Error)  {
@@ -328,14 +324,25 @@ struct EnterPhoneNumberView_Previews: PreviewProvider {
     static var previews: some View {
         
         
-        NavigationView {
+
             Group {
                 EnterPhoneNumberView().preferredColorScheme(.dark)
                     .environmentObject(NavigationModel())
                     
                     
             }
-        }
         
+        
+    }
+}
+
+extension String{
+    /// Saves the phone number under the key 'PhoneNumber' in UserDefaults. To be used to help resend verification code on next view
+    func savePhoneNumber()  {
+        UserDefaults.standard.set(self, forKey: "PhoneNumber")
+    }
+    /// Gets the saved phone number from 'PhoneNumber' key in UserDefaults. Used for resending verification code
+    static func getPhoneNumber() -> String? {
+       return  UserDefaults.standard.string(forKey: "PhoneNumber")
     }
 }

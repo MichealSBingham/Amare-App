@@ -67,6 +67,7 @@ class Account: ObservableObject {
 // ============================================  Handling Errors ==============================================================================
             if let error = error{
                 
+                print("the error is .. \(error)")
                               
                 if let error = AuthErrorCode(rawValue: error._code){
                     
