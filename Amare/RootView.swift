@@ -487,6 +487,7 @@ struct RootView: View {
         )
         
         navigation.showView(RootView.id, animation: animation) { EnterPhoneNumberView().environmentObject(navigation)
+            
               
             
         }

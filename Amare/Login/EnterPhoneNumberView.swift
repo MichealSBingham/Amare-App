@@ -35,6 +35,8 @@ struct EnterPhoneNumberView: View {
     @State  var beginAnimation: Bool = false
  
     @EnvironmentObject var navigation: NavigationModel
+    
+    @State var attempts: Int = 0
 
 
     static let id = String(describing: Self.self)
@@ -49,20 +51,25 @@ struct EnterPhoneNumberView: View {
             
             ZStack {
                 
-                
+                let timer = Timer.publish(every: 0.5, on: .main, in: .default).autoconnect()
+
                 // ******* ======  Transitions -- Navigation Links =======
                 // Goes to Enter Verification Code View
                 
-                NavigationLink(destination: VerificationCodeView(), isActive: $shouldGoToVerifyCodeScreen){ EmptyView() }
+                //NavigationLink(destination: VerificationCodeView(), isActive: $shouldGoToVerifyCodeScreen){ EmptyView() }
                 
                 
             
                 // Set the background, along with other base properties to set about the view
                 Background()
                     .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
+                    .onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; timer.upstream.connect().cancel()}
+                    
                   
                 
+
                 
+                    
                     
                 
                 VStack(alignment: .leading) {
@@ -77,6 +84,7 @@ struct EnterPhoneNumberView: View {
                         title()
                         Spacer()
                     }.offset( y: -45)
+                       
                     
                     Spacer()
                     makePhoneNumberField()
@@ -91,8 +99,7 @@ struct EnterPhoneNumberView: View {
             }
             
             
-    }
-   
+     }
        
         
     } // End of View 
@@ -149,10 +156,10 @@ struct EnterPhoneNumberView: View {
                 .resizable()
                 .scaledToFit()
                 .rotationEffect(.degrees(180))
-                .offset(x: beginAnimation ? 7: 0)
                 .frame(width: 33, height: 66)
-                .animation(.easeInOut(duration: 1.5).repeatForever(autoreverses: true), value: beginAnimation)
-            
+                .offset(x: beginAnimation ? 7: 0)
+                .animation(.easeInOut(duration: 1.3).repeatForever(autoreverses: true), value: beginAnimation)
+                
             
               
         }
