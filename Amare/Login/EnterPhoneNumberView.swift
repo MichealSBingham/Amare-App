@@ -11,11 +11,12 @@ import iPhoneNumberField
 import Firebase
 import FirebaseAuth
 import PhoneNumberKit
+import NavigationStack
 
 @available(iOS 15.0, *)
 struct EnterPhoneNumberView: View {
     
-    @State var phone_number_field_text = ""
+    @State var phone_number_field_text = "+15555555555"
     @State var isEditing = true
     
     //Goes to Verification Code Screen or back to Phone Number Screen
@@ -30,37 +31,65 @@ struct EnterPhoneNumberView: View {
 
     @State private var someErrorOccured: Bool = false
     @State private var alertMessage: String  = ""
+    
+    @State  var beginAnimation: Bool = false
  
+    @EnvironmentObject var navigation: NavigationModel
+    
+    @State var attempts: Int = 0
 
+
+    static let id = String(describing: Self.self)
 
     var body: some View {
         
         
             
-       // NavigationView {
+     NavigationStackView(EnterPhoneNumberView.id) {
             
             
             
             ZStack {
                 
+                let timer = Timer.publish(every: 0.5, on: .main, in: .default).autoconnect()
+
                 // ******* ======  Transitions -- Navigation Links =======
                 // Goes to Enter Verification Code View
                 
-                NavigationLink(destination: VerificationCodeView(), isActive: $shouldGoToVerifyCodeScreen){ EmptyView() }
+                //NavigationLink(destination: VerificationCodeView(), isActive: $shouldGoToVerifyCodeScreen){ EmptyView() }
                 
                 
             
                 // Set the background, along with other base properties to set about the view
-                SetBackground()
+                Background()
+                    .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
+                    .onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; timer.upstream.connect().cancel()}
+                    
+                  
+                
+
+                
+                    
                     
                 
-                
-                
-                
-                VStack {
+                VStack(alignment: .leading) {
                     
                     
+                    Spacer()
+                    
+                    HStack(alignment: .top){
+                        
+                        backButton()
+                        Spacer()
+                        title()
+                        Spacer()
+                    }.offset( y: -45)
+                       
+                    
+                    Spacer()
                     makePhoneNumberField()
+                    Spacer()
+                    Spacer()
                     
                     
                     
@@ -70,8 +99,7 @@ struct EnterPhoneNumberView: View {
             }
             
             
-        //}
-   
+     }
        
         
     } // End of View 
@@ -83,45 +111,7 @@ struct EnterPhoneNumberView: View {
     
     
     
-    
-    
-    
-    
-    
-    // ===********************************************************** // \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\\//\/\\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\\/\/\/\/\/
-    
-    
-    // ===********************************************************** // \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\\//\/\\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\\/\/\/\/\/
-    
-    
-    // ===********************************************************** // \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\\//\/\\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\\/\/\/\/\/
-    
-    
-    // ===********************************************************** // \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\\//\/\\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\\/\/\/\/\/
-    
-    
-    
-    
-    
-    
-// // /// // /// /// / /// /// =================  /// // SETTING UP  Up UI // //  /// =============================
-    // PUT ALL FUNCTIONS RELATED TO BUILDING THE UI HERE.
-    
-    /// Sets the background of the view
-    /// - Returns: Image()  =
-    func SetBackground() -> some View {
-        
-        // Background Image
-        return Image("backgrounds/background1")
-            .resizable()
-            .scaledToFill()
-            .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
-            .navigationTitle("Phone Number")
-            .navigationBarColor(backgroundColor: .clear, titleColor: .white)
-            .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
-     
-    }
-    
+
     
     
     func makePhoneNumberField() -> some View {
@@ -138,6 +128,7 @@ struct EnterPhoneNumberView: View {
             .formatted(false)
             .disabled(shouldDisablePhoneTextField)
             .clearsOnInsert(true)
+            .clearButtonMode(.whileEditing)
             .onEdit { numfield in
                 
                 
@@ -152,20 +143,70 @@ struct EnterPhoneNumberView: View {
 
     
     
-    
+    /// Left Back Button
+    func backButton() -> some View {
+        
+       return Button {
+            
+            goBack()
+            
+        } label: {
+            
+             Image("RootView/right-arrow")
+                .resizable()
+                .scaledToFit()
+                .rotationEffect(.degrees(180))
+                .frame(width: 33, height: 66)
+                .offset(x: beginAnimation ? 7: 0)
+                .animation(.easeInOut(duration: 1.3).repeatForever(autoreverses: true), value: beginAnimation)
+                
+            
+              
+        }
+
+       
+            
+            
+            
+    }
   
+    /// Goes to the next screen / view
+    func goToNextView()  {
+        
+    }
     
-    // // /// // /// /// / /// /// =================  /// // End of Setting Up UI // //  /// =============================
+    /// Goes back to the login screen
+    func goBack()   {
+        
+        navigation.hideViewWithReverseAnimation(RootView.id)        
+     
+            
+    }
+    
+    func dismissKeyboard(completion: (() -> Void)? = nil )  {
+        UIApplication.shared.dismissKeyboard()
+        completion?()
+    }
+    
+    /// Title of the view text .
+    func title() -> some View {
+        
+        return Text("What is your Phone Number?")
+            .foregroundColor(.white)
+            .font(.largeTitle)
+            .bold()
+            .offset(x: -40)
+           
+            
+    }
     
     
     
-    
-    
-    
-    
-    
-    
-    
+    func delay(_ seconds: Double, completion: @escaping () -> ()) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
+            completion()
+        }
+    }
     
     
     

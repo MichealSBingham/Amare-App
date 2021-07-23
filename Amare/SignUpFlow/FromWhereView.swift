@@ -26,14 +26,15 @@ struct FromWhereView: View {
     @State private var someErrorOccured: Bool = false
     @State private var alertMessage: String  = ""
     
+    
+    @State private var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275), span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5))
+
+    
     var body: some View {
         
       
             
             ZStack{
-                
-                
-                setBackground()
                 
                 
                 // ******* ======  Transitions -- Navigation Links =======
@@ -49,6 +50,16 @@ struct FromWhereView: View {
             /* || */                                                 /* || */
                 // ******* ================================ **********
                 
+                
+                
+              //  AnimatedBackground()
+                   // .navigationBarColor(backgroundColor: .clear, titleColor: .white)
+                  //  .navigationTitle("Where are you from?")
+                  //  .navigationBarHidden(true)
+                  //  .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text("Some Error Occured")) })
+                
+                MapViewUIKit(region: region, mapType: .hybridFlyover)
+                                .edgesIgnoringSafeArea(.all)
                 
                 
                 
@@ -340,5 +351,26 @@ struct FromWhereView_Previews: PreviewProvider {
                 .preferredColorScheme(.dark)
         }
         
+    }
+}
+
+
+
+struct MapViewUIKit: UIViewRepresentable {
+    // 1.
+    let region: MKCoordinateRegion
+    let mapType : MKMapType
+    
+    // 2.
+    func makeUIView(context: Context) -> MKMapView {
+        let mapView = MKMapView()
+        mapView.setRegion(region, animated: false)
+        mapView.mapType = mapType
+        return mapView
+    }
+    
+    // 3.
+    func updateUIView(_ mapView: MKMapView, context: Context) {
+        mapView.mapType = mapType
     }
 }
