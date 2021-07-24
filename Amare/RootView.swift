@@ -68,7 +68,7 @@ struct RootView: View {
                             let timer = Timer.publish(every: 5, on: .main, in: .default).autoconnect()
 
                             Background()
-                                .onReceive(timer) { _ in language.toggle(); withAnimation{beginAnimation = true} }
+                                .onReceive(timer) { _ in language.toggle(); withAnimation{beginAnimation.toggle()} }
                                 
                            
                             
