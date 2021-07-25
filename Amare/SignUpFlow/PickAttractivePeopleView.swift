@@ -6,8 +6,15 @@
 //
 
 import SwiftUI
+import NavigationStack
 
 struct PickAttractivePeopleView: View {
+    
+    /// To manage navigation
+    @EnvironmentObject var navigation: NavigationModel
+    
+    /// id of view
+    static let id = String(describing: Self.self)
     
     @State private var someErrorOccured: Bool = false
     @State private var alertMessage: String  = ""

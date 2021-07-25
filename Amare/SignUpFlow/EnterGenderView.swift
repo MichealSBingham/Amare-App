@@ -6,9 +6,16 @@
 //
 
 import SwiftUI
+import NavigationStack
 
 @available(iOS 15.0, *)
 struct EnterGenderView: View {
+    
+    /// To manage navigation
+    @EnvironmentObject var navigation: NavigationModel
+    
+    /// id of view
+    static let id = String(describing: Self.self)
     
     
     @EnvironmentObject private var account: Account
@@ -21,37 +28,39 @@ struct EnterGenderView: View {
     
     var body: some View {
         
-        ZStack{
-            
-            SetBackground()
-            
-            // ******* ======  Transitions -- Navigation Links =======
-            //                                                      //
-            //                Goes to the Profile                   //
-            //                                                      //
-         /* || */           NavigationLink(                       /* || */
-        /* || */   destination: EnterOrientationView().environmentObject(account),
-        /* || */           isActive: $goToNext,                  /* || */
-        /* || */           label: {  EmptyView()  })             /* || */
-        /* || */                                                 /* || */
-        /* || */                                                 /* || */
-            // ******* ================================ **********
-            
-            
-            HStack{
+        NavigationStackView(EnterGenderView.id) {
+            ZStack{
                 
-                MakeManButton()
-                Spacer()
-                MakeWomanButton()
-                Spacer()
-                MakeOtherButton()
+                SetBackground()
                 
-            }
-            
-            
-        } .onAppear {
-            // set view to restore state 
-            doneWithSignUp(state: false)
+                // ******* ======  Transitions -- Navigation Links =======
+                //                                                      //
+                //                Goes to the Profile                   //
+                //                                                      //
+             /* || */           NavigationLink(                       /* || */
+            /* || */   destination: EnterOrientationView().environmentObject(account),
+            /* || */           isActive: $goToNext,                  /* || */
+            /* || */           label: {  EmptyView()  })             /* || */
+            /* || */                                                 /* || */
+            /* || */                                                 /* || */
+                // ******* ================================ **********
+                
+                
+                HStack{
+                    
+                    MakeManButton()
+                    Spacer()
+                    MakeWomanButton()
+                    Spacer()
+                    MakeOtherButton()
+                    
+                }
+                
+                
+            } .onAppear {
+                // set view to restore state
+                doneWithSignUp(state: false)
+        }
         }
        
         

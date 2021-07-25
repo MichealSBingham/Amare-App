@@ -255,7 +255,7 @@ struct VerificationCodeView2: View {
                     return
                 }
                 
-              goToNextView()
+                goToNext(screen: signUpState ?? .done)
                 
                 
                 
@@ -358,8 +358,70 @@ struct VerificationCodeView2: View {
         
     }
     
-    
-    func goToNextView()  {
+    /// Goes to the next view
+    /// - Parameter screen: The proper sign up screen to take the user to if they did not finish the sign up process. Take the user to the profile
+    func goToNext(screen: SignUpState)  {
+        
+        let animation = NavigationAnimation(
+            animation: .easeInOut(duration: 0.8),
+            defaultViewTransition: .static,
+            alternativeViewTransition: .opacity
+        )
+        
+        
+        
+        switch screen {
+            
+        case .name:
+            
+            navigation.showView(EnterNameView.id, animation: animation) { VerificationCodeView2().environmentObject(navigation)
+                                        .environmentObject(account)
+            }
+            
+        case .sex:
+            
+            navigation.showView(EnterGenderView.id, animation: animation) { EnterGenderView().environmentObject(navigation)
+                                        .environmentObject(account)
+            }
+            
+        case .orientation:
+            
+            navigation.showView(EnterOrientationView.id, animation: animation) { EnterOrientationView().environmentObject(navigation)
+                                        .environmentObject(account)
+            }
+            
+        case .hometown:
+            
+            navigation.showView(FromWhereView.id, animation: animation) { FromWhereView().environmentObject(navigation)
+                                        .environmentObject(account)
+            }
+            
+        case .birthday:
+            
+            navigation.showView(FromWhereView.id, animation: animation) { FromWhereView().environmentObject(navigation)
+                                        .environmentObject(account)
+            }
+            
+        case .residence:
+            
+            navigation.showView(LiveWhereView.id, animation: animation) { LiveWhereView().environmentObject(navigation)
+                                        .environmentObject(account)
+            }
+            
+        case .imageUpload:
+            
+            navigation.showView(ImageUploadView.id, animation: animation) { ImageUploadView().environmentObject(navigation)
+                                        .environmentObject(account)
+            }
+            
+        case .done:
+            
+            navigation.showView(ProfileView.id, animation: animation) { ProfileView().environmentObject(navigation)
+                                        .environmentObject(account)
+            }
+        }
+        
+       
         
     }
 }

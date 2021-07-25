@@ -6,12 +6,16 @@
 //
 
 import SwiftUI
+import NavigationStack
 
 @available(iOS 15.0, *)
 struct EnterNameView: View {
     
-
+    /// To manage navigation
+    @EnvironmentObject var navigation: NavigationModel
     
+    /// id of view
+    static let id = String(describing: Self.self)
     
     @EnvironmentObject private var account: Account
     
@@ -27,77 +31,80 @@ struct EnterNameView: View {
        
 
             
+        NavigationStackView(EnterNameView.id) {
+            
             ZStack{
-                
-                // Background Image
-                Image("backgrounds/background1")
-                    .resizable()
-                    .scaledToFill()
-                    .edgesIgnoringSafeArea(.all)
-                    .navigationTitle("What is your name?")
-                    .navigationBarColor(backgroundColor: .clear, titleColor: .white)
-                    .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
-                
-                // ******* ======  Transitions -- Navigation Links =======
-                
-                // Goes to the Profile
-                NavigationLink(
-                    destination: EnterGenderView().environmentObject(account),
-                    isActive: $goToNext,
-                    label: {  EmptyView()  }
-                )
-                
-                // ******* ================================ **********
-                
-                VStack{
                     
-                    TextField("Micheal S. Bingham", text: $name, onCommit:  {
+                    // Background Image
+                    Image("backgrounds/background1")
+                        .resizable()
+                        .scaledToFill()
+                        .edgesIgnoringSafeArea(.all)
+                        .navigationTitle("What is your name?")
+                        .navigationBarColor(backgroundColor: .clear, titleColor: .white)
+                        .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
+                    
+                    // ******* ======  Transitions -- Navigation Links =======
+                    
+                    // Goes to the Profile
+                    NavigationLink(
+                        destination: EnterGenderView().environmentObject(account),
+                        isActive: $goToNext,
+                        label: {  EmptyView()  }
+                    )
+                    
+                    // ******* ================================ **********
+                    
+                    VStack{
                         
-                        guard !(name.isEmpty) else{
+                        TextField("Micheal S. Bingham", text: $name, onCommit:  {
                             
-                            // User entered an empty name
-                            print("Name is empty")
-                            return
-                        }
-                        
-                        // Go to next page
-                        goToNext = true
-                        
-                        var userdata = UserData(id: account.user?.uid ?? "")
-                        userdata.name = name
-                        
-                        account.set(data: userdata) { error in
-                            
-                          
-                            
-                            guard error == nil else {
-                                // There is some error
-                               
+                            guard !(name.isEmpty) else{
                                 
-                                goToNext = false
+                                // User entered an empty name
+                                print("Name is empty")
                                 return
                             }
                             
-                           
-                        }
+                            // Go to next page
+                            goToNext = true
+                            
+                            var userdata = UserData(id: account.user?.uid ?? "")
+                            userdata.name = name
+                            
+                            account.set(data: userdata) { error in
+                                
+                              
+                                
+                                guard error == nil else {
+                                    // There is some error
+                                   
+                                    
+                                    goToNext = false
+                                    return
+                                }
+                                
+                               
+                            }
+                            
+                        })
+                        .font(.largeTitle)
                         
-                    })
-                    .font(.largeTitle)
+                        
+                        
+                    }
+                    
+                    
+                        
+                    
+                   
                     
                     
                     
-                }
-                
-                
-                    
-                
-               
-                
-                
-                
-            } .onAppear {
-                doneWithSignUp(state: false)
+                } .onAppear {
+                    doneWithSignUp(state: false)
             }
+        }
             
           
             
@@ -186,6 +193,7 @@ struct EnterNameView_Previews: PreviewProvider {
         NavigationView{
             EnterNameView().environmentObject(Account())
                 .preferredColorScheme(.dark)
+                .environmentObject(NavigationModel())
         }
         
     }

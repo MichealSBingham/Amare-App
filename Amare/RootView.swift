@@ -31,7 +31,7 @@ struct RootView: View {
     @State private var signInandSignUpAreEnabled: Bool = true
 
     
-    @State private var beginAnimation: Bool = false
+    @State public var beginAnimation: Bool = false
     @GestureState  var isTappingLogoAndTagline: Bool = false
     
     @State private var language: Language = .Latin
@@ -68,7 +68,7 @@ struct RootView: View {
                             let timer = Timer.publish(every: 5, on: .main, in: .default).autoconnect()
 
                             Background()
-                                .onReceive(timer) { _ in language.toggle(); withAnimation{beginAnimation.toggle()} }
+                                .onReceive(timer) { _ in language.toggle(); /*withAnimation{beginAnimation.toggle()}*/ }
                                 
                            
                             

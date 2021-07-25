@@ -7,10 +7,17 @@
 
 import SwiftUI
 import Firebase
+import NavigationStack
 
 
 @available(iOS 15.0, *)
 struct EnterBirthdayView: View {
+    
+    /// To manage navigation
+    @EnvironmentObject var navigation: NavigationModel
+    
+    /// id of view
+    static let id = String(describing: Self.self)
     
     @EnvironmentObject private var account: Account
     
