@@ -29,10 +29,11 @@ struct EnterGenderView: View {
     var body: some View {
         
         NavigationStackView(EnterGenderView.id) {
+            
             ZStack{
                 
                 SetBackground()
-                
+                /*
                 // ******* ======  Transitions -- Navigation Links =======
                 //                                                      //
                 //                Goes to the Profile                   //
@@ -44,7 +45,7 @@ struct EnterGenderView: View {
             /* || */                                                 /* || */
             /* || */                                                 /* || */
                 // ******* ================================ **********
-                
+                */
                 
                 HStack{
                     
@@ -119,8 +120,8 @@ struct EnterGenderView: View {
             .resizable()
             .scaledToFill()
             .edgesIgnoringSafeArea(.all)
-            .navigationTitle("Hey.. you are a ...")
-            .navigationBarColor(backgroundColor: .clear, titleColor: .white)
+        //    .navigationTitle("Hey.. you are a ...")
+         //   .navigationBarColor(backgroundColor: .clear, titleColor: .white)
             .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
     }
 
@@ -238,9 +239,9 @@ struct EnterGenderView: View {
 struct EnterGenderView_Previews: PreviewProvider {
     static var previews: some View {
         
-        NavigationView{
+      //  NavigationView{
             EnterGenderView().environmentObject(Account())
-        }
+       // }
        
     }
 }

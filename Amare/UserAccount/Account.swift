@@ -159,6 +159,7 @@ class Account: ObservableObject {
         // Sign in User
         guard let verificationID = getVerificationID() else{
             
+            print("Login Completion Block 1 ")
             runThisClosure!(GlobalError.cantGetVerificationID, nil, nil)
             
             return
@@ -186,36 +187,51 @@ class Account: ObservableObject {
                         
                         // Handle Global Errors
                     case .networkError:
+                        print("Login Completion Block 2 ")
                         runThisClosure!(GlobalError.networkError, nil, nil)
                     case .tooManyRequests:
+                        print("Login Completion Block 3")
                         runThisClosure!(GlobalError.tooManyRequests, nil, nil)
                     case .captchaCheckFailed:
+                        print("Login Completion Block 4 ")
                         runThisClosure!(GlobalError.captchaCheckFailed, nil, nil)
                     case .invalidPhoneNumber:
+                        print("Login Completion Block 5 ")
                         runThisClosure!(GlobalError.invalidInput, nil, nil)
                     case .quotaExceeded:
+                        print("Login Completion Block 6 ")
                         runThisClosure!(GlobalError.quotaExceeded, nil, nil)
                     case .operationNotAllowed:
+                        print("Login Completion Block 7 ")
                         runThisClosure!(GlobalError.notAllowed, nil, nil)
                     case .internalError:
+                        print("Login Completion Block 8 ")
                         runThisClosure!(GlobalError.internalError, nil, nil)
                         
                         // Handle Account Errors
                     case .expiredActionCode:
+                        print("Login Completion Block 9 ")
                         runThisClosure!(AccountError.expiredActionCode, nil, nil)
                     case .sessionExpired:
+                        print("Login Completion Block 10 ")
                         runThisClosure!(AccountError.sessionExpired, nil, nil)
                     case .userTokenExpired:
+                        print("Login Completion Block 11 ")
                         runThisClosure!(AccountError.userTokenExpired, nil, nil)
                     case .userDisabled:
+                        print("Login Completion Block 12 ")
                         runThisClosure!(AccountError.disabledUser, nil, nil)
                     case .wrongPassword:
+                        print("Login Completion Block 13 ")
                         runThisClosure!(AccountError.wrong, nil, nil)
                     case .invalidVerificationCode:
+                        print("Login Completion Block 14 ")
                         runThisClosure!(AccountError.wrong, nil, nil )
                     case .missingVerificationCode:
+                        print("Login Completion Block 15 ")
                         runThisClosure!(AccountError.wrong, nil , nil )
                     default:
+                        print("Login Completion Block 16 ")
                         print("\n\nSome error happened, likely an unhandled error from firebase : \(error). This happened inside Account.login()")
                         runThisClosure!(GlobalError.unknown, nil, nil)
                     }
@@ -223,7 +239,7 @@ class Account: ObservableObject {
                    return
                     
                 } else{
-                    
+                    print("Login Completion Block 17 ")
                     print("\n\nSome error happened, likely an unhandled error from firebase : \(error). This happened inside Account.login()")
                     runThisClosure!(GlobalError.unknown, nil, nil)
                     return
@@ -260,10 +276,12 @@ class Account: ObservableObject {
                         if let error = error as? AccountError{
                             // It's an account error
                             if error == .doesNotExist{ // it's the user's first sign in
+                                print("Login Completion Block 18 ")
                                 runThisClosure!(nil, user, .name)
                                 return
                             } else {
                                 // It was some other account error
+                                print("Login Completion Block 19 ")
                                 runThisClosure!(error, nil, nil)
                                 return
                             }
@@ -274,11 +292,12 @@ class Account: ObservableObject {
                         
                         if let error = error as? GlobalError{
                             // It's a global error so pass the error
+                            print("Login Completion Block 20 ")
                            runThisClosure!(error, nil, nil )
                             return
                         }
                             
-                        
+                        print("Login Completion Block 21 ")
                         print("There was some error get user data .. \(error?.localizedDescription) ")
                         runThisClosure!(GlobalError.unknown, nil, nil)
 
@@ -297,6 +316,7 @@ class Account: ObservableObject {
                         // The user data isn't complete so should go to the sign up state
                         // Means the user did not finish signing up
                         self.data = data
+                        print("Login Completion Block 22 ")
                         runThisClosure!(nil, user, data?.getFirstNilInSignUpState())
     
                         return
@@ -305,6 +325,7 @@ class Account: ObservableObject {
                    
                   // Otherwise sign in the user. False because it finished signing up and doesn't need to be taken to the sign up state
                     self.data = data
+                    print("Login Completion Block 23 ")
                     runThisClosure!(nil, user, .done )
                     
                    return
@@ -318,7 +339,7 @@ class Account: ObservableObject {
                 // Unknown Why
                 
                 print("\n\n Some error happened. Error... for some reason, auth().signIn returned an empty FIRUser object. Unknown Global Error")
-                
+                print("Login Completion Block 24 ")
                 runThisClosure!(GlobalError.unknown, nil, nil)
                 return
                 

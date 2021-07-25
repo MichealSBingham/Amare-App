@@ -40,19 +40,19 @@ struct EnterNameView: View {
                         .resizable()
                         .scaledToFill()
                         .edgesIgnoringSafeArea(.all)
-                        .navigationTitle("What is your name?")
-                        .navigationBarColor(backgroundColor: .clear, titleColor: .white)
+                       // .navigationTitle("What is your name?")
+                      //  .navigationBarColor(backgroundColor: .clear, titleColor: .white)
                         .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
                     
                     // ******* ======  Transitions -- Navigation Links =======
-                    
+                    /*
                     // Goes to the Profile
                     NavigationLink(
                         destination: EnterGenderView().environmentObject(account),
                         isActive: $goToNext,
                         label: {  EmptyView()  }
                     )
-                    
+                    */
                     // ******* ================================ **********
                     
                     VStack{
@@ -190,11 +190,11 @@ struct EnterNameView: View {
 struct EnterNameView_Previews: PreviewProvider {
     static var previews: some View {
         
-        NavigationView{
+       
             EnterNameView().environmentObject(Account())
                 .preferredColorScheme(.dark)
                 .environmentObject(NavigationModel())
-        }
+        
         
     }
 }

@@ -39,6 +39,9 @@ struct VerificationCodeView2: View {
     
     /// Used to shake the field when there has been an invalid code entered
     @State var attempts: Int = 0
+    
+    @State var alreadyRan: Bool = false
+
 
 
     
@@ -179,6 +182,7 @@ struct VerificationCodeView2: View {
             .foregroundColor(.white)
             .font(.largeTitle)
             .bold()
+      
 
             
     }
@@ -242,23 +246,32 @@ struct VerificationCodeView2: View {
         /// Called when pin is submitted
     private func submitPin() {
         
-        if pin.count == maxDigits {
+        
+        
+        if pin.count == maxDigits  {
+            
+            guard alreadyRan == false else { return }
+            
+            print("Submit Pin")
+            
+            alreadyRan  = true
+         
             
             account.login(with: pin) { error, user, signUpState in
                 
                 guard error == nil else {
                     
-                    
+                    alreadyRan = false
+                    pin = ""
                     handle(error!)
                     
                     
                     return
                 }
-                
                 goToNext(screen: signUpState ?? .done)
                 
                 
-                
+                return
                 
                 
             }
@@ -374,49 +387,50 @@ struct VerificationCodeView2: View {
             
         case .name:
             
-            navigation.showView(EnterNameView.id, animation: animation) { VerificationCodeView2().environmentObject(navigation)
-                                        .environmentObject(account)
+    
+            navigation.showView(VerificationCodeView2.id, animation: animation) { EnterNameView().environmentObject(navigation)
+                                .environmentObject(account)
             }
             
         case .sex:
             
-            navigation.showView(EnterGenderView.id, animation: animation) { EnterGenderView().environmentObject(navigation)
+            navigation.showView(VerificationCodeView2.id, animation: animation) { EnterGenderView().environmentObject(navigation)
                                         .environmentObject(account)
             }
             
         case .orientation:
             
-            navigation.showView(EnterOrientationView.id, animation: animation) { EnterOrientationView().environmentObject(navigation)
+            navigation.showView(VerificationCodeView2.id, animation: animation) { EnterOrientationView().environmentObject(navigation)
                                         .environmentObject(account)
             }
             
         case .hometown:
             
-            navigation.showView(FromWhereView.id, animation: animation) { FromWhereView().environmentObject(navigation)
+            navigation.showView(VerificationCodeView2.id, animation: animation) { FromWhereView().environmentObject(navigation)
                                         .environmentObject(account)
             }
             
         case .birthday:
             
-            navigation.showView(FromWhereView.id, animation: animation) { FromWhereView().environmentObject(navigation)
+            navigation.showView(VerificationCodeView2.id, animation: animation) { FromWhereView().environmentObject(navigation)
                                         .environmentObject(account)
             }
             
         case .residence:
             
-            navigation.showView(LiveWhereView.id, animation: animation) { LiveWhereView().environmentObject(navigation)
+            navigation.showView(VerificationCodeView2.id, animation: animation) { LiveWhereView().environmentObject(navigation)
                                         .environmentObject(account)
             }
             
         case .imageUpload:
             
-            navigation.showView(ImageUploadView.id, animation: animation) { ImageUploadView().environmentObject(navigation)
+            navigation.showView(VerificationCodeView2.id, animation: animation) { ImageUploadView().environmentObject(navigation)
                                         .environmentObject(account)
             }
             
         case .done:
             
-            navigation.showView(ProfileView.id, animation: animation) { ProfileView().environmentObject(navigation)
+            navigation.showView(VerificationCodeView2.id, animation: animation) { ProfileView().environmentObject(navigation)
                                         .environmentObject(account)
             }
         }
