@@ -169,26 +169,20 @@ struct VerificationCodeView2: View {
     
     /// Goes back to the login screen
     func goBack()   {
-        
         navigation.hideViewWithReverseAnimation(EnterPhoneNumberView.id)
-     
             
     }
     
     /// Title of the view text .
     func title() -> some View {
         
-        return Text("What code was sent to your device?  ")
+        return Text("What code was sent to your device?")
             .foregroundColor(.white)
             .font(.largeTitle)
             .bold()
-      
-
-            
     }
     
   
-
     private var verificationCodeField: some View {
         HStack {
             Spacer()
@@ -242,7 +236,6 @@ struct VerificationCodeView2: View {
         })
     }
 
-        
         /// Called when pin is submitted
     private func submitPin() {
         
@@ -285,8 +278,6 @@ struct VerificationCodeView2: View {
             }
             
         
-            
-           
     func handle(_ error: Error)  {
         
         // Handle Error
@@ -373,6 +364,7 @@ struct VerificationCodeView2: View {
     
     /// Goes to the next view
     /// - Parameter screen: The proper sign up screen to take the user to if they did not finish the sign up process. Take the user to the profile
+    ///  - Update: We are no longer allowing users to go to a specific screen, if they exit sign up process, they'll just start all over again . We do this to prevent errors on loading views going backwards because of NavigationStack. Ask Micheal for more info if you need to know why. Jul 25, 2021,
     func goToNext(screen: SignUpState)  {
         
         let animation = NavigationAnimation(
@@ -381,8 +373,25 @@ struct VerificationCodeView2: View {
             alternativeViewTransition: .opacity
         )
         
+        guard screen == .done else {
+            
+            // Go to the beginning of sign up
+            
+            navigation.showView(VerificationCodeView2.id, animation: animation) { EnterNameView().environmentObject(navigation)
+                                .environmentObject(account)
+            }
+            
+            return
+        }
+        
+        navigation.showView(VerificationCodeView2.id, animation: animation) { ProfileView().environmentObject(navigation)
+                                    .environmentObject(account)
+        }
+        
+        // Else go to profile
         
         
+        /*
         switch screen {
             
         case .name:
@@ -435,6 +444,8 @@ struct VerificationCodeView2: View {
             }
         }
         
+        */
+        
        
         
     }
@@ -446,5 +457,6 @@ struct VerificationCodeView2_Previews: PreviewProvider {
     static var previews: some View {
         VerificationCodeView2()
             .environmentObject(NavigationModel())
+            
     }
 }

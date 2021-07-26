@@ -190,8 +190,7 @@ struct EnterPhoneNumberView: View {
     func goBack()   {
         
         navigation.hideViewWithReverseAnimation(RootView.id)        
-     
-            
+                
     }
     
     /// Dismisses the keyboard
