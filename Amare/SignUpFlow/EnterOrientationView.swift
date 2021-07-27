@@ -25,6 +25,10 @@ struct EnterOrientationView: View {
     @State private var someErrorOccured: Bool = false
     @State private var beginAnimation: Bool = false
     
+    @State private var likesMen: Bool = false
+    @State private var likesWomen: Bool = false
+    @State private var tappedMore: Bool = false
+
     
     
     var body: some View {
@@ -39,6 +43,10 @@ struct EnterOrientationView: View {
                 Background()
                     .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
                     .onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; timer.upstream.connect().cancel()}
+                    .alert(isPresented: $tappedMore) {
+                        Alert(title: Text("TODO: Allow more genders"), message: Text("This is not finished yet, but it will allow you to select additional genders"))
+                    }
+
             
                 VStack(alignment: .leading){
                     
@@ -52,7 +60,12 @@ struct EnterOrientationView: View {
                         Spacer()
                     }.offset(y: -45)
                     
+                    
+                   
+                    
                     Spacer()
+                    
+                   
                     
                     HStack(alignment: .center){
                         
@@ -97,18 +110,10 @@ struct EnterOrientationView: View {
 
 
     func MakeManButton() -> some View  {
-        /*
-        return   Button("Man") {
-            
-            // selected man
-            SelectGenderAction(gender: "M")
-        }.padding()
-
-        */
-        
+      
         return Button {
             
-            SelectGenderAction(gender: "M")
+            likesMen.toggle()
             
         } label: {
             
@@ -132,14 +137,15 @@ struct EnterOrientationView: View {
                     
                 }
                 
-                Text("Man")
+                Text("Men")
                     .foregroundColor(.white)
                     .shimmering()
+                    
             }
             
             
             
-        }
+        }.opacity(likesMen ? 0.3 : 1)
             
 
     }
@@ -148,7 +154,7 @@ struct EnterOrientationView: View {
         
         return Button {
             
-            SelectGenderAction(gender: "F")
+            likesWomen.toggle()
             
         } label: {
             
@@ -170,14 +176,14 @@ struct EnterOrientationView: View {
                     
                 }
                 
-                Text("Woman")
+                Text("Women")
                     .foregroundColor(.white)
                     .shimmering()
 
             }
             
                         
-        }
+        }.opacity(likesWomen ? 0.2: 1)
        
     }
 
@@ -187,7 +193,7 @@ struct EnterOrientationView: View {
         
         return Button {
             
-            SelectGenderAction(gender: "O")
+            tappedMore.toggle()
             
         } label: {
             
@@ -214,7 +220,7 @@ struct EnterOrientationView: View {
             }
             
             
-        }
+        }.opacity(tappedMore ? 0.3: 1)
     }
 
 
