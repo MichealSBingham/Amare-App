@@ -78,12 +78,15 @@ struct EnterOrientationView: View {
                         
                     }
                     
+                    
                     Spacer()
                     Spacer()
                  
-                    
+                   nextButton()
+
                 }
                 
+               
               
                 
                 
@@ -334,6 +337,60 @@ struct EnterOrientationView: View {
             
         }
         
+    }
+    
+    func nextButton() -> some View {
+        
+        return  Button {
+            // Goes to next screen
+            
+            guard likesMen == true || likesWomen == true else {
+                //user needs to tap at least one before going to next screen
+                return
+            }
+            
+            
+            // Go to next
+            goToNextView()
+            
+            var orientation: String  = ""
+            if likesMen { orientation += "M" }
+            if likesWomen { orientation += "W"}
+            orientation = orientation.sorted()
+            
+            account.data?.orientation = orientation
+            
+            account.save { error in
+                
+                guard error == nil else {
+                    comeBackToView()
+                    return
+                }
+                
+            }
+            
+            
+        } label: {
+            
+            Spacer()
+            
+            Text("Next")
+                .foregroundColor(.white)
+                .font(.system(size: 23))
+                
+            
+            Image("RootView/right-arrow")
+               .resizable()
+               .scaledToFit()
+               .frame(width: 33, height: 66)
+               .offset(x: beginAnimation ? 10: 0, y: 0)
+               .animation(.easeInOut(duration: 1.3).repeatForever(autoreverses: true), value: beginAnimation)
+               .onAppear { withAnimation { beginAnimation = true } }
+            
+            Spacer()
+            
+               
+        }.opacity( (likesMen == false  && likesWomen == false ) ? 0.5 : 1.0 )
     }
 
 
