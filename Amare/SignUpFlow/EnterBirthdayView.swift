@@ -85,13 +85,13 @@ struct EnterBirthdayView: View {
                         print("The user data inside button is .. \(userData)")
                         
                         goToNext = true
-                        account.set(data: userData) { error in
+                        /*account.set(data: userData) { error in
                             
                             if let error = error {
                                 goToNext = false // an error occured so come back
                             }
                             
-                        }
+                        } */
                         
                     }
                     

@@ -594,7 +594,7 @@ class Account: ObservableObject {
     ///   - completion: Will pass an error otherwise nil if it is successful
     ///   - error: Of type `AccountError` or `GlobalError`
     ///   -  Warning: Do not try to add images (with the exception of the profile image) to the Account this way. Use `upload()`.
-    func set(data: UserData, completion:( (_ error: Error?) -> () )? = nil )  {
+   private func set(data: UserData, completion:( (_ error: Error?) -> () )? = nil )  {
         
         let DB =  (self.db == nil) ? Firestore.firestore()   :  self.db!
         self.db = DB

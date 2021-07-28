@@ -102,10 +102,20 @@ struct EnterNameView: View {
             // Go to next page
             goToNextView()
             
-            var userdata = UserData(id: account.user?.uid ?? "")
-            userdata.name = name
+          
             
-            account.set(data: userdata) { error in
+            account.data = UserData(id: account.user?.uid ?? "", name: name)
+            
+            do{
+                try account.save()
+            } catch (let error){
+                
+                comeBackToView()
+                handle(error)
+                return
+            }
+            
+           /* account.set(data: userdata) { error in
                 
               
                 
@@ -117,7 +127,7 @@ struct EnterNameView: View {
                 }
                 
                
-            }
+            } */
             
         })
         .font(.largeTitle)
@@ -206,7 +216,7 @@ struct EnterNameView: View {
     }
     
     func handle(_ error: Error)  {
-        
+        someErrorOccured = true
         // Handle Error
         if let error = error as? AccountError{
             

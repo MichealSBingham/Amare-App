@@ -14,6 +14,7 @@ struct FromWhereView: View {
     
     /// To manage navigation
     @EnvironmentObject var navigation: NavigationModel
+
     
     /// id of view
     static let id = String(describing: Self.self)
@@ -34,60 +35,80 @@ struct FromWhereView: View {
     @State private var alertMessage: String  = ""
     
     
-    @State private var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275), span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5))
+    @State private var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 0, longitude: 0), span: MKCoordinateSpan(latitudeDelta: 180, longitudeDelta: 360))
+    
+    @State private var beginAnimation: Bool = false
+    @State private var go: Bool = false
+
 
     
     var body: some View {
         
       
             
+        NavigationStackView(FromWhereView.id) {
             ZStack{
-                
-                
-                // ******* ======  Transitions -- Navigation Links =======
-                //                                                      //
-                //                Goes to the Profile                   //
-                //                                                      //
-             /* || */           NavigationLink(                       /* || */
-                /* || */  destination: EnterBirthdayView(timezone: $timezone).environmentObject(account),
-            /* || */                                                /* || */
-            /* || */           isActive: $goToNext,                  /* || */
-            /* || */           label: {  EmptyView()  })             /* || */
-            /* || */                                                 /* || */
-            /* || */                                                 /* || */
-                // ******* ================================ **********
-                
-                
-                
-              //  AnimatedBackground()
-                   // .navigationBarColor(backgroundColor: .clear, titleColor: .white)
-                  //  .navigationTitle("Where are you from?")
-                  //  .navigationBarHidden(true)
-                  //  .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text("Some Error Occured")) })
-                
-                MapViewUIKit(region: region, mapType: .hybridFlyover)
-                                .edgesIgnoringSafeArea(.all)
-                
-                
-                
-                
-             VStack{
                     
-                    MakeButtonForSelectingCity()
-                    MakeTextFieldForSearchingLocation()
+                    
+                
+                    
+                    
+                    let timer = Timer.publish(every: 0.5, on: .main, in: .default).autoconnect()
+                    
+                    
+                    MapViewUIKit(region: region, mapType: .hybridFlyover)
+                                    .edgesIgnoringSafeArea(.all)
+                                    .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text("Some Error Occured")) })
+                                    .onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; timer.upstream.connect().cancel()}
+                    
+                                
+                  
 
+                 
+                       
+        
+                    
+                    VStack(alignment: .center){
+                     
+                       
+                        HStack(alignment: .top){
+                            
+                            backButton()
+                            title()
+                            Spacer()
+                        }.offset(y: 45)
+                        
+                        ZStack{
+                            searchField().offset(y: 45)
+                            
+                           
+                            
+                              
+                            HStack{
+                                Spacer()
+                                nextButton()
+                              
+                            }
+                           
+                        }
+                        
+                        
+                    
+                        Spacer()
+                           
+                    }
+                    
+                
+                 
+                    
+                    
                     
                     
                 }
-             
-                
-                
-                
-                
+                .onAppear {
+                    doneWithSignUp(state: false)
             }
-            .onAppear {
-                doneWithSignUp(state: false)
-            }
+        }
             
           
        
@@ -98,74 +119,72 @@ struct FromWhereView: View {
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    // ===********************************************************** // \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\\//\/\\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\\/\/\/\/\/
-    
-    
-    // ===********************************************************** // \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\\//\/\\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\\/\/\/\/\/
-    
-    
-    // ===********************************************************** // \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\\//\/\\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\\/\/\/\/\/
-    
-    
-    // ===********************************************************** // \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\\//\/\\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\\/\/\/\/\/
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-// // /// // /// /// / /// /// =================  /// // SETTING UP  Up UI // //  /// =============================
-    // PUT ALL FUNCTIONS RELATED TO BUILDING THE UI HERE.
-    
-    
-    /// Sets the background of the view and also the modifiers for the navigation view also does basic configuration like setting the title of the navigation view and showing popup view at error
-    func setBackground() -> some View {
+    /// Title of the view text .
+    func title() -> some View {
         
-        // Background Image
-        return Image("backgrounds/background1")
-            .resizable()
-            .scaledToFill()
-            .edgesIgnoringSafeArea(.all)
-            .navigationBarColor(backgroundColor: .clear, titleColor: .white)
-            .navigationTitle("Where are you from?")
-            .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text("Some Error Occured")) })
-
+    
+        
+        return Text("Where were you born?")
+            .foregroundColor(.white)
+            .font(.largeTitle)
+            .bold()
+            .offset(x: 12)
     }
     
-    func MakeTextFieldForSearchingLocation() -> some View {
+    
+    
+    
+    func searchField() -> some View {
         
+     
         
-        return   TextField("New York, NY", text: $searchedLocation, onCommit:  {
+        return TextField("New York, NY", text: $searchedLocation)
             
-            searchForCitiesAction { cities in
+            .foregroundColor(.clear)
+            .frame(width: 300, height: 50)
+            .background(
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(Color.white.opacity(0.3)
+                    ))
+            .onSubmit {
                 
-                citiesSearchResult = cities
+                searchForCities { cities in
+                    
+                    let  loc = cities.first?.placemark // first result in the array
+                
+                    print("The searched location is .. \(loc)")
+                    // Change the region
+                    guard let coordinates = loc?.coordinate else { return }
+                    
+                    withAnimation {
+                        
+                        region =  MKCoordinateRegion(center: coordinates,
+                                           span: MKCoordinateSpan(latitudeDelta: 180, longitudeDelta: 360))
+                    }
+                    
+                    
+                    
+                }
+                
             }
-        })
+           
+            
 
+        
+        
+        
+    /*    return
+        
+            Image("RootView/rectangle")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 300, height: 50, alignment: .center)
+        */
     }
+    
+    
+    
+
     
     
     
@@ -193,40 +212,11 @@ struct FromWhereView: View {
     }
     
    
-    
-// // /// // /// /// / /// /// =================  /// // SETTING UP  Up UI // //  /// =============================
-    //
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    // // /// // /// /// / /// /// =================  /// // Functionality  // //  /// =============================
-    
-        // Put all code relevant to functionality of the app/UI here. Such as sending verification codes or responding to user taps and thigns  like that.
+
     
     
     /// Call this to get a list of cities that are nearby that the user searched for in the searchedLocation binding string
-    func searchForCitiesAction(_ completion: @escaping ([MKMapItem]) -> () )  {
+    func searchForCities(_ completion: @escaping ([MKMapItem]) -> () )  {
         
         // ******************** // Search for city /// ******************** // ********//
 
@@ -280,17 +270,117 @@ struct FromWhereView: View {
         
     }
     
+
+    /// Goes back to the login screen
+    func goBack()   {
+        
+        navigation.hideViewWithReverseAnimation(EnterOrientationView.id)
+        
+    }
     
+    /// Left Back Button
+    func backButton() -> some View {
+        
+       return Button {
+            
+            goBack()
+            
+        } label: {
+            
+             Image("RootView/right-arrow")
+                .resizable()
+                .scaledToFit()
+                .rotationEffect(.degrees(180))
+                .frame(width: 33, height: 66)
+                .offset(x: beginAnimation ? 7: 0, y: -10)
+                .animation(.easeInOut(duration: 1.3).repeatForever(autoreverses: true), value: beginAnimation)
+                .onAppear { withAnimation { beginAnimation = true } }
+                
+            
+              
+        }
+
+       
+            
+            
+            
+    }
     
+    /// Comes back to this view since an error occured.
+    func comeBackToView()  {
+        
+        navigation.hideViewWithReverseAnimation(FromWhereView.id)
+        
+    }
     
-    // // /// // /// /// / /// /// =================  /// // End of Functionality  // //  /// =============================
+    /// Goes to the next screen / view,. Verification Code Screen
+    func goToNextView()  {
+        
+        
+        let animation = NavigationAnimation(
+            animation: .easeInOut(duration: 0.8),
+            defaultViewTransition: .static,
+            alternativeViewTransition: .opacity
+        )
+        
+        navigation.showView(EnterBirthdayView.id, animation: animation) { FromWhereView().environmentObject(navigation)
+                            .environmentObject(account)
+                        
+            
+
+            
+        }
+        
+    }
     
-        //
-    
+    func nextButton() -> some View {
+        
+        return  Button {
+            // Goes to next screen
+          
+            guard  let city = citiesSearchResult.first else {
+                return
+            }
+            
+            // Go to next
+            goToNextView()
+            
+            
+            account.data?.hometown = Place(latitude: city.placemark.coordinate.latitude, longitude: city.placemark.coordinate.longitude, city: city.placemark.city, state: city.placemark.state, country: city.placemark.country, geohash: city.placemark.geohash)
+            
+            do {
+                
+                try account.save()
+                
+            } catch (let error) {
+                print("Got an error from where ... \(error)")
+               comeBackToView()
+                handle(error)
+            }
+            
+            
+        } label: {
+            
+           
+                
+            
+            Image("RootView/right-arrow")
+               .resizable()
+               .scaledToFit()
+               .frame(width: 33, height: 66)
+               .offset(x: beginAnimation ? -15: 0, y: 0)
+               .animation(.easeInOut(duration: 1.3).repeatForever(autoreverses: true), value: beginAnimation)
+               .onAppear { withAnimation { beginAnimation = true } }
+            
+          
+            
+               
+        }//.opacity( (likesMen == false  && likesWomen == false ) ? 0.5 : 1.0 )
+    }
     
     
     func handle(_ error: Error)  {
-        
+        someErrorOccured = true
         // Handle Error
         if let error = error as? AccountError{
             
@@ -353,10 +443,10 @@ struct FromWhereView: View {
 struct FromWhereView_Previews: PreviewProvider {
     static var previews: some View {
         
-        NavigationView{
             FromWhereView().environmentObject(Account())
                 .preferredColorScheme(.dark)
-        }
+                .environmentObject(NavigationModel())
+        
         
     }
 }
@@ -379,5 +469,13 @@ struct MapViewUIKit: UIViewRepresentable {
     // 3.
     func updateUIView(_ mapView: MKMapView, context: Context) {
         mapView.mapType = mapType
+    }
+}
+extension MKMapView
+{
+    public func animatedZoom(to zoomRegion:MKCoordinateRegion,for duration:TimeInterval) -> Void
+    {
+        MKMapView.animate(withDuration: duration, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 10, options: UIView.AnimationOptions.curveEaseIn, animations:
+            { self.setRegion(zoomRegion, animated: true) }, completion: nil)
     }
 }

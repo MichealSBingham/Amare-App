@@ -281,7 +281,7 @@ struct EnterOrientationView: View {
     /// Goes back to the login screen
     func goBack()   {
         
-        navigation.hideViewWithReverseAnimation(EnterNameView.id)
+        navigation.hideViewWithReverseAnimation(EnterGenderView.id)
         
     }
     
@@ -330,7 +330,7 @@ struct EnterOrientationView: View {
             alternativeViewTransition: .opacity
         )
         
-        navigation.showView(FromWhereView.id, animation: animation) { FromWhereView().environmentObject(navigation)
+        navigation.showView(EnterOrientationView.id, animation: animation) { FromWhereView().environmentObject(navigation)
                             .environmentObject(account)
             
 
@@ -356,17 +356,18 @@ struct EnterOrientationView: View {
             var orientation: String  = ""
             if likesMen { orientation += "M" }
             if likesWomen { orientation += "W"}
-            orientation = orientation.sorted()
+                //orientation = orientation.sorted()
             
             account.data?.orientation = orientation
             
-            account.save { error in
+            do {
+                try account.save()
                 
-                guard error == nil else {
-                    comeBackToView()
-                    return
-                }
+            } catch (let error) {
                 
+                print("Some error happened ... \(error)")
+               comeBackToView()
+                handle(error)
             }
             
             
@@ -397,6 +398,7 @@ struct EnterOrientationView: View {
     func handle(_ error: Error)  {
         
         // Handle Error
+        someErrorOccured = true 
         if let error = error as? AccountError{
             
             switch error {
