@@ -55,15 +55,22 @@ struct FromWhereView: View {
                     
                     let timer = Timer.publish(every: 0.5, on: .main, in: .default).autoconnect()
                     
-                    
+                    /*
                     MapViewUIKit(region: region, mapType: .hybridFlyover)
+                    .opacity( (citiesSearchResult.isEmpty) ? 1: 0)
                                     .edgesIgnoringSafeArea(.all)
                                     .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text("Some Error Occured")) })
                                     .onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; timer.upstream.connect().cancel()}
-                    
+                
+                    */
                                 
-                  
-
+                Map(coordinateRegion: $region, interactionModes: .all, showsUserLocation: true)
+                   // .opacity( (citiesSearchResult.isEmpty) ? 0: 1)
+                    .animation(.easeInOut, value: citiesSearchResult)
+                    .edgesIgnoringSafeArea(.all)
+                    .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text("Some Error Occured")) })
+                    .onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; timer.upstream.connect().cancel()}
+                    
                  
                        
         
@@ -150,7 +157,8 @@ struct FromWhereView: View {
                 
                 searchForCities { cities in
                     
-                    let  loc = cities.first?.placemark // first result in the array
+                    citiesSearchResult = cities
+                    let  loc = citiesSearchResult.first?.placemark // first result in the array
                 
                     print("The searched location is .. \(loc)")
                     // Change the region
@@ -158,8 +166,9 @@ struct FromWhereView: View {
                     
                     withAnimation {
                         
-                        region =  MKCoordinateRegion(center: coordinates,
-                                           span: MKCoordinateSpan(latitudeDelta: 180, longitudeDelta: 360))
+                     //   region = // MKCoordinateRegion(center: coordinates,
+                                  //         span: MKCoordinateSpan(latitudeDelta: 180, longitudeDelta: 360))
+                     region = MKCoordinateRegion(center: coordinates, latitudinalMeters: 16093.4, longitudinalMeters: 16093.4)
                     }
                     
                     
@@ -187,7 +196,7 @@ struct FromWhereView: View {
 
     
     
-    
+    /*
     func MakeButtonForSelectingCity() -> some View {
         
         print("Making button for selecting city ... ")
@@ -210,7 +219,7 @@ struct FromWhereView: View {
             
         }
     }
-    
+    */
    
 
     
@@ -323,7 +332,7 @@ struct FromWhereView: View {
             alternativeViewTransition: .opacity
         )
         
-        navigation.showView(EnterBirthdayView.id, animation: animation) { FromWhereView().environmentObject(navigation)
+        navigation.showView(FromWhereView.id, animation: animation) { EnterBirthdayView(timezone: self.$timezone).environmentObject(navigation)
                             .environmentObject(account)
                         
             
@@ -341,6 +350,9 @@ struct FromWhereView: View {
             guard  let city = citiesSearchResult.first else {
                 return
             }
+            
+            // Set timezone
+            self.timezone = city.timeZone
             
             // Go to next
             goToNextView()

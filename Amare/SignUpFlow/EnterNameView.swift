@@ -40,7 +40,7 @@ struct EnterNameView: View {
                 let timer = Timer.publish(every: 0.5, on: .main, in: .default).autoconnect()
 
              
-                Background()
+                Background(timer: timer)
                     .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
                     .onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; timer.upstream.connect().cancel()}
                     

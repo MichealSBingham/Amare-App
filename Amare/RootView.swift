@@ -32,6 +32,7 @@ struct RootView: View {
 
     
     @State public var beginAnimation: Bool = false
+    @State private var toggledAnimationAlready: Bool = false
     @GestureState  var isTappingLogoAndTagline: Bool = false
     
     @State private var language: Language = .Latin

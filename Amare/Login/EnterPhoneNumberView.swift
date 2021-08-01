@@ -59,7 +59,7 @@ struct EnterPhoneNumberView: View {
               
             
                 // Set the background, along with other base properties to set about the view
-                Background()
+                Background(timer: timer)
                     .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
                     .onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; timer.upstream.connect().cancel()}
                     
