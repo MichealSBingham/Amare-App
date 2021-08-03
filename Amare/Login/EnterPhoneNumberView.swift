@@ -20,7 +20,7 @@ struct EnterPhoneNumberView: View {
     @State var isEditing = true
     
     //Goes to Verification Code Screen or back to Phone Number Screen
-    @State private var shouldGoToVerifyCodeScreen = false
+  //  @State private var shouldGoToVerifyCodeScreen = false
     
     //Prevents user from typing more digits
     @State private var shouldDisablePhoneTextField = false
@@ -56,12 +56,10 @@ struct EnterPhoneNumberView: View {
                 // ******* ======  Transitions -- Navigation Links =======
                 // Goes to Enter Verification Code View
                 
-                //NavigationLink(destination: VerificationCodeView(), isActive: $shouldGoToVerifyCodeScreen){ EmptyView() }
-                
-                
+              
             
                 // Set the background, along with other base properties to set about the view
-                Background()
+                Background(timer: timer)
                     .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
                     .onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; timer.upstream.connect().cancel()}
                     
@@ -170,8 +168,21 @@ struct EnterPhoneNumberView: View {
             
     }
   
-    /// Goes to the next screen / view
+    /// Goes to the next screen / view,. Verification Code Screen
     func goToNextView()  {
+        
+        
+        let animation = NavigationAnimation(
+            animation: .easeInOut(duration: 0.8),
+            defaultViewTransition: .static,
+            alternativeViewTransition: .opacity
+        )
+        
+        navigation.showView(EnterPhoneNumberView.id, animation: animation) { VerificationCodeView2().environmentObject(navigation)
+            
+              
+            
+        }
         
     }
     
@@ -179,10 +190,10 @@ struct EnterPhoneNumberView: View {
     func goBack()   {
         
         navigation.hideViewWithReverseAnimation(RootView.id)        
-     
-            
+                
     }
     
+    /// Dismisses the keyboard
     func dismissKeyboard(completion: (() -> Void)? = nil )  {
         UIApplication.shared.dismissKeyboard()
         completion?()
@@ -201,7 +212,7 @@ struct EnterPhoneNumberView: View {
     }
     
     
-    
+    /// Delays code executiion by a specified time
     func delay(_ seconds: Double, completion: @escaping () -> ()) {
         DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
             completion()
@@ -209,26 +220,7 @@ struct EnterPhoneNumberView: View {
     }
     
     
-    
-    
-    
-    // ===********************************************************** // \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\\//\/\\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\\/\/\/\/\/
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    // // /// // /// /// / /// /// =================  /// // Functionality  // //  /// =============================
-    
-        // Put all code relevant to functionality of the app/UI here. Such as sending verification codes or responding to user taps and thigns  like that.
-    
+    /// User entered the phone number
     func userEnteredPhoneNumberAction(number: PhoneNumber?)  {
         
         // A valid phone number was entered
@@ -236,39 +228,30 @@ struct EnterPhoneNumberView: View {
             
             
             shouldDisablePhoneTextField = true
-            shouldGoToVerifyCodeScreen = true
+            goToNextView()
             
             Account().sendVerificationCode(to: phoneNumber.numberString) { error in
-                
                 guard error == nil else {
                     
                     someErrorOccured = true
                     shouldDisablePhoneTextField = false
                     isEditing = true
+                    
+                    // Go from VerificationCodeView back to Here (EnterPhoneNumberView)
+                    navigation.hideViewWithReverseAnimation(EnterPhoneNumberView.id)
+
                     handle(error: error!)
                     
                     return
                 }
-                
-                
+                phoneNumber.numberString.savePhoneNumber()
+                return
             }
             
             
             
         }
     }
-    
-    
-    
-    
-    
-    
-    
-    // // /// // /// /// / /// /// =================  /// // ENnd of  Functionality  // //  /// =============================
-    
-    
-    
-    
     
     
     func handle(error: Error)  {
@@ -340,11 +323,25 @@ struct EnterPhoneNumberView_Previews: PreviewProvider {
     static var previews: some View {
         
         
-        NavigationView {
+
             Group {
                 EnterPhoneNumberView().preferredColorScheme(.dark)
+                    .environmentObject(NavigationModel())
+                    
+                    
             }
-        }
         
+        
+    }
+}
+
+extension String{
+    /// Saves the phone number under the key 'PhoneNumber' in UserDefaults. To be used to help resend verification code on next view
+    func savePhoneNumber()  {
+        UserDefaults.standard.set(self, forKey: "PhoneNumber")
+    }
+    /// Gets the saved phone number from 'PhoneNumber' key in UserDefaults. Used for resending verification code
+    static func getPhoneNumber() -> String? {
+       return  UserDefaults.standard.string(forKey: "PhoneNumber")
     }
 }

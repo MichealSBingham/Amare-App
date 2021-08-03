@@ -7,9 +7,16 @@
 
 import SwiftUI
 import MapKit
+import NavigationStack
 
 @available(iOS 15.0, *)
 struct LiveWhereView: View {
+    
+    /// To manage navigation
+    @EnvironmentObject var navigation: NavigationModel
+    
+    /// id of view
+    static let id = String(describing: Self.self)
     
     @EnvironmentObject private var account: Account
     

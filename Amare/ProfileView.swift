@@ -7,10 +7,16 @@
 
 import SwiftUI
 import Firebase
+import NavigationStack
 
 @available(iOS 15.0, *)
 struct ProfileView: View {
     
+    /// To manage navigation
+    @EnvironmentObject var navigation: NavigationModel
+    
+    /// id of view
+    static let id = String(describing: Self.self)
     
      @EnvironmentObject private var account: Account
     
@@ -20,47 +26,49 @@ struct ProfileView: View {
 
     var body: some View {
         
-        ZStack{
-           SetBackground()
-          
-            
-            VStack{
+        NavigationStackView(ProfileView.id) {
+            ZStack{
+               SetBackground()
+              
                 
-                Spacer()
-                
-                Text(account.data?.name ?? "First Name Last Name")
-                
-                Spacer()
+                VStack{
+                    
+                    Spacer()
+                    
+                    Text(account.data?.name ?? "First Name Last Name")
+                    
+                    Spacer()
+                    
+                        
+                        MakeProfileImage()
+                        MakeQRCode()
                 
                     
-                    MakeProfileImage()
-                    MakeQRCode()
-            
-                
-                Spacer()
-                
-                MakeSignOutButton()
+                    Spacer()
+                    
+                    MakeSignOutButton()
 
+                    
+                    Spacer()
+                    
+                    Spacer()
+                    
+                    Spacer()
+                    
+                }
                 
-                Spacer()
+            } .onAppear(perform: {
                 
-                Spacer()
                 
-                Spacer()
+               // account.listen() not sure if I need these are not yet
+               // account.stopListening()
                 
-            }
-            
-        } .onAppear(perform: {
-            
-            
-           // account.listen() not sure if I need these are not yet
-           // account.stopListening()
-            
-            doneWithSignUp()
-            account.listen_for_user_data_updates()
-            account.listenOnlyForSignOut()
-            
+                doneWithSignUp()
+                account.listen_for_user_data_updates()
+                account.listenOnlyForSignOut()
+                
         })
+        }
         
     }
     

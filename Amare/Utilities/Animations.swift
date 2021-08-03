@@ -71,7 +71,8 @@ struct Background: View {
     @State var start = UnitPoint.leading
     @State var end = UnitPoint.trailing
 
-    let timer = Timer.publish(every: 1, on: .main, in: .default).autoconnect()
+    var timer = Timer.publish(every: 1, on: .main, in: .default).autoconnect()
+    
     let colors = [ Color(UIColor(red: 1.00, green: 0.01, blue: 0.40, alpha: 1.00)),
                    Color(UIColor(red: 0.94, green: 0.16, blue: 0.77, alpha: 1.00)) ]
 

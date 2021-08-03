@@ -31,7 +31,8 @@ struct RootView: View {
     @State private var signInandSignUpAreEnabled: Bool = true
 
     
-    @State private var beginAnimation: Bool = false
+    @State public var beginAnimation: Bool = false
+    @State private var toggledAnimationAlready: Bool = false
     @GestureState  var isTappingLogoAndTagline: Bool = false
     
     @State private var language: Language = .Latin
@@ -66,9 +67,10 @@ struct RootView: View {
                             
                             
                             let timer = Timer.publish(every: 5, on: .main, in: .default).autoconnect()
+                            let timer2 = Timer.publish(every: 1, on: .main, in: .default).autoconnect()
 
                             Background()
-                                .onReceive(timer) { _ in language.toggle() }
+                                .onReceive(timer) { _ in language.toggle(); /*withAnimation{beginAnimation.toggle()}*/ }
                                 
                            
                             
@@ -77,6 +79,8 @@ struct RootView: View {
                                Spacer()
                                 
                                 createLogo()
+                                    
+                                    
                                 
                                 Group{
                                 AmareText(language: language)
@@ -139,7 +143,7 @@ struct RootView: View {
             ZStack{ ringImage() ; moleculeImage()  }
             ZStack{ verticleCrossImage() ; horizontalCrossImage() }
         }   .offset(y: beginAnimation ? -15: 0 )
-            .animation(.easeInOut(duration: 2.5).repeatForever(autoreverses: true), value: beginAnimation)
+            .animation(.easeInOut(duration: 2.25).repeatForever(autoreverses: true), value: beginAnimation)
             .onAppear(perform: {withAnimation{beginAnimation = true}})
     }
     
@@ -364,8 +368,8 @@ struct RootView: View {
             .scaledToFit()
             .frame(width: 25, height: 50)
             .offset(x: beginAnimation ? 7: 0 )
-            .animation(.easeInOut(duration: 3.5).repeatForever(autoreverses: true), value: beginAnimation)
-           // .onAppear(perform: {beginAnimation = true})
+            .animation(.easeInOut(duration: 2.3).repeatForever(autoreverses: true), value: beginAnimation)
+            .onAppear(perform: withAnimation{{beginAnimation = true}})
             
             
             
@@ -503,8 +507,10 @@ struct RootView: View {
 @available(iOS 15.0, *)
 struct RootView_Previews: PreviewProvider {
     static var previews: some View {
+        
         RootView().environmentObject(Account())
-            .previewDevice(PreviewDevice(rawValue: "iPhone 12 Pro Max"))
+           // .previewDevice(PreviewDevice(rawValue: "iPhone 12 Pro Max"))
+            .environmentObject(NavigationModel())
     }
 }
 

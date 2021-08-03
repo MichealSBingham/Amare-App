@@ -6,12 +6,16 @@
 //
 
 import SwiftUI
+import NavigationStack
 
 @available(iOS 15.0, *)
 struct EnterNameView: View {
     
-
+    /// To manage navigation
+    @EnvironmentObject var navigation: NavigationModel
     
+    /// id of view
+    static let id = String(describing: Self.self)
     
     @EnvironmentObject private var account: Account
     
@@ -22,82 +26,59 @@ struct EnterNameView: View {
     @State private var someErrorOccured: Bool = false
     @State private var alertMessage: String  = ""
     
+    @State private var beginAnimation: Bool = false
+    
     
     var body: some View {
        
 
             
+        NavigationStackView(EnterNameView.id) {
+            
             ZStack{
-                
-                // Background Image
-                Image("backgrounds/background1")
-                    .resizable()
-                    .scaledToFill()
-                    .edgesIgnoringSafeArea(.all)
-                    .navigationTitle("What is your name?")
-                    .navigationBarColor(backgroundColor: .clear, titleColor: .white)
+                    
+                let timer = Timer.publish(every: 0.5, on: .main, in: .default).autoconnect()
+
+             
+                Background(timer: timer)
                     .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
-                
-                // ******* ======  Transitions -- Navigation Links =======
-                
-                // Goes to the Profile
-                NavigationLink(
-                    destination: EnterGenderView().environmentObject(account),
-                    isActive: $goToNext,
-                    label: {  EmptyView()  }
-                )
-                
-                // ******* ================================ **********
-                
-                VStack{
+                    .onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; timer.upstream.connect().cancel()}
                     
-                    TextField("Micheal S. Bingham", text: $name, onCommit:  {
+                    
+                VStack(alignment: .leading){
                         
-                        guard !(name.isEmpty) else{
-                            
-                            // User entered an empty name
-                            print("Name is empty")
-                            return
-                        }
+                    Spacer()
+                    
+                    HStack(alignment: .top){
                         
-                        // Go to next page
-                        goToNext = true
+                        backButton()
+                        Spacer()
+                        title()
+                        Spacer()
                         
-                        var userdata = UserData(id: account.user?.uid ?? "")
-                        userdata.name = name
+                    }.offset(y: -45)
+                    
+                        Spacer()
+                    
+                    enterNameField().padding()
                         
-                        account.set(data: userdata) { error in
-                            
-                          
-                            
-                            guard error == nil else {
-                                // There is some error
-                               
-                                
-                                goToNext = false
-                                return
-                            }
-                            
-                           
-                        }
+                        Spacer()
+                        Spacer()
+         
                         
-                    })
-                    .font(.largeTitle)
+                    }
+                    
+                    
+                        
+                    
+                   
                     
                     
                     
-                }
-                
-                
-                    
-                
-               
-                
-                
-                
-            } .onAppear {
-                doneWithSignUp(state: false)
+                } .onAppear {
+                    doneWithSignUp(state: false)
             }
+        }
             
           
             
@@ -106,8 +87,136 @@ struct EnterNameView: View {
 
     }
     
-    func handle(_ error: Error)  {
+    
+    func enterNameField() -> some View {
         
+        return    TextField("Micheal S. Bingham", text: $name, onCommit:  {
+            
+            guard !(name.isEmpty) else{
+                
+                // User entered an empty name
+                print("Name is empty")
+                return
+            }
+            
+            // Go to next page
+            goToNextView()
+            
+          
+            
+            account.data = UserData(id: account.user?.uid ?? "", name: name)
+            
+            do{
+                try account.save()
+            } catch (let error){
+                
+                comeBackToView()
+                handle(error)
+                return
+            }
+            
+           /* account.set(data: userdata) { error in
+                
+              
+                
+                guard error == nil else {
+                    // There is some error
+                
+                   comeBackToView()
+                    return
+                }
+                
+               
+            } */
+            
+        })
+        .font(.largeTitle)
+        
+
+    }
+    
+    
+    
+    
+    /// Title of the view text .
+    func title() -> some View {
+        
+        return Text("What is your name?")
+            .foregroundColor(.white)
+            .font(.largeTitle)
+            .bold()
+            .offset(x: -20)
+    }
+    
+    /// Goes back to the login screen
+    func goBack()   {
+        
+        account.signOut { error in
+            
+            guard error == nil else { return }
+            navigation.hideViewWithReverseAnimation(RootView.id)
+            return
+        }
+        
+     
+    }
+    
+    /// Left Back Button
+    func backButton() -> some View {
+        
+       return Button {
+            
+            goBack()
+            
+        } label: {
+            
+             Image("RootView/right-arrow")
+                .resizable()
+                .scaledToFit()
+                .rotationEffect(.degrees(180))
+                .frame(width: 33, height: 66)
+                .offset(x: beginAnimation ? 7: 0, y: -10)
+                .animation(.easeInOut(duration: 1.3).repeatForever(autoreverses: true), value: beginAnimation)
+                .onAppear { withAnimation { beginAnimation = true } }
+                
+            
+              
+        }
+
+       
+            
+            
+            
+    }
+    
+    /// Comes back to this view since an error occured.
+    func comeBackToView()  {
+        
+        navigation.hideViewWithReverseAnimation(EnterNameView.id)
+        
+    }
+    
+    /// Goes to the next screen / view,. Verification Code Screen
+    func goToNextView()  {
+        
+        
+        let animation = NavigationAnimation(
+            animation: .easeInOut(duration: 0.8),
+            defaultViewTransition: .static,
+            alternativeViewTransition: .opacity
+        )
+        
+        navigation.showView(EnterNameView.id, animation: animation) { EnterGenderView().environmentObject(navigation)
+                            .environmentObject(account)
+            
+
+            
+        }
+        
+    }
+    
+    func handle(_ error: Error)  {
+        someErrorOccured = true
         // Handle Error
         if let error = error as? AccountError{
             
@@ -164,15 +273,10 @@ struct EnterNameView: View {
         
     }
     
+    
+    
+    
 }
-
-
-
-
-
-
-
-
 
 
 
@@ -183,10 +287,11 @@ struct EnterNameView: View {
 struct EnterNameView_Previews: PreviewProvider {
     static var previews: some View {
         
-        NavigationView{
+       
             EnterNameView().environmentObject(Account())
                 .preferredColorScheme(.dark)
-        }
+                .environmentObject(NavigationModel())
+        
         
     }
 }

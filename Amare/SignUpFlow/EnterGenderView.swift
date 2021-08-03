@@ -6,9 +6,16 @@
 //
 
 import SwiftUI
+import NavigationStack
 
 @available(iOS 15.0, *)
 struct EnterGenderView: View {
+    
+    /// To manage navigation
+    @EnvironmentObject var navigation: NavigationModel
+    
+    /// id of view
+    static let id = String(describing: Self.self)
     
     
     @EnvironmentObject private var account: Account
@@ -16,42 +23,66 @@ struct EnterGenderView: View {
     
     @State private var alertMessage: String = ""
     @State private var someErrorOccured: Bool = false
+    @State private var beginAnimation: Bool = false
+    
+    @State private var showTodoMessage: Bool = false
     
     
     
     var body: some View {
         
-        ZStack{
+        NavigationStackView(EnterGenderView.id) {
             
-            SetBackground()
-            
-            // ******* ======  Transitions -- Navigation Links =======
-            //                                                      //
-            //                Goes to the Profile                   //
-            //                                                      //
-         /* || */           NavigationLink(                       /* || */
-        /* || */   destination: EnterOrientationView().environmentObject(account),
-        /* || */           isActive: $goToNext,                  /* || */
-        /* || */           label: {  EmptyView()  })             /* || */
-        /* || */                                                 /* || */
-        /* || */                                                 /* || */
-            // ******* ================================ **********
-            
-            
-            HStack{
+            ZStack{
                 
-                MakeManButton()
-                Spacer()
-                MakeWomanButton()
-                Spacer()
-                MakeOtherButton()
+                let timer = Timer.publish(every: 0.5, on: .main, in: .default).autoconnect()
+
+             
+                Background(timer: timer)
+                    .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
+                    .onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; timer.upstream.connect().cancel()}
+                    .alert(isPresented: $showTodoMessage) {
+                        Alert(title: Text("TODO: Allow more genders"), message: Text("This is not finished yet, but it will allow you to select additional genders"))
+                    }
+            
+                VStack(alignment: .leading){
+                    
+                    Spacer()
+                    
+                    HStack(alignment: .top){
+                        
+                        backButton()
+                        Spacer()
+                        title()
+                        Spacer()
+                    }.offset(y: -45)
+                    
+                    Spacer()
+                    
+                    HStack(alignment: .center){
+                        
+                        MakeManButton().padding()
+                        Spacer()
+                        MakeWomanButton().padding()
+                        Spacer()
+                        MakeOtherButton().padding()
+                        
+                        
+                    }
+                    
+                    Spacer()
+                    Spacer()
+                 
+                    
+                }
                 
-            }
-            
-            
-        } .onAppear {
-            // set view to restore state 
-            doneWithSignUp(state: false)
+              
+                
+                
+            } .onAppear {
+                // set view to restore state
+                doneWithSignUp(state: false)
+        }
         }
        
         
@@ -71,49 +102,129 @@ struct EnterGenderView: View {
 
 
     func MakeManButton() -> some View  {
-        
+        /*
         return   Button("Man") {
             
             // selected man
             SelectGenderAction(gender: "M")
         }.padding()
 
+        */
         
+        return Button {
+            
+            SelectGenderAction(gender: "M")
+            
+        } label: {
+            
+            VStack{
+                
+            
+                
+                ZStack{
+                    
+                    Image("EnterGenderView/circle3")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 100, height: 100)
+                        .opacity(0.2)
+                    
+                    Image("EnterGenderView/mars")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 40, height: 40)
+                        
+                    
+                }
+                
+                Text("Man")
+                    .foregroundColor(.white)
+                    .shimmering()
+            }
+            
+            
+            
+        }
+            
+
     }
 
     func MakeWomanButton() -> some View {
         
-        return Button("Woman") {
+        return Button {
             
-            // selected woman
             SelectGenderAction(gender: "F")
-        }.padding()
+            
+        } label: {
+            
+            VStack{
+                
+                ZStack{
+                    
+                    Image("EnterGenderView/circle-2")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 100, height: 100)
+                        //.opacity(0.2)
+                    
+                    Image("EnterGenderView/venus")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 40, height: 40)
+                        
+                    
+                }
+                
+                Text("Woman")
+                    .foregroundColor(.white)
+                    .shimmering()
+
+            }
+            
+                        
+        }
+       
     }
 
 
     /// Once this button is tapped, the user should be able to enter their own custom gender
     func MakeOtherButton() -> some View  {
         
-        return Button("Other") {
-            
-            // selected other
-            SelectGenderAction(gender: "O")
-            
-        }.padding()
-    }
-
-
-
-    func SetBackground() -> some View {
         
-        return Image("backgrounds/background1")
-            .resizable()
-            .scaledToFill()
-            .edgesIgnoringSafeArea(.all)
-            .navigationTitle("Hey.. you are a ...")
-            .navigationBarColor(backgroundColor: .clear, titleColor: .white)
-            .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
+        return Button {
+            
+            //SelectGenderAction(gender: "O")
+            
+                showTodoMessage = true
+            
+        } label: {
+            
+            VStack{
+                ZStack{
+                    
+                    Image("EnterGenderView/circle3")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 100, height: 100)
+                        .opacity(0.2)
+                    
+                    Text("...")
+                        .foregroundColor(.white)
+                        .font(.system(size: 55))
+                        .offset(y: -15)
+                        
+                    
+                }
+                
+                Text("More")
+                    .foregroundColor(.white)
+                    .shimmering()
+            }
+            
+            
+        }
     }
+
 
 
 
@@ -124,7 +235,7 @@ struct EnterGenderView: View {
 
     func SelectGenderAction(gender: String)  {
         
-        goToNext = true
+      goToNextView()
         
         self.account.data?.sex = gender
         
@@ -135,6 +246,8 @@ struct EnterGenderView: View {
         } catch (let error){
             
             // Handle Error //
+            
+            comeBackToView()
             
             handle(error)
             
@@ -149,11 +262,78 @@ struct EnterGenderView: View {
 
 
 
-
-    // =======================================================================================
-
+    /// Title of the view text .
+    func title() -> some View {
+        
+        return Text("I am a ...")
+            .foregroundColor(.white)
+            .font(.largeTitle)
+            .bold()
+            .offset(x: -40)
+    }
     
+    /// Goes back to the login screen
+    func goBack()   {
+        
+        navigation.hideViewWithReverseAnimation(EnterNameView.id)
+        
+    }
     
+    /// Left Back Button
+    func backButton() -> some View {
+        
+       return Button {
+            
+            goBack()
+            
+        } label: {
+            
+             Image("RootView/right-arrow")
+                .resizable()
+                .scaledToFit()
+                .rotationEffect(.degrees(180))
+                .frame(width: 33, height: 66)
+                .offset(x: beginAnimation ? 7: 0, y: -10)
+                .animation(.easeInOut(duration: 1.3).repeatForever(autoreverses: true), value: beginAnimation)
+                .onAppear { withAnimation { beginAnimation = true } }
+                
+            
+              
+        }
+
+       
+            
+            
+            
+    }
+    
+    /// Comes back to this view since an error occured.
+    func comeBackToView()  {
+        
+        navigation.hideViewWithReverseAnimation(EnterGenderView.id)
+        
+    }
+    
+    /// Goes to the next screen / view,. Verification Code Screen
+    func goToNextView()  {
+        
+        
+        let animation = NavigationAnimation(
+            animation: .easeInOut(duration: 0.8),
+            defaultViewTransition: .static,
+            alternativeViewTransition: .opacity
+        )
+        
+        navigation.showView(EnterGenderView.id, animation: animation) { EnterOrientationView().environmentObject(navigation)
+                            .environmentObject(account)
+            
+
+            
+        }
+        
+    }
+
+
     func handle(_ error: Error)  {
         
         // Handle Error
@@ -229,9 +409,10 @@ struct EnterGenderView: View {
 struct EnterGenderView_Previews: PreviewProvider {
     static var previews: some View {
         
-        NavigationView{
+
             EnterGenderView().environmentObject(Account())
-        }
+                .environmentObject(NavigationModel())
+    
        
     }
 }

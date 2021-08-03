@@ -6,124 +6,399 @@
 //
 
 import SwiftUI
+import NavigationStack
 
 @available(iOS 15.0, *)
 struct EnterOrientationView: View {
     
+    /// To manage navigation
+    @EnvironmentObject var navigation: NavigationModel
+    
+    /// id of view
+    static let id = String(describing: Self.self)
+    
+    
     @EnvironmentObject private var account: Account
     @State private var goToNext: Bool = false
     
-    
+    @State private var alertMessage: String = ""
     @State private var someErrorOccured: Bool = false
-    @State private var alertMessage: String  = ""
+    @State private var beginAnimation: Bool = false
+    
+    @State private var likesMen: Bool = false
+    @State private var likesWomen: Bool = false
+    @State private var tappedMore: Bool = false
+
+    
     
     var body: some View {
         
-        // ******* ======  Transitions -- Navigation Links =======
-        //                                                      //
-        //                Goes to the Profile                   //
-        //                                                      //
-     /* || */           NavigationLink(                       /* || */
-    /* || */   destination: FromWhereView().environmentObject(account),
-    /* || */           isActive: $goToNext,                  /* || */
-    /* || */           label: {  EmptyView()  })             /* || */
-    /* || */                                                 /* || */
-    /* || */                                                 /* || */
-        // ******* ================================ **********
+        NavigationStackView(EnterOrientationView.id) {
+            
+            ZStack{
+                
+                let timer = Timer.publish(every: 0.5, on: .main, in: .default).autoconnect()
+
+             
+                Background(timer: timer)
+                    .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
+                    .onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; timer.upstream.connect().cancel()}
+                    .alert(isPresented: $tappedMore) {
+                        Alert(title: Text("TODO: Allow more genders"), message: Text("This is not finished yet, but it will allow you to select additional genders"))
+                    }
+
+            
+                VStack(alignment: .leading){
+                    
+                    Spacer()
+                    
+                    HStack(alignment: .top){
+                        
+                        backButton()
+                        Spacer()
+                        title()
+                        Spacer()
+                    }.offset(y: -45)
+                    
+                    
+                   
+                    
+                    Spacer()
+                    
+                   
+                    
+                    HStack(alignment: .center){
+                        
+                        MakeManButton().padding()
+                        Spacer()
+                        MakeWomanButton().padding()
+                        Spacer()
+                        MakeOtherButton().padding()
+                        
+                        
+                    }
+                    
+                    
+                    Spacer()
+                    Spacer()
+                 
+                   nextButton()
+
+                }
+                
+               
+              
+                
+                
+            } .onAppear {
+                // set view to restore state
+                doneWithSignUp(state: false)
+        }
+        }
+       
         
         
-        ZStack{
-            
-            SetBackground()
-            
-            
-    
-            HStack { MenButton(); WomenButton(); MenAndWomenButton(); EverythingButton()}
-            
-        }.onAppear {  doneWithSignUp(state: false)}
+        
+        
+        
+        
     }
     
     
     
     
     
-    func SetBackground() -> some View {
-        
-        return Image("backgrounds/background1")
-            .resizable()
-            .scaledToFill()
-            .edgesIgnoringSafeArea(.all)
-            .navigationTitle("I like ... ")
-            .navigationBarColor(backgroundColor: .clear, titleColor: .white)
-            .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
-    }
     
-    
-    
-    func MenButton() -> some View {
-        
-        return Button("Men") {
-            // Selected they like Men
-            SelectOrientaionAction(orientaion: "M")
+    // ======================================================================================
+
+
+    func MakeManButton() -> some View  {
+      
+        return Button {
             
-        }.padding()
-    }
-    
-    
-    func WomenButton() -> some View {
-        
-        return Button("Women") {
-            // Selected they like Women
+            likesMen.toggle()
             
-            SelectOrientaionAction(orientaion: "W")
+        } label: {
             
-        }.padding()
-    }
-    
-    func MenAndWomenButton() -> some View {
-        
-        return Button("Men and Women") {
-            // Selected they like women and men
-            SelectOrientaionAction(orientaion: "MW")
+            VStack{
+                
             
-        }.padding()
-    }
-    
-    func EverythingButton() -> some View {
-        
-        return Button("(?)ALL(?)") {
-            // Selected they like everythong
-            SelectOrientaionAction(orientaion: "A")
+                
+                ZStack{
+                    
+                    Image("EnterGenderView/circle3")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 100, height: 100)
+                        .opacity(0.2)
+                    
+                    Image("EnterGenderView/mars")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 40, height: 40)
+                        
+                    
+                }
+                
+                Text("Men")
+                    .foregroundColor(.white)
+                    .shimmering()
+                    
+            }
             
-        }.padding()
+            
+            
+        }.opacity(likesMen ? 0.3 : 1)
+            
+
     }
-    
-    
-    
-    
-    
-    func SelectOrientaionAction(orientaion: String)  {
-        goToNext = true
+
+    func MakeWomanButton() -> some View {
         
-        account.data?.orientation = orientaion
+        return Button {
+            
+            likesWomen.toggle()
+            
+        } label: {
+            
+            VStack{
+                
+                ZStack{
+                    
+                    Image("EnterGenderView/circle-2")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 100, height: 100)
+                        //.opacity(0.2)
+                    
+                    Image("EnterGenderView/venus")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 40, height: 40)
+                        
+                    
+                }
+                
+                Text("Women")
+                    .foregroundColor(.white)
+                    .shimmering()
+
+            }
+            
+                        
+        }.opacity(likesWomen ? 0.2: 1)
+       
+    }
+
+
+    /// Once this button is tapped, the user should be able to enter their own custom gender
+    func MakeOtherButton() -> some View  {
         
-        do {
+        return Button {
+            
+            tappedMore.toggle()
+            
+        } label: {
+            
+            VStack{
+                ZStack{
+                    
+                    Image("EnterGenderView/circle3")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 100, height: 100)
+                        .opacity(0.2)
+                    
+                    Text("...")
+                        .foregroundColor(.white)
+                        .font(.system(size: 55))
+                        .offset(y: -15)
+                        
+                    
+                }
+                
+                Text("More")
+                    .foregroundColor(.white)
+                    .shimmering()
+            }
+            
+            
+        }.opacity(tappedMore ? 0.3: 1)
+    }
+
+
+
+
+    // ======================================================================================
+
+
+
+
+    func SelectGenderAction(gender: String)  {
+        
+      goToNextView()
+        
+        self.account.data?.sex = gender
+        
+        do{
             
             try account.save()
             
         } catch (let error){
             
-            goToNext = false
+            // Handle Error //
+            
+            comeBackToView()
+            
             handle(error)
+            
+            // Handle Error //
         }
         
+            
         
+        
+    }
+
+
+
+
+    /// Title of the view text .
+    func title() -> some View {
+        
+        var gender = account.data?.sex
+        
+        if gender == "M" { gender = "male"}
+        if gender == "F" { gender = "female"}
+        
+        return Text("I am a \(gender ?? "male") that likes...")
+            .foregroundColor(.white)
+            .font(.largeTitle)
+            .bold()
+            .offset(x: 0)
+    }
+    
+    /// Goes back to the login screen
+    func goBack()   {
+        
+        navigation.hideViewWithReverseAnimation(EnterGenderView.id)
+        
+    }
+    
+    /// Left Back Button
+    func backButton() -> some View {
+        
+       return Button {
+            
+            goBack()
+            
+        } label: {
+            
+             Image("RootView/right-arrow")
+                .resizable()
+                .scaledToFit()
+                .rotationEffect(.degrees(180))
+                .frame(width: 33, height: 66)
+                .offset(x: beginAnimation ? 7: 0, y: -10)
+                .animation(.easeInOut(duration: 1.3).repeatForever(autoreverses: true), value: beginAnimation)
+                .onAppear { withAnimation { beginAnimation = true } }
+                
+            
+              
+        }
+
+       
+            
+            
+            
+    }
+    
+    /// Comes back to this view since an error occured.
+    func comeBackToView()  {
+        
+        navigation.hideViewWithReverseAnimation(EnterOrientationView.id)
+        
+    }
+    
+    /// Goes to the next screen / view,. Verification Code Screen
+    func goToNextView()  {
+        
+        
+        let animation = NavigationAnimation(
+            animation: .easeInOut(duration: 0.8),
+            defaultViewTransition: .static,
+            alternativeViewTransition: .opacity
+        )
+        
+        navigation.showView(EnterOrientationView.id, animation: animation) { FromWhereView().environmentObject(navigation)
+                            .environmentObject(account)
+            
+
+            
+        }
+        
+    }
+    
+    func nextButton() -> some View {
+        
+        return  Button {
+            // Goes to next screen
+            
+            guard likesMen == true || likesWomen == true else {
+                //user needs to tap at least one before going to next screen
+                return
+            }
+            
+            
+            // Go to next
+            goToNextView()
+            
+            var orientation: String  = ""
+            if likesMen { orientation += "M" }
+            if likesWomen { orientation += "W"}
+                //orientation = orientation.sorted()
+            
+            account.data?.orientation = orientation
+            
+            do {
+                try account.save()
+                
+            } catch (let error) {
+                
+                print("Some error happened ... \(error)")
+               comeBackToView()
+                handle(error)
+            }
+            
+            
+        } label: {
+            
+            Spacer()
+            
+            Text("Next")
+                .foregroundColor(.white)
+                .font(.system(size: 23))
+                
+            
+            Image("RootView/right-arrow")
+               .resizable()
+               .scaledToFit()
+               .frame(width: 33, height: 66)
+               .offset(x: beginAnimation ? 10: 0, y: 0)
+               .animation(.easeInOut(duration: 1.3).repeatForever(autoreverses: true), value: beginAnimation)
+               .onAppear { withAnimation { beginAnimation = true } }
+            
+            Spacer()
+            
+               
+        }.opacity( (likesMen == false  && likesWomen == false ) ? 0.5 : 1.0 )
     }
 
 
     func handle(_ error: Error)  {
         
         // Handle Error
+        someErrorOccured = true 
         if let error = error as? AccountError{
             
             switch error {
@@ -178,11 +453,28 @@ struct EnterOrientationView: View {
         // Handle Error
         
     }
+
+    
 }
+
+
+
+
+
+
+
+
+
+
 
 @available(iOS 15.0, *)
 struct EnterOrientationView_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationView{EnterOrientationView().environmentObject(Account()).preferredColorScheme(.dark)}
+        
+
+            EnterOrientationView().environmentObject(Account())
+                .environmentObject(NavigationModel())
+    
+       
     }
 }
