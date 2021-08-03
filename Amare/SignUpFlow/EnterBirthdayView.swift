@@ -44,12 +44,19 @@ struct EnterBirthdayView: View {
                     
                     
                 let timer = Timer.publish(every: 0.5, on: .main, in: .default).autoconnect()
-
-             
+            
                 Background(timer: timer)
                     .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
+                    .onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; timer.upstream.connect().cancel()}
                     
                     VStack{
+                        
+                        HStack(alignment: .top){
+                            
+                            backButton()
+                            title()
+                            Spacer()
+                        }.offset(y: 45)
                         
                         Spacer()
                         
