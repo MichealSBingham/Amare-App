@@ -86,6 +86,7 @@ struct Birthday: Codable{
 
 struct Place: Codable  {
     
+    
     var latitude: Double?
     var longitude: Double?
     

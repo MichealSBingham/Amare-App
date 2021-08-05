@@ -331,7 +331,7 @@ struct EnterOrientationView: View {
         )
         
         navigation.showView(EnterOrientationView.id, animation: animation) { FromWhereView().environmentObject(navigation)
-                            .environmentObject(account)
+                .environmentObject(account)
             
 
             

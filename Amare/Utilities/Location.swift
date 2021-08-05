@@ -6,11 +6,11 @@
 //
 
 import Foundation
-
-
+import CoreLocation
 import MapKit
 import Contacts
 import GeoFire
+import Combine
 
 
 class Location {
@@ -52,7 +52,6 @@ class Location {
 }
 
 
-
 extension CLPlacemark {
     /// street name, eg. Infinite Loop
     var streetName: String? { thoroughfare }
@@ -82,5 +81,94 @@ extension CLPlacemark {
 extension CLLocation {
     func placemark(completion: @escaping (_ placemark: CLPlacemark?, _ error: Error?) -> ()) {
         CLGeocoder().reverseGeocodeLocation(self) { completion($0?.first, $1) }
+    }
+}
+
+/// We add a published variable here so we can listen for location updates and locations permissions status updates 
+class LocationWhenInUseManager: NSObject, ObservableObject, CLLocationManagerDelegate {
+
+    private let locationManager = CLLocationManager()
+    @Published var locationStatus: CLAuthorizationStatus?
+    @Published var lastLocation: CLLocation?
+
+    override init() {
+        super.init()
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
+    }
+
+   
+    
+    var statusString: String {
+        guard let status = locationStatus else {
+            return "unknown"
+        }
+        
+        switch status {
+        case .notDetermined: return "notDetermined"
+        case .authorizedWhenInUse: return "authorizedWhenInUse"
+        case .authorizedAlways: return "authorizedAlways"
+        case .restricted: return "restricted"
+        case .denied: return "denied"
+        default: return "unknown"
+        }
+    }
+
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        locationStatus = status
+        print(#function, statusString)
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.last else { return }
+        lastLocation = location
+        print(#function, location)
+    }
+}
+
+/// We add a published variable here so we can listen for location updates and locations permissions status updates. This will let you get the user location always
+class LocationAlwaysManager: NSObject, ObservableObject, CLLocationManagerDelegate {
+
+    private let locationManager = CLLocationManager()
+    @Published var locationStatus: CLAuthorizationStatus?
+    @Published var lastLocation: CLLocation?
+
+    override init() {
+        super.init()
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestAlwaysAuthorization()
+        locationManager.startUpdatingLocation()
+        
+    }
+
+   
+    
+    var statusString: String {
+        guard let status = locationStatus else {
+            return "unknown"
+        }
+        
+        switch status {
+        case .notDetermined: return "notDetermined"
+        case .authorizedWhenInUse: return "authorizedWhenInUse"
+        case .authorizedAlways: return "authorizedAlways"
+        case .restricted: return "restricted"
+        case .denied: return "denied"
+        default: return "unknown"
+        }
+    }
+
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        locationStatus = status
+        print(#function, statusString)
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.last else { return }
+        lastLocation = location
+        print(#function, location)
     }
 }

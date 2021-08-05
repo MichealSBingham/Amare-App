@@ -41,6 +41,45 @@ struct FromWhereView: View {
     @State private var go: Bool = false
 
 
+    /// Used for getting the user's location
+    @StateObject var locationManager = LocationWhenInUseManager()
+    
+    @State var places: [MapAnnotation] = []
+
+    @State public var selectedCity: CLPlacemark? {
+         
+         didSet{
+             
+            if let coordinates = selectedCity?.location?.coordinate{
+                
+                var annotation = MapAnnotation(name: selectedCity?.name ?? "", coordinate: coordinates)
+                
+                
+                if let city = selectedCity?.city, let state = selectedCity?.state  {
+                    searchedLocation = "\(city), \(state)"
+                }
+                
+              CLLocation(latitude: selectedCity?.location?.coordinate.latitude ?? 0 , longitude: selectedCity?.location?.coordinate.longitude ?? 0).placemark(completion: { placemark, error in
+                    
+                    guard error == nil else {
+                        print("error getting placemark \(error)")
+                        return 
+                    }
+                    self.timezone = placemark?.timeZone
+                })
+                
+                
+                withAnimation {
+                    
+                    region = MKCoordinateRegion(center: coordinates, latitudinalMeters: 16093.4, longitudinalMeters: 16093.4)
+                }
+                
+                self.places = [annotation]
+            }
+            
+        }
+    }
+    
     
     var body: some View {
         
@@ -50,29 +89,21 @@ struct FromWhereView: View {
             ZStack{
                     
                     
-                
                     
-                    
+               
                     let timer = Timer.publish(every: 0.5, on: .main, in: .default).autoconnect()
                     
-                    /*
-                    MapViewUIKit(region: region, mapType: .hybridFlyover)
-                    .opacity( (citiesSearchResult.isEmpty) ? 1: 0)
-                                    .edgesIgnoringSafeArea(.all)
-                                    .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text("Some Error Occured")) })
-                                    .onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; timer.upstream.connect().cancel()}
+                    
                 
-                    */
-                                
-                Map(coordinateRegion: $region, interactionModes: .all, showsUserLocation: true)
-                   // .opacity( (citiesSearchResult.isEmpty) ? 0: 1)
-                    .animation(.easeInOut, value: citiesSearchResult)
+                       
+                Map(coordinateRegion: $region, interactionModes: .all, showsUserLocation: true, annotationItems: places) {
+                    
+                    MapPin(coordinate: $0.coordinate)
+                    
+                }.animation(.easeInOut, value: selectedCity)
                     .edgesIgnoringSafeArea(.all)
                     .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text("Some Error Occured")) })
-                    .onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; timer.upstream.connect().cancel()}
-                    
-                 
-                       
+                    .onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; /*getCurrentLocationAndAnimateMap();*/ timer.upstream.connect().cancel()}
         
                     
                     VStack(alignment: .center){
@@ -144,8 +175,14 @@ struct FromWhereView: View {
     func searchField() -> some View {
         
      
+     
+        var cityString: String? = nil
         
-        return TextField("New York, NY", text: $searchedLocation)
+        if let city = selectedCity?.city, let state = selectedCity?.state  {
+            cityString = "\(city), \(state)"
+        }
+        
+        return TextField(cityString ?? "New York, NY", text: $searchedLocation)
             
             .foregroundColor(.clear)
             .frame(width: 300, height: 50)
@@ -158,70 +195,54 @@ struct FromWhereView: View {
                 searchForCities { cities in
                     
                     citiesSearchResult = cities
-                    let  loc = citiesSearchResult.first?.placemark // first result in the array
-                
-                    print("The searched location is .. \(loc)")
-                    // Change the region
-                    guard let coordinates = loc?.coordinate else { return }
+                    selectedCity = citiesSearchResult.first?.placemark // first result in the array
                     
-                    withAnimation {
-                        
-                     //   region = // MKCoordinateRegion(center: coordinates,
-                                  //         span: MKCoordinateSpan(latitudeDelta: 180, longitudeDelta: 360))
-                     region = MKCoordinateRegion(center: coordinates, latitudinalMeters: 16093.4, longitudinalMeters: 16093.4)
-                    }
+                /*
+                    timezone = selectedCity?.timeZone
+                    print("Placemark timezone on submit .. \(citiesSearchResult.first?.placemark.timeZone)")
+                    print("Timezone on submit is ... \(citiesSearchResult.first?.timeZone)")
                     
-                    
+                    print("on submit.. timezone.. \(selectedCity?.timeZone)")
+                    */
+    
                     
                 }
                 
             }
-           
+            
             
 
         
         
         
-    /*    return
-        
-            Image("RootView/rectangle")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 300, height: 50, alignment: .center)
-        */
+   
     }
     
     
     
 
-    
-    
-    /*
-    func MakeButtonForSelectingCity() -> some View {
-        
-        print("Making button for selecting city ... ")
-        
-        let cityNameAndState = "\(citiesSearchResult.first?.placemark.city ?? ""), \(citiesSearchResult.first?.placemark.state ?? "")"
-        
-        let city = citiesSearchResult.first
-        
-        return Button(cityNameAndState) {
-            
-          
-            guard city != nil else {
-                
-                return
-            }
-            
-            didSelectCityAction(city: city!)
-            
-           
-            
-        }
+    /// *** *
+    /// -TODO: NEED TO FIX THIS!!!!
+    func viewWillAppear()  {
+        getCurrentLocationAndAnimateMap()
     }
-    */
+  
    
 
+    func getCurrentLocationAndAnimateMap()  {
+        
+        print("Getting current lcoation and animating map...")
+        
+        // Gets the current location
+        locationManager.lastLocation?.placemark(completion: { placemark, error in
+            
+            guard error == nil else { return }
+            
+            selectedCity = placemark
+            
+    })
+        
+    }
     
     
     /// Call this to get a list of cities that are nearby that the user searched for in the searchedLocation binding string
@@ -251,7 +272,7 @@ struct FromWhereView: View {
     }
     
     
-    
+    /*
     func didSelectCityAction(city: MKMapItem)  {
         
         // Pass the time zone to the next view
@@ -278,7 +299,7 @@ struct FromWhereView: View {
          
         
     }
-    
+    */
 
     /// Goes back to the login screen
     func goBack()   {
@@ -324,15 +345,18 @@ struct FromWhereView: View {
     
     /// Goes to the next screen / view,. Verification Code Screen
     func goToNextView()  {
-        
+        //print("On go to next view .. timezone is .. \(self.timezone)")
         
         let animation = NavigationAnimation(
             animation: .easeInOut(duration: 0.8),
             defaultViewTransition: .static,
             alternativeViewTransition: .opacity
         )
-        
-        navigation.showView(FromWhereView.id, animation: animation) { EnterBirthdayView(timezone: self.$timezone).environmentObject(navigation)
+        guard self.timezone != nil else {
+            print("timezone is nil..  selected city is ..\(selectedCity)")
+            return
+        }
+        navigation.showView(FromWhereView.id, animation: animation) { EnterBirthdayView(timezone: $timezone).environmentObject(navigation)
                             .environmentObject(account)
                         
             
@@ -347,22 +371,24 @@ struct FromWhereView: View {
         return  Button {
             // Goes to next screen
           
-            guard  let city = citiesSearchResult.first else {
+            guard  let city = selectedCity else {
                 return
             }
             
+            print("The city is ... \(city)")
             // Set timezone
-            self.timezone = city.timeZone
+           // self.timezone = city.timeZone
             
             // Go to next
             goToNextView()
             
             
-            account.data?.hometown = Place(latitude: city.placemark.coordinate.latitude, longitude: city.placemark.coordinate.longitude, city: city.placemark.city, state: city.placemark.state, country: city.placemark.country, geohash: city.placemark.geohash)
+            account.data?.hometown = Place(latitude: city.location?.coordinate.latitude, longitude: city.location?.coordinate.longitude, city: city.city, state: city.state, country: city.country, geohash: city.geohash)
             
             do {
                 
                 try account.save()
+                
                 
             } catch (let error) {
                 print("Got an error from where ... \(error)")
@@ -490,4 +516,16 @@ extension MKMapView
         MKMapView.animate(withDuration: duration, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 10, options: UIView.AnimationOptions.curveEaseIn, animations:
             { self.setRegion(zoomRegion, animated: true) }, completion: nil)
     }
+}
+
+extension CLLocationCoordinate2D: Identifiable {
+    public var id: String {
+        "\(latitude)-\(longitude)"
+    }
+}
+
+struct MapAnnotation: Identifiable {
+    let id = UUID()
+    let name: String
+    let coordinate: CLLocationCoordinate2D
 }

@@ -13,11 +13,13 @@ import NavigationStack
 @available(iOS 15.0, *)
 struct EnterBirthdayView: View {
     
+    /// id of view
+    static let id = String(describing: Self.self)
+    
     /// To manage navigation
     @EnvironmentObject var navigation: NavigationModel
     
-    /// id of view
-    static let id = String(describing: Self.self)
+ 
     
     @EnvironmentObject private var account: Account
     
@@ -60,7 +62,7 @@ struct EnterBirthdayView: View {
                         
                         Spacer()
                         
-                        DatePicker(selection: $date, in :...Date() , displayedComponents: [.date, .hourAndMinute], label: { Text("Birthday") }).datePickerStyle(.graphical).environment(\.timeZone, timezone!)
+                        DatePicker(selection: $date, in :...Date() , displayedComponents: [.date, .hourAndMinute], label: { Text("Birthday") }).datePickerStyle(.graphical).environment(\.timeZone, self.timezone!)
                         
                         
                         
