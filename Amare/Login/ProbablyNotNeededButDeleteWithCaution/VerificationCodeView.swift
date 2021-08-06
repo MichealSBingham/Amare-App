@@ -3,7 +3,10 @@ import Firebase
 import NavigationStack
 
 
-
+///I**IMPORTANT *********
+/// **FILE IS LIKELY NOT NEEDED BUT I HAVEN'T DELETED IT YET BECAUSE I THINK
+///  **THERE IS AN EXTENSION HERE THAT IS USED ELSEHWERE IN THE CODE
+///  **
 @available(iOS 15.0, *)
 public struct VerificationCodeView: View {
 

@@ -174,6 +174,22 @@
 			path = UserAccount;
 			sourceTree = "<group>";
 		};
+		26AB593526BDE44E00170192 /* ProbablyNotNeededButDeleteWithCaution */ = {
+			isa = PBXGroup;
+			children = (
+				26B1B0092679961100A170B3 /* VerificationCodeView.swift */,
+			);
+			path = ProbablyNotNeededButDeleteWithCaution;
+			sourceTree = "<group>";
+		};
+		26AB593626BDE47100170192 /* NotDone */ = {
+			isa = PBXGroup;
+			children = (
+				2608CF492695131F00826FDA /* PickAttractivePeopleView.swift */,
+			);
+			path = NotDone;
+			sourceTree = "<group>";
+		};
 		26B1AFC92678FFE500A170B3 = {
 			isa = PBXGroup;
 			children = (
@@ -250,9 +266,9 @@
 		26B1B0082679956200A170B3 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				26AB593526BDE44E00170192 /* ProbablyNotNeededButDeleteWithCaution */,
 				26B1AFD72678FFE500A170B3 /* EnterPhoneNumberView.swift */,
 				26EDBB8C26AA7CE2005C1033 /* VerificationCodeView2.swift */,
-				26B1B0092679961100A170B3 /* VerificationCodeView.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -273,6 +289,7 @@
 		26BBF08D267D807F00C84019 /* SignUpFlow */ = {
 			isa = PBXGroup;
 			children = (
+				26AB593626BDE47100170192 /* NotDone */,
 				26BBF094267EBBEF00C84019 /* EnterNameView.swift */,
 				2608CF4B2695136F00826FDA /* EnterGenderView.swift */,
 				2608CF4D2695139800826FDA /* EnterOrientationView.swift */,
@@ -280,7 +297,6 @@
 				26BBF08E267D80FC00C84019 /* EnterBirthdayView.swift */,
 				26BBF092267EBB1300C84019 /* LiveWhereView.swift */,
 				2608CF43268FDE9700826FDA /* ImageUploadView.swift */,
-				2608CF492695131F00826FDA /* PickAttractivePeopleView.swift */,
 			);
 			path = SignUpFlow;
 			sourceTree = "<group>";
