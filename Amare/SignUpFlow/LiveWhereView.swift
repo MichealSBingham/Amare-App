@@ -14,6 +14,7 @@ struct LiveWhereView: View {
     
     /// To manage navigation
     @EnvironmentObject var navigation: NavigationModel
+
     
     /// id of view
     static let id = String(describing: Self.self)
@@ -22,173 +23,226 @@ struct LiveWhereView: View {
     
     @State private var searchedLocation: String = ""
     
-    
     /// Returned locations from when the user attempted to search for their location (Using natural language)
     @State private var citiesSearchResult: [MKMapItem] = []
     
     @State private var goToNext: Bool = false
     
-
     
-    @State private var alertMessage: String  = ""
+    @State var timezone: TimeZone?
+    
     @State private var someErrorOccured: Bool = false
-
-
-var body: some View {
+    @State private var alertMessage: String  = ""
     
+    
+    @State private var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 0, longitude: 0), span: MKCoordinateSpan(latitudeDelta: 180, longitudeDelta: 360))
+    
+    @State private var beginAnimation: Bool = false
+    @State private var go: Bool = false
 
+
+    /// Used for getting the user's location
+    @StateObject var locationManager = LocationWhenInUseManager()
+    
+    @State var places: [MapAnnotation] = []
+
+    @State public var selectedCity: CLPlacemark? {
+         
+         didSet{
+             
+            if let coordinates = selectedCity?.location?.coordinate{
+                
+                var annotation = MapAnnotation(name: selectedCity?.name ?? "", coordinate: coordinates)
+                
+                
+                if let city = selectedCity?.city, let state = selectedCity?.state  {
+                    searchedLocation = "\(city), \(state)"
+                }
+                
+              CLLocation(latitude: selectedCity?.location?.coordinate.latitude ?? 0 , longitude: selectedCity?.location?.coordinate.longitude ?? 0).placemark(completion: { placemark, error in
+                    
+                    guard error == nil else {
+                        print("error getting placemark \(error)")
+                        return
+                    }
+                    self.timezone = placemark?.timeZone
+                })
+                
+                
+                withAnimation {
+                    
+                    region = MKCoordinateRegion(center: coordinates, latitudinalMeters: 16093.4, longitudinalMeters: 16093.4)
+                }
+                
+                self.places = [annotation]
+            }
+            
+        }
+    }
+    
+    
+    var body: some View {
         
-        ZStack{
+      
             
-            // Background Image
-            SetBackground()
-            
-            
-            // ******* ======  Transitions -- Navigation Links =======
-            //                                                      //
-            //                Goes to the Profile                   //
-            //                                                      //
-         /* || */           NavigationLink(                       /* || */
-        /* || */   destination: ImageUploadView().environmentObject(account),
-        /* || */           isActive: $goToNext,                  /* || */
-        /* || */           label: {  EmptyView()  })             /* || */
-        /* || */                                                 /* || */
-        /* || */                                                 /* || */
-            // ******* ================================ **********
-            
-            
-            
-            VStack{
+        NavigationStackView(LiveWhereView.id) {
+            ZStack{
+                    
+                    
+                    
+               
+                    let timer = Timer.publish(every: 0.5, on: .main, in: .default).autoconnect()
+                    
+                    
                 
-              
-                MakeButtonForSelectingCity()
-                MakeTextFieldForSearchingLocation()
+                       
+                Map(coordinateRegion: $region, interactionModes: .all, showsUserLocation: true, annotationItems: places) {
+                    
+                    MapPin(coordinate: $0.coordinate)
+                    
+                }.animation(.easeInOut, value: selectedCity)
+                    .edgesIgnoringSafeArea(.all)
+                    .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text("Some Error Occured")) })
+                    .onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; /*getCurrentLocationAndAnimateMap();*/ timer.upstream.connect().cancel()}
+        
+                    
+                    VStack(alignment: .center){
+                     
+                       
+                        HStack(alignment: .top){
+                            
+                            backButton()
+                            title()
+                            Spacer()
+                        }.offset(y: 45)
+                        
+                        ZStack{
+                            searchField().offset(y: 45)
+                            
+                           
+                            
+                              
+                            HStack{
+                                Spacer()
+                                nextButton()
+                              
+                            }
+                           
+                        }
+                        
+                        
+                    
+                        Spacer()
+                           
+                    }
+                    
                 
+                 
+                    
+                    
+                    
+                    
+                }
+        }
+            
+          
+       
+       
+    }
+    
+    
+    
+    
+    
+    /// Title of the view text .
+    func title() -> some View {
+        
+    
+        
+        return Text("Where do you live?")
+            .foregroundColor(.white)
+            .font(.largeTitle)
+            .bold()
+            .offset(x: 12)
+    }
+    
+    
+    
+    
+    func searchField() -> some View {
+        
+     
+     
+        var cityString: String? = nil
+        
+        if let city = selectedCity?.city, let state = selectedCity?.state  {
+            cityString = "\(city), \(state)"
+        }
+        
+        return TextField(cityString ?? "New York, NY", text: $searchedLocation)
+            
+            .foregroundColor(.clear)
+            .frame(width: 300, height: 50)
+            .background(
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(Color.white.opacity(0.3)
+                    ))
+            .onSubmit {
+                
+                searchForCities { cities in
+                    
+                    citiesSearchResult = cities
+                    selectedCity = citiesSearchResult.first?.placemark // first result in the array
+                    
+                /*
+                    timezone = selectedCity?.timeZone
+                    print("Placemark timezone on submit .. \(citiesSearchResult.first?.placemark.timeZone)")
+                    print("Timezone on submit is ... \(citiesSearchResult.first?.timeZone)")
+                    
+                    print("on submit.. timezone.. \(selectedCity?.timeZone)")
+                    */
+    
+                    
+                }
                 
             }
             
             
-            
-            
-        }
-        .onAppear {
-            doneWithSignUp(state: false)
-        }
+
         
-    
+        
+        
    
-}
-    
-    
-    
-    
-    // ===********************************************************** // \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\\//\/\\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\\/\/\/\/\/
-    
-    
-    // ===********************************************************** // \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\\//\/\\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\\/\/\/\/\/
-    
-    
-    // ===********************************************************** // \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\\//\/\\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\\/\/\/\/\/
-    
-    
-    // ===********************************************************** // \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\\//\/\\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\\/\/\/\/\/
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-// // /// // /// /// / /// /// =================  /// // SETTING UP  Up UI // //  /// =============================
-    // PUT ALL FUNCTIONS RELATED TO BUILDING THE UI HERE.
-    
-    
-    
-    
-    
-
-    
-    
-    func SetBackground() -> some View {
-        
-        return Image("backgrounds/background1")
-            .resizable()
-            .scaledToFill()
-            .edgesIgnoringSafeArea(.all)
-            .navigationTitle("Where do you live?")
-            .navigationBarColor(backgroundColor: .clear, titleColor: .white)
-            .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
-    }
-    
-    
-    func MakeTextFieldForSearchingLocation() -> some View {
-        
-        return   TextField("New York, NY", text: $searchedLocation, onCommit:  {
-            
-            searchForCitiesAction { cities in
-                
-                citiesSearchResult = cities
-            }
-        })
-
     }
     
     
     
-    func MakeButtonForSelectingCity() -> some View {
+    /// *** *
+    /// -TODO: NEED TO FIX THIS!!!!
+    func viewWillAppear()  {
+        getCurrentLocationAndAnimateMap()
+    }
+  
+   
+
+    func getCurrentLocationAndAnimateMap()  {
         
-        let cityNameAndState = "\(citiesSearchResult.first?.placemark.city ?? ""), \(citiesSearchResult.first?.placemark.state ?? "")"
+        print("Getting current lcoation and animating map...")
         
-        let city = citiesSearchResult.first
+        // Gets the current location
+        locationManager.lastLocation?.placemark(completion: { placemark, error in
+            
+            guard error == nil else { return }
+            
+            selectedCity = placemark
+            
+    })
         
-        return Button(cityNameAndState) {
-            
-            guard city != nil else {
-                
-                return
-            }
-            didSelectCityAction(city: city)
-            
-           
-            
-        }
     }
     
-    
-    
-    // // /// // /// /// / /// /// =================  /// // SETTING UP  Up UI // //  /// =============================
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    // // /// // /// /// / /// /// =================  /// // SETTING UP  Functionality  // //  /// =============================
-        // PUT ALL FUNCTIONS RELATED TO Actions and functionality of THE UI HERE.
-        
     
     /// Call this to get a list of cities that are nearby that the user searched for in the searchedLocation binding string
-    func searchForCitiesAction(_ completion: @escaping ([MKMapItem]) -> () )  {
+    func searchForCities(_ completion: @escaping ([MKMapItem]) -> () )  {
         
         // ******************** // Search for city /// ******************** // ********//
 
@@ -213,36 +267,118 @@ var body: some View {
 
     }
     
-    
-    
-    func didSelectCityAction(city: MKMapItem?)  {
+  
+
+    /// Goes back to the login screen
+    func goBack()   {
         
-        goToNext = true
-         
-         account.data?.residence = Place(latitude: city?.placemark.coordinate.latitude, longitude: city?.placemark.coordinate.longitude, city: city?.placemark.city, state: city?.placemark.state, country: city?.placemark.country, geohash: city?.placemark.geohash)
-        
-        do {
-            
-            try account.save()
-            
-        } catch (let error){
-            goToNext = false
-            handle(error)
-        }
-         
-       
+        navigation.hideViewWithReverseAnimation(FromWhereView.id)
         
     }
     
-    // // /// // /// /// / /// /// =================  /// //  // //  /// =============================
+    /// Left Back Button
+    func backButton() -> some View {
+        
+       return Button {
+            
+            goBack()
+            
+        } label: {
+            
+             Image("RootView/right-arrow")
+                .resizable()
+                .scaledToFit()
+                .rotationEffect(.degrees(180))
+                .frame(width: 33, height: 66)
+                .offset(x: beginAnimation ? 7: 0, y: -10)
+                .animation(.easeInOut(duration: 1.3).repeatForever(autoreverses: true), value: beginAnimation)
+                .onAppear { withAnimation { beginAnimation = true } }
+                
+            
+              
+        }
 
+       
+            
+            
+            
+    }
+    
+    /// Comes back to this view since an error occured.
+    func comeBackToView()  {
         
-    
-    
-    
+        navigation.hideViewWithReverseAnimation(LiveWhereView.id)
         
+    }
+    
+    /// Goes to the next screen / view,. Verification Code Screen
+    func goToNextView()  {
+       
+        
+        let animation = NavigationAnimation(
+            animation: .easeInOut(duration: 0.8),
+            defaultViewTransition: .static,
+            alternativeViewTransition: .opacity
+        )
+       
+        
+        navigation.showView(LiveWhereView.id, animation: animation) { ImageUploadView().environmentObject(navigation)
+                            .environmentObject(account)
+        }
+        
+    }
+    
+    func nextButton() -> some View {
+        
+        return  Button {
+            // Goes to next screen
+          
+            guard  let city = selectedCity else {
+                return
+            }
+            
+          
+            
+            // Go to next
+            goToNextView()
+            
+            
+            account.data?.residence = Place(latitude: city.location?.coordinate.latitude, longitude: city.location?.coordinate.longitude, city: city.city, state: city.state, country: city.country, geohash: city.geohash)
+            
+            do {
+                
+                try account.save()
+                
+                
+            } catch (let error) {
+                print("Got an error from where ... \(error)")
+               comeBackToView()
+                handle(error)
+            }
+            
+            
+        } label: {
+            
+           
+                
+            
+            Image("RootView/right-arrow")
+               .resizable()
+               .scaledToFit()
+               .frame(width: 33, height: 66)
+               .offset(x: beginAnimation ? -15: 0, y: 0)
+               .animation(.easeInOut(duration: 1.3).repeatForever(autoreverses: true), value: beginAnimation)
+               .onAppear { withAnimation { beginAnimation = true } }
+            
+          
+            
+               
+        }
+    }
+    
+    
     func handle(_ error: Error)  {
-        
+        someErrorOccured = true
         // Handle Error
         if let error = error as? AccountError{
             
@@ -299,18 +435,19 @@ var body: some View {
         
     }
     
-    
-    
 }
 
 @available(iOS 15.0, *)
 struct LiveWhereView_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationView{
-            
-            LiveWhereView().environmentObject(Account()).preferredColorScheme(.dark)
-                
-
-        }
+        
+            LiveWhereView().environmentObject(Account())
+                .preferredColorScheme(.dark)
+                .environmentObject(NavigationModel())
+        
+        
     }
 }
+
+
+

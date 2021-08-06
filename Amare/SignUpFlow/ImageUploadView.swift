@@ -8,8 +8,7 @@
 import SwiftUI
 import NavigationStack
 
-@available(iOS 15.0, *)
-@available(iOS 15.0, *)
+
 @available(iOS 15.0, *)
 struct ImageUploadView: View {
     
@@ -22,201 +21,306 @@ struct ImageUploadView: View {
     @EnvironmentObject private var account: Account
     
     
-    @State private var goToNext: Bool = false
+   // @State private var goToNext: Bool = false
     
     
     @State var showImagePicker: Bool = false
     
     @State var image: UIImage?
 
-    @State var profileimage: UIImage?
+    //@State var profileimage: UIImage?
     
     @State private var someErrorOccured: Bool = false
     @State private var alertMessage: String  = ""
     
+    @State private var beginAnimation: Bool = false
     
     var body: some View {
         
         
-        ZStack {
+        NavigationStackView(ImageUploadView.id) {
             
-            SetBackground()
-            
-            // ******* ======  Transitions -- Navigation Links =======
-            //                                                      //
-            //                Goes to the Profile                   //
-            //                                                      //
-         /* || */           NavigationLink(                       /* || */
-        /* || */   destination: ProfileView().environmentObject(account),
-        /* || */           isActive: $goToNext,                  /* || */
-        /* || */           label: {  EmptyView()  })             /* || */
-        /* || */                                                 /* || */
-        /* || */                                                 /* || */
-            // ******* ================================ **********
-            
-            
-            VStack {
+            ZStack {
                 
-                Spacer()
-                                
-                HStack{
-        
-                    ButtonForSelectingImage()
-                    ButtonForSelectingImage2()
-                    ButtonForSelectingImage3()
-                    ButtonForSelectingImage4()
-                }
-                
-              Spacer()
-            
-                       
-                
-               
-                
-                
-                
-                Button("Upload") {
-               
-                    account.upload(image: image!, isProfileImage: true) { error in
-                        
-                        if let error = error{
-                            print("There was some error ")
-                            goToNext = false
-                        }
-                        
-                        print("Image uploaded. ")
-                    }
-                }
-                
-                Button("Next") {
-                    goToNext = true
-                }
-                
-                
-                
-                
-                Spacer()
-                
-                    }
+                let timer = Timer.publish(every: 0.5, on: .main, in: .default).autoconnect()
+
+             
+                Background(timer: timer)
+                    .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
+                    .onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; timer.upstream.connect().cancel()}
                     .sheet(isPresented: $showImagePicker) {
                         ImagePickerView(sourceType: .photoLibrary) { image in
                             self.image = image
                         }
                 }
-            
-                    
-        }.onAppear {
-            doneWithSignUp(state: false)
-        }
-        
-            
-        
-    
-        
-        
-    }
-    
-    
-    
-    
-    
-    
-// // /// // /// /// / /// /// =================  /// // SETTING UP  Up UI // //  /// =============================
-    // PUT ALL FUNCTIONS RELATED TO BUILDING THE UI HERE.
-    
-    
-    
-    
-    
-
-    
-    
-    func SetBackground() -> some View {
-        
-        return Image("backgrounds/background1")
-            .resizable()
-            .scaledToFill()
-            .edgesIgnoringSafeArea(.all)
-            .navigationTitle("Upload Profile Images")
-            .navigationBarColor(backgroundColor: .clear, titleColor: .white)
-            .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
-    }
-    
-    
-    func ButtonForSelectingImage() -> some View {
-        
-        if image != nil {
-            Image(uiImage: image!)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-        }
-        return Button("Pick image") {
-            self.showImagePicker.toggle()
                 
+                
+                VStack {
+                    
+                   
+                    Spacer()
+                    
+                    HStack(alignment: .top){
+                        
+                        backButton()
+                        Spacer()
+                        title()
+                        Spacer()
+                        
+                    }.offset(y: -45)
+                    
+                    pickProfileImageButton()
+                    
+                   Spacer()
+                    
+                    nextButton()
+                    
+                    Spacer()
+                    Spacer()
+                    
+                        }
+                        
+                
+                        
+            }
         }
+            
+        
+    
+        
+        
     }
     
-    func ButtonForSelectingImage2() -> some View {
-        
-        if image != nil {
-            Image(uiImage: image!)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-        }
-        return Button("Pick image") {
-            self.showImagePicker.toggle()
-        }
-    }
     
-    func ButtonForSelectingImage3() -> some View {
-        
-        if image != nil {
-            Image(uiImage: image!)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-        }
-        return Button("Pick image") {
-            self.showImagePicker.toggle()
-        }
-    }
+    
+    
+    
+    
 
     
-    func ButtonForSelectingImage4() -> some View {
+    ///
+    func pickProfileImageButton() -> some View {
         
-        if image != nil {
-            Image(uiImage: image!)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
+        return Button {
+            
+            showImagePicker = true
+            
+        } label: {
+            
+            ZStack{
+                
+                Group{
+                    
+                    Image("ImageUploadView/emptyprofilepic")
+                    Image(systemName: "person")
+                        .resizable()
+                        .foregroundColor(.gray)
+                        .frame(width: 120, height: 120, alignment: .center)
+                }.opacity(self.image == nil ? 1: 0)
+               
+                
+                selectedUIImage()
+                    
+
+            }
         }
-        return Button("Pick image") {
-            self.showImagePicker.toggle()
+
+         
+        
+    }
+    
+    /// The user's selected profile pic UI Image View
+    func selectedUIImage() -> some View {
+        
+        Image(uiImage: image ?? UIImage(systemName: "person")!)
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .opacity(image != nil ? 1: 0)
+            .frame(width: 250, height: 250)
+    }
+    
+
+    func title() -> some View {
+        
+    
+        
+        return Text("Upload Profile Image")
+            .foregroundColor(.white)
+            .font(.largeTitle)
+            .bold()
+            .offset(x: 12)
+    }
+    
+    
+    /// Goes back to the login screen
+    func goBack()   {
+        
+        navigation.hideViewWithReverseAnimation(LiveWhereView.id)
+        
+    }
+    
+    /// Left Back Button
+    func backButton() -> some View {
+        
+       return Button {
+            
+            goBack()
+            
+        } label: {
+            
+             Image("RootView/right-arrow")
+                .resizable()
+                .scaledToFit()
+                .rotationEffect(.degrees(180))
+                .frame(width: 33, height: 66)
+                .offset(x: beginAnimation ? 7: 0, y: -10)
+                .animation(.easeInOut(duration: 1.3).repeatForever(autoreverses: true), value: beginAnimation)
+                .onAppear { withAnimation { beginAnimation = true } }
+                
+            
+              
+        }
+
+       
+            
+            
+            
+    }
+    
+    /// Comes back to this view since an error occured.
+    func comeBackToView()  {
+        
+        navigation.hideViewWithReverseAnimation(ImageUploadView.id)
+        
+    }
+    
+    /// Goes to the next screen /
+    func goToNextView()  {
+       
+        guard image != nil else {
+            return 
+        }
+        let animation = NavigationAnimation(
+            animation: .easeInOut(duration: 0.8),
+            defaultViewTransition: .static,
+            alternativeViewTransition: .opacity
+        )
+       
+        
+        navigation.showView(ImageUploadView.id, animation: animation) { ProfileView().environmentObject(navigation)
+                            .environmentObject(account)
+        }
+        
+    }
+    
+    func nextButton() -> some View {
+        
+        return  Button {
+            // Goes to next screen
+            goToNextView()
+            
+            account.upload(image: image!, isProfileImage: true) { error in
+                
+                if let error = error{
+                
+                    comeBackToView()
+                    handle(error)
+                }
+                
+            }
+         
+        
+            
+            
+        } label: {
+            
+           
+            
+            Spacer()
+            
+            Text("Next")
+                .foregroundColor(.white)
+                .font(.system(size: 23))
+                
+            
+            Image("RootView/right-arrow")
+               .resizable()
+               .scaledToFit()
+               .frame(width: 33, height: 66)
+               .offset(x: beginAnimation ? 10: 0, y: 0)
+               .animation(.easeInOut(duration: 1.3).repeatForever(autoreverses: true), value: beginAnimation)
+               .onAppear { withAnimation { beginAnimation = true } }
+            
+            Spacer()
+               
         }
     }
-
-
     
-    func ButtonForSelectingProfileImage() -> some View {
+    func handle(_ error: Error)  {
+        someErrorOccured = true
+        // Handle Error
+        if let error = error as? AccountError{
+            
+            switch error {
+            case .doesNotExist:
+                alertMessage = "You do not exist."
+            case .disabledUser:
+                alertMessage = "Sorry, your account is disabled."
+            case .expiredVerificationCode:
+                alertMessage = "Your verification code has expired."
+            case .wrong:
+                alertMessage = "You entered the wrong code"
+            case .notSignedIn:
+                alertMessage = "You are not signed in."
+            case .uploadError:
+                alertMessage = "There was some upload Error"
+            case .notAuthorized:
+                alertMessage = "You are not authorized to do this."
+            case .expiredActionCode:
+                alertMessage = "The action code has expired"
+            case .sessionExpired:
+                alertMessage = "The session has expired"
+            case .userTokenExpired:
+                alertMessage = "The user token has expired"
+            }
+        }
         
-        if profileimage != nil {
-            Image(uiImage: profileimage!)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
+        if let error = error as? GlobalError{
+            
+            switch error {
+            case .networkError:
+                alertMessage = "There is a network error. Lost internet connection"
+            case .tooManyRequests:
+                alertMessage = "You're trying too many times to ping our servers. Wait a bit."
+            case .captchaCheckFailed:
+                alertMessage = "You might be a robot because you failed the captcha check and that's quite rare. Goodbye."
+            case .invalidInput:
+                alertMessage = "You entered something wrong with the wrong format."
+            case .quotaExceeded:
+                alertMessage = "This isn't your fault. We need to scale to be able to withstand the current quota. Just try again in a bit."
+            case .notAllowed:
+                alertMessage = "You are not allowed to do that."
+            case .internalError:
+                alertMessage = "There was some internal error with us. Not your fault."
+            case .cantGetVerificationID:
+                alertMessage = "This isn't an end-user error and you honestly should not be seeing this. If you did, something is broken. Report it to us because your verification ID is not being saved."
+            case .unknown:
+                alertMessage = "I'm not sure what this error is, lol."
+            }
         }
-        return Button("Pick image") {
-            self.showImagePicker.toggle()
-        }
+        
+        
+        // Handle Error
+        
     }
-    
-    
-    
-// // /// // /// /// / /// /// =================  /// // SETTING UP  Up UI // //  /// =============================
     
 }
 
-@available(iOS 15.0, *)
+
 @available(iOS 15.0, *)
 struct ImageUploadView_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationView {ImageUploadView().preferredColorScheme(.dark).environmentObject(Account())}
+        ImageUploadView().preferredColorScheme(.dark).environmentObject(Account())
+            .environmentObject(NavigationModel())
     }
 }

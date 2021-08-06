@@ -34,6 +34,8 @@ struct EnterBirthdayView: View {
     
     @State private var beginAnimation: Bool = false
     
+    @State private var didTapNext: Bool = false
+    
     var body: some View {
         
      
@@ -50,6 +52,19 @@ struct EnterBirthdayView: View {
                 Background(timer: timer)
                     .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
                     .onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; timer.upstream.connect().cancel()}
+                    .alert(isPresented: $didTapNext) {
+                       
+                        
+                        Alert(
+                                        title: Text("Is this when you were born?"),
+                                        message: Text("\(date)"),
+                                        primaryButton: .default(Text("Yes")) {
+                                            saveBirthdayAndGoToNextView()
+                                        },
+                                        secondaryButton: .destructive(Text("No"))
+                                    )
+                
+                    }
                     
                     VStack{
                         
@@ -62,37 +77,13 @@ struct EnterBirthdayView: View {
                         
                         Spacer()
                         
-                        DatePicker(selection: $date, in :...Date() , displayedComponents: [.date, .hourAndMinute], label: { Text("Birthday") }).datePickerStyle(.graphical).environment(\.timeZone, self.timezone!)
+                        DatePicker(selection: $date, in :...Date().dateFor(years: -13) , displayedComponents: [.date, .hourAndMinute], label: { Text("Birthday") }).datePickerStyle(.graphical).environment(\.timeZone, self.timezone!)
                         
                         
-                        
+                    
                         Spacer()
                         
-                        Button("Done") {
-                            
-                            
-                            // Corrects the time zone of the date
-                            
-                                  
-                            
-                            
-                            let bday = Birthday(timestamp: Timestamp(date: date), month: date.month(), day: date.day(), year: date.year())
-                            
-                            
-                            account.data?.birthday = bday
-                            
-                            do {
-                                
-                                try account.save()
-                                
-                            } catch (let error){
-                                
-                                handle(error)
-                            }
-                          
-                            
-                        }
-                        
+                        nextButton()
                         Spacer()
                         Spacer()
                         Spacer()
@@ -102,9 +93,7 @@ struct EnterBirthdayView: View {
                     
                     
                     
-                } .onAppear {
-                    doneWithSignUp(state: false)
-            }
+                } 
         }
             
            
@@ -116,6 +105,24 @@ struct EnterBirthdayView: View {
     
     
     
+    func saveBirthdayAndGoToNextView()  {
+        
+        let bday = Birthday(timestamp: Timestamp(date: date), month: date.month(), day: date.day(), year: date.year())
+        
+        
+        account.data?.birthday = bday
+        
+        do {
+            
+            try account.save()
+            goToNextView()
+            
+        } catch (let error){
+            comeBackToView()
+            handle(error)
+        }
+
+    }
     
     /// Title of the view text .
     func title() -> some View {
@@ -189,6 +196,40 @@ struct EnterBirthdayView: View {
         
     }
     
+    func nextButton() -> some View {
+        
+        return  Button {
+            // Goes to next screen
+            
+          didTapNext = true
+            
+            
+            
+        } label: {
+            
+            Spacer()
+            
+            Text("Next")
+                .foregroundColor(.white)
+                .font(.system(size: 23))
+                
+            
+            Image("RootView/right-arrow")
+               .resizable()
+               .scaledToFit()
+               .frame(width: 33, height: 66)
+               .offset(x: beginAnimation ? 10: 0, y: 0)
+               .animation(.easeInOut(duration: 1.3).repeatForever(autoreverses: true), value: beginAnimation)
+               .onAppear { withAnimation { beginAnimation = true } }
+            
+            Spacer()
+            
+               
+        }
+    }
+
+
+    
     func handle(_ error: Error)  {
         someErrorOccured = true
         // Handle Error
@@ -248,55 +289,7 @@ struct EnterBirthdayView: View {
     }
 
     
-    /*
-    func nextButton() -> some View {
-        
-        return  Button {
-            // Goes to next screen
-          
-            guard  let city = citiesSearchResult.first else {
-                return
-            }
-            
-            // Set timezone
-            self.timezone = city.timeZone
-            
-            // Go to next
-            goToNextView()
-            
-            
-            account.data?.hometown = Place(latitude: city.placemark.coordinate.latitude, longitude: city.placemark.coordinate.longitude, city: city.placemark.city, state: city.placemark.state, country: city.placemark.country, geohash: city.placemark.geohash)
-            
-            do {
-                
-                try account.save()
-                
-            } catch (let error) {
-                print("Got an error from where ... \(error)")
-               comeBackToView()
-                handle(error)
-            }
-            
-            
-        } label: {
-            
-           
-                
-            
-            Image("RootView/right-arrow")
-               .resizable()
-               .scaledToFit()
-               .frame(width: 33, height: 66)
-               .offset(x: beginAnimation ? -15: 0, y: 0)
-               .animation(.easeInOut(duration: 1.3).repeatForever(autoreverses: true), value: beginAnimation)
-               .onAppear { withAnimation { beginAnimation = true } }
-            
-          
-            
-               
-        }//.opacity( (likesMen == false  && likesWomen == false ) ? 0.5 : 1.0 )
-    }
-    */
+
     
     
     

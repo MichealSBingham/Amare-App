@@ -140,5 +140,16 @@ extension Timestamp{
 }
 
 
+extension Date {
+    func getDateFor(days:Int) -> Date? {
+         return Calendar.current.date(byAdding: .day, value: days, to: Date())
+    }
+
+    /// Extension for returning the `Date` +- years from the current date
+    func dateFor(years: Int) -> Date {
+        
+        return Calendar.current.date(byAdding: .year, value: years, to: Date()) ?? Date()
+    }
+}
 
 
