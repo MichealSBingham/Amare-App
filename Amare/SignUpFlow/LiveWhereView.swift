@@ -324,7 +324,11 @@ struct LiveWhereView: View {
         
         navigation.showView(LiveWhereView.id, animation: animation) { ImageUploadView().environmentObject(navigation)
                             .environmentObject(account)
+                            
+            
         }
+        
+        
         
     }
     

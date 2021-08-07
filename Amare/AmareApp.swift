@@ -101,7 +101,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func applicationWillTerminate(_ application: UIApplication) {
         
-        
         if !(isDoneWithSignUp()){
                 // if not done with sign up... log user out.
             account.signOut { error in
@@ -110,12 +109,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     return
                 }
                 
-                NavigationUtil.popToRootView()
+                //NavigationUtil.popToRootView()
             }
             
           
         }
-
+        
+        
         
     }
     

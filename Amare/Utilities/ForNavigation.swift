@@ -93,10 +93,13 @@ struct NavigationBarModifier: ViewModifier {
 
 /// Checks if the user finished the sign up process .
 func isDoneWithSignUp() -> Bool {
-    return UserDefaults.standard.bool(forKey: "isDoneWithSignUp")
+    //return UserDefaults.standard.bool(forKey: "isDoneWithSignUp")
+    return false 
+    
 }
 
-/// Call this every time the profile is loaded so system knows  that when the app quits it does not need to restore sign up state . Set to false on screens during sign up flow 
+/// Call this every time the profile is loaded so system knows  that when the app quits it does not need to restore sign up state . Set to false on screens during sign up flow
+///  - **Deprecated** : Don't use this anymore because it doesn't work and it is not needed.
 func doneWithSignUp(state: Bool = true )  {
     UserDefaults.standard.set(state, forKey: "isDoneWithSignUp")
 }

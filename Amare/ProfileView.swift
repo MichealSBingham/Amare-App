@@ -27,6 +27,7 @@ struct ProfileView: View {
     var body: some View {
         
         NavigationStackView(ProfileView.id) {
+            
             ZStack{
                SetBackground()
               
@@ -60,9 +61,7 @@ struct ProfileView: View {
             } .onAppear(perform: {
                 
                 
-               // account.listen() not sure if I need these are not yet
-               // account.stopListening()
-                
+            
                 doneWithSignUp()
                 account.listen_for_user_data_updates()
                 account.listenOnlyForSignOut()
@@ -102,7 +101,7 @@ struct ProfileView: View {
             .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
             .onReceive(NotificationCenter.default.publisher(for: NSNotification.logout), perform: { _ in
                 
-                NavigationUtil.popToRootView()
+            // NavigationUtil.popToRootView()
             
             })
         
@@ -121,6 +120,9 @@ struct ProfileView: View {
                     alertMessage = "Some error when trying to sign out"
                     return
                 }
+                goBackToRootView()
+                
+                
             }
             
        
@@ -129,9 +131,30 @@ struct ProfileView: View {
 
     }
     
+    func goBackToRootView()  {
+
+       // navigation.hideViewWithReverseAnimation(RootView.id)
+            
+        let animation = NavigationAnimation(
+            animation: .easeInOut(duration: 0.8),
+            defaultViewTransition: .static,
+            alternativeViewTransition: .opacity
+        )
+       
+        
+        navigation.showView(ProfileView.id, animation: animation) {
+            
+            RootView().environmentObject(navigation)
+                            .environmentObject(account)
+                           
+            
+        }
+    }
+    
     func MakeProfileImage() -> some View {
         
-        return AsyncImage(url: URL(string: (account.data?.profile_image_url) ?? "")).frame(width: 200, height: 200, alignment: .center)
+        return AsyncImage(url: URL(string: (account.data?.profile_image_url) ?? ""))
+            .frame(width: 200, height: 200, alignment: .center)
     }
     
     func MakeQRCode() -> some View {
@@ -157,11 +180,12 @@ struct ProfileView: View {
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
         
-        NavigationView{
+        
             
             ProfileView().environmentObject(Account())
+            .environmentObject(NavigationModel())
                           //  .preferredColorScheme(.dark)
-        }
+        
         
             
     }

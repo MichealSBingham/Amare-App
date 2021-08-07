@@ -58,6 +58,7 @@ struct RootView: View {
                     if account.isSignedIn{
                         // Go to the profile if signed in
                         ProfileView().environmentObject(self.account)
+                                    .environmentObject(navigation)
                         
                     } else{
                         
@@ -67,7 +68,7 @@ struct RootView: View {
                             
                             
                             let timer = Timer.publish(every: 5, on: .main, in: .default).autoconnect()
-                            let timer2 = Timer.publish(every: 1, on: .main, in: .default).autoconnect()
+                        
 
                             Background()
                                 .onReceive(timer) { _ in language.toggle(); /*withAnimation{beginAnimation.toggle()}*/ }

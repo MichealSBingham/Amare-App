@@ -44,7 +44,6 @@ struct EnterBirthdayView: View {
             
             ZStack{
                     
-                  
                     
                     
                 let timer = Timer.publish(every: 0.5, on: .main, in: .default).autoconnect()

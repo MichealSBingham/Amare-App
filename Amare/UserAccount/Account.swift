@@ -897,13 +897,24 @@ class Account: ObservableObject {
                 let imageURL = url?.absoluteString
                 
                 // Set the url link in the database
+               
                 
-                if isProfileImage{  self.data?.profile_image_url = imageURL }
+                if isProfileImage{  self.data?.profile_image_url = imageURL
+                    
+                    print("It's a profile image... \(self.data?.profile_image_url)")
+                    do{
+                        print("trying...to save profile image ")
+                        try self.save()
+                    } catch (let error){
+                        print("could not save profile image with error .. \(error)")
+                        completion?(error)
+                    }
+                }
 
+                
                 // Now add it to the images array
                 //****************************
                
-             //  let data =  UserData(id: self.user?.uid, images: [imageURL!])
                 
              
                 
@@ -942,21 +953,32 @@ class Account: ObservableObject {
                                         
                                         guard error == nil else {
                                             // It didn't work so just try again
-                                            print("We failed trying to recursiviely upload the image if .objectNotfound with error \(error!.localizedDescription)")
+                                            print("error We failed trying to recursiviely upload the image if .objectNotfound with error \(error!.localizedDescription)")
                                             completion?(GlobalError.unknown)
                                             return
                                             
                                         }
                                         // It worked.
-                                        
-                                        self.set(data: self.data ?? UserData(profile_image_url: imageURL)) { error in
-                                            
-                                            guard error == nil else {
-                                                completion?(error)
-                                                return
-                                            }
+                                        completion?(nil) 
+                                        /*
+                                        guard isProfileImage else {
+                                            // it's not a profile image so exit
                                             completion?(nil)
+                                            return
                                         }
+                                        
+                                        do {
+                                            
+                                            try self.save(completion: { error in
+                                                
+                                                completion?(error)
+                                            })
+                                            
+                                        } catch (let error){
+                                            
+                                            completion?(error)
+                                        } */
+                                        
                                     }
                                 }
                            
@@ -974,20 +996,28 @@ class Account: ObservableObject {
                         return
                     }
                    
-                    
-                    // It worked
-                    completion?(nil)
-                    // Set the profile image url to the user data as well
-                    
-                    self.set(data: self.data ?? UserData(profile_image_url: imageURL)) { error in
-                        
-                        guard error == nil else {
-                            completion?(error)
-                            return
-                        }
+                    /*
+                    // It added the images to the array in the database so if doesn't need to update the profile image (i.e, the image uploaded was *not* a profile image.. escape from the function
+                    guard isProfileImage else {
+                            // escape because it's not a profile image.
                         completion?(nil)
+                        return
                     }
-
+                    
+                    // Set the profile image url to the user data as well
+                    do {
+                        
+                        try self.save(completion: { error in
+                            
+                            completion?(error)
+                        })
+                        
+                    } catch (let error) {
+                        // some error happed
+                        completion?(error)
+                    }
+                    */
+                    
                     
                 }
                 
