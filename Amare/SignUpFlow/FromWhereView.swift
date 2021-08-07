@@ -65,6 +65,8 @@ struct FromWhereView: View {
                         print("error getting placemark \(error)")
                         return 
                     }
+                  
+                  print("Time zone is ... \(placemark?.timeZone)")
                     self.timezone = placemark?.timeZone
                 })
                 
@@ -143,9 +145,7 @@ struct FromWhereView: View {
                     
                     
                 }
-                .onAppear {
-                    doneWithSignUp(state: false)
-            }
+                
         }
             
           
@@ -352,11 +352,13 @@ struct FromWhereView: View {
             defaultViewTransition: .static,
             alternativeViewTransition: .opacity
         )
-        guard self.timezone != nil else {
-            print("timezone is nil..  selected city is ..\(selectedCity)")
+       
+        
+        guard let timezone = self.timezone else {
+            print("No timezone found in selected city")
             return
         }
-        navigation.showView(FromWhereView.id, animation: animation) { EnterBirthdayView(timezone: $timezone).environmentObject(navigation)
+        navigation.showView(FromWhereView.id, animation: animation) { EnterBirthdayView(timezone: timezone).environmentObject(navigation)
                             .environmentObject(account)
                         
             

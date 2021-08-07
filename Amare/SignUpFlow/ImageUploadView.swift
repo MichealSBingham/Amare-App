@@ -69,14 +69,15 @@ struct ImageUploadView: View {
                         
                     }.offset(y: -45)
                     
-                    pickProfileImageButton()
+                    Spacer()
                     
-                   Spacer()
+                    pickProfileImageButton()
+                    Spacer()
+                    Spacer()
                     
                     nextButton()
                     
-                    Spacer()
-                    Spacer()
+                   
                     
                         }
                         

@@ -27,7 +27,7 @@ struct EnterBirthdayView: View {
     
     @State private var date = Date()
     
-    @Binding public var timezone: TimeZone?
+    public var timezone: TimeZone?
     
     @State private var someErrorOccured: Bool = false
     @State private var alertMessage: String  = ""
@@ -300,7 +300,7 @@ struct EnterBirthdayView_Previews: PreviewProvider {
     
     static var previews: some View {
       
-            EnterBirthdayView(timezone: .constant(TimeZone.current)).environmentObject(Account())
+            EnterBirthdayView(timezone: TimeZone.current).environmentObject(Account())
                 .environmentObject(NavigationModel())
                 .preferredColorScheme(.dark)
         
