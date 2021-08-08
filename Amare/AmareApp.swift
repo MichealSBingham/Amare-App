@@ -66,6 +66,12 @@ struct AmareApp: App {
             }
         }
     }
+    
+    /// Dismisses the keyboard
+    func dismissKeyboard(completion: (() -> Void)? = nil )  {
+        UIApplication.shared.dismissKeyboard()
+        completion?()
+    }
 }
 
 

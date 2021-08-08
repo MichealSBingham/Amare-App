@@ -165,7 +165,11 @@ struct VerificationCodeView2: View {
     /// Goes back to the login screen
     func goBack()   {
         
-        self.navigationStack.pop()
+        AmareApp().dismissKeyboard {
+            navigationStack.pop()
+        }
+        
+        
     }
     
     /// Title of the view text .

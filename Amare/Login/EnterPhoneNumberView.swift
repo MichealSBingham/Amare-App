@@ -166,19 +166,16 @@ struct EnterPhoneNumberView: View {
     
     /// Goes back to the login screen
     func goBack()   {
-        dismissKeyboard {
+        
+        AmareApp().dismissKeyboard {
             navigationStack.pop()
         }
-                
+        
+    
         
     }
     
-    /// Dismisses the keyboard
-    func dismissKeyboard(completion: (() -> Void)? = nil )  {
-        UIApplication.shared.dismissKeyboard()
     
-        completion?()
-    }
     
     
     
