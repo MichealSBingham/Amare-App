@@ -13,12 +13,12 @@ import FirebaseAuth
 import PhoneNumberKit
 import NavigationStack
 
-@available(iOS 15.0, *)
+
 struct EnterPhoneNumberView: View {
     /// Used for navigation
     @EnvironmentObject private var navigationStack: NavigationStack
     
-    @State var phone_number_field_text = "+15555555555"
+    @State var phone_number_field_text = ""
     @State var isEditing = true
     
     //Goes to Verification Code Screen or back to Phone Number Screen

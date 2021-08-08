@@ -104,14 +104,7 @@ struct SignInOrUpView: View {
     /// Amare text view below the logo
     func AmareText(language : Language) -> some View {
         
-        /*
-    return Image("branding/Amare-text")
-            .resizable()
-            .scaledToFit()
-            .frame(width: 120, height: 100)
-            .padding(.top, -35)
-            .padding(.bottom, -35)
-        */
+        let timer = Timer.publish(every: 5, on: .main, in: .default).autoconnect()
         
         return Text(language == .Latin ? "AMARE": "LOVE")
                 .foregroundColor(.white)
@@ -121,7 +114,9 @@ struct SignInOrUpView: View {
                 .padding(1)
                 .modifier(FadeModifier(control: (language == .Latin)))
                 .animation(.easeInOut(duration: 2.5)) // Duration of the fade animation
-                
+                .onReceive(timer) { _  in
+                    self.language.toggle()
+                }
                 
         
             
@@ -129,15 +124,7 @@ struct SignInOrUpView: View {
     
     /// Tagline text view below the logo
     func taglineText(language: Language) -> some View {
-        /*
-        return Image("branding/tagline")
-            .resizable()
-            .scaledToFit()
-            .frame(width: 200, height: 200)
-            .padding(.top, -88)
-            .padding(.bottom, -85)
         
-        */
         return Text(language == .Latin ? "Amor Vincit Omnia.": "Love Conquers All.")
            .foregroundColor(.white)
            .font((Font.custom("MontserratAlternates-SemiBold", size: 17)))
