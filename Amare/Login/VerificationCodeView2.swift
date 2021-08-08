@@ -263,7 +263,7 @@ struct VerificationCodeView2: View {
                     
                     return
                 }
-                //  goToNext(screen: signUpState ?? .done)
+                goToNext(screen: signUpState ?? .done)
                 
                 
                 return
@@ -357,11 +357,23 @@ struct VerificationCodeView2: View {
                 someErrorOccured = true
 
             }
+            someErrorOccured = true
         }
         
         
         // Handle Error
         
+    }
+    
+    func goToNext(screen: SignUpState)  {
+        
+        guard screen == .done else {
+           
+            navigationStack.push(EnterNameView().environmentObject(account), withId: EnterNameView.id)
+            return 
+        }
+        
+        navigationStack.push(ProfileView().environmentObject(account), withId: ProfileView.id)
     }
     
     /// Goes to the next view

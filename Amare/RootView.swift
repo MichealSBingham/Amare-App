@@ -27,12 +27,17 @@ struct RootView: View {
             NavigationStackView(transitionType: .custom(.scale), easing: .easeIn(duration: 0.5)){
                 
                 if account.isSignedIn{
+                    
                     ProfileView()
                         .environmentObject(account)
+                        .onAppear(perform: { print("Signed in so go to profile"); account.stopListening()})
+                    
                     
                 } else {
                     SignInOrUpView()
-                        .environmentObject(account)
+                        .onAppear { print("Not signed in so go to sign in "); account.stopListening() }
+                        
+                        
                     
                 }
             }

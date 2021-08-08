@@ -12,7 +12,7 @@ import NavigationStack
 struct EnterGenderView: View {
     
     /// To manage navigation
-  //  //@EnvironmentObject var navigation: NavigationModel
+    @EnvironmentObject private var navigationStack: NavigationStack
     
     /// id of view
     static let id = String(describing: Self.self)

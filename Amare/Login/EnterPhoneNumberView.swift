@@ -49,7 +49,7 @@ struct EnterPhoneNumberView: View {
     
                 
                     
-       // let timer = Timer.publish(every: 0.5, on: .main, in: .default).autoconnect()
+        let timer = Timer.publish(every: 0.5, on: .main, in: .default).autoconnect()
 
                 
                 VStack(alignment: .leading) {
@@ -74,9 +74,7 @@ struct EnterPhoneNumberView: View {
                     
                     
                 }.alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
-            
-           
-                 // .onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; timer.upstream.connect().cancel()}
+                  .onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; timer.upstream.connect().cancel()} // rough fix for animation 
                 
                 
  
