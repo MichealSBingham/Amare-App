@@ -13,7 +13,7 @@ import NavigationStack
 struct FromWhereView: View {
     
     /// To manage navigation
-    @EnvironmentObject var navigation: NavigationModel
+  //  //@EnvironmentObject var navigation: NavigationModel
 
     
     /// id of view
@@ -87,7 +87,7 @@ struct FromWhereView: View {
         
       
             
-        NavigationStackView(FromWhereView.id) {
+        NavigationStackView {
             ZStack{
                     
                     
@@ -304,7 +304,7 @@ struct FromWhereView: View {
     /// Goes back to the login screen
     func goBack()   {
         
-        navigation.hideViewWithReverseAnimation(EnterOrientationView.id)
+        //navigation.hideViewWithReverseAnimation(EnterOrientationView.id)
         
     }
     
@@ -339,14 +339,14 @@ struct FromWhereView: View {
     /// Comes back to this view since an error occured.
     func comeBackToView()  {
         
-        navigation.hideViewWithReverseAnimation(FromWhereView.id)
+        //navigation.hideViewWithReverseAnimation(FromWhereView.id)
         
     }
     
     /// Goes to the next screen / view,. Verification Code Screen
     func goToNextView()  {
         //print("On go to next view .. timezone is .. \(self.timezone)")
-        
+        /*
         let animation = NavigationAnimation(
             animation: .easeInOut(duration: 0.8),
             defaultViewTransition: .static,
@@ -365,6 +365,7 @@ struct FromWhereView: View {
 
             
         }
+        */
         
     }
     
@@ -485,7 +486,7 @@ struct FromWhereView_Previews: PreviewProvider {
         
             FromWhereView().environmentObject(Account())
                 .preferredColorScheme(.dark)
-                .environmentObject(NavigationModel())
+                //.environmentObject(NavigationModel())
         
         
     }

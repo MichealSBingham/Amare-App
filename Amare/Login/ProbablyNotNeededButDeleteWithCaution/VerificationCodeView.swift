@@ -40,7 +40,7 @@ var label = "Enter One Time Password"
     @State private var alertMessage: String  = ""
 
 
-    @EnvironmentObject var navigation: NavigationModel
+    ////@EnvironmentObject var navigation: NavigationModel
 
     
 public var body: some View {

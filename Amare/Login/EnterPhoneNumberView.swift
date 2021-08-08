@@ -15,6 +15,8 @@ import NavigationStack
 
 @available(iOS 15.0, *)
 struct EnterPhoneNumberView: View {
+    /// Used for navigation
+    @EnvironmentObject private var navigationStack: NavigationStack
     
     @State var phone_number_field_text = "+15555555555"
     @State var isEditing = true
@@ -34,7 +36,6 @@ struct EnterPhoneNumberView: View {
     
     @State  var beginAnimation: Bool = false
  
-    @EnvironmentObject var navigation: NavigationModel
     
     @State var attempts: Int = 0
 
@@ -45,12 +46,13 @@ struct EnterPhoneNumberView: View {
         
         
             
-     NavigationStackView(EnterPhoneNumberView.id) {
+    // NavigationStackView {
             
             
             
-            ZStack {
+          //  ZStack {
                 
+        /*
                 let timer = Timer.publish(every: 0.5, on: .main, in: .default).autoconnect()
 
                 // ******* ======  Transitions -- Navigation Links =======
@@ -63,7 +65,7 @@ struct EnterPhoneNumberView: View {
                     .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
                     .onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; timer.upstream.connect().cancel()}
                     
-                  
+                  */
                 
 
                 
@@ -94,10 +96,10 @@ struct EnterPhoneNumberView: View {
                 }
                 
                 
-            }
+          //  }
             
             
-     }
+   //  }
        
         
     } // End of View 
@@ -170,7 +172,7 @@ struct EnterPhoneNumberView: View {
   
     /// Goes to the next screen / view,. Verification Code Screen
     func goToNextView()  {
-        
+        /*
         
         let animation = NavigationAnimation(
             animation: .easeInOut(duration: 0.8),
@@ -183,14 +185,16 @@ struct EnterPhoneNumberView: View {
               
             
         }
+         */
         
     }
     
     /// Goes back to the login screen
     func goBack()   {
         
-        navigation.hideViewWithReverseAnimation(RootView.id)        
+        navigationStack.pop()
                 
+        
     }
     
     /// Dismisses the keyboard
@@ -238,7 +242,7 @@ struct EnterPhoneNumberView: View {
                     isEditing = true
                     
                     // Go from VerificationCodeView back to Here (EnterPhoneNumberView)
-                    navigation.hideViewWithReverseAnimation(EnterPhoneNumberView.id)
+                    //navigation.hideViewWithReverseAnimation(EnterPhoneNumberView.id)
 
                     handle(error: error!)
                     
@@ -326,7 +330,7 @@ struct EnterPhoneNumberView_Previews: PreviewProvider {
 
             Group {
                 EnterPhoneNumberView().preferredColorScheme(.dark)
-                    .environmentObject(NavigationModel())
+                    //.environmentObject(NavigationModel())
                     
                     
             }

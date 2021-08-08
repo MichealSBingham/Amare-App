@@ -11,21 +11,21 @@
         }
       },
       {
-        "package": "NavigationStack",
-        "repositoryURL": "https://github.com/indieSoftware/NavigationStack.git",
-        "state": {
-          "branch": null,
-          "revision": "663528a8602cf3f80681ac4667018c0ecaf3d96f",
-          "version": "1.0.2"
-        }
-      },
-      {
         "package": "PhoneNumberKit",
         "repositoryURL": "https://github.com/marmelroy/PhoneNumberKit",
         "state": {
           "branch": null,
           "revision": "1ef0431b971f69c48ca5eb4cdba07f2c5da54c35",
           "version": "3.3.3"
+        }
+      },
+      {
+        "package": "swiftui-navigation-stack",
+        "repositoryURL": "https://github.com/matteopuc/swiftui-navigation-stack.git",
+        "state": {
+          "branch": null,
+          "revision": "eb95be334b855f682ce8a2f9acb62d2c7123d483",
+          "version": "1.0.3"
         }
       },
       {

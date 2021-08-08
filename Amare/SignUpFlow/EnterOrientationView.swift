@@ -12,7 +12,7 @@ import NavigationStack
 struct EnterOrientationView: View {
     
     /// To manage navigation
-    @EnvironmentObject var navigation: NavigationModel
+   // //@EnvironmentObject var navigation: NavigationModel
     
     /// id of view
     static let id = String(describing: Self.self)
@@ -33,7 +33,7 @@ struct EnterOrientationView: View {
     
     var body: some View {
         
-        NavigationStackView(EnterOrientationView.id) {
+        NavigationStackView {
             
             ZStack{
                 
@@ -281,7 +281,7 @@ struct EnterOrientationView: View {
     /// Goes back to the login screen
     func goBack()   {
         
-        navigation.hideViewWithReverseAnimation(EnterGenderView.id)
+        //navigation.hideViewWithReverseAnimation(EnterGenderView.id)
         
     }
     
@@ -316,14 +316,14 @@ struct EnterOrientationView: View {
     /// Comes back to this view since an error occured.
     func comeBackToView()  {
         
-        navigation.hideViewWithReverseAnimation(EnterOrientationView.id)
+        //navigation.hideViewWithReverseAnimation(EnterOrientationView.id)
         
     }
     
     /// Goes to the next screen / view,. Verification Code Screen
     func goToNextView()  {
         
-        
+        /*
         let animation = NavigationAnimation(
             animation: .easeInOut(duration: 0.8),
             defaultViewTransition: .static,
@@ -336,6 +336,7 @@ struct EnterOrientationView: View {
 
             
         }
+        */
         
     }
     
@@ -473,7 +474,7 @@ struct EnterOrientationView_Previews: PreviewProvider {
         
 
             EnterOrientationView().environmentObject(Account())
-                .environmentObject(NavigationModel())
+                //.environmentObject(NavigationModel())
     
        
     }

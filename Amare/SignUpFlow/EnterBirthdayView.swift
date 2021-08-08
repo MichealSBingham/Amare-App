@@ -17,7 +17,7 @@ struct EnterBirthdayView: View {
     static let id = String(describing: Self.self)
     
     /// To manage navigation
-    @EnvironmentObject var navigation: NavigationModel
+   // //@EnvironmentObject var navigation: NavigationModel
     
  
     
@@ -40,7 +40,7 @@ struct EnterBirthdayView: View {
         
      
             
-        NavigationStackView(EnterBirthdayView.id) {
+        NavigationStackView {
             
             ZStack{
                     
@@ -138,7 +138,7 @@ struct EnterBirthdayView: View {
     /// Goes back to the login screen
     func goBack()   {
         
-        navigation.hideViewWithReverseAnimation(FromWhereView.id)
+        //navigation.hideViewWithReverseAnimation(FromWhereView.id)
         
     }
     
@@ -173,14 +173,14 @@ struct EnterBirthdayView: View {
     /// Comes back to this view since an error occured.
     func comeBackToView()  {
         
-        navigation.hideViewWithReverseAnimation(EnterBirthdayView.id)
+        //navigation.hideViewWithReverseAnimation(EnterBirthdayView.id)
         
     }
     
     /// Goes to the next screen / view,. Verification Code Screen
     func goToNextView()  {
         
-        
+        /*
         let animation = NavigationAnimation(
             animation: .easeInOut(duration: 0.8),
             defaultViewTransition: .static,
@@ -192,7 +192,7 @@ struct EnterBirthdayView: View {
                         
             
         }
-        
+        */
     }
     
     func nextButton() -> some View {
@@ -301,7 +301,7 @@ struct EnterBirthdayView_Previews: PreviewProvider {
     static var previews: some View {
       
             EnterBirthdayView(timezone: TimeZone.current).environmentObject(Account())
-                .environmentObject(NavigationModel())
+                //.environmentObject(NavigationModel())
                 .preferredColorScheme(.dark)
         
         

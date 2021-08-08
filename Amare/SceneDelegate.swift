@@ -26,7 +26,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
           
             let firstView = RootView()
                                     .environmentObject(self.account)
-                                    .environmentObject(NavigationModel())
+                                    ////.environmentObject(NavigationModel())
                                         
             window.rootViewController = UIHostingController(rootView: firstView)
             

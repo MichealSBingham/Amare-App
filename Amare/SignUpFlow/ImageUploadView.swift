@@ -13,7 +13,7 @@ import NavigationStack
 struct ImageUploadView: View {
     
     /// To manage navigation
-    @EnvironmentObject var navigation: NavigationModel
+    ////@EnvironmentObject var navigation: NavigationModel
     
     /// id of view
     static let id = String(describing: Self.self)
@@ -38,7 +38,7 @@ struct ImageUploadView: View {
     var body: some View {
         
         
-        NavigationStackView(ImageUploadView.id) {
+        NavigationStackView {
             
             ZStack {
                 
@@ -156,7 +156,7 @@ struct ImageUploadView: View {
     /// Goes back to the login screen
     func goBack()   {
         
-        navigation.hideViewWithReverseAnimation(LiveWhereView.id)
+        //navigation.hideViewWithReverseAnimation(LiveWhereView.id)
         
     }
     
@@ -191,7 +191,7 @@ struct ImageUploadView: View {
     /// Comes back to this view since an error occured.
     func comeBackToView()  {
         
-        navigation.hideViewWithReverseAnimation(ImageUploadView.id)
+        //navigation.hideViewWithReverseAnimation(ImageUploadView.id)
         
     }
     
@@ -201,6 +201,7 @@ struct ImageUploadView: View {
         guard image != nil else {
             return 
         }
+        /*
         let animation = NavigationAnimation(
             animation: .easeInOut(duration: 0.8),
             defaultViewTransition: .static,
@@ -211,7 +212,7 @@ struct ImageUploadView: View {
         navigation.showView(ImageUploadView.id, animation: animation) { ProfileView().environmentObject(navigation)
                             .environmentObject(account)
         }
-        
+        */
     }
     
     func nextButton() -> some View {
@@ -322,6 +323,6 @@ struct ImageUploadView: View {
 struct ImageUploadView_Previews: PreviewProvider {
     static var previews: some View {
         ImageUploadView().preferredColorScheme(.dark).environmentObject(Account())
-            .environmentObject(NavigationModel())
+            //.environmentObject(NavigationModel())
     }
 }

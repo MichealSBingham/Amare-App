@@ -12,7 +12,7 @@ import NavigationStack
 struct EnterGenderView: View {
     
     /// To manage navigation
-    @EnvironmentObject var navigation: NavigationModel
+  //  //@EnvironmentObject var navigation: NavigationModel
     
     /// id of view
     static let id = String(describing: Self.self)
@@ -31,7 +31,7 @@ struct EnterGenderView: View {
     
     var body: some View {
         
-        NavigationStackView(EnterGenderView.id) {
+        NavigationStackView {
             
             ZStack{
                 
@@ -275,7 +275,7 @@ struct EnterGenderView: View {
     /// Goes back to the login screen
     func goBack()   {
         
-        navigation.hideViewWithReverseAnimation(EnterNameView.id)
+        //navigation.hideViewWithReverseAnimation(EnterNameView.id)
         
     }
     
@@ -310,14 +310,13 @@ struct EnterGenderView: View {
     /// Comes back to this view since an error occured.
     func comeBackToView()  {
         
-        navigation.hideViewWithReverseAnimation(EnterGenderView.id)
+        //navigation.hideViewWithReverseAnimation(EnterGenderView.id)
         
     }
     
     /// Goes to the next screen / view,. Verification Code Screen
     func goToNextView()  {
-        
-        
+        /*
         let animation = NavigationAnimation(
             animation: .easeInOut(duration: 0.8),
             defaultViewTransition: .static,
@@ -330,6 +329,7 @@ struct EnterGenderView: View {
 
             
         }
+        */
         
     }
 
@@ -411,7 +411,7 @@ struct EnterGenderView_Previews: PreviewProvider {
         
 
             EnterGenderView().environmentObject(Account())
-                .environmentObject(NavigationModel())
+                //.environmentObject(NavigationModel())
     
        
     }

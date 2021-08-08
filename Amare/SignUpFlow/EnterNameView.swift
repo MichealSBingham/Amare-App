@@ -12,7 +12,7 @@ import NavigationStack
 struct EnterNameView: View {
     
     /// To manage navigation
-    @EnvironmentObject var navigation: NavigationModel
+  //  //@EnvironmentObject var navigation: NavigationModel
     
     /// id of view
     static let id = String(describing: Self.self)
@@ -33,7 +33,7 @@ struct EnterNameView: View {
        
 
             
-        NavigationStackView(EnterNameView.id) {
+        NavigationStackView {
             
             ZStack{
                     
@@ -155,7 +155,7 @@ struct EnterNameView: View {
         account.signOut { error in
             
             guard error == nil else { return }
-            navigation.hideViewWithReverseAnimation(RootView.id)
+            //navigation.hideViewWithReverseAnimation(RootView.id)
             return
         }
         
@@ -193,12 +193,13 @@ struct EnterNameView: View {
     /// Comes back to this view since an error occured.
     func comeBackToView()  {
         
-        navigation.hideViewWithReverseAnimation(EnterNameView.id)
+        //navigation.hideViewWithReverseAnimation(EnterNameView.id)
         
     }
     
     /// Goes to the next screen / view,. Verification Code Screen
     func goToNextView()  {
+        /*
         
         
         let animation = NavigationAnimation(
@@ -213,6 +214,8 @@ struct EnterNameView: View {
 
             
         }
+         */
+    
         
     }
     
@@ -291,7 +294,7 @@ struct EnterNameView_Previews: PreviewProvider {
        
             EnterNameView().environmentObject(Account())
                 .preferredColorScheme(.dark)
-                .environmentObject(NavigationModel())
+                //.environmentObject(NavigationModel())
         
         
     }

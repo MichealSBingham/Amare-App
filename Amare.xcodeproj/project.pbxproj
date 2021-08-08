@@ -18,7 +18,7 @@
 		263695ED269B7872006EEA79 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 263695EC269B7872006EEA79 /* GoogleService-Info.plist */; };
 		263695EE269B7872006EEA79 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 263695EC269B7872006EEA79 /* GoogleService-Info.plist */; };
 		263695EF269B7872006EEA79 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 263695EC269B7872006EEA79 /* GoogleService-Info.plist */; };
-		263D6F9426829F2200CBBECC /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263D6F9326829F2200CBBECC /* RootView.swift */; };
+		263D6F9426829F2200CBBECC /*  RV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263D6F9326829F2200CBBECC /*  RV.swift */; };
 		263D6F962683F77C00CBBECC /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263D6F952683F77C00CBBECC /* Location.swift */; };
 		263D6F982684012000CBBECC /* AccountErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263D6F972684012000CBBECC /* AccountErrors.swift */; };
 		263D6F9A2684087300CBBECC /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263D6F992684087300CBBECC /* UserData.swift */; };
@@ -36,6 +36,9 @@
 		26B1B0072679566E00A170B3 /* iPhoneNumberField in Frameworks */ = {isa = PBXBuildFile; productRef = 26B1B0062679566E00A170B3 /* iPhoneNumberField */; };
 		26B1B00A2679961200A170B3 /* VerificationCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B1B0092679961100A170B3 /* VerificationCodeView.swift */; };
 		26B1B011267C28E000A170B3 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B1B010267C28E000A170B3 /* Extensions.swift */; };
+		26B6079826BF60EF00CE8491 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B6079726BF60EF00CE8491 /* RootView.swift */; };
+		26B6079B26BF643100CE8491 /* NavigationStack in Frameworks */ = {isa = PBXBuildFile; productRef = 26B6079A26BF643100CE8491 /* NavigationStack */; };
+		26B6079D26C021C900CE8491 /* SignInOrUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B6079C26C021C900CE8491 /* SignInOrUpView.swift */; };
 		26BBF08C267D7C9900C84019 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BBF08B267D7C9900C84019 /* ProfileView.swift */; };
 		26BBF08F267D80FC00C84019 /* EnterBirthdayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BBF08E267D80FC00C84019 /* EnterBirthdayView.swift */; };
 		26BBF091267EA5FF00C84019 /* FromWhereView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BBF090267EA5FF00C84019 /* FromWhereView.swift */; };
@@ -47,7 +50,6 @@
 		26F9206C26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 26F9206A26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf */; };
 		26F9206D26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 26F9206A26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf */; };
 		26F9207726A8C2E200A4F8C6 /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = 26F9207626A8C2E200A4F8C6 /* Shimmer */; };
-		26F9207C26A9D0EC00A4F8C6 /* NavigationStack in Frameworks */ = {isa = PBXBuildFile; productRef = 26F9207B26A9D0EC00A4F8C6 /* NavigationStack */; };
 		4991A09671FED39DE178963C /* Pods_AmareTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD7CA76CDE93457088787B0A /* Pods_AmareTests.framework */; };
 		8DCFACC80E53A7772880AF41 /* Pods_Amare_AmareUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D295B9701F008ED6D38DA62B /* Pods_Amare_AmareUITests.framework */; };
 		B5872B85B225F1F914D48FA4 /* Pods_Amare.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BF2E6662C1D2B1599EA9ADC /* Pods_Amare.framework */; };
@@ -81,7 +83,7 @@
 		2608CF522697C9D600826FDA /* SystemErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemErrors.swift; sourceTree = "<group>"; };
 		263695E9269B495F006EEA79 /* GoogleService-Info .plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info .plist"; sourceTree = "<group>"; };
 		263695EC269B7872006EEA79 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		263D6F9326829F2200CBBECC /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		263D6F9326829F2200CBBECC /*  RV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = " RV.swift"; sourceTree = "<group>"; };
 		263D6F952683F77C00CBBECC /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		263D6F972684012000CBBECC /* AccountErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountErrors.swift; sourceTree = "<group>"; };
 		263D6F992684087300CBBECC /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
@@ -104,6 +106,8 @@
 		26B1AFF92678FFE700A170B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		26B1B0092679961100A170B3 /* VerificationCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationCodeView.swift; sourceTree = "<group>"; };
 		26B1B010267C28E000A170B3 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		26B6079726BF60EF00CE8491 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		26B6079C26C021C900CE8491 /* SignInOrUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInOrUpView.swift; sourceTree = "<group>"; };
 		26BBF08A267D321F00C84019 /* Amare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Amare.entitlements; sourceTree = "<group>"; };
 		26BBF08B267D7C9900C84019 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		26BBF08E267D80FC00C84019 /* EnterBirthdayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterBirthdayView.swift; sourceTree = "<group>"; };
@@ -130,7 +134,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				26F9207726A8C2E200A4F8C6 /* Shimmer in Frameworks */,
-				26F9207C26A9D0EC00A4F8C6 /* NavigationStack in Frameworks */,
+				26B6079B26BF643100CE8491 /* NavigationStack in Frameworks */,
 				26B1B0072679566E00A170B3 /* iPhoneNumberField in Frameworks */,
 				B5872B85B225F1F914D48FA4 /* Pods_Amare.framework in Frameworks */,
 			);
@@ -219,7 +223,8 @@
 				26BBF08A267D321F00C84019 /* Amare.entitlements */,
 				26B1AFD52678FFE500A170B3 /* AmareApp.swift */,
 				26970698268101B0007E7961 /* SceneDelegate.swift */,
-				263D6F9326829F2200CBBECC /* RootView.swift */,
+				263D6F9326829F2200CBBECC /*  RV.swift */,
+				26B6079726BF60EF00CE8491 /* RootView.swift */,
 				2608CF4F2697522300826FDA /* Errors */,
 				268F26BD2680080F00FBEA7D /* UserAccount */,
 				26B1B0082679956200A170B3 /* Login */,
@@ -267,6 +272,7 @@
 			isa = PBXGroup;
 			children = (
 				26AB593526BDE44E00170192 /* ProbablyNotNeededButDeleteWithCaution */,
+				26B6079C26C021C900CE8491 /* SignInOrUpView.swift */,
 				26B1AFD72678FFE500A170B3 /* EnterPhoneNumberView.swift */,
 				26EDBB8C26AA7CE2005C1033 /* VerificationCodeView2.swift */,
 			);
@@ -353,7 +359,7 @@
 			packageProductDependencies = (
 				26B1B0062679566E00A170B3 /* iPhoneNumberField */,
 				26F9207626A8C2E200A4F8C6 /* Shimmer */,
-				26F9207B26A9D0EC00A4F8C6 /* NavigationStack */,
+				26B6079A26BF643100CE8491 /* NavigationStack */,
 			);
 			productName = Love;
 			productReference = 26B1AFD22678FFE500A170B3 /* Amare.app */;
@@ -432,7 +438,7 @@
 			packageReferences = (
 				26B1B0052679566E00A170B3 /* XCRemoteSwiftPackageReference "iPhoneNumberField" */,
 				26F9207526A8C2E200A4F8C6 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
-				26F9207A26A9D0EC00A4F8C6 /* XCRemoteSwiftPackageReference "NavigationStack" */,
+				26B6079926BF643100CE8491 /* XCRemoteSwiftPackageReference "swiftui-navigation-stack" */,
 			);
 			productRefGroup = 26B1AFD32678FFE500A170B3 /* Products */;
 			projectDirPath = "";
@@ -593,6 +599,8 @@
 				2608CF46268FE27300826FDA /* ImagePickerView.swift in Sources */,
 				2608CF532697C9D600826FDA /* SystemErrors.swift in Sources */,
 				263D6F9A2684087300CBBECC /* UserData.swift in Sources */,
+				26B6079D26C021C900CE8491 /* SignInOrUpView.swift in Sources */,
+				26B6079826BF60EF00CE8491 /* RootView.swift in Sources */,
 				2608CF4A2695131F00826FDA /* PickAttractivePeopleView.swift in Sources */,
 				26B1B011267C28E000A170B3 /* Extensions.swift in Sources */,
 				26BBF093267EBB1300C84019 /* LiveWhereView.swift in Sources */,
@@ -602,7 +610,7 @@
 				26B1AFD82678FFE500A170B3 /* EnterPhoneNumberView.swift in Sources */,
 				26F9205F26A760E500A4F8C6 /* Animations.swift in Sources */,
 				26B1AFD62678FFE500A170B3 /* AmareApp.swift in Sources */,
-				263D6F9426829F2200CBBECC /* RootView.swift in Sources */,
+				263D6F9426829F2200CBBECC /*  RV.swift in Sources */,
 				2608CF4C2695136F00826FDA /* EnterGenderView.swift in Sources */,
 				26BBF091267EA5FF00C84019 /* FromWhereView.swift in Sources */,
 				26B1AFE22678FFE700A170B3 /* Love.xcdatamodeld in Sources */,
@@ -700,7 +708,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -756,7 +764,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -780,7 +788,7 @@
 				ENABLE_PREVIEWS = YES;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
 				INFOPLIST_FILE = Amare/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -806,7 +814,7 @@
 				ENABLE_PREVIEWS = YES;
 				"EXCLUDED_ARCHS[sdk=*]" = "";
 				INFOPLIST_FILE = Amare/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -956,17 +964,17 @@
 				minimumVersion = 0.6.1;
 			};
 		};
-		26F9207526A8C2E200A4F8C6 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */ = {
+		26B6079926BF643100CE8491 /* XCRemoteSwiftPackageReference "swiftui-navigation-stack" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/markiv/SwiftUI-Shimmer";
+			repositoryURL = "https://github.com/matteopuc/swiftui-navigation-stack.git";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 1.0.0;
 			};
 		};
-		26F9207A26A9D0EC00A4F8C6 /* XCRemoteSwiftPackageReference "NavigationStack" */ = {
+		26F9207526A8C2E200A4F8C6 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/indieSoftware/NavigationStack.git";
+			repositoryURL = "https://github.com/markiv/SwiftUI-Shimmer";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 1.0.0;
@@ -980,15 +988,15 @@
 			package = 26B1B0052679566E00A170B3 /* XCRemoteSwiftPackageReference "iPhoneNumberField" */;
 			productName = iPhoneNumberField;
 		};
+		26B6079A26BF643100CE8491 /* NavigationStack */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 26B6079926BF643100CE8491 /* XCRemoteSwiftPackageReference "swiftui-navigation-stack" */;
+			productName = NavigationStack;
+		};
 		26F9207626A8C2E200A4F8C6 /* Shimmer */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 26F9207526A8C2E200A4F8C6 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */;
 			productName = Shimmer;
-		};
-		26F9207B26A9D0EC00A4F8C6 /* NavigationStack */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 26F9207A26A9D0EC00A4F8C6 /* XCRemoteSwiftPackageReference "NavigationStack" */;
-			productName = NavigationStack;
 		};
 /* End XCSwiftPackageProductDependency section */
 

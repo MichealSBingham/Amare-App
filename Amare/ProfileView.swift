@@ -13,7 +13,7 @@ import NavigationStack
 struct ProfileView: View {
     
     /// To manage navigation
-    @EnvironmentObject var navigation: NavigationModel
+   // //@EnvironmentObject var navigation: NavigationModel
     
     /// id of view
     static let id = String(describing: Self.self)
@@ -26,7 +26,7 @@ struct ProfileView: View {
 
     var body: some View {
         
-        NavigationStackView(ProfileView.id) {
+        NavigationStackView {
             
             ZStack{
                SetBackground()
@@ -133,9 +133,9 @@ struct ProfileView: View {
     
     func goBackToRootView()  {
 
-       // navigation.hideViewWithReverseAnimation(RootView.id)
+       // //navigation.hideViewWithReverseAnimation(RootView.id)
             
-        let animation = NavigationAnimation(
+        /* let animation = NavigationAnimation(
             animation: .easeInOut(duration: 0.8),
             defaultViewTransition: .static,
             alternativeViewTransition: .opacity
@@ -149,6 +149,7 @@ struct ProfileView: View {
                            
             
         }
+        */
     }
     
     func MakeProfileImage() -> some View {
@@ -183,7 +184,7 @@ struct ProfileView_Previews: PreviewProvider {
         
             
             ProfileView().environmentObject(Account())
-            .environmentObject(NavigationModel())
+            //.environmentObject(NavigationModel())
                           //  .preferredColorScheme(.dark)
         
         

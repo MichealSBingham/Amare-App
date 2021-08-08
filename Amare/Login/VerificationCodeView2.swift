@@ -16,7 +16,7 @@ struct VerificationCodeView2: View {
     static let id = String(describing: Self.self)
 
     /// To manage navigation
-    @EnvironmentObject var navigation: NavigationModel
+   // //@EnvironmentObject var navigation: NavigationModel
     
     /// The current user's account
     @State private var account: Account = Account()
@@ -47,7 +47,7 @@ struct VerificationCodeView2: View {
     
     var body: some View {
        
-        NavigationStackView(VerificationCodeView2.id) {
+        NavigationStackView {
             
             ZStack{
                 
@@ -169,7 +169,7 @@ struct VerificationCodeView2: View {
     
     /// Goes back to the login screen
     func goBack()   {
-        navigation.hideViewWithReverseAnimation(EnterPhoneNumberView.id)
+        //navigation.hideViewWithReverseAnimation(EnterPhoneNumberView.id)
             
     }
     
@@ -261,7 +261,7 @@ struct VerificationCodeView2: View {
                     
                     return
                 }
-                goToNext(screen: signUpState ?? .done)
+                //  goToNext(screen: signUpState ?? .done)
                 
                 
                 return
@@ -365,7 +365,7 @@ struct VerificationCodeView2: View {
     /// Goes to the next view
     /// - Parameter screen: The proper sign up screen to take the user to if they did not finish the sign up process. Take the user to the profile
     ///  - Update: We are no longer allowing users to go to a specific screen, if they exit sign up process, they'll just start all over again . We do this to prevent errors on loading views going backwards because of NavigationStack. Ask Micheal for more info if you need to know why. Jul 25, 2021,
-    func goToNext(screen: SignUpState)  {
+  /*  func goToNext(screen: SignUpState)  {
         
         let animation = NavigationAnimation(
             animation: .easeInOut(duration: 0.8),
@@ -448,7 +448,7 @@ struct VerificationCodeView2: View {
         
        
         
-    }
+    } */
 }
 
 @available(iOS 15.0, *)
@@ -456,7 +456,7 @@ struct VerificationCodeView2: View {
 struct VerificationCodeView2_Previews: PreviewProvider {
     static var previews: some View {
         VerificationCodeView2()
-            .environmentObject(NavigationModel())
+            //.environmentObject(NavigationModel())
             
     }
 }

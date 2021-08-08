@@ -13,7 +13,7 @@ import NavigationStack
 struct LiveWhereView: View {
     
     /// To manage navigation
-    @EnvironmentObject var navigation: NavigationModel
+  //  //@EnvironmentObject var navigation: NavigationModel
 
     
     /// id of view
@@ -85,7 +85,7 @@ struct LiveWhereView: View {
         
       
             
-        NavigationStackView(LiveWhereView.id) {
+        NavigationStackView{
             ZStack{
                     
                     
@@ -272,7 +272,7 @@ struct LiveWhereView: View {
     /// Goes back to the login screen
     func goBack()   {
         
-        navigation.hideViewWithReverseAnimation(FromWhereView.id)
+        //navigation.hideViewWithReverseAnimation(FromWhereView.id)
         
     }
     
@@ -307,14 +307,14 @@ struct LiveWhereView: View {
     /// Comes back to this view since an error occured.
     func comeBackToView()  {
         
-        navigation.hideViewWithReverseAnimation(LiveWhereView.id)
+        //navigation.hideViewWithReverseAnimation(LiveWhereView.id)
         
     }
     
     /// Goes to the next screen / view,. Verification Code Screen
     func goToNextView()  {
        
-        
+        /*
         let animation = NavigationAnimation(
             animation: .easeInOut(duration: 0.8),
             defaultViewTransition: .static,
@@ -327,7 +327,7 @@ struct LiveWhereView: View {
                             
             
         }
-        
+        */
         
         
     }
@@ -447,7 +447,7 @@ struct LiveWhereView_Previews: PreviewProvider {
         
             LiveWhereView().environmentObject(Account())
                 .preferredColorScheme(.dark)
-                .environmentObject(NavigationModel())
+                //.environmentObject(NavigationModel())
         
         
     }
