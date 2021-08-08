@@ -166,8 +166,9 @@ struct EnterPhoneNumberView: View {
     
     /// Goes back to the login screen
     func goBack()   {
-        
-        navigationStack.pop()
+        dismissKeyboard {
+            navigationStack.pop()
+        }
                 
         
     }
