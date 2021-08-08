@@ -20,7 +20,6 @@ struct EnterPhoneNumberView: View {
     
     @State var phone_number_field_text = ""
     @State var isEditing = true
-    
 
     
     //Prevents user from typing more digits
@@ -80,10 +79,7 @@ struct EnterPhoneNumberView: View {
                  // .onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; timer.upstream.connect().cancel()}
                 
                 
-          //  }
-            
-            
-   //  }
+ 
        
         
     } // End of View 
@@ -143,13 +139,7 @@ struct EnterPhoneNumberView: View {
                 .frame(width: 33, height: 66)
                 .offset(x: beginAnimation ? 7: 0)
                 .animation(.easeInOut(duration: 1.3).repeatForever(autoreverses: true), value: beginAnimation)
-                
-            
-              
-        }.onAppear {
-            withAnimation {
-                beginAnimation = true
-            }
+                .onAppear { withAnimation { beginAnimation = true } }
         }
 
        
@@ -192,12 +182,7 @@ struct EnterPhoneNumberView: View {
     }
     
     
-    /// Delays code executiion by a specified time
-    func delay(_ seconds: Double, completion: @escaping () -> ()) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
-            completion()
-        }
-    }
+    
     
     
     /// User entered the phone number
@@ -230,6 +215,7 @@ struct EnterPhoneNumberView: View {
     }
     
     /// Comes backk to the view and also handles the error
+    /// - **DEPRECATED: DO NOT USE THIS**
     func comeBackToView(completion: @escaping () -> Void ) {
        
         

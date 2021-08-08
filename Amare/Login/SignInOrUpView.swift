@@ -425,7 +425,7 @@ struct SignInOrUpView: View {
         
         self.navigationStack.push(EnterPhoneNumberView())
         
-        
+         
     }
 }
 

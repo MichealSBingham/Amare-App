@@ -42,8 +42,8 @@ struct VerificationCodeView2: View {
     @State var attempts: Int = 0
     
     @State var alreadyRan: Bool = false
-
-
+    
+    @FocusState var isFocused: Bool
 
     
     var body: some View {
@@ -216,10 +216,13 @@ struct VerificationCodeView2: View {
             .foregroundColor(.clear)
             .keyboardType(.numberPad)
             .textContentType(.oneTimeCode)
-            
-          //  .focused($isFocused)
-            
-        
+            .focused($isFocused)
+            .onAppear {
+                AmareApp().delay(0.10, completion: {isFocused=true})
+            }
+           
+           
+    
         
     }
 
@@ -459,3 +462,9 @@ struct VerificationCodeView2_Previews: PreviewProvider {
             
     }
 }
+
+
+enum Field: Hashable {
+        case first
+       
+    }
