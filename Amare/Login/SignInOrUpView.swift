@@ -425,16 +425,7 @@ struct SignInOrUpView: View {
         
         self.navigationStack.push(EnterPhoneNumberView())
         
-        /*
-        let animation = NavigationAnimation(
-            animation: .easeInOut(duration: 0.8),
-            defaultViewTransition: .static,
-            alternativeViewTransition: .opacity
-        )
         
-        navigation.showView(RootView.id, animation: animation) { EnterPhoneNumberView().environmentObject(navigation)
-            
-        } */
     }
 }
 

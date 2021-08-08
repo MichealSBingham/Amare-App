@@ -10,13 +10,14 @@ import NavigationStack
 
 @available(iOS 15.0, *)
 struct VerificationCodeView2: View {
-   // @FocusState private var isFocused: Bool
 
+    
     /// id of view
     static let id = String(describing: Self.self)
 
     /// To manage navigation
-   // //@EnvironmentObject var navigation: NavigationModel
+    @EnvironmentObject private var navigationStack: NavigationStack
+
     
     /// The current user's account
     @State private var account: Account = Account()
@@ -47,17 +48,10 @@ struct VerificationCodeView2: View {
     
     var body: some View {
        
-        NavigationStackView {
+     
             
-            ZStack{
-                
-                let timer = Timer.publish(every: 0.5, on: .main, in: .default).autoconnect()
-
-             
-                Background(timer: timer)
-                    .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
-                    .onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; timer.upstream.connect().cancel()}
-                    
+           
+            
                 
                 VStack(alignment: .leading) {
                     
@@ -94,9 +88,10 @@ struct VerificationCodeView2: View {
                     
                     
                     
-                }
-            }
-        }
+                }.alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
+                
+            
+        
     }
     
     /// Button for resending verification code
@@ -169,8 +164,8 @@ struct VerificationCodeView2: View {
     
     /// Goes back to the login screen
     func goBack()   {
-        //navigation.hideViewWithReverseAnimation(EnterPhoneNumberView.id)
-            
+        
+        self.navigationStack.pop()
     }
     
     /// Title of the view text .

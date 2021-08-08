@@ -21,8 +21,7 @@ struct EnterPhoneNumberView: View {
     @State var phone_number_field_text = ""
     @State var isEditing = true
     
-    //Goes to Verification Code Screen or back to Phone Number Screen
-  //  @State private var shouldGoToVerifyCodeScreen = false
+
     
     //Prevents user from typing more digits
     @State private var shouldDisablePhoneTextField = false
@@ -46,35 +45,17 @@ struct EnterPhoneNumberView: View {
         
         
             
-    // NavigationStackView {
-            
-            
-            
-          //  ZStack {
+    
                 
-        /*
-                let timer = Timer.publish(every: 0.5, on: .main, in: .default).autoconnect()
+    
+                
+                    
+       // let timer = Timer.publish(every: 0.5, on: .main, in: .default).autoconnect()
 
-                // ******* ======  Transitions -- Navigation Links =======
-                // Goes to Enter Verification Code View
-                
-              
-            
-                // Set the background, along with other base properties to set about the view
-                Background(timer: timer)
-                    .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
-                    .onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; timer.upstream.connect().cancel()}
-                    
-                  */
-                
-
-                
-                    
-                    
                 
                 VStack(alignment: .leading) {
                     
-                    
+
                     Spacer()
                     
                     HStack(alignment: .top){
@@ -93,7 +74,10 @@ struct EnterPhoneNumberView: View {
                     
                     
                     
-                }
+                }.alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
+            
+           
+                 // .onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; timer.upstream.connect().cancel()}
                 
                 
           //  }
@@ -162,6 +146,10 @@ struct EnterPhoneNumberView: View {
                 
             
               
+        }.onAppear {
+            withAnimation {
+                beginAnimation = true
+            }
         }
 
        
@@ -172,21 +160,8 @@ struct EnterPhoneNumberView: View {
   
     /// Goes to the next screen / view,. Verification Code Screen
     func goToNextView()  {
-        /*
         
-        let animation = NavigationAnimation(
-            animation: .easeInOut(duration: 0.8),
-            defaultViewTransition: .static,
-            alternativeViewTransition: .opacity
-        )
-        
-        navigation.showView(EnterPhoneNumberView.id, animation: animation) { VerificationCodeView2().environmentObject(navigation)
-            
-              
-            
-        }
-         */
-        
+        self.navigationStack.push(VerificationCodeView2())
     }
     
     /// Goes back to the login screen
@@ -200,8 +175,11 @@ struct EnterPhoneNumberView: View {
     /// Dismisses the keyboard
     func dismissKeyboard(completion: (() -> Void)? = nil )  {
         UIApplication.shared.dismissKeyboard()
+    
         completion?()
     }
+    
+    
     
     /// Title of the view text .
     func title() -> some View {
@@ -232,23 +210,19 @@ struct EnterPhoneNumberView: View {
             
             
             shouldDisablePhoneTextField = true
-            goToNextView()
+            
             
             Account().sendVerificationCode(to: phoneNumber.numberString) { error in
                 guard error == nil else {
                     
-                    someErrorOccured = true
+                    handle(error: error!)
                     shouldDisablePhoneTextField = false
                     isEditing = true
-                    
-                    // Go from VerificationCodeView back to Here (EnterPhoneNumberView)
-                    //navigation.hideViewWithReverseAnimation(EnterPhoneNumberView.id)
-
-                    handle(error: error!)
                     
                     return
                 }
                 phoneNumber.numberString.savePhoneNumber()
+                goToNextView()
                 return
             }
             
@@ -257,10 +231,25 @@ struct EnterPhoneNumberView: View {
         }
     }
     
+    /// Comes backk to the view and also handles the error
+    func comeBackToView(completion: @escaping () -> Void ) {
+       
+        
+        // There needs to be some delay before you execute this because otherwise an arrow will be thrown because of the keyboard
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+          
+            navigationStack.pop(to: .previous)
+            
+            completion()
+        }
+        
+        
+        
+    }
     
     func handle(error: Error)  {
-        
-        // Handle Error
+                // Handle Error
+        someErrorOccured = true
         if let error = error as? AccountError{
             
             switch error {
@@ -313,6 +302,7 @@ struct EnterPhoneNumberView: View {
         
         
         // Handle Error
+        someErrorOccured = true
         
     }
 
@@ -322,7 +312,7 @@ struct EnterPhoneNumberView: View {
 
 
 
-@available(iOS 15.0, *)
+
 struct EnterPhoneNumberView_Previews: PreviewProvider {
     static var previews: some View {
         
