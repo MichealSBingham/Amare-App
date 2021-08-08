@@ -217,9 +217,7 @@ struct VerificationCodeView2: View {
             .keyboardType(.numberPad)
             .textContentType(.oneTimeCode)
             .focused($isFocused)
-            .onAppear {
-                AmareApp().delay(0.10, completion: {isFocused=true})
-            }
+            .onAppear { AmareApp().delay(0.10, completion: {isFocused=true}) }
            
            
     
