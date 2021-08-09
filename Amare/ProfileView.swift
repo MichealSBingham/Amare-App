@@ -26,10 +26,8 @@ struct ProfileView: View {
 
     var body: some View {
         
-        NavigationStackView {
+       
             
-            ZStack{
-               SetBackground()
               
                 
                 VStack{
@@ -58,7 +56,7 @@ struct ProfileView: View {
                     
                 }
                 
-            } .onAppear(perform: {
+             .onAppear(perform: {
                 
                 
             
@@ -67,7 +65,7 @@ struct ProfileView: View {
                 account.listenOnlyForSignOut()
                 
         })
-        }
+        
         
     }
     
