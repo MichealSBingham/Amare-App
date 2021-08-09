@@ -13,8 +13,8 @@ import NavigationStack
 struct ProfileView: View {
     
     /// To manage navigation
-   // //@EnvironmentObject var navigation: NavigationModel
-    
+    @EnvironmentObject private var navigationStack: NavigationStack
+
     /// id of view
     static let id = String(describing: Self.self)
     
@@ -54,7 +54,12 @@ struct ProfileView: View {
                     
                     Spacer()
                     
-                }
+                }.alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
+                .onReceive(NotificationCenter.default.publisher(for: NSNotification.logout), perform: { _ in
+                
+                    goBackToSignInRootView()
+            
+            })
                 
              .onAppear(perform: {
                 
@@ -96,12 +101,7 @@ struct ProfileView: View {
             .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
             .navigationBarBackButtonHidden(true)
             .navigationBarTitle(account.data?.name ?? "Profile")
-            .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
-            .onReceive(NotificationCenter.default.publisher(for: NSNotification.logout), perform: { _ in
-                
-            // NavigationUtil.popToRootView()
-            
-            })
+          
         
     }
     
@@ -118,7 +118,7 @@ struct ProfileView: View {
                     alertMessage = "Some error when trying to sign out"
                     return
                 }
-                goBackToRootView()
+                
                 
                 
             }
@@ -129,25 +129,9 @@ struct ProfileView: View {
 
     }
     
-    func goBackToRootView()  {
+    func goBackToSignInRootView()  {
 
-       // //navigation.hideViewWithReverseAnimation(RootView.id)
-            
-        /* let animation = NavigationAnimation(
-            animation: .easeInOut(duration: 0.8),
-            defaultViewTransition: .static,
-            alternativeViewTransition: .opacity
-        )
-       
-        
-        navigation.showView(ProfileView.id, animation: animation) {
-            
-            RootView().environmentObject(navigation)
-                            .environmentObject(account)
-                           
-            
-        }
-        */
+        navigationStack.pop(to: .root)
     }
     
     func MakeProfileImage() -> some View {
