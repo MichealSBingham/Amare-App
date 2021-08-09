@@ -8,7 +8,7 @@
 import SwiftUI
 import NavigationStack
 
-@available(iOS 15.0, *)
+
 struct EnterNameView: View {
     
     /// To manage navigation
@@ -28,7 +28,8 @@ struct EnterNameView: View {
     
     @State private var beginAnimation: Bool = false
     
-    @FocusState var isFocused: Bool
+    
+    //@FocusState var isFocused: Bool
     
     
     var body: some View {
@@ -120,8 +121,8 @@ struct EnterNameView: View {
             
         })
         .font(.largeTitle)
-        .focused($isFocused)
-        .onAppear { AmareApp().delay(0.10, completion: {isFocused=true}) }
+       // .focused($isFocused)
+      //  .onAppear { AmareApp().delay(0.10, completion: {isFocused=true}) }
         
 
     }
@@ -271,7 +272,7 @@ struct EnterNameView: View {
 
 
 // Previewing in canvas 
-@available(iOS 15.0, *)
+
 struct EnterNameView_Previews: PreviewProvider {
     static var previews: some View {
         

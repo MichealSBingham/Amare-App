@@ -10,7 +10,7 @@ import Firebase
 import FirebaseAuth
 
 
-@available(iOS 15.0, *)
+
 @main
 struct AmareApp: App {
  

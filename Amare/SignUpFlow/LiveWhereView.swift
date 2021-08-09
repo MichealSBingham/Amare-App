@@ -9,7 +9,7 @@ import SwiftUI
 import MapKit
 import NavigationStack
 
-@available(iOS 15.0, *)
+
 struct LiveWhereView: View {
     
     @EnvironmentObject private var navigationStack: NavigationStack
@@ -39,7 +39,7 @@ struct LiveWhereView: View {
     @State private var beginAnimation: Bool = false
     @State private var go: Bool = false
 
-
+    @State private var isEditing: Bool = true
     /// Used for getting the user's location
     @StateObject var locationManager = LocationWhenInUseManager()
     
@@ -178,7 +178,7 @@ struct LiveWhereView: View {
         if let city = selectedCity?.city, let state = selectedCity?.state  {
             cityString = "\(city), \(state)"
         }
-        
+        /* if iOS 15
         return TextField(cityString ?? "New York, NY", text: $searchedLocation)
             
             .foregroundColor(.clear)
@@ -192,20 +192,36 @@ struct LiveWhereView: View {
                 searchForCities { cities in
                     
                     citiesSearchResult = cities
-                    selectedCity = citiesSearchResult.first?.placemark // first result in the array
+                    selectedCity = citiesSearchResult.first?.placemark 
                     
-                /*
-                    timezone = selectedCity?.timeZone
-                    print("Placemark timezone on submit .. \(citiesSearchResult.first?.placemark.timeZone)")
-                    print("Timezone on submit is ... \(citiesSearchResult.first?.timeZone)")
-                    
-                    print("on submit.. timezone.. \(selectedCity?.timeZone)")
-                    */
+               
     
                     
                 }
                 
+            } */
+        
+        // ios < 15
+        return TextField(
+            cityString ?? "New York, NY",
+             text: $searchedLocation
+        ) { isEditing in
+            self.isEditing = isEditing
+        } onCommit: {
+            
+            searchForCities { cities in
+                
+                citiesSearchResult = cities
+                selectedCity = citiesSearchResult.first?.placemark
             }
+        }
+        .foregroundColor(.clear)
+        .frame(width: 300, height: 50)
+        .background(
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(Color.white.opacity(0.3)
+                ))
+        
             
             
 
@@ -427,7 +443,7 @@ struct LiveWhereView: View {
     
 }
 
-@available(iOS 15.0, *)
+
 struct LiveWhereView_Previews: PreviewProvider {
     static var previews: some View {
         

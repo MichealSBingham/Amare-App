@@ -9,7 +9,7 @@ import SwiftUI
 import Firebase
 import NavigationStack
 
-@available(iOS 15.0, *)
+
 struct ProfileView: View {
     
     /// To manage navigation
@@ -135,9 +135,11 @@ struct ProfileView: View {
     }
     
     func MakeProfileImage() -> some View {
-        
+        return EmptyView()
+        /*
         return AsyncImage(url: URL(string: (account.data?.profile_image_url) ?? ""))
             .frame(width: 200, height: 200, alignment: .center)
+ */
     }
     
     func MakeQRCode() -> some View {
@@ -159,7 +161,7 @@ struct ProfileView: View {
     
 }
 
-@available(iOS 15.0, *)
+
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
         

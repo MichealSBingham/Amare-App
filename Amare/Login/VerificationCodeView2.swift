@@ -8,7 +8,7 @@
 import SwiftUI
 import NavigationStack
 
-@available(iOS 15.0, *)
+
 struct VerificationCodeView2: View {
 
     
@@ -43,7 +43,7 @@ struct VerificationCodeView2: View {
     
     @State var alreadyRan: Bool = false
     
-    @FocusState var isFocused: Bool
+   // @FocusState var isFocused: Bool
 
     
     var body: some View {
@@ -216,8 +216,8 @@ struct VerificationCodeView2: View {
             .foregroundColor(.clear)
             .keyboardType(.numberPad)
             .textContentType(.oneTimeCode)
-            .focused($isFocused)
-            .onAppear { AmareApp().delay(0.10, completion: {isFocused=true}) }
+           // .focused($isFocused)
+           // .onAppear { AmareApp().delay(0.10, completion: {isFocused=true}) }
            
            
     
@@ -463,7 +463,7 @@ struct VerificationCodeView2: View {
     } */
 }
 
-@available(iOS 15.0, *)
+
 
 struct VerificationCodeView2_Previews: PreviewProvider {
     static var previews: some View {

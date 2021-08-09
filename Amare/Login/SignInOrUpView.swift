@@ -15,8 +15,8 @@ struct SignInOrUpView: View {
     
     @EnvironmentObject private var navigationStack: NavigationStack
     
-    /// Terms and conditions
-    @State private var termsAreAccepted: Bool = false
+    /// Terms and conditions  **iOS 14** , automatically true because we can't include the terms and conditions statement in the ios 14 verison
+    @State private var termsAreAccepted: Bool = true
     
     /// Attempts the user tried to tap signin/signout without accepting terms. This is so that we can animate the view , see the modifier on accepting terms view to understand
     @State private var attempts: Int = 0
@@ -60,9 +60,9 @@ struct SignInOrUpView: View {
             Spacer()
             Spacer()
             
-            createPolicyAndConditionsAcceptance()
+          //  createPolicyAndConditionsAcceptance()
             
-            Spacer()
+           // Spacer()
             
             needHelp()
             
@@ -96,10 +96,12 @@ struct SignInOrUpView: View {
         }
     }
     /// Returns the box and the policy and conditions terms the user needs to accept. It's the label at the bottom.
+    /*
     func createPolicyAndConditionsAcceptance() -> some View  {
         
         return HStack{  box(); agreeToPolicyText }.modifier(ShakeEffect(shakes: attempts*2)).animation(Animation.default, value: attempts)
     }
+    */
     
     /// Amare text view below the logo
     func AmareText(language : Language) -> some View {
@@ -370,6 +372,7 @@ struct SignInOrUpView: View {
             
             needHelpText()
         }
+        .alert(isPresented: $needsHelp) { Alert(title: Text("ToDo: Password Reset"), message: Text("This is not finished yet. Contact me (Micheal) if you need assistance. (917).699.0590 or micheal@findamare.com")) }
 
     }
     
@@ -383,13 +386,17 @@ struct SignInOrUpView: View {
     }
     
     /// Text for agreeing to the policy
+    /*
     private var agreeToPolicyText: some View {
         
         Text(agreeToPolicyTextAttributedString()).foregroundColor(.white).font(.system(size: 16))
     }
+ */
     
-    /// Function to generate the formatted text for the policy
-    func agreeToPolicyTextAttributedString() -> AttributedString{
+    /// Function to generate t he formatted text for the policy
+
+    /*  iOS 15+
+    func agreeToPolicyTextAttributedString() -> AttributedString {
     
         var attributedString = try! AttributedString(markdown:"I agree to the **9 Laws**, Privacy Policy, Terms, and Cookie Policy.")
         
@@ -420,6 +427,7 @@ struct SignInOrUpView: View {
 
         
 }
+    */
     
     /// Goes to the next view. We are using the `NavigationStack` package from GitHub. Open source. It works better than `NavigationView`
     func goToNextView()  {
