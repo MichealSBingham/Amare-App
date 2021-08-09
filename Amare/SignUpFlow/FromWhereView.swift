@@ -12,8 +12,8 @@ import NavigationStack
 @available(iOS 15.0, *)
 struct FromWhereView: View {
     
-    /// To manage navigation
-  //  //@EnvironmentObject var navigation: NavigationModel
+    @EnvironmentObject private var navigationStack: NavigationStack
+
 
     
     /// id of view
@@ -87,8 +87,7 @@ struct FromWhereView: View {
         
       
             
-        NavigationStackView {
-            ZStack{
+       
                     
                     
                     
@@ -100,12 +99,13 @@ struct FromWhereView: View {
                        
                 Map(coordinateRegion: $region, interactionModes: .all, showsUserLocation: true, annotationItems: places) {
                     
-                    MapPin(coordinate: $0.coordinate)
+                    MapMarker(coordinate: $0.coordinate, tint: .pink)
                     
                 }.animation(.easeInOut, value: selectedCity)
                     .edgesIgnoringSafeArea(.all)
                     .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text("Some Error Occured")) })
                     .onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; /*getCurrentLocationAndAnimateMap();*/ timer.upstream.connect().cancel()}
+                    .onAppear { getCurrentLocationAndAnimateMap() }
         
                     
                     VStack(alignment: .center){
@@ -144,9 +144,9 @@ struct FromWhereView: View {
                     
                     
                     
-                }
                 
-        }
+                
+        
             
           
        
@@ -304,8 +304,7 @@ struct FromWhereView: View {
     /// Goes back to the login screen
     func goBack()   {
         
-        //navigation.hideViewWithReverseAnimation(EnterOrientationView.id)
-        
+        navigationStack.pop()
     }
     
     /// Left Back Button
@@ -345,27 +344,8 @@ struct FromWhereView: View {
     
     /// Goes to the next screen / view,. Verification Code Screen
     func goToNextView()  {
-        //print("On go to next view .. timezone is .. \(self.timezone)")
-        /*
-        let animation = NavigationAnimation(
-            animation: .easeInOut(duration: 0.8),
-            defaultViewTransition: .static,
-            alternativeViewTransition: .opacity
-        )
+        navigationStack.push(EnterBirthdayView(timezone: timezone).environmentObject(account))
        
-        
-        guard let timezone = self.timezone else {
-            print("No timezone found in selected city")
-            return
-        }
-        navigation.showView(FromWhereView.id, animation: animation) { EnterBirthdayView(timezone: timezone).environmentObject(navigation)
-                            .environmentObject(account)
-                        
-            
-
-            
-        }
-        */
         
     }
     
@@ -378,24 +358,24 @@ struct FromWhereView: View {
                 return
             }
             
-            print("The city is ... \(city)")
-            // Set timezone
-           // self.timezone = city.timeZone
+           
             
-            // Go to next
-            goToNextView()
             
             
             account.data?.hometown = Place(latitude: city.location?.coordinate.latitude, longitude: city.location?.coordinate.longitude, city: city.city, state: city.state, country: city.country, geohash: city.geohash)
             
             do {
                 
-                try account.save()
+                try account.save(completion: { error in
+                    guard error == nil else {
+                        return
+                    }
+                    goToNextView()
+                })
                 
                 
             } catch (let error) {
-                print("Got an error from where ... \(error)")
-               comeBackToView()
+                
                 handle(error)
             }
             
@@ -421,7 +401,6 @@ struct FromWhereView: View {
     
     
     func handle(_ error: Error)  {
-        someErrorOccured = true
         // Handle Error
         if let error = error as? AccountError{
             
@@ -475,6 +454,7 @@ struct FromWhereView: View {
         
         
         // Handle Error
+        someErrorOccured=true
         
     }
     

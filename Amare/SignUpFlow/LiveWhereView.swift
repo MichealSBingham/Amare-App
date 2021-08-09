@@ -12,8 +12,7 @@ import NavigationStack
 @available(iOS 15.0, *)
 struct LiveWhereView: View {
     
-    /// To manage navigation
-  //  //@EnvironmentObject var navigation: NavigationModel
+    @EnvironmentObject private var navigationStack: NavigationStack
 
     
     /// id of view
@@ -85,11 +84,10 @@ struct LiveWhereView: View {
         
       
             
-        NavigationStackView{
-            ZStack{
+        
+           
                     
-                    
-                    
+                
                
                     let timer = Timer.publish(every: 0.5, on: .main, in: .default).autoconnect()
                     
@@ -98,12 +96,14 @@ struct LiveWhereView: View {
                        
                 Map(coordinateRegion: $region, interactionModes: .all, showsUserLocation: true, annotationItems: places) {
                     
-                    MapPin(coordinate: $0.coordinate)
+                    
+                    MapMarker(coordinate: $0.coordinate, tint: .pink)
                     
                 }.animation(.easeInOut, value: selectedCity)
                     .edgesIgnoringSafeArea(.all)
                     .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text("Some Error Occured")) })
                     .onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; /*getCurrentLocationAndAnimateMap();*/ timer.upstream.connect().cancel()}
+                    .onAppear { getCurrentLocationAndAnimateMap() }
         
                     
                     VStack(alignment: .center){
@@ -142,8 +142,8 @@ struct LiveWhereView: View {
                     
                     
                     
-                }
-        }
+                
+        
             
           
        
@@ -272,7 +272,7 @@ struct LiveWhereView: View {
     /// Goes back to the login screen
     func goBack()   {
         
-        //navigation.hideViewWithReverseAnimation(FromWhereView.id)
+        navigationStack.pop(to: .view(withId: FromWhereView.id))
         
     }
     
@@ -313,22 +313,8 @@ struct LiveWhereView: View {
     
     /// Goes to the next screen / view,. Verification Code Screen
     func goToNextView()  {
+        navigationStack.push(ImageUploadView().environmentObject(account))
        
-        /*
-        let animation = NavigationAnimation(
-            animation: .easeInOut(duration: 0.8),
-            defaultViewTransition: .static,
-            alternativeViewTransition: .opacity
-        )
-       
-        
-        navigation.showView(LiveWhereView.id, animation: animation) { ImageUploadView().environmentObject(navigation)
-                            .environmentObject(account)
-                            
-            
-        }
-        */
-        
         
     }
     
@@ -343,20 +329,21 @@ struct LiveWhereView: View {
             
           
             
-            // Go to next
-            goToNextView()
+            
             
             
             account.data?.residence = Place(latitude: city.location?.coordinate.latitude, longitude: city.location?.coordinate.longitude, city: city.city, state: city.state, country: city.country, geohash: city.geohash)
             
             do {
                 
-                try account.save()
+                try account.save(completion: { error in
+                    guard error == nil else {return }
+                    goToNextView()
+                })
                 
                 
             } catch (let error) {
-                print("Got an error from where ... \(error)")
-               comeBackToView()
+              
                 handle(error)
             }
             
@@ -382,7 +369,6 @@ struct LiveWhereView: View {
     
     
     func handle(_ error: Error)  {
-        someErrorOccured = true
         // Handle Error
         if let error = error as? AccountError{
             
@@ -436,7 +422,7 @@ struct LiveWhereView: View {
         
         
         // Handle Error
-        
+        someErrorOccured = true
     }
     
 }

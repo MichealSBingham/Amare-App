@@ -147,7 +147,11 @@ struct EnterNameView: View {
         account.signOut { error in
             
             guard error == nil else { return }
-            navigationStack.pop(to: .root)
+            
+            AmareApp().dismissKeyboard {
+                navigationStack.pop(to: .root)
+            }
+           
             return
         }
          

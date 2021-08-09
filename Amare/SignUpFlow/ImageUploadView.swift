@@ -13,8 +13,8 @@ import NavigationStack
 struct ImageUploadView: View {
     
     /// To manage navigation
-    ////@EnvironmentObject var navigation: NavigationModel
-    
+    @EnvironmentObject private var navigationStack: NavigationStack
+
     /// id of view
     static let id = String(describing: Self.self)
     
@@ -38,21 +38,15 @@ struct ImageUploadView: View {
     var body: some View {
         
         
-        NavigationStackView {
-            
-            ZStack {
+      
+        
                 
                 let timer = Timer.publish(every: 0.5, on: .main, in: .default).autoconnect()
 
              
-                Background(timer: timer)
-                    .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
-                    .onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; timer.upstream.connect().cancel()}
-                    .sheet(isPresented: $showImagePicker) {
-                        ImagePickerView(sourceType: .photoLibrary) { image in
-                            self.image = image
-                        }
-                }
+               
+                    
+                
                 
                 
                 VStack {
@@ -79,21 +73,20 @@ struct ImageUploadView: View {
                     
                    
                     
-                        }
+                        }.alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
+                        .onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; timer.upstream.connect().cancel()}
+                        .sheet(isPresented: $showImagePicker) {
+                            ImagePickerView(sourceType: .photoLibrary) { image in
+                                self.image = image
+                            }
                         
                 
-                        
-            }
-        }
-            
-        
-    
         
         
     }
     
-    
-    
+    }
+
     
     
     
@@ -156,8 +149,7 @@ struct ImageUploadView: View {
     /// Goes back to the login screen
     func goBack()   {
         
-        //navigation.hideViewWithReverseAnimation(LiveWhereView.id)
-        
+        navigationStack.pop()
     }
     
     /// Left Back Button
@@ -201,34 +193,24 @@ struct ImageUploadView: View {
         guard image != nil else {
             return 
         }
-        /*
-        let animation = NavigationAnimation(
-            animation: .easeInOut(duration: 0.8),
-            defaultViewTransition: .static,
-            alternativeViewTransition: .opacity
-        )
-       
         
-        navigation.showView(ImageUploadView.id, animation: animation) { ProfileView().environmentObject(navigation)
-                            .environmentObject(account)
-        }
-        */
+        navigationStack.push(ProfileView().environmentObject(account))
+       
     }
     
     func nextButton() -> some View {
         
         return  Button {
-            // Goes to next screen
-            goToNextView()
+           
             
             account.upload(image: image!, isProfileImage: true) { error in
                 
                 if let error = error{
                 
-                    comeBackToView()
+
                     handle(error)
                 }
-                
+                goToNextView()
             }
          
         
@@ -259,7 +241,6 @@ struct ImageUploadView: View {
     }
     
     func handle(_ error: Error)  {
-        someErrorOccured = true
         // Handle Error
         if let error = error as? AccountError{
             
@@ -313,7 +294,8 @@ struct ImageUploadView: View {
         
         
         // Handle Error
-        
+        someErrorOccured = true
+
     }
     
 }
