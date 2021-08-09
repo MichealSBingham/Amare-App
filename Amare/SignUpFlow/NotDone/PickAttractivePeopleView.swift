@@ -11,7 +11,7 @@ import NavigationStack
 struct PickAttractivePeopleView: View {
     
     /// To manage navigation
-    @EnvironmentObject var navigation: NavigationModel
+   // //@EnvironmentObject var navigation: NavigationModel
     
     /// id of view
     static let id = String(describing: Self.self)

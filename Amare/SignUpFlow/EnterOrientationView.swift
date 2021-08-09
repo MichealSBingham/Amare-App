@@ -12,7 +12,7 @@ import NavigationStack
 struct EnterOrientationView: View {
     
     /// To manage navigation
-    @EnvironmentObject var navigation: NavigationModel
+    @EnvironmentObject private var navigationStack: NavigationStack
     
     /// id of view
     static let id = String(describing: Self.self)
@@ -33,19 +33,12 @@ struct EnterOrientationView: View {
     
     var body: some View {
         
-        NavigationStackView(EnterOrientationView.id) {
-            
-            ZStack{
+      
                 
                 let timer = Timer.publish(every: 0.5, on: .main, in: .default).autoconnect()
 
              
-                Background(timer: timer)
-                    .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
-                    .onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; timer.upstream.connect().cancel()}
-                    .alert(isPresented: $tappedMore) {
-                        Alert(title: Text("TODO: Allow more genders"), message: Text("This is not finished yet, but it will allow you to select additional genders"))
-                    }
+                   
 
             
                 VStack(alignment: .leading){
@@ -84,17 +77,18 @@ struct EnterOrientationView: View {
                  
                    nextButton()
 
-                }
+                } .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
+            .onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; timer.upstream.connect().cancel()}
+            .alert(isPresented: $tappedMore) {
+                Alert(title: Text("TODO: Allow more genders"), message: Text("This is not finished yet, but it will allow you to select additional genders"))
+            }
                 
                
               
                 
                 
-            } .onAppear {
-                // set view to restore state
-                doneWithSignUp(state: false)
-        }
-        }
+            }
+        
        
         
         
@@ -102,7 +96,7 @@ struct EnterOrientationView: View {
         
         
         
-    }
+    
     
     
     
@@ -234,7 +228,7 @@ struct EnterOrientationView: View {
 
 
 
-    func SelectGenderAction(gender: String)  {
+   /* func SelectGenderAction(gender: String)  {
         
       goToNextView()
         
@@ -258,7 +252,7 @@ struct EnterOrientationView: View {
             
         
         
-    }
+    } */
 
 
 
@@ -281,8 +275,7 @@ struct EnterOrientationView: View {
     /// Goes back to the login screen
     func goBack()   {
         
-        navigation.hideViewWithReverseAnimation(EnterGenderView.id)
-        
+        navigationStack.pop()
     }
     
     /// Left Back Button
@@ -316,26 +309,14 @@ struct EnterOrientationView: View {
     /// Comes back to this view since an error occured.
     func comeBackToView()  {
         
-        navigation.hideViewWithReverseAnimation(EnterOrientationView.id)
+        //navigation.hideViewWithReverseAnimation(EnterOrientationView.id)
         
     }
     
     /// Goes to the next screen / view,. Verification Code Screen
     func goToNextView()  {
         
-        
-        let animation = NavigationAnimation(
-            animation: .easeInOut(duration: 0.8),
-            defaultViewTransition: .static,
-            alternativeViewTransition: .opacity
-        )
-        
-        navigation.showView(EnterOrientationView.id, animation: animation) { FromWhereView().environmentObject(navigation)
-                .environmentObject(account)
-            
-
-            
-        }
+        navigationStack.push(FromWhereView().environmentObject(account), withId: FromWhereView.id)
         
     }
     
@@ -350,8 +331,7 @@ struct EnterOrientationView: View {
             }
             
             
-            // Go to next
-            goToNextView()
+            
             
             var orientation: String  = ""
             if likesMen { orientation += "M" }
@@ -361,13 +341,17 @@ struct EnterOrientationView: View {
             account.data?.orientation = orientation
             
             do {
-                try account.save()
+                try account.save(completion: { error in
+                    
+                    guard error == nil else {
+                        return
+                    }
+                    goToNextView()
+                })
                 
             } catch (let error) {
                 
-                print("Some error happened ... \(error)")
-               comeBackToView()
-                handle(error)
+                    handle(error)
             }
             
             
@@ -397,8 +381,7 @@ struct EnterOrientationView: View {
 
     func handle(_ error: Error)  {
         
-        // Handle Error
-        someErrorOccured = true 
+       
         if let error = error as? AccountError{
             
             switch error {
@@ -451,6 +434,7 @@ struct EnterOrientationView: View {
         
         
         // Handle Error
+        someErrorOccured = true
         
     }
 
@@ -473,7 +457,7 @@ struct EnterOrientationView_Previews: PreviewProvider {
         
 
             EnterOrientationView().environmentObject(Account())
-                .environmentObject(NavigationModel())
+                //.environmentObject(NavigationModel())
     
        
     }

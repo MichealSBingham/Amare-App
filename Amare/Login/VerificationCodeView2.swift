@@ -10,13 +10,14 @@ import NavigationStack
 
 @available(iOS 15.0, *)
 struct VerificationCodeView2: View {
-   // @FocusState private var isFocused: Bool
 
+    
     /// id of view
     static let id = String(describing: Self.self)
 
     /// To manage navigation
-    @EnvironmentObject var navigation: NavigationModel
+    @EnvironmentObject private var navigationStack: NavigationStack
+
     
     /// The current user's account
     @State private var account: Account = Account()
@@ -41,23 +42,16 @@ struct VerificationCodeView2: View {
     @State var attempts: Int = 0
     
     @State var alreadyRan: Bool = false
-
-
+    
+    @FocusState var isFocused: Bool
 
     
     var body: some View {
        
-        NavigationStackView(VerificationCodeView2.id) {
+     
             
-            ZStack{
-                
-                let timer = Timer.publish(every: 0.5, on: .main, in: .default).autoconnect()
-
-             
-                Background(timer: timer)
-                    .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
-                    .onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; timer.upstream.connect().cancel()}
-                    
+           
+            
                 
                 VStack(alignment: .leading) {
                     
@@ -94,9 +88,10 @@ struct VerificationCodeView2: View {
                     
                     
                     
-                }
-            }
-        }
+                }.alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
+                
+            
+        
     }
     
     /// Button for resending verification code
@@ -169,8 +164,12 @@ struct VerificationCodeView2: View {
     
     /// Goes back to the login screen
     func goBack()   {
-        navigation.hideViewWithReverseAnimation(EnterPhoneNumberView.id)
-            
+        
+        AmareApp().dismissKeyboard {
+            navigationStack.pop()
+        }
+        
+        
     }
     
     /// Title of the view text .
@@ -217,10 +216,11 @@ struct VerificationCodeView2: View {
             .foregroundColor(.clear)
             .keyboardType(.numberPad)
             .textContentType(.oneTimeCode)
-            
-          //  .focused($isFocused)
-            
-        
+            .focused($isFocused)
+            .onAppear { AmareApp().delay(0.10, completion: {isFocused=true}) }
+           
+           
+    
         
     }
 
@@ -355,6 +355,7 @@ struct VerificationCodeView2: View {
                 someErrorOccured = true
 
             }
+            someErrorOccured = true
         }
         
         
@@ -362,10 +363,21 @@ struct VerificationCodeView2: View {
         
     }
     
+    func goToNext(screen: SignUpState)  {
+        
+        guard screen == .done else {
+           
+            navigationStack.push(EnterNameView().environmentObject(account), withId: EnterNameView.id)
+            return 
+        }
+        
+        navigationStack.push(ProfileView().environmentObject(account), withId: ProfileView.id)
+    }
+    
     /// Goes to the next view
     /// - Parameter screen: The proper sign up screen to take the user to if they did not finish the sign up process. Take the user to the profile
     ///  - Update: We are no longer allowing users to go to a specific screen, if they exit sign up process, they'll just start all over again . We do this to prevent errors on loading views going backwards because of NavigationStack. Ask Micheal for more info if you need to know why. Jul 25, 2021,
-    func goToNext(screen: SignUpState)  {
+  /*  func goToNext(screen: SignUpState)  {
         
         let animation = NavigationAnimation(
             animation: .easeInOut(duration: 0.8),
@@ -448,7 +460,7 @@ struct VerificationCodeView2: View {
         
        
         
-    }
+    } */
 }
 
 @available(iOS 15.0, *)
@@ -456,7 +468,13 @@ struct VerificationCodeView2: View {
 struct VerificationCodeView2_Previews: PreviewProvider {
     static var previews: some View {
         VerificationCodeView2()
-            .environmentObject(NavigationModel())
+            //.environmentObject(NavigationModel())
             
     }
 }
+
+
+enum Field: Hashable {
+        case first
+       
+    }

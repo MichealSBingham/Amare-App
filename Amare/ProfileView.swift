@@ -13,8 +13,8 @@ import NavigationStack
 struct ProfileView: View {
     
     /// To manage navigation
-    @EnvironmentObject var navigation: NavigationModel
-    
+    @EnvironmentObject private var navigationStack: NavigationStack
+
     /// id of view
     static let id = String(describing: Self.self)
     
@@ -26,10 +26,8 @@ struct ProfileView: View {
 
     var body: some View {
         
-        NavigationStackView(ProfileView.id) {
+       
             
-            ZStack{
-               SetBackground()
               
                 
                 VStack{
@@ -56,9 +54,14 @@ struct ProfileView: View {
                     
                     Spacer()
                     
-                }
+                }.alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
+                .onReceive(NotificationCenter.default.publisher(for: NSNotification.logout), perform: { _ in
                 
-            } .onAppear(perform: {
+                    goBackToSignInRootView()
+            
+            })
+                
+             .onAppear(perform: {
                 
                 
             
@@ -67,7 +70,7 @@ struct ProfileView: View {
                 account.listenOnlyForSignOut()
                 
         })
-        }
+        
         
     }
     
@@ -98,12 +101,7 @@ struct ProfileView: View {
             .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
             .navigationBarBackButtonHidden(true)
             .navigationBarTitle(account.data?.name ?? "Profile")
-            .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
-            .onReceive(NotificationCenter.default.publisher(for: NSNotification.logout), perform: { _ in
-                
-            // NavigationUtil.popToRootView()
-            
-            })
+          
         
     }
     
@@ -120,7 +118,7 @@ struct ProfileView: View {
                     alertMessage = "Some error when trying to sign out"
                     return
                 }
-                goBackToRootView()
+                
                 
                 
             }
@@ -131,24 +129,9 @@ struct ProfileView: View {
 
     }
     
-    func goBackToRootView()  {
+    func goBackToSignInRootView()  {
 
-       // navigation.hideViewWithReverseAnimation(RootView.id)
-            
-        let animation = NavigationAnimation(
-            animation: .easeInOut(duration: 0.8),
-            defaultViewTransition: .static,
-            alternativeViewTransition: .opacity
-        )
-       
-        
-        navigation.showView(ProfileView.id, animation: animation) {
-            
-            RootView().environmentObject(navigation)
-                            .environmentObject(account)
-                           
-            
-        }
+        navigationStack.pop(to: .root)
     }
     
     func MakeProfileImage() -> some View {
@@ -183,10 +166,13 @@ struct ProfileView_Previews: PreviewProvider {
         
             
             ProfileView().environmentObject(Account())
-            .environmentObject(NavigationModel())
+            //.environmentObject(NavigationModel())
                           //  .preferredColorScheme(.dark)
         
         
             
     }
 }
+
+
+

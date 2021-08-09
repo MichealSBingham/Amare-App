@@ -7,12 +7,14 @@
 
 import SwiftUI
 import NavigationStack
+import Shimmer
+
 
 @available(iOS 15.0, *)
 struct EnterGenderView: View {
     
     /// To manage navigation
-    @EnvironmentObject var navigation: NavigationModel
+    @EnvironmentObject private var navigationStack: NavigationStack
     
     /// id of view
     static let id = String(describing: Self.self)
@@ -31,19 +33,14 @@ struct EnterGenderView: View {
     
     var body: some View {
         
-        NavigationStackView(EnterGenderView.id) {
+    
             
-            ZStack{
+            
                 
                 let timer = Timer.publish(every: 0.5, on: .main, in: .default).autoconnect()
 
              
-                Background(timer: timer)
-                    .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
-                    .onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; timer.upstream.connect().cancel()}
-                    .alert(isPresented: $showTodoMessage) {
-                        Alert(title: Text("TODO: Allow more genders"), message: Text("This is not finished yet, but it will allow you to select additional genders"))
-                    }
+                    
             
                 VStack(alignment: .leading){
                     
@@ -74,16 +71,18 @@ struct EnterGenderView: View {
                     Spacer()
                  
                     
+                }.alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
+                .onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; timer.upstream.connect().cancel()}
+                .alert(isPresented: $showTodoMessage) {
+                    Alert(title: Text("TODO: Allow more genders"), message: Text("This is not finished yet, but it will allow you to select additional genders"))
                 }
+
                 
               
                 
                 
-            } .onAppear {
-                // set view to restore state
-                doneWithSignUp(state: false)
-        }
-        }
+            
+        
        
         
         
@@ -102,14 +101,7 @@ struct EnterGenderView: View {
 
 
     func MakeManButton() -> some View  {
-        /*
-        return   Button("Man") {
-            
-            // selected man
-            SelectGenderAction(gender: "M")
-        }.padding()
-
-        */
+      
         
         return Button {
             
@@ -235,19 +227,24 @@ struct EnterGenderView: View {
 
     func SelectGenderAction(gender: String)  {
         
-      goToNextView()
+     
         
         self.account.data?.sex = gender
         
         do{
             
-            try account.save()
+            try account.save(completion: { error in
+                guard error == nil else{
+                    return 
+                }
+                goToNextView()
+            })
             
         } catch (let error){
             
             // Handle Error //
             
-            comeBackToView()
+            
             
             handle(error)
             
@@ -275,8 +272,7 @@ struct EnterGenderView: View {
     /// Goes back to the login screen
     func goBack()   {
         
-        navigation.hideViewWithReverseAnimation(EnterNameView.id)
-        
+        navigationStack.pop()
     }
     
     /// Left Back Button
@@ -310,27 +306,13 @@ struct EnterGenderView: View {
     /// Comes back to this view since an error occured.
     func comeBackToView()  {
         
-        navigation.hideViewWithReverseAnimation(EnterGenderView.id)
+        //navigation.hideViewWithReverseAnimation(EnterGenderView.id)
         
     }
     
     /// Goes to the next screen / view,. Verification Code Screen
     func goToNextView()  {
-        
-        
-        let animation = NavigationAnimation(
-            animation: .easeInOut(duration: 0.8),
-            defaultViewTransition: .static,
-            alternativeViewTransition: .opacity
-        )
-        
-        navigation.showView(EnterGenderView.id, animation: animation) { EnterOrientationView().environmentObject(navigation)
-                            .environmentObject(account)
-            
-
-            
-        }
-        
+        navigationStack.push(EnterOrientationView().environmentObject(account))
     }
 
 
@@ -389,6 +371,7 @@ struct EnterGenderView: View {
         
         
         // Handle Error
+        someErrorOccured = true
         
     }
 
@@ -411,7 +394,7 @@ struct EnterGenderView_Previews: PreviewProvider {
         
 
             EnterGenderView().environmentObject(Account())
-                .environmentObject(NavigationModel())
+                //.environmentObject(NavigationModel())
     
        
     }

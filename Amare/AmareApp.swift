@@ -66,6 +66,19 @@ struct AmareApp: App {
             }
         }
     }
+    
+    /// Dismisses the keyboard
+    func dismissKeyboard(completion: (() -> Void)? = nil )  {
+        UIApplication.shared.dismissKeyboard()
+        completion?()
+    }
+    
+    /// Delays code executiion by a specified time
+    func delay(_ seconds: Double, completion: @escaping () -> ()) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
+            completion()
+        }
+    }
 }
 
 

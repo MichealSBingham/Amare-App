@@ -17,9 +17,8 @@ struct EnterBirthdayView: View {
     static let id = String(describing: Self.self)
     
     /// To manage navigation
-    @EnvironmentObject var navigation: NavigationModel
-    
- 
+    @EnvironmentObject private var navigationStack: NavigationStack
+
     
     @EnvironmentObject private var account: Account
     
@@ -40,30 +39,16 @@ struct EnterBirthdayView: View {
         
      
             
-        NavigationStackView(EnterBirthdayView.id) {
+       
             
-            ZStack{
+         
                     
                     
                     
                 let timer = Timer.publish(every: 0.5, on: .main, in: .default).autoconnect()
             
-                Background(timer: timer)
-                    .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
-                    .onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; timer.upstream.connect().cancel()}
-                    .alert(isPresented: $didTapNext) {
-                       
-                        
-                        Alert(
-                                        title: Text("Is this when you were born?"),
-                                        message: Text("\(date)"),
-                                        primaryButton: .default(Text("Yes")) {
-                                            saveBirthdayAndGoToNextView()
-                                        },
-                                        secondaryButton: .destructive(Text("No"))
-                                    )
                 
-                    }
+                    
                     
                     VStack{
                         
@@ -88,12 +73,26 @@ struct EnterBirthdayView: View {
                         Spacer()
 
                     }
+                    .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
+                    .onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; timer.upstream.connect().cancel()}
+                    .alert(isPresented: $didTapNext) {
+                       
+                        
+                        Alert(
+                                        title: Text("Is this when you were born?"),
+                                        message: Text("\(date)"),
+                                        primaryButton: .default(Text("Yes")) {
+                                            saveBirthdayAndGoToNextView()
+                                        },
+                                        secondaryButton: .destructive(Text("No"))
+                                    )
+                
+                    }
                     
                     
                     
-                    
-                } 
-        }
+                
+        
             
            
        
@@ -113,11 +112,15 @@ struct EnterBirthdayView: View {
         
         do {
             
-            try account.save()
-            goToNextView()
+            try account.save(completion: { error in
+                guard error == nil else {
+                    return
+                }
+                goToNextView()
+            })
             
         } catch (let error){
-            comeBackToView()
+           
             handle(error)
         }
 
@@ -137,9 +140,8 @@ struct EnterBirthdayView: View {
     
     /// Goes back to the login screen
     func goBack()   {
-        
-        navigation.hideViewWithReverseAnimation(FromWhereView.id)
-        
+        navigationStack.pop()
+
     }
     
     /// Left Back Button
@@ -173,26 +175,15 @@ struct EnterBirthdayView: View {
     /// Comes back to this view since an error occured.
     func comeBackToView()  {
         
-        navigation.hideViewWithReverseAnimation(EnterBirthdayView.id)
+        //navigation.hideViewWithReverseAnimation(EnterBirthdayView.id)
         
     }
     
     /// Goes to the next screen / view,. Verification Code Screen
     func goToNextView()  {
+        navigationStack.push(LiveWhereView().environmentObject(account))
         
-        
-        let animation = NavigationAnimation(
-            animation: .easeInOut(duration: 0.8),
-            defaultViewTransition: .static,
-            alternativeViewTransition: .opacity
-        )
-        
-        navigation.showView(EnterBirthdayView.id, animation: animation) { LiveWhereView().environmentObject(navigation)
-                            .environmentObject(account)
-                        
-            
-        }
-        
+       
     }
     
     func nextButton() -> some View {
@@ -230,7 +221,6 @@ struct EnterBirthdayView: View {
 
     
     func handle(_ error: Error)  {
-        someErrorOccured = true
         // Handle Error
         if let error = error as? AccountError{
             
@@ -284,6 +274,7 @@ struct EnterBirthdayView: View {
         
         
         // Handle Error
+        someErrorOccured = true
         
     }
 
@@ -301,7 +292,7 @@ struct EnterBirthdayView_Previews: PreviewProvider {
     static var previews: some View {
       
             EnterBirthdayView(timezone: TimeZone.current).environmentObject(Account())
-                .environmentObject(NavigationModel())
+                //.environmentObject(NavigationModel())
                 .preferredColorScheme(.dark)
         
         

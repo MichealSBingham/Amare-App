@@ -12,14 +12,14 @@ import NavigationStack
 struct EnterNameView: View {
     
     /// To manage navigation
-    @EnvironmentObject var navigation: NavigationModel
+    @EnvironmentObject private var navigationStack: NavigationStack
     
     /// id of view
     static let id = String(describing: Self.self)
     
     @EnvironmentObject private var account: Account
     
-    @State  private var name: String = ""
+    @State   var name: String = ""
     @State private var goToNext: Bool = false
     
    
@@ -28,22 +28,21 @@ struct EnterNameView: View {
     
     @State private var beginAnimation: Bool = false
     
+    @FocusState var isFocused: Bool
+    
     
     var body: some View {
        
 
             
-        NavigationStackView(EnterNameView.id) {
+        
             
-            ZStack{
+          
                     
                 let timer = Timer.publish(every: 0.5, on: .main, in: .default).autoconnect()
 
-                let timer2 = Timer.publish(every: 0.5, on: .main, in: .default).autoconnect()
                 
-                Background(style: .fast, timer: timer2)
-                    .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
-                    .onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; timer.upstream.connect().cancel()}
+            
                     
                     
                 VStack(alignment: .leading){
@@ -68,17 +67,15 @@ struct EnterNameView: View {
          
                         
                     }
-                    
+                .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
+                .onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; timer.upstream.connect().cancel()}
+
                     
                         
                     
-                   
-                    
-                    
-                    
-                } .onAppear {
-                    doneWithSignUp(state: false)
-            }
+            
+               
+            
         }
             
           
@@ -86,7 +83,7 @@ struct EnterNameView: View {
   
             
 
-    }
+    
     
     
     func enterNameField() -> some View {
@@ -96,42 +93,35 @@ struct EnterNameView: View {
             guard !(name.isEmpty) else{
                 
                 // User entered an empty name
-                print("Name is empty")
+               
                 return
             }
             
-            // Go to next page
-            goToNextView()
-            
+         
           
             
             account.data = UserData(id: account.user?.uid ?? "", name: name)
             
             do{
-                try account.save()
+                try account.save(completion: { error in
+                    guard error == nil else {
+                        return
+                    }
+                    
+                    goToNextView()
+                })
             } catch (let error){
                 
-                comeBackToView()
                 handle(error)
                 return
             }
             
-           /* account.set(data: userdata) { error in
-                
-              
-                
-                guard error == nil else {
-                    // There is some error
-                
-                   comeBackToView()
-                    return
-                }
-                
-               
-            } */
+           
             
         })
         .font(.largeTitle)
+        .focused($isFocused)
+        .onAppear { AmareApp().delay(0.10, completion: {isFocused=true}) }
         
 
     }
@@ -151,13 +141,20 @@ struct EnterNameView: View {
     
     /// Goes back to the login screen
     func goBack()   {
+    
+        
         
         account.signOut { error in
             
             guard error == nil else { return }
-            navigation.hideViewWithReverseAnimation(RootView.id)
+            
+            AmareApp().dismissKeyboard {
+                navigationStack.pop(to: .root)
+            }
+           
             return
         }
+         
         
      
     }
@@ -191,9 +188,9 @@ struct EnterNameView: View {
     }
     
     /// Comes back to this view since an error occured.
+    /// - Deprecated
     func comeBackToView()  {
         
-        navigation.hideViewWithReverseAnimation(EnterNameView.id)
         
     }
     
@@ -201,23 +198,12 @@ struct EnterNameView: View {
     func goToNextView()  {
         
         
-        let animation = NavigationAnimation(
-            animation: .easeInOut(duration: 0.8),
-            defaultViewTransition: .static,
-            alternativeViewTransition: .opacity
-        )
-        
-        navigation.showView(EnterNameView.id, animation: animation) { EnterGenderView().environmentObject(navigation)
-                            .environmentObject(account)
-            
-
-            
-        }
+        navigationStack.push(EnterGenderView().environmentObject(account))
         
     }
     
     func handle(_ error: Error)  {
-        someErrorOccured = true
+        
         // Handle Error
         if let error = error as? AccountError{
             
@@ -271,14 +257,15 @@ struct EnterNameView: View {
         
         
         // Handle Error
-        
+        someErrorOccured = true
     }
     
     
-    
-    
-}
 
+    
+    
+
+}
 
 
 
@@ -291,7 +278,7 @@ struct EnterNameView_Previews: PreviewProvider {
        
             EnterNameView().environmentObject(Account())
                 .preferredColorScheme(.dark)
-                .environmentObject(NavigationModel())
+                //.environmentObject(NavigationModel())
         
         
     }

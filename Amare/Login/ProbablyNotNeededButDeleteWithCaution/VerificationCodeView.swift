@@ -1,7 +1,7 @@
 import SwiftUI
 import Firebase
 import NavigationStack
-
+/*
 
 ///I**IMPORTANT *********
 /// **FILE IS LIKELY NOT NEEDED BUT I HAVEN'T DELETED IT YET BECAUSE I THINK
@@ -40,7 +40,7 @@ var label = "Enter One Time Password"
     @State private var alertMessage: String  = ""
 
 
-    @EnvironmentObject var navigation: NavigationModel
+    ////@EnvironmentObject var navigation: NavigationModel
 
     
 public var body: some View {
@@ -319,6 +319,29 @@ struct VerificationCodeView_Previews: PreviewProvider {
 }
 
 
+
+extension String {
+var digits: [Int] {
+    var result = [Int]()
+    for char in self {
+        if let number = Int(String(char)) {
+            result.append(number)
+        }
+    }
+    return result
+   }
+}
+
+extension Int {
+
+var numberString: String {
+    
+    guard self < 10 else { return "0" }
+    
+    return String(self)
+   }
+}
+*/
 
 extension String {
 var digits: [Int] {
