@@ -106,7 +106,7 @@ struct SignInOrUpView: View {
         
         let timer = Timer.publish(every: 5, on: .main, in: .default).autoconnect()
         
-        return Text(language == .Latin ? "AMARE": "LOVE")
+        return Text(language == .Latin ? "AMĀRE": "LOVE")
                 .foregroundColor(.white)
                 .font((Font.custom("MontserratAlternates-SemiBold", size: 35))
                 .bold()
@@ -124,7 +124,8 @@ struct SignInOrUpView: View {
     
     /// Tagline text view below the logo
     func taglineText(language: Language) -> some View {
-        
+    //Omnia vincit amor: et nos cedamus amori
+        // let us too yield to love
         return Text(language == .Latin ? "Amor Vincit Omnia.": "Love Conquers All.")
            .foregroundColor(.white)
            .font((Font.custom("MontserratAlternates-SemiBold", size: 17)))
