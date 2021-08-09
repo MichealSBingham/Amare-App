@@ -344,6 +344,13 @@ struct FromWhereView: View {
     
     /// Goes to the next screen / view,. Verification Code Screen
     func goToNextView()  {
+        
+        guard let timezone = timezone else {
+            someErrorOccured = true
+            alertMessage = "Please select a city" 
+            return
+        }
+ 
         navigationStack.push(EnterBirthdayView(timezone: timezone).environmentObject(account))
        
         

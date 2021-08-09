@@ -941,6 +941,7 @@ class Account: ObservableObject {
                                 // There is no object located here so we need to create one and add it.
                                 DB.collection("users").document(self.data?.id ?? self.user!.uid).setData(["images": []]) { error in
                                     
+                                    print("Object Not found...")
                                     
                                    guard error == nil else  {
                                         print("We failed to upload it in the databases, we tried to set the images data to an empty array but it dind't work")
@@ -951,6 +952,8 @@ class Account: ObservableObject {
                                     // It worked so let's just try again
                                     self.upload(image: image, isProfileImage: isProfileImage) { error in
                                         
+                                        print("Trying again .. (upload) ")
+                                        
                                         guard error == nil else {
                                             // It didn't work so just try again
                                             print("error We failed trying to recursiviely upload the image if .objectNotfound with error \(error!.localizedDescription)")
@@ -959,25 +962,9 @@ class Account: ObservableObject {
                                             
                                         }
                                         // It worked.
+                                        print("it worked .. self.upload")
                                         completion?(nil) 
-                                        /*
-                                        guard isProfileImage else {
-                                            // it's not a profile image so exit
-                                            completion?(nil)
-                                            return
-                                        }
-                                        
-                                        do {
-                                            
-                                            try self.save(completion: { error in
-                                                
-                                                completion?(error)
-                                            })
-                                            
-                                        } catch (let error){
-                                            
-                                            completion?(error)
-                                        } */
+                                  
                                         
                                     }
                                 }
@@ -996,28 +983,8 @@ class Account: ObservableObject {
                         return
                     }
                    
-                    /*
-                    // It added the images to the array in the database so if doesn't need to update the profile image (i.e, the image uploaded was *not* a profile image.. escape from the function
-                    guard isProfileImage else {
-                            // escape because it's not a profile image.
-                        completion?(nil)
-                        return
-                    }
-                    
-                    // Set the profile image url to the user data as well
-                    do {
-                        
-                        try self.save(completion: { error in
-                            
-                            completion?(error)
-                        })
-                        
-                    } catch (let error) {
-                        // some error happed
-                        completion?(error)
-                    }
-                    */
-                    
+                    print("No error ..uploaded image")
+                    completion?(nil)
                     
                 }
                 

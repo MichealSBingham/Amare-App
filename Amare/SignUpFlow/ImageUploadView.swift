@@ -34,6 +34,7 @@ struct ImageUploadView: View {
     @State private var alertMessage: String  = ""
     
     @State private var beginAnimation: Bool = false
+    @State private var tappedButton: Bool = false
     
     var body: some View {
         
@@ -190,9 +191,6 @@ struct ImageUploadView: View {
     /// Goes to the next screen /
     func goToNextView()  {
        
-        guard image != nil else {
-            return 
-        }
         
         navigationStack.push(ProfileView().environmentObject(account))
        
@@ -202,12 +200,14 @@ struct ImageUploadView: View {
         
         return  Button {
            
+            tappedButton = true
+            guard image != nil else {tappedButton = false; return}
             
             account.upload(image: image!, isProfileImage: true) { error in
                 
                 if let error = error{
                 
-
+                    tappedButton = false
                     handle(error)
                 }
                 goToNextView()
@@ -237,7 +237,8 @@ struct ImageUploadView: View {
             
             Spacer()
                
-        }
+        }.disabled(tappedButton)
+            .opacity(tappedButton ? 0: 1)
     }
     
     func handle(_ error: Error)  {
