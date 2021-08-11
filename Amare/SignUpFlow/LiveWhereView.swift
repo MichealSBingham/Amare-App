@@ -79,6 +79,10 @@ struct LiveWhereView: View {
         }
     }
     
+    enum FirstResponders: Int {
+            case city
+        }
+    @State var firstResponder: FirstResponders? = .city
     
     var body: some View {
         
@@ -208,13 +212,14 @@ struct LiveWhereView: View {
         ) { isEditing in
             self.isEditing = isEditing
         } onCommit: {
-            
+            firstResponder = nil 
             searchForCities { cities in
                 
                 citiesSearchResult = cities
                 selectedCity = citiesSearchResult.first?.placemark
             }
         }
+        .firstResponder(id: FirstResponders.city, firstResponder: $firstResponder)
         .foregroundColor(.clear)
         .frame(width: 300, height: 50)
         .background(

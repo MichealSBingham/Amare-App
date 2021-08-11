@@ -8,7 +8,7 @@
 import SwiftUI
 import MapKit
 import NavigationStack
-
+import MbSwiftUIFirstResponder
 
 struct FromWhereView: View {
     
@@ -47,6 +47,10 @@ struct FromWhereView: View {
     @State var places: [MapAnnotation] = []
     
     @State var isEditing: Bool = false
+    
+    
+    
+    @State var firstResponder: FirstResponders? = .city
 
     @State public var selectedCity: CLPlacemark? {
          
@@ -179,7 +183,7 @@ struct FromWhereView: View {
      
      
         var cityString: String? = nil
-        
+         
         if let city = selectedCity?.city, let state = selectedCity?.state  {
             cityString = "\(city), \(state)"
         }
@@ -209,13 +213,14 @@ struct FromWhereView: View {
         ) { isEditing in
             self.isEditing = isEditing
         } onCommit: {
-            
+            firstResponder = nil
             searchForCities { cities in
                 
                 citiesSearchResult = cities
                 selectedCity = citiesSearchResult.first?.placemark
             }
         }
+         .firstResponder(id: FirstResponders.city, firstResponder: $firstResponder)
         .foregroundColor(.clear)
         .frame(width: 300, height: 50)
         .background(
@@ -533,3 +538,7 @@ struct MapAnnotation: Identifiable {
     let name: String
     let coordinate: CLLocationCoordinate2D
 }
+
+enum FirstResponders: Int {
+        case city
+    }

@@ -30,6 +30,10 @@ struct EnterNameView: View {
     
     
     //@FocusState var isFocused: Bool
+    enum FirstResponders: Int {
+            case name
+        }
+    @State var firstResponder: FirstResponders? = .name
     
     
     var body: some View {
@@ -108,7 +112,7 @@ struct EnterNameView: View {
                     guard error == nil else {
                         return
                     }
-                    
+                    firstResponder = nil 
                     goToNextView()
                 })
             } catch (let error){
@@ -120,6 +124,7 @@ struct EnterNameView: View {
            
             
         })
+        .firstResponder(id: FirstResponders.name, firstResponder: $firstResponder)
         .font(.largeTitle)
        // .focused($isFocused)
       //  .onAppear { AmareApp().delay(0.10, completion: {isFocused=true}) }
