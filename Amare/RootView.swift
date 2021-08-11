@@ -30,12 +30,12 @@ struct RootView: View {
                     
                     ProfileView()
                         .environmentObject(account)
-                        .onAppear(perform: { print("Signed in so go to profile"); account.stopListening()})
+                        .onAppear(perform: {  account.stopListening()})
                     
                     
                 } else {
                     SignInOrUpView()
-                        .onAppear { print("Not signed in so go to sign in "); account.stopListening() }
+                        .onAppear {  account.stopListening() }
                         
                         
                     
