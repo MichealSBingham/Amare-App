@@ -221,7 +221,7 @@ struct FromWhereView: View {
             }
         }
          .firstResponder(id: FirstResponders.city, firstResponder: $firstResponder)
-        .foregroundColor(.clear)
+        .foregroundColor(.white)
         .frame(width: 300, height: 50)
         .background(
                 RoundedRectangle(cornerRadius: 20)

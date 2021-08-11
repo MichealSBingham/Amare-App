@@ -212,7 +212,7 @@ struct LiveWhereView: View {
         ) { isEditing in
             self.isEditing = isEditing
         } onCommit: {
-            firstResponder = nil 
+            firstResponder = nil
             searchForCities { cities in
                 
                 citiesSearchResult = cities
@@ -220,7 +220,7 @@ struct LiveWhereView: View {
             }
         }
         .firstResponder(id: FirstResponders.city, firstResponder: $firstResponder)
-        .foregroundColor(.clear)
+        .foregroundColor(.white)
         .frame(width: 300, height: 50)
         .background(
                 RoundedRectangle(cornerRadius: 20)

@@ -15,7 +15,7 @@
 		2608CF4E2695139800826FDA /* EnterOrientationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2608CF4D2695139800826FDA /* EnterOrientationView.swift */; };
 		2608CF512697529600826FDA /* GlobalErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2608CF502697529600826FDA /* GlobalErrors.swift */; };
 		2608CF532697C9D600826FDA /* SystemErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2608CF522697C9D600826FDA /* SystemErrors.swift */; };
-		260A111126C373DE00873FE6 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 260A111026C373DE00873FE6 /* SwiftPackageProductDependency */; };
+		260A111126C373DE00873FE6 /* MbSwiftUIFirstResponder in Frameworks */ = {isa = PBXBuildFile; productRef = 260A111026C373DE00873FE6 /* MbSwiftUIFirstResponder */; };
 		263695ED269B7872006EEA79 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 263695EC269B7872006EEA79 /* GoogleService-Info.plist */; };
 		263695EE269B7872006EEA79 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 263695EC269B7872006EEA79 /* GoogleService-Info.plist */; };
 		263695EF269B7872006EEA79 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 263695EC269B7872006EEA79 /* GoogleService-Info.plist */; };
@@ -34,11 +34,11 @@
 		26B1AFE22678FFE700A170B3 /* Love.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 26B1AFE02678FFE700A170B3 /* Love.xcdatamodeld */; };
 		26B1AFED2678FFE700A170B3 /* LoveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B1AFEC2678FFE700A170B3 /* LoveTests.swift */; };
 		26B1AFF82678FFE700A170B3 /* LoveUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B1AFF72678FFE700A170B3 /* LoveUITests.swift */; };
-		26B1B0072679566E00A170B3 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 26B1B0062679566E00A170B3 /* SwiftPackageProductDependency */; };
+		26B1B0072679566E00A170B3 /* iPhoneNumberField in Frameworks */ = {isa = PBXBuildFile; productRef = 26B1B0062679566E00A170B3 /* iPhoneNumberField */; };
 		26B1B00A2679961200A170B3 /* VerificationCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B1B0092679961100A170B3 /* VerificationCodeView.swift */; };
 		26B1B011267C28E000A170B3 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B1B010267C28E000A170B3 /* Extensions.swift */; };
 		26B6079826BF60EF00CE8491 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B6079726BF60EF00CE8491 /* RootView.swift */; };
-		26B6079B26BF643100CE8491 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 26B6079A26BF643100CE8491 /* SwiftPackageProductDependency */; };
+		26B6079B26BF643100CE8491 /* NavigationStack in Frameworks */ = {isa = PBXBuildFile; productRef = 26B6079A26BF643100CE8491 /* NavigationStack */; };
 		26B6079D26C021C900CE8491 /* SignInOrUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B6079C26C021C900CE8491 /* SignInOrUpView.swift */; };
 		26BBF08C267D7C9900C84019 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BBF08B267D7C9900C84019 /* ProfileView.swift */; };
 		26BBF08F267D80FC00C84019 /* EnterBirthdayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BBF08E267D80FC00C84019 /* EnterBirthdayView.swift */; };
@@ -50,7 +50,7 @@
 		26F9206B26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 26F9206A26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf */; };
 		26F9206C26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 26F9206A26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf */; };
 		26F9206D26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 26F9206A26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf */; };
-		26F9207726A8C2E200A4F8C6 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 26F9207626A8C2E200A4F8C6 /* SwiftPackageProductDependency */; };
+		26F9207726A8C2E200A4F8C6 /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = 26F9207626A8C2E200A4F8C6 /* Shimmer */; };
 		79C8C30FC1EA0322C745968A /* Pods_AmareTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A146B3B85E1779F45EC69323 /* Pods_AmareTests.framework */; };
 		C344D51F401424021FDE645C /* Pods_Amare_AmareUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A5D388BE3483C4203F36EFA /* Pods_Amare_AmareUITests.framework */; };
 		C40679E4BF3FB8AC42250046 /* Pods_Amare.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B89F6CE175392E87B0FDB87C /* Pods_Amare.framework */; };
@@ -134,10 +134,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				26F9207726A8C2E200A4F8C6 /* BuildFile in Frameworks */,
-				26B6079B26BF643100CE8491 /* BuildFile in Frameworks */,
-				260A111126C373DE00873FE6 /* BuildFile in Frameworks */,
-				26B1B0072679566E00A170B3 /* BuildFile in Frameworks */,
+				26F9207726A8C2E200A4F8C6 /* Shimmer in Frameworks */,
+				26B6079B26BF643100CE8491 /* NavigationStack in Frameworks */,
+				260A111126C373DE00873FE6 /* MbSwiftUIFirstResponder in Frameworks */,
+				26B1B0072679566E00A170B3 /* iPhoneNumberField in Frameworks */,
 				C40679E4BF3FB8AC42250046 /* Pods_Amare.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -359,10 +359,10 @@
 			);
 			name = Amare;
 			packageProductDependencies = (
-				26B1B0062679566E00A170B3 /* SwiftPackageProductDependency */,
-				26F9207626A8C2E200A4F8C6 /* SwiftPackageProductDependency */,
-				26B6079A26BF643100CE8491 /* SwiftPackageProductDependency */,
-				260A111026C373DE00873FE6 /* SwiftPackageProductDependency */,
+				26B1B0062679566E00A170B3 /* iPhoneNumberField */,
+				26F9207626A8C2E200A4F8C6 /* Shimmer */,
+				26B6079A26BF643100CE8491 /* NavigationStack */,
+				260A111026C373DE00873FE6 /* MbSwiftUIFirstResponder */,
 			);
 			productName = Love;
 			productReference = 26B1AFD22678FFE500A170B3 /* Amare.app */;
@@ -439,10 +439,10 @@
 			);
 			mainGroup = 26B1AFC92678FFE500A170B3;
 			packageReferences = (
-				26B1B0052679566E00A170B3 /* RemoteSwiftPackageReference */,
-				26F9207526A8C2E200A4F8C6 /* RemoteSwiftPackageReference */,
-				26B6079926BF643100CE8491 /* RemoteSwiftPackageReference */,
-				260A110F26C373DE00873FE6 /* RemoteSwiftPackageReference */,
+				26B1B0052679566E00A170B3 /* XCRemoteSwiftPackageReference "iPhoneNumberField" */,
+				26F9207526A8C2E200A4F8C6 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
+				26B6079926BF643100CE8491 /* XCRemoteSwiftPackageReference "swiftui-navigation-stack" */,
+				260A110F26C373DE00873FE6 /* XCRemoteSwiftPackageReference "MbSwiftUIFirstResponder" */,
 			);
 			productRefGroup = 26B1AFD32678FFE500A170B3 /* Products */;
 			projectDirPath = "";
@@ -787,7 +787,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = Amare/Amare.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"Amare/Preview Content\"";
 				DEVELOPMENT_TEAM = HGQ8Q53DV8;
 				ENABLE_PREVIEWS = YES;
@@ -798,7 +798,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.1;
+				MARKETING_VERSION = 0.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = app.amare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -815,7 +815,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = Amare/Amare.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"Amare/Preview Content\"";
 				DEVELOPMENT_TEAM = HGQ8Q53DV8;
 				ENABLE_PREVIEWS = YES;
@@ -826,7 +826,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.1;
+				MARKETING_VERSION = 0.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = app.amare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -960,7 +960,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		260A110F26C373DE00873FE6 /* RemoteSwiftPackageReference */ = {
+		260A110F26C373DE00873FE6 /* XCRemoteSwiftPackageReference "MbSwiftUIFirstResponder" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Mobilinked/MbSwiftUIFirstResponder";
 			requirement = {
@@ -968,7 +968,7 @@
 				kind = branch;
 			};
 		};
-		26B1B0052679566E00A170B3 /* RemoteSwiftPackageReference */ = {
+		26B1B0052679566E00A170B3 /* XCRemoteSwiftPackageReference "iPhoneNumberField" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/MojtabaHs/iPhoneNumberField.git";
 			requirement = {
@@ -976,7 +976,7 @@
 				minimumVersion = 0.6.1;
 			};
 		};
-		26B6079926BF643100CE8491 /* RemoteSwiftPackageReference */ = {
+		26B6079926BF643100CE8491 /* XCRemoteSwiftPackageReference "swiftui-navigation-stack" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/matteopuc/swiftui-navigation-stack.git";
 			requirement = {
@@ -984,7 +984,7 @@
 				minimumVersion = 1.0.0;
 			};
 		};
-		26F9207526A8C2E200A4F8C6 /* RemoteSwiftPackageReference */ = {
+		26F9207526A8C2E200A4F8C6 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/markiv/SwiftUI-Shimmer";
 			requirement = {
@@ -995,24 +995,24 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		260A111026C373DE00873FE6 /* SwiftPackageProductDependency */ = {
+		260A111026C373DE00873FE6 /* MbSwiftUIFirstResponder */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 260A110F26C373DE00873FE6 /* RemoteSwiftPackageReference */;
+			package = 260A110F26C373DE00873FE6 /* XCRemoteSwiftPackageReference "MbSwiftUIFirstResponder" */;
 			productName = MbSwiftUIFirstResponder;
 		};
-		26B1B0062679566E00A170B3 /* SwiftPackageProductDependency */ = {
+		26B1B0062679566E00A170B3 /* iPhoneNumberField */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 26B1B0052679566E00A170B3 /* RemoteSwiftPackageReference */;
+			package = 26B1B0052679566E00A170B3 /* XCRemoteSwiftPackageReference "iPhoneNumberField" */;
 			productName = iPhoneNumberField;
 		};
-		26B6079A26BF643100CE8491 /* SwiftPackageProductDependency */ = {
+		26B6079A26BF643100CE8491 /* NavigationStack */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 26B6079926BF643100CE8491 /* RemoteSwiftPackageReference */;
+			package = 26B6079926BF643100CE8491 /* XCRemoteSwiftPackageReference "swiftui-navigation-stack" */;
 			productName = NavigationStack;
 		};
-		26F9207626A8C2E200A4F8C6 /* SwiftPackageProductDependency */ = {
+		26F9207626A8C2E200A4F8C6 /* Shimmer */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 26F9207526A8C2E200A4F8C6 /* RemoteSwiftPackageReference */;
+			package = 26F9207526A8C2E200A4F8C6 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */;
 			productName = Shimmer;
 		};
 /* End XCSwiftPackageProductDependency section */
