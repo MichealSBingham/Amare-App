@@ -8,8 +8,8 @@
 import SwiftUI
 import MapKit
 import NavigationStack
+import MbSwiftUIFirstResponder
 
-@available(iOS 15.0, *)
 struct FromWhereView: View {
     
     @EnvironmentObject private var navigationStack: NavigationStack
@@ -45,6 +45,12 @@ struct FromWhereView: View {
     @StateObject var locationManager = LocationWhenInUseManager()
     
     @State var places: [MapAnnotation] = []
+    
+    @State var isEditing: Bool = false
+    
+    
+    
+    @State var firstResponder: FirstResponders? = .city
 
     @State public var selectedCity: CLPlacemark? {
          
@@ -177,11 +183,11 @@ struct FromWhereView: View {
      
      
         var cityString: String? = nil
-        
+         
         if let city = selectedCity?.city, let state = selectedCity?.state  {
             cityString = "\(city), \(state)"
         }
-        
+        /*
         return TextField(cityString ?? "New York, NY", text: $searchedLocation)
             
             .foregroundColor(.clear)
@@ -195,20 +201,33 @@ struct FromWhereView: View {
                 searchForCities { cities in
                     
                     citiesSearchResult = cities
-                    selectedCity = citiesSearchResult.first?.placemark // first result in the array
-                    
-                /*
-                    timezone = selectedCity?.timeZone
-                    print("Placemark timezone on submit .. \(citiesSearchResult.first?.placemark.timeZone)")
-                    print("Timezone on submit is ... \(citiesSearchResult.first?.timeZone)")
-                    
-                    print("on submit.. timezone.. \(selectedCity?.timeZone)")
-                    */
-    
+                    selectedCity = citiesSearchResult.first?.placemark
                     
                 }
                 
             }
+        */
+         return TextField(
+            cityString ?? "New York, NY",
+             text: $searchedLocation
+        ) { isEditing in
+            self.isEditing = isEditing
+        } onCommit: {
+            firstResponder = nil
+            searchForCities { cities in
+                
+                citiesSearchResult = cities
+                selectedCity = citiesSearchResult.first?.placemark
+            }
+        }
+         .firstResponder(id: FirstResponders.city, firstResponder: $firstResponder)
+        .foregroundColor(.white)
+        .frame(width: 300, height: 50)
+        .background(
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(Color.white.opacity(0.3)
+                ))
+        
             
             
 
@@ -467,7 +486,7 @@ struct FromWhereView: View {
     
 }
 
-@available(iOS 15.0, *)
+
 struct FromWhereView_Previews: PreviewProvider {
     static var previews: some View {
         
@@ -519,3 +538,7 @@ struct MapAnnotation: Identifiable {
     let name: String
     let coordinate: CLLocationCoordinate2D
 }
+
+enum FirstResponders: Int {
+        case city
+    }

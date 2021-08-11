@@ -8,7 +8,7 @@
 import SwiftUI
 import NavigationStack
 
-@available(iOS 15.0, *)
+
 struct EnterOrientationView: View {
     
     /// To manage navigation
@@ -451,7 +451,7 @@ struct EnterOrientationView: View {
 
 
 
-@available(iOS 15.0, *)
+
 struct EnterOrientationView_Previews: PreviewProvider {
     static var previews: some View {
         

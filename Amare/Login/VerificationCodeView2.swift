@@ -7,8 +7,9 @@
 
 import SwiftUI
 import NavigationStack
+import MbSwiftUIFirstResponder
 
-@available(iOS 15.0, *)
+
 struct VerificationCodeView2: View {
 
     
@@ -43,7 +44,11 @@ struct VerificationCodeView2: View {
     
     @State var alreadyRan: Bool = false
     
-    @FocusState var isFocused: Bool
+   // @FocusState var isFocused: Bool
+    enum FirstResponders: Int {
+            case verificationCodeField
+        }
+    @State var firstResponder: FirstResponders? = .verificationCodeField
 
     
     var body: some View {
@@ -211,15 +216,16 @@ struct VerificationCodeView2: View {
             self.submitPin()
         })
         
-        return SecureField("", text: boundPin, onCommit: submitPin)
+        return TextField("", text: boundPin, onCommit: submitPin)
+            .firstResponder(id: FirstResponders.verificationCodeField, firstResponder: $firstResponder)
             .accentColor(.clear)
             .foregroundColor(.clear)
             .keyboardType(.numberPad)
             .textContentType(.oneTimeCode)
-            .focused($isFocused)
-            .onAppear { AmareApp().delay(0.10, completion: {isFocused=true}) }
-           
-           
+           // .focused($isFocused)
+           // .onAppear { AmareApp().delay(0.10, completion: {isFocused=true}) }
+
+     
     
         
     }
@@ -463,7 +469,7 @@ struct VerificationCodeView2: View {
     } */
 }
 
-@available(iOS 15.0, *)
+
 
 struct VerificationCodeView2_Previews: PreviewProvider {
     static var previews: some View {

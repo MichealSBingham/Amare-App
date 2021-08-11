@@ -11,6 +11,15 @@
         }
       },
       {
+        "package": "MbSwiftUIFirstResponder",
+        "repositoryURL": "https://github.com/Mobilinked/MbSwiftUIFirstResponder",
+        "state": {
+          "branch": "main",
+          "revision": "4eafce5e917742334183f9bde9ebeedbcc0b1651",
+          "version": null
+        }
+      },
+      {
         "package": "PhoneNumberKit",
         "repositoryURL": "https://github.com/marmelroy/PhoneNumberKit",
         "state": {
@@ -20,7 +29,7 @@
         }
       },
       {
-        "package": "swiftui-navigation-stack",
+        "package": "NavigationStack",
         "repositoryURL": "https://github.com/matteopuc/swiftui-navigation-stack.git",
         "state": {
           "branch": null,

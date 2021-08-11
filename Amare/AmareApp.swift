@@ -10,7 +10,7 @@ import Firebase
 import FirebaseAuth
 
 
-@available(iOS 15.0, *)
+
 @main
 struct AmareApp: App {
  
@@ -106,6 +106,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     
+    
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         
         return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
@@ -148,6 +149,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
 
     }
+    
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        
+        Auth.auth().setAPNSToken(deviceToken, type: .prod)
+    }
+    
     
     
 }

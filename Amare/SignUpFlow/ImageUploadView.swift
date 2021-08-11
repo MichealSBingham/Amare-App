@@ -9,7 +9,7 @@ import SwiftUI
 import NavigationStack
 
 
-@available(iOS 15.0, *)
+
 struct ImageUploadView: View {
     
     /// To manage navigation
@@ -302,7 +302,7 @@ struct ImageUploadView: View {
 }
 
 
-@available(iOS 15.0, *)
+
 struct ImageUploadView_Previews: PreviewProvider {
     static var previews: some View {
         ImageUploadView().preferredColorScheme(.dark).environmentObject(Account())

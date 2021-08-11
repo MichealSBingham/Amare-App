@@ -10,7 +10,7 @@ import Firebase
 import NavigationStack
 
 
-@available(iOS 15.0, *)
+
 struct EnterBirthdayView: View {
     
     /// id of view
@@ -61,8 +61,8 @@ struct EnterBirthdayView: View {
                         
                         Spacer()
                         
-                        DatePicker(selection: $date, in :...Date().dateFor(years: -13) , displayedComponents: [.date, .hourAndMinute], label: { Text("Birthday") }).datePickerStyle(.graphical).environment(\.timeZone, self.timezone!)
-                        
+                        DatePicker(selection: $date, in :...Date().dateFor(years: -13) , displayedComponents: [.date, .hourAndMinute], label: { Text("Birthday") }).environment(\.timeZone, self.timezone!)
+                    
                         
                     
                         Spacer()
@@ -285,7 +285,7 @@ struct EnterBirthdayView: View {
     
 }
 
-@available(iOS 15.0, *)
+
 struct EnterBirthdayView_Previews: PreviewProvider {
     
     

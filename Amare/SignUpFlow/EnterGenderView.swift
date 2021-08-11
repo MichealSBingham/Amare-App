@@ -10,7 +10,7 @@ import NavigationStack
 import Shimmer
 
 
-@available(iOS 15.0, *)
+
 struct EnterGenderView: View {
     
     /// To manage navigation
@@ -388,7 +388,7 @@ struct EnterGenderView: View {
 
 
 
-@available(iOS 15.0, *)
+
 struct EnterGenderView_Previews: PreviewProvider {
     static var previews: some View {
         
