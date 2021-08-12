@@ -93,8 +93,13 @@ struct NavigationBarModifier: ViewModifier {
 
 /// Checks if the user finished the sign up process .
 func isDoneWithSignUp() -> Bool {
-    //return UserDefaults.standard.bool(forKey: "isDoneWithSignUp")
-    return false 
+   
+    switch Settings.shared.viewType{
+    case .DoneWithSignUp:
+        return true
+    default:
+        return false
+    }
     
 }
 

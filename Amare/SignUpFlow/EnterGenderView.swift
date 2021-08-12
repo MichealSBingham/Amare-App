@@ -19,6 +19,8 @@ struct EnterGenderView: View {
     /// id of view
     static let id = String(describing: Self.self)
     
+    @ObservedObject var settings = Settings.shared
+
     
     @EnvironmentObject private var account: Account
     @State private var goToNext: Bool = false
@@ -76,6 +78,7 @@ struct EnterGenderView: View {
                 .alert(isPresented: $showTodoMessage) {
                     Alert(title: Text("TODO: Allow more genders"), message: Text("This is not finished yet, but it will allow you to select additional genders"))
                 }
+                .onAppear(perform: {settings.viewType = .EnterGenderView})
 
                 
               

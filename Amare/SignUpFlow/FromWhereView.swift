@@ -14,6 +14,7 @@ struct FromWhereView: View {
     
     @EnvironmentObject private var navigationStack: NavigationStack
 
+    @ObservedObject var settings = Settings.shared
 
     
     /// id of view
@@ -42,13 +43,14 @@ struct FromWhereView: View {
 
 
     /// Used for getting the user's location
-    @StateObject var locationManager = LocationWhenInUseManager()
+   // @StateObject var locationManager = LocationWhenInUseManager()
     
     @State var places: [MapAnnotation] = []
     
     @State var isEditing: Bool = false
     
-    
+    @State var cityString: String? = nil
+
     
     @State var firstResponder: FirstResponders? = .city
 
@@ -142,7 +144,7 @@ struct FromWhereView: View {
                     
                         Spacer()
                            
-                    }
+                    }.onAppear(perform: {settings.viewType = .FromWhereView })
                     
                 
                  
@@ -182,31 +184,11 @@ struct FromWhereView: View {
         
      
      
-        var cityString: String? = nil
          
         if let city = selectedCity?.city, let state = selectedCity?.state  {
             cityString = "\(city), \(state)"
         }
-        /*
-        return TextField(cityString ?? "New York, NY", text: $searchedLocation)
-            
-            .foregroundColor(.clear)
-            .frame(width: 300, height: 50)
-            .background(
-                    RoundedRectangle(cornerRadius: 20)
-                        .fill(Color.white.opacity(0.3)
-                    ))
-            .onSubmit {
-                
-                searchForCities { cities in
-                    
-                    citiesSearchResult = cities
-                    selectedCity = citiesSearchResult.first?.placemark
-                    
-                }
-                
-            }
-        */
+       
          return TextField(
             cityString ?? "New York, NY",
              text: $searchedLocation
@@ -249,8 +231,23 @@ struct FromWhereView: View {
    
 
     func getCurrentLocationAndAnimateMap()  {
+        /*
+       var status =  locationManager.$locationStatus
         
-        print("Getting current lcoation and animating map...")
+        /*
+        guard status == .authorizedAlways || status == .authorizedWhenInUse else {
+            
+            // user did not give location permission
+            
+            print("location denied the status is \(status)")
+            locationManager.request()
+            
+            return
+            
+        } */
+        
+        print("location status is .. \(status)")
+       
         
         // Gets the current location
         locationManager.lastLocation?.placemark(completion: { placemark, error in
@@ -259,8 +256,14 @@ struct FromWhereView: View {
             
             selectedCity = placemark
             
+            if let city = selectedCity?.city, let state = selectedCity?.state  {
+                cityString = "\(city), \(state)"
+            }
+            locationManager.stop()
+            
+            
     })
-        
+        */
     }
     
     

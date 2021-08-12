@@ -109,8 +109,11 @@ struct EnterPhoneNumberView: View {
             .clearButtonMode(.whileEditing)
             .onEdit { numfield in
                 
-                
-                userEnteredPhoneNumberAction(number: numfield.phoneNumber)
+                guard let num  = numfield.phoneNumber else {
+                    print("Invalid number")
+                    return
+                }
+                userEnteredPhoneNumberAction(number: num)
                 
                 
                 
@@ -184,16 +187,13 @@ struct EnterPhoneNumberView: View {
     
     
     /// User entered the phone number
-    func userEnteredPhoneNumberAction(number: PhoneNumber?)  {
+    func userEnteredPhoneNumberAction(number: PhoneNumber)  {
         
-        // A valid phone number was entered
-        if let phoneNumber = number{
-            
-            
+      
             shouldDisablePhoneTextField = true
             
             
-            Account().sendVerificationCode(to: phoneNumber.numberString) { error in
+            Account().sendVerificationCode(to: number.numberString) { error in
                 guard error == nil else {
                     
                     handle(error: error!)
@@ -202,14 +202,14 @@ struct EnterPhoneNumberView: View {
                     
                     return
                 }
-                phoneNumber.numberString.savePhoneNumber()
+                number.numberString.savePhoneNumber()
                 goToNextView()
                 return
             }
             
             
             
-        }
+        
     }
     
     /// Comes backk to the view and also handles the error

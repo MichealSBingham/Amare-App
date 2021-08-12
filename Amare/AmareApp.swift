@@ -141,7 +141,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             account.signOut { error in
                 //
                 guard error == nil else { return }
-                NavigationUtil.popToRootView()
+                //NavigationUtil.popToRootView()
             }
 
         }

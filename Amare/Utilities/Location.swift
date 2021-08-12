@@ -98,6 +98,14 @@ class LocationWhenInUseManager: NSObject, ObservableObject, CLLocationManagerDel
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
     }
+    
+    func request()  {
+        locationManager.requestWhenInUseAuthorization()
+    }
+    
+    func stop()  {
+        locationManager.stopUpdatingLocation()
+    }
 
    
     
@@ -144,7 +152,14 @@ class LocationAlwaysManager: NSObject, ObservableObject, CLLocationManagerDelega
         
     }
 
-   
+    func request()  {
+        
+        locationManager.requestAlwaysAuthorization()
+    }
+    
+    func stop()   {
+        locationManager.stopUpdatingLocation()
+    }
     
     var statusString: String {
         guard let status = locationStatus else {
