@@ -137,6 +137,7 @@ class LocationWhenInUseManager: NSObject, ObservableObject, CLLocationManagerDel
 }
 
 /// We add a published variable here so we can listen for location updates and locations permissions status updates. This will let you get the user location always
+/*
 class LocationAlwaysManager: NSObject, ObservableObject, CLLocationManagerDelegate {
 
     private let locationManager = CLLocationManager()
@@ -187,3 +188,4 @@ class LocationAlwaysManager: NSObject, ObservableObject, CLLocationManagerDelega
         print(#function, location)
     }
 }
+*/
