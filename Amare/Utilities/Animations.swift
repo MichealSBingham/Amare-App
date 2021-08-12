@@ -73,11 +73,15 @@ struct Background: View {
 
     var timer = Timer.publish(every: 1, on: .main, in: .default).autoconnect()
     
-    let colors = [ Color(UIColor(red: 1.00, green: 0.01, blue: 0.40, alpha: 1.00)),
+    @State var colors = [ Color(UIColor(red: 1.00, green: 0.01, blue: 0.40, alpha: 1.00)),
                    Color(UIColor(red: 0.94, green: 0.16, blue: 0.77, alpha: 1.00)) ]
+    
+    @State var colorsExtended = [ Color(UIColor(red: 1.00, green: 0.01, blue: 0.40, alpha: 1.00)),
+                                  .blue]
+
 
     var body: some View {
-        LinearGradient(gradient: Gradient(colors: colors), startPoint: start, endPoint: end)
+        LinearGradient(gradient: Gradient(colors: !(style == .creative) ? colors: colorsExtended), startPoint: start, endPoint: end)
             .animation(Animation.easeInOut(duration: 2).repeatForever(), value: start) /// don't forget the `value`!
             .onReceive(timer) { _ in
                 
@@ -120,4 +124,6 @@ enum Style {
     case fast
     /// Color graident swirls in one clockwise direction
     case normal
+    
+    case creative
 }

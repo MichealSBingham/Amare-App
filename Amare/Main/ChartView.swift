@@ -11,12 +11,13 @@ struct ChartView: View {
     @EnvironmentObject private var account: Account
     
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Text("Your natal chart will be here.")
+            .foregroundColor(.white)
     }
 }
 
 struct ChartView_Previews: PreviewProvider {
     static var previews: some View {
-        ChartView()
+        ChartView().environmentObject(Account()).preferredColorScheme(.dark)
     }
 }

@@ -25,7 +25,7 @@ struct EnterPhoneNumberView: View {
     //Prevents user from typing more digits
     @State private var shouldDisablePhoneTextField = false
     
-    @State private var shouldGoToProfile = false
+    @State private var shouldGoToProfile = true
     
     
 
@@ -39,6 +39,9 @@ struct EnterPhoneNumberView: View {
 
 
     static let id = String(describing: Self.self)
+    
+   
+
 
     var body: some View {
         
@@ -97,9 +100,10 @@ struct EnterPhoneNumberView: View {
         // Phone Number Field
         // Used an external framework iPhoneNumberField
         // Because it's easier to format numbers this way
-       return iPhoneNumberField("(000) 000-0000", text: $phone_number_field_text, isEditing: $isEditing)
+       return iPhoneNumberField("", text: $phone_number_field_text, isEditing: $isEditing)
             .flagHidden(false)
             .flagSelectable(true)
+            .maximumDigits(10)
             .font(UIFont(size: 30, weight: .bold, design: .rounded))
             .prefixHidden(false)
             .autofillPrefix(true)
@@ -112,6 +116,11 @@ struct EnterPhoneNumberView: View {
                 guard let num  = numfield.phoneNumber else {
                     print("Invalid number")
                     return
+                }
+                
+                guard shouldGoToProfile else {
+                    print("Can't go")
+                    return 
                 }
                 userEnteredPhoneNumberAction(number: num)
                 
@@ -151,8 +160,11 @@ struct EnterPhoneNumberView: View {
   
     /// Goes to the next screen / view,. Verification Code Screen
     func goToNextView()  {
+      
+            shouldGoToProfile = false
+            self.navigationStack.push(VerificationCodeView2())
         
-        self.navigationStack.push(VerificationCodeView2())
+        
     }
     
     /// Goes back to the login screen
@@ -203,7 +215,12 @@ struct EnterPhoneNumberView: View {
                     return
                 }
                 number.numberString.savePhoneNumber()
-                goToNextView()
+                
+                if shouldGoToProfile {
+                    goToNextView()
+                    
+                }
+               
                 return
             }
             

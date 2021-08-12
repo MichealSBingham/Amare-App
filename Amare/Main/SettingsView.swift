@@ -15,9 +15,25 @@ struct SettingsView: View {
     
     var body: some View {
         
-        Button("Sign Out") {
-            account.signOut { error in }
+        VStack{
+        
+            Spacer()
+            
+            Text("You will find some settings here; well, it will actually likely be in a menu up top but this is a placeholder. Sometimes the sign out button will not pop back to the home menu. [Known Issue]. Quit the app if this happens.")
+                .foregroundColor(.white)
+                .padding()
+            
+            Spacer()
+            
+            Button("Sign Out") {
+                account.signOut { error in }
+            }
+            
+            Spacer()
+            
         }
+        
+        
     }
     
     
@@ -30,5 +46,6 @@ struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         SettingsView()
             .environmentObject(Account())
+            .preferredColorScheme(.dark)
     }
 }
