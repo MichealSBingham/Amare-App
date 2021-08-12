@@ -153,16 +153,4 @@ extension Date {
 }
 
 
-/// Used to determine what screen the user was on so that we log the user out if the app quits before they finish signing up
-class Settings: ObservableObject {
-    static let shared = Settings()
-
-    @Published var viewType: ViewType!
-}
-
-/// View the user is on
-enum ViewType {
-    case EnterNameView, EnterGenderView, EnterOrientationView, FromWhereView, EnterBirthdayView, LiveWhereView, ImageUploadView, DoneWithSignUp
-}
-
 

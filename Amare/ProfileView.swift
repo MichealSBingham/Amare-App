@@ -157,7 +157,7 @@ struct ProfileView: View {
 
     func doneWithSignUp()  {
         
-        settings.viewType = .DoneWithSignUp
+        settings.viewType = .main
     }
     
     

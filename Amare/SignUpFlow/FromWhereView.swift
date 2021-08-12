@@ -79,7 +79,7 @@ struct FromWhereView: View {
                 })
                 
                 
-                withAnimation {
+                        withAnimation {
                     
                     region = MKCoordinateRegion(center: coordinates, latitudinalMeters: 16093.4, longitudinalMeters: 16093.4)
                 }
@@ -100,20 +100,12 @@ struct FromWhereView: View {
                     
                     
                
-                    let timer = Timer.publish(every: 0.5, on: .main, in: .default).autoconnect()
+                   
                     
                     
                 
-                       
-                Map(coordinateRegion: $region, interactionModes: .all, showsUserLocation: true, annotationItems: places) {
-                    
-                    MapMarker(coordinate: $0.coordinate, tint: .pink)
-                    
-                }.animation(.easeInOut, value: selectedCity)
-                    .edgesIgnoringSafeArea(.all)
-                    .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text("Some Error Occured")) })
-                    .onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; /*getCurrentLocationAndAnimateMap();*/ timer.upstream.connect().cancel()}
-                    .onAppear { getCurrentLocationAndAnimateMap() }
+                       createMap()
+               
         
                     
                     VStack(alignment: .center){
@@ -164,6 +156,20 @@ struct FromWhereView: View {
     
     
     
+    func createMap() -> some View {
+        
+        let timer = Timer.publish(every: 0.5, on: .main, in: .default).autoconnect()
+        
+        return Map(coordinateRegion: $region, interactionModes: .all, showsUserLocation: true, annotationItems: places) {
+            
+            MapMarker(coordinate: $0.coordinate, tint: .pink)
+            
+        }.animation(.easeOut, value: selectedCity)
+            .edgesIgnoringSafeArea(.all)
+            .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text("Some Error Occured")) })
+            .onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; /*getCurrentLocationAndAnimateMap();*/ timer.upstream.connect().cancel()}
+        //.onAppear { getCurrentLocationAndAnimateMap() }
+    }
     
     /// Title of the view text .
     func title() -> some View {

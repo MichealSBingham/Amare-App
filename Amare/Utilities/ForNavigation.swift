@@ -95,7 +95,7 @@ struct NavigationBarModifier: ViewModifier {
 func isDoneWithSignUp() -> Bool {
    
     switch Settings.shared.viewType{
-    case .DoneWithSignUp:
+    case .main:
         return true
     default:
         return false
@@ -108,3 +108,17 @@ func isDoneWithSignUp() -> Bool {
 func doneWithSignUp(state: Bool = true )  {
     UserDefaults.standard.set(state, forKey: "isDoneWithSignUp")
 }
+
+
+/// Used to determine what screen the user was on so that we log the user out if the app quits before they finish signing up
+class Settings: ObservableObject {
+    static let shared = Settings()
+
+    @Published var viewType: ViewType!
+}
+
+/// View the user is on
+enum ViewType {
+    case EnterNameView, EnterGenderView, EnterOrientationView, FromWhereView, EnterBirthdayView, LiveWhereView, ImageUploadView, main
+}
+

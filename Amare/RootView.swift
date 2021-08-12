@@ -28,7 +28,7 @@ struct RootView: View {
                 
                 if account.isSignedIn{
                     
-                    ProfileView()
+                    MainView()
                         .environmentObject(account)
                         .onAppear(perform: {  account.stopListening()})
                     
