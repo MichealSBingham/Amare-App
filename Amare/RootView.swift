@@ -7,6 +7,7 @@
 
 import SwiftUI
 import NavigationStack
+import FirebaseAuth
 
 struct RootView: View {
     
@@ -26,25 +27,31 @@ struct RootView: View {
             
             NavigationStackView(transitionType: .custom(.scale), easing: .easeIn(duration: 0.5)){
                 
+               
                 if account.isSignedIn{
                     
                     MainView()
                         .environmentObject(account)
-                        .onAppear(perform: {  account.stopListening()})
+                        .onAppear(perform: {  account.stopListening() })
                     
                     
                 } else {
                     SignInOrUpView()
-                        .onAppear {  account.stopListening() }
+                        .onAppear {  account.stopListening()}
                         
                         
                     
                 }
+                
+                
+                
             }
             
         }
                 
     }
+    
+    
 }
 
 struct RootView_Previews: PreviewProvider {

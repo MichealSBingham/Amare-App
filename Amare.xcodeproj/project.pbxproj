@@ -46,6 +46,11 @@
 		26BBF093267EBB1300C84019 /* LiveWhereView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BBF092267EBB1300C84019 /* LiveWhereView.swift */; };
 		26BBF095267EBBEF00C84019 /* EnterNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BBF094267EBBEF00C84019 /* EnterNameView.swift */; };
 		26DE210326C590480004B5CE /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DE210226C590480004B5CE /* MainView.swift */; };
+		26DE210626C593070004B5CE /* ScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DE210526C593070004B5CE /* ScannerView.swift */; };
+		26DE210826C595B50004B5CE /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DE210726C595B50004B5CE /* ChartView.swift */; };
+		26DE210A26C595E80004B5CE /* MessagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DE210926C595E80004B5CE /* MessagesView.swift */; };
+		26DE210C26C5963A0004B5CE /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DE210B26C5963A0004B5CE /* SettingsView.swift */; };
+		26DE210E26C596450004B5CE /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DE210D26C596450004B5CE /* MapView.swift */; };
 		26EDBB8D26AA7CE2005C1033 /* VerificationCodeView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26EDBB8C26AA7CE2005C1033 /* VerificationCodeView2.swift */; };
 		26F9205F26A760E500A4F8C6 /* Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F9205E26A760E500A4F8C6 /* Animations.swift */; };
 		26F9206B26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 26F9206A26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf */; };
@@ -118,6 +123,11 @@
 		26BBF092267EBB1300C84019 /* LiveWhereView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveWhereView.swift; sourceTree = "<group>"; };
 		26BBF094267EBBEF00C84019 /* EnterNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterNameView.swift; sourceTree = "<group>"; };
 		26DE210226C590480004B5CE /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		26DE210526C593070004B5CE /* ScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerView.swift; sourceTree = "<group>"; };
+		26DE210726C595B50004B5CE /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
+		26DE210926C595E80004B5CE /* MessagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesView.swift; sourceTree = "<group>"; };
+		26DE210B26C5963A0004B5CE /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		26DE210D26C596450004B5CE /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		26EDBB8C26AA7CE2005C1033 /* VerificationCodeView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationCodeView2.swift; sourceTree = "<group>"; };
 		26F9205E26A760E500A4F8C6 /* Animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animations.swift; sourceTree = "<group>"; };
 		26F9206A26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MontserratAlternates-SemiBold.ttf"; sourceTree = "<group>"; };
@@ -235,7 +245,7 @@
 				26BBF08D267D807F00C84019 /* SignUpFlow */,
 				26B1B00F267C28CB00A170B3 /* Utilities */,
 				26BBF08B267D7C9900C84019 /* ProfileView.swift */,
-				26DE210226C590480004B5CE /* MainView.swift */,
+				26DE210426C592B20004B5CE /* Main */,
 				26B1AFD92678FFE700A170B3 /* Assets.xcassets */,
 				26B1AFDE2678FFE700A170B3 /* Persistence.swift */,
 				26B1AFE32678FFE700A170B3 /* Info.plist */,
@@ -310,6 +320,19 @@
 				2608CF43268FDE9700826FDA /* ImageUploadView.swift */,
 			);
 			path = SignUpFlow;
+			sourceTree = "<group>";
+		};
+		26DE210426C592B20004B5CE /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				26DE210226C590480004B5CE /* MainView.swift */,
+				26DE210526C593070004B5CE /* ScannerView.swift */,
+				26DE210726C595B50004B5CE /* ChartView.swift */,
+				26DE210926C595E80004B5CE /* MessagesView.swift */,
+				26DE210B26C5963A0004B5CE /* SettingsView.swift */,
+				26DE210D26C596450004B5CE /* MapView.swift */,
+			);
+			path = Main;
 			sourceTree = "<group>";
 		};
 		26F9206926A8752200A4F8C6 /* FontResources */ = {
@@ -598,8 +621,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				26DE210C26C5963A0004B5CE /* SettingsView.swift in Sources */,
 				26B1AFDF2678FFE700A170B3 /* Persistence.swift in Sources */,
 				26EDBB8D26AA7CE2005C1033 /* VerificationCodeView2.swift in Sources */,
+				26DE210A26C595E80004B5CE /* MessagesView.swift in Sources */,
 				2608CF512697529600826FDA /* GlobalErrors.swift in Sources */,
 				268F26BF2680094A00FBEA7D /* Account.swift in Sources */,
 				263D6F982684012000CBBECC /* AccountErrors.swift in Sources */,
@@ -615,17 +640,20 @@
 				263D6F962683F77C00CBBECC /* Location.swift in Sources */,
 				26970699268101B0007E7961 /* SceneDelegate.swift in Sources */,
 				26B1AFD82678FFE500A170B3 /* EnterPhoneNumberView.swift in Sources */,
+				26DE210626C593070004B5CE /* ScannerView.swift in Sources */,
 				26F9205F26A760E500A4F8C6 /* Animations.swift in Sources */,
 				26B1AFD62678FFE500A170B3 /* AmareApp.swift in Sources */,
 				263D6F9426829F2200CBBECC /*  RV.swift in Sources */,
 				2608CF4C2695136F00826FDA /* EnterGenderView.swift in Sources */,
 				26BBF091267EA5FF00C84019 /* FromWhereView.swift in Sources */,
+				26DE210E26C596450004B5CE /* MapView.swift in Sources */,
 				26B1AFE22678FFE700A170B3 /* Love.xcdatamodeld in Sources */,
 				268F26C1268018EE00FBEA7D /* ForNavigation.swift in Sources */,
 				2608CF482691425E00826FDA /* QR.swift in Sources */,
 				2608CF4E2695139800826FDA /* EnterOrientationView.swift in Sources */,
 				26BBF08C267D7C9900C84019 /* ProfileView.swift in Sources */,
 				26B1B00A2679961200A170B3 /* VerificationCodeView.swift in Sources */,
+				26DE210826C595B50004B5CE /* ChartView.swift in Sources */,
 				26DE210326C590480004B5CE /* MainView.swift in Sources */,
 				26BBF095267EBBEF00C84019 /* EnterNameView.swift in Sources */,
 				2608CF44268FDE9700826FDA /* ImageUploadView.swift in Sources */,

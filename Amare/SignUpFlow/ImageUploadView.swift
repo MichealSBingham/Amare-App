@@ -197,7 +197,7 @@ struct ImageUploadView: View {
     func goToNextView()  {
        
         
-        navigationStack.push(ProfileView().environmentObject(account))
+        navigationStack.push(MainView().environmentObject(account))
        
     }
     
