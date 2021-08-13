@@ -107,6 +107,7 @@ struct EnterNameView: View {
             
          
           
+            name = name.trimmingCharacters(in: .whitespacesAndNewlines)
             
             account.data = UserData(id: account.user?.uid ?? "", name: name)
             
