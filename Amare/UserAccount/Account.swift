@@ -58,7 +58,7 @@ class Account: ObservableObject {
      func sendVerificationCode(to phoneNumber: String,
                                andAfter  runThisClosure: ((_ error: Error?) -> Void)? = nil ) {
          
-         Auth.auth().settings?.isAppVerificationDisabledForTesting = true//, enable or disable this for testing
+       //  Auth.auth().settings?.isAppVerificationDisabledForTesting = true//, enable or disable this for testing
         PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber, uiDelegate: nil) { verificationID, error in
             
             
