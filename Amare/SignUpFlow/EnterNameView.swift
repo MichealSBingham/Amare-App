@@ -19,6 +19,8 @@ struct EnterNameView: View {
     
     @EnvironmentObject private var account: Account
     
+    @ObservedObject var settings = Settings.shared
+    
     @State   var name: String = ""
     @State private var goToNext: Bool = false
     
@@ -74,14 +76,15 @@ struct EnterNameView: View {
                     }
                 .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
                 .onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; timer.upstream.connect().cancel()}
+                .onAppear { settings.viewType = .EnterNameView }
 
-                    
+                
                         
                     
             
                
             
-        }
+    }
             
           
             
@@ -104,6 +107,7 @@ struct EnterNameView: View {
             
          
           
+            name = name.trimmingCharacters(in: .whitespacesAndNewlines)
             
             account.data = UserData(id: account.user?.uid ?? "", name: name)
             

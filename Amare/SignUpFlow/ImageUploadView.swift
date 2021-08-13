@@ -18,6 +18,9 @@ struct ImageUploadView: View {
     /// id of view
     static let id = String(describing: Self.self)
     
+    @ObservedObject var settings = Settings.shared
+
+    
     @EnvironmentObject private var account: Account
     
     
@@ -75,11 +78,13 @@ struct ImageUploadView: View {
                    
                     
                         }.alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
+                        .onAppear(perform: {settings.viewType = .ImageUploadView})
                         .onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; timer.upstream.connect().cancel()}
                         .sheet(isPresented: $showImagePicker) {
                             ImagePickerView(sourceType: .photoLibrary) { image in
                                 self.image = image
                             }
+                            
                         
                 
         
@@ -192,7 +197,7 @@ struct ImageUploadView: View {
     func goToNextView()  {
        
         
-        navigationStack.push(ProfileView().environmentObject(account))
+        navigationStack.push(MainView().environmentObject(account))
        
     }
     

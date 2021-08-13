@@ -376,8 +376,11 @@ struct VerificationCodeView2: View {
             navigationStack.push(EnterNameView().environmentObject(account), withId: EnterNameView.id)
             return 
         }
+    
+            
+            navigationStack.push(MainView().environmentObject(account), withId: MainView.id)
         
-        navigationStack.push(ProfileView().environmentObject(account), withId: ProfileView.id)
+       
     }
     
     /// Goes to the next view

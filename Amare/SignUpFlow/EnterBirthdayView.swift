@@ -18,6 +18,7 @@ struct EnterBirthdayView: View {
     
     /// To manage navigation
     @EnvironmentObject private var navigationStack: NavigationStack
+    @ObservedObject var settings = Settings.shared
 
     
     @EnvironmentObject private var account: Account
@@ -88,6 +89,7 @@ struct EnterBirthdayView: View {
                                     )
                 
                     }
+                    .onAppear(perform: {settings.viewType = .EnterBirthdayView})
                     
                     
                     

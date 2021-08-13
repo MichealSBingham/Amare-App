@@ -58,7 +58,7 @@ class Account: ObservableObject {
      func sendVerificationCode(to phoneNumber: String,
                                andAfter  runThisClosure: ((_ error: Error?) -> Void)? = nil ) {
          
-         //Auth.auth().settings?.isAppVerificationDisabledForTesting = true//, enable or disable this for testing
+       //  Auth.auth().settings?.isAppVerificationDisabledForTesting = true//, enable or disable this for testing
         PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber, uiDelegate: nil) { verificationID, error in
             
             
@@ -412,14 +412,18 @@ class Account: ObservableObject {
     /// - Author: Micheal S. Bingham
     func listen () {
             // monitor authentication changes using firebase
+        
         self.isListening = true
             handle = Auth.auth().addStateDidChangeListener { (auth, user) in
+                
                 if let user = user {
                     // if we have a user, create a new user model
+                    print("user is signed in ... ")
                     self.user = user
-                    if self.isListening{
+                  //  if self.isListening{
+                       print("Setting to true..")
                         self.isSignedIn = true
-                    }
+                  //  }
                   
                     
                 } else {

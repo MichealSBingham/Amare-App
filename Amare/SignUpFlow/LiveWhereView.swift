@@ -18,6 +18,9 @@ struct LiveWhereView: View {
     /// id of view
     static let id = String(describing: Self.self)
     
+    @ObservedObject var settings = Settings.shared
+
+    
     @EnvironmentObject private var account: Account
     
     @State private var searchedLocation: String = ""
@@ -138,7 +141,7 @@ struct LiveWhereView: View {
                     
                         Spacer()
                            
-                    }
+                    }.onAppear(perform: {settings.viewType = .LiveWhereView})
                     
                 
                  

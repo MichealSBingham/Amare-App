@@ -20,6 +20,9 @@ struct ProfileView: View {
     
      @EnvironmentObject private var account: Account
     
+    @ObservedObject var settings = Settings.shared
+
+    
     @State private var someErrorOccured: Bool = false
     @State private var alertMessage: String = ""
 
@@ -151,11 +154,11 @@ struct ProfileView: View {
     }
     
     
-    
-// // /// // /// /// / /// /// =================  /// // SETTING UP  Up UI // //  /// =============================
 
-    
-    
+    func doneWithSignUp()  {
+        
+        settings.viewType = .main
+    }
     
     
     

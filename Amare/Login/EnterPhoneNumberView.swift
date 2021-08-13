@@ -25,7 +25,7 @@ struct EnterPhoneNumberView: View {
     //Prevents user from typing more digits
     @State private var shouldDisablePhoneTextField = false
     
-    @State private var shouldGoToProfile = false
+    @State private var shouldGoToProfile = true
     
     
 
@@ -39,6 +39,9 @@ struct EnterPhoneNumberView: View {
 
 
     static let id = String(describing: Self.self)
+    
+   
+
 
     var body: some View {
         
@@ -97,9 +100,10 @@ struct EnterPhoneNumberView: View {
         // Phone Number Field
         // Used an external framework iPhoneNumberField
         // Because it's easier to format numbers this way
-       return iPhoneNumberField("(000) 000-0000", text: $phone_number_field_text, isEditing: $isEditing)
+       return iPhoneNumberField("", text: $phone_number_field_text, isEditing: $isEditing)
             .flagHidden(false)
             .flagSelectable(true)
+            .maximumDigits(10)
             .font(UIFont(size: 30, weight: .bold, design: .rounded))
             .prefixHidden(false)
             .autofillPrefix(true)
@@ -109,8 +113,16 @@ struct EnterPhoneNumberView: View {
             .clearButtonMode(.whileEditing)
             .onEdit { numfield in
                 
+                guard let num  = numfield.phoneNumber else {
+                    print("Invalid number")
+                    return
+                }
                 
-                userEnteredPhoneNumberAction(number: numfield.phoneNumber)
+                guard shouldGoToProfile else {
+                    print("Can't go")
+                    return 
+                }
+                userEnteredPhoneNumberAction(number: num)
                 
                 
                 
@@ -148,8 +160,11 @@ struct EnterPhoneNumberView: View {
   
     /// Goes to the next screen / view,. Verification Code Screen
     func goToNextView()  {
+      
+            shouldGoToProfile = false
+            self.navigationStack.push(VerificationCodeView2())
         
-        self.navigationStack.push(VerificationCodeView2())
+        
     }
     
     /// Goes back to the login screen
@@ -184,16 +199,13 @@ struct EnterPhoneNumberView: View {
     
     
     /// User entered the phone number
-    func userEnteredPhoneNumberAction(number: PhoneNumber?)  {
+    func userEnteredPhoneNumberAction(number: PhoneNumber)  {
         
-        // A valid phone number was entered
-        if let phoneNumber = number{
-            
-            
+      
             shouldDisablePhoneTextField = true
             
             
-            Account().sendVerificationCode(to: phoneNumber.numberString) { error in
+            Account().sendVerificationCode(to: number.numberString) { error in
                 guard error == nil else {
                     
                     handle(error: error!)
@@ -202,14 +214,19 @@ struct EnterPhoneNumberView: View {
                     
                     return
                 }
-                phoneNumber.numberString.savePhoneNumber()
-                goToNextView()
+                number.numberString.savePhoneNumber()
+                
+                if shouldGoToProfile {
+                    goToNextView()
+                    
+                }
+               
                 return
             }
             
             
             
-        }
+        
     }
     
     /// Comes backk to the view and also handles the error
