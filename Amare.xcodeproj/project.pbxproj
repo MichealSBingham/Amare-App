@@ -26,6 +26,8 @@
 		268F26BF2680094A00FBEA7D /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268F26BE2680094A00FBEA7D /* Account.swift */; };
 		268F26C1268018EE00FBEA7D /* ForNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268F26C0268018EE00FBEA7D /* ForNavigation.swift */; };
 		26970699268101B0007E7961 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26970698268101B0007E7961 /* SceneDelegate.swift */; };
+		26AF20E626CF458E00D99F36 /* SignInOrUpView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26AF20E526CF458E00D99F36 /* SignInOrUpView2.swift */; };
+		26AF20E926CF564E00D99F36 /* PhoneNumberField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26AF20E826CF564E00D99F36 /* PhoneNumberField.swift */; };
 		26B1AFD62678FFE500A170B3 /* AmareApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B1AFD52678FFE500A170B3 /* AmareApp.swift */; };
 		26B1AFD82678FFE500A170B3 /* EnterPhoneNumberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B1AFD72678FFE500A170B3 /* EnterPhoneNumberView.swift */; };
 		26B1AFDA2678FFE700A170B3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 26B1AFD92678FFE700A170B3 /* Assets.xcassets */; };
@@ -99,6 +101,8 @@
 		268F26BE2680094A00FBEA7D /* Account.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		268F26C0268018EE00FBEA7D /* ForNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForNavigation.swift; sourceTree = "<group>"; };
 		26970698268101B0007E7961 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		26AF20E526CF458E00D99F36 /* SignInOrUpView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInOrUpView2.swift; sourceTree = "<group>"; };
+		26AF20E826CF564E00D99F36 /* PhoneNumberField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberField.swift; sourceTree = "<group>"; };
 		26B1AFD22678FFE500A170B3 /* Amare.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Amare.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		26B1AFD52678FFE500A170B3 /* AmareApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmareApp.swift; sourceTree = "<group>"; };
 		26B1AFD72678FFE500A170B3 /* EnterPhoneNumberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterPhoneNumberView.swift; sourceTree = "<group>"; };
@@ -210,6 +214,14 @@
 			path = NotDone;
 			sourceTree = "<group>";
 		};
+		26AF20E726CF562700D99F36 /* Custom */ = {
+			isa = PBXGroup;
+			children = (
+				26AF20E826CF564E00D99F36 /* PhoneNumberField.swift */,
+			);
+			path = Custom;
+			sourceTree = "<group>";
+		};
 		26B1AFC92678FFE500A170B3 = {
 			isa = PBXGroup;
 			children = (
@@ -288,8 +300,10 @@
 		26B1B0082679956200A170B3 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				26AF20E726CF562700D99F36 /* Custom */,
 				26AB593526BDE44E00170192 /* ProbablyNotNeededButDeleteWithCaution */,
 				26B6079C26C021C900CE8491 /* SignInOrUpView.swift */,
+				26AF20E526CF458E00D99F36 /* SignInOrUpView2.swift */,
 				26B1AFD72678FFE500A170B3 /* EnterPhoneNumberView.swift */,
 				26EDBB8C26AA7CE2005C1033 /* VerificationCodeView2.swift */,
 			);
@@ -655,11 +669,13 @@
 				268F26C1268018EE00FBEA7D /* ForNavigation.swift in Sources */,
 				2608CF482691425E00826FDA /* QR.swift in Sources */,
 				2608CF4E2695139800826FDA /* EnterOrientationView.swift in Sources */,
+				26AF20E926CF564E00D99F36 /* PhoneNumberField.swift in Sources */,
 				26BBF08C267D7C9900C84019 /* [Deprecated]ProfileView.swift in Sources */,
 				26B1B00A2679961200A170B3 /* VerificationCodeView.swift in Sources */,
 				26DE210826C595B50004B5CE /* ChartView.swift in Sources */,
 				26DE210326C590480004B5CE /* MainView.swift in Sources */,
 				26BBF095267EBBEF00C84019 /* EnterNameView.swift in Sources */,
+				26AF20E626CF458E00D99F36 /* SignInOrUpView2.swift in Sources */,
 				2608CF44268FDE9700826FDA /* ImageUploadView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

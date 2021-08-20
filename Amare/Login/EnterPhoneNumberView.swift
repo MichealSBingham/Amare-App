@@ -316,13 +316,18 @@ struct EnterPhoneNumberView_Previews: PreviewProvider {
     static var previews: some View {
         
         
-
+        ZStack{
+            
+            Background()
             Group {
                 EnterPhoneNumberView().preferredColorScheme(.dark)
-                    //.environmentObject(NavigationModel())
+                  //  .environmentObject(NavigationModel())
                     
                     
             }
+            
+        }
+            
         
         
     }
