@@ -43,7 +43,7 @@ class Account: ObservableObject {
     
     
     /// User Data saved to an account object. This won't always have the user's saved data as it is stored in the `Account` object so you must pull the UserData from the dataset first before expecting this attribute to have the updated information.
-    @Published var data: UserData? = UserData()
+    @Published var data: AmareUser? = AmareUser()
     
     
     
@@ -548,7 +548,7 @@ class Account: ObservableObject {
                   
                 
                 let result = Result {
-                    try document.data(as: UserData.self)
+                    try document.data(as: AmareUser.self)
                 }
                 
                 switch result {
@@ -598,7 +598,7 @@ class Account: ObservableObject {
     ///   - completion: Will pass an error otherwise nil if it is successful
     ///   - error: Of type `AccountError` or `GlobalError`
     ///   -  Warning: Do not try to add images (with the exception of the profile image) to the Account this way. Use `upload()`.
-   private func set(data: UserData, completion:( (_ error: Error?) -> () )? = nil )  {
+   private func set(data: AmareUser, completion:( (_ error: Error?) -> () )? = nil )  {
         
         let DB =  (self.db == nil) ? Firestore.firestore()   :  self.db!
         self.db = DB
@@ -1053,7 +1053,7 @@ class Account: ObservableObject {
                 // Reading the data from the database as a UserData object
             
             let result = Result {
-                try document.data(as: UserData.self)
+                try document.data(as: AmareUser.self)
             }
             
             switch result {

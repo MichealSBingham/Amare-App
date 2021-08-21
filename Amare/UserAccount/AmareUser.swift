@@ -11,7 +11,7 @@ import FirebaseFirestoreSwift
 import SwiftUI
 
 /// Helper class we're using to store and read data from our backend. All user data properties read from database are here.
-public struct UserData: Codable{
+public struct AmareUser: Codable{
     
         ///Unique user id of the user.
     @DocumentID var id: String?
