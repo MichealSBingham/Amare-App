@@ -15,13 +15,14 @@ struct ChartView: View {
         
         VStack{
             
-            Text("This is BETA. This is a test to see if our API is pulling your proper natal chart. It will **NOT** look like this in the production version.")
+            Text("This is **BETA**. This is a test to see if our API is pulling your proper natal chart. It will **NOT** look like this in the production version.")
                 .foregroundColor(.white)
                 
             Spacer()
-            let name = account.data?.name ?? ""
             
-             /*
+            let name = account.data?.name ?? ""
+            Text("\(name)'s Natal Chart")
+            
             Spacer()
             ForEach(account.data?.natal_chart?.planets ?? []){ planet in
             
@@ -30,11 +31,11 @@ struct ChartView: View {
                 let angle = planet.angle
                 let element = planet.element
                 
-                let ptext = "\(planet_name.rawValue)\t\(sign.rawValue) \(angle) deg\t\(element.rawValue)\tCusp? \(planet.is_on_cusp) Cusp Sign \(planet.almost?.cusp_sign?.rawValue ?? "None")"
+                let ptext = "\(planet_name.rawValue)\t\(sign.rawValue) \(angle.dms) deg\t\(element.rawValue)\tCusp? \(planet.is_on_cusp) Cusp Sign \(planet.almost?.cusp_sign.rawValue ?? "None")"
                 
                 Text(ptext)
                 
-            } */
+            }
             
             
             
@@ -48,6 +49,17 @@ struct ChartView: View {
         }
         
         
+    }
+}
+
+
+extension BinaryFloatingPoint {
+    /// Converts decimal degrees to degrees, minutes, seconds
+    var dms: (degrees: Int, minutes: Int, seconds: Int) {
+        var seconds = Int(self * 3600)
+        let degrees = seconds / 3600
+        seconds = abs(seconds % 3600)
+        return (degrees, seconds / 60, seconds % 60)
     }
 }
 
@@ -66,3 +78,5 @@ struct ChartView_Previews: PreviewProvider {
         
     }
 }
+
+

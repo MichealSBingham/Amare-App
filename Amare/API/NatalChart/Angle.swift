@@ -47,6 +47,6 @@ enum AngleName: String, Codable{
 
 struct CuspObject: Codable{
     
-    let cusp_element: Element?
-    let cusp_sign: ZodiacSign?
+    let cusp_element: Element
+    let cusp_sign: ZodiacSign
 }
