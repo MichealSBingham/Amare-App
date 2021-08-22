@@ -1049,7 +1049,7 @@ class Account: ObservableObject {
               }
                 
               
-                
+            print("the document data is ... \(data)")
                 // Reading the data from the database as a UserData object
             
             let result = Result {
@@ -1065,6 +1065,7 @@ class Account: ObservableObject {
                     
                     // Data object contains all of the user's data
                     self.data = data
+                    print("The user data is .. \(data)")
                   //  completion?(nil) .no error.
                     
                     
@@ -1083,6 +1084,61 @@ class Account: ObservableObject {
             }
                 
             }
+        
+        
+        DB.collection("users").document(userid).collection("public").document("natal_chart")
+            .addSnapshotListener { documentSnapshot, error in
+                
+              guard let document = documentSnapshot else {
+                print("Error fetching document: \(error!)")
+                  // Throw error
+                return
+              }
+                
+              guard let data = document.data() else {
+                print("Document data was empty.")
+                  // Throw error
+                return
+              }
+                
+              
+            print("the document data is ... \(data)")
+                // Reading the data from the database as a UserData object
+            
+            let result = Result {
+                try document.data(as: NatalChart.self)
+            }
+            
+            switch result {
+            
+            
+            case .success(let data):
+                
+                if let natalChart = data{
+                    
+                    // Data object contains all of the user's data
+                    self.data?.natal_chart = natalChart
+                    print("The natal chart is .. \(natalChart)")
+                  //  completion?(nil) .no error.
+                    
+                    
+                } else{
+                    
+                    // Could not retreive the data for some reason
+                    // Throw error
+                    //completion?(AccountError.doesNotExist)
+                }
+                
+            
+            case .failure(let error):
+                print("Some error happened trying to convert the natal chart data to a natalchart object: \(error.localizedDescription)")
+                    // completion?(error) Throw error
+          
+            }
+                
+            }
+        
+        
         
     }
     

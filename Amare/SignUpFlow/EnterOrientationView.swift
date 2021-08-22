@@ -262,12 +262,9 @@ struct EnterOrientationView: View {
     /// Title of the view text .
     func title() -> some View {
         
-        var gender = account.data?.sex
+        let gender = account.data?.sex ?? .non_binary
         
-        if gender == "M" { gender = "male"}
-        if gender == "F" { gender = "female"}
-        
-        return Text("I am a \(gender ?? "male") that likes...")
+        return Text("I am a \(gender.string()) that likes...")
             .foregroundColor(.white)
             .font(.largeTitle)
             .bold()

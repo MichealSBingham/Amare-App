@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum ZodiacSign{
+enum ZodiacSign: String, Codable{
     
     case Aries
     case Taurus

@@ -7,9 +7,9 @@
 
 import Foundation
 
-enum Element{
-    case water
-    case earth
-    case fire
-    case air
+enum Element: String, Codable{
+    case Water
+    case Earth
+    case Fire
+    case Air
 }

@@ -23,8 +23,9 @@ public struct AmareUser: Codable{
     var residence: Place? = nil
     var profile_image_url: String? = nil
     private(set) var images: [String]? = nil
-    var sex: String? = nil  // male , female, non-binary, transfemale, transmale || or something else the user enters as a custom gender
+    var sex: Sex? = nil  // male , female, non-binary, transfemale, transmale || or something else the user enters as a custom gender
     var orientation: String? = nil // M, F, MF (male and female), or A (everything)
+    var natal_chart: NatalChart? = nil
 
     
     
@@ -71,6 +72,8 @@ public struct AmareUser: Codable{
         return nil
     
     }
+    
+    
     
     
     

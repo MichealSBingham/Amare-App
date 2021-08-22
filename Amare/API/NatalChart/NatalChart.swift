@@ -8,18 +8,47 @@
 import Foundation
 
 
-struct NatalChart {
+public struct NatalChart: Codable {
     
-    let angles: [Angle]? = nil   // In firebase this is a dictionary { "asc":{//asc data }, "mc": {//midheaven data}, .. } in firebase
-   // let aspects: [Aspect] = nil
-    let birth_place: Place
-    let birthday: String
+    
+    var angles: [Angle]
+    //let aspects: [Aspect] =
+    var birth_place: Place
+    var birthday: String
    // let houses: [House]? = nil
-    let planets: [Planet]
+ //   var planets: [Planet]
+   // var name: String?
+    //let sex: Sex?; not included currently 
     
-    
+   // public var id: String {name ?? "EmptyName"}
    
     
-    
 }
+
+
+enum Sex: String, Codable  {
+    case male
+    case female
+    case transfemale
+    case transmale
+    case non_binary
+    
+    func string() -> String {
+        
+        switch self {
+        case .male:
+            return "male"
+        case .female:
+            return "female"
+        case .transfemale:
+            return "transfemale"
+        case .transmale:
+            return  "transmale"
+        case .non_binary:
+            return "non_binary"
+        }
+    }
+
+}
+
 

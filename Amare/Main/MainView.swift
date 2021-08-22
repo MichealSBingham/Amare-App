@@ -119,5 +119,6 @@ struct MainView_Previews: PreviewProvider {
     static var previews: some View {
         MainView()
             .environmentObject(Account())
+            .environmentObject(NavigationStack())
     }
 }

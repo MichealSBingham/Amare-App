@@ -38,7 +38,7 @@
         }
       },
       {
-        "package": "swiftui-navigation-stack",
+        "package": "NavigationStack",
         "repositoryURL": "https://github.com/matteopuc/swiftui-navigation-stack.git",
         "state": {
           "branch": null,
