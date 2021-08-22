@@ -15,7 +15,7 @@ import FirebaseStorage
 
 
 /// Class for handling user account related things such as signing in, signing out, listening for auth changes, adding and reading from the database, etc. An account is associated with one user.
-///
+/// Represents operations you can do on backend as an authorized user Account
 ///  - Warning: If unexpected behavior occurs, set handle, didChange to public
 class Account: ObservableObject {
 

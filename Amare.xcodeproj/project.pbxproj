@@ -25,6 +25,12 @@
 		263D6F9A2684087300CBBECC /* AmareUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263D6F992684087300CBBECC /* AmareUser.swift */; };
 		268F26BF2680094A00FBEA7D /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268F26BE2680094A00FBEA7D /* Account.swift */; };
 		268F26C1268018EE00FBEA7D /* ForNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268F26C0268018EE00FBEA7D /* ForNavigation.swift */; };
+		2694935126D1D9C400C7AD72 /* NatalChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2694935026D1D9C400C7AD72 /* NatalChart.swift */; };
+		2694935426D1DAF300C7AD72 /* Planet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2694935326D1DAF300C7AD72 /* Planet.swift */; };
+		2694935626D1DB3600C7AD72 /* Angle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2694935526D1DB3600C7AD72 /* Angle.swift */; };
+		2694935826D1DB4400C7AD72 /* Aspect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2694935726D1DB4400C7AD72 /* Aspect.swift */; };
+		2694935A26D1FD1F00C7AD72 /* Element.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2694935926D1FD1F00C7AD72 /* Element.swift */; };
+		2694935C26D1FEEF00C7AD72 /* ZodiacSign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2694935B26D1FEEF00C7AD72 /* ZodiacSign.swift */; };
 		26970699268101B0007E7961 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26970698268101B0007E7961 /* SceneDelegate.swift */; };
 		26AF20E626CF458E00D99F36 /* SignInOrUpView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26AF20E526CF458E00D99F36 /* SignInOrUpView2.swift */; };
 		26AF20E926CF564E00D99F36 /* PhoneNumberField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26AF20E826CF564E00D99F36 /* PhoneNumberField.swift */; };
@@ -100,6 +106,12 @@
 		263D6F992684087300CBBECC /* AmareUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmareUser.swift; sourceTree = "<group>"; };
 		268F26BE2680094A00FBEA7D /* Account.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		268F26C0268018EE00FBEA7D /* ForNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForNavigation.swift; sourceTree = "<group>"; };
+		2694935026D1D9C400C7AD72 /* NatalChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NatalChart.swift; sourceTree = "<group>"; };
+		2694935326D1DAF300C7AD72 /* Planet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Planet.swift; sourceTree = "<group>"; };
+		2694935526D1DB3600C7AD72 /* Angle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Angle.swift; sourceTree = "<group>"; };
+		2694935726D1DB4400C7AD72 /* Aspect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Aspect.swift; sourceTree = "<group>"; };
+		2694935926D1FD1F00C7AD72 /* Element.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Element.swift; sourceTree = "<group>"; };
+		2694935B26D1FEEF00C7AD72 /* ZodiacSign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZodiacSign.swift; sourceTree = "<group>"; };
 		26970698268101B0007E7961 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		26AF20E526CF458E00D99F36 /* SignInOrUpView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInOrUpView2.swift; sourceTree = "<group>"; };
 		26AF20E826CF564E00D99F36 /* PhoneNumberField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberField.swift; sourceTree = "<group>"; };
@@ -198,6 +210,27 @@
 			path = UserAccount;
 			sourceTree = "<group>";
 		};
+		2694934F26D1D9B700C7AD72 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				2694935226D1DA1600C7AD72 /* NatalChart */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		2694935226D1DA1600C7AD72 /* NatalChart */ = {
+			isa = PBXGroup;
+			children = (
+				2694935026D1D9C400C7AD72 /* NatalChart.swift */,
+				2694935326D1DAF300C7AD72 /* Planet.swift */,
+				2694935526D1DB3600C7AD72 /* Angle.swift */,
+				2694935726D1DB4400C7AD72 /* Aspect.swift */,
+				2694935926D1FD1F00C7AD72 /* Element.swift */,
+				2694935B26D1FEEF00C7AD72 /* ZodiacSign.swift */,
+			);
+			path = NatalChart;
+			sourceTree = "<group>";
+		};
 		26AB593526BDE44E00170192 /* ProbablyNotNeededButDeleteWithCaution */ = {
 			isa = PBXGroup;
 			children = (
@@ -247,6 +280,7 @@
 		26B1AFD42678FFE500A170B3 /* Amare */ = {
 			isa = PBXGroup;
 			children = (
+				2694934F26D1D9B700C7AD72 /* API */,
 				26F9206926A8752200A4F8C6 /* FontResources */,
 				26BBF08A267D321F00C84019 /* Amare.entitlements */,
 				26B1AFD52678FFE500A170B3 /* AmareApp.swift */,
@@ -641,6 +675,7 @@
 			files = (
 				26DE210C26C5963A0004B5CE /* SettingsView.swift in Sources */,
 				26B1AFDF2678FFE700A170B3 /* Persistence.swift in Sources */,
+				2694935626D1DB3600C7AD72 /* Angle.swift in Sources */,
 				26EDBB8D26AA7CE2005C1033 /* VerificationCodeView2.swift in Sources */,
 				26DE210A26C595E80004B5CE /* MessagesView.swift in Sources */,
 				2608CF512697529600826FDA /* GlobalErrors.swift in Sources */,
@@ -654,9 +689,13 @@
 				2608CF4A2695131F00826FDA /* PickAttractivePeopleView.swift in Sources */,
 				26B1B011267C28E000A170B3 /* Extensions.swift in Sources */,
 				26BBF093267EBB1300C84019 /* LiveWhereView.swift in Sources */,
+				2694935126D1D9C400C7AD72 /* NatalChart.swift in Sources */,
 				26BBF08F267D80FC00C84019 /* EnterBirthdayView.swift in Sources */,
 				263D6F962683F77C00CBBECC /* Location.swift in Sources */,
 				26970699268101B0007E7961 /* SceneDelegate.swift in Sources */,
+				2694935426D1DAF300C7AD72 /* Planet.swift in Sources */,
+				2694935826D1DB4400C7AD72 /* Aspect.swift in Sources */,
+				2694935C26D1FEEF00C7AD72 /* ZodiacSign.swift in Sources */,
 				26B1AFD82678FFE500A170B3 /* EnterPhoneNumberView.swift in Sources */,
 				26DE210626C593070004B5CE /* ScannerView.swift in Sources */,
 				26F9205F26A760E500A4F8C6 /* Animations.swift in Sources */,
@@ -665,6 +704,7 @@
 				2608CF4C2695136F00826FDA /* EnterGenderView.swift in Sources */,
 				26BBF091267EA5FF00C84019 /* FromWhereView.swift in Sources */,
 				26DE210E26C596450004B5CE /* MapView.swift in Sources */,
+				2694935A26D1FD1F00C7AD72 /* Element.swift in Sources */,
 				26B1AFE22678FFE700A170B3 /* Love.xcdatamodeld in Sources */,
 				268F26C1268018EE00FBEA7D /* ForNavigation.swift in Sources */,
 				2608CF482691425E00826FDA /* QR.swift in Sources */,
