@@ -37,10 +37,24 @@ struct Angle: Codable, Identifiable{
 
 enum AngleName: String, Codable{
     
-    case Asc // Ascendant
-    case MC // MC
-    case Desc // Desc
-    case IC // ic
+    case asc = "Asc" // Ascendant
+    case mc = "MC" // MC
+    case desc = "Desc" // Desc
+    case ic = "IC" // ic
+    
+    func string() -> String  {
+        
+        switch self {
+        case .asc:
+            return "Ascendant"
+        case .mc:
+            return "Midheaven"
+        case .desc:
+            return "Descendant"
+        case .ic:
+            return "Imum Coeli"
+        }
+    }
     
 }
 

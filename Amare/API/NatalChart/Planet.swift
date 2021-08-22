@@ -49,6 +49,8 @@ enum PlanetName: String, Codable {
     case Neptune
     case Pluto
     case Chiron
-    //case North_Node
-    //case South_Node
+    case NorthNode = "North Node"
+    case SouthNode = "South Node"
+    
+   
 }
