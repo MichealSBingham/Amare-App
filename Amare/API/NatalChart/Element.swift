@@ -8,8 +8,10 @@
 import Foundation
 
 enum Element: String, Codable{
-    case Water
-    case Earth
-    case Fire
-    case Air
+    case water = "Water"
+    case earth = "Earth"
+    case fire = "Fire"
+    case air = "Air"
+    
+    
 }

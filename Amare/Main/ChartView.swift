@@ -18,33 +18,12 @@ struct ChartView: View {
             Text("This is **BETA**. This is a test to see if our API is pulling your proper natal chart. It will **NOT** look like this in the production version.")
                 .foregroundColor(.white)
                 
-            Spacer()
-            
-            let name = account.data?.name ?? ""
-            Text("\(name)'s Natal Chart")
-            
-            Spacer()
-            ForEach(account.data?.natal_chart?.planets ?? []){ planet in
-            
-                let planet_name = planet.name
-                let sign = planet.sign
-                let angle = planet.angle
-                let element = planet.element
-                
-                let ptext = "\(planet_name.rawValue)\t\(sign.rawValue) \(angle.dms) deg\t\(element.rawValue)\tCusp? \(planet.is_on_cusp) Cusp Sign \(planet.almost?.cusp_sign.rawValue ?? "None")"
-                
-                Text(ptext)
-                
-            }
+          //  var name = account.data?.name ?? ""
+            //Text("\(name)'s Natal Chart")
+            NatalChartViewAlpha().NatalChartAlphaView(account: account)
             
             
             
-            
-        }.onAppear {
-            
-            var natalisnil: Bool  = account.data?.natal_chart  == nil
-            print("chart is nil? \(natalisnil)")
-
             
         }
         
@@ -55,12 +34,20 @@ struct ChartView: View {
 
 extension BinaryFloatingPoint {
     /// Converts decimal degrees to degrees, minutes, seconds
-    var dms: (degrees: Int, minutes: Int, seconds: Int) {
+    var dms: String {
         var seconds = Int(self * 3600)
         let degrees = seconds / 3600
         seconds = abs(seconds % 3600)
-        return (degrees, seconds / 60, seconds % 60)
+        
+        let minutes = seconds / 60
+        let Seconds = seconds % 60
+        
+        
+        return "\(degrees)°\(minutes)'\(Seconds)"
+        
     }
+    
+    
 }
 
 struct ChartView_Previews: PreviewProvider {

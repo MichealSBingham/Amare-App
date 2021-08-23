@@ -18,20 +18,34 @@ struct Planet: Codable, Identifiable{
     let angle: Double
     /// Element the sign is in, not the planet.
     let element: Element
-    let is_on_cusp: Bool
+    let onCusp: Bool
     /// Whether or not planet is moving in retrograde
-    let is_retrograde: Bool
+    let retrograde: Bool
     
     
     let sign: ZodiacSign
     
     /// A cusp object will contain the cusp element and cusp sign the object is on
-    let almost: CuspObject?
+    let cusp: CuspObject?
     
     /// Average speed planet is moving in degrees/day
     let speed: Double
     
     var id: String { name.rawValue }
+    
+    enum CodingKeys: String, CodingKey {
+        
+        case name
+        case angle
+        case element
+        case onCusp = "is_on_cusp"
+        case retrograde = "is_retrograde"
+        case sign
+        case cusp = "almost"
+        case speed
+     
+     
+    }
     
     
 }
