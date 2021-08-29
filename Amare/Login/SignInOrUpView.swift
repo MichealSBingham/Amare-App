@@ -432,7 +432,7 @@ struct SignInOrUpView: View {
     /// Goes to the next view. We are using the `NavigationStack` package from GitHub. Open source. It works better than `NavigationView`
     func goToNextView()  {
         
-        self.navigationStack.push(EnterPhoneNumberView())
+        self.navigationStack.push(EnterPhoneNumberView2())
         
          
     }

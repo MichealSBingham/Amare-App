@@ -37,6 +37,7 @@ struct RootView: View {
                     
                 } else {
                     SignInOrUpView()
+                        .environmentObject(account)
                         .onAppear {  account.stopListening()}
                         
                         

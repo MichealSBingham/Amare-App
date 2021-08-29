@@ -33,7 +33,7 @@
 		2694935A26D1FD1F00C7AD72 /* Element.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2694935926D1FD1F00C7AD72 /* Element.swift */; };
 		2694935C26D1FEEF00C7AD72 /* ZodiacSign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2694935B26D1FEEF00C7AD72 /* ZodiacSign.swift */; };
 		26970699268101B0007E7961 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26970698268101B0007E7961 /* SceneDelegate.swift */; };
-		26AF20E626CF458E00D99F36 /* SignInOrUpView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26AF20E526CF458E00D99F36 /* SignInOrUpView2.swift */; };
+		26AF20E626CF458E00D99F36 /* EnterPhoneNumberView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26AF20E526CF458E00D99F36 /* EnterPhoneNumberView2.swift */; };
 		26AF20E926CF564E00D99F36 /* PhoneNumberField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26AF20E826CF564E00D99F36 /* PhoneNumberField.swift */; };
 		26B1AFD62678FFE500A170B3 /* AmareApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B1AFD52678FFE500A170B3 /* AmareApp.swift */; };
 		26B1AFD82678FFE500A170B3 /* EnterPhoneNumberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B1AFD72678FFE500A170B3 /* EnterPhoneNumberView.swift */; };
@@ -115,7 +115,7 @@
 		2694935926D1FD1F00C7AD72 /* Element.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Element.swift; sourceTree = "<group>"; };
 		2694935B26D1FEEF00C7AD72 /* ZodiacSign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZodiacSign.swift; sourceTree = "<group>"; };
 		26970698268101B0007E7961 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		26AF20E526CF458E00D99F36 /* SignInOrUpView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInOrUpView2.swift; sourceTree = "<group>"; };
+		26AF20E526CF458E00D99F36 /* EnterPhoneNumberView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterPhoneNumberView2.swift; sourceTree = "<group>"; };
 		26AF20E826CF564E00D99F36 /* PhoneNumberField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberField.swift; sourceTree = "<group>"; };
 		26B1AFD22678FFE500A170B3 /* Amare.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Amare.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		26B1AFD52678FFE500A170B3 /* AmareApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmareApp.swift; sourceTree = "<group>"; };
@@ -201,6 +201,14 @@
 				2608CF522697C9D600826FDA /* SystemErrors.swift */,
 			);
 			path = Errors;
+			sourceTree = "<group>";
+		};
+		26222DFD26D4461700C465AD /* EarlierViewVersionsStillWorking */ = {
+			isa = PBXGroup;
+			children = (
+				26B1AFD72678FFE500A170B3 /* EnterPhoneNumberView.swift */,
+			);
+			path = EarlierViewVersionsStillWorking;
 			sourceTree = "<group>";
 		};
 		267CF36126D30BC4006B73BE /* Custom */ = {
@@ -344,11 +352,11 @@
 		26B1B0082679956200A170B3 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				26222DFD26D4461700C465AD /* EarlierViewVersionsStillWorking */,
 				26AF20E726CF562700D99F36 /* Custom */,
 				26AB593526BDE44E00170192 /* ProbablyNotNeededButDeleteWithCaution */,
 				26B6079C26C021C900CE8491 /* SignInOrUpView.swift */,
-				26AF20E526CF458E00D99F36 /* SignInOrUpView2.swift */,
-				26B1AFD72678FFE500A170B3 /* EnterPhoneNumberView.swift */,
+				26AF20E526CF458E00D99F36 /* EnterPhoneNumberView2.swift */,
 				26EDBB8C26AA7CE2005C1033 /* VerificationCodeView2.swift */,
 			);
 			path = Login;
@@ -727,7 +735,7 @@
 				26DE210826C595B50004B5CE /* ChartView.swift in Sources */,
 				26DE210326C590480004B5CE /* MainView.swift in Sources */,
 				26BBF095267EBBEF00C84019 /* EnterNameView.swift in Sources */,
-				26AF20E626CF458E00D99F36 /* SignInOrUpView2.swift in Sources */,
+				26AF20E626CF458E00D99F36 /* EnterPhoneNumberView2.swift in Sources */,
 				2608CF44268FDE9700826FDA /* ImageUploadView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
