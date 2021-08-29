@@ -33,6 +33,8 @@ extension String{
 
 extension NSNotification {
     static let logout = NSNotification.Name.init("logout")
+    /// Due to an error or some other type of reason, we need to the view to 'go back' one view (or pop back) so we use this notification to tell us when to do that. Post this notification whenever the view needs to go backwards and some reason you can't access the exact view the user is on at the moment. 
+    static let goBack = NSNotification.Name.init("goBack")
 }
 
 

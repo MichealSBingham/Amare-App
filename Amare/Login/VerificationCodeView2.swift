@@ -94,7 +94,10 @@ struct VerificationCodeView2: View {
                     
                     
                 }.alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
-                
+        // TODO: Publish the error message with the notification so that the user sees a pop up if an error occurs and then it goes back 
+          .onReceive(NotificationCenter.default.publisher(for: NSNotification.goBack)) { _ in
+             goBack()
+         }
             
         
     }
@@ -477,7 +480,8 @@ struct VerificationCodeView2: View {
 struct VerificationCodeView2_Previews: PreviewProvider {
     static var previews: some View {
         VerificationCodeView2()
-            //.environmentObject(NavigationModel())
+          //  .environmentObject(NavigationModel())
+            //.environmentObject(Account())
             
     }
 }

@@ -38,6 +38,12 @@ struct EnterPhoneNumberView2: View {
     
     @State var beginAnimation: Bool = false
     
+    /// The view has an error of going to the next view multiple times this is a solution to correct it
+    @State var timesExecuted: Int = 0
+    
+    @State var someErrorOccured: Bool = false
+    @State var alertMessage: String = ""
+    
     
     
     var body: some View {
@@ -78,8 +84,8 @@ struct EnterPhoneNumberView2: View {
                 
                     
                 
-            }
-        }.onAppear{}
+            }.alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
+        }
         
     }
     
@@ -107,12 +113,13 @@ struct EnterPhoneNumberView2: View {
             .foregroundColor(.white)
     }
     
+    //TODO: Make country code selectable
     func countrySelect() -> some View {
         
         return Button {
             
             didTapChangeCountry = true
-            goBack()
+           // goBack()
             
         } label: {
             
@@ -168,21 +175,31 @@ struct EnterPhoneNumberView2: View {
                         
                         if number_to_check.isValidPhoneNumber(){
                             phonenumberFieldIsActive = false
-                            print("\(phonenumber) is a valid number because \(number_to_check) is ")
                             
-                            guard !shouldGoToNext else {return }
+                            
+                            guard timesExecuted == 0 else {return}
+                            
+                            timesExecuted+=1
+                            
+                            goToNextView()
+                            
                             account.sendVerificationCode(to: number_to_check) { error in
-                                
+
                                 guard error == nil else {
                                     
                                     phonenumber = ""
                                     phonenumberFieldIsActive = true
                                     firstResponder = .phonenumberfield
+                                    timesExecuted = 0
+                                    // TODO: Post the error message here 
+                                    NotificationCenter.default.post(name: NSNotification.goBack, object: nil )
+                                    
+                                    handle(error: error!)
+                                    
                                     return
                                 }
                                 
-                                if error == nil {shouldGoToNext = true }
-                                goToNextView()
+                             
                             }
                             
                             
@@ -219,7 +236,7 @@ struct EnterPhoneNumberView2: View {
     
     func goToNextView()  {
       
-        guard shouldGoToNext else {return }
+        //guard shouldGoToNext else {return }
         self.navigationStack.push(VerificationCodeView2().environmentObject(account))
         
         
@@ -254,6 +271,65 @@ struct EnterPhoneNumberView2: View {
             
             
             
+    }
+    
+    
+    func handle(error: Error)  {
+                // Handle Error
+        someErrorOccured = true
+        if let error = error as? AccountError{
+            
+            switch error {
+            case .doesNotExist:
+                alertMessage = "You do not exist."
+            case .disabledUser:
+                alertMessage = "Sorry, your account is disabled."
+            case .expiredVerificationCode:
+                alertMessage = "Your verification code has expired."
+            case .wrong:
+                alertMessage = "You entered the wrong code"
+            case .notSignedIn:
+                alertMessage = "You are not signed in."
+            case .uploadError:
+                alertMessage = "There was some upload Error"
+            case .notAuthorized:
+                alertMessage = "You are not authorized to do this."
+            case .expiredActionCode:
+                alertMessage = "The action code has expired"
+            case .sessionExpired:
+                alertMessage = "The session has expired"
+            case .userTokenExpired:
+                alertMessage = "The user token has expired"
+            }
+        }
+        
+        if let error = error as? GlobalError{
+            
+            switch error {
+            case .networkError:
+                alertMessage = "There is a network error. Lost internet connection"
+            case .tooManyRequests:
+                alertMessage = "You're trying too many times to ping our servers. Wait a bit."
+            case .captchaCheckFailed:
+                alertMessage = "You might be a robot because you failed the captcha check and that's quite rare. Goodbye."
+            case .invalidInput:
+                alertMessage = "You entered something wrong with the wrong format."
+            case .quotaExceeded:
+                alertMessage = "This isn't your fault. We need to scale to be able to withstand the current quota. Just try again in a bit."
+            case .notAllowed:
+                alertMessage = "You are not allowed to do that."
+            case .internalError:
+                alertMessage = "There was some internal error with us. Not your fault."
+            case .cantGetVerificationID:
+                alertMessage = "This isn't an end-user error and you honestly should not be seeing this. If you did, something is broken. Report it to us because your verification ID is not being saved."
+            case .unknown:
+                alertMessage = "I'm not sure what this error is, lol."
+            }
+        }
+        
+        
+       
+        
     }
     
 }
