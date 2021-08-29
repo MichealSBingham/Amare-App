@@ -11,7 +11,7 @@ import FirebaseFirestoreSwift
 import SwiftUI
 
 /// Helper class we're using to store and read data from our backend. All user data properties read from database are here.
-public struct UserData: Codable{
+public struct AmareUser: Codable{
     
         ///Unique user id of the user.
     @DocumentID var id: String?
@@ -19,22 +19,27 @@ public struct UserData: Codable{
     var name: String? = nil
     var hometown: Place? = nil
     var birthday: Birthday? = nil
+    var known_time: Bool? = nil
     var residence: Place? = nil
     var profile_image_url: String? = nil
     private(set) var images: [String]? = nil
-    var sex: String? = nil  // M , F, or something else the user enters as a custom gender
-    var orientation: String? = nil // M, F, MF (male and female), or A (everything) 
+    var sex: Sex? = nil  // male , female, non-binary, transfemale, transmale || or something else the user enters as a custom gender
+    var orientation: String? = nil // M, F, MF (male and female), or A (everything)
+    var natal_chart: NatalChart? = nil
+
     
     
     enum CodingKeys: String, CodingKey {
         case name
         case hometown
+        case known_time
         case birthday
         case residence
         case profile_image_url
         case images
         case sex
         case orientation
+     
     }
     
     /// Returns if all user data attributes for the sign up flow are completed. Or if the user completed the sign up flow, i.e. the UserData object is complete
@@ -67,6 +72,8 @@ public struct UserData: Codable{
         return nil
     
     }
+    
+    
     
     
     

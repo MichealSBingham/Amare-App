@@ -214,12 +214,12 @@ struct SignInOrUpView: View {
                 
                 HStack{
                     
-                   Spacer()
-                   Spacer()
-                   rightArrow()
-                   Spacer()
+                
+                    rightArrow().offset(x: 50 )
+               
                     
                 }
+                
              
                
                 
@@ -266,10 +266,9 @@ struct SignInOrUpView: View {
                 
                 HStack{
                     
-                   Spacer()
-                   Spacer()
-                rightArrow()
-                   Spacer()
+                 
+                    rightArrow().offset(x: 50)
+                 
                     
                 }
              
@@ -382,6 +381,7 @@ struct SignInOrUpView: View {
         return Text("Need Help?")
             .foregroundColor(.white)
             .font(.subheadline)
+            .padding()
                        
     }
     
@@ -440,7 +440,13 @@ struct SignInOrUpView: View {
 
 struct SignInOrUpView_Previews: PreviewProvider {
     static var previews: some View {
-        SignInOrUpView()
+        
+        ForEach([ "iPhone 8", "iPhone 12 Pro Max"], id: \.self) { deviceName in
+                       RootView()
+                            .previewDevice(PreviewDevice(rawValue: deviceName))
+                            .previewDisplayName(deviceName)
+                            .environmentObject(Account())
+                  }
     }
 }
 

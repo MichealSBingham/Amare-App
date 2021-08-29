@@ -108,7 +108,7 @@ struct EnterGenderView: View {
         
         return Button {
             
-            SelectGenderAction(gender: "M")
+            SelectGenderAction(gender: .male)
             
         } label: {
             
@@ -148,7 +148,7 @@ struct EnterGenderView: View {
         
         return Button {
             
-            SelectGenderAction(gender: "F")
+            SelectGenderAction(gender: .female)
             
         } label: {
             
@@ -228,7 +228,7 @@ struct EnterGenderView: View {
 
 
 
-    func SelectGenderAction(gender: String)  {
+    func SelectGenderAction(gender: Sex)  {
         
      
         

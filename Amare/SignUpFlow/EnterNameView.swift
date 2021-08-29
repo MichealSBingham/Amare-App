@@ -109,7 +109,7 @@ struct EnterNameView: View {
           
             name = name.trimmingCharacters(in: .whitespacesAndNewlines)
             
-            account.data = UserData(id: account.user?.uid ?? "", name: name)
+            account.data = AmareUser(id: account.user?.uid ?? "", name: name)
             
             do{
                 try account.save(completion: { error in
