@@ -26,10 +26,6 @@ struct AmareApp: App {
         
         WindowGroup {
            
-                //EnterPhoneNumberView()
-                //    .environment(\.managedObjectContext, persistenceController.container.viewContext)
-            
-            
         }
         
         .onChange(of: scenePhase) { newScenePhase in

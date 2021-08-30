@@ -39,8 +39,7 @@ class Account: ObservableObject {
     /// Reference to cloud storage (firebase)
     private var storage: StorageReference?
     
-    /// The phone number that belongs to the user account. This will be usually be nil unless the user log in recently
-    public var phoneNumber: String? = nil
+  
     
     
     
@@ -61,7 +60,6 @@ class Account: ObservableObject {
      func sendVerificationCode(to phoneNumber: String,
                                andAfter  runThisClosure: ((_ error: Error?) -> Void)? = nil ) {
          
-         self.phoneNumber = phoneNumber
        //  Auth.auth().settings?.isAppVerificationDisabledForTesting = true//, enable or disable this for testing
         PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber, uiDelegate: nil) { verificationID, error in
             
@@ -137,7 +135,8 @@ class Account: ObservableObject {
             
             vID.save()
             print("the verificationid in send verification code is .. \(vID)")
-
+            
+            NotificationCenter.default.post(name: NSNotification.verificationCodeSent, object: phoneNumber)// consider placing this under if statement below
             runThisClosure!(nil)
             
             

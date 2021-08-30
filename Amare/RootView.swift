@@ -30,12 +30,14 @@ struct RootView: View {
                
                 if account.isSignedIn{
                     
+                    
                     MainView()
                         .environmentObject(account)
                         .onAppear(perform: {  account.stopListening() })
                     
                     
                 } else {
+
                     SignInOrUpView()
                         .environmentObject(account)
                         .onAppear {  account.stopListening()}

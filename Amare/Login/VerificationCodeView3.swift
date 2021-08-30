@@ -10,7 +10,6 @@
 import SwiftUI
 import NavigationStack
 import MbSwiftUIFirstResponder
-// import Introspect
 
 
 public struct VerificationCodeView3: View {
@@ -42,25 +41,61 @@ public struct VerificationCodeView3: View {
         }
     @State var firstResponder: FirstResponders? = .verificationCodeField
     
+    @State var someErrorOccured: Bool = false
+    @State var alertMessage: String = ""
+    
+    @State var attempts: Int = 0
+    
+    @State var alreadyRan: Bool = false
+    
+    @State var phonenumber: String = ""
     
   //  var handler: (String, (Bool) -> Void) -> Void
     
     public var body: some View {
-        VStack {
+        ZStack {
             
-            backButton()
-    
-            EnterTheCode()
-            SentToYourPhone()
+            Background()
+                .opacity(phonenumber.isEmpty ? 1: 0)
+                .animation(.linear, value: phonenumber)
             
-            lineoftext()
-            
-            ZStack {
-                pinDots
-                backgroundField
+            VStack {
+                
+                backButton()
+        
+                EnterTheCode()
+                SentToYourPhone()
+                Spacer()
+                lineoftext()
+                Spacer()
+                ZStack {
+                    pinDots
+                    backgroundField
+                }
+                showPinStack
+                
+                Spacer()
             }
-            showPinStack
+        
+            .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
+    // TODO: Publish the error message with the notification so that the user sees a pop up if an error occurs and then it goes back
+      .onReceive(NotificationCenter.default.publisher(for: NSNotification.goBack)) { _ in
+
+         goBack()
+  }
         }
+        .brightness(phonenumber.isEmpty ? -0.5 : 1)
+        .animation(.linear, value: phonenumber)
+        .onReceive(NotificationCenter.default.publisher(for: NSNotification.verificationCodeSent)) { output in
+                
+            // Verification code was sent
+            if let num = output.object as? String {
+                
+                phonenumber = num
+            }
+            
+        }
+        
         
     }
     
@@ -71,6 +106,7 @@ public struct VerificationCodeView3: View {
                 Image(systemName: self.getImageName(at: index))
                     .font(.system(size: 25, weight: .thin, design: .default))
                     .foregroundColor(.white)
+                    .modifier(ShakeEffect(shakes: attempts*2)).animation(Animation.default, value: attempts)
                 Spacer()
             }
         }
@@ -83,11 +119,12 @@ public struct VerificationCodeView3: View {
         })
         
         return TextField("", text: boundPin, onCommit: submitPin)
-            .firstResponder(id: FirstResponders.verificationCodeField, firstResponder: $firstResponder)
+            .firstResponder(id: FirstResponders.verificationCodeField, firstResponder: $firstResponder, resignableUserOperations: .none)
            .accentColor(.clear)
            .foregroundColor(.clear)
            .keyboardType(.numberPad)
            .disabled(isDisabled)
+          
            
     }
     
@@ -119,19 +156,33 @@ public struct VerificationCodeView3: View {
         }
         
         if pin.count == maxDigits {
-            isDisabled = true
+           // isDisabled = true
             
-            /*
-            handler(pin) { isSuccess in
-                if isSuccess {
-                    print("pin matched, go to next page, no action to perfrom here")
-                } else {
+            guard alreadyRan == false else {return}
+            
+            alreadyRan = true
+                
+            account.login(with: pin) { error, user, signUpState in
+                
+                guard error == nil else {
+                    
+                    alreadyRan = false
                     pin = ""
-                    isDisabled = false
-                    print("this has to called after showing toast why is the failure")
+                    handle(error!)
+                    
+                    
+                    return
                 }
+                goToNext(screen: signUpState ?? .done)
+                
+                
+                return
+                
+                
             }
-            */
+            
+            
+            
         }
         
         // this code is never reached under  normal circumstances. If the user pastes a text with count higher than the
@@ -174,7 +225,7 @@ public struct VerificationCodeView3: View {
     
     func lineoftext() -> some View {
         
-        let number = (account.phoneNumber ?? "+19176990590").applyPatternOnNumbers(pattern: "+ # (###) ###-####", replacementCharacter: "#")
+        let number = phonenumber.applyPatternOnNumbers(pattern: "+ # (###) ###-####", replacementCharacter: "#")
         
         return Text("We sent you an SMS with a code to the number\n \(number)")
             .foregroundColor(.white)
@@ -216,13 +267,114 @@ public struct VerificationCodeView3: View {
     /// Goes back to the login screen
     func goBack()   {
         
-       
+        print("going back...")
             firstResponder = nil
             navigationStack.pop()
     
         
     
         
+    }
+    
+    
+    func handle(_ error: Error)  {
+        
+        // Handle Error
+        if let error = error as? AccountError{
+            
+            switch error {
+            case .doesNotExist:
+                alertMessage = "You do not exist."
+                someErrorOccured = true
+            case .disabledUser:
+                alertMessage = "Sorry, your account is disabled."
+                attempts+=1
+            case .expiredVerificationCode:
+                alertMessage = "Please resend your code because it expired."
+                attempts+=1
+            case .wrong:
+                alertMessage = "You entered the wrong code."
+                attempts+=1
+            case .notSignedIn:
+                alertMessage = "You are not signed in."
+                someErrorOccured = true
+            case .uploadError:
+                alertMessage = "There was some upload Error"
+                someErrorOccured = true
+            case .notAuthorized:
+                alertMessage = "You are not authorized to do this."
+                attempts+=1
+            case .expiredActionCode:
+                alertMessage = "Please resend the code."
+                attempts+=1
+            case .sessionExpired:
+                alertMessage = "Please resend the code, your session expired."
+                attempts+=1
+            case .userTokenExpired:
+                alertMessage = "Please send the code, your token expired."
+                attempts+=1
+            }
+        }
+        
+        if let error = error as? GlobalError{
+            
+            switch error {
+            case .networkError:
+                alertMessage = "There is a network error. Lost internet connection"
+                someErrorOccured = true
+
+            case .tooManyRequests:
+                alertMessage = "Please wait a few moments. "
+                attempts+=1
+            case .captchaCheckFailed:
+                alertMessage = "You might be a robot because you failed the captcha check and that's quite rare. Goodbye."
+                someErrorOccured = true
+
+            case .invalidInput:
+                alertMessage = "You entered something wrong with the wrong format."
+                someErrorOccured = true
+
+            case .quotaExceeded:
+                alertMessage = "Please wait a few moments. "
+                attempts+=1
+            case .notAllowed:
+                alertMessage = "You are not allowed to do that."
+                someErrorOccured = true
+
+            case .internalError:
+                alertMessage = "There was some internal error with us. Not your fault."
+                someErrorOccured = true
+
+            case .cantGetVerificationID:
+                alertMessage = "This isn't an end-user error and you honestly should not be seeing this. If you did, something is broken. Report it to us because your verification ID is not being saved."
+                someErrorOccured = true
+
+            case .unknown:
+                alertMessage = "I'm not sure what this error is, lol."
+                someErrorOccured = true
+
+            }
+            someErrorOccured = true
+        }
+        
+        
+        // Handle Error
+        
+    }
+    
+    func goToNext(screen: SignUpState)  {
+        
+        print("The screen is .. \(screen)")
+        guard screen == .done else {
+           
+            navigationStack.push(EnterNameView().environmentObject(account), withId: EnterNameView.id)
+            return
+        }
+    
+            
+            navigationStack.push(MainView().environmentObject(account), withId: MainView.id)
+        
+       
     }
 }
 
@@ -263,7 +415,9 @@ struct VerificationCodeView3_Previews: PreviewProvider {
             let timer = Timer.publish(every: 0.5, on: .main, in: .default).autoconnect()
             Background(timer: timer)//.opacity(0.80)
             VerificationCodeView3()
+                .environmentObject(Account())
         }
+        
         
     }
 }

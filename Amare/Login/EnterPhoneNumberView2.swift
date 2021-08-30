@@ -234,7 +234,7 @@ struct EnterPhoneNumberView2: View {
     func goToNextView()  {
       
         //guard shouldGoToNext else {return }
-        self.navigationStack.push(VerificationCodeView3().environmentObject(account))
+        self.navigationStack.push(VerificationCodeView3())
         
         
     }

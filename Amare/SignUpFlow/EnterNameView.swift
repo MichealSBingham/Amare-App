@@ -43,8 +43,6 @@ struct EnterNameView: View {
 
             
         
-            
-          
                     
                 let timer = Timer.publish(every: 0.5, on: .main, in: .default).autoconnect()
 
@@ -285,10 +283,14 @@ struct EnterNameView: View {
 struct EnterNameView_Previews: PreviewProvider {
     static var previews: some View {
         
-       
+        ZStack{
+            let timer = Timer.publish(every: 0.5, on: .main, in: .default).autoconnect()
+            Background(timer: timer)//.opacity(0.80)
             EnterNameView().environmentObject(Account())
                 .preferredColorScheme(.dark)
                 //.environmentObject(NavigationModel())
+        }
+            
         
         
     }
