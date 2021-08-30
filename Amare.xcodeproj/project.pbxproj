@@ -24,6 +24,7 @@
 		263D6F982684012000CBBECC /* AccountErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263D6F972684012000CBBECC /* AccountErrors.swift */; };
 		263D6F9A2684087300CBBECC /* AmareUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263D6F992684087300CBBECC /* AmareUser.swift */; };
 		267CF36526D30C03006B73BE /* NatalChartViewAlpha.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267CF36426D30C03006B73BE /* NatalChartViewAlpha.swift */; };
+		268E542826DCEC6400E61F40 /* VerificationCodeView3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268E542726DCEC6400E61F40 /* VerificationCodeView3.swift */; };
 		268F26BF2680094A00FBEA7D /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268F26BE2680094A00FBEA7D /* Account.swift */; };
 		268F26C1268018EE00FBEA7D /* ForNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268F26C0268018EE00FBEA7D /* ForNavigation.swift */; };
 		2694935126D1D9C400C7AD72 /* NatalChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2694935026D1D9C400C7AD72 /* NatalChart.swift */; };
@@ -106,6 +107,7 @@
 		263D6F972684012000CBBECC /* AccountErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountErrors.swift; sourceTree = "<group>"; };
 		263D6F992684087300CBBECC /* AmareUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmareUser.swift; sourceTree = "<group>"; };
 		267CF36426D30C03006B73BE /* NatalChartViewAlpha.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NatalChartViewAlpha.swift; sourceTree = "<group>"; };
+		268E542726DCEC6400E61F40 /* VerificationCodeView3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationCodeView3.swift; sourceTree = "<group>"; };
 		268F26BE2680094A00FBEA7D /* Account.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		268F26C0268018EE00FBEA7D /* ForNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForNavigation.swift; sourceTree = "<group>"; };
 		2694935026D1D9C400C7AD72 /* NatalChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NatalChart.swift; sourceTree = "<group>"; };
@@ -207,6 +209,7 @@
 			isa = PBXGroup;
 			children = (
 				26B1AFD72678FFE500A170B3 /* EnterPhoneNumberView.swift */,
+				26EDBB8C26AA7CE2005C1033 /* VerificationCodeView2.swift */,
 			);
 			path = EarlierViewVersionsStillWorking;
 			sourceTree = "<group>";
@@ -357,7 +360,7 @@
 				26AB593526BDE44E00170192 /* ProbablyNotNeededButDeleteWithCaution */,
 				26B6079C26C021C900CE8491 /* SignInOrUpView.swift */,
 				26AF20E526CF458E00D99F36 /* EnterPhoneNumberView2.swift */,
-				26EDBB8C26AA7CE2005C1033 /* VerificationCodeView2.swift */,
+				268E542726DCEC6400E61F40 /* VerificationCodeView3.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -714,6 +717,7 @@
 				263D6F962683F77C00CBBECC /* Location.swift in Sources */,
 				26970699268101B0007E7961 /* SceneDelegate.swift in Sources */,
 				2694935426D1DAF300C7AD72 /* Planet.swift in Sources */,
+				268E542826DCEC6400E61F40 /* VerificationCodeView3.swift in Sources */,
 				2694935826D1DB4400C7AD72 /* Aspect.swift in Sources */,
 				2694935C26D1FEEF00C7AD72 /* ZodiacSign.swift in Sources */,
 				26B1AFD82678FFE500A170B3 /* EnterPhoneNumberView.swift in Sources */,

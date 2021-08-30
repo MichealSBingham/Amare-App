@@ -50,8 +50,7 @@ struct EnterPhoneNumberView2: View {
         
         ZStack{
             
-            let timer = Timer.publish(every: 0.5, on: .main, in: .default).autoconnect()
-            Background(timer: timer)//.opacity(0.80)
+           
             
            
 
@@ -60,9 +59,7 @@ struct EnterPhoneNumberView2: View {
                backButton()
                 
                 
-                
-                Spacer()
-                
+                                
                 EnterYour()
                 PhoneNumber()
                 StandardMessagingRatesMayApply().padding()
@@ -237,7 +234,7 @@ struct EnterPhoneNumberView2: View {
     func goToNextView()  {
       
         //guard shouldGoToNext else {return }
-        self.navigationStack.push(VerificationCodeView2().environmentObject(account))
+        self.navigationStack.push(VerificationCodeView3().environmentObject(account))
         
         
     }
@@ -336,9 +333,16 @@ struct EnterPhoneNumberView2: View {
 
 struct SignInOrUpView2_Previews: PreviewProvider {
     static var previews: some View {
-        EnterPhoneNumberView2().onAppear(perform: {
+        ZStack{
             
-        })
+            let timer = Timer.publish(every: 0.5, on: .main, in: .default).autoconnect()
+            Background(timer: timer)//.opacity(0.80)
+            
+            EnterPhoneNumberView2().onAppear(perform: {
+                
+            })
+        }
+       
     }
 }
 

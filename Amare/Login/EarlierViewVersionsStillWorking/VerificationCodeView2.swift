@@ -481,7 +481,7 @@ struct VerificationCodeView2_Previews: PreviewProvider {
     static var previews: some View {
         VerificationCodeView2()
           //  .environmentObject(NavigationModel())
-            //.environmentObject(Account())
+            .environmentObject(Account())
             
     }
 }
