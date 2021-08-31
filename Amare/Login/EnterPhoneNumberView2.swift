@@ -56,8 +56,12 @@ struct EnterPhoneNumberView2: View {
 
             VStack{
                 
-               backButton()
                 
+                    
+                    backButton()
+                    
+                
+                               
                 
                                 
                 EnterYour()
@@ -260,6 +264,7 @@ struct EnterPhoneNumberView2: View {
             
               
         }
+            
             Spacer()
             
         }
@@ -268,6 +273,63 @@ struct EnterPhoneNumberView2: View {
             
             
             
+    }
+    
+    /// Creates the logo for the view
+    func createLogo() -> some View {
+        
+        /// The molecule (center) part of the logo (image)
+         func moleculeImage() -> some View {
+            
+            return Image("branding/molecule")
+                 .resizable()
+                .scaledToFit()
+                .frame(width: 35, height: 29.5)
+               
+        }
+        
+        /// The ring part of the logo (Image)
+         func ringImage() -> some View {
+            
+            return Image("branding/ring")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 50, height: 50)
+            
+               
+        }
+        
+        ///The horizontal  part of the cross that's a part of the logo
+         func horizontalCrossImage() -> some View {
+            
+            return Image("branding/cross-h")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 30, height: 3)
+                .offset(y: 44)
+        }
+        
+        /// The verticle part of the cross that's a part of the logo
+         func verticleCrossImage() -> some View {
+            
+            return Image("branding/cross-v")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 3.5, height: 28)
+                .offset(x: 0, y: 38)  // was -8
+                
+                
+        }
+        
+        
+        return Group{
+            ZStack{ ringImage() ; moleculeImage()  }
+            ZStack{ verticleCrossImage() ; horizontalCrossImage() }
+        }
+            .offset(y: beginAnimation ? -15: 0 )
+            .animation(.easeInOut(duration: 2.25).repeatForever(autoreverses: true), value: beginAnimation)
+            .onAppear(perform: {  withAnimation{beginAnimation = true}})
+
     }
     
     

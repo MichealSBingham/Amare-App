@@ -76,6 +76,49 @@ struct SignInOrUpView: View {
     /// Creates the logo for the view
     func createLogo() -> some View {
         
+        /// The molecule (center) part of the logo (image)
+         func moleculeImage() -> some View {
+            
+            return Image("branding/molecule")
+                 .resizable()
+                .scaledToFit()
+                .frame(width: 70, height: 59)
+               
+        }
+        
+        /// The ring part of the logo (Image)
+         func ringImage() -> some View {
+            
+            return Image("branding/ring")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 100, height: 100)
+            
+               
+        }
+        
+        ///The horizontal  part of the cross that's a part of the logo
+         func horizontalCrossImage() -> some View {
+            
+            return Image("branding/cross-h")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 60, height: 6)
+        }
+        
+        /// The verticle part of the cross that's a part of the logo
+         func verticleCrossImage() -> some View {
+            
+            return Image("branding/cross-v")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 7, height: 56)
+                .offset(x: 0, y: -8)
+                
+                
+        }
+        
+        
         return Group{
             ZStack{ ringImage() ; moleculeImage()  }
             ZStack{ verticleCrossImage() ; horizontalCrossImage() }
@@ -138,47 +181,7 @@ struct SignInOrUpView: View {
                   
     }
     
-    /// The molecule (center) part of the logo (image)
-    private func moleculeImage() -> some View {
-        
-        return Image("branding/molecule")
-             .resizable()
-            .scaledToFit()
-            .frame(width: 70, height: 59)
-           
-    }
-    
-    /// The ring part of the logo (Image)
-    private func ringImage() -> some View {
-        
-        return Image("branding/ring")
-            .resizable()
-            .scaledToFit()
-            .frame(width: 100, height: 100)
-        
-           
-    }
-    
-    ///The horizontal  part of the cross that's a part of the logo
-    private func horizontalCrossImage() -> some View {
-        
-        return Image("branding/cross-h")
-            .resizable()
-            .scaledToFit()
-            .frame(width: 60, height: 6)
-    }
-    
-    /// The verticle part of the cross that's a part of the logo
-    private func verticleCrossImage() -> some View {
-        
-        return Image("branding/cross-v")
-            .resizable()
-            .scaledToFit()
-            .frame(width: 7, height: 56)
-            .offset(x: 0, y: -8)
-            
-            
-    }
+   
     
     /// Creates the sign in button for the view
     func createSignInButton() -> some View {

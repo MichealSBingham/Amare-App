@@ -29,7 +29,8 @@ struct EnterNameView: View {
     @State private var alertMessage: String  = ""
     
     @State private var beginAnimation: Bool = false
-    
+    @State private var beginAnimation2: Bool = false
+
     
     //@FocusState var isFocused: Bool
     enum FirstResponders: Int {
@@ -41,34 +42,39 @@ struct EnterNameView: View {
     var body: some View {
        
 
-            
         
-                    
-              //  let timer = Timer.publish(every: 0.5, on: .main, in: .default).autoconnect()
-
-                
             
                     
-                    
-                VStack(alignment: .leading){
+                VStack{
                         
-                    Spacer()
-                    
-                    HStack(alignment: .top){
+                
+                    ZStack{
                         
                         backButton()
-                        Spacer()
-                        title()
-                        Spacer()
-                        
-                    }.offset(y: -45)
+                        createLogo()
+                    }
                     
-                        Spacer()
+                    Spacer()
+                   
+                    title().padding()
+                    
+               
+                    
+                   Text("Enter your name below")
+                        .font(.system(size: 20))
+                        .foregroundColor(.white)
+                        .padding()
+                    
+               
                     
                     enterNameField().padding()
+                    nextButton()
+                    
+                    Spacer()
+                 
                         
-                        Spacer()
-                        Spacer()
+                    Spacer()
+                       
          
                         
                     }
@@ -90,7 +96,62 @@ struct EnterNameView: View {
             
 
     
-    
+    /// Creates the logo for the view
+    func createLogo() -> some View {
+        
+        /// The molecule (center) part of the logo (image)
+         func moleculeImage() -> some View {
+            
+            return Image("branding/molecule")
+                 .resizable()
+                .scaledToFit()
+                .frame(width: 35, height: 29.5)
+               
+        }
+        
+        /// The ring part of the logo (Image)
+         func ringImage() -> some View {
+            
+            return Image("branding/ring")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 50, height: 50)
+            
+               
+        }
+        
+        ///The horizontal  part of the cross that's a part of the logo
+         func horizontalCrossImage() -> some View {
+            
+            return Image("branding/cross-h")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 30, height: 3)
+                .offset(y: 44)
+        }
+        
+        /// The verticle part of the cross that's a part of the logo
+         func verticleCrossImage() -> some View {
+            
+            return Image("branding/cross-v")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 3.5, height: 28)
+                .offset(x: 0, y: 38)  // was -8
+                
+                
+        }
+        
+        
+        return Group{
+            ZStack{ ringImage() ; moleculeImage()  }
+            ZStack{ verticleCrossImage() ; horizontalCrossImage() }
+        }
+            .offset(y: beginAnimation ? 30: 0 )
+            .animation(.easeInOut(duration: 2.25).repeatForever(autoreverses: true), value: beginAnimation)
+            .onAppear(perform: {  withAnimation{beginAnimation = true}})
+
+    }
     
     func enterNameField() -> some View {
         
@@ -126,7 +187,7 @@ struct EnterNameView: View {
            
             
         })
-        .firstResponder(id: FirstResponders.name, firstResponder: $firstResponder)
+            .firstResponder(id: FirstResponders.name, firstResponder: $firstResponder, resignableUserOperations: .none)
         .font(.largeTitle)
        // .focused($isFocused)
       //  .onAppear { AmareApp().delay(0.10, completion: {isFocused=true}) }
@@ -134,17 +195,13 @@ struct EnterNameView: View {
 
     }
     
-    
-    
-    
     /// Title of the view text .
     func title() -> some View {
         
-        return Text("What is your name?")
-            .foregroundColor(.white)
-            .font(.largeTitle)
+        return Text("Who are you?")
             .bold()
-            .offset(x: -20)
+            .font(.system(size: 50))
+            .foregroundColor(.white)
     }
     
     /// Goes back to the login screen
@@ -156,9 +213,9 @@ struct EnterNameView: View {
             
             guard error == nil else { return }
             
-            AmareApp().dismissKeyboard {
+                firstResponder = nil
                 navigationStack.pop(to: .root)
-            }
+            
            
             return
         }
@@ -170,7 +227,7 @@ struct EnterNameView: View {
     /// Left Back Button
     func backButton() -> some View {
         
-       return Button {
+        return HStack { Button {
             
             goBack()
             
@@ -184,6 +241,71 @@ struct EnterNameView: View {
                 .offset(x: beginAnimation ? 7: 0, y: -10)
                 .animation(.easeInOut(duration: 1.3).repeatForever(autoreverses: true), value: beginAnimation)
                 .onAppear { withAnimation { beginAnimation = true } }
+                
+            
+              
+        };  Spacer(); }
+
+       
+            
+            
+            
+    }
+    
+    
+    /// Right Back Button
+    func nextButton() -> some View {
+        
+        return Button {
+            
+            
+                
+                guard !(name.isEmpty) else{
+                    
+                    // User entered an empty name
+                   
+                    return
+                }
+                
+             
+              
+                name = name.trimmingCharacters(in: .whitespacesAndNewlines)
+                
+                account.data = AmareUser(id: account.user?.uid ?? "", name: name)
+                
+                do{
+                    try account.save(completion: { error in
+                        guard error == nil else {
+                            return
+                        }
+                        firstResponder = nil
+                        goToNextView()
+                    })
+                } catch (let error){
+                    
+                    handle(error)
+                    return
+                }
+                
+               
+                
+            
+            
+        } label: {
+            
+             Image("RootView/right-arrow")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 33, height: 66)
+                .offset(x: beginAnimation2 ? 10: 0)
+                .animation(.easeInOut(duration: 1.3).repeatForever(autoreverses: true), value: beginAnimation2).onAppear {
+                    AmareApp().delay(0.5) {
+                        withAnimation {
+                            beginAnimation2 = true
+                        }
+                    }
+                }
+               
                 
             
               
