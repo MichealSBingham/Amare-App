@@ -10,6 +10,7 @@
 import SwiftUI
 import NavigationStack
 import MbSwiftUIFirstResponder
+import Combine
 
 
 public struct VerificationCodeView3: View {
@@ -51,7 +52,13 @@ public struct VerificationCodeView3: View {
     
     @State var phonenumber: String = ""
     
-   // @State var canResendCode
+    @State var canResendCode: Bool = true
+    
+    @State var secondsToWait: Int = 10
+    
+    @State var timerisrunning: Bool = false
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+
     
     
     public var body: some View {
@@ -75,7 +82,29 @@ public struct VerificationCodeView3: View {
                     backgroundField
                 }
                 showPinStack
-                resendCodeButton()
+                
+                ZStack{
+                    
+                    resendCodeButton()
+                    
+                    Text("Please Wait ... \(secondsToWait)")
+                        .foregroundColor(.white)
+                        .padding()
+                        .opacity(canResendCode ? 0: 1)
+                        .onReceive(timer, perform: { _ in
+                            guard timerisrunning else {return}
+                            secondsToWait -= 1
+                            if secondsToWait == 0 {
+                                canResendCode = true
+                                stopCountdown()
+                                secondsToWait = 10
+                            }
+                        })
+                    
+                        
+                        
+                }
+                
                 
                 Spacer()
             }
@@ -240,6 +269,8 @@ public struct VerificationCodeView3: View {
     func resendCodeButton() -> some View {
         return Button {
             
+            canResendCode = false
+            startCountdown()
             alertMessage = ""
 
             withAnimation {resendCodeAnimation.toggle()}
@@ -271,7 +302,8 @@ public struct VerificationCodeView3: View {
                     .animation(.easeInOut(duration: 1), value: resendCodeAnimation)
                     .offset(x: -14)
                     
-            }
+            }.opacity(canResendCode ? 1: 0)
+             .disabled(!canResendCode)
         }
     }
     
@@ -415,6 +447,16 @@ public struct VerificationCodeView3: View {
             navigationStack.push(MainView().environmentObject(account), withId: MainView.id)
         
        
+    }
+    
+    /// Starts the countdown from 10 seconds before user can resend code again
+    func startCountdown() {
+        
+        timerisrunning = true
+    }
+    
+    func stopCountdown(){
+        timerisrunning = false 
     }
 }
 
