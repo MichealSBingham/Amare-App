@@ -44,7 +44,7 @@ struct EnterNameView: View {
             
         
                     
-                let timer = Timer.publish(every: 0.5, on: .main, in: .default).autoconnect()
+              //  let timer = Timer.publish(every: 0.5, on: .main, in: .default).autoconnect()
 
                 
             
@@ -73,8 +73,8 @@ struct EnterNameView: View {
                         
                     }
                 .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
-                .onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; timer.upstream.connect().cancel()}
-                .onAppear { settings.viewType = .EnterNameView }
+                //.onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; timer.upstream.connect().cancel()}
+                .onAppear { withAnimation {beginAnimation = true} ; settings.viewType = .EnterNameView }
 
                 
                         

@@ -90,8 +90,9 @@ struct NavigationBarModifier: ViewModifier {
 }
 
 
-
+//TODO: fix `isDoneWithSignUp`
 /// Checks if the user finished the sign up process .
+/// Does not work as expected //TODO:
 func isDoneWithSignUp() -> Bool {
    
     switch Settings.shared.viewType{

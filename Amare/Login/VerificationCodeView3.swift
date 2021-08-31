@@ -33,7 +33,8 @@ public struct VerificationCodeView3: View {
     @State var showPin = false
     @State var isDisabled = false
     
-    @State var beginAnimation = false 
+    @State var beginAnimation = false
+    @State var resendCodeAnimation = false
     
     
     enum FirstResponders: Int {
@@ -50,7 +51,8 @@ public struct VerificationCodeView3: View {
     
     @State var phonenumber: String = ""
     
-  //  var handler: (String, (Bool) -> Void) -> Void
+   // @State var canResendCode
+    
     
     public var body: some View {
         ZStack {
@@ -73,6 +75,7 @@ public struct VerificationCodeView3: View {
                     backgroundField
                 }
                 showPinStack
+                resendCodeButton()
                 
                 Spacer()
             }
@@ -92,12 +95,14 @@ public struct VerificationCodeView3: View {
             if let num = output.object as? String {
                 
                 phonenumber = num
+                
             }
             
         }
         
         
     }
+    
     
     private var pinDots: some View {
         HStack {
@@ -205,7 +210,6 @@ public struct VerificationCodeView3: View {
         return "circle.fill"
     }
     
-    
     func EnterTheCode() -> some View  {
         return Text("Enter the Code")
             .bold()
@@ -222,7 +226,6 @@ public struct VerificationCodeView3: View {
             
     }
     
-    
     func lineoftext() -> some View {
         
         let number = phonenumber.applyPatternOnNumbers(pattern: "+ # (###) ###-####", replacementCharacter: "#")
@@ -231,6 +234,45 @@ public struct VerificationCodeView3: View {
             .foregroundColor(.white)
             .padding()
             .multilineTextAlignment(.center)
+    }
+    
+    /// Button for resending verification code
+    func resendCodeButton() -> some View {
+        return Button {
+            
+            alertMessage = ""
+
+            withAnimation {resendCodeAnimation.toggle()}
+            
+            guard  !(phonenumber.isEmpty) else {
+                // Some error happened
+                someErrorOccured = true
+                alertMessage = "Please enter a phone number"
+                return
+            }
+            
+            Account().sendVerificationCode(to: phonenumber) { error in
+                guard error == nil else {
+                    handle(error!)
+                    return
+                }
+            }
+            
+        } label: {
+            
+            HStack{
+                Text("Resend Code").padding()
+                    .foregroundColor(.white)
+                Image(systemName: "arrow.clockwise")
+                    //.resizable()
+                    .foregroundColor(.white)
+                    .scaledToFit()
+                    .rotationEffect(.degrees( (!resendCodeAnimation) ? 0: 360*3))
+                    .animation(.easeInOut(duration: 1), value: resendCodeAnimation)
+                    .offset(x: -14)
+                    
+            }
+        }
     }
     
     func backButton() -> some View {
@@ -263,7 +305,6 @@ public struct VerificationCodeView3: View {
             
     }
     
-    
     /// Goes back to the login screen
     func goBack()   {
         
@@ -275,7 +316,6 @@ public struct VerificationCodeView3: View {
     
         
     }
-    
     
     func handle(_ error: Error)  {
         
