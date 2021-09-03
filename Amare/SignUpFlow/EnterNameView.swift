@@ -241,7 +241,6 @@ struct EnterNameView: View {
                 .offset(x: beginAnimation ? 7: 0, y: -10)
                 .animation(.easeInOut(duration: 1.3).repeatForever(autoreverses: true), value: beginAnimation)
                 .onAppear { withAnimation { beginAnimation = true } }
-                
             
               
         };  Spacer(); }

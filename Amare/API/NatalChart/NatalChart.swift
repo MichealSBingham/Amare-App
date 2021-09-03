@@ -44,7 +44,7 @@ enum Sex: String, Codable  {
         case .transmale:
             return  "transmale"
         case .non_binary:
-            return "non_binary"
+            return "non binary"
         }
     }
 

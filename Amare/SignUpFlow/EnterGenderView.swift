@@ -37,44 +37,47 @@ struct EnterGenderView: View {
         
     
             
-            
-                
-                let timer = Timer.publish(every: 0.5, on: .main, in: .default).autoconnect()
 
              
                     
             
-                VStack(alignment: .leading){
+                VStack{
                     
-                    Spacer()
-                    
-                    HStack(alignment: .top){
+                    ZStack{
                         
                         backButton()
-                        Spacer()
-                        title()
-                        Spacer()
-                    }.offset(y: -45)
+                        
+                        createLogo()
+                    }
                     
                     Spacer()
                     
+                    title().padding()
+                    
+                    Text("What do you identify as?")
+                        // .bold()
+                        .font(.system(size: 20))
+                        .foregroundColor(.white)
+                    
+                    Spacer()
+            
                     HStack(alignment: .center){
                         
-                        MakeManButton().padding()
+                        MakeManButton().padding(.leading)
                         Spacer()
-                        MakeWomanButton().padding()
+                        MakeWomanButton()//.padding()
                         Spacer()
-                        MakeOtherButton().padding()
+                        MakeOtherButton().padding(.trailing)
                         
                         
                     }
                     
                     Spacer()
+                    
                     Spacer()
                  
                     
                 }.alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
-                .onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; timer.upstream.connect().cancel()}
                 .alert(isPresented: $showTodoMessage) {
                     Alert(title: Text("TODO: Allow more genders"), message: Text("This is not finished yet, but it will allow you to select additional genders"))
                 }
@@ -123,6 +126,8 @@ struct EnterGenderView: View {
                         .scaledToFit()
                         .frame(width: 100, height: 100)
                         .opacity(0.2)
+                     
+                        
                     
                     Image("EnterGenderView/mars")
                         .resizable()
@@ -160,6 +165,7 @@ struct EnterGenderView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: 100, height: 100)
+                      
                         //.opacity(0.2)
                     
                     Image("EnterGenderView/venus")
@@ -202,6 +208,7 @@ struct EnterGenderView: View {
                         .scaledToFit()
                         .frame(width: 100, height: 100)
                         .opacity(0.2)
+                      
                     
                     Text("...")
                         .foregroundColor(.white)
@@ -223,7 +230,62 @@ struct EnterGenderView: View {
 
 
 
-    // ======================================================================================
+    /// Creates the logo for the view
+    func createLogo() -> some View {
+        
+        /// The molecule (center) part of the logo (image)
+         func moleculeImage() -> some View {
+            
+            return Image("branding/molecule")
+                 .resizable()
+                .scaledToFit()
+                .frame(width: 35, height: 29.5)
+               
+        }
+        
+        /// The ring part of the logo (Image)
+         func ringImage() -> some View {
+            
+            return Image("branding/ring")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 50, height: 50)
+            
+               
+        }
+        
+        ///The horizontal  part of the cross that's a part of the logo
+         func horizontalCrossImage() -> some View {
+            
+            return Image("branding/cross-h")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 30, height: 3)
+                .offset(y: 44)
+        }
+        
+        /// The verticle part of the cross that's a part of the logo
+         func verticleCrossImage() -> some View {
+            
+            return Image("branding/cross-v")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 3.5, height: 28)
+                .offset(x: 0, y: 38)  // was -8
+                
+                
+        }
+        
+        
+        return Group{
+            ZStack{ ringImage() ; moleculeImage()  }
+            ZStack{ verticleCrossImage() ; horizontalCrossImage() }
+        }
+            .offset(y: beginAnimation ? 30: 0 )
+            .animation(.easeInOut(duration: 2.25).repeatForever(autoreverses: true), value: beginAnimation)
+            .onAppear(perform: {  withAnimation{beginAnimation = true}})
+
+    }
 
 
 
@@ -265,11 +327,12 @@ struct EnterGenderView: View {
     /// Title of the view text .
     func title() -> some View {
         
-        return Text("I am a ...")
-            .foregroundColor(.white)
-            .font(.largeTitle)
+        let name = account.data?.name?.components(separatedBy: " ").first ?? "No Name"
+        
+        return Text("Hey \(name).")
             .bold()
-            .offset(x: -40)
+            .font(.system(size: 50))
+            .foregroundColor(.white)
     }
     
     /// Goes back to the login screen
@@ -281,7 +344,7 @@ struct EnterGenderView: View {
     /// Left Back Button
     func backButton() -> some View {
         
-       return Button {
+        return HStack { Button {
             
             goBack()
             
@@ -292,13 +355,13 @@ struct EnterGenderView: View {
                 .scaledToFit()
                 .rotationEffect(.degrees(180))
                 .frame(width: 33, height: 66)
-                .offset(x: beginAnimation ? 7: 0, y: -10)
+                .offset(x: beginAnimation ? 15: 0, y: -10)
                 .animation(.easeInOut(duration: 1.3).repeatForever(autoreverses: true), value: beginAnimation)
                 .onAppear { withAnimation { beginAnimation = true } }
-                
+                //.padding()
             
               
-        }
+        }; Spacer(); }
 
        
             
@@ -395,8 +458,11 @@ struct EnterGenderView: View {
 struct EnterGenderView_Previews: PreviewProvider {
     static var previews: some View {
         
-
+        ZStack{
+            Background()
             EnterGenderView().environmentObject(Account())
+        }
+           
                 //.environmentObject(NavigationModel())
     
        
