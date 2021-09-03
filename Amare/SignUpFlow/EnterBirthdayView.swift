@@ -36,46 +36,50 @@ struct EnterBirthdayView: View {
     
     @State private var didTapNext: Bool = false
     
+    @State private var knowsBirthTime = false
+
+    
     var body: some View {
         
-     
-            
-       
-            
-         
-                    
-                    
-                    
-                let timer = Timer.publish(every: 0.5, on: .main, in: .default).autoconnect()
-            
-                
-                    
                     
                     VStack{
                         
-                        HStack(alignment: .top){
+                        
+                        ZStack{
                             
                             backButton()
-                            title()
-                            Spacer()
-                        }.offset(y: 45)
+                            createLogo()
+                        }
                         
-                        Spacer()
+                     
+                
+                        
+                      //  Spacer()
+                        
+                        title().padding()
+                        
+                        Text("It is *very* important that you enter this correctly with your birth time.")
+                            .font(.system(size: 20))
+                            .foregroundColor(.white)
+                            .padding()
+                        
+                        Toggle("I know my birth time", isOn: $knowsBirthTime).padding()
+                        
                         
                         DatePicker(selection: $date, in :...Date().dateFor(years: -13) , displayedComponents: [.date, .hourAndMinute], label: { Text("Birthday") }).environment(\.timeZone, self.timezone!)
+                            .padding()
                     
                         
                     
                         Spacer()
                         
                         nextButton()
-                        Spacer()
-                        Spacer()
-                        Spacer()
+                        
+                     
+                      
 
                     }
                     .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
-                    .onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; timer.upstream.connect().cancel()}
                     .alert(isPresented: $didTapNext) {
                        
                         
@@ -111,6 +115,7 @@ struct EnterBirthdayView: View {
         
         
         account.data?.birthday = bday
+        account.data?.known_time = knowsBirthTime
         
         do {
             
@@ -135,9 +140,9 @@ struct EnterBirthdayView: View {
         
         return Text("When is your birthday?")
             .foregroundColor(.white)
-            .font(.largeTitle)
             .bold()
-            .offset(x: 12)
+            .font(.system(size: 50))
+            
     }
     
     /// Goes back to the login screen
@@ -149,7 +154,7 @@ struct EnterBirthdayView: View {
     /// Left Back Button
     func backButton() -> some View {
         
-       return Button {
+        return HStack { Button {
             
             goBack()
             
@@ -166,7 +171,7 @@ struct EnterBirthdayView: View {
                 
             
               
-        }
+        }; Spacer(); }
 
        
             
@@ -281,7 +286,62 @@ struct EnterBirthdayView: View {
     }
 
     
+    /// Creates the logo for the view
+    func createLogo() -> some View {
+        
+        /// The molecule (center) part of the logo (image)
+         func moleculeImage() -> some View {
+            
+            return Image("branding/molecule")
+                 .resizable()
+                .scaledToFit()
+                .frame(width: 35, height: 29.5)
+               
+        }
+        
+        /// The ring part of the logo (Image)
+         func ringImage() -> some View {
+            
+            return Image("branding/ring")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 50, height: 50)
+            
+               
+        }
+        
+        ///The horizontal  part of the cross that's a part of the logo
+         func horizontalCrossImage() -> some View {
+            
+            return Image("branding/cross-h")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 30, height: 3)
+                .offset(y: 44)
+        }
+        
+        /// The verticle part of the cross that's a part of the logo
+         func verticleCrossImage() -> some View {
+            
+            return Image("branding/cross-v")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 3.5, height: 28)
+                .offset(x: 0, y: 38)  // was -8
+                
+                
+        }
+        
+        
+        return Group{
+            ZStack{ ringImage() ; moleculeImage()  }
+            ZStack{ verticleCrossImage() ; horizontalCrossImage() }
+        }
+            .offset(y: beginAnimation ? 30: 0 )
+            .animation(.easeInOut(duration: 2.25).repeatForever(autoreverses: true), value: beginAnimation)
+            .onAppear(perform: {  withAnimation{beginAnimation = true}})
 
+    }
     
     
     
@@ -293,9 +353,14 @@ struct EnterBirthdayView_Previews: PreviewProvider {
     
     static var previews: some View {
       
+        ZStack{
+            
+           Background()
             EnterBirthdayView(timezone: TimeZone.current).environmentObject(Account())
                 //.environmentObject(NavigationModel())
                 .preferredColorScheme(.dark)
+        }
+           
         
         
     }
