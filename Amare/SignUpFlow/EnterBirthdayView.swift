@@ -56,7 +56,7 @@ struct EnterBirthdayView: View {
                         
                       //  Spacer()
                         
-                        title().padding()
+                        title().padding(.top, 55)
                         
                         Text("It is *very* important that you enter this correctly with your birth time.")
                             .font(.system(size: 20))
