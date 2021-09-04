@@ -178,6 +178,7 @@ struct EnterOrientationView: View {
                         .frame(width: 100, height: 100)
                         .opacity(0.2)
                         
+                        
                     
                     Image("EnterGenderView/mars")
                         .resizable()
@@ -196,7 +197,7 @@ struct EnterOrientationView: View {
             
             
             
-        }.opacity(likesMen ? 0.3 : 1)
+        }.opacity(!likesMen ? 0.3 : 1)
             
 
     }
@@ -234,7 +235,7 @@ struct EnterOrientationView: View {
             }
             
                         
-        }.opacity(likesWomen ? 0.2: 1)
+        }.opacity(!likesWomen ? 0.2: 1)
        
     }
 
@@ -412,11 +413,7 @@ struct EnterOrientationView: View {
             
         } label: {
             
-         //   Spacer()
-            
-          //  Text("Next")
-            //    .foregroundColor(.white)
-                //   .font(.system(size: 23))
+       
                 
             
             Image("RootView/right-arrow")
@@ -427,7 +424,7 @@ struct EnterOrientationView: View {
                .animation(.easeInOut(duration: 1.3).repeatForever(autoreverses: true), value: beginAnimation)
                .onAppear { withAnimation { beginAnimation = true } }
             
-            //Spacer()
+            
             
                
         }.opacity( (likesMen == false  && likesWomen == false ) ? 0.5 : 1.0 )
