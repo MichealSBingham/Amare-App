@@ -59,14 +59,28 @@ public struct VerificationCodeView3: View {
     @State var timerisrunning: Bool = false
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
-    
+    @State private var isLoading: Bool = true
+    @State private var buttonDisabled: Bool = false
     
     public var body: some View {
         ZStack {
             
             Background()
-                .opacity(phonenumber.isEmpty ? 1: 0)
+                .opacity(isLoading ? 1: 0)
                 .animation(.linear, value: phonenumber)
+            
+            ProgressView("Please wait...")
+                .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                .opacity(isLoading ? 1: 0)
+                .foregroundColor(.white)
+                .onReceive(Just(phonenumber)) { _ in
+                    
+                    if !phonenumber.isEmpty{
+                        AmareApp().delay(2) {
+                            isLoading = false
+                        }
+                    }
+                }
             
             VStack {
                 
@@ -116,7 +130,7 @@ public struct VerificationCodeView3: View {
          goBack()
   }
         }
-        .brightness(phonenumber.isEmpty ? -0.5 : 1)
+        .brightness(isLoading ? -0.5 : 1)
         .animation(.linear, value: phonenumber)
         .onReceive(NotificationCenter.default.publisher(for: NSNotification.verificationCodeSent)) { output in
                 
@@ -259,10 +273,11 @@ public struct VerificationCodeView3: View {
         
         let number = phonenumber.applyPatternOnNumbers(pattern: "+ # (###) ###-####", replacementCharacter: "#")
         
-        return Text("We sent you an SMS with a code to the number\n \(number)")
+        return Text("We sent you an SMS with a code to\n\(number)")
             .foregroundColor(.white)
             .padding()
             .multilineTextAlignment(.center)
+            .opacity(isLoading ? 0: 1)
     }
     
     /// Button for resending verification code
@@ -310,7 +325,7 @@ public struct VerificationCodeView3: View {
     func backButton() -> some View {
         
         return HStack{ Button {
-            
+            buttonDisabled = true
             goBack()
             
         } label: {
@@ -327,6 +342,7 @@ public struct VerificationCodeView3: View {
             
               
         }
+        .disabled(buttonDisabled)
             Spacer()
             
         }
