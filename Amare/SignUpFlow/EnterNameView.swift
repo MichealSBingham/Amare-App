@@ -30,6 +30,8 @@ struct EnterNameView: View {
     
     @State private var beginAnimation: Bool = false
     @State private var beginAnimation2: Bool = false
+    
+    @State private var buttonIsDisabled: Bool = false
 
     
     //@FocusState var isFocused: Bool
@@ -157,10 +159,15 @@ struct EnterNameView: View {
         
         return    TextField("Micheal S. Bingham", text: $name, onCommit:  {
             
+            guard !buttonIsDisabled else {
+                return
+            }
+            
+            buttonIsDisabled = true
             guard !(name.isEmpty) else{
                 
                 // User entered an empty name
-               
+               buttonIsDisabled = false
                 return
             }
             
@@ -173,13 +180,14 @@ struct EnterNameView: View {
             do{
                 try account.save(completion: { error in
                     guard error == nil else {
+                        buttonIsDisabled = false
                         return
                     }
                     firstResponder = nil 
                     goToNextView()
                 })
             } catch (let error){
-                
+                buttonIsDisabled = false
                 handle(error)
                 return
             }
@@ -228,7 +236,7 @@ struct EnterNameView: View {
     func backButton() -> some View {
         
         return HStack { Button {
-            
+            buttonIsDisabled = true
             goBack()
             
         } label: {
@@ -243,7 +251,10 @@ struct EnterNameView: View {
                 .onAppear { withAnimation { beginAnimation = true } }
             
               
-        };  Spacer(); }
+        }.disabled(buttonIsDisabled)
+            Spacer()
+            
+        }
 
        
             
@@ -257,12 +268,12 @@ struct EnterNameView: View {
         
         return Button {
             
-            
+            buttonIsDisabled = true
                 
                 guard !(name.isEmpty) else{
                     
                     // User entered an empty name
-                   
+                   buttonIsDisabled = false
                     return
                 }
                 
@@ -275,13 +286,14 @@ struct EnterNameView: View {
                 do{
                     try account.save(completion: { error in
                         guard error == nil else {
+                            buttonIsDisabled = false
                             return
                         }
                         firstResponder = nil
                         goToNextView()
                     })
                 } catch (let error){
-                    
+                    buttonIsDisabled = false
                     handle(error)
                     return
                 }
@@ -308,7 +320,7 @@ struct EnterNameView: View {
                 
             
               
-        }
+        }.disabled(buttonIsDisabled)
 
        
             
