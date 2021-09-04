@@ -25,7 +25,7 @@ struct RootView: View {
             let timer = Timer.publish(every: 0.5, on: .main, in: .default).autoconnect()
             Background(timer: timer)
             
-            NavigationStackView(transitionType: .custom(.scale), easing: .easeIn(duration: 0.5)){
+            NavigationStackView(transitionType: .custom(.opacity), easing: .easeInOut(duration: 0.8)){
                 
                
                 if account.isSignedIn{

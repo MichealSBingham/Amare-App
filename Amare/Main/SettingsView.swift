@@ -26,8 +26,11 @@ struct SettingsView: View {
             Spacer()
             
             Button("Sign Out") {
-                account.signOut { error in }
-            }
+                account.signOut { error in goBackToSignInRootView() }
+            }/*.onReceive(NotificationCenter.default.publisher(for: NSNotification.logout)) { _ in
+            
+                goBackToSignInRootView()
+            }*/
             
             Spacer()
             

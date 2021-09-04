@@ -31,6 +31,7 @@ struct EnterGenderView: View {
     
     @State private var showTodoMessage: Bool = false
     
+    @State private var buttonIsDisabled: Bool = false
     
     
     var body: some View {
@@ -110,7 +111,7 @@ struct EnterGenderView: View {
       
         
         return Button {
-            
+            buttonIsDisabled = true
             SelectGenderAction(gender: .male)
             
         } label: {
@@ -144,7 +145,7 @@ struct EnterGenderView: View {
             
             
             
-        }
+        }.disabled(buttonIsDisabled)
             
 
     }
@@ -152,7 +153,7 @@ struct EnterGenderView: View {
     func MakeWomanButton() -> some View {
         
         return Button {
-            
+            buttonIsDisabled = true
             SelectGenderAction(gender: .female)
             
         } label: {
@@ -183,7 +184,7 @@ struct EnterGenderView: View {
             }
             
                         
-        }
+        }.disabled(buttonIsDisabled)
        
     }
 
@@ -300,6 +301,7 @@ struct EnterGenderView: View {
             
             try account.save(completion: { error in
                 guard error == nil else{
+                    buttonIsDisabled = false
                     return 
                 }
                 goToNextView()
@@ -310,7 +312,7 @@ struct EnterGenderView: View {
             // Handle Error //
             
             
-            
+            buttonIsDisabled = false 
             handle(error)
             
             // Handle Error //
@@ -345,7 +347,7 @@ struct EnterGenderView: View {
     func backButton() -> some View {
         
         return HStack { Button {
-            
+            buttonIsDisabled = true
             goBack()
             
         } label: {
@@ -361,7 +363,10 @@ struct EnterGenderView: View {
                 //.padding()
             
               
-        }; Spacer(); }
+        }.disabled(buttonIsDisabled)
+            Spacer()
+            
+        }
 
        
             
