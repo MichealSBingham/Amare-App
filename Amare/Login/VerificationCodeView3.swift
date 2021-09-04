@@ -41,7 +41,7 @@ public struct VerificationCodeView3: View {
     enum FirstResponders: Int {
             case verificationCodeField
         }
-    @State var firstResponder: FirstResponders? = .verificationCodeField
+    @State var firstResponder: FirstResponders?// = .verificationCodeField
     
     @State var someErrorOccured: Bool = false
     @State var alertMessage: String = ""
@@ -78,6 +78,7 @@ public struct VerificationCodeView3: View {
                     if !phonenumber.isEmpty{
                         AmareApp().delay(2) {
                             isLoading = false
+                            firstResponder = .verificationCodeField
                         }
                     }
                 }
@@ -86,8 +87,8 @@ public struct VerificationCodeView3: View {
                 
                 backButton()
         
-                EnterTheCode()
-                SentToYourPhone()
+                EnterTheCode()//.opacity(isLoading ? 0: 1)
+                SentToYourPhone()//.opacity(isLoading ? 0: 1)
                 Spacer()
                 lineoftext()
                 Spacer()
@@ -157,7 +158,7 @@ public struct VerificationCodeView3: View {
                     .modifier(ShakeEffect(shakes: attempts*2)).animation(Animation.default, value: attempts)
                 Spacer()
             }
-        }
+        }.opacity(isLoading ? 0: 1)
     }
     
     private var backgroundField: some View {
@@ -171,7 +172,8 @@ public struct VerificationCodeView3: View {
            .accentColor(.clear)
            .foregroundColor(.clear)
            .keyboardType(.numberPad)
-           .disabled(isDisabled)
+           .disabled(isLoading)
+           .opacity(isLoading ? 0: 1)
           
            
     }
@@ -185,6 +187,7 @@ public struct VerificationCodeView3: View {
         }
         .frame(height: 50)
         .padding([.trailing])
+        .opacity(isLoading ? 0: 1)
     }
     
     private var showPinButton: some View {
@@ -319,6 +322,7 @@ public struct VerificationCodeView3: View {
                     
             }.opacity(canResendCode ? 1: 0)
              .disabled(!canResendCode)
+             .opacity(isLoading ? 0: 1)
         }
     }
     
