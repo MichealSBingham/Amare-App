@@ -42,10 +42,12 @@ struct EnterOrientationView: View {
     
     @State private var userSelectedSomething: Bool = false
     
+    @State private var buttonIsDisabled: Bool = false
+    
     
 
     
-    @State private var allattractedto: String = "What all are you attracted to?"
+    @State private var allattractedto: String = "Select all that you are attracted to"
     
     var body: some View {
         
@@ -124,7 +126,7 @@ struct EnterOrientationView: View {
                     Spacer()
                     Spacer()
                  
-                   nextButton()
+                    nextButton()
 
                 } .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
         
@@ -330,7 +332,7 @@ struct EnterOrientationView: View {
     func backButton() -> some View {
         
         return HStack { Button {
-            
+            buttonIsDisabled = true
             goBack()
             
         } label: {
@@ -346,7 +348,10 @@ struct EnterOrientationView: View {
                 
             
               
-        }; Spacer();  }
+        }.disabled(buttonIsDisabled)
+            Spacer()
+            
+        }
 
        
             
@@ -370,11 +375,12 @@ struct EnterOrientationView: View {
     
     func nextButton() -> some View {
         
-        return  Button {
+        return   Button {
             // Goes to next screen
-            
+            buttonIsDisabled = true
             guard likesMen == true || likesWomen == true else {
                 //user needs to tap at least one before going to next screen
+                buttonIsDisabled = false
                 return
             }
             
@@ -392,24 +398,25 @@ struct EnterOrientationView: View {
                 try account.save(completion: { error in
                     
                     guard error == nil else {
+                        buttonIsDisabled = false
                         return
                     }
                     goToNextView()
                 })
                 
             } catch (let error) {
-                
+                buttonIsDisabled = false
                     handle(error)
             }
             
             
         } label: {
             
-            Spacer()
+         //   Spacer()
             
-            Text("Next")
-                .foregroundColor(.white)
-                .font(.system(size: 23))
+          //  Text("Next")
+            //    .foregroundColor(.white)
+                //   .font(.system(size: 23))
                 
             
             Image("RootView/right-arrow")
@@ -420,10 +427,11 @@ struct EnterOrientationView: View {
                .animation(.easeInOut(duration: 1.3).repeatForever(autoreverses: true), value: beginAnimation)
                .onAppear { withAnimation { beginAnimation = true } }
             
-            Spacer()
+            //Spacer()
             
                
         }.opacity( (likesMen == false  && likesWomen == false ) ? 0.5 : 1.0 )
+        .disabled(buttonIsDisabled)
     }
 
 
