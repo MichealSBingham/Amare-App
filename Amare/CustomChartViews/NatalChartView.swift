@@ -77,8 +77,9 @@ struct NatalChartView: View {
                                     
                                     let pointToPlace = polar(x_center: Double(x_center), y_center: Double(y_center), r: Double(r_prime), theta: phi)
                                     
-                                    // SHould be the zodiac sign of the index+1 of the zodiac sign 
-                                    Text("\(n2)")
+                                    let sign = ZODIAC_SIGNS[n2-1]
+                                    
+                                    sign.image()
                                         .position(x: pointToPlace.x, y: pointToPlace.y)
                                     
                                     
