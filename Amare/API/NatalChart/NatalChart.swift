@@ -12,7 +12,7 @@ public struct NatalChart: Codable {
     
     /// An array of the 4 angles (Midheaven, Ascendant, Descendant, IC)
     var angles: [Angle]
-    //let aspects: [Aspect] =
+    let aspects: [Aspect] 
     var birth_place: Place
     var birthday: String
    // let houses: [House]? = nil

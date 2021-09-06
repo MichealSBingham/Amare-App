@@ -161,6 +161,7 @@ struct NatalChartView: View {
                                 // Draws the Planets (Sun, Moon, etc..)
                                 
                                 let planets = natalChart?.planets ?? []
+                                
                                 ForEach(planets){ planet in
                                     
                                     let sign = planet.sign
@@ -169,7 +170,7 @@ struct NatalChartView: View {
                                     /// Angle relative to aries 0 deg
                                     let relative_deg = deg + sign.beginsAt()
                                     
-                                  
+                            
                                     
                                     // tick to put where the planet is
                                     Tick(x_center: Double(x_center), y_center: Double(y_center), radius_of_ticks: Double(radius_of_ticks), theta: relative_deg)
@@ -184,6 +185,8 @@ struct NatalChartView: View {
                                         .colorInvert()
                                         .rotationEffect(.degrees(-alpha))
                                         .position(pos)
+                                    
+                                    
                                         
                                         
                                 }
