@@ -284,8 +284,8 @@ struct Make: AnimatableModifier{
             return NatalChartView(alpha: -1*rotation_offset, natalChart: with)
                 //.rotate(degrees: rotation_offset )
         }
-        
-        return NatalChartView( natalChart: with)
+        /// - WARNING: setting alpha to -180 by default here will cancel spin annimation on initalization if ascendant is not given 
+        return NatalChartView( alpha: -180, natalChart: with)
         
     }
 }

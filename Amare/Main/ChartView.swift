@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 struct ChartView: View {
     @EnvironmentObject private var account: Account
@@ -20,58 +21,24 @@ struct ChartView: View {
     
     var body: some View {
         
-        ZStack {
-            //Background()
-            VStack{
-                Text("Deg: \(deg) Spacing: \(space) Radius: \(radius)").opacity(0)
-                
-                
-                ZStack{
+        
+        
+        ZStack{
+            
+            Background()
+            NatalChartView()
+                .make(with: chart)
+                .animation(.easeIn(duration: 3))
+                .onReceive(Just(account), perform: { _ in
                     
-                    VStack{
+                    AmareApp().delay(1) {
                         
-                        Button("Get User Data w/ Animation") {
-                            
-                            
-                            withAnimation(Animation.easeInOut(duration: 3)) {
-                                chart = account.data?.natal_chart
-                            }
-                            
-                        }
-                        Spacer()
-                        
-                        Button("Get User Data") {
-                            
-                            chart = account.data?.natal_chart
-                        }
-                        
-                      
+                        chart = account.data?.natal_chart
                     }
                     
-                        
-                  
-                    NatalChartView()
-                        .make(with: chart)
-                        //.radius(radius: radius)
-                       // .frameSpacing(distance: space)
-                     //   .rotate(degrees: deg)
-                        .padding()
-                       
-                       
-                      
-                    
-                        
-                        
-                          
-                    
-                    
-                    
-                    
-                }
-            }
+                })
+                .padding()
         }
-        
-      
         
         
     }
