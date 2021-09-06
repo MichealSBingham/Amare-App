@@ -10,10 +10,10 @@ import SwiftUI
 struct NatalChartView: View {
     
     /// Radius of the outer circle or frame size.
-    let R: Double  = 0
+    var R: CGFloat  = .infinity
     
     /// Distance between outer and inner circles . (R - r = d) --> r = R - d or
-    let d: Double = 45
+    var d: Double = 45
     
     /// Wheel rotation , if > 0 clockwise rotation, otherwise counterclockwise rotation . Used for helping rotate natal chart
     var alpha: Double = 0
@@ -26,7 +26,7 @@ struct NatalChartView: View {
                     // Outer Wheel
                         Circle()
                             .stroke()
-                            .frame(width: (R > 0) ? CGFloat(2*R): .infinity, height: (R > 0) ? CGFloat(2*R): .infinity)
+                            .frame(width: (R != .infinity) ? CGFloat(2*R): .infinity, height: (R != .infinity) ? CGFloat(2*R): .infinity)
                            
                     
                     GeometryReader{ outerCircleGeometry in
@@ -115,7 +115,7 @@ struct NatalChartView: View {
                         
                     
                     
-                }.frame(width: (R > 0) ? CGFloat(2*R): .infinity, height: (R > 0) ? CGFloat(2*R): .infinity)
+                }.frame(width: (R != .infinity) ? CGFloat(2*R): .infinity, height: (R != .infinity) ? CGFloat(2*R): .infinity)
                 .rotationEffect(.degrees(alpha))
                
             
@@ -185,8 +185,9 @@ struct SignCuspLineView: View {
     }
 }
 
+/// Rotates the zodiac wheel
 struct Rotate: AnimatableModifier {
-    
+    /// Degrees clockwise to rotate the wheel. Negative angle -> counter clockwise.
     var degrees: Double = 0
     
     var animatableData: Double {
@@ -200,9 +201,50 @@ struct Rotate: AnimatableModifier {
     
 }
 
-extension NatalChartView{
+/// Adjusts the spacing of the outer frame
+struct FrameSpacing: AnimatableModifier {
+    
+    var distance: Double = 45
+    
+    var animatableData: Double {
+            get     { distance }
+            set { distance = newValue }
+        }
+    
+    func body(content: Content) -> some View {
+        return NatalChartView(d: distance)
+    }
+}
+
+/// Radius of the outer wheel
+struct Radius: AnimatableModifier {
+    
+    var radius: CGFloat = .infinity
+    
+    var animatableData: CGFloat {
+            get     { radius }
+            set { radius = newValue }
+        }
+    
+    func body(content: Content) -> some View {
+        return NatalChartView(R: radius)
+    }
+}
+
+extension View{
+    /// Rotates the view clockwise. If negative, counterclockwise.
     func rotate(degrees: Double) -> some View {
         modifier(Rotate(degrees: degrees))
+    }
+    
+    /// Adjusts the spacing of the outer frame, or the length of the sign borders
+    func frameSpacing(distance: Double) -> some View {
+        modifier(FrameSpacing(distance: distance))
+    }
+    
+    /// Sets the radius of the outer wheel
+    func radius(radius: CGFloat) -> some View {
+        modifier(Radius(radius: radius))
     }
 }
 struct NatalChartView_Previews: PreviewProvider {

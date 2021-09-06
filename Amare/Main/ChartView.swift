@@ -11,27 +11,54 @@ struct ChartView: View {
     @EnvironmentObject private var account: Account
     
     @State private var deg: Double = 0
+    @State private var space: Double = 45
+    @State private var radius: CGFloat = .infinity
+    
+
     
     var body: some View {
         
         VStack{
-            Text("\(deg)")
+            Text("Deg: \(deg) Spacing: \(space) Radius: \(radius)")
             
             
             ZStack{
                 
-                Button("Spin") {
+                VStack{
                     
-                    withAnimation(Animation.easeInOut(duration: 3)) {
-                        deg = Double.random(in: 0...360)
+                    Button("Spin") {
+                        withAnimation(Animation.easeInOut(duration: 3)) {
+                            deg = Double.random(in: 0...360)
+                        }
+                    
                     }
                     
-
+                    Button("Spacing") {
+                        withAnimation(Animation.easeInOut(duration: 3)) {
+                            space = Double.random(in: 10...100)
+                        }
+                    
+                    }
+                    
+                    Button("Size") {
+                        withAnimation(Animation.easeInOut(duration: 3)) {
+                            radius = CGFloat(Double.random(in: 10...500))
+                        }
+                    
+                    }
                 }
+                
                     
               
                 NatalChartView()
+                    .radius(radius: radius)
                     .rotate(degrees: deg)
+                    .frameSpacing(distance: space)
+                   
+                   
+                  
+                
+                    
                     
                       
                 
