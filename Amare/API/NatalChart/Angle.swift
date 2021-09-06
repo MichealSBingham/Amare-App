@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 /// One of 4 angles, Asc, Desc, Midheaven, and IC.
 struct Angle: Codable, Identifiable{
@@ -30,7 +31,12 @@ struct Angle: Codable, Identifiable{
     
     var id: String { name.rawValue }
     
-    
+    /// Will return the symbol of the planet
+    func image() ->  Image {
+        
+        return Image("ZodiacIcons/\(self.id)")
+                
+    }
 }
 
 

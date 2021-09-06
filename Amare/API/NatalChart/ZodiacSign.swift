@@ -28,7 +28,7 @@ enum ZodiacSign: String, Codable{
 
     
     
-    /// Will return the symbol of the sign
+    /// Will return the symbol of the planet
     func image() ->  Image {
         
         return Image("ZodiacIcons/\(self)")

@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+import SwiftUI
 
 struct Planet: Codable, Identifiable{
     
@@ -45,6 +45,12 @@ struct Planet: Codable, Identifiable{
         case speed
      
      
+    }
+    
+    func image() ->  Image {
+        
+        return Image("ZodiacIcons/\(self.id)")
+                
     }
     
     

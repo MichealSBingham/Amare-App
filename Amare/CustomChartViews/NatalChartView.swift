@@ -87,6 +87,7 @@ struct NatalChartView: View {
                                     
                                      sign.image()
                                         .resizable()
+                                        .aspectRatio(contentMode: .fit)
                                         .frame(width: CGFloat(d*0.30), height: CGFloat(d*0.30))
                                         .colorInvert()
                                         .rotationEffect(.degrees(-1*alpha))
@@ -120,10 +121,13 @@ struct NatalChartView: View {
                                 }
                                 
                                 
-                                // Set planets and angles and such here I suppose ...
                                 
+                                // Draws the Angles (Asc, MC, etc..)
                                 let all_angle_bodies = natalChart?.angles ?? []
+                                //var dr = 15
                                 ForEach(all_angle_bodies){ angleBody in
+                                    
+                                
                                     
                                     let sign = angleBody.sign
                                     let deg = angleBody.angle
@@ -131,16 +135,59 @@ struct NatalChartView: View {
                                     /// Angle relative to aries 0 deg
                                     let relative_deg = deg + sign.beginsAt()
                                     
-                                    let pos = polar(x_center: Double(x_center), y_center: Double(y_center), r: Double(radius_of_ticks), theta: relative_deg)
                                     
-                              
-
-                                    Text("\(angleBody.name.rawValue)")
-                                       // .position(pos)
+                                    
+                                    
+                                    // tick to put where the angle is
+                                    Tick(x_center: Double(x_center), y_center: Double(y_center), radius_of_ticks: Double(radius_of_ticks), theta: relative_deg)
+                                        
+                                    
+                                    let pos = polar(x_center: Double(x_center), y_center: Double(y_center), r: Double(radius_of_ticks) - Double(10*Int.random(in: 1...5)), theta: relative_deg)
+                                    
+                                    // Planet Symbol should go here
+                                    angleBody.image()
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: CGFloat(d*0.30), height: CGFloat(d*0.30))
+                                        .colorInvert()
                                         .rotationEffect(.degrees(-alpha))
                                         .position(pos)
+                                        
+                                    
+                                 
                                     
                                 }
+                                
+                                // Draws the Planets (Sun, Moon, etc..)
+                                
+                                let planets = natalChart?.planets ?? []
+                                ForEach(planets){ planet in
+                                    
+                                    let sign = planet.sign
+                                    let deg = planet.angle
+                                    
+                                    /// Angle relative to aries 0 deg
+                                    let relative_deg = deg + sign.beginsAt()
+                                    
+                                  
+                                    
+                                    // tick to put where the planet is
+                                    Tick(x_center: Double(x_center), y_center: Double(y_center), radius_of_ticks: Double(radius_of_ticks), theta: relative_deg)
+                              
+                                    
+                                    let pos = polar(x_center: Double(x_center), y_center: Double(y_center), r: Double(radius_of_ticks)-Double(10*Int.random(in: 1...5)), theta: relative_deg)
+                                    // Planet Symbol should go here
+                                    planet.image()
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: CGFloat(d*0.30), height: CGFloat(d*0.30))
+                                        .colorInvert()
+                                        .rotationEffect(.degrees(-alpha))
+                                        .position(pos)
+                                        
+                                        
+                                }
+                                
                                 
                             }
                             
@@ -335,6 +382,59 @@ extension View{
         modifier(Make(with: with))
     }
 }
+
+
+struct Tick: View {
+    
+    /// relative center of view to use as (0,0) for polar coordinates. Should just be the center of that view
+    let x_center: Double
+    let y_center: Double
+    
+    // R
+    let radius_of_ticks: Double
+    
+    //Theta
+    let theta: Double
+    
+    // length of tick
+    let length: Double = 3
+    
+    var body: some View{
+        
+      
+        let one_end = polar(x_center: Double(x_center), y_center: Double(y_center), r: Double(radius_of_ticks), theta: theta)
+        let other_end = polar(x_center: Double(x_center), y_center: Double(y_center), r: Double(radius_of_ticks)-length, theta: theta)
+        
+    
+        Path{ path in
+            
+            path.move(to: one_end)
+            path.addLine(to: other_end)
+        }
+        .stroke()
+    }
+    
+    /// Get's the Radius (R),  angle, and reference for (x,y) center and returns the CGPoint using polar representation
+    func polar(x_center: Double, y_center: Double, r: Double, theta: Double) -> CGPoint {
+        
+        let delx = r*cos(theta.toRadians())
+        let newx = x_center + delx
+        
+        let dely = r*sin(theta.toRadians())
+        let newy = y_center - dely
+        
+        let point = CGPoint(x: newx, y: newy )
+        
+       
+        return point
+        
+        
+       
+        
+    }
+}
+
+
 struct NatalChartView_Previews: PreviewProvider {
     static var previews: some View {
         NatalChartView()
