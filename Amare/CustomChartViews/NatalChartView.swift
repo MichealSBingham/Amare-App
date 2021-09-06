@@ -194,7 +194,7 @@ struct Rotate: AnimatableModifier {
             get     { degrees }
             set { degrees = newValue }
         }
-    
+    /// here is probably the issue why you can't use more than one modifier // TODO; 
     func body(content: Content) -> some View {
         return NatalChartView(alpha: degrees)
     }
