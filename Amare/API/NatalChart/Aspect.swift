@@ -53,6 +53,7 @@ enum AspectType: String, Codable{
     case sesquisquare =  "SESQUISQUARE"
     case biquintile =  "BIQUINTILE"
     case quincunx =  "QUINCUNX"
+    case all 
 
 }
 

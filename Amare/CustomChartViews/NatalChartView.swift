@@ -20,7 +20,9 @@ struct NatalChartView: View {
     
     var natalChart: NatalChart?
     
-    @State var savedBodies: [String: CGPoint] = [:]
+   
+    
+    
     
     var body: some View {
         
@@ -302,6 +304,8 @@ struct NatalChartView: View {
 }
 
 
+
+
 struct SignCuspLineView: View {
     
     let from: CGPoint
@@ -333,7 +337,8 @@ struct SignCuspLineView: View {
 struct AspectView: View {
     
     let aspect: Aspect
-    let shouldShow: Bool = true
+    let types_to_show: [AspectType] = [.all]
+
     
     var body: some View{
         ZStack{
@@ -345,15 +350,17 @@ struct AspectView: View {
             let loc2 = pointFor(planet: secondPlanet.rawValue)
             
            
-            
+            // It's a trine .. .
             Path{ path in
                 
                 path.move(to: loc1)
                 path.addLine(to: loc2)
             }
             .stroke()
+            .opacity( (types_to_show.contains(aspect.type) || (types_to_show.contains(.all) && aspect.type != .none) ? 1 : 0))
             
-        }.opacity(aspect.type != .none ? 1: 0)
+            
+        }
         
     }
     
