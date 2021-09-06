@@ -23,7 +23,7 @@ struct NatalChartView: View {
                     // Outer Wheel
                         Circle()
                             .stroke()
-                            .frame(width: (R >= 0) ? 2*R: .infinity, height: (R >= 0) ? 2*R: .infinity)
+                            .frame(width: (R > 0) ? CGFloat(2*R): .infinity, height: (R > 0) ? CGFloat(2*R): .infinity)
                            
                     
                     GeometryReader{ outerCircleGeometry in
@@ -48,20 +48,21 @@ struct NatalChartView: View {
                                 //  Inner Wheel
                                 Circle()
                                    .stroke()
-                                   .frame(width: outerCircleGeometry.size.width - d, height: outerCircleGeometry.size.height - d)
+                                   .frame(width: outerCircleGeometry.size.width - CGFloat(d), height: outerCircleGeometry.size.height - CGFloat(d))
                                    .position(x: x_center, y: y_center)
                                 
                                 //var points: [CGPoint] = []
                                 
-                                ForEach(0...11, id: \.self){
-                                    let n = $0
+                             
+                                ForEach(0..<12){ n in
+                                    //let n = $0
                                     let n2 = n+1
                                     
                                     let theta = Double(30*n)
                                     
-                                    let pointAtInnerCircle = polar(x_center: x_center, y_center: y_center, r: r, theta: theta)
+                                    let pointAtInnerCircle = polar(x_center: Double(x_center), y_center: Double(y_center), r: Double(r), theta: theta)
                                     
-                                    let pointAtOuterCircle = polar(x_center: x_center, y_center: y_center, r: R_, theta: theta)
+                                    let pointAtOuterCircle = polar(x_center: Double(x_center), y_center: Double(y_center), r: Double(R_), theta: theta)
 
                                     
                                     SignCuspLineView(from: pointAtInnerCircle, to: pointAtOuterCircle)
@@ -74,7 +75,7 @@ struct NatalChartView: View {
                                     let phi = Double(15 + (30*n2))
                                     let r_prime =  (r+R_)/2
                                     
-                                    let pointToPlace = polar(x_center: x_center, y_center: y_center, r: r_prime, theta: phi)
+                                    let pointToPlace = polar(x_center: Double(x_center), y_center: Double(y_center), r: Double(r_prime), theta: phi)
                                     
                                     
                                     Text("\(n2)")
@@ -88,7 +89,7 @@ struct NatalChartView: View {
                                 
                             }
                             
-                        }.frame(width: outerCircleGeometry.size.width - d, height: outerCircleGeometry.size.height - d)
+                        }.frame(width: outerCircleGeometry.size.width - CGFloat(d), height: outerCircleGeometry.size.height - CGFloat(d))
                         
                         
                         
@@ -102,7 +103,7 @@ struct NatalChartView: View {
                         
                     
                     
-                }.frame(width: (R >= 0) ? 2*R: .infinity, height: (R >= 0) ? 2*R: .infinity)
+                }.frame(width: (R > 0) ? CGFloat(2*R): .infinity, height: (R > 0) ? CGFloat(2*R): .infinity)
                
             
                 
