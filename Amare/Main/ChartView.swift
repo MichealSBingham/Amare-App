@@ -11,7 +11,7 @@ struct ChartView: View {
     @EnvironmentObject private var account: Account
     
     @State private var deg: Double = 0
-    @State private var space: Double = 45
+    @State private var space: Double = 150
     @State private var radius: CGFloat = .infinity
     
 
@@ -52,8 +52,8 @@ struct ChartView: View {
               
                 NatalChartView()
                     .radius(radius: radius)
-                    .rotate(degrees: deg)
                     .frameSpacing(distance: space)
+                    .rotate(degrees: deg)
                    
                    
                   
