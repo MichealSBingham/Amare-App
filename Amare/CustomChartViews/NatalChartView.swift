@@ -72,12 +72,12 @@ struct NatalChartView: View {
                                     //points.append(mid)
                                     
                                     // Coordinates for the sign symbols on the wheel
-                                    let phi = Double(15 + (30*n2))
+                                    let phi = Double(15 + (30*n))
                                     let r_prime =  (r+R_)/2
                                     
                                     let pointToPlace = polar(x_center: Double(x_center), y_center: Double(y_center), r: Double(r_prime), theta: phi)
                                     
-                                    
+                                    // SHould be the zodiac sign of the index+1 of the zodiac sign 
                                     Text("\(n2)")
                                         .position(x: pointToPlace.x, y: pointToPlace.y)
                                     
