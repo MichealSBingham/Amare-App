@@ -20,6 +20,8 @@ struct NatalChartView: View {
     
     var natalChart: NatalChart?
     
+    @State var savedBodies: [String: CGPoint] = [:]
+    
     var body: some View {
         
     
@@ -101,7 +103,7 @@ struct NatalChartView: View {
                                 }
                                 
                                 
-                                let radius_of_ticks = r-15
+                                let radius_of_ticks = r-50
                                 // Draw the degree ticks/points
                                 ForEach(0 ..< 360) { deg in
                                     
@@ -142,7 +144,7 @@ struct NatalChartView: View {
                                     Tick(x_center: Double(x_center), y_center: Double(y_center), radius_of_ticks: Double(radius_of_ticks), theta: relative_deg)
                                         
                                     
-                                    let pos = polar(x_center: Double(x_center), y_center: Double(y_center), r: Double(radius_of_ticks) - Double(10*Int.random(in: 1...5)), theta: relative_deg)
+                                    let pos = polar(x_center: Double(x_center), y_center: Double(y_center), r: Double(radius_of_ticks) + Double(10*Int.random(in: 1...4)), theta: relative_deg)
                                     
                                     // Planet Symbol should go here
                                     angleBody.image()
@@ -152,9 +154,17 @@ struct NatalChartView: View {
                                         .colorInvert()
                                         .rotationEffect(.degrees(-alpha))
                                         .position(pos)
+                                        .onAppear(perform: {
+                                            // TODO: Need so save AngleBody / pos somehow to retrieve later
+                                            //   save(name_of_body: angleBody.name.string(), point: pos)
+                                           //    savedBodies[angleBody.name.string()] = pos
+                                             
+                                            let tickPos = polar(x_center: Double(x_center), y_center: Double(y_center), r: Double(radius_of_ticks), theta: relative_deg)
+                                            
+                                            save(name_of_body: angleBody.name.rawValue, point: tickPos)
+                                        })
                                         
-                                    
-                                 
+                                        
                                     
                                 }
                                 
@@ -174,9 +184,9 @@ struct NatalChartView: View {
                                     
                                     // tick to put where the planet is
                                     Tick(x_center: Double(x_center), y_center: Double(y_center), radius_of_ticks: Double(radius_of_ticks), theta: relative_deg)
-                              
                                     
-                                    let pos = polar(x_center: Double(x_center), y_center: Double(y_center), r: Double(radius_of_ticks)-Double(10*Int.random(in: 1...5)), theta: relative_deg)
+                                    
+                                    let pos = polar(x_center: Double(x_center), y_center: Double(y_center), r: Double(radius_of_ticks)+Double(10*Int.random(in: 1...4)), theta: relative_deg)
                                     // Planet Symbol should go here
                                     planet.image()
                                         .resizable()
@@ -185,13 +195,44 @@ struct NatalChartView: View {
                                         .colorInvert()
                                         .rotationEffect(.degrees(-alpha))
                                         .position(pos)
+                                        .onAppear(perform:{
+                                            
+                                            let tickPos = polar(x_center: Double(x_center), y_center: Double(y_center), r: Double(radius_of_ticks), theta: relative_deg)
+                                            
+                                            save(name_of_body: planet.name.rawValue, point: tickPos)
+                                        })
                                     
+                                
+                                    // TODO: Need so save Planet / pos somehow to retrieve later
+                                        
                                     
-                                        
-                                        
                                 }
                                 
                                 
+                                
+                                // Draws the Aspects
+                                
+                                let aspects = natalChart?.aspects ?? []
+                                
+                                ForEach(aspects){ aspect in
+                                    
+                                    AspectView(aspect: aspect)
+                                    /*
+                                    let firstPlanet = aspect.first
+                                    let secondPlanet = aspect.second
+                                    
+                                    let loc1 = pointFor(planet: firstPlanet.rawValue)
+                                    let loc2 = pointFor(planet: secondPlanet.rawValue)
+                                    
+                                    Path{ path in
+                                        
+                                        path.move(to: loc1)
+                                        path.addLine(to: loc2)
+                                    }
+                                    .stroke()
+                                    
+                                    */
+                                }
                             }
                             
                         }.frame(width: outerCircleGeometry.size.width - CGFloat(d), height: outerCircleGeometry.size.height - CGFloat(d))
@@ -222,6 +263,17 @@ struct NatalChartView: View {
             
     }
     
+     func save(name_of_body: String, point: CGPoint)  {
+        let pt = NSCoder.string(for: point)
+        print("Saving .. \(name_of_body) at \(pt)" )
+        UserDefaults.standard.setValue(pt, forKey: name_of_body)
+    }
+    
+    /// Returns the point that the planet or angle (asc/desc/etc) ended up on the view
+    /// If it's (0,0) it should be ignored
+    func pointFor(planet: String) -> CGPoint {
+        return NSCoder.cgPoint(for: UserDefaults.standard.object(forKey: planet) as? String ?? "{0,0}" )
+    }
     
     /// Get's the Radius (R),  angle, and reference for (x,y) center and returns the CGPoint using polar representation
     func polar(x_center: Double, y_center: Double, r: Double, theta: Double) -> CGPoint {
@@ -277,6 +329,43 @@ struct SignCuspLineView: View {
         //  }
     }
 }
+
+struct AspectView: View {
+    
+    let aspect: Aspect
+    let shouldShow: Bool = true
+    
+    var body: some View{
+        ZStack{
+            
+            let firstPlanet = aspect.first
+            let secondPlanet = aspect.second
+            
+            let loc1 = pointFor(planet: firstPlanet.rawValue)
+            let loc2 = pointFor(planet: secondPlanet.rawValue)
+            
+           
+            
+            Path{ path in
+                
+                path.move(to: loc1)
+                path.addLine(to: loc2)
+            }
+            .stroke()
+            
+        }.opacity(aspect.type != .none ? 1: 0)
+        
+    }
+    
+    /// Returns the point that the planet or angle (asc/desc/etc) ended up on the view
+    /// If it's (0,0) it should be ignored
+    func pointFor(planet: String) -> CGPoint {
+        let point = NSCoder.cgPoint(for: UserDefaults.standard.object(forKey: planet) as? String ?? "{0,0}" )
+        print("Trying to get point for \(planet) and got \(point) ")
+        return point
+    }
+}
+
 
 /// Rotates the zodiac wheel
 struct Rotate: AnimatableModifier {
