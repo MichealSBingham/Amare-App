@@ -100,10 +100,11 @@ struct NatalChartView: View {
                                 }
                                 
                                 
+                                let radius_of_ticks = r-15
                                 // Draw the degree ticks/points
                                 ForEach(0 ..< 360) { deg in
                                     
-                                    let radius_of_ticks = r-15
+                                    
                         
                                     
                                     let location = polar(x_center: Double(x_center), y_center: Double(y_center), r: Double(radius_of_ticks), theta: Double(deg))
@@ -118,6 +119,28 @@ struct NatalChartView: View {
                                     
                                 }
                                 
+                                
+                                // Set planets and angles and such here I suppose ...
+                                
+                                let all_angle_bodies = natalChart?.angles ?? []
+                                ForEach(all_angle_bodies){ angleBody in
+                                    
+                                    let sign = angleBody.sign
+                                    let deg = angleBody.angle
+                                    
+                                    /// Angle relative to aries 0 deg
+                                    let relative_deg = deg + sign.beginsAt()
+                                    
+                                    let pos = polar(x_center: Double(x_center), y_center: Double(y_center), r: Double(radius_of_ticks), theta: relative_deg)
+                                    
+                              
+
+                                    Text("\(angleBody.name.rawValue)")
+                                       // .position(pos)
+                                        .rotationEffect(.degrees(-alpha))
+                                        .position(pos)
+                                    
+                                }
                                 
                             }
                             
@@ -284,7 +307,7 @@ struct Make: AnimatableModifier{
             return NatalChartView(alpha: -1*rotation_offset, natalChart: with)
                 //.rotate(degrees: rotation_offset )
         }
-        /// - WARNING: setting alpha to -180 by default here will cancel spin annimation on initalization if ascendant is not given 
+        /// - WARNING: setting alpha to -180 by default here will cancel spin annimation on initalization if ascendant is not given
         return NatalChartView( alpha: -180, natalChart: with)
         
     }
