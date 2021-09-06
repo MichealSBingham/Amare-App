@@ -79,7 +79,9 @@ struct NatalChartView: View {
                                     
                                     let sign = ZODIAC_SIGNS[n2-1]
                                     
-                                    sign.image()
+                                    
+                                     sign.image()
+                                        .rotationEffect(.degrees(46.8))
                                         .position(x: pointToPlace.x, y: pointToPlace.y)
                                     
                                     
@@ -105,6 +107,7 @@ struct NatalChartView: View {
                     
                     
                 }.frame(width: (R > 0) ? CGFloat(2*R): .infinity, height: (R > 0) ? CGFloat(2*R): .infinity)
+                .rotationEffect(.degrees(-46.8))
                
             
                 
