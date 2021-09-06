@@ -20,7 +20,8 @@ struct ChartView: View {
                 
           //  var name = account.data?.name ?? ""
             //Text("\(name)'s Natal Chart")
-            NatalChartViewAlpha().NatalChartAlphaView(account: account)
+          //  NatalChartViewAlpha().NatalChartAlphaView(account: account)
+            NatalChartView()
             
             
             
