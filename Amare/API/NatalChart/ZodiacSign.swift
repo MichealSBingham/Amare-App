@@ -29,9 +29,12 @@ enum ZodiacSign: String, Codable{
     
     
     /// Will return the symbol of the sign
-    func image() ->  some View {
+    func image() ->  Image {
         
-        switch self{
+        return Image("ZodiacIcons/\(self)")
+                
+        
+        /*switch self{
         
         case .Aries:
             return Text("A")
@@ -54,9 +57,9 @@ enum ZodiacSign: String, Codable{
         case .Leo:
             return Text("L")
         case .Cancer:
-            return Text("C")
+            return Image(<#T##name: String##String#>)
         case .Gemini:
             return Text("G")
-        }
+        } */
     }
 }

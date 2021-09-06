@@ -15,6 +15,9 @@ struct NatalChartView: View {
     /// Distance between outer and inner circles . (R - r = d) --> r = R - d or
     let d: Double = 45
     
+    /// Wheel rotation , if > 0 clockwise rotation, otherwise counterclockwise rotation . Used for helping rotate natal chart
+    var alpha: Double = 0
+    
     var body: some View {
         
     
@@ -69,8 +72,8 @@ struct NatalChartView: View {
                                     
                                 
                                     
-                                    //points.append(mid)
-                                    
+                              
+                                   // Zodiac Symbols // ......
                                     // Coordinates for the sign symbols on the wheel
                                     let phi = Double(15 + (30*n))
                                     let r_prime =  (r+R_)/2
@@ -81,8 +84,14 @@ struct NatalChartView: View {
                                     
                                     
                                      sign.image()
-                                        .rotationEffect(.degrees(46.8))
+                                        .resizable()
+                                        .frame(width: CGFloat(d*0.30), height: CGFloat(d*0.30))
+                                        .colorInvert()
+                                        .rotationEffect(.degrees(-1*alpha))
                                         .position(x: pointToPlace.x, y: pointToPlace.y)
+                                    
+                                        
+                                        
                                     
                                     
                                     
@@ -107,7 +116,7 @@ struct NatalChartView: View {
                     
                     
                 }.frame(width: (R > 0) ? CGFloat(2*R): .infinity, height: (R > 0) ? CGFloat(2*R): .infinity)
-                .rotationEffect(.degrees(-46.8))
+                .rotationEffect(.degrees(alpha))
                
             
                 
@@ -173,6 +182,27 @@ struct SignCuspLineView: View {
               
               
         //  }
+    }
+}
+
+struct Rotate: AnimatableModifier {
+    
+    var degrees: Double = 0
+    
+    var animatableData: Double {
+            get     { degrees }
+            set { degrees = newValue }
+        }
+    
+    func body(content: Content) -> some View {
+        return NatalChartView(alpha: degrees)
+    }
+    
+}
+
+extension NatalChartView{
+    func rotate(degrees: Double) -> some View {
+        modifier(Rotate(degrees: degrees))
     }
 }
 struct NatalChartView_Previews: PreviewProvider {

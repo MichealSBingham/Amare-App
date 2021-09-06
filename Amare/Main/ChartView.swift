@@ -10,24 +10,38 @@ import SwiftUI
 struct ChartView: View {
     @EnvironmentObject private var account: Account
     
+    @State private var deg: Double = 0
+    
     var body: some View {
         
-        
         VStack{
+            Text("\(deg)")
             
-            Text("This is **BETA**. This is a test to see if our API is pulling your proper natal chart. It will **NOT** look like this in the production version.")
-                .foregroundColor(.white)
+            
+            ZStack{
                 
-          //  var name = account.data?.name ?? ""
-            //Text("\(name)'s Natal Chart")
-          //  NatalChartViewAlpha().NatalChartAlphaView(account: account)
-            NatalChartView()
-                  
-            
-            
-            
-            
+                Button("Spin") {
+                    
+                    withAnimation(Animation.easeInOut(duration: 3)) {
+                        deg = Double.random(in: 0...360)
+                    }
+                    
+
+                }
+                    
+              
+                NatalChartView()
+                    .rotate(degrees: deg)
+                    
+                      
+                
+                
+                
+                
+            }
         }
+        
+      
         
         
     }
