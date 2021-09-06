@@ -24,6 +24,31 @@ public struct NatalChart: Codable {
     
 }
 
+extension Array where Element == Planet {
+    func get(planet: PlanetName) -> Planet? {
+        for planet_obj in self{
+            if planet_obj.name == planet{
+                return planet_obj
+            }
+        }
+        return nil
+    }
+    
+   
+
+    
+}
+
+extension Array where Element == Angle {
+    func get(planet: AngleName) -> Angle? {
+        for planet_obj in self{
+            if planet_obj.name == planet{
+                return planet_obj
+            }
+        }
+        return nil
+    }
+}
 
 enum Sex: String, Codable  {
     case male
@@ -49,5 +74,6 @@ enum Sex: String, Codable  {
     }
 
 }
+
 
 

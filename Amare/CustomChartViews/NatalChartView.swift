@@ -18,6 +18,8 @@ struct NatalChartView: View {
     /// Wheel rotation , if > 0 clockwise rotation, otherwise counterclockwise rotation . Used for helping rotate natal chart
     var alpha: Double = 0
     
+    var natalChart: NatalChart?
+    
     var body: some View {
         
     
@@ -97,6 +99,24 @@ struct NatalChartView: View {
                                     
                                 }
                                 
+                                
+                                // Draw the degree ticks/points
+                                ForEach(0 ..< 360) { deg in
+                                    
+                                    let radius_of_ticks = r-15
+                        
+                                    
+                                    let location = polar(x_center: Double(x_center), y_center: Double(y_center), r: Double(radius_of_ticks), theta: Double(deg))
+                                    
+                                    Text(" ∙ ")
+                                        .position(location)
+                                       
+
+                                        
+                                    
+                                   
+                                    
+                                }
                                 
                                 
                             }
@@ -178,7 +198,7 @@ struct SignCuspLineView: View {
                   path.move(to: from)
                   path.addLine(to: to)
               }
-              .stroke(/*.white*/)
+              .stroke()
               
               
         //  }
@@ -231,6 +251,46 @@ struct Radius: AnimatableModifier {
     }
 }
 
+/// Creates the natal chart given a `NatalChart`
+struct Make: AnimatableModifier{
+    
+    var with: NatalChart?
+    
+    var animatableData: NatalChart? {
+            get     { with }
+            set { with = newValue }
+        }
+    
+    func body(content: Content) -> some View {
+        
+        // Should get the ascendant
+        if let asc = with?.angles.get(planet: .asc) {
+            // There is an ascendant provided
+            // Correct Natal Chart to put ascendant at the left side, theta = 180
+            
+            // To Correct Ascendant Position
+            // Using 0 deg aries as theta = 0.
+            // Ascendent will be located at theta_prime, relative to aries
+            // Rotate by 180-theta_prime counter clockwise
+            // theta_prime = angle the sign is in + deg sign starts at (relative to aries)
+            
+      
+            
+            let theta_prime = asc.angle + asc.sign.beginsAt()
+            let rotation_offset = 180 - theta_prime
+            
+            
+            
+            return NatalChartView(alpha: -1*rotation_offset, natalChart: with)
+                //.rotate(degrees: rotation_offset )
+        }
+        
+        return NatalChartView( natalChart: with)
+        
+    }
+}
+
+
 extension View{
     /// Rotates the view clockwise. If negative, counterclockwise.
     func rotate(degrees: Double) -> some View {
@@ -245,6 +305,11 @@ extension View{
     /// Sets the radius of the outer wheel
     func radius(radius: CGFloat) -> some View {
         modifier(Radius(radius: radius))
+    }
+    
+    /// Sets the natal chart data and rotates chart based on ascendant 
+    func make(with: NatalChart?) -> some View {
+        modifier(Make(with: with))
     }
 }
 struct NatalChartView_Previews: PreviewProvider {

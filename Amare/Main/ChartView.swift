@@ -14,12 +14,14 @@ struct ChartView: View {
     @State private var space: Double = 150
     @State private var radius: CGFloat = .infinity
     
+    @State private var chart: NatalChart?
+    
 
     
     var body: some View {
         
         ZStack {
-            Background()
+            //Background()
             VStack{
                 Text("Deg: \(deg) Spacing: \(space) Radius: \(radius)").opacity(0)
                 
@@ -28,34 +30,31 @@ struct ChartView: View {
                     
                     VStack{
                         
-                        Button("Spin") {
+                        Button("Get User Data w/ Animation") {
+                            
+                            
                             withAnimation(Animation.easeInOut(duration: 3)) {
-                                deg = Double.random(in: 0...360)
+                                chart = account.data?.natal_chart
                             }
+                            
+                        }
+                        Spacer()
                         
+                        Button("Get User Data") {
+                            
+                            chart = account.data?.natal_chart
                         }
                         
-                        Button("Spacing") {
-                            withAnimation(Animation.easeInOut(duration: 3)) {
-                                space = Double.random(in: 10...100)
-                            }
-                        
-                        }
-                        
-                        Button("Size") {
-                            withAnimation(Animation.easeInOut(duration: 3)) {
-                                radius = CGFloat(Double.random(in: 10...500))
-                            }
-                        
-                        }
-                    }.opacity(0)
+                      
+                    }
                     
                         
                   
                     NatalChartView()
-                        .radius(radius: radius)
-                        .frameSpacing(distance: space)
-                        .rotate(degrees: deg)
+                        .make(with: chart)
+                        //.radius(radius: radius)
+                       // .frameSpacing(distance: space)
+                     //   .rotate(degrees: deg)
                         .padding()
                        
                        

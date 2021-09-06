@@ -33,33 +33,13 @@ enum ZodiacSign: String, Codable{
         
         return Image("ZodiacIcons/\(self)")
                 
-        
-        /*switch self{
-        
-        case .Aries:
-            return Text("A")
-        case .Taurus:
-            return Text("T")
-        case .Pisces:
-            return Text("P")
-        case .Aquarius:
-            return Text("Aq")
-        case .Capricorn:
-            return Text("Cp")
-        case .Sagittarius:
-            return Text("Sg")
-        case .Scorpio:
-            return Text("Sc")
-        case .Libra:
-            return Text("Lb")
-        case .Virgo:
-            return Text("V")
-        case .Leo:
-            return Text("L")
-        case .Cancer:
-            return Image(<#T##name: String##String#>)
-        case .Gemini:
-            return Text("G")
-        } */
+    }
+    
+    /// Returns the angle(degree) the zodiac sign begins at, relative to Aries being 0 degrees. 
+    func beginsAt() -> Double {
+        if let index = ZODIAC_SIGNS.firstIndex(of: self) {
+            return Double(index*30)
+        }
+        return -1
     }
 }
