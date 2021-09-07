@@ -32,6 +32,9 @@ struct NatalChartView: View {
     /// Whether or not to show or hide the aspects of the natal chart by default no
     var hideALLAspects: Bool = false
     
+    /// Whether or not to show what aspects are being shown in the natal chart
+    @State var showAspectLabel: Bool = false
+    
     var body: some View {
         
     
@@ -47,6 +50,7 @@ struct NatalChartView: View {
                         
                         /// Center points of the outer circle
                         let x_center = outerCircleGeometry.frame(in: .local).midX
+                        /// Center of the outmost circle frame
                         let y_center = outerCircleGeometry.frame(in: .local).midY
                         
                         
@@ -136,7 +140,11 @@ struct NatalChartView: View {
                                     print("Did tap inside and should change aspects  ")
                                     shownAspects = [AspectType.allCases.randomElement() ?? .all]
                                     
-                                    Text(aspectsBeingShown(aspects: shownAspects))
+                                   showAspectLabel = true
+                                    
+                                    AmareApp().delay(3) {
+                                        showAspectLabel = false
+                                    }
                                     
                                     
                                 }, label: {
@@ -150,6 +158,11 @@ struct NatalChartView: View {
                                 
                                 
                                  
+                                
+                                Text(aspectsBeingShown(aspects: shownAspects))
+                                    .rotationEffect(.degrees(-1*alpha))
+                                    .position(x: CGFloat(Double(x_center)), y: CGFloat(Double(y_center)))
+                                    .opacity(showAspectLabel ? 1 : 0 )
                                 
                                 
                                 
@@ -241,8 +254,7 @@ struct NatalChartView: View {
                                 
                                 // Draws the Aspects
                                 
-                                /// TODO: Show a disappearing text label of what aspects of being drawn right here in the center
-                                //Text(aspectsBeingShown(aspects: shownAspects))
+                               
                                 
                                 let aspects = natalChart?.aspects ?? []
                                 
@@ -286,7 +298,7 @@ struct NatalChartView: View {
     /// Given an array of aspect types, it returns a string representing the aspects given in this array
     /// - example: aspects = [.trine, .square] -> "Trines and Squares"
     func aspectsBeingShown(aspects: [AspectType]) -> String {
-        return "Test"
+        return "\(aspects.first?.rawValue ?? "")"
         
     }
      func save(name_of_body: String, point: CGPoint)  {
