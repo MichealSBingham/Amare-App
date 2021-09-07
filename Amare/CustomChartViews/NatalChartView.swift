@@ -7,23 +7,30 @@
 
 import SwiftUI
 
+/// Represents a natal chart
 struct NatalChartView: View {
     
-    /// Radius of the outer circle or frame size.
+    /// Radius of the outer circle or frame size. Use to set the size of the natal chart, will default as `.infinity`
     var R: CGFloat  = .infinity
     
-    /// Distance between outer and inner circles . (R - r = d) --> r = R - d or
+    /// Distance between outer and inner circles. (Out-most circle -- inner FRAME circle. Not the inner most circle where the ticks are)
+    /// will also determine the size of the planet / sign symbols.
     var d: Double = 45
     
-    /// Wheel rotation , if > 0 clockwise rotation, otherwise counterclockwise rotation . Used for helping rotate natal chart
+    /// Wheel rotation , if > 0 clockwise rotation, otherwise counterclockwise rotation . Used for helping rotate natal chart.
     var alpha: Double = 0
     
+    /// If nil, only the default wheel will be draw.
     var natalChart: NatalChart?
     
+    /// An array of intraaspects to show, by default will be all of them.
     var shownAspects: [AspectType] = [.all]
    
+    /// Distance from the inner FRAME (zodiac wheel) to the inner circle where the ticks are
+    var distance_from_edge_of_frame_to_ticks = 50
     
-    
+    /// Whether or not to show or hide the aspects of the natal chart by default no
+    var hideALLAspects: Bool = false
     
     var body: some View {
         
@@ -47,31 +54,37 @@ struct NatalChartView: View {
                             
                             GeometryReader { innerCircleGeometry in
                                 
-                                //// Radius of the inner circle both the width and the height
+                                ////  Radius of inner FRAME
                                 let r = (innerCircleGeometry.size.width)/2
                                 
-                                /// Radius of the outer circle. We use R_ instead of R_   because there is a chance that  `R` may be `.infinity`
+                                /// Radius of the outer circle frame. We use R_ instead of R_   because there is a chance that  `R` may be `.infinity`
                                 let R_ = outerCircleGeometry.size.width / 2
                                 
                                 
                                 
-                                //  Inner Wheel
+                                //  Inner Wheel (FRAME) NOT the inner wheel where ticks are
                                 Circle()
                                    .stroke()
                                    .frame(width: outerCircleGeometry.size.width - CGFloat(d), height: outerCircleGeometry.size.height - CGFloat(d))
                                    .position(x: x_center, y: y_center)
+                                    .onTapGesture {
+                                        
+                                        print("Tapped inside of wheel")
+                                        print("Should toggle the aspects shown")
+                                    }
+                                    
+                                    
                                 
-                                //var points: [CGPoint] = []
-                                
-                             
+                                // Draws the Natal Chart Wheel Frame
+                             // Draws the
                                 ForEach(0..<12){ n in
                                     //let n = $0
                                     let n2 = n+1
                                     
                                     let theta = Double(30*n)
-                                    
+                                    /// Inner circle of the FRAME
                                     let pointAtInnerCircle = polar(x_center: Double(x_center), y_center: Double(y_center), r: Double(r), theta: theta)
-                                    
+                                    /// outer circle of the FRAME
                                     let pointAtOuterCircle = polar(x_center: Double(x_center), y_center: Double(y_center), r: Double(R_), theta: theta)
 
                                     
@@ -82,7 +95,9 @@ struct NatalChartView: View {
                               
                                    // Zodiac Symbols // ......
                                     // Coordinates for the sign symbols on the wheel
+                                    /// Angle to put zodiac signs
                                     let phi = Double(15 + (30*n))
+                                    /// Radius to put zodiac signs
                                     let r_prime =  (r+R_)/2
                                     
                                     let pointToPlace = polar(x_center: Double(x_center), y_center: Double(y_center), r: Double(r_prime), theta: phi)
@@ -106,14 +121,14 @@ struct NatalChartView: View {
                                 }
                                 
                                 
-                                let radius_of_ticks = r-50
-                                // Draw the degree ticks/points
+                                let circle_radius_where_ticks_are_at = Int(r)-distance_from_edge_of_frame_to_ticks
+                                // Draws the degree ticks/points
                                 ForEach(0 ..< 360) { deg in
                                     
                                     
                         
                                     
-                                    let location = polar(x_center: Double(x_center), y_center: Double(y_center), r: Double(radius_of_ticks), theta: Double(deg))
+                                    let location = polar(x_center: Double(x_center), y_center: Double(y_center), r: Double(circle_radius_where_ticks_are_at), theta: Double(deg))
                                     
                                     Text(" ∙ ")
                                         .position(location)
@@ -144,10 +159,10 @@ struct NatalChartView: View {
                                     
                                     
                                     // tick to put where the angle is
-                                    Tick(x_center: Double(x_center), y_center: Double(y_center), radius_of_ticks: Double(radius_of_ticks), theta: relative_deg)
+                                    Tick(x_center: Double(x_center), y_center: Double(y_center), radius_of_ticks: Double(circle_radius_where_ticks_are_at), theta: relative_deg)
                                         
                                     
-                                    let pos = polar(x_center: Double(x_center), y_center: Double(y_center), r: Double(radius_of_ticks) + Double(10*Int.random(in: 1...4)), theta: relative_deg)
+                                    let pos = polar(x_center: Double(x_center), y_center: Double(y_center), r: Double(circle_radius_where_ticks_are_at) + Double(10*Int.random(in: 1...4)), theta: relative_deg)
                                     
                                     // Planet Symbol should go here
                                     angleBody.image()
@@ -162,7 +177,7 @@ struct NatalChartView: View {
                                             //   save(name_of_body: angleBody.name.string(), point: pos)
                                            //    savedBodies[angleBody.name.string()] = pos
                                              
-                                            let tickPos = polar(x_center: Double(x_center), y_center: Double(y_center), r: Double(radius_of_ticks), theta: relative_deg)
+                                            let tickPos = polar(x_center: Double(x_center), y_center: Double(y_center), r: Double(circle_radius_where_ticks_are_at), theta: relative_deg)
                                             
                                             save(name_of_body: angleBody.name.rawValue, point: tickPos)
                                         })
@@ -186,10 +201,10 @@ struct NatalChartView: View {
                             
                                     
                                     // tick to put where the planet is
-                                    Tick(x_center: Double(x_center), y_center: Double(y_center), radius_of_ticks: Double(radius_of_ticks), theta: relative_deg)
+                                    Tick(x_center: Double(x_center), y_center: Double(y_center), radius_of_ticks: Double(circle_radius_where_ticks_are_at), theta: relative_deg)
                                     
                                     
-                                    let pos = polar(x_center: Double(x_center), y_center: Double(y_center), r: Double(radius_of_ticks)+Double(10*Int.random(in: 1...4)), theta: relative_deg)
+                                    let pos = polar(x_center: Double(x_center), y_center: Double(y_center), r: Double(circle_radius_where_ticks_are_at)+Double(10*Int.random(in: 1...4)), theta: relative_deg)
                                     // Planet Symbol should go here
                                     planet.image()
                                         .resizable()
@@ -200,7 +215,7 @@ struct NatalChartView: View {
                                         .position(pos)
                                         .onAppear(perform:{
                                             
-                                            let tickPos = polar(x_center: Double(x_center), y_center: Double(y_center), r: Double(radius_of_ticks), theta: relative_deg)
+                                            let tickPos = polar(x_center: Double(x_center), y_center: Double(y_center), r: Double(circle_radius_where_ticks_are_at), theta: relative_deg)
                                             
                                             save(name_of_body: planet.name.rawValue, point: tickPos)
                                         })
@@ -215,26 +230,16 @@ struct NatalChartView: View {
                                 
                                 // Draws the Aspects
                                 
+                                /// TODO: Show a disappearing text label of what aspects of being drawn right here in the center
+                                Text(aspectsBeingShown(aspects: shownAspects))
+                                
                                 let aspects = natalChart?.aspects ?? []
                                 
                                 ForEach(aspects){ aspect in
                                     
                                     AspectView(aspect: aspect, types_to_show: shownAspects)
-                                    /*
-                                    let firstPlanet = aspect.first
-                                    let secondPlanet = aspect.second
+                                        .opacity(hideALLAspects ? 0: 1)
                                     
-                                    let loc1 = pointFor(planet: firstPlanet.rawValue)
-                                    let loc2 = pointFor(planet: secondPlanet.rawValue)
-                                    
-                                    Path{ path in
-                                        
-                                        path.move(to: loc1)
-                                        path.addLine(to: loc2)
-                                    }
-                                    .stroke()
-                                    
-                                    */
                                 }
                             }
                             
@@ -254,6 +259,7 @@ struct NatalChartView: View {
                     
                 }.frame(width: (R != .infinity) ? CGFloat(2*R): .infinity, height: (R != .infinity) ? CGFloat(2*R): .infinity)
                 .rotationEffect(.degrees(alpha))
+        
                
             
                 
@@ -266,6 +272,12 @@ struct NatalChartView: View {
             
     }
     
+    /// Given an array of aspect types, it returns a string representing the aspects given in this array
+    /// - example: aspects = [.trine, .square] -> "Trines and Squares"
+    func aspectsBeingShown(aspects: [AspectType]) -> String {
+        return "Test"
+        
+    }
      func save(name_of_body: String, point: CGPoint)  {
         let pt = NSCoder.string(for: point)
         print("Saving .. \(name_of_body) at \(pt)" )
