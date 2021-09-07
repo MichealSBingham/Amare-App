@@ -24,7 +24,7 @@ struct NatalChartView: View {
     var natalChart: NatalChart?
     
     /// An array of intraaspects to show, by default will be all of them.
-    var shownAspects: [AspectType] = [.all]
+    @State var shownAspects: [AspectType] = [.all]
    
     /// Distance from the inner FRAME (zodiac wheel) to the inner circle where the ticks are
     var distance_from_edge_of_frame_to_ticks = 50
@@ -67,11 +67,6 @@ struct NatalChartView: View {
                                    .stroke()
                                    .frame(width: outerCircleGeometry.size.width - CGFloat(d), height: outerCircleGeometry.size.height - CGFloat(d))
                                    .position(x: x_center, y: y_center)
-                                    .onTapGesture {
-                                        
-                                        print("Tapped inside of wheel")
-                                        print("Should toggle the aspects shown")
-                                    }
                                     
                                     
                                 
@@ -132,13 +127,29 @@ struct NatalChartView: View {
                                     
                                     Text(" ∙ ")
                                         .position(location)
-                                       
-
-                                        
-                                    
                                    
                                     
                                 }
+                                
+                                // Invisible button on aspects to click on
+                                Button(action: {
+                                    print("Did tap inside and should change aspects  ")
+                                    shownAspects = [AspectType.allCases.randomElement() ?? .all]
+                                    
+                                    Text(aspectsBeingShown(aspects: shownAspects))
+                                    
+                                    
+                                }, label: {
+                                    
+                                    Circle()
+                                         .frame(width: CGFloat(2*circle_radius_where_ticks_are_at), height: CGFloat(2*circle_radius_where_ticks_are_at))
+                                         .position(x: CGFloat(Double(x_center)), y: CGFloat(Double(y_center)))
+                                        .opacity(0)
+                                })
+                             
+                                
+                                
+                                 
                                 
                                 
                                 
@@ -231,7 +242,7 @@ struct NatalChartView: View {
                                 // Draws the Aspects
                                 
                                 /// TODO: Show a disappearing text label of what aspects of being drawn right here in the center
-                                Text(aspectsBeingShown(aspects: shownAspects))
+                                //Text(aspectsBeingShown(aspects: shownAspects))
                                 
                                 let aspects = natalChart?.aspects ?? []
                                 
@@ -280,7 +291,7 @@ struct NatalChartView: View {
     }
      func save(name_of_body: String, point: CGPoint)  {
         let pt = NSCoder.string(for: point)
-        print("Saving .. \(name_of_body) at \(pt)" )
+     //   print("Saving .. \(name_of_body) at \(pt)" )
         UserDefaults.standard.setValue(pt, forKey: name_of_body)
     }
     
@@ -381,7 +392,7 @@ struct AspectView: View {
     /// If it's (0,0) it should be ignored
     func pointFor(planet: String) -> CGPoint {
         let point = NSCoder.cgPoint(for: UserDefaults.standard.object(forKey: planet) as? String ?? "{0,0}" )
-        print("Trying to get point for \(planet) and got \(point) ")
+            //   print("Trying to get point for \(planet) and got \(point) ")
         return point
     }
 }

@@ -39,7 +39,7 @@ struct ChartView: View {
                     }
                     
                 })
-                .onTapGesture { aspectsToGet = [AspectType.allCases.randomElement() ?? .all] }
+               // .onTapGesture { aspectsToGet = [AspectType.allCases.randomElement() ?? .all] }
                 .padding()
             
             
