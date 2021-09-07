@@ -37,7 +37,7 @@ struct Aspect: Codable, Identifiable {
 }
 
 
-enum AspectType: String, Codable{
+enum AspectType: String, Codable, CaseIterable{
     
     case none = "NO ASPECT"
     case conjunction = "CONJUNCTION"
@@ -53,7 +53,8 @@ enum AspectType: String, Codable{
     case sesquisquare =  "SESQUISQUARE"
     case biquintile =  "BIQUINTILE"
     case quincunx =  "QUINCUNX"
-    case all 
+    case all
+    case nothing 
 
 }
 

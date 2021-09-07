@@ -20,6 +20,7 @@ struct NatalChartView: View {
     
     var natalChart: NatalChart?
     
+    var shownAspects: [AspectType] = [.all]
    
     
     
@@ -218,7 +219,7 @@ struct NatalChartView: View {
                                 
                                 ForEach(aspects){ aspect in
                                     
-                                    AspectView(aspect: aspect)
+                                    AspectView(aspect: aspect, types_to_show: shownAspects)
                                     /*
                                     let firstPlanet = aspect.first
                                     let secondPlanet = aspect.second
@@ -337,7 +338,7 @@ struct SignCuspLineView: View {
 struct AspectView: View {
     
     let aspect: Aspect
-    let types_to_show: [AspectType] = [.all]
+    let types_to_show: [AspectType] //= [.all]
 
     
     var body: some View{
@@ -357,7 +358,7 @@ struct AspectView: View {
                 path.addLine(to: loc2)
             }
             .stroke()
-            .opacity( (types_to_show.contains(aspect.type) || (types_to_show.contains(.all) && aspect.type != .none) ? 1 : 0))
+            .opacity( ( (types_to_show.contains(aspect.type) && !types_to_show.contains(.nothing) ) || (types_to_show.contains(.all) && aspect.type != .none && !types_to_show.contains(.nothing)) ? 1 : 0))
             
             
         }
@@ -424,6 +425,8 @@ struct Radius: AnimatableModifier {
 struct Make: AnimatableModifier{
     
     var with: NatalChart?
+    var aspectsToShow: [AspectType]?
+    
     
     var animatableData: NatalChart? {
             get     { with }
@@ -450,11 +453,11 @@ struct Make: AnimatableModifier{
             
             
             
-            return NatalChartView(alpha: -1*rotation_offset, natalChart: with)
+            return NatalChartView(alpha: -1*rotation_offset, natalChart: with, shownAspects: aspectsToShow ?? [.all])
                 //.rotate(degrees: rotation_offset )
         }
         /// - WARNING: setting alpha to -180 by default here will cancel spin annimation on initalization if ascendant is not given
-        return NatalChartView( alpha: -180, natalChart: with)
+        return NatalChartView( alpha: -180, natalChart: with,shownAspects: aspectsToShow ?? [.all] )
         
     }
 }
@@ -477,8 +480,8 @@ extension View{
     }
     
     /// Sets the natal chart data and rotates chart based on ascendant 
-    func make(with: NatalChart?) -> some View {
-        modifier(Make(with: with))
+    func make(with: NatalChart?, shownAspects: [AspectType]?) -> some View {
+        modifier(Make(with: with, aspectsToShow: shownAspects))
     }
 }
 

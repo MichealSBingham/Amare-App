@@ -17,6 +17,7 @@ struct ChartView: View {
     
     @State private var chart: NatalChart?
     
+    @State var aspectsToGet: [AspectType] = [.all]
 
     
     var body: some View {
@@ -26,8 +27,9 @@ struct ChartView: View {
         ZStack{
             
             Background()
+                
             NatalChartView()
-                .make(with: chart)
+                .make(with: chart, shownAspects: aspectsToGet)
                 .animation(.easeIn(duration: 3))
                 .onReceive(Just(account), perform: { _ in
                     
@@ -37,7 +39,10 @@ struct ChartView: View {
                     }
                     
                 })
+                .onTapGesture { aspectsToGet = [AspectType.allCases.randomElement() ?? .all] }
                 .padding()
+            
+            
         }
         
         
