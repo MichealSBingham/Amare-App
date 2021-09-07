@@ -298,6 +298,39 @@ struct NatalChartView: View {
     /// Given an array of aspect types, it returns a string representing the aspects given in this array
     /// - example: aspects = [.trine, .square] -> "Trines and Squares"
     func aspectsBeingShown(aspects: [AspectType]) -> String {
+        
+        if aspects.count == 1 {
+            
+            if aspects.first == .all{
+                return "Intra-aspects"
+            }
+            
+            else if aspects.first == .nothing || aspects.first == .none {
+                return ""
+            }
+            
+            else {
+                return "\(aspects.first?.rawValue.capitalized ?? "")s" ?? ""
+            }
+        }
+         
+        else {
+            // there's more than one in the array ...
+            
+            if aspects.contains(.all) { return "Intra-aspects"}
+            else if aspects.contains(.nothing) || aspects.contains(.none) {return ""}
+            
+            var words: [String] = []
+            for aspect in aspects {
+                
+                words.append(aspectsBeingShown(aspects: [aspect]))
+                
+            }
+            
+            
+            return words.joined(separator: "\n")
+            
+        }
         return "\(aspects.first?.rawValue ?? "")"
         
     }
