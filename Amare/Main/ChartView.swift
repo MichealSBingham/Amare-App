@@ -17,7 +17,7 @@ struct ChartView: View {
     
     @State private var chart: NatalChart?
     
-    @State var aspectsToGet: [AspectType] = [.all]
+    @State var aspectToGet: AspectType = .all
 
     
     var body: some View {
@@ -29,7 +29,7 @@ struct ChartView: View {
             Background()
                 
             NatalChartView()
-                .make(with: chart, shownAspects: aspectsToGet)
+                .make(with: chart/*, shownAspect: aspectToGet*/)
                 .animation(.easeIn(duration: 3))
                 .onReceive(Just(account), perform: { _ in
                     

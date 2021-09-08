@@ -37,7 +37,7 @@ struct Aspect: Codable, Identifiable {
 }
 
 
-enum AspectType: String, Codable, CaseIterable{
+enum AspectType: String, Codable, CaseIterable, Identifiable{
     
     case none = "NO ASPECT"
     case conjunction = "CONJUNCTION"
@@ -54,7 +54,34 @@ enum AspectType: String, Codable, CaseIterable{
     case biquintile =  "BIQUINTILE"
     case quincunx =  "QUINCUNX"
     case all
-    case nothing 
+    case nothing
+    
+    var id: String { self.rawValue }
+    
+    var localizedName: LocalizedStringKey { LocalizedStringKey(self.toString()) }
+    
+    static func options() -> [AspectType]{
+        var opt = AspectType.allCases
+         opt.removeAll(where: {$0 == .none})
+        return opt 
+    }
+    
+    func toString() -> String{
+        
+        switch self {
+        case .quincunx:
+            return "Quincunxes"
+        case .none:
+            return "None"
+        case .nothing:
+            return "None"
+        case .all:
+            return "All"
+        default:
+            return "\(self.rawValue.capitalized)s"
+        }
+    }
+    
 
 }
 

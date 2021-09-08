@@ -23,8 +23,10 @@ struct NatalChartView: View {
     /// If nil, only the default wheel will be draw.
     var natalChart: NatalChart?
     
-    /// An array of intraaspects to show, by default will be all of them.
-    @State var shownAspects: [AspectType] = [.all]
+    /// Aspect to show, either all or one or none for now
+    @State var aspectSelected:  AspectType = .all 
+        
+        // [AspectType] = [.all]
    
     /// Distance from the inner FRAME (zodiac wheel) to the inner circle where the ticks are
     var distance_from_edge_of_frame_to_ticks = 50
@@ -36,7 +38,9 @@ struct NatalChartView: View {
     @State var showAspectLabel: Bool = false
     
     /// Whether or not the user selected a planet and more information should be shown
-    @State var planetSelected: Bool = false
+    @State var planetSelected: Planet?
+    
+   // @State var aspectSelected: AspectType?
     
     var body: some View {
         
@@ -47,6 +51,7 @@ struct NatalChartView: View {
                         Circle()
                             .stroke()
                             .frame(width: (R != .infinity) ? CGFloat(2*R): .infinity, height: (R != .infinity) ? CGFloat(2*R): .infinity)
+                            
                            
                     
                     GeometryReader{ outerCircleGeometry in
@@ -134,36 +139,40 @@ struct NatalChartView: View {
                                     
                                     Text(" ∙ ")
                                         .position(location)
+                                       
                                    
                                     
                                 }
                                 
-                                // Invisible button on aspects to click on
                                 /*
-                                Button(action: {
-                                    print("Did tap inside and should change aspects  ")
-                                    shownAspects = [AspectType.allCases.randomElement() ?? .all]
-                                    
-                                   showAspectLabel = true
-                                    
-                                    AmareApp().delay(3) {
-                                        showAspectLabel = false
+                                Circle()
+
+                                    .foregroundColor(.black.opacity(0.0001))
+                                     .frame(width: CGFloat(2*circle_radius_where_ticks_are_at), height: CGFloat(2*circle_radius_where_ticks_are_at))
+                                     .position(x: CGFloat(Double(x_center)), y: CGFloat(Double(y_center)))
+                                    .contextMenu{
+                                        Button {
+                                            //style = 0
+                                        } label: {
+                                            Text("Linear")
+                                            Image(systemName: "arrow.down.right.circle")
+                                        }
+                                        Button {
+                                            //style = 1
+                                        } label: {
+                                            Text("Radial")
+                                            Image(systemName: "arrow.up.and.down.circle")
+                                        }
+
+                                        
                                     }
-                                    
-                                    
-                                }, label: {
-                                    
-                                    Circle()
-                                         .frame(width: CGFloat(circle_radius_where_ticks_are_at), height: CGFloat(circle_radius_where_ticks_are_at))
-                                         .position(x: CGFloat(Double(x_center)), y: CGFloat(Double(y_center)))
-                                        .opacity(0)
-                                })
-                             
+                                
                                 */
+ 
                                 
-                                 
+                              
                                 
-                                Text(aspectsBeingShown(aspects: shownAspects))
+                                Text((aspectSelected ?? .all).toString())
                                     .foregroundColor(.white)
                                     .rotationEffect(.degrees(-1*alpha))
                                     .position(x: CGFloat(Double(x_center)), y: CGFloat(Double(y_center)))
@@ -254,18 +263,15 @@ struct NatalChartView: View {
                                         })
                                         .onTapGesture{
                                             print("Planet selected: \(planet)")
+                                            planetSelected = planet
                                         }
                                         .zIndex(1)
                                     
                                     
-                                    /*
-                                    Button("P") {
-                                        print("Planet selected: \(planet)")
-                                    }
-                                    .position(pos)
-                                    */
+                                   
+                                    
                                 
-                                    // TODO: Need so save Planet / pos somehow to retrieve later
+                                    // TODO: Need so save Planet / pos somehow to retrieve later.. i think i did this already
                                         
                                     
                                 }
@@ -278,19 +284,60 @@ struct NatalChartView: View {
                                 
                                 let aspects = natalChart?.aspects ?? []
                                 
-                                ForEach(aspects){ aspect in
+                                ZStack{
                                     
-                                    AspectView(aspect: aspect, types_to_show: shownAspects)
-                                        .opacity(hideALLAspects ? 0: 1)
-                                    
+                                    ForEach(aspects){ aspect in
+                                        
+                                        AspectView(aspect: aspect, type_to_show: aspectSelected ?? .all)
+                                            .opacity(hideALLAspects ? 0: 1)
+                                           
+                                    }
                                 }
+                                .contextMenu{
+                                    
+                                    Menu("Aspects") {
+                                        
+                                        Picker("Chosen", selection: $aspectSelected){
+                                            
+                                            var options = AspectType.options()
+                                            
+                                            ForEach(options, id: \.self){ aspect in
+                                                
+                                                Text(aspect.localizedName)
+                                                    .tag(aspect)
+                                            }
+                                            
+                                        
+                                            
+                                        }
+                                    }
+
+                                    
+                                }/*
+                                .onTapGesture {
+                                    print("Did click and should change aspects ")
+                                    
+                                    aspectSelected = .trine
+                                                                        
+                                                                       showAspectLabel = true
+                                                                        
+                                                                        AmareApp().delay(3) {
+                                                                            showAspectLabel = false
+                                                                        }
+                                } */
+                                
+                               
+                                
+                                
                             }
                             
+                            
+                          
                         }.frame(width: outerCircleGeometry.size.width - CGFloat(d), height: outerCircleGeometry.size.height - CGFloat(d))
                         
                         
                         
-                    
+                        
                         
                         
                         
@@ -302,6 +349,23 @@ struct NatalChartView: View {
                     
                 }.frame(width: (R != .infinity) ? CGFloat(2*R): .infinity, height: (R != .infinity) ? CGFloat(2*R): .infinity)
                 .rotationEffect(.degrees(alpha))
+               /* .contextMenu{
+                    Button {
+                        //style = 0
+                    } label: {
+                        Text("Linear")
+                        Image(systemName: "arrow.down.right.circle")
+                    }
+                    Button {
+                        //style = 1
+                    } label: {
+                        Text("Radial")
+                        Image(systemName: "arrow.up.and.down.circle")
+                    }
+
+                    
+                } */
+
         
                
             
@@ -452,7 +516,7 @@ struct SignCuspLineView: View {
 struct AspectView: View {
     
     let aspect: Aspect
-    let types_to_show: [AspectType] //= [.all]
+    let type_to_show: AspectType //= [.all]
 
     
     var body: some View{
@@ -472,7 +536,9 @@ struct AspectView: View {
                 path.addLine(to: loc2)
             }
             .stroke()
-            .opacity( ( (types_to_show.contains(aspect.type) && !types_to_show.contains(.nothing) ) || (types_to_show.contains(.all) && aspect.type != .none && !types_to_show.contains(.nothing)) ? 1 : 0))
+            .opacity(type_to_show == aspect.type || type_to_show ==  .all ? 1 : 0  )
+            
+            //.opacity( ( (type_to_show == (aspect.type) && type_to_show  != .nothing) ) || (type_to_show == .all) && aspect.type != .none && type_to_show != .nothing ? 1 : 0)
             
             
         }
@@ -539,7 +605,7 @@ struct Radius: AnimatableModifier {
 struct Make: AnimatableModifier{
     
     var with: NatalChart?
-    var aspectsToShow: [AspectType]?
+    var aspectSelected: AspectType?
     
     
     var animatableData: NatalChart? {
@@ -567,11 +633,11 @@ struct Make: AnimatableModifier{
             
             
             
-            return NatalChartView(alpha: -1*rotation_offset, natalChart: with, shownAspects: aspectsToShow ?? [.all])
+            return NatalChartView(alpha: -1*rotation_offset, natalChart: with, aspectSelected: aspectSelected ?? .all)
                 //.rotate(degrees: rotation_offset )
         }
         /// - WARNING: setting alpha to -180 by default here will cancel spin annimation on initalization if ascendant is not given
-        return NatalChartView( alpha: -180, natalChart: with,shownAspects: aspectsToShow ?? [.all] )
+        return NatalChartView( alpha: -180, natalChart: with,aspectSelected: aspectSelected ?? .all )
         
     }
 }
@@ -594,8 +660,8 @@ extension View{
     }
     
     /// Sets the natal chart data and rotates chart based on ascendant 
-    func make(with: NatalChart?, shownAspects: [AspectType]?) -> some View {
-        modifier(Make(with: with, aspectsToShow: shownAspects))
+    func make(with: NatalChart?, shownAspect: AspectType? = .all) -> some View {
+        modifier(Make(with: with, aspectSelected:  shownAspect))
     }
 }
 
