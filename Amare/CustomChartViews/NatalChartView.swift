@@ -15,7 +15,7 @@ struct NatalChartView: View {
     
     /// Distance between outer and inner circles. (Out-most circle -- inner FRAME circle. Not the inner most circle where the ticks are)
     /// will also determine the size of the planet / sign symbols.
-    var d: Double = 45
+    var d: Double = 50 // was 45 in prior version 
     
     /// Wheel rotation , if > 0 clockwise rotation, otherwise counterclockwise rotation . Used for helping rotate natal chart.
     var alpha: Double = 0
@@ -34,6 +34,9 @@ struct NatalChartView: View {
     
     /// Whether or not to show what aspects are being shown in the natal chart
     @State var showAspectLabel: Bool = false
+    
+    /// Whether or not the user selected a planet and more information should be shown
+    @State var planetSelected: Bool = false
     
     var body: some View {
         
@@ -136,6 +139,7 @@ struct NatalChartView: View {
                                 }
                                 
                                 // Invisible button on aspects to click on
+                                /*
                                 Button(action: {
                                     print("Did tap inside and should change aspects  ")
                                     shownAspects = [AspectType.allCases.randomElement() ?? .all]
@@ -150,16 +154,17 @@ struct NatalChartView: View {
                                 }, label: {
                                     
                                     Circle()
-                                         .frame(width: CGFloat(2*circle_radius_where_ticks_are_at), height: CGFloat(2*circle_radius_where_ticks_are_at))
+                                         .frame(width: CGFloat(circle_radius_where_ticks_are_at), height: CGFloat(circle_radius_where_ticks_are_at))
                                          .position(x: CGFloat(Double(x_center)), y: CGFloat(Double(y_center)))
                                         .opacity(0)
                                 })
                              
-                                
+                                */
                                 
                                  
                                 
                                 Text(aspectsBeingShown(aspects: shownAspects))
+                                    .foregroundColor(.white)
                                     .rotationEffect(.degrees(-1*alpha))
                                     .position(x: CGFloat(Double(x_center)), y: CGFloat(Double(y_center)))
                                     .opacity(showAspectLabel ? 1 : 0 )
@@ -230,7 +235,11 @@ struct NatalChartView: View {
                                     
                                     let pos = polar(x_center: Double(x_center), y_center: Double(y_center), r: Double(circle_radius_where_ticks_are_at)+Double(10*Int.random(in: 1...4)), theta: relative_deg)
                                     // Planet Symbol should go here
+                                    
+                                    
+                                    
                                     planet.image()
+                                        //.buttonStyle(.default)
                                         .resizable()
                                         .aspectRatio(contentMode: .fit)
                                         .frame(width: CGFloat(d*0.30), height: CGFloat(d*0.30))
@@ -243,7 +252,18 @@ struct NatalChartView: View {
                                             
                                             save(name_of_body: planet.name.rawValue, point: tickPos)
                                         })
+                                        .onTapGesture{
+                                            print("Planet selected: \(planet)")
+                                        }
+                                        .zIndex(1)
                                     
+                                    
+                                    /*
+                                    Button("P") {
+                                        print("Planet selected: \(planet)")
+                                    }
+                                    .position(pos)
+                                    */
                                 
                                     // TODO: Need so save Planet / pos somehow to retrieve later
                                         
@@ -295,8 +315,31 @@ struct NatalChartView: View {
             
     }
     
+    func PlanetView(planet: Planet, pos: CGPoint, x_center: CGFloat, y_center: CGFloat, circle_radius_where_ticks_are_at: CGFloat, relative_deg: Double) -> some View {
+        
+        planet.image()
+            // .buttonStyle(.default)
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(width: CGFloat(d*0.30), height: CGFloat(d*0.30))
+            .colorInvert()
+            .rotationEffect(.degrees(-alpha))
+            .position(pos)
+            .onAppear(perform:{
+                
+                let tickPos = polar(x_center: Double(x_center), y_center: Double(y_center), r: Double(circle_radius_where_ticks_are_at), theta: relative_deg)
+                
+                save(name_of_body: planet.name.rawValue, point: tickPos)
+            })
+            .onTapGesture{
+                print("Planet selected: \(planet)")
+            }
+            .zIndex(1)
+    }
+    
     /// Given an array of aspect types, it returns a string representing the aspects given in this array
     /// - example: aspects = [.trine, .square] -> "Trines and Squares"
+    /// -TODO: error for quincunx
     func aspectsBeingShown(aspects: [AspectType]) -> String {
         
         if aspects.count == 1 {
@@ -305,12 +348,14 @@ struct NatalChartView: View {
                 return "Intra-aspects"
             }
             
-            else if aspects.first == .nothing || aspects.first == .none {
+            if aspects.first == .quincunx {return "Quincunxes"}
+            
+            else if aspects.first == .nothing || aspects.first == AspectType.none {
                 return ""
             }
             
             else {
-                return "\(aspects.first?.rawValue.capitalized ?? "")s" ?? ""
+                return "\(aspects.first?.rawValue.capitalized ?? "")s"
             }
         }
          
@@ -331,9 +376,10 @@ struct NatalChartView: View {
             return words.joined(separator: "\n")
             
         }
-        return "\(aspects.first?.rawValue ?? "")"
+        //return "\(aspects.first?.rawValue ?? "")"
         
     }
+    
      func save(name_of_body: String, point: CGPoint)  {
         let pt = NSCoder.string(for: point)
      //   print("Saving .. \(name_of_body) at \(pt)" )
