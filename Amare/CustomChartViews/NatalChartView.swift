@@ -24,7 +24,7 @@ struct NatalChartView: View {
     var natalChart: NatalChart?
     
     /// Aspect to show, either all or one or none for now
-    @State var aspectSelected:  AspectType = .all 
+    @State var aspectSelected:  AspectType = .all
         
         // [AspectType] = [.all]
    
@@ -293,6 +293,9 @@ struct NatalChartView: View {
                                            
                                     }
                                 }
+                                .contentShape( Circle()
+                                                /*
+                                                 .frame(width: CGFloat(2*circle_radius_where_ticks_are_at), height: CGFloat(2*circle_radius_where_ticks_are_at))*/)
                                 .contextMenu{
                                     
                                     Menu("Aspects") {
@@ -313,7 +316,12 @@ struct NatalChartView: View {
                                     }
 
                                     
-                                }/*
+                                }
+                                
+                                
+                                /*
+                                 
+                                 
                                 .onTapGesture {
                                     print("Did click and should change aspects ")
                                     
