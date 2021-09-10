@@ -32,7 +32,7 @@ struct ChartView: View {
                 .make(with: chart/*, shownAspect: aspectToGet*/)
                 .animation(.easeIn(duration: 3))
                 .onReceive(Just(account), perform: { _ in
-                    
+            
                     AmareApp().delay(1) {
                         
                         chart = account.data?.natal_chart

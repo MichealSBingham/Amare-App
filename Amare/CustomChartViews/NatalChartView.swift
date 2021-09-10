@@ -40,6 +40,8 @@ struct NatalChartView: View {
     /// Whether or not the user selected a planet and more information should be shown
     @State var planetSelected: Planet?
     
+    @State var showHouses: Bool = true
+    
    // @State var aspectSelected: AspectType?
     
     var body: some View {
@@ -95,7 +97,7 @@ struct NatalChartView: View {
                                     let pointAtOuterCircle = polar(x_center: Double(x_center), y_center: Double(y_center), r: Double(R_), theta: theta)
 
                                     
-                                    SignCuspLineView(from: pointAtInnerCircle, to: pointAtOuterCircle)
+                                    Line(from: pointAtInnerCircle, to: pointAtOuterCircle)
                                     
                                 
                                     
@@ -277,6 +279,10 @@ struct NatalChartView: View {
                                 }
                                 
                                 
+                                HouseDividers(x_center: Double(x_center), y_center: Double(y_center), r: Double(circle_radius_where_ticks_are_at), R_: Double(r))
+                                    .opacity(showHouses ? 0.5: 0 )
+                                    .zIndex(0)
+                                
                                 
                                 // Draws the Aspects
                                 
@@ -300,6 +306,9 @@ struct NatalChartView: View {
                                     
                                     Menu("Aspects") {
                                         
+                                       
+                                        
+                                        
                                         Picker("Chosen", selection: $aspectSelected){
                                             
                                             var options = AspectType.options()
@@ -316,7 +325,16 @@ struct NatalChartView: View {
                                     }
 
                                     
+                                    Menu("Houses") {
+                                        
+                                        Picker("Houses", selection: $showHouses){
+                                            
+                                            Text("Show Houses").tag(true)
+                                            Text("Hide Houses").tag(false)
+                                        }
+                                    }
                                 }
+                                
                                 
                                 
                                 /*
@@ -380,11 +398,41 @@ struct NatalChartView: View {
                 
             
                 
-            
+        
             
         
         
             
+    }
+    
+    func HouseDividers(x_center: Double, y_center: Double, r: Double, R_: Double) -> some View {
+        let houses = self.natalChart?.houses ?? []
+        
+        return  ZStack{
+                
+               ForEach(houses) { house in
+                
+                // Draw house divider
+                
+                let sign = house.sign
+                let angle = house.angle
+                
+                let relative_deg = angle + sign.beginsAt()
+                
+                
+                let sp: CGPoint = polar(x_center: x_center, y_center: y_center, r: r, theta: relative_deg)
+                
+                let ep: CGPoint = polar(x_center: x_center, y_center: y_center, r: R_, theta: relative_deg)
+                
+                Line(from: sp, to: ep)
+
+               
+                
+            }
+                
+    }
+            
+
     }
     
     func PlanetView(planet: Planet, pos: CGPoint, x_center: CGFloat, y_center: CGFloat, circle_radius_where_ticks_are_at: CGFloat, relative_deg: Double) -> some View {
@@ -493,7 +541,7 @@ struct NatalChartView: View {
 
 
 
-struct SignCuspLineView: View {
+struct Line: View {
     
     let from: CGPoint
     let to: CGPoint

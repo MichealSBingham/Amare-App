@@ -25,7 +25,7 @@ struct House: Codable, Identifiable {
     let size: Double
     
     /// The ruling planets or angles. An array of planets/angles this house contains.
-    let rulingBodies: [Body]
+    let rulingBodies: [Body]?
     
     enum CodingKeys: String, CodingKey {
         
