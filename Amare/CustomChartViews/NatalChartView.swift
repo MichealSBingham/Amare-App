@@ -420,11 +420,37 @@ struct NatalChartView: View {
                 let relative_deg = angle + sign.beginsAt()
                 
                 
+                
+                
                 let sp: CGPoint = polar(x_center: x_center, y_center: y_center, r: r, theta: relative_deg)
                 
                 let ep: CGPoint = polar(x_center: x_center, y_center: y_center, r: R_, theta: relative_deg)
                 
+                let offset = (house.size*0.5)
+                
+                let sp2: CGPoint = polar(x_center: x_center, y_center: y_center, r: r, theta: relative_deg + offset)
+                
+                let ep2: CGPoint = polar(x_center: x_center, y_center: y_center, r: R_, theta: relative_deg + offset )
+                
+                
+                
+              //  let r_mid = 0.5*r*R_
+                let r__ : CGPoint = sp2.midpoint(with: ep2)
+                
+              //  let theta_mid = ((house.size)/2) + relative_deg
+                
+            //    var midpoint_between_houses: CGPoint = polar(x_center: x_center, y_center: y_center, r: r_mid, theta: Double(theta_mid))
+                
+                
+                
+                Text("\(house.ordinality)")
+                    .rotationEffect(.degrees(-alpha))
+                    .position(r__)
+
+                
+                
                 Line(from: sp, to: ep)
+              //  Line(from: sp2, to: ep2).foregroundColor(.black)
 
                
                 
