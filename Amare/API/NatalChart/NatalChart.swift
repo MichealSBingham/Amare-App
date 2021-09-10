@@ -11,12 +11,12 @@ import Foundation
 public struct NatalChart: Codable {
     
     /// An array of the 4 angles (Midheaven, Ascendant, Descendant, IC)
-    var angles: [Angle]
-    let aspects: [Aspect] 
-    var birth_place: Place
-    var birthday: String
-   // let houses: [House]? = nil
-    var planets: [Planet]
+    let angles: [Angle]
+    let aspects: [Aspect]
+    let birth_place: Place
+    let birthday: String
+    let houses: [House]
+    let planets: [Planet]
    // var name: String?
     
    // public var id: String {name ?? "EmptyName"}, not needed ATM
