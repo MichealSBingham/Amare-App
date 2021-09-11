@@ -36,6 +36,22 @@ extension NSNotification {
     /// Due to an error or some other type of reason, we need to the view to 'go back' one view (or pop back) so we use this notification to tell us when to do that. Post this notification whenever the view needs to go backwards and some reason you can't access the exact view the user is on at the moment. 
     static let goBack = NSNotification.Name.init("goBack")
     static let verificationCodeSent = NSNotification.Name.init(rawValue: "verificationCodeSent")
+    
+    /// User likely tapped on a sign/angle/planet/house and wants more information on it. Typically we will show the bottom popup view when we receive this
+    static let wantsMoreInfoFromNatalChart = NSNotification.Name.init(rawValue: "wantsMoreInfoFromNatalChart")
+
+    /*
+    /// User likely tapped on a house and wants more information on it. Typically we will show the bottom popup view when we receive this
+    static let wantsHouseInfo = NSNotification.Name.init(rawValue: "wantsHouseInfo")
+    
+    /// User likely tapped on a Zodiac Sign  and wants more information on it. Typically we will show the bottom popup view when we receive this
+    static let wantsZodiacSignInfo = NSNotification.Name.init(rawValue: "wantsZodiacSignInfo")
+    
+    static let wantsPlanetInfo = NSNotification.Name.init(rawValue: "wantsPlanetInfo")
+    
+    static let wantsAngleInfo = NSNotification.Name.init(rawValue: "wantsAngleInfo")
+    */
+    
 }
 
 

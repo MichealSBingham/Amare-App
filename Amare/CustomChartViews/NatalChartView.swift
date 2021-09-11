@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PopupView
 
 /// Represents a natal chart
 struct NatalChartView: View {
@@ -41,6 +42,8 @@ struct NatalChartView: View {
     @State var planetSelected: Planet?
     
     @State var showHouses: Bool = true
+    
+    @State var showBottomPopup: Bool = false
     
    // @State var aspectSelected: AspectType?
     
@@ -121,6 +124,11 @@ struct NatalChartView: View {
                                         .colorInvert()
                                         .rotationEffect(.degrees(-1*alpha))
                                         .position(x: pointToPlace.x, y: pointToPlace.y)
+                                        .onTapGesture{
+                                            print("Sign selected \(sign)")
+                                            NotificationCenter.default.post(name: NSNotification.wantsMoreInfoFromNatalChart, object: sign)
+                                            
+                                        }
                                     
                                         
                                         
@@ -221,6 +229,10 @@ struct NatalChartView: View {
                                             
                                             save(name_of_body: angleBody.name.rawValue, point: tickPos)
                                         })
+                                        .onTapGesture{
+                                            print("angle selected \(angleBody)")
+                                            NotificationCenter.default.post(name: NSNotification.wantsMoreInfoFromNatalChart, object: angleBody)
+                                        }
                                         
                                         
                                     
@@ -265,7 +277,7 @@ struct NatalChartView: View {
                                         })
                                         .onTapGesture{
                                             print("Planet selected: \(planet)")
-                                            planetSelected = planet
+                                       NotificationCenter.default.post(name: NSNotification.wantsMoreInfoFromNatalChart, object: planet)
                                         }
                                         .zIndex(1)
                                     
@@ -375,23 +387,9 @@ struct NatalChartView: View {
                     
                 }.frame(width: (R != .infinity) ? CGFloat(2*R): .infinity, height: (R != .infinity) ? CGFloat(2*R): .infinity)
                 .rotationEffect(.degrees(alpha))
-               /* .contextMenu{
-                    Button {
-                        //style = 0
-                    } label: {
-                        Text("Linear")
-                        Image(systemName: "arrow.down.right.circle")
-                    }
-                    Button {
-                        //style = 1
-                    } label: {
-                        Text("Radial")
-                        Image(systemName: "arrow.up.and.down.circle")
-                    }
-
-                    
-                } */
-
+              
+              
+             
         
                
             
@@ -446,6 +444,11 @@ struct NatalChartView: View {
                 Text("\(house.ordinality)")
                     .rotationEffect(.degrees(-alpha))
                     .position(r__)
+                    .onTapGesture{
+                        print("House selected \(house)")
+                          NotificationCenter.default.post(name: NSNotification.wantsMoreInfoFromNatalChart, object: house)
+
+                    }
 
                 
                 
@@ -478,7 +481,9 @@ struct NatalChartView: View {
                 save(name_of_body: planet.name.rawValue, point: tickPos)
             })
             .onTapGesture{
-                print("Planet selected: \(planet)")
+                
+                NotificationCenter.default.post(name: NSNotification.wantsMoreInfoFromNatalChart, object: planet)
+                
             }
             .zIndex(1)
     }

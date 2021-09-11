@@ -18,6 +18,10 @@ struct ChartView: View {
     @State private var chart: NatalChart?
     
     @State var aspectToGet: AspectType = .all
+    
+    @State var showBottomPopup: Bool = false
+    
+    @State var infoToShow: String?
 
     
     var body: some View {
@@ -27,7 +31,7 @@ struct ChartView: View {
         ZStack{
             
             Background()
-                
+            
             NatalChartView()
                 .make(with: chart/*, shownAspect: aspectToGet*/)
                 .animation(.easeIn(duration: 3))
@@ -36,13 +40,49 @@ struct ChartView: View {
                     AmareApp().delay(1) {
                         
                         chart = account.data?.natal_chart
+                     
                     }
                     
                 })
+                .onReceive(NotificationCenter.default.publisher(for: NSNotification.wantsMoreInfoFromNatalChart)) { obj in
+                   
+                    showBottomPopup = true
+                    
+                    if let sign = obj.object as? ZodiacSign{
+                        
+                        infoToShow = sign.rawValue
+                    }
+                    
+                    if let planet = obj.object as? Planet{
+                        
+                        infoToShow = planet.name.rawValue
+                    }
+                    
+                    if let house = obj.object as? House{
+                        
+                        infoToShow = String(house.ordinality)
+                    }
+                    
+                    if let angle = obj.object as? Angle{
+                        
+                        infoToShow = angle.name.rawValue
+                    }
+                 //   infoToShow = (obj.object as? ZodiacSign)?.rawValue }
+                
+                }
+                
                 .padding()
             
             
         }
+        .popup(isPresented: $showBottomPopup, type: .toast, position: .bottom) {
+            // your content
+            Text("\(infoToShow ?? "")")
+                            .frame(width: 200, height: 200)
+                            .background(Color(red: 0.85, green: 0.8, blue: 0.95))
+                            .cornerRadius(30.0)
+        }
+ 
         
         
     }
