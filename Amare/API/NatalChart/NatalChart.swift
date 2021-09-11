@@ -17,6 +17,11 @@ public struct NatalChart: Codable {
     let birthday: String
     let houses: [House]
     let planets: [Planet]
+    
+    /// Aspects used in synastry between this chart and another chart.
+    var synastryAspects: [Aspect]?
+    /// The other person's (outer chart) planets if a synastry chart was added to this 
+    var synastryPlanets: [Planet]?
    // var name: String?
     
    // public var id: String {name ?? "EmptyName"}, not needed ATM

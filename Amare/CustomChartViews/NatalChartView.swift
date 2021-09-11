@@ -23,6 +23,7 @@ struct NatalChartView: View {
     
     /// If nil, only the default wheel will be draw.
     var natalChart: NatalChart?
+
     
     /// Aspect to show, either all or one or none for now
     @State var aspectSelected:  AspectType = .all
@@ -307,7 +308,7 @@ struct NatalChartView: View {
                                     ForEach(aspects){ aspect in
                                         
                                         AspectView(aspect: aspect, type_to_show: aspectSelected ?? .all)
-                                            .opacity(hideALLAspects ? 0: 1)
+                                            .opacity((hideALLAspects || natalChart?.synastryPlanets != nil) ? 0: 1)
                                            
                                     }
                                 }

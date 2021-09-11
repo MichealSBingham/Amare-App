@@ -70,6 +70,12 @@ struct ChartView: View {
                  //   infoToShow = (obj.object as? ZodiacSign)?.rawValue }
                 
                 }
+                .onTapGesture {
+                    account.getNatalChart(from: "q7PxPu7095eSrmZoG1sO1zncty32" ) { error, natal in
+                        
+                        chart?.synastryPlanets = natal?.planets
+                    }
+                }
                 
                 .padding()
             
