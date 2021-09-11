@@ -31,7 +31,7 @@ struct NatalChartView: View {
         // [AspectType] = [.all]
    
     /// Distance from the inner FRAME (zodiac wheel) to the inner circle where the ticks are
-    var distance_from_edge_of_frame_to_ticks = 50
+    @State var distance_from_edge_of_frame_to_ticks = 50
     
     /// Whether or not to show or hide the aspects of the natal chart by default no
     var hideALLAspects: Bool = false
@@ -139,7 +139,11 @@ struct NatalChartView: View {
                                 }
                                 
                                 
-                                let circle_radius_where_ticks_are_at = Int(r)-distance_from_edge_of_frame_to_ticks
+                            
+                                
+                                var circle_radius_where_ticks_are_at = ( natalChart?.synastryPlanets == nil )  ? Int(r)-distance_from_edge_of_frame_to_ticks : (Int(r)-distance_from_edge_of_frame_to_ticks) / 2
+                                
+                                
                                 // Draws the degree ticks/points
                                 ForEach(0 ..< 360) { deg in
                                     

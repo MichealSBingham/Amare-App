@@ -22,6 +22,8 @@ struct ChartView: View {
     @State var showBottomPopup: Bool = false
     
     @State var infoToShow: String?
+    
+    @State var didChangeCharts: Bool = false
 
     
     var body: some View {
@@ -37,6 +39,8 @@ struct ChartView: View {
                 .animation(.easeIn(duration: 3))
                 .onReceive(Just(account), perform: { _ in
             
+                    guard !didChangeCharts else { return }
+                    
                     AmareApp().delay(1) {
                         
                         chart = account.data?.natal_chart
@@ -73,6 +77,7 @@ struct ChartView: View {
                 .onTapGesture {
                     account.getNatalChart(from: "q7PxPu7095eSrmZoG1sO1zncty32" ) { error, natal in
                         
+                        didChangeCharts = true
                         chart?.synastryPlanets = natal?.planets
                     }
                 }
