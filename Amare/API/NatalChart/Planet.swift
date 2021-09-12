@@ -31,7 +31,11 @@ struct Planet: Codable, Identifiable{
     /// Average speed planet is moving in degrees/day
     let speed: Double
     
-    var id: String { name.rawValue }
+    var id: String { "\(name.rawValue)\(sign.rawValue)\(angle)" }
+    var iconName: String {name.rawValue}
+    
+    /// If we run synastry with person A and person B, this distinguishes A's planets from B's. So if B is the outer person on the bi-wheel chart, this property will be true for B's planets. 
+    var forSynastry: Bool? = false
     
     enum CodingKeys: String, CodingKey {
         
@@ -49,7 +53,7 @@ struct Planet: Codable, Identifiable{
     
     func image() ->  Image {
         
-        return Image("ZodiacIcons/\(self.id)")
+        return Image("ZodiacIcons/\(self.iconName)")
                 
     }
     

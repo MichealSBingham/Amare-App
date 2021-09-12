@@ -29,12 +29,16 @@ struct Angle: Codable, Identifiable{
     /// A cusp object will contain the cusp element and cusp sign the object is on
     let almost: CuspObject?
     
-    var id: String { name.rawValue }
+    /// If we run synastry with person A and person B, this distinguishes A's planets from B's. So if B is the outer person on the bi-wheel chart, this property will be true for B's planets
+    var forSynastry: Bool? = false
+    
+    var id: String { "\(name.rawValue)\(sign.rawValue)\(angle)" }
+    var iconName: String { name.rawValue }
     
     /// Will return the symbol of the planet
     func image() ->  Image {
         
-        return Image("ZodiacIcons/\(self.id)")
+        return Image("ZodiacIcons/\(self.iconName)")
                 
     }
 }

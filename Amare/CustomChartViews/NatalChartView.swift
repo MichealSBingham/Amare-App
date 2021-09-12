@@ -245,9 +245,13 @@ struct NatalChartView: View {
                                 
                                 // Draws the Planets (Sun, Moon, etc..)
                                 
-                                let planets = natalChart?.planets ?? []
                                 
-                                ForEach(planets){ planet in
+                                var planets = (natalChart?.planets ?? [])
+                                var synastryPlanets = (natalChart?.synastryPlanets ?? [])
+                                
+                            var allPlanets  = planets + synastryPlanets
+                                
+                                ForEach(allPlanets){ planet in
                                     
                                     let sign = planet.sign
                                     let deg = planet.angle
@@ -276,9 +280,17 @@ struct NatalChartView: View {
                                         .position(pos)
                                         .onAppear(perform:{
                                             
+                                            guard !(planet.forSynastry ?? false) else {return}
+                                            
+                                            // If it's a part of the inner person's natal chart
+                                            
                                             let tickPos = polar(x_center: Double(x_center), y_center: Double(y_center), r: Double(circle_radius_where_ticks_are_at), theta: relative_deg)
                                             
                                             save(name_of_body: planet.name.rawValue, point: tickPos)
+                                            
+                                            
+                                           
+                                            
                                         })
                                         .onTapGesture{
                                             print("Planet selected: \(planet)")
@@ -295,6 +307,12 @@ struct NatalChartView: View {
                                     
                                 }
                                 
+                                /*
+                                let synastryPlanets = natalChart?.synastryPlanets ?? []
+                                ForEach(synastryPlanets) {
+                                    
+                                    
+                                } */
                                 
                                 HouseDividers(x_center: Double(x_center), y_center: Double(y_center), r: Double(circle_radius_where_ticks_are_at), R_: Double(r))
                                     .opacity(showHouses ? 0.5: 0 )

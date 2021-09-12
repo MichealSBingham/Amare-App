@@ -11,12 +11,12 @@ import Foundation
 public struct NatalChart: Codable {
     
     /// An array of the 4 angles (Midheaven, Ascendant, Descendant, IC)
-    let angles: [Angle]
-    let aspects: [Aspect]
+    var angles: [Angle]
+    var aspects: [Aspect]
     let birth_place: Place
     let birthday: String
-    let houses: [House]
-    let planets: [Planet]
+    var houses: [House]
+    var planets: [Planet]
     
     /// Aspects used in synastry between this chart and another chart.
     var synastryAspects: [Aspect]?

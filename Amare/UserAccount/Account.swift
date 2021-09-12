@@ -707,7 +707,13 @@ class Account: ObservableObject {
         
     }
     
-    func getNatalChart(from id: String, completion: ( (_ err: Error?, _ natalChart: NatalChart?) -> Void)?  = nil )  {
+    
+    /// Returns the natal chart for a public arbitary user specified by id
+    /// - Parameters:
+    ///   - id: ID of the user
+    ///   - forSynastry: True by default. This will make sure the planets and other luminary bodies returned have the attribute`forSynastry` marked true. (useful for the `NatalChartView`
+    ///   - completion: Returns the error and natal chart
+    func getNatalChart(from id: String, forSynastry: Bool? = true, completion: ( (_ err: Error?, _ natalChart: NatalChart?) -> Void)?  = nil )  {
         
         
         let DB =  (self.db == nil) ? Firestore.firestore()   :  self.db!
@@ -780,9 +786,19 @@ class Account: ObservableObject {
                 
                 case .success(let data):
                     
-                    if let data = data{
+                    if var data = data{
                         
                         // Data object contains all of the user's data
+                        
+                        // Mark all of the planets and angles as being used for synastry...
+                        for (index, _) in data.planets.enumerated() {
+                            data.planets[index].forSynastry = true
+                        }
+                        
+                        for (index, _) in data.angles.enumerated() {
+                            data.angles[index].forSynastry = true
+                        }
+                        
                         
                         completion?(nil, data)
                         
