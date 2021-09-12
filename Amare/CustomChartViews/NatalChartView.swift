@@ -665,7 +665,7 @@ struct NatalChartView: View {
                 print("relative deg is .. \(relative_deg)")
                 var center = CGPoint(x: CGFloat(x_center), y: CGFloat(y_center))
                 
-                return polar(x_center: x_center, y_center: y_center, r: r, theta: relative_deg).moveAwayFrom(centerPoint: center, theta: relative_deg, by: 50)
+                return polar(x_center: x_center, y_center: y_center, r: r, theta: relative_deg).moveAwayFrom(centerPoint: center, theta: relative_deg, by: 55)
                     
                     //point.moveAwayFrom(centerPoint: center, theta: theta, by: 50)
             }
