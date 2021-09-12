@@ -223,9 +223,9 @@ struct NatalChartView: View {
                                     Tick(x_center: Double(x_center), y_center: Double(y_center), radius_of_ticks: Double(circle_radius_where_ticks_are_at), theta: relative_deg)
                                         
                                     
-                                    let pos = polar(x_center: Double(x_center), y_center: Double(y_center), r: Double(circle_radius_where_ticks_are_at) + Double(10*Int.random(in: 1...4)), theta: relative_deg)
+                                    let pos = polar(x_center: Double(x_center), y_center: Double(y_center), r: Double(circle_radius_where_ticks_are_at) + Double(10*Int.random(in: 1...4)), theta: relative_deg, forAngleBody: angleBody)
                                     
-                                  //  let correctedPos: CGPoint = pos.correctFor(angle: angleBody, center: CGPoint(x: x_center, y: y_center) )
+                                 //   let correctedPos: CGPoint = pos.correctFor(angle: angleBody, center: CGPoint(x: x_center, y: y_center) )
                                     
                                     // Planet Symbol should go here
                                     angleBody.image()
@@ -642,7 +642,7 @@ struct NatalChartView: View {
     }
     
     /// Get's the Radius (R),  angle, and reference for (x,y) center and returns the CGPoint using polar representation
-    func polar(x_center: Double, y_center: Double, r: Double, theta: Double) -> CGPoint {
+    func polar(x_center: Double, y_center: Double, r: Double, theta: Double, forAngleBody: Angle? = nil) -> CGPoint {
         
         let delx = r*cos(theta.toRadians())
         let newx = x_center + delx
@@ -651,6 +651,15 @@ struct NatalChartView: View {
         let newy = y_center - dely
         
         let point = CGPoint(x: newx, y: newy )
+        
+        if let angle = forAngleBody{
+            if angle.forSynastry ?? false{
+                
+                var center = CGPoint(x: CGFloat(x_center), y: CGFloat(y_center))
+                
+                return point.moveAwayFrom(centerPoint: center, theta: theta, by: 50)
+            }
+        }
         
        
         return point
