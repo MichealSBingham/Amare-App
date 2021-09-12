@@ -75,7 +75,7 @@ struct ChartView: View {
                 
                 }
                 .onTapGesture {
-                    account.getNatalChart(from: "q7PxPu7095eSrmZoG1sO1zncty32" ) { error, natal in
+                    account.getNatalChart(from: "DI8bW3wCcvPl6Xxigd5936lYn363" ) { error, natal in
                         
                         didChangeCharts = true
                         chart?.synastryPlanets = natal?.planets

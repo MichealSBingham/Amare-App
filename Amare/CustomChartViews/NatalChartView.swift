@@ -655,9 +655,19 @@ struct NatalChartView: View {
         if let angle = forAngleBody{
             if angle.forSynastry ?? false{
                 
+                let sign = angle.sign
+                let deg = angle.angle
+                print("\(angle) for synastry \(sign) and \(deg)")
+                /// Angle relative to aries 0 deg
+                let relative_deg = deg + sign.beginsAt()
+                
+                
+                print("relative deg is .. \(relative_deg)")
                 var center = CGPoint(x: CGFloat(x_center), y: CGFloat(y_center))
                 
-                return point.moveAwayFrom(centerPoint: center, theta: theta, by: 50)
+                return polar(x_center: x_center, y_center: y_center, r: r, theta: relative_deg).moveAwayFrom(centerPoint: center, theta: relative_deg, by: 50)
+                    
+                    //point.moveAwayFrom(centerPoint: center, theta: theta, by: 50)
             }
         }
         
