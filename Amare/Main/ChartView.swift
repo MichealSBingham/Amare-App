@@ -24,6 +24,9 @@ struct ChartView: View {
     @State var infoToShow: String?
     
     @State var didChangeCharts: Bool = false
+    
+    @State var person1: String = "Your Natal Chart"
+    @State  var person2: String = ""
 
     
     var body: some View {
@@ -34,6 +37,21 @@ struct ChartView: View {
             
             Background()
             
+            VStack{
+                
+                HStack{
+                    
+                    Spacer()
+                    Text( person2.isEmpty ? "\(person1)'s Natal Chart" : "\(person1) and \(person2)'s Synastry Chart")
+                        .offset( y: 20)
+                        .padding()
+                    
+                    Spacer()
+                }
+                
+                Spacer()
+            }
+            
             NatalChartView()
                 .make(with: chart/*, shownAspect: aspectToGet*/)
                 .animation(.easeIn(duration: 3))
@@ -43,6 +61,7 @@ struct ChartView: View {
                     
                     AmareApp().delay(1) {
                         
+                        person1 = account.data?.name ?? ""
                         chart = account.data?.natal_chart
                      
                     }
@@ -75,7 +94,24 @@ struct ChartView: View {
                 
                 }
                 .onTapGesture {
-                    account.getNatalChart(from: "DI8bW3wCcvPl6Xxigd5936lYn363" ) { error, natal in
+                    
+                    var ids = ["6K3xXehsHBVXA5KrZvwPFkCikF73": "Lily", "DI8bW3wCcvPl6Xxigd5936lYn363": "Eric", "pIsF8X2k4COgwSRaZNGGtC3zatf1": "Micheal", "q7PxPu7095eSrmZoG1sO1zncty32": "David", "zoWurg8bnDXwNMGC2fXml9cvtGq2": "Someone born Yesterday" ]
+                    
+                    
+                    let randomPerson = ids.keys.randomElement() ?? ""
+                    
+                    guard randomPerson != account.data?.id else {
+                        chart = nil
+                        chart = account.data?.natal_chart
+                        return
+                    }
+                    
+                    person2 = ids[randomPerson] ?? ""
+                    
+                    didChangeCharts = true
+                   
+                    
+                    account.getNatalChart(from: randomPerson ?? "" , isOuterChart: true) { error, natal in
                         
                         didChangeCharts = true
                         chart?.synastryPlanets = natal?.planets
