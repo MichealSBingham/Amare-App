@@ -265,8 +265,10 @@ struct NatalChartView: View {
                                     Tick(x_center: Double(x_center), y_center: Double(y_center), radius_of_ticks: Double(circle_radius_where_ticks_are_at), theta: relative_deg)
                                     
                                     
-                                    let pos = polar(x_center: Double(x_center), y_center: Double(y_center), r: Double(circle_radius_where_ticks_are_at)+Double(10*Int.random(in: 1...4)), theta: relative_deg)
-                                    // Planet Symbol should go here
+                                    let pos: CGPoint = polar(x_center: Double(x_center), y_center: Double(y_center), r:  Double(circle_radius_where_ticks_are_at)+Double(10*Int.random(in: 1...4)), theta: relative_deg)
+                                    
+                                   
+                                    
                                     
                                     
                                     
@@ -277,7 +279,7 @@ struct NatalChartView: View {
                                         .frame(width: CGFloat(d*0.30), height: CGFloat(d*0.30))
                                         .colorInvert()
                                         .rotationEffect(.degrees(-alpha))
-                                        .position(pos)
+                                        .position(pos.correct(planet: planet))
                                         .onAppear(perform:{
                                             
                                             guard !(planet.forSynastry ?? false) else {return}
@@ -303,7 +305,7 @@ struct NatalChartView: View {
                                     
                                 
                                     // TODO: Need so save Planet / pos somehow to retrieve later.. i think i did this already
-                                        
+                                       
                                     
                                 }
                                 
@@ -487,10 +489,10 @@ struct NatalChartView: View {
 
     }
     
-    func PlanetView(planet: Planet, pos: CGPoint, x_center: CGFloat, y_center: CGFloat, circle_radius_where_ticks_are_at: CGFloat, relative_deg: Double) -> some View {
+    func planetView(planet: Planet, d: Double, pos: CGPoint, x_center: Double, y_center: Double, circle_radius_where_ticks_are_at: Double, relative_deg: Double) -> some View {
         
-        planet.image()
-            // .buttonStyle(.default)
+       return  planet.image()
+            //.buttonStyle(.default)
             .resizable()
             .aspectRatio(contentMode: .fit)
             .frame(width: CGFloat(d*0.30), height: CGFloat(d*0.30))
@@ -499,16 +501,86 @@ struct NatalChartView: View {
             .position(pos)
             .onAppear(perform:{
                 
+                guard !(planet.forSynastry ?? false) else {return}
+                
+                // If it's a part of the inner person's natal chart
+                
                 let tickPos = polar(x_center: Double(x_center), y_center: Double(y_center), r: Double(circle_radius_where_ticks_are_at), theta: relative_deg)
                 
                 save(name_of_body: planet.name.rawValue, point: tickPos)
+                
+                
+               
+                
             })
             .onTapGesture{
-                
-                NotificationCenter.default.post(name: NSNotification.wantsMoreInfoFromNatalChart, object: planet)
-                
+                print("Planet selected: \(planet)")
+           NotificationCenter.default.post(name: NSNotification.wantsMoreInfoFromNatalChart, object: planet)
             }
             .zIndex(1)
+    }
+    
+    func PlanetView(planet: Planet, pos: CGPoint, x_center: CGFloat, y_center: CGFloat, circle_radius_where_ticks_are_at: CGFloat, relative_deg: Double) -> some View {
+        let sign = planet.sign
+        let deg = planet.angle
+        
+        /// Angle relative to aries 0 deg
+        let relative_deg = deg + sign.beginsAt()
+        
+
+        
+        // tick to put where the planet is
+        Tick(x_center: Double(x_center), y_center: Double(y_center), radius_of_ticks: Double(circle_radius_where_ticks_are_at), theta: relative_deg)
+        
+        
+        let pos: CGPoint = polar(x_center: Double(x_center), y_center: Double(y_center), r:  Double(circle_radius_where_ticks_are_at)+Double(10*Int.random(in: 1...4)), theta: relative_deg)
+        
+       // let pos2 = polar(x_center: Double(x_center), y_center: Double(y_center), r:  Double(circle_radius_where_ticks_are_at)+Double(10*Int.random(in: 1...4)), theta: relative_deg)
+        
+      //  var radForSyn: Double = Double(circle_radius_where_ticks_are_at)*2.0
+        
+    //    let pos2 = polar(x_center: Double(x_center), y_center: Double(y_center), r:  radForSyn+Double(10*Int.random(in: 1...4)), theta: relative_deg)
+        
+        //let posIfPlanetForSynastry = polar(x_center: Double(x_center), y_center: Double(y_center), r:  Double(circle_radius_where_ticks_are_at)+Double(10*Int.random(in: 1...4)), theta: relative_deg)
+        // Planet Symbol should go here
+        
+      //  var x_offset = 5
+      //  var y_offset = 5
+        
+        
+       return  planet.image()
+            //.buttonStyle(.default)
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(width: CGFloat(d*0.30), height: CGFloat(d*0.30))
+            .colorInvert()
+            .rotationEffect(.degrees(-alpha))
+            .position(pos)
+            .onAppear(perform:{
+                
+                guard !(planet.forSynastry ?? false) else {return}
+                
+                // If it's a part of the inner person's natal chart
+                
+                let tickPos = polar(x_center: Double(x_center), y_center: Double(y_center), r: Double(circle_radius_where_ticks_are_at), theta: relative_deg)
+                
+                save(name_of_body: planet.name.rawValue, point: tickPos)
+                
+                
+               
+                
+            })
+            .onTapGesture{
+                print("Planet selected: \(planet)")
+           NotificationCenter.default.post(name: NSNotification.wantsMoreInfoFromNatalChart, object: planet)
+            }
+            .zIndex(1)
+        
+        
+       
+        
+    
+        // TODO: Need so save Planet / pos somehow to retrieve later.. i think i did this already
     }
     
     /// Given an array of aspect types, it returns a string representing the aspects given in this array
@@ -584,6 +656,33 @@ struct NatalChartView: View {
        
         
     }
+    
+    func polar2(x_center: Double, y_center: Double, r: Double, theta: Double) -> (CGPoint, CGPoint) {
+        
+        let delx = r*cos(theta.toRadians())
+        let newx = x_center + delx
+        
+        let dely = r*sin(theta.toRadians())
+        let newy = y_center - dely
+        
+        let point = CGPoint(x: newx, y: newy )
+        
+        
+        let delx2 = 2*r*cos(theta.toRadians())
+        let newx2 = x_center + delx
+        
+        let dely2 = 2*r*sin(theta.toRadians())
+        let newy2 = y_center - dely
+        
+        let point2 = CGPoint(x: newx, y: newy )
+       
+        return (point, point2)
+        
+        
+       
+        
+    }
+    
     
     func deg2rad(_ number: Double) -> Double {
         return number * .pi / 180
@@ -855,4 +954,20 @@ extension CGPoint {
       
       return CGPoint(x: newx, y: newy)
   }
+    
+    func scale(by: CGFloat) -> CGPoint {
+            
+        return CGPoint(x: by*self.x, y: by*self.y)
+        
+        
+    }
+    
+    func correct(planet: Planet) -> CGPoint {
+        if (planet.forSynastry ?? false)  {
+            
+            return self.scale(by: 2)
+        } else {
+            return self
+        }
+    }
 }
