@@ -973,9 +973,9 @@ extension CGPoint {
         var dy = abs(abs(r)*sin(theta.toRadians()))
         
         if self.y > centerPoint.y {
-            dy = -1*dy
-        } else {
             dy = 1*dy
+        } else {
+            dy = -1*dy
         }
         
         let newx: CGFloat = self.x + CGFloat(dx)
