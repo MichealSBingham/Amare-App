@@ -35,7 +35,7 @@ struct ChartView: View {
 
     
     
-    @State private var location: CGPoint = CGPoint(x: 50, y: 50)
+    @State private var location: CGPoint = CGPoint(x: UIScreen.main.bounds.midX - 15 , y: UIScreen.main.bounds.midY - 50)
     var simpleDrag: some Gesture {
             DragGesture()
                 .onChanged { value in
