@@ -197,8 +197,16 @@ struct NatalChartView: View {
                                 
                                 // Draws the Angles (Asc, MC, etc..)
                                 let all_angle_bodies = natalChart?.angles ?? []
+                                
+                                var synastryAngles = (natalChart?.synastryAngles ?? [])
+                                
+                            var allAnglesWSyn  = all_angle_bodies + synastryAngles
+                                
+                                
+                              
+                                
                                 //var dr = 15
-                                ForEach(all_angle_bodies){ angleBody in
+                                ForEach(allAnglesWSyn){ angleBody in
                                     
                                 
                                     
@@ -217,8 +225,10 @@ struct NatalChartView: View {
                                     
                                     let pos = polar(x_center: Double(x_center), y_center: Double(y_center), r: Double(circle_radius_where_ticks_are_at) + Double(10*Int.random(in: 1...4)), theta: relative_deg)
                                     
+                                  //  let correctedPos: CGPoint = pos.correctFor(angle: angleBody, center: CGPoint(x: x_center, y: y_center) )
+                                    
                                     // Planet Symbol should go here
-                                    angleBody.image(size: d)
+                                    angleBody.image()
                                         .rotationEffect(.degrees(-alpha))
                                         .position(pos)
                                         .onAppear(perform: {
@@ -264,18 +274,14 @@ struct NatalChartView: View {
                                     let pos: CGPoint = polar(x_center: Double(x_center), y_center: Double(y_center), r:  Double(circle_radius_where_ticks_are_at)+Double(10*Int.random(in: 1...4)), theta: relative_deg)
                                     
                                    
-                                    let correctedPos = pos.correct(planet: planet, center: CGPoint(x: x_center, y: y_center) )
+                                    let correctedPos: CGPoint = pos.correct(planet: planet, center: CGPoint(x: x_center, y: y_center) )
                                     
                                     
                                     
                                     planet.image(size: d)
-                                        //.buttonStyle(.default)
-                                        
-                                        //.frame(width: CGFloat(d*0.30), height: CGFloat(d*0.30))
-                                        // .colorInvert()
                                         .rotationEffect(.degrees(-alpha))
                                         .position(correctedPos)
-                                        //.border(planet.border())
+                                     
                                         .onAppear(perform:{
                                             
                                             guard !(planet.forSynastry ?? false) else {return}
@@ -999,6 +1005,19 @@ extension CGPoint {
         }
     }
     
+    func correctFor(angleBody: Angle, center: CGPoint,  by: Double = 60) -> CGPoint {
+        
+        if (angleBody.forSynastry ?? false)  {
+            let sign = angleBody.sign
+            let deg = angleBody.angle
+            let relative_deg = deg + sign.beginsAt()
+            
+            return self.moveAwayFrom(centerPoint: center, theta: relative_deg, by: by)
+            
+        } else {
+            return self
+        }
+    }
     
 }
 

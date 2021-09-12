@@ -24,7 +24,7 @@ public struct NatalChart: Codable {
     var synastryPlanets: [Planet]?
     
     /// The other person's (outer chart) angles (asc, mc, ic, etc)  if a synastry chart was added to this
-    var synastryAngles: [Planet]?
+    var synastryAngles: [Angle]?
    // var name: String?
     
    // public var id: String {name ?? "EmptyName"}, not needed ATM

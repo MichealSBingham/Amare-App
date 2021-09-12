@@ -79,6 +79,7 @@ struct ChartView: View {
                         
                         didChangeCharts = true
                         chart?.synastryPlanets = natal?.planets
+                        chart?.synastryAngles = natal?.angles
                     }
                 }
                 
