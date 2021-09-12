@@ -218,11 +218,7 @@ struct NatalChartView: View {
                                     let pos = polar(x_center: Double(x_center), y_center: Double(y_center), r: Double(circle_radius_where_ticks_are_at) + Double(10*Int.random(in: 1...4)), theta: relative_deg)
                                     
                                     // Planet Symbol should go here
-                                    angleBody.image()
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: CGFloat(d*0.30), height: CGFloat(d*0.30))
-                                        .colorInvert()
+                                    angleBody.image(size: d)
                                         .rotationEffect(.degrees(-alpha))
                                         .position(pos)
                                         .onAppear(perform: {
@@ -272,14 +268,14 @@ struct NatalChartView: View {
                                     
                                     
                                     
-                                    planet.image()
+                                    planet.image(size: d)
                                         //.buttonStyle(.default)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: CGFloat(d*0.30), height: CGFloat(d*0.30))
-                                        .colorInvert()
+                                        
+                                        //.frame(width: CGFloat(d*0.30), height: CGFloat(d*0.30))
+                                        // .colorInvert()
                                         .rotationEffect(.degrees(-alpha))
                                         .position(pos.correct(planet: planet))
+                                        //.border(planet.border())
                                         .onAppear(perform:{
                                             
                                             guard !(planet.forSynastry ?? false) else {return}
@@ -488,14 +484,14 @@ struct NatalChartView: View {
             
 
     }
-    
+    /*
     func planetView(planet: Planet, d: Double, pos: CGPoint, x_center: Double, y_center: Double, circle_radius_where_ticks_are_at: Double, relative_deg: Double) -> some View {
         
-       return  planet.image()
+        return  planet.image(size: d)
             //.buttonStyle(.default)
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-            .frame(width: CGFloat(d*0.30), height: CGFloat(d*0.30))
+           //.resizable()
+         //   .aspectRatio(contentMode: .fit)
+            //  .frame(width: CGFloat(d*0.30), height: CGFloat(d*0.30))
             .colorInvert()
             .rotationEffect(.degrees(-alpha))
             .position(pos)
@@ -518,8 +514,8 @@ struct NatalChartView: View {
            NotificationCenter.default.post(name: NSNotification.wantsMoreInfoFromNatalChart, object: planet)
             }
             .zIndex(1)
-    }
-    
+    } */
+    /*
     func PlanetView(planet: Planet, pos: CGPoint, x_center: CGFloat, y_center: CGFloat, circle_radius_where_ticks_are_at: CGFloat, relative_deg: Double) -> some View {
         let sign = planet.sign
         let deg = planet.angle
@@ -582,6 +578,7 @@ struct NatalChartView: View {
     
         // TODO: Need so save Planet / pos somehow to retrieve later.. i think i did this already
     }
+    */
     
     /// Given an array of aspect types, it returns a string representing the aspects given in this array
     /// - example: aspects = [.trine, .square] -> "Trines and Squares"
@@ -957,7 +954,7 @@ extension CGPoint {
     
     func scale(by: CGFloat) -> CGPoint {
             
-        return CGPoint(x: by*self.x, y: by*self.y)
+        return CGPoint(x: (by*self.x)+self.x, y: (by*self.y)+self.y)
         
         
     }
@@ -965,9 +962,21 @@ extension CGPoint {
     func correct(planet: Planet) -> CGPoint {
         if (planet.forSynastry ?? false)  {
             
-            return self.scale(by: 2)
+            return self.scale(by: 0.10)
         } else {
             return self
+        }
+    }
+    
+    
+}
+
+extension Planet{
+    func border() -> Color{
+        if self.forSynastry ?? false{
+            return Color.black
+        } else {
+            return Color.clear
         }
     }
 }

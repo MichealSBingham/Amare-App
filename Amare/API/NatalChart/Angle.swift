@@ -36,9 +36,22 @@ struct Angle: Codable, Identifiable{
     var iconName: String { name.rawValue }
     
     /// Will return the symbol of the planet
-    func image() ->  Image {
+    func image(size: Double) ->  some View {
         
-        return Image("ZodiacIcons/\(self.iconName)")
+        
+            
+            var sizeToUse = size
+            if self.forSynastry ?? false {
+                // increase the size by two
+                sizeToUse = size*1.5
+            }
+            
+            return Image("ZodiacIcons/\(self.iconName)")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: CGFloat(sizeToUse*0.30), height: CGFloat(sizeToUse*0.30))
+                .colorInvert()
+        
                 
     }
 }

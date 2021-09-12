@@ -51,10 +51,20 @@ struct Planet: Codable, Identifiable{
      
     }
     
-    func image() ->  Image {
+    /// Returns the image for the planet of given size, will autosize if it's a synastry planet or not
+    func image(size: Double) ->  some View {
+        
+        var sizeToUse = size
+        if self.forSynastry ?? false {
+            // increase the size by two
+            sizeToUse = size*1.5
+        }
         
         return Image("ZodiacIcons/\(self.iconName)")
-                
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(width: CGFloat(sizeToUse*0.30), height: CGFloat(sizeToUse*0.30))
+            .colorInvert()
     }
     
     
