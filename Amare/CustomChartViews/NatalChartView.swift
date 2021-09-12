@@ -264,7 +264,7 @@ struct NatalChartView: View {
                                     let pos: CGPoint = polar(x_center: Double(x_center), y_center: Double(y_center), r:  Double(circle_radius_where_ticks_are_at)+Double(10*Int.random(in: 1...4)), theta: relative_deg)
                                     
                                    
-                                    
+                                    let correctedPos = pos.correct(planet: planet, center: CGPoint(x: x_center, y: y_center) )
                                     
                                     
                                     
@@ -274,7 +274,7 @@ struct NatalChartView: View {
                                         //.frame(width: CGFloat(d*0.30), height: CGFloat(d*0.30))
                                         // .colorInvert()
                                         .rotationEffect(.degrees(-alpha))
-                                        .position(pos.correct(planet: planet))
+                                        .position(correctedPos)
                                         //.border(planet.border())
                                         .onAppear(perform:{
                                             
@@ -959,10 +959,41 @@ extension CGPoint {
         
     }
     
-    func correct(planet: Planet) -> CGPoint {
+    /// Given a center C, this moves point `self` at a disance `r` away from C, parallel to it.
+    func moveAwayFrom(centerPoint: CGPoint, theta: Double, by r: Double ) -> CGPoint {
+    
+        var dx = abs(abs(r)*cos(theta.toRadians()))
+        
+        if self.x > centerPoint.x {
+            dx = 1*dx
+        } else {
+            dx = -1*dx
+        }
+        
+        var dy = abs(abs(r)*sin(theta.toRadians()))
+        
+        if self.y > centerPoint.y {
+            dy = -1*dy
+        } else {
+            dy = 1*dy
+        }
+        
+        let newx: CGFloat = self.x + CGFloat(dx)
+        let newy: CGFloat = self.y + CGFloat(dy)
+        
+        return CGPoint(x: newx, y: newy)
+        
+    }
+    
+    func correct(planet: Planet, center: CGPoint,  by: Double = 60) -> CGPoint {
+        
         if (planet.forSynastry ?? false)  {
+            let sign = planet.sign
+            let deg = planet.angle
+            let relative_deg = deg + sign.beginsAt()
             
-            return self.scale(by: 0.10)
+            return self.moveAwayFrom(centerPoint: center, theta: relative_deg, by: by)
+            
         } else {
             return self
         }
