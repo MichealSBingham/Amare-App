@@ -317,17 +317,17 @@ struct EnterGenderView: View {
                 
                 ZStack{
                     
-                    Image("EnterGenderView/circle-2")
+                    Image("EnterGenderView/circle3")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 100, height: 100)
                       
-                        //.opacity(0.2)
+                        .opacity(0.2)
                     
                     /// TODO: replace sign
                     Image(systemName: "questionmark")
                         .resizable()
-                        .foregroundColor(.black)
+                        .foregroundColor(.white)
                         .scaledToFit()
                         .frame(width: 40, height: 40)
                         
