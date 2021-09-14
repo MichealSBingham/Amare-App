@@ -59,6 +59,31 @@ struct ChartView: View {
                     Spacer()
                     Text( person2.isEmpty ? "\(person1)'s Natal Chart" : "\(person1) and \(person2)'s Synastry Chart")
                         .offset( y: 20)
+                        .onTapGesture {
+                            
+                            var ids = ["6K3xXehsHBVXA5KrZvwPFkCikF73": "Lily", "DI8bW3wCcvPl6Xxigd5936lYn363": "Eric", "pIsF8X2k4COgwSRaZNGGtC3zatf1": "Micheal", "q7PxPu7095eSrmZoG1sO1zncty32": "David", "zoWurg8bnDXwNMGC2fXml9cvtGq2": "Someone born Yesterday" ]
+                            
+                            
+                            let randomPerson = ids.keys.randomElement() ?? ""
+                            
+                            guard randomPerson != account.data?.id else {
+                                chart = nil
+                                chart = account.data?.natal_chart
+                                return
+                            }
+                            
+                            person2 = ids[randomPerson] ?? ""
+                            
+                            didChangeCharts = true
+                           
+                            
+                            account.getNatalChart(from: randomPerson ?? "" , isOuterChart: true) { error, natal in
+                                
+                                didChangeCharts = true
+                                chart?.synastryPlanets = natal?.planets
+                                chart?.synastryAngles = natal?.angles
+                            }
+                        }
                         .padding()
                     
                     Spacer()
@@ -110,31 +135,6 @@ struct ChartView: View {
                      //   infoToShow = (obj.object as? ZodiacSign)?.rawValue }
                     
                     }
-                    .onTapGesture {
-                        
-                        var ids = ["6K3xXehsHBVXA5KrZvwPFkCikF73": "Lily", "DI8bW3wCcvPl6Xxigd5936lYn363": "Eric", "pIsF8X2k4COgwSRaZNGGtC3zatf1": "Micheal", "q7PxPu7095eSrmZoG1sO1zncty32": "David", "zoWurg8bnDXwNMGC2fXml9cvtGq2": "Someone born Yesterday" ]
-                        
-                        
-                        let randomPerson = ids.keys.randomElement() ?? ""
-                        
-                        guard randomPerson != account.data?.id else {
-                            chart = nil
-                            chart = account.data?.natal_chart
-                            return
-                        }
-                        
-                        person2 = ids[randomPerson] ?? ""
-                        
-                        didChangeCharts = true
-                       
-                        
-                        account.getNatalChart(from: randomPerson ?? "" , isOuterChart: true) { error, natal in
-                            
-                            didChangeCharts = true
-                            chart?.synastryPlanets = natal?.planets
-                            chart?.synastryAngles = natal?.angles
-                        }
-                    }
                     .position(location)
                     .gesture(
                                     simpleDrag
@@ -145,10 +145,10 @@ struct ChartView: View {
                                 .onChanged { val in
                                     let delta = val / self.lastScale
                                     self.lastScale = val
-                                    if delta > 0.94 { // if statement to minimize jitter
+                                  //  if delta > 0.94 { // if statement to minimize jitter
                                         let newScale = self.scale * delta
                                         self.scale = newScale
-                                    }
+                                   // }
                                 }
                                 .onEnded { _ in
                                     self.lastScale = 1.0
