@@ -205,7 +205,7 @@ struct EnterGenderView: View {
                      
                         
                     /// TODO: replace with transgender male
-                    Image("EnterGenderView/mars")
+                    Image("EnterGenderView/transgender")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 40, height: 40)
@@ -283,10 +283,13 @@ struct EnterGenderView: View {
                         //.opacity(0.2)
                     
                     /// TODO: replace sign
-                    Image("EnterGenderView/venus")
+                    Image("EnterGenderView/transgender")
                         .resizable()
+                        .colorInvert()
+                        .rotation3DEffect(.degrees(-180), axis: (x: 0, y: 1, z: 0))
                         .scaledToFit()
                         .frame(width: 40, height: 40)
+                    
                         
                     
                 }
@@ -306,7 +309,7 @@ struct EnterGenderView: View {
         
         return Button {
             buttonIsDisabled = true
-            SelectGenderAction(gender: .transfemale)
+            SelectGenderAction(gender: .non_binary)
             
         } label: {
             
@@ -322,8 +325,9 @@ struct EnterGenderView: View {
                         //.opacity(0.2)
                     
                     /// TODO: replace sign
-                    Image("EnterGenderView/venus")
+                    Image(systemName: "questionmark")
                         .resizable()
+                        .foregroundColor(.black)
                         .scaledToFit()
                         .frame(width: 40, height: 40)
                         
