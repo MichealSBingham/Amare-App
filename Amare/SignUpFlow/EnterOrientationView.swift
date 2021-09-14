@@ -572,14 +572,14 @@ struct EnterOrientationView: View {
             
             
             print("*** Sexes selected: \(sexesSelected)")
-            
+            /*
             
             var orientation: String  = ""
             if likesMen { orientation += "M" }
             if likesWomen { orientation += "W"}
-                //orientation = orientation.sorted()
+                //orientation = orientation.sorted() */
             
-            account.data?.orientation = orientation
+            account.data?.orientation = Array(Set(sexesSelected))
             
             do {
                 try account.save(completion: { error in
