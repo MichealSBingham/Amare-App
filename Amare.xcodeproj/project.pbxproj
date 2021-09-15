@@ -23,6 +23,7 @@
 		263D6F962683F77C00CBBECC /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263D6F952683F77C00CBBECC /* Location.swift */; };
 		263D6F982684012000CBBECC /* AccountErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263D6F972684012000CBBECC /* AccountErrors.swift */; };
 		263D6F9A2684087300CBBECC /* AmareUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263D6F992684087300CBBECC /* AmareUser.swift */; };
+		266C61FB26F14A1D00A34374 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266C61FA26F14A1D00A34374 /* Map.swift */; };
 		267CF36526D30C03006B73BE /* NatalChartViewAlpha.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267CF36426D30C03006B73BE /* NatalChartViewAlpha.swift */; };
 		26876A8C26E425EC00683CD6 /* NatalChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26876A8B26E425EC00683CD6 /* NatalChartView.swift */; };
 		268E542826DCEC6400E61F40 /* VerificationCodeView3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268E542726DCEC6400E61F40 /* VerificationCodeView3.swift */; };
@@ -109,6 +110,7 @@
 		263D6F952683F77C00CBBECC /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		263D6F972684012000CBBECC /* AccountErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountErrors.swift; sourceTree = "<group>"; };
 		263D6F992684087300CBBECC /* AmareUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmareUser.swift; sourceTree = "<group>"; };
+		266C61FA26F14A1D00A34374 /* Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
 		267CF36426D30C03006B73BE /* NatalChartViewAlpha.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NatalChartViewAlpha.swift; sourceTree = "<group>"; };
 		26876A8B26E425EC00683CD6 /* NatalChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NatalChartView.swift; sourceTree = "<group>"; };
 		268E542726DCEC6400E61F40 /* VerificationCodeView3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationCodeView3.swift; sourceTree = "<group>"; };
@@ -401,6 +403,7 @@
 				26BBF094267EBBEF00C84019 /* EnterNameView.swift */,
 				2608CF4B2695136F00826FDA /* EnterGenderView.swift */,
 				2608CF4D2695139800826FDA /* EnterOrientationView.swift */,
+				266C61FA26F14A1D00A34374 /* Map.swift */,
 				26BBF090267EA5FF00C84019 /* FromWhereView.swift */,
 				26BBF08E267D80FC00C84019 /* EnterBirthdayView.swift */,
 				26BBF092267EBB1300C84019 /* LiveWhereView.swift */,
@@ -744,6 +747,7 @@
 				26DE210626C593070004B5CE /* ScannerView.swift in Sources */,
 				26F9205F26A760E500A4F8C6 /* Animations.swift in Sources */,
 				26B1AFD62678FFE500A170B3 /* AmareApp.swift in Sources */,
+				266C61FB26F14A1D00A34374 /* Map.swift in Sources */,
 				263D6F9426829F2200CBBECC /*  [Deprecated]RV.swift in Sources */,
 				2608CF4C2695136F00826FDA /* EnterGenderView.swift in Sources */,
 				26BBF091267EA5FF00C84019 /* FromWhereView.swift in Sources */,
