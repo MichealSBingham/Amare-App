@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 /// One of 4 angles, Asc, Desc, Midheaven, and IC.
 struct Angle: Codable, Identifiable{
@@ -28,9 +29,57 @@ struct Angle: Codable, Identifiable{
     /// A cusp object will contain the cusp element and cusp sign the object is on
     let almost: CuspObject?
     
-    var id: String { name.rawValue }
+    /// If we run synastry with person A and person B, this distinguishes A's planets from B's. So if B is the outer person on the bi-wheel chart, this property will be true for B's planets
+    var forSynastry: Bool? = false
     
+    var id: String { "\(name.rawValue)\(sign.rawValue)\(angle)" }
+    var iconName: String { name.rawValue }
     
+    /// Will return the symbol of the planet
+    func image() ->  some View {
+        
+        var size: CGFloat = 10
+        var text = ""
+            
+          
+            if self.forSynastry ?? false {
+                // increase the size by two
+               size = 15
+                
+                
+            }
+        
+        
+        switch self.name {
+        case .asc:
+            text = "ASC"
+        case .mc:
+            text = "MC"
+        case .desc:
+            text = "DESC"
+        case .ic:
+            text = "IC"
+        default:
+            text = ""
+        }
+                
+            
+        
+        return Text(text)
+            .font(.system(size: size))
+           // .frame(width: CGFloat(sizeToUse*0.30), height: CGFloat(sizeToUse*0.30))
+            
+            
+            /*
+            return Image("ZodiacIcons/\(self.iconName)")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: CGFloat(sizeToUse*0.30), height: CGFloat(sizeToUse*0.30))
+                .colorInvert()
+        */
+        
+                
+    }
 }
 
 

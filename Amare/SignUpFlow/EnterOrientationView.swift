@@ -26,26 +26,102 @@ struct EnterOrientationView: View {
     @State private var someErrorOccured: Bool = false
     @State private var beginAnimation: Bool = false
     
+    @State private var sexesSelected: [Sex] = []
+    
     @State private var likesMen: Bool = false {
         didSet{
             
-            userSelectedSomething = true
+            //userSelectedSomething = true
+            if likesMen {
+                
+                gendersSelected.append("Men")
+                sexesSelected.append(.male)
+            } else {
+                gendersSelected.removeAll(where: {$0 == "Men"})
+                sexesSelected.removeAll(where: {$0 == .male})
+            }
+            
         }
     }
     @State private var likesWomen: Bool = false {
         didSet{
             
-            userSelectedSomething = true
+            //userSelectedSomething = true
+            if likesWomen{
+                
+                gendersSelected.append("Women")
+                sexesSelected.append(.female)
+            } else {
+                gendersSelected.removeAll(where: {$0 == "Women"})
+                sexesSelected.removeAll(where: {$0 == .female})
+            }
+            
         }
     }
+    
+    @State private var likesTransMen: Bool = false {
+        didSet{
+            
+            if likesTransMen {
+                gendersSelected.append("Transgender Men")
+                sexesSelected.append(.transmale)
+            } else {
+                gendersSelected.removeAll(where: {$0 == "Transgender Men"})
+                sexesSelected.removeAll(where: {$0 == .transmale})
+            }
+            
+        }
+    }
+    @State private var likesTransWomen: Bool = false {
+        didSet{
+            
+            if likesTransWomen{
+                
+                gendersSelected.append("Transgender Women")
+                sexesSelected.append(.transfemale)
+            } else {
+                
+                gendersSelected.removeAll(where: {$0 == "Transgender Women"})
+                sexesSelected.removeAll(where: {$0 == .transfemale})
+            }
+          
+        }
+    }
+    
+    @State private var likesNonBinaryPeople: Bool = false {
+        didSet{
+            
+            
+            if likesNonBinaryPeople { gendersSelected.append("Non Binary People")
+                sexesSelected.append(.non_binary)
+            } else {
+                gendersSelected.removeAll(where: {$0 == "Non Binary People"})
+                sexesSelected.removeAll(where: {$0 == .non_binary})
+                
+            }
+        }
+    }
+    
+ 
+    
     @State private var tappedMore: Bool = false
     
     @State private var userSelectedSomething: Bool = false
     
+    @State private var buttonIsDisabled: Bool = false
     
-
     
-    @State private var allattractedto: String = "What all are you attracted to?"
+    @State private var likesMoreThanOne: Int = 0
+    
+    @State private var allattractedto: String = "Select all that you are attracted to"
+    
+    @State private var gendersSelected: [String] = [] {
+         
+        didSet{
+            
+            allattractedto = Array(Set(gendersSelected)).joined(separator: ", and ")
+        }
+    }
     
     var body: some View {
         
@@ -78,44 +154,33 @@ struct EnterOrientationView: View {
                         // .bold()
                         .font(.system(size: 20))
                         .foregroundColor(.white)
-                        .onReceive(Just(userSelectedSomething)) { _ in
-                            
-                            var genders_selected = ""
-                            
-                            if likesMen {
-                                genders_selected += "Men "
-                            }
-                            
-                            if likesWomen {
-                                genders_selected += "Women"
-                            }
-                            
-                            guard !genders_selected.isEmpty else {return}
-                            
-                            // more than one was selected 
-                            if (likesMen && likesWomen) {
-                                
-                                allattractedto  = genders_selected.replacingOccurrences(of: " ", with: " and ")
-                                
-                            } else {
-                                allattractedto = genders_selected
-                            }
-                            
-                            
-
-                        }
+                        .padding()
                         
                     
                     Spacer()
                     
                     
-                    HStack(alignment: .center){
+                    // Man and Woman Options
+                    HStack(alignment: .center) {
                         
-                        MakeManButton().padding(.leading)
+                        Spacer()
+                        MakeManButton().padding()
                         Spacer()
                         MakeWomanButton().padding()
                         Spacer()
-                        MakeOtherButton().padding(.trailing)
+                        
+                        
+                    }
+                    
+                    
+                    // Transgender Man, Transgender Woman, Non-Binary options
+                    HStack(alignment: .center){
+                        
+                        MakeTManButton().padding(.leading)
+                        Spacer()
+                        MakeTWomanButton()//.padding()
+                        Spacer()
+                        MakeNonBinaryPersonButton().padding(.trailing)
                         
                         
                     }
@@ -124,7 +189,7 @@ struct EnterOrientationView: View {
                     Spacer()
                     Spacer()
                  
-                   nextButton()
+                    nextButton()
 
                 } .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
         
@@ -176,6 +241,7 @@ struct EnterOrientationView: View {
                         .frame(width: 100, height: 100)
                         .opacity(0.2)
                         
+                        
                     
                     Image("EnterGenderView/mars")
                         .resizable()
@@ -194,7 +260,7 @@ struct EnterOrientationView: View {
             
             
             
-        }.opacity(likesMen ? 0.3 : 1)
+        }.opacity(!likesMen ? 0.3 : 1)
             
 
     }
@@ -232,10 +298,93 @@ struct EnterOrientationView: View {
             }
             
                         
-        }.opacity(likesWomen ? 0.2: 1)
+        }.opacity(!likesWomen ? 0.2: 1)
        
     }
 
+    func MakeTWomanButton() -> some View {
+        
+        return Button {
+            
+            likesTransWomen.toggle()
+            
+        } label: {
+            
+            VStack{
+                
+                ZStack{
+                    
+                    Image("EnterGenderView/circle-2")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 100, height: 100)
+                      
+                        //.opacity(0.2)
+                    
+                    /// TODO: replace sign
+                    Image("EnterGenderView/transgender")
+                        .resizable()
+                        .colorInvert()
+                        .rotation3DEffect(.degrees(-180), axis: (x: 0, y: 1, z: 0))
+                        .scaledToFit()
+                        .frame(width: 40, height: 40)
+                    
+                        
+                    
+                }
+                
+                Text("Transfemale")
+                    .foregroundColor(.white)
+                    .shimmering()
+
+            }
+            
+                        
+        }.opacity(!likesTransWomen ? 0.3 : 1)
+       
+    }
+    
+    func MakeTManButton() -> some View  {
+      
+        
+        return Button {
+            likesTransMen.toggle()
+            
+        } label: {
+            
+            VStack{
+                
+            
+                
+                ZStack{
+                    
+                    Image("EnterGenderView/circle3")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 100, height: 100)
+                        .opacity(0.2)
+                     
+                        
+                    /// TODO: replace with transgender male
+                    Image("EnterGenderView/transgender")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 40, height: 40)
+                        
+                    
+                }
+                
+                Text("Transmale")
+                    .foregroundColor(.white)
+                    .shimmering()
+            }
+            
+            
+            
+        }.opacity(!likesTransMen ? 0.3 : 1)
+            
+
+    }
 
     /// Once this button is tapped, the user should be able to enter their own custom gender
     func MakeOtherButton() -> some View  {
@@ -272,6 +421,45 @@ struct EnterOrientationView: View {
         }.opacity(tappedMore ? 0.3: 1)
     }
 
+    func MakeNonBinaryPersonButton() -> some View {
+        
+        return Button {
+
+            likesNonBinaryPeople.toggle()
+            
+        } label: {
+            
+            VStack{
+                
+                ZStack{
+                    
+                    Image("EnterGenderView/circle3")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 100, height: 100)
+                      
+                        .opacity(0.2)
+                    
+                    /// TODO: replace sign
+                    Image(systemName: "questionmark")
+                        .resizable()
+                        .foregroundColor(.white)
+                        .scaledToFit()
+                        .frame(width: 40, height: 40)
+                        
+                    
+                }
+                
+                Text("Non Binary")
+                    .foregroundColor(.white)
+                    .shimmering()
+
+            }
+            
+                        
+        }.opacity(!likesNonBinaryPeople ? 0.3 : 1)
+       
+    }
 
 
 
@@ -330,7 +518,7 @@ struct EnterOrientationView: View {
     func backButton() -> some View {
         
         return HStack { Button {
-            
+            buttonIsDisabled = true
             goBack()
             
         } label: {
@@ -346,7 +534,10 @@ struct EnterOrientationView: View {
                 
             
               
-        }; Spacer();  }
+        }.disabled(buttonIsDisabled)
+            Spacer()
+            
+        }
 
        
             
@@ -361,7 +552,7 @@ struct EnterOrientationView: View {
         
     }
     
-    /// Goes to the next screen / view,. Verification Code Screen
+    /// Goes to the next screen / view,.
     func goToNextView()  {
         
         navigationStack.push(FromWhereView().environmentObject(account), withId: FromWhereView.id)
@@ -370,46 +561,45 @@ struct EnterOrientationView: View {
     
     func nextButton() -> some View {
         
-        return  Button {
+        return   Button {
             // Goes to next screen
-            
-            guard likesMen == true || likesWomen == true else {
+            buttonIsDisabled = true
+            guard likesMen == true || likesWomen == true || likesTransMen == true   || likesTransWomen == true  || likesNonBinaryPeople == true else {
                 //user needs to tap at least one before going to next screen
+                buttonIsDisabled = false
                 return
             }
             
             
-            
+            print("*** Sexes selected: \(sexesSelected)")
+            /*
             
             var orientation: String  = ""
             if likesMen { orientation += "M" }
             if likesWomen { orientation += "W"}
-                //orientation = orientation.sorted()
+                //orientation = orientation.sorted() */
             
-            account.data?.orientation = orientation
+            account.data?.orientation = Array(Set(sexesSelected))
             
             do {
                 try account.save(completion: { error in
                     
                     guard error == nil else {
+                        buttonIsDisabled = false
                         return
                     }
                     goToNextView()
                 })
                 
             } catch (let error) {
-                
+                buttonIsDisabled = false
                     handle(error)
             }
             
             
         } label: {
             
-            Spacer()
-            
-            Text("Next")
-                .foregroundColor(.white)
-                .font(.system(size: 23))
+       
                 
             
             Image("RootView/right-arrow")
@@ -420,10 +610,11 @@ struct EnterOrientationView: View {
                .animation(.easeInOut(duration: 1.3).repeatForever(autoreverses: true), value: beginAnimation)
                .onAppear { withAnimation { beginAnimation = true } }
             
-            Spacer()
+            
             
                
-        }.opacity( (likesMen == false  && likesWomen == false ) ? 0.5 : 1.0 )
+        }.opacity( (likesMen == false  && likesWomen == false  && !likesTransMen && !likesTransWomen && !likesNonBinaryPeople) ? 0.5 : 1.0 )
+        .disabled(buttonIsDisabled)
     }
 
 

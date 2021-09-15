@@ -12,11 +12,19 @@ public struct NatalChart: Codable {
     
     /// An array of the 4 angles (Midheaven, Ascendant, Descendant, IC)
     var angles: [Angle]
-    //let aspects: [Aspect] =
-    var birth_place: Place
-    var birthday: String
-   // let houses: [House]? = nil
+    var aspects: [Aspect]
+    let birth_place: Place
+    let birthday: String
+    var houses: [House]
     var planets: [Planet]
+    
+    /// Aspects used in synastry between this chart and another chart.
+    var synastryAspects: [Aspect]?
+    /// The other person's (outer chart) planets if a synastry chart was added to this 
+    var synastryPlanets: [Planet]?
+    
+    /// The other person's (outer chart) angles (asc, mc, ic, etc)  if a synastry chart was added to this
+    var synastryAngles: [Angle]?
    // var name: String?
     
    // public var id: String {name ?? "EmptyName"}, not needed ATM
@@ -24,6 +32,31 @@ public struct NatalChart: Codable {
     
 }
 
+extension Array where Element == Planet {
+    func get(planet: PlanetName) -> Planet? {
+        for planet_obj in self{
+            if planet_obj.name == planet{
+                return planet_obj
+            }
+        }
+        return nil
+    }
+    
+   
+
+    
+}
+
+extension Array where Element == Angle {
+    func get(planet: AngleName) -> Angle? {
+        for planet_obj in self{
+            if planet_obj.name == planet{
+                return planet_obj
+            }
+        }
+        return nil
+    }
+}
 
 enum Sex: String, Codable  {
     case male
@@ -49,5 +82,6 @@ enum Sex: String, Codable  {
     }
 
 }
+
 
 

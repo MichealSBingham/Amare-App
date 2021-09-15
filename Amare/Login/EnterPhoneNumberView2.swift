@@ -44,7 +44,7 @@ struct EnterPhoneNumberView2: View {
     @State var someErrorOccured: Bool = false
     @State var alertMessage: String = ""
     
-    
+    @State private var buttonDisabled: Bool = false
     
     var body: some View {
         
@@ -247,7 +247,7 @@ struct EnterPhoneNumberView2: View {
     func backButton() -> some View {
         
         return HStack{ Button {
-            
+            buttonDisabled = true
             goBack()
             
         } label: {
@@ -264,6 +264,7 @@ struct EnterPhoneNumberView2: View {
             
               
         }
+        .disabled(buttonDisabled)
             
             Spacer()
             

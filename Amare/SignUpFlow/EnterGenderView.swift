@@ -29,8 +29,11 @@ struct EnterGenderView: View {
     @State private var someErrorOccured: Bool = false
     @State private var beginAnimation: Bool = false
     
-    @State private var showTodoMessage: Bool = false
+   // @State private var showTodoMessage: Bool = false
     
+    @State private var showMoreGenders: Bool = false
+    
+    @State private var buttonIsDisabled: Bool = false
     
     
     var body: some View {
@@ -60,27 +63,57 @@ struct EnterGenderView: View {
                         .foregroundColor(.white)
                     
                     Spacer()
+                    ZStack{
+                        
+                        // Man and Woman Options
+                        HStack(alignment: .center) {
+                            
+                            Spacer()
+                            MakeManButton().padding()
+                            Spacer()
+                            MakeWomanButton().padding()
+                            Spacer()
+                            
+                            
+                        }.opacity(showMoreGenders == false ? 1: 0)
+                        
+                        
+                        // Transgender Man, Transgender Woman, Non-Binary options
+                        HStack(alignment: .center){
+                            
+                            MakeTManButton().padding(.leading)
+                            Spacer()
+                            MakeTWomanButton()//.padding()
+                            Spacer()
+                            MakeNonBinaryPersonButton().padding(.trailing)
+                            
+                            
+                        }.opacity(showMoreGenders ? 1 : 0 )
+                        
+                    }
+                   
             
+                  
+                    
                     HStack(alignment: .center){
                         
-                        MakeManButton().padding(.leading)
-                        Spacer()
-                        MakeWomanButton()//.padding()
-                        Spacer()
-                        MakeOtherButton().padding(.trailing)
+                   
+                        MakeMoreButton().padding(.trailing)
                         
                         
                     }
-                    
+                
                     Spacer()
+                       
                     
                     Spacer()
                  
                     
                 }.alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
-                .alert(isPresented: $showTodoMessage) {
+             /*   .alert(isPresented: $showTodoMessage) {
                     Alert(title: Text("TODO: Allow more genders"), message: Text("This is not finished yet, but it will allow you to select additional genders"))
-                }
+ 
+                } */
                 .onAppear(perform: {settings.viewType = .EnterGenderView})
 
                 
@@ -110,7 +143,7 @@ struct EnterGenderView: View {
       
         
         return Button {
-            
+            buttonIsDisabled = true
             SelectGenderAction(gender: .male)
             
         } label: {
@@ -144,7 +177,50 @@ struct EnterGenderView: View {
             
             
             
-        }
+        }.disabled(buttonIsDisabled)
+            
+
+    }
+    
+    func MakeTManButton() -> some View  {
+      
+        
+        return Button {
+            buttonIsDisabled = true
+            SelectGenderAction(gender: .transmale)
+            
+        } label: {
+            
+            VStack{
+                
+            
+                
+                ZStack{
+                    
+                    Image("EnterGenderView/circle3")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 100, height: 100)
+                        .opacity(0.2)
+                     
+                        
+                    /// TODO: replace with transgender male
+                    Image("EnterGenderView/transgender")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 40, height: 40)
+                        
+                    
+                }
+                
+                Text("Transmale")
+                    .foregroundColor(.white)
+                    .shimmering()
+            }
+            
+            
+            
+        }.disabled(buttonIsDisabled)
             
 
     }
@@ -152,7 +228,7 @@ struct EnterGenderView: View {
     func MakeWomanButton() -> some View {
         
         return Button {
-            
+            buttonIsDisabled = true
             SelectGenderAction(gender: .female)
             
         } label: {
@@ -183,20 +259,103 @@ struct EnterGenderView: View {
             }
             
                         
-        }
+        }.disabled(buttonIsDisabled)
        
     }
 
+    func MakeTWomanButton() -> some View {
+        
+        return Button {
+            buttonIsDisabled = true
+            SelectGenderAction(gender: .transfemale)
+            
+        } label: {
+            
+            VStack{
+                
+                ZStack{
+                    
+                    Image("EnterGenderView/circle-2")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 100, height: 100)
+                      
+                        //.opacity(0.2)
+                    
+                    /// TODO: replace sign
+                    Image("EnterGenderView/transgender")
+                        .resizable()
+                        .colorInvert()
+                        .rotation3DEffect(.degrees(-180), axis: (x: 0, y: 1, z: 0))
+                        .scaledToFit()
+                        .frame(width: 40, height: 40)
+                    
+                        
+                    
+                }
+                
+                Text("Transfemale")
+                    .foregroundColor(.white)
+                    .shimmering()
+
+            }
+            
+                        
+        }.disabled(buttonIsDisabled)
+       
+    }
+    
+    func MakeNonBinaryPersonButton() -> some View {
+        
+        return Button {
+            buttonIsDisabled = true
+            SelectGenderAction(gender: .non_binary)
+            
+        } label: {
+            
+            VStack{
+                
+                ZStack{
+                    
+                    Image("EnterGenderView/circle3")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 100, height: 100)
+                      
+                        .opacity(0.2)
+                    
+                    /// TODO: replace sign
+                    Image(systemName: "questionmark")
+                        .resizable()
+                        .foregroundColor(.white)
+                        .scaledToFit()
+                        .frame(width: 40, height: 40)
+                        
+                    
+                }
+                
+                Text("Non Binary")
+                    .foregroundColor(.white)
+                    .shimmering()
+
+            }
+            
+                        
+        }.disabled(buttonIsDisabled)
+       
+    }
 
     /// Once this button is tapped, the user should be able to enter their own custom gender
-    func MakeOtherButton() -> some View  {
+    func MakeMoreButton() -> some View  {
         
         
         return Button {
             
-            //SelectGenderAction(gender: "O")
+            withAnimation(.easeInOut){
+                showMoreGenders.toggle()
+            }
             
-                showTodoMessage = true
+            
             
         } label: {
             
@@ -300,6 +459,7 @@ struct EnterGenderView: View {
             
             try account.save(completion: { error in
                 guard error == nil else{
+                    buttonIsDisabled = false
                     return 
                 }
                 goToNextView()
@@ -310,7 +470,7 @@ struct EnterGenderView: View {
             // Handle Error //
             
             
-            
+            buttonIsDisabled = false 
             handle(error)
             
             // Handle Error //
@@ -345,7 +505,7 @@ struct EnterGenderView: View {
     func backButton() -> some View {
         
         return HStack { Button {
-            
+            buttonIsDisabled = true
             goBack()
             
         } label: {
@@ -361,7 +521,10 @@ struct EnterGenderView: View {
                 //.padding()
             
               
-        }; Spacer(); }
+        }.disabled(buttonIsDisabled)
+            Spacer()
+            
+        }
 
        
             

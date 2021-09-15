@@ -41,7 +41,7 @@ public struct VerificationCodeView3: View {
     enum FirstResponders: Int {
             case verificationCodeField
         }
-    @State var firstResponder: FirstResponders? = .verificationCodeField
+    @State var firstResponder: FirstResponders?// = .verificationCodeField
     
     @State var someErrorOccured: Bool = false
     @State var alertMessage: String = ""
@@ -59,21 +59,36 @@ public struct VerificationCodeView3: View {
     @State var timerisrunning: Bool = false
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
-    
+    @State private var isLoading: Bool = true
+    @State private var buttonDisabled: Bool = false
     
     public var body: some View {
         ZStack {
             
             Background()
-                .opacity(phonenumber.isEmpty ? 1: 0)
+                .opacity(isLoading ? 1: 0)
                 .animation(.linear, value: phonenumber)
+            
+            ProgressView("Please wait...")
+                .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                .opacity(isLoading ? 1: 0)
+                .foregroundColor(.white)
+                .onReceive(Just(phonenumber)) { _ in
+                    
+                    if !phonenumber.isEmpty{
+                        AmareApp().delay(2) {
+                            isLoading = false
+                            firstResponder = .verificationCodeField
+                        }
+                    }
+                }
             
             VStack {
                 
                 backButton()
         
-                EnterTheCode()
-                SentToYourPhone()
+                EnterTheCode()//.opacity(isLoading ? 0: 1)
+                SentToYourPhone()//.opacity(isLoading ? 0: 1)
                 Spacer()
                 lineoftext()
                 Spacer()
@@ -116,7 +131,7 @@ public struct VerificationCodeView3: View {
          goBack()
   }
         }
-        .brightness(phonenumber.isEmpty ? -0.5 : 1)
+        .brightness(isLoading ? -0.5 : 1)
         .animation(.linear, value: phonenumber)
         .onReceive(NotificationCenter.default.publisher(for: NSNotification.verificationCodeSent)) { output in
                 
@@ -143,7 +158,7 @@ public struct VerificationCodeView3: View {
                     .modifier(ShakeEffect(shakes: attempts*2)).animation(Animation.default, value: attempts)
                 Spacer()
             }
-        }
+        }.opacity(isLoading ? 0: 1)
     }
     
     private var backgroundField: some View {
@@ -157,7 +172,8 @@ public struct VerificationCodeView3: View {
            .accentColor(.clear)
            .foregroundColor(.clear)
            .keyboardType(.numberPad)
-           .disabled(isDisabled)
+           .disabled(isLoading)
+           .opacity(isLoading ? 0: 1)
           
            
     }
@@ -171,6 +187,7 @@ public struct VerificationCodeView3: View {
         }
         .frame(height: 50)
         .padding([.trailing])
+        .opacity(isLoading ? 0: 1)
     }
     
     private var showPinButton: some View {
@@ -259,10 +276,11 @@ public struct VerificationCodeView3: View {
         
         let number = phonenumber.applyPatternOnNumbers(pattern: "+ # (###) ###-####", replacementCharacter: "#")
         
-        return Text("We sent you an SMS with a code to the number\n \(number)")
+        return Text("We sent you an SMS with a code to\n\(number)")
             .foregroundColor(.white)
             .padding()
             .multilineTextAlignment(.center)
+            .opacity(isLoading ? 0: 1)
     }
     
     /// Button for resending verification code
@@ -304,13 +322,14 @@ public struct VerificationCodeView3: View {
                     
             }.opacity(canResendCode ? 1: 0)
              .disabled(!canResendCode)
+             .opacity(isLoading ? 0: 1)
         }
     }
     
     func backButton() -> some View {
         
         return HStack{ Button {
-            
+            buttonDisabled = true
             goBack()
             
         } label: {
@@ -327,6 +346,7 @@ public struct VerificationCodeView3: View {
             
               
         }
+        .disabled(buttonDisabled)
             Spacer()
             
         }

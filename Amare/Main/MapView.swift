@@ -17,6 +17,8 @@ struct MapView: View {
     @State private var someErrorOccured: Bool = false
     
     @StateObject var locationManager = LocationManager()
+    
+    @State var discoverModeEnabled: Bool = true
 
     
     @State var places: [MapAnnotation] = []
@@ -27,6 +29,22 @@ struct MapView: View {
             
             createMap()
             textForDeniedLocationServices()
+            
+            VStack{
+                
+                HStack{
+                    
+                   // Spacer()
+                    
+                    Toggle("", isOn: $discoverModeEnabled)
+                        .padding()
+                    
+                    
+                }
+                
+                Spacer()
+                
+            }
             
         }
         

@@ -26,10 +26,9 @@ struct MainView: View {
 
             TabView{
                 
-                
+                Map()
                 NatalChart()
                 Scanner()
-                Map()
                 Chats()
                 Perferences()
                 
@@ -41,6 +40,7 @@ struct MainView: View {
                 goBackToSignInRootView()
         
         })
+        
                         
             
             

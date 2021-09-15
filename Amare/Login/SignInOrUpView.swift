@@ -35,6 +35,8 @@ struct SignInOrUpView: View {
     
     @State private var language: Language = .Latin
     
+    @State private var buttonDisabled: Bool = false
+    
     var body: some View {
         
         VStack{
@@ -51,6 +53,7 @@ struct SignInOrUpView: View {
                 
                 createSignInButton()
                 createSignUpButton()
+                    
                 
                 
             }
@@ -190,6 +193,7 @@ struct SignInOrUpView: View {
         
         return  Button {
             
+            buttonDisabled = true
                 // Pressed sign in button
             guard termsAreAccepted else {
                 
@@ -200,7 +204,7 @@ struct SignInOrUpView: View {
                
                 attempts+=1
             
-                
+                buttonDisabled = false
                 return
             }
             
@@ -228,6 +232,7 @@ struct SignInOrUpView: View {
                 
             }
         }.opacity(signInandSignUpAreEnabled ? 1: 0.5)
+        .disabled(buttonDisabled)
             
 
         
@@ -248,12 +253,14 @@ struct SignInOrUpView: View {
         
         return Button {
             
+            buttonDisabled = true
             guard termsAreAccepted else {
                 
                 signInandSignUpAreEnabled = false
                 
                 attempts+=1
                 
+                buttonDisabled = false
                 return
             }
             
@@ -279,6 +286,7 @@ struct SignInOrUpView: View {
                 
             }
         }.opacity(signInandSignUpAreEnabled ? 1: 0.5)
+            .disabled(buttonDisabled)
 
         
     

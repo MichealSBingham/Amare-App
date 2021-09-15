@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+import SwiftUI
 
 struct Planet: Codable, Identifiable{
     
@@ -31,7 +31,11 @@ struct Planet: Codable, Identifiable{
     /// Average speed planet is moving in degrees/day
     let speed: Double
     
-    var id: String { name.rawValue }
+    var id: String { "\(name.rawValue)\(sign.rawValue)\(angle)" }
+    var iconName: String {name.rawValue}
+    
+    /// If we run synastry with person A and person B, this distinguishes A's planets from B's. So if B is the outer person on the bi-wheel chart, this property will be true for B's planets. 
+    var forSynastry: Bool? = false
     
     enum CodingKeys: String, CodingKey {
         
@@ -45,6 +49,22 @@ struct Planet: Codable, Identifiable{
         case speed
      
      
+    }
+    
+    /// Returns the image for the planet of given size, will autosize if it's a synastry planet or not
+    func image(size: Double) ->  some View {
+        
+        var sizeToUse = size
+        if self.forSynastry ?? false {
+            // increase the size by two
+            sizeToUse = size*1.5
+        }
+        
+        return Image("ZodiacIcons/\(self.iconName)")
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(width: CGFloat(sizeToUse*0.30), height: CGFloat(sizeToUse*0.30))
+            .colorInvert()
     }
     
     
@@ -65,6 +85,7 @@ enum PlanetName: String, Codable {
     case Chiron
     case NorthNode = "North Node"
     case SouthNode = "South Node"
+    
     
    
 }

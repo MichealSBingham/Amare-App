@@ -38,12 +38,21 @@
         }
       },
       {
+        "package": "PopupView",
+        "repositoryURL": "https://github.com/exyte/PopupView.git",
+        "state": {
+          "branch": null,
+          "revision": "b1834668b34b9ec22dfe7c462dfbb694edc7ec2d",
+          "version": "1.0.1"
+        }
+      },
+      {
         "package": "NavigationStack",
         "repositoryURL": "https://github.com/matteopuc/swiftui-navigation-stack.git",
         "state": {
           "branch": null,
-          "revision": "eb95be334b855f682ce8a2f9acb62d2c7123d483",
-          "version": "1.0.3"
+          "revision": "be0db68ed0d84ed543bf8f7600a1f84de015f753",
+          "version": "1.0.4"
         }
       },
       {
@@ -51,8 +60,8 @@
         "repositoryURL": "https://github.com/markiv/SwiftUI-Shimmer",
         "state": {
           "branch": null,
-          "revision": "5b2e81191e77f66e6c6ca497f11a77fe48f7f0fc",
-          "version": "1.0.0"
+          "revision": "61411771350a5a4e96666a8a202ae4b2be327a2b",
+          "version": "1.0.1"
         }
       }
     ]
