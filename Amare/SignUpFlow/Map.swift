@@ -44,6 +44,7 @@ struct ContentView: View {
                         // Grab the first city of the result
                         if let firstCity = cities.first?.placemark{
                             // We have a city returned
+                            
                             selectedCity = firstCity
                             
                           //  if let coordinates = firstCity.location?.coordinate{
@@ -57,42 +58,12 @@ struct ContentView: View {
         return ZStack{
             
             GlobeView(locationToGoTo: $selectedCity, locations: $locationsForAnnotation)
-                .onTapGesture {
-                    
-                  //  selectedCity =
-                  //  LocationForMapView(title: "New York", latitude: 40.7128, longitude: -74.0060)
-                    
-                    
-                    
-                }
                 .ignoresSafeArea()
             
             TextField(
                /*cityString ??*/ "New York, NY",
                 text: binding
-           ) /* { isEditing in
-               self.isEditing = isEditing
-           } onCommit: {
-               
-               firstResponder = nil
-               searchForCities(searchString: searchedLocation) { cities in
-                   
-                   //citiesSearchResult = cities
-                   //selectedCity = citiesSearchResult.first?.placemark
-                   
-                   // Grab the first city of the result
-                   if let firstCity = cities.first?.placemark{
-                       // We have a city returned
-                       selectedCity = firstCity
-                       
-                     //  if let coordinates = firstCity.location?.coordinate{
-                           
-                           // }
-                       
-                   }
-               }
-               
-           } */
+           )
             .firstResponder(id: FirstResponders.city, firstResponder: $firstResponder)
            .foregroundColor(.white)
            .frame(width: 300, height: 50)
@@ -283,7 +254,7 @@ struct GlobeView: UIViewRepresentable {
           //  let loc = CLLocationCoordinate2D(latitude: goToLoc.latitude, longitude: goToLoc.longitude)
             
             
-            var region = MKCoordinateRegion(center: goToLoc, latitudinalMeters: 16093.4, longitudinalMeters: 16093.4)
+            var region = MKCoordinateRegion(center: goToLoc, latitudinalMeters: 1609340, longitudinalMeters: 1609300)
             
             view.animatedZoom(to: region, for: 3)
             
@@ -295,8 +266,9 @@ struct GlobeView: UIViewRepresentable {
             
             // set the title
             pin.title = "City"
-        
+           // view.annotations
             
+            view.removeAnnotations(view.annotations)
             // add to map
             view.addAnnotation(pin)
             
