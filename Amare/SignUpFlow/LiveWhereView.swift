@@ -56,6 +56,10 @@ struct LiveWhereView: View {
                 
                 var annotation = MapAnnotation(name: selectedCity?.name ?? "", coordinate: coordinates)
                 
+                withAnimation {
+                    
+                    region = MKCoordinateRegion(center: coordinates, latitudinalMeters: 16093.4, longitudinalMeters: 16093.4)
+                }
                 
                 if let city = selectedCity?.city, let state = selectedCity?.state  {
                     searchedLocation = "\(city), \(state)"
@@ -71,10 +75,7 @@ struct LiveWhereView: View {
                 })
                 
                 
-                withAnimation {
-                    
-                    region = MKCoordinateRegion(center: coordinates, latitudinalMeters: 16093.4, longitudinalMeters: 16093.4)
-                }
+               
                 
                 self.places = [annotation]
             }
@@ -94,7 +95,7 @@ struct LiveWhereView: View {
         
            
                     
-                
+        ZStack{
                
                     let timer = Timer.publish(every: 0.5, on: .main, in: .default).autoconnect()
                     
@@ -148,7 +149,7 @@ struct LiveWhereView: View {
                     
                     
                     
-                    
+    }
                 
         
             

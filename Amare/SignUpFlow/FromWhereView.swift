@@ -25,7 +25,7 @@ struct FromWhereView: View {
     @State private var searchedLocation: String = ""
     
     /// Returned locations from when the user attempted to search for their location (Using natural language)
-    @State private var citiesSearchResult: [MKMapItem] = []
+  //  @State private var citiesSearchResult: [MKMapItem] = []
     
     @State private var goToNext: Bool = false 
     
@@ -54,7 +54,7 @@ struct FromWhereView: View {
     
     @State var firstResponder: FirstResponders? = .city
 
-    @State public var selectedCity: CLPlacemark? {
+   /* @State public var selectedCity: CLPlacemark? {
          
          didSet{
              
@@ -79,7 +79,7 @@ struct FromWhereView: View {
                 })
                 
                 
-                        withAnimation {
+                withAnimation(.easeIn(duration: 10)) {
                     
                     region = MKCoordinateRegion(center: coordinates, latitudinalMeters: 16093.4, longitudinalMeters: 16093.4)
                 }
@@ -89,20 +89,19 @@ struct FromWhereView: View {
             
         }
     }
+    */
     
+    @State public var selectedCity: CLPlacemark?
     
     var body: some View {
         
       
             
        
-                    
-                    
-                    
-               
-                   
-                    
-                    
+        ZStack {
+            
+            
+        
                 
                        createMap()
                
@@ -143,7 +142,7 @@ struct FromWhereView: View {
                     
                     
                     
-                    
+    }
                 
                 
         
@@ -158,16 +157,19 @@ struct FromWhereView: View {
     
     func createMap() -> some View {
         
-        let timer = Timer.publish(every: 0.5, on: .main, in: .default).autoconnect()
+      
         
         return Map(coordinateRegion: $region, interactionModes: .all, showsUserLocation: true, annotationItems: places) {
             
             MapMarker(coordinate: $0.coordinate, tint: .pink)
             
-        }.animation(.easeOut, value: selectedCity)
+        }//.animation(.easeOut, value: selectedCity)
             .edgesIgnoringSafeArea(.all)
             .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text("Some Error Occured")) })
-            .onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; /*getCurrentLocationAndAnimateMap();*/ timer.upstream.connect().cancel()}
+        .onAppear(perform: {
+            beginAnimation.toggle()
+        })
+           
         //.onAppear { getCurrentLocationAndAnimateMap() }
     }
     
@@ -190,22 +192,33 @@ struct FromWhereView: View {
         
      
      
-         
+         /*
         if let city = selectedCity?.city, let state = selectedCity?.state  {
             cityString = "\(city), \(state)"
         }
-       
+       */
          return TextField(
-            cityString ?? "New York, NY",
+            /*cityString ??*/ "New York, NY",
              text: $searchedLocation
         ) { isEditing in
             self.isEditing = isEditing
         } onCommit: {
             firstResponder = nil
-            searchForCities { cities in
+            searchForCities(searchString: searchedLocation) { cities in
                 
-                citiesSearchResult = cities
-                selectedCity = citiesSearchResult.first?.placemark
+                //citiesSearchResult = cities
+                //selectedCity = citiesSearchResult.first?.placemark
+                
+                // Grab the first city of the result
+                if let firstCity = cities.first?.placemark{
+                    // We have a city returned
+                    selectedCity = firstCity
+                    
+                    if let coordinates = firstCity.location?.coordinate{
+                        
+                    }
+                    
+                }
             }
         }
          .firstResponder(id: FirstResponders.city, firstResponder: $firstResponder)
@@ -274,13 +287,15 @@ struct FromWhereView: View {
     
     
     /// Call this to get a list of cities that are nearby that the user searched for in the searchedLocation binding string
-    func searchForCities(_ completion: @escaping ([MKMapItem]) -> () )  {
+    func searchForCities(searchString: String, _ completion: @escaping ([MKMapItem]) -> () )  {
         
         // ******************** // Search for city /// ******************** // ********//
+        
+        guard !searchString.isEmpty else { completion([]); return }
 
         // Search for city
         let searchRequest = MKLocalSearch.Request()
-        searchRequest.naturalLanguageQuery = searchedLocation
+        searchRequest.naturalLanguageQuery = searchString
         let search = MKLocalSearch(request: searchRequest)
         
         search.start { response, error in
@@ -389,6 +404,7 @@ struct FromWhereView: View {
         return  Button {
             // Goes to next screen
           
+            
             guard  let city = selectedCity else {
                 return
             }

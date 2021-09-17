@@ -27,7 +27,9 @@ struct RootView: View {
             
             NavigationStackView(transitionType: .custom(.opacity), easing: .easeInOut(duration: 0.8)){
                 
+                ContentView()
                
+                /* Uncomment this once you're finished testing
                 if account.isSignedIn{
                     
                     
@@ -46,9 +48,11 @@ struct RootView: View {
                     
                 }
                 
-                
+               */
                 
             }
+            
+            
             
         }
                 
