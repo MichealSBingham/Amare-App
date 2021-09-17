@@ -55,24 +55,47 @@ struct ContentView: View {
                     }
                 })
         
-        return ZStack{
+        return
             
-            GlobeView(locationToGoTo: $selectedCity, locations: $locationsForAnnotation)
-                .ignoresSafeArea()
             
-            TextField(
-               /*cityString ??*/ "New York, NY",
-                text: binding
-           )
-            .firstResponder(id: FirstResponders.city, firstResponder: $firstResponder)
-           .foregroundColor(.white)
-           .frame(width: 300, height: 50)
-           .background(
-                   RoundedRectangle(cornerRadius: 20)
-                       .fill(Color.white.opacity(0.3)
-                   ))
+                
+                ZStack{
+                
+                GlobeView(locationToGoTo: $selectedCity, locations: $locationsForAnnotation)
+                    .ignoresSafeArea()
+                
+                
+                    
+                    
+                    VStack{
+                        
+                        HStack(alignment: .top){
+                            
+                            backButton()
+                            title()
+                            Spacer()
+                        }//.offset(y: 45)
+                        .padding()
+                        
+                        TextField(
+                           /*cityString ??*/ "New York, NY",
+                            text: binding
+                       )
+                        .firstResponder(id: FirstResponders.city, firstResponder: $firstResponder)
+                       .foregroundColor(.white)
+                       .frame(width: 300, height: 50)
+                       .background(
+                               RoundedRectangle(cornerRadius: 20)
+                                   .fill(Color.white.opacity(0.3)
+                               ))
+                        
+                        Spacer()
+                    }
+               
+            }
+            
+            
            
-        }
         
         
     }
