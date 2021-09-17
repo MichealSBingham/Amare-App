@@ -30,7 +30,31 @@ struct ContentView: View {
     
     var body: some View {
         
-        ZStack{
+        let binding = Binding<String>(get: {
+                    self.searchedLocation
+                }, set: {
+                    self.searchedLocation = $0
+                    // do whatever you want here
+                    
+                    searchForCities(searchString: $0) { cities in
+                        
+                        //citiesSearchResult = cities
+                        //selectedCity = citiesSearchResult.first?.placemark
+                        
+                        // Grab the first city of the result
+                        if let firstCity = cities.first?.placemark{
+                            // We have a city returned
+                            selectedCity = firstCity
+                            
+                          //  if let coordinates = firstCity.location?.coordinate{
+                                
+                                // }
+                            
+                        } else { selectedCity = nil }
+                    }
+                })
+        
+        return ZStack{
             
             GlobeView(locationToGoTo: $selectedCity, locations: $locationsForAnnotation)
                 .onTapGesture {
@@ -43,7 +67,40 @@ struct ContentView: View {
                 }
                 .ignoresSafeArea()
             
-            searchField()
+            TextField(
+               /*cityString ??*/ "New York, NY",
+                text: binding
+           ) /* { isEditing in
+               self.isEditing = isEditing
+           } onCommit: {
+               
+               firstResponder = nil
+               searchForCities(searchString: searchedLocation) { cities in
+                   
+                   //citiesSearchResult = cities
+                   //selectedCity = citiesSearchResult.first?.placemark
+                   
+                   // Grab the first city of the result
+                   if let firstCity = cities.first?.placemark{
+                       // We have a city returned
+                       selectedCity = firstCity
+                       
+                     //  if let coordinates = firstCity.location?.coordinate{
+                           
+                           // }
+                       
+                   }
+               }
+               
+           } */
+            .firstResponder(id: FirstResponders.city, firstResponder: $firstResponder)
+           .foregroundColor(.white)
+           .frame(width: 300, height: 50)
+           .background(
+                   RoundedRectangle(cornerRadius: 20)
+                       .fill(Color.white.opacity(0.3)
+                   ))
+           
         }
         
         
@@ -58,12 +115,15 @@ struct ContentView: View {
             cityString = "\(city), \(state)"
         }
        */
+        
+        
          return TextField(
             /*cityString ??*/ "New York, NY",
              text: $searchedLocation
-        ) { isEditing in
+        ) /* { isEditing in
             self.isEditing = isEditing
         } onCommit: {
+            
             firstResponder = nil
             searchForCities(searchString: searchedLocation) { cities in
                 
@@ -81,7 +141,8 @@ struct ContentView: View {
                     
                 }
             }
-        }
+            
+        } */
          .firstResponder(id: FirstResponders.city, firstResponder: $firstResponder)
         .foregroundColor(.white)
         .frame(width: 300, height: 50)
@@ -238,6 +299,16 @@ struct GlobeView: UIViewRepresentable {
             
             // add to map
             view.addAnnotation(pin)
+            
+        }
+        
+        else {
+            
+            var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 0, longitude: 0), latitudinalMeters: 16093400, longitudinalMeters: 16093400)
+            
+            view.animatedZoom(to: region, for: 3)
+            
+           
         }
     }
 }
