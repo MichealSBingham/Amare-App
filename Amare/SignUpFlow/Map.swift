@@ -14,9 +14,8 @@ struct ContentView: View {
     @EnvironmentObject private var account: Account
     
     // add locations here
-    @State var locationsForAnnotation: [LocationForMapView]  = []
+    @State var locationsForAnnotation: [CLPlacemark]  = []
     
-   // @State var selectedLocation: LocationForMapView? = nil
     
     @State var searchedLocation: String = ""
     
@@ -73,7 +72,7 @@ struct ContentView: View {
                             
                             backButton()
                             title()
-                            Spacer()
+                          //  Spacer()
                         }//.offset(y: 45)
                         .padding()
                         
@@ -81,13 +80,39 @@ struct ContentView: View {
                            /*cityString ??*/ "New York, NY",
                             text: binding
                        )
-                        .firstResponder(id: FirstResponders.city, firstResponder: $firstResponder)
+                            .firstResponder(id: FirstResponders.city, firstResponder: $firstResponder)
+                            .onSubmit {
+                                
+                                print("Did tap submit")
+                              //  self.searchedLocation = $0
+                                // do whatever you want here
+                                
+                                searchForCities(searchString: self.searchedLocation) { cities in
+                                    
+                                    //citiesSearchResult = cities
+                                    //selectedCity = citiesSearchResult.first?.placemark
+                                    
+                                    // Grab the first city of the result
+                                    if let firstCity = cities.first?.placemark{
+                                        // We have a city returned
+                                        
+                                        selectedCity = firstCity
+                                        
+                                      //  if let coordinates = firstCity.location?.coordinate{
+                                            
+                                            // }
+                                        
+                                    } else { selectedCity = nil }
+                                }
+                            }
+                        
                        .foregroundColor(.white)
                        .frame(width: 300, height: 50)
                        .background(
                                RoundedRectangle(cornerRadius: 20)
                                    .fill(Color.white.opacity(0.3)
                                ))
+                       
                         
                         Spacer()
                     }
@@ -99,16 +124,10 @@ struct ContentView: View {
         
         
     }
-    
+    /*
     func searchField() -> some View {
         
      
-     
-         /*
-        if let city = selectedCity?.city, let state = selectedCity?.state  {
-            cityString = "\(city), \(state)"
-        }
-       */
         
         
          return TextField(
@@ -153,6 +172,8 @@ struct ContentView: View {
         
    
     }
+     */
+    
     /// Goes back to the login screen
     func goBack()   {
         
@@ -241,12 +262,14 @@ struct GlobeView: UIViewRepresentable {
     @Binding var locationToGoTo: CLPlacemark?
     
     /// This will keep track of annotations to place on the map, without animations.
-    @Binding var locations: [LocationForMapView]
+    @Binding var locations: [CLPlacemark]
     
     func makeUIView(context: Context) -> MKMapView {
         let mapView = MKMapView(frame: .zero)
         // change the map type here
         mapView.mapType = .hybridFlyover
+        mapView.tintColor = UIColor(red: 1.00, green: 0.01, blue: 0.40, alpha: 1.00)
+        mapView.showsUserLocation = true
     
         return mapView
     }
@@ -255,19 +278,24 @@ struct GlobeView: UIViewRepresentable {
     func updateUIView(_ view: MKMapView, context: Context) {
         
         for location in locations {
+            
+            if let loc = location.location?.coordinate{
+                
+                // make a pins
+                let pin = MKPointAnnotation()
+                
+                // set the coordinates
+                pin.coordinate =  loc
+                
+                // set the title
+                pin.title = location.name
+            
+                view.showsUserLocation = false
+                // add to map
+                view.addAnnotation(pin)
+            }
        
-            // make a pins
-            let pin = MKPointAnnotation()
             
-            // set the coordinates
-            pin.coordinate = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
-            
-            // set the title
-            pin.title = location.title
-        
-            
-            // add to map
-            view.addAnnotation(pin)
         }
         
         if let goToLoc =  locationToGoTo?.location?.coordinate{
@@ -277,7 +305,7 @@ struct GlobeView: UIViewRepresentable {
           //  let loc = CLLocationCoordinate2D(latitude: goToLoc.latitude, longitude: goToLoc.longitude)
             
             
-            var region = MKCoordinateRegion(center: goToLoc, latitudinalMeters: 1609340, longitudinalMeters: 1609300)
+            let  region = MKCoordinateRegion(center: goToLoc, latitudinalMeters: 1609340, longitudinalMeters: 1609300)
             
             view.animatedZoom(to: region, for: 3)
             
@@ -288,10 +316,15 @@ struct GlobeView: UIViewRepresentable {
             pin.coordinate = goToLoc
             
             // set the title
-            pin.title = "City"
+          
+           // pin.title = "\(locationToGoTo?.city ?? ""), \(locationToGoTo?.country ?? "")"
+            pin.title = locationToGoTo?.name ?? ""
+           
+            
            // view.annotations
             
             view.removeAnnotations(view.annotations)
+            view.showsUserLocation = false
             // add to map
             view.addAnnotation(pin)
             
@@ -299,7 +332,9 @@ struct GlobeView: UIViewRepresentable {
         
         else {
             
-            var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 0, longitude: 0), latitudinalMeters: 16093400, longitudinalMeters: 16093400)
+            view.removeAnnotations(view.annotations)
+            view.showsUserLocation = true 
+            let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 0, longitude: 0), latitudinalMeters: 16093400, longitudinalMeters: 16093400)
             
             view.animatedZoom(to: region, for: 3)
             
@@ -316,4 +351,9 @@ struct ContentView_Previews: PreviewProvider {
 
        
     }
+}
+
+
+class MyPointAnnotation : MKPointAnnotation {
+    var pinTintColor: UIColor?
 }
