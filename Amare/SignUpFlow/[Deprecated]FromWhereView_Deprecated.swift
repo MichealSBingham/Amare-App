@@ -10,7 +10,7 @@ import MapKit
 import NavigationStack
 import MbSwiftUIFirstResponder
 
-struct FromWhereView: View {
+struct FromWhereView_Deprecated: View {
     
     @EnvironmentObject private var navigationStack: NavigationStack
 
@@ -515,7 +515,7 @@ struct FromWhereView: View {
 struct FromWhereView_Previews: PreviewProvider {
     static var previews: some View {
         
-            FromWhereView().environmentObject(Account())
+            FromWhereView_Deprecated().environmentObject(Account())
                 .preferredColorScheme(.dark)
                 //.environmentObject(NavigationModel())
         
