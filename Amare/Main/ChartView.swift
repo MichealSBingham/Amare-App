@@ -105,6 +105,7 @@ struct ChartView: View {
                             
                             person1 = account.data?.name ?? ""
                             chart = account.data?.natal_chart
+                            print("The chart after delay ... \(chart)")
                          
                         }
                         

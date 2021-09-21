@@ -151,7 +151,7 @@ struct SelectLocationForResidenceView: View {
     
     /// Goes to the next screen / view,. Verification Code Screen
     func goToNextView()  {
-        navigationStack.push(MainView().environmentObject(account))
+        navigationStack.push(ImageUploadView().environmentObject(account))
         /*
         guard let timezone = timezone else {
             someErrorOccured = true

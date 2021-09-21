@@ -214,6 +214,7 @@ struct ImageUploadView: View {
                 
                     tappedButton = false
                     handle(error)
+                    return
                 }
                 goToNextView()
             }

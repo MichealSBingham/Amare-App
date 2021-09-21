@@ -203,3 +203,18 @@ public extension DispatchQueue {
     }
 }
 
+extension UserDefaults {
+
+    enum Keys: String, CaseIterable {
+
+        case unitsNotation
+        case temperatureNotation
+        case allowDownloadsOverCellular
+
+    }
+
+    func reset() {
+        Keys.allCases.forEach { removeObject(forKey: $0.rawValue) }
+    }
+
+}

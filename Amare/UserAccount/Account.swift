@@ -375,7 +375,9 @@ class Account: ObservableObject {
             self.isSignedIn = false
         }
         //clear verification code
+    
         UserDefaults.standard.removeObject(forKey: "authVerificationID")
+        UserDefaults.standard.reset()
         completion?(nil)
         
     } catch let signOutError as NSError {
@@ -1093,12 +1095,12 @@ class Account: ObservableObject {
     ///   - image: UIImage to upload
     ///   - isProfileImage: Whether or not we should set this image as the user's profile image
     ///   - completion: An `AccountError` , `SystemError` or `GlobalError` could be passed here but will be nil if it was a success
-    func upload(image: UIImage, isProfileImage: Bool = false, completion: ( (_ error: Error?) -> () )? = nil)  {
+    func upload(image: UIImage, isProfileImage: Bool = false, completion: @escaping ( (_ error: Error?) -> () ))  {
         
         guard let userid = self.user?.uid else {
             
             // There is no signed in user, throw error or pass in handler
-            completion?(AccountError.notSignedIn)
+            completion(AccountError.notSignedIn)
             return
         }
         
@@ -1112,10 +1114,15 @@ class Account: ObservableObject {
         
         let nameOfImage = isProfileImage ? "profile_image.jpg" : "\(UUID.init().uuidString).jpg"
         
+        print("***name of the image .. \(nameOfImage)")
+        
         let uploadRef = ref.child("users").child(userid).child("images").child(nameOfImage)
         
+        print("***image uplaod ref is ... \(uploadRef)")
+        
        
-        guard let imageData = image.jpegData(compressionQuality: 1) else { completion?(SystemError.imageCompress) ;/* Some error compresing the  image */ return  }
+        guard let imageData = image.jpegData(compressionQuality: 1) else { completion(SystemError.imageCompress) ; print("can't get image data"); /* Some error compresing the  image */ return  }
+        
         let uploadMetaData = StorageMetadata.init()
         uploadMetaData.contentType = "image/jpeg"
         
@@ -1125,34 +1132,40 @@ class Account: ObservableObject {
             
             if let error = error {
                 // some error occured
-                completion?(AccountError.uploadError)
+                print("***Some error uplaoding in task reference")
+                completion(AccountError.uploadError)
+                return
 
             }
             
             //  No error, get the image URL
             
             uploadRef.downloadURL { url, error in
-                
+                print("***Dowloading url with  error \(error) and url \(url)")
                 if let error = error{
-                    completion?(AccountError.uploadError)
+                    completion(AccountError.uploadError)
+                    return
                 }
                 
                 // No error after getting url
                 
                 let imageURL = url?.absoluteString
                 
+                print("***image url is .. \(imageURL)")
+                
                 // Set the url link in the database
                
                 
                 if isProfileImage{  self.data?.profile_image_url = imageURL
                     
-                    print("It's a profile image... \(self.data?.profile_image_url)")
+                    print("***It's a profile image... \(self.data?.profile_image_url)")
                     do{
-                        print("trying...to save profile image ")
+                        print("***trying...to save profile image ")
                         try self.save()
                     } catch (let error){
-                        print("could not save profile image with error .. \(error)")
-                        completion?(error)
+                        print("***could not save profile image with error .. \(error)")
+                        completion(error)
+                        return
                     }
                 }
 
@@ -1177,11 +1190,14 @@ class Account: ObservableObject {
                                 
                                 // Handle Global Errors
                             case .quotaExceeded:
-                                completion?(GlobalError.quotaExceeded)
+                                completion(GlobalError.quotaExceeded)
+                                return
                             case .unauthorized:
-                                completion?(AccountError.notAuthorized)
+                                completion(AccountError.notAuthorized)
+                                return
                             case .unauthenticated:
-                                completion?(AccountError.notSignedIn)
+                                completion(AccountError.notSignedIn)
+                                return
                             case .objectNotFound:
                                 // There is no object located here so we need to create one and add it.
                                 DB.collection("users").document(self.data?.id ?? self.user!.uid).setData(["images": []]) { error in
@@ -1190,8 +1206,9 @@ class Account: ObservableObject {
                                     
                                    guard error == nil else  {
                                         print("We failed to upload it in the databases, we tried to set the images data to an empty array but it dind't work")
-                                        completion?(GlobalError.unknown)
+                                       completion(GlobalError.unknown)
                                        return
+                                       
                                     }
                                     
                                     // It worked so let's just try again
@@ -1202,13 +1219,15 @@ class Account: ObservableObject {
                                         guard error == nil else {
                                             // It didn't work so just try again
                                             print("error We failed trying to recursiviely upload the image if .objectNotfound with error \(error!.localizedDescription)")
-                                            completion?(GlobalError.unknown)
+                                            completion(GlobalError.unknown)
                                             return
+                                            
                                             
                                         }
                                         // It worked.
                                         print("it worked .. self.upload")
-                                        completion?(nil) 
+                                        completion(nil)
+                                        return
                                   
                                         
                                     }
@@ -1216,7 +1235,8 @@ class Account: ObservableObject {
                            
                             default:
                                 print("\n\nSome error happened, likely an unhandled error from firebase : \(error). This happened inside Account.upload()")
-                                completion?(GlobalError.unknown)
+                                completion(GlobalError.unknown)
+                                return
                             }
                             
                             
@@ -1224,12 +1244,13 @@ class Account: ObservableObject {
                         
                         // it's some other error , unknown to us
                         print("\n\nSome error happened, global \(error?.localizedDescription) happened at the end of upload ")
-                        completion?(GlobalError.unknown)
+                        completion(GlobalError.unknown)
                         return
                     }
                    
                     print("No error ..uploaded image")
-                    completion?(nil)
+                    completion(nil)
+                    return 
                     
                 }
                 
