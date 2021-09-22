@@ -133,9 +133,12 @@ struct ImageUploadView: View {
         
         Image(uiImage: image ?? UIImage(systemName: "person")!)
             .resizable()
-            .aspectRatio(contentMode: .fit)
             .opacity(image != nil ? 1: 0)
             .frame(width: 250, height: 250)
+            .clipShape(Circle())
+            .shadow(radius: 10)
+            .aspectRatio(contentMode: .fit)
+            //.overlay(Circle().stroke(Color.red, lineWidth: 5))
     }
     
 
@@ -382,7 +385,10 @@ struct ImageUploadView: View {
 
 struct ImageUploadView_Previews: PreviewProvider {
     static var previews: some View {
+        ZStack{
+        Background()
         ImageUploadView().preferredColorScheme(.dark).environmentObject(Account())
             //.environmentObject(NavigationModel())
+        }
     }
 }
