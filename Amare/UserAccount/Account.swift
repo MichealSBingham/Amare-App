@@ -1108,10 +1108,11 @@ class Account: ObservableObject {
         self.db = DB
         
        // Get reference to cloud storage
-        let ref =  (self.storage == nil) ? Storage.storage().reference()   :  self.storage!
+      //  let ref =  (self.storage == nil) ? Storage.storage().reference()   :  self.storage!
+        let ref = Storage.storage(url: "gs://loveequationapp.appspot.com").reference()
         self.storage = ref
         
-        
+      //  Auth().currentUser?.reauthenticate(with: <#T##AuthCredential#>, completion: <#T##((AuthDataResult?, Error?) -> Void)?##((AuthDataResult?, Error?) -> Void)?##(AuthDataResult?, Error?) -> Void#>)
         let nameOfImage = isProfileImage ? "profile_image.jpg" : "\(UUID.init().uuidString).jpg"
         
         print("***name of the image .. \(nameOfImage)")
@@ -1132,7 +1133,7 @@ class Account: ObservableObject {
             
             if let error = error {
                 // some error occured
-                print("***Some error uplaoding in task reference")
+                print("***Some error uplaoding in task reference ... \(error)")
                 completion(AccountError.uploadError)
                 return
 
@@ -1414,3 +1415,14 @@ class Account: ObservableObject {
 
 
 
+extension PhoneAuthCredential{
+    func save() {
+        
+        UserDefaults.standard.set(self, forKey: "authInfo")
+    }
+    
+    class func get() -> PhoneAuthCredential? {
+        
+        return UserDefaults.standard.object(forKey: "authInfo") as? PhoneAuthCredential
+    }
+}

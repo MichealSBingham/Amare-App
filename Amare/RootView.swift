@@ -54,6 +54,10 @@ struct RootView: View {
             
             
             
+        }.onAppear {
+            Account().signOut { error in
+                return 
+            }
         }
                 
     }

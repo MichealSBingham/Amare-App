@@ -7,8 +7,7 @@
 
 import SwiftUI
 import NavigationStack
-
-
+import FirebaseStorage
 
 struct ImageUploadView: View {
     
@@ -208,6 +207,78 @@ struct ImageUploadView: View {
             tappedButton = true
             guard image != nil else {tappedButton = false; return}
             
+            /*
+            let storageRef = Storage.storage().reference()
+            
+            // Local file you want to upload
+            let localFile = URL(string: "path/to/image")!
+
+            // Create the file metadata
+            let metadata = StorageMetadata()
+            metadata.contentType = "image/jpeg"
+
+            // Upload file and metadata to the object 'images/mountains.jpg'
+            let uploadTask = storageRef.child("users").child(account.data?.id ?? "").putData((image?.pngData())!)
+            
+            //putFile(from: localFile, metadata: metadata)
+            
+            
+
+            // Listen for state changes, errors, and completion of the upload.
+            uploadTask.observe(.resume) { snapshot in
+              // Upload resumed, also fires when the upload starts
+            }
+
+            uploadTask.observe(.pause) { snapshot in
+              // Upload paused
+            }
+
+            uploadTask.observe(.progress) { snapshot in
+              // Upload reported progress
+              let percentComplete = 100.0 * Double(snapshot.progress!.completedUnitCount)
+                / Double(snapshot.progress!.totalUnitCount)
+                
+                print("*** Completion : \(percentComplete)")
+            }
+
+            uploadTask.observe(.success) { snapshot in
+              // Upload completed successfully
+                print("success")
+            }
+
+            uploadTask.observe(.failure) { snapshot in
+              if let error = snapshot.error as? NSError {
+                switch (StorageErrorCode(rawValue: error.code)!) {
+                case .objectNotFound:
+                  // File doesn't exist
+                    print("*** Obejct doesn't exist ")
+                  break
+                case .unauthorized:
+                  // User doesn't have permission to access file
+                    print("*** Unauthorized ")
+                  break
+                case .cancelled:
+                  // User canceled the upload
+                    print("*** Cancelled ")
+                  break
+
+                /* ... */
+
+                case .unknown:
+                    print("*** Unknown answer ")
+                  // Unknown error occurred, inspect the server response
+                  break
+                default:
+                  // A separate error occurred. This is a good place to retry the upload.
+                    print("Some other error happened .. \(error)")
+                  break
+                }
+              }
+            }
+                
+            */
+            
+            
             account.upload(image: image!, isProfileImage: true) { error in
                 
                 if let error = error{
@@ -218,7 +289,7 @@ struct ImageUploadView: View {
                 }
                 goToNextView()
             }
-         
+            
         
             
             
