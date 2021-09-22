@@ -140,7 +140,6 @@ struct ChartView: View {
                     .gesture(
                                     simpleDrag
                                 )
-                    
                     .scaleEffect(scale)
                     .gesture(MagnificationGesture()
                                 .onChanged { val in
@@ -198,13 +197,13 @@ extension BinaryFloatingPoint {
 struct ChartView_Previews: PreviewProvider {
     static var previews: some View {
         
-        ForEach([ "iPhone 8", "iPhone 12 Pro Max"], id: \.self) { deviceName in
+       // ForEach([ "iPhone 8", "iPhone 12 Pro Max"], id: \.self) { //deviceName in
                        ChartView()
-                            .previewDevice(PreviewDevice(rawValue: deviceName))
-                            .previewDisplayName(deviceName)
+                           // .previewDevice(PreviewDevice(rawValue: deviceName))
+                          //  .previewDisplayName(deviceName)
                             .environmentObject(Account())
                         .preferredColorScheme(.dark)
-                  }
+                  //}
         
       
         

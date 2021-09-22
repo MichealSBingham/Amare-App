@@ -1113,7 +1113,7 @@ class Account: ObservableObject {
         self.storage = ref
         
       //  Auth().currentUser?.reauthenticate(with: <#T##AuthCredential#>, completion: <#T##((AuthDataResult?, Error?) -> Void)?##((AuthDataResult?, Error?) -> Void)?##(AuthDataResult?, Error?) -> Void#>)
-        let nameOfImage = isProfileImage ? "profile_image.jpg" : "\(UUID.init().uuidString).jpg"
+        let nameOfImage = isProfileImage ? "profile_image_\(UUID.init().uuidString).jpg" : "\(UUID.init().uuidString).jpg"
         
         print("***name of the image .. \(nameOfImage)")
         
