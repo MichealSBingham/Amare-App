@@ -222,7 +222,7 @@ struct EnterNameView: View {
             guard error == nil else { return }
             
                 firstResponder = nil
-                navigationStack.pop(to: .root)
+                navigationStack.pop(to: .previous)
             
            
             return

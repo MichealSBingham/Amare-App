@@ -37,6 +37,9 @@ struct SignInOrUpView: View {
     
     @State private var buttonDisabled: Bool = false
     
+    /// Whether or not this view became the root view when it was instantiated 
+     var isRoot: Bool
+    
     var body: some View {
         
         VStack{

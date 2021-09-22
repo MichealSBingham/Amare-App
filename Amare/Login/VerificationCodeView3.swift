@@ -464,7 +464,7 @@ public struct VerificationCodeView3: View {
         }
     
             
-            navigationStack.push(MainView().environmentObject(account), withId: MainView.id)
+        navigationStack.push(MainView(isRoot: false).environmentObject(account), withId: MainView.id)
         
        
     }

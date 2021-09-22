@@ -192,51 +192,66 @@ class Account: ObservableObject {
                     case .networkError:
                         print("Login Completion Block 2 ")
                         runThisClosure!(GlobalError.networkError, nil, nil)
+                        return
                     case .tooManyRequests:
                         print("Login Completion Block 3")
                         runThisClosure!(GlobalError.tooManyRequests, nil, nil)
+                        return
                     case .captchaCheckFailed:
                         print("Login Completion Block 4 ")
                         runThisClosure!(GlobalError.captchaCheckFailed, nil, nil)
+                        return
                     case .invalidPhoneNumber:
                         print("Login Completion Block 5 ")
                         runThisClosure!(GlobalError.invalidInput, nil, nil)
+                        return
                     case .quotaExceeded:
                         print("Login Completion Block 6 ")
                         runThisClosure!(GlobalError.quotaExceeded, nil, nil)
+                        return
                     case .operationNotAllowed:
                         print("Login Completion Block 7 ")
                         runThisClosure!(GlobalError.notAllowed, nil, nil)
+                        return
                     case .internalError:
                         print("Login Completion Block 8 ")
                         runThisClosure!(GlobalError.internalError, nil, nil)
+                        return
                         
                         // Handle Account Errors
                     case .expiredActionCode:
                         print("Login Completion Block 9 ")
                         runThisClosure!(AccountError.expiredActionCode, nil, nil)
+                        return
                     case .sessionExpired:
                         print("Login Completion Block 10 ")
                         runThisClosure!(AccountError.sessionExpired, nil, nil)
+                        return
                     case .userTokenExpired:
                         print("Login Completion Block 11 ")
                         runThisClosure!(AccountError.userTokenExpired, nil, nil)
+                        return
                     case .userDisabled:
                         print("Login Completion Block 12 ")
                         runThisClosure!(AccountError.disabledUser, nil, nil)
+                        return
                     case .wrongPassword:
                         print("Login Completion Block 13 ")
                         runThisClosure!(AccountError.wrong, nil, nil)
+                        return
                     case .invalidVerificationCode:
                         print("Login Completion Block 14 ")
                         runThisClosure!(AccountError.wrong, nil, nil )
+                        return
                     case .missingVerificationCode:
                         print("Login Completion Block 15 ")
                         runThisClosure!(AccountError.wrong, nil , nil )
+                        return
                     default:
                         print("Login Completion Block 16 ")
                         print("\n\nSome error happened, likely an unhandled error from firebase : \(error). This happened inside Account.login()")
                         runThisClosure!(GlobalError.unknown, nil, nil)
+                        return
                     }
                     
                    return
@@ -379,6 +394,8 @@ class Account: ObservableObject {
         UserDefaults.standard.removeObject(forKey: "authVerificationID")
         UserDefaults.standard.reset()
         completion?(nil)
+        NotificationCenter.default.post(name: NSNotification.logout, object: nil)
+        return
         
     } catch let signOutError as NSError {
     
@@ -407,6 +424,7 @@ class Account: ObservableObject {
         
         print ("Some Error happened signing out: %@", signOutError)
         completion?(GlobalError.unknown)
+        return
     }
       
     }
