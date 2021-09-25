@@ -32,6 +32,9 @@ struct ChartView: View {
     @State private var scale: CGFloat = 1.0
     @State private var lastScale: CGFloat = 1.0
     //@State private var viewState = CGSize.zero
+    
+    @State private var showImagePicker: Bool = false
+    @State var image: UIImage?
 
     
     
@@ -52,6 +55,58 @@ struct ChartView: View {
             
             Background()
             
+
+            
+            VStack{
+                
+                Text("Amor Vincit Omnia")
+                    .foregroundColor(.white)
+                    .font(.system(size: 25))
+                    .bold()
+                    .padding()
+                
+                    
+               // Spacer()
+                
+                HStack{
+                    // Profile Image
+                    profileUIImage()
+                      // .padding()
+                
+                    //Spacer()
+                    
+                    VStack{
+                        
+                        // Name and user name
+                        Text("Micheal S. Bingham")
+                            .foregroundColor(.white)
+                            .font(.system(size: 22))
+                            .bold()
+                            .padding()
+                                                    //Spacer()
+                        Text("@micheal")
+                            .foregroundColor(.white)
+                            .font(.system(size: 15))
+                           // .padding()
+                            //.bold()
+                            //.offset(x: 12)
+                        
+                    }.padding()
+                    
+                    Spacer()
+                   // Spacer()
+                }.padding()
+                
+                Spacer()
+
+            }
+            
+            
+            
+            
+            
+            
+            /*
             VStack{
                 
                 HStack{
@@ -92,69 +147,11 @@ struct ChartView: View {
                 Spacer()
             }
             
-         
+            */
+            
+       //  usersNatalChart()
                 
-                NatalChartView()
-                    .make(with: chart/*, shownAspect: aspectToGet*/)
-                    .animation(.easeIn(duration: 3))
-                    .onReceive(Just(account), perform: { _ in
                 
-                        guard !didChangeCharts else { return }
-                        
-                        AmareApp().delay(1) {
-                            
-                            person1 = account.data?.name ?? ""
-                            chart = account.data?.natal_chart
-                            print("The chart after delay ... \(chart)")
-                         
-                        }
-                        
-                    })
-                    .onReceive(NotificationCenter.default.publisher(for: NSNotification.wantsMoreInfoFromNatalChart)) { obj in
-                       
-                        showBottomPopup = true
-                        
-                        if let sign = obj.object as? ZodiacSign{
-                            
-                            infoToShow = sign.rawValue
-                        }
-                        
-                        if let planet = obj.object as? Planet{
-                            
-                            infoToShow = planet.name.rawValue
-                        }
-                        
-                        if let house = obj.object as? House{
-                            
-                            infoToShow = String(house.ordinality)
-                        }
-                        
-                        if let angle = obj.object as? Angle{
-                            
-                            infoToShow = angle.name.rawValue
-                        }
-                     //   infoToShow = (obj.object as? ZodiacSign)?.rawValue }
-                    
-                    }
-                    .position(location)
-                    .gesture(
-                                    simpleDrag
-                                )
-                    .scaleEffect(scale)
-                    .gesture(MagnificationGesture()
-                                .onChanged { val in
-                                    let delta = val / self.lastScale
-                                    self.lastScale = val
-                                  //  if delta > 0.94 { // if statement to minimize jitter
-                                        let newScale = self.scale * delta
-                                        self.scale = newScale
-                                   // }
-                                }
-                                .onEnded { _ in
-                                    self.lastScale = 1.0
-                                }
-                            )
-                    .padding()
                 
             
             
@@ -169,12 +166,127 @@ struct ChartView: View {
                             .background(Color(red: 0.85, green: 0.8, blue: 0.95))
                             .cornerRadius(30.0)
         }
- 
-        
+        .sheet(isPresented: $showImagePicker) {
+            ImagePickerView(sourceType: .photoLibrary) { image in
+                self.image = image
+            }
         
     }
+    
+}
+    
+    func usersNatalChart() -> some View {
+        
+        return NatalChartView()
+            .make(with: chart/*, shownAspect: aspectToGet*/)
+            .animation(.easeIn(duration: 3))
+            .onReceive(Just(account), perform: { _ in
+        
+                guard !didChangeCharts else { return }
+                
+                AmareApp().delay(1) {
+                    
+                    person1 = account.data?.name ?? ""
+                    chart = account.data?.natal_chart
+                    print("The chart after delay ... \(chart)")
+                 
+                }
+                
+            })
+            .onReceive(NotificationCenter.default.publisher(for: NSNotification.wantsMoreInfoFromNatalChart)) { obj in
+               
+                showBottomPopup = true
+                
+                if let sign = obj.object as? ZodiacSign{
+                    
+                    infoToShow = sign.rawValue
+                }
+                
+                if let planet = obj.object as? Planet{
+                    
+                    infoToShow = planet.name.rawValue
+                }
+                
+                if let house = obj.object as? House{
+                    
+                    infoToShow = String(house.ordinality)
+                }
+                
+                if let angle = obj.object as? Angle{
+                    
+                    infoToShow = angle.name.rawValue
+                }
+             //   infoToShow = (obj.object as? ZodiacSign)?.rawValue }
+            
+            }
+            .position(location)
+            .gesture(
+                            simpleDrag
+                        )
+            .scaleEffect(scale)
+            .gesture(MagnificationGesture()
+                        .onChanged { val in
+                            let delta = val / self.lastScale
+                            self.lastScale = val
+                          //  if delta > 0.94 { // if statement to minimize jitter
+                                let newScale = self.scale * delta
+                                self.scale = newScale
+                           // }
+                        }
+                        .onEnded { _ in
+                            self.lastScale = 1.0
+                        }
+                    )
+            .padding()
+    }
+    
+   
+    func profileUIImage() -> some View {
+        
+        return Button {
+            
+            showImagePicker = true
+            
+        } label: {
+            
+            ZStack{
+                
+                Group{
+                    
+                    Image("ImageUploadView/emptyprofilepic")
+                        .resizable()
+                        .frame(width: 120, height: 120)
+           
+                    Image(systemName: "person")
+                        .resizable()
+                        .foregroundColor(.gray)
+                        .frame(width: 60, height: 60)
+                     
+                    
+                }
+                //.opacity(self.image == nil ? 1: 0)
+               
+                //TODO:  Allow changing profile image here
+              //  selectedUIImage()
+                    
+
+            }
+            //TODO: We disable this button for now
+        }.disabled(true)
+            
+            
+            
+
+         
+        
+    }
+        
+       
+    
 }
 
+
+    
 
 extension BinaryFloatingPoint {
     /// Converts decimal degrees to degrees, minutes, seconds
