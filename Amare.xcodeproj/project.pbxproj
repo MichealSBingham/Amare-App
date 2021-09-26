@@ -60,6 +60,7 @@
 		26BBF091267EA5FF00C84019 /* [Deprecated]FromWhereView_Deprecated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BBF090267EA5FF00C84019 /* [Deprecated]FromWhereView_Deprecated.swift */; };
 		26BBF093267EBB1300C84019 /* [Deprecated]LiveWhereView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BBF092267EBB1300C84019 /* [Deprecated]LiveWhereView.swift */; };
 		26BBF095267EBBEF00C84019 /* EnterNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BBF094267EBBEF00C84019 /* EnterNameView.swift */; };
+		26D24B21270019A900A3DEE7 /* UICircularProgressRing in Frameworks */ = {isa = PBXBuildFile; productRef = 26D24B20270019A900A3DEE7 /* UICircularProgressRing */; };
 		26DE210326C590480004B5CE /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DE210226C590480004B5CE /* MainView.swift */; };
 		26DE210626C593070004B5CE /* ScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DE210526C593070004B5CE /* ScannerView.swift */; };
 		26DE210826C595B50004B5CE /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DE210726C595B50004B5CE /* ChartView.swift */; };
@@ -182,6 +183,7 @@
 				26DE211126C5B2E60004B5CE /* CodeScanner in Frameworks */,
 				260A111126C373DE00873FE6 /* MbSwiftUIFirstResponder in Frameworks */,
 				26B1B0072679566E00A170B3 /* iPhoneNumberField in Frameworks */,
+				26D24B21270019A900A3DEE7 /* UICircularProgressRing in Frameworks */,
 				89C992E849A350619816F485 /* Pods_Amare.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -485,6 +487,7 @@
 				260A111026C373DE00873FE6 /* MbSwiftUIFirstResponder */,
 				26DE211026C5B2E60004B5CE /* CodeScanner */,
 				26B66A8D26EA9E0E001EAA80 /* PopupView */,
+				26D24B20270019A900A3DEE7 /* UICircularProgressRing */,
 			);
 			productName = Love;
 			productReference = 26B1AFD22678FFE500A170B3 /* Amare.app */;
@@ -567,6 +570,7 @@
 				260A110F26C373DE00873FE6 /* XCRemoteSwiftPackageReference "MbSwiftUIFirstResponder" */,
 				26DE210F26C5B2E60004B5CE /* XCRemoteSwiftPackageReference "CodeScanner" */,
 				26B66A8C26EA9E0E001EAA80 /* XCRemoteSwiftPackageReference "PopupView" */,
+				26D24B1F270019A900A3DEE7 /* XCRemoteSwiftPackageReference "UICircularProgressRing" */,
 			);
 			productRefGroup = 26B1AFD32678FFE500A170B3 /* Products */;
 			projectDirPath = "";
@@ -1143,6 +1147,14 @@
 				minimumVersion = 1.0.1;
 			};
 		};
+		26D24B1F270019A900A3DEE7 /* XCRemoteSwiftPackageReference "UICircularProgressRing" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/luispadron/UICircularProgressRing.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.0.0;
+			};
+		};
 		26DE210F26C5B2E60004B5CE /* XCRemoteSwiftPackageReference "CodeScanner" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/twostraws/CodeScanner.git";
@@ -1181,6 +1193,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 26B66A8C26EA9E0E001EAA80 /* XCRemoteSwiftPackageReference "PopupView" */;
 			productName = PopupView;
+		};
+		26D24B20270019A900A3DEE7 /* UICircularProgressRing */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 26D24B1F270019A900A3DEE7 /* XCRemoteSwiftPackageReference "UICircularProgressRing" */;
+			productName = UICircularProgressRing;
 		};
 		26DE211026C5B2E60004B5CE /* CodeScanner */ = {
 			isa = XCSwiftPackageProductDependency;

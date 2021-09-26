@@ -63,6 +63,15 @@
           "revision": "61411771350a5a4e96666a8a202ae4b2be327a2b",
           "version": "1.0.1"
         }
+      },
+      {
+        "package": "UICircularProgressRing",
+        "repositoryURL": "https://github.com/luispadron/UICircularProgressRing.git",
+        "state": {
+          "branch": null,
+          "revision": "e41b35ffbff734f39d6b4b2ca488a17f487e73a3",
+          "version": "8.0.0"
+        }
       }
     ]
   },

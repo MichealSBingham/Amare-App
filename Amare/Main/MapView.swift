@@ -8,7 +8,7 @@
 import SwiftUI
 import MapKit
 import CoreLocation
-
+import UICircularProgressRing
 // Sample Data
 
 var sampleNames: [String] = ["Micheal S. Bingham", "John", "Jane", "William Scott"]
@@ -26,6 +26,7 @@ struct MapView: View {
     
     @State var discoverModeEnabled: Bool = false
 
+    @State var progress = RingProgress.percent(0.235)
 
     
     @State var places: [MapAnnotation] = []
@@ -114,8 +115,45 @@ struct MapView: View {
                                         .frame(maxWidth : .infinity, alignment: .center)
                                         .foregroundColor(Color.primary.opacity(0.4))
                                        // .shimmering(duration: 5, bounce: true)
+                                        .padding(.bottom)
+                    
+                    let o_ringstyle: RingStyle = .init(
+                        color: .color(.gray),
+                        strokeStyle: .init(lineWidth: 10)
+                    )
+                    
+                    let i_ringstyle: RingStyle = .init(
+                        color: .color(.green),
+                        strokeStyle: .init(lineWidth: 5),
+                        padding: 2.5
+                    )
                     
                     
+                    ProgressRing(progress: $progress, axis: .top, clockwise: true, outerRingStyle: o_ringstyle, innerRingStyle: i_ringstyle) { percent in
+                        
+                        
+                        let pcent = Int(round(percent*100))
+                        
+                        VStack{
+                            
+                            Text("Sex")
+                                .font(.subheadline)
+                                
+                            
+                            Text("\(pcent)")
+                                            .font(.title)
+                                            .bold()
+                        }
+                        
+                        
+                    }.animation(.easeInOut(duration: 5))
+                        .frame(width: 150, height: 150)
+                    
+                    
+                    
+                    
+                    
+                   
                     
                 }
                             .padding()
@@ -436,6 +474,36 @@ struct FlatGlassView : ViewModifier {
                 .padding()
                 .frame(height: 50)
                 .cornerRadius(14)
+        }
+    }
+}
+
+struct ConcaveGlassView: ViewModifier {
+    func body(content: Content) -> some View {
+        if #available(iOS 15.0, *) {
+            content
+                .padding()
+                .frame(height: 50)
+                .background(.ultraThinMaterial)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 14)
+                        .stroke(.linearGradient(colors:[.black,.white.opacity(0.75)], startPoint: .top, endPoint: .bottom), lineWidth: 2)
+                        .blur(radius: 2)
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 14)
+                        .stroke(.radialGradient(Gradient(colors: [.clear,.black.opacity(0.1)]), center: .bottomLeading, startRadius: 300, endRadius: 0), lineWidth: 15)
+                        .offset(y: 5)
+                )
+                .cornerRadius(14)
+        } else {
+            // Fallback on earlier versions
+            content
+                .padding()
+                .frame(height: 50)
+                .cornerRadius(14)
+                .shadow(color: .white, radius: 3, x: -3, y: -3)
+                .shadow(color: .black, radius: 3, x: 3, y: 3)
         }
     }
 }

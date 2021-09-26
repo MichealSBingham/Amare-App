@@ -155,7 +155,7 @@ struct ChartView: View {
             
             */
             
-       //  usersNatalChart()
+         usersNatalChart()
                 
                 
                 
