@@ -149,6 +149,8 @@ struct SignInOrUpView: View {
     func createPolicyAndConditionsAcceptance() -> some View  {
         
         return HStack{  box(); agreeToPolicyText }.modifier(ShakeEffect(shakes: attempts*2)).animation(Animation.default, value: attempts)
+     
+     // add font ... (.footnote)
     }
     */
     
@@ -404,6 +406,7 @@ struct SignInOrUpView: View {
     private var agreeToPolicyText: some View {
         
         Text(agreeToPolicyTextAttributedString()).foregroundColor(.white).font(.system(size: 16))
+     .font(footnote)
     }
  */
     

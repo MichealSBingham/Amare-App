@@ -75,7 +75,8 @@ struct RootView: View {
             
         }.onAppear {
             /// This will only run ONCE in a lifetime (unless the app is deleted and redownloaded, or unless it's rebuilt in dev). This will sign out the user.
-           /* func doOnce() {
+        /*
+            func doOnce() {
                 struct Resource {
                     static var resourceInit : Void = {
                       print("Signing out only once in lifetime for initalizatoin ")
@@ -87,9 +88,9 @@ struct RootView: View {
 
                 let _ = Resource.resourceInit
             }
-            
-            doOnce()
             */
+            //doOnce()
+            
         }
                 
     }

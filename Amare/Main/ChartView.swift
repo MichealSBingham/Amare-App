@@ -8,6 +8,8 @@
 import SwiftUI
 import Combine
 
+var testImages = ["https://lh3.google.com/u/0/ogw/ADea4I57grRsMmsG3Wxmx_ayco7IOgQV40Pc8hc78ylE=s64-c-mo", "https://www.edmundsgovtech.com/wp-content/uploads/2020/01/default-picture_0_0.png"]
+
 struct ChartView: View {
     @EnvironmentObject private var account: Account
     
@@ -35,7 +37,10 @@ struct ChartView: View {
     
     @State private var showImagePicker: Bool = false
     @State var image: UIImage?
-
+    
+   
+    
+    var defaultImage: String = testImages[0]
     
     
     @State private var location: CGPoint = CGPoint(x: UIScreen.main.bounds.midX - 15 , y: UIScreen.main.bounds.midY - 50)
@@ -82,12 +87,13 @@ struct ChartView: View {
                             .foregroundColor(.white)
                             .font(.system(size: 22))
                             .bold()
-                            .padding()
-                                                    //Spacer()
+                            .padding([.trailing, .leading, .top])
+                            .padding(.bottom, 3)
+                                                   
                         Text("@micheal")
                             .foregroundColor(.white)
                             .font(.system(size: 15))
-                           // .padding()
+                           //.padding()
                             //.bold()
                             //.offset(x: 12)
                         
@@ -175,6 +181,7 @@ struct ChartView: View {
     
 }
     
+   
     func usersNatalChart() -> some View {
         
         return NatalChartView()
@@ -253,6 +260,15 @@ struct ChartView: View {
                 
                 Group{
                     
+                    ImageFromUrl(account.data?.profile_image_url ?? defaultImage)
+                        .frame(width: 120, height: 120)
+                        .clipShape(Circle())
+                        .shadow(radius: 10)
+                        .aspectRatio(contentMode: .fit)
+                        
+                    
+                    /*
+                    
                     Image("ImageUploadView/emptyprofilepic")
                         .resizable()
                         .frame(width: 120, height: 120)
@@ -261,6 +277,7 @@ struct ChartView: View {
                         .resizable()
                         .foregroundColor(.gray)
                         .frame(width: 60, height: 60)
+                     */
                      
                     
                 }
