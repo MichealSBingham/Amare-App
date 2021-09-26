@@ -128,27 +128,110 @@ struct MapView: View {
                         padding: 2.5
                     )
                     
-                    
-                    ProgressRing(progress: $progress, axis: .top, clockwise: true, outerRingStyle: o_ringstyle, innerRingStyle: i_ringstyle) { percent in
+                    TabView {
                         
-                        
-                        let pcent = Int(round(percent*100))
-                        
-                        VStack{
                             
-                            Text("Sex")
-                                .font(.subheadline)
-                                
-                            
-                            Text("\(pcent)")
-                                            .font(.title)
-                                            .bold()
+                        
+                                    
+                           HStack {
+                                    ProgressRing(progress: $progress, axis: .top, clockwise: true, outerRingStyle: o_ringstyle, innerRingStyle: i_ringstyle) { percent in
+                                        
+                                        
+                                        let pcent = Int(round(percent*100))
+                                        
+                                        VStack{
+                                            
+                                                
+                                            
+                                            Text("\(pcent)")
+                                                            .font(.title)
+                                                            .bold()
+                                        }
+                                        
+                                        
+                                    }.animation(.easeInOut(duration: 5))
+                                        .frame(width: 150, height: 150)
+                                    
+                                    
+                     
+                                    ProgressRing(progress: $progress, axis: .top, clockwise: true, outerRingStyle: o_ringstyle, innerRingStyle: i_ringstyle) { percent in
+                                        
+                                        
+                                        let pcent = Int(round(percent*100))
+                                        
+                                        VStack{
+                                            
+                                            Text("Sex")
+                                                .font(.subheadline)
+                                                
+                                            
+                                            Text("\(pcent)")
+                                                            .font(.title)
+                                                            .bold()
+                                        }
+                                        
+                                        
+                                    }.animation(.easeInOut(duration: 5))
+                                        .frame(width: 150, height: 150)
+                                    
+                                    ProgressRing(progress: $progress, axis: .top, clockwise: true, outerRingStyle: o_ringstyle, innerRingStyle: i_ringstyle) { percent in
+                                        
+                                        
+                                        let pcent = Int(round(percent*100))
+                                        
+                                        VStack{
+                                            
+                                            Text("Sex")
+                                                .font(.subheadline)
+                                                
+                                            
+                                            Text("\(pcent)")
+                                                            .font(.title)
+                                                            .bold()
+                                        }
+                                        
+                                        
+                                    }.animation(.easeInOut(duration: 5))
+                                        .frame(width: 150, height: 150)
+                                    
+                                    ProgressRing(progress: $progress, axis: .top, clockwise: true, outerRingStyle: o_ringstyle, innerRingStyle: i_ringstyle) { percent in
+                                        
+                                        
+                                        let pcent = Int(round(percent*100))
+                                        
+                                        VStack{
+                                            
+                                            Text("Sex")
+                                                .font(.subheadline)
+                                                
+                                            
+                                            Text("\(pcent)")
+                                                            .font(.title)
+                                                            .bold()
+                                        }
+                                        
+                                        
+                                    }.animation(.easeInOut(duration: 5))
+                                        .frame(width: 150, height: 150)
+                                        
                         }
+                                
+                                
+                            }
+                            .tabViewStyle(.page)
+                            .indexViewStyle(.page(backgroundDisplayMode: .interactive))
+                            .frame(width: .infinity, height: 150)
                         
-                        
-                    }.animation(.easeInOut(duration: 5))
-                        .frame(width: 150, height: 150)
+                    }
                     
+                    
+                    
+                .padding()
+                .background(.ultraThinMaterial)
+                .foregroundColor(Color.primary.opacity(0.35))
+                .foregroundStyle(.ultraThinMaterial)
+                .cornerRadius(20)
+                .padding()
                     
                     
                     
@@ -156,12 +239,7 @@ struct MapView: View {
                    
                     
                 }
-                            .padding()
-                            .background(.ultraThinMaterial)
-                            .foregroundColor(Color.primary.opacity(0.35))
-                            .foregroundStyle(.ultraThinMaterial)
-                            .cornerRadius(20)
-                            .padding()
+                            
                 // End of pop up
                 
             }
@@ -184,9 +262,7 @@ struct MapView: View {
             
         }
         
-            
-    }
-    
+         
     
     
     func createMap() -> some View {
@@ -306,7 +382,13 @@ withAnimation {
      
     }
     
-}
+    
+    }
+    
+    
+    
+
+
 
 struct MapView_Previews: PreviewProvider {
     static var previews: some View {
