@@ -155,7 +155,10 @@ struct ChartView: View {
             
             */
             
+        
+        
          usersNatalChart()
+                
                 
                 
                 
@@ -186,20 +189,20 @@ struct ChartView: View {
         
         return NatalChartView()
             .make(with: chart/*, shownAspect: aspectToGet*/)
-            .animation(.easeIn(duration: 3))
-            .onReceive(Just(account), perform: { _ in
+            //.animation(.easeIn(duration: 3))
+            /*.onReceive(Just(account), perform: { _ in
         
-                guard !didChangeCharts else { return }
+               // guard !didChangeCharts else { return }
                 
                 AmareApp().delay(1) {
                     
-                    person1 = account.data?.name ?? ""
+                    //person1 = account.data?.name ?? ""
                     chart = account.data?.natal_chart
                     print("The chart after delay ... \(chart)")
                  
                 }
                 
-            })
+            })*/
             .onReceive(NotificationCenter.default.publisher(for: NSNotification.wantsMoreInfoFromNatalChart)) { obj in
                
                 showBottomPopup = true
@@ -244,6 +247,20 @@ struct ChartView: View {
                             self.lastScale = 1.0
                         }
                     )
+            .onAppear(perform: {
+                
+                
+                AmareApp().delay(1) {
+                    
+                    //person1 = account.data?.name ?? ""
+                    withAnimation(.easeIn(duration: 3)) {
+                        chart = account.data?.natal_chart
+                        print("The chart after delay ... \(chart)")
+                    }
+                    
+                 
+                }
+            })
             .padding()
     }
     

@@ -10,7 +10,7 @@ import NavigationStack
 
 struct SettingsView: View {
     @EnvironmentObject private var account: Account
-    @EnvironmentObject private var navigationStack: NavigationStack
+    //@EnvironmentObject private var navigationStack: NavigationStack
 
     
     var body: some View {

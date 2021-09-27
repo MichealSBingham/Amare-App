@@ -25,8 +25,18 @@ struct MapView: View {
     @StateObject var locationManager = LocationManager()
     
     @State var discoverModeEnabled: Bool = false
+    
+    @State var showProfilePopup: Bool = false
 
     @State var progress = RingProgress.percent(0.235)
+    
+    
+    // Properties for the profile pop up
+    @State var synastryscore = RingProgress.percent(0)
+    @State var chemistry = RingProgress.percent(0)
+    @State var love = RingProgress.percent(0)
+    @State var sex = RingProgress.percent(0)
+    
 
     
     @State var places: [MapAnnotation] = []
@@ -38,14 +48,20 @@ struct MapView: View {
         ZStack{
             
             createMap()
+                .onTapGesture {
+                    withAnimation {
+                        showProfilePopup = false
+                        
+                    }
+                    
+                }
           //  textForDeniedLocationServices()
             
             ZStack{
                 
             VStack{
                 
-              //  Toggle("", isOn: $discoverModeEnabled )
-              //        .padding()
+          
                 
                     ScrollView(.horizontal, showsIndicators: false){
                         
@@ -68,202 +84,261 @@ struct MapView: View {
                 
                 Toggle("", isOn: $discoverModeEnabled )
                     .padding()
-                /*
-                ScrollView(.horizontal, showsIndicators: false){
-                    
-                    HStack{
-                        
-                        sampleIcon()
-                        sampleIcon()
-                        sampleIcon()
-                        sampleIcon()
-                        sampleIcon()
-                        sampleIcon()
-                    }
-                    
-                    
-                }
-                 */
+               
                 
            }
                 
-                // Popup view on person information
-                VStack{
-                    
-                      samplePerson()
-                    
-                    // Name
-                    Text("\(sampleNames.randomElement()!)")
-                                .font(.largeTitle)
-                                 .bold()
-                                 .frame(maxWidth : .infinity, alignment: .center)
-                                //.padding(.top)
-                                .foregroundColor(Color.primary.opacity(0.4))
+      
+                
+                profilePopup()
+                    .opacity(showProfilePopup ? 1: 0)
+                
+                
+                
                     
                     
-                        // Classification
-                    Text("\(sampleClassifications.randomElement()!)")
-                                        .font(.callout)
-                                        .frame(maxWidth : .infinity, alignment: .center)
-                                        .foregroundColor(Color.primary.opacity(0.4))
-                                        .padding(.bottom)
-                                       // .shimmering(duration: 5, bounce: true)
-                    
-                    // Latin Phrase
-                    Text("\(sampleLatinPhrases.randomElement()!)")
-                                        .font(.callout)
-                                        .frame(maxWidth : .infinity, alignment: .center)
-                                        .foregroundColor(Color.primary.opacity(0.4))
-                                       // .shimmering(duration: 5, bounce: true)
-                                        .padding(.bottom)
-                    
-                    let o_ringstyle: RingStyle = .init(
-                        color: .color(.gray),
-                        strokeStyle: .init(lineWidth: 10)
-                    )
-                    
-                    let i_ringstyle: RingStyle = .init(
-                        color: .color(.green),
-                        strokeStyle: .init(lineWidth: 5),
-                        padding: 2.5
-                    )
-                    
-                    TabView {
-                        
+                }
                             
-                        
+               
+                
+            }
+            
+            
+           
+        }
+        
+    func ringStyleFor(progress: String ) -> RingStyle {
+        
+        var color: Color = .green
+        
+        var number = 0.0
+    
+        switch progress {
+        case "synastry":
+            number = synastryscore.asDouble ?? 0
+        case "chemistry":
+            number = chemistry.asDouble ?? 0
+        case "sex":
+            number = sex.asDouble ?? 0
+        case "love":
+            number = love.asDouble ?? 0
+        default:
+            number = 0
+        }
+        
+         number = number*100
+        
+        if number <= 25.0 { color = .red }
+        if number > 25.0 {color = .orange}
+        if number >= 40.0  {color = .yellow}
+        if number >= 60.0 { color = .green }
+        if number >= 85.0 {color = .blue}
+        
+                
+        
+       return  .init(
+                        color: .color(color),
+                        strokeStyle: .init(lineWidth: 5),
+                        padding: 2.5)
+    }
+         
+    /// A popup view of a profile from a person clicked on in the map/globe discover view.
+    func profilePopup() -> some View {
+        
+        
+        
+        // Popup view on person information
+        VStack{
+            
+              profileImageForPopup()
+            
+            // Name
+            Text("\(sampleNames.randomElement()!)")
+                        .font(.largeTitle)
+                         .bold()
+                         .frame(maxWidth : .infinity, alignment: .center)
+                        //.padding(.top)
+                        .foregroundColor(Color.primary.opacity(0.4))
+                        .modifier(FadeModifier(control: showProfilePopup))
+            
+            
+                // Classification
+            Text("\(sampleClassifications.randomElement()!)")
+                                .font(.callout)
+                                .frame(maxWidth : .infinity, alignment: .center)
+                                .foregroundColor(Color.primary.opacity(0.4))
+                                .padding(.bottom)
+                                .modifier(FadeModifier(control: showProfilePopup))
+                               // .shimmering(duration: 5, bounce: true)
+            
+            // Latin Phrase
+            Text("\(sampleLatinPhrases.randomElement()!)")
+                                .font(.callout)
+                                .frame(maxWidth : .infinity, alignment: .center)
+                                .foregroundColor(Color.primary.opacity(0.4))
+                                .modifier(FadeModifier(control: showProfilePopup))
+                               // .shimmering(duration: 5, bounce: true)
+                                .padding(.bottom)
+                                
+            
+            // Ring styles for progress circles
+            let o_ringstyle: RingStyle = .init(
+                color: .color(.gray),
+                strokeStyle: .init(lineWidth: 10)
+            )
+            
+          
+           
+                
+            
+            
+            TabView {
+                
+                    
+                
+                            
+                  // Synastry Score
+                            ProgressRing(progress: $synastryscore, axis: .top, clockwise: true, outerRingStyle: o_ringstyle, innerRingStyle: ringStyleFor(progress: "synastry")) { percent in
+                                
+                                
+                                let pcent = Int(round(percent*100))
+                                
+                                VStack{
                                     
-                           HStack {
-                                    ProgressRing(progress: $progress, axis: .top, clockwise: true, outerRingStyle: o_ringstyle, innerRingStyle: i_ringstyle) { percent in
                                         
-                                        
-                                        let pcent = Int(round(percent*100))
-                                        
-                                        VStack{
-                                            
-                                                
-                                            
-                                            Text("\(pcent)")
-                                                            .font(.title)
-                                                            .bold()
-                                        }
-                                        
-                                        
-                                    }.animation(.easeInOut(duration: 5))
-                                        .frame(width: 150, height: 150)
                                     
+                                    Text("\(pcent)")
+                                                    .font(.title)
+                                                    .bold()
+                                }
+                                
+                                
+                            }//.animation(.easeInOut(duration: 5))
+                                .frame(width: 150, height: 150)
+                                .onAppear {
                                     
-                     
-                                    ProgressRing(progress: $progress, axis: .top, clockwise: true, outerRingStyle: o_ringstyle, innerRingStyle: i_ringstyle) { percent in
-                                        
-                                        
-                                        let pcent = Int(round(percent*100))
-                                        
-                                        VStack{
-                                            
-                                            Text("Sex")
-                                                .font(.subheadline)
-                                                
-                                            
-                                            Text("\(pcent)")
-                                                            .font(.title)
-                                                            .bold()
-                                        }
-                                        
-                                        
-                                    }.animation(.easeInOut(duration: 5))
-                                        .frame(width: 150, height: 150)
+                                    withAnimation(.easeInOut(duration: 3)) {
+                                        synastryscore = RingProgress.percent(Double.random(in: 0...1))
+                                    }
+                                }
+                
+                              
+                            
+                            
+             // Chemistry, Love, Sex
+                HStack{
+                            ProgressRing(progress: $chemistry, axis: .top, clockwise: true, outerRingStyle: o_ringstyle, innerRingStyle: ringStyleFor(progress: "chemistry")) { percent in
+                                
+                                
+                                let pcent = Int(round(percent*100))
+                                
+                                VStack{
                                     
-                                    ProgressRing(progress: $progress, axis: .top, clockwise: true, outerRingStyle: o_ringstyle, innerRingStyle: i_ringstyle) { percent in
+                                    Text("Chemistry")
+                                        .font(.subheadline)
                                         
                                         
-                                        let pcent = Int(round(percent*100))
-                                        
-                                        VStack{
-                                            
-                                            Text("Sex")
-                                                .font(.subheadline)
-                                                
-                                            
-                                            Text("\(pcent)")
-                                                            .font(.title)
-                                                            .bold()
-                                        }
-                                        
-                                        
-                                    }.animation(.easeInOut(duration: 5))
-                                        .frame(width: 150, height: 150)
                                     
-                                    ProgressRing(progress: $progress, axis: .top, clockwise: true, outerRingStyle: o_ringstyle, innerRingStyle: i_ringstyle) { percent in
-                                        
-                                        
-                                        let pcent = Int(round(percent*100))
-                                        
-                                        VStack{
-                                            
-                                            Text("Sex")
-                                                .font(.subheadline)
-                                                
-                                            
-                                            Text("\(pcent)")
-                                                            .font(.title)
-                                                            .bold()
-                                        }
-                                        
-                                        
-                                    }.animation(.easeInOut(duration: 5))
-                                        .frame(width: 150, height: 150)
-                                        
-                        }
+                                    Text("\(pcent)")
+                                                    .font(.title)
+                                                    .bold()
+                                }
                                 
                                 
                             }
-                            .tabViewStyle(.page)
-                            .indexViewStyle(.page(backgroundDisplayMode: .interactive))
-                            .frame(width: .infinity, height: 150)
+                                .frame(width: 115, height: 115)
+                                .onAppear {
+                                    
+                                    withAnimation(.easeInOut(duration: 3)) {
+                                        chemistry = RingProgress.percent(Double.random(in: 0...1))
+
+                                    }
+                                }
+                            
+                            
+                            ProgressRing(progress: $love, axis: .top, clockwise: true, outerRingStyle: o_ringstyle, innerRingStyle: ringStyleFor(progress: "love")) { percent in
+                                
+                                
+                                let pcent = Int(round(percent*100))
+                                
+                                VStack{
+                                    
+                                    Text("Love")
+                                        .font(.subheadline)
+                                        
+                                    
+                                    Text("\(pcent)")
+                                                    .font(.title)
+                                                    .bold()
+                                }
+                                
+                                
+                            }
+                                .frame(width: 115, height: 115)
+                                .onAppear {
+                                    
+                                    withAnimation(.easeInOut(duration: 3)) {
+                                        love = RingProgress.percent(Double.random(in: 0...1))
+
+                                    }
+                                }
+                            
+                            ProgressRing(progress: $sex, axis: .top, clockwise: true, outerRingStyle: o_ringstyle, innerRingStyle: ringStyleFor(progress: "sex")) { percent in
+                                
+                                
+                                let pcent = Int(round(percent*100))
+                                
+                                VStack{
+                                    
+                                    Text("Sex")
+                                        .font(.subheadline)
+                                        
+                                    
+                                    Text("\(pcent)")
+                                                    .font(.title)
+                                                    .bold()
+                                }
+                                
+                                
+                            }
+                                .frame(width: 115, height: 115)
+                                .onAppear {
+                                    
+                                    withAnimation(.easeInOut(duration: 3)) {
+                                        sex = RingProgress.percent(Double.random(in: 0...1))
+
+                                    }
+                                }
+                    
+                }
+                                
+                 
                         
                     }
                     
-                    
-                    
-                .padding()
-                .background(.ultraThinMaterial)
-                .foregroundColor(Color.primary.opacity(0.35))
-                .foregroundStyle(.ultraThinMaterial)
-                .cornerRadius(20)
-                .padding()
-                    
-                    
-                    
-                    
-                   
-                    
-                }
-                            
-                // End of pop up
-                
+                    .indexViewStyle(.page(backgroundDisplayMode: .interactive))
+                    .frame(width: .infinity, height: 150)
+                    .tabViewStyle(.page)
+                 
+                 
             }
             
             
-            /*
-            VStack{
-                /*
-                HStack{
-                    
-                    Toggle("", isOn: $discoverModeEnabled )
-                        .padding()
-                    
-                }
-                */
-                Spacer()
-                
-            }
-            */
             
-        }
-        
-         
+        .padding()
+        .background(.ultraThinMaterial)
+        .foregroundColor(Color.primary.opacity(0.35))
+        .foregroundStyle(.ultraThinMaterial)
+        .cornerRadius(20)
+        .padding()
+            
+    }
     
+    /// The profile image for the popup
+    func profileImageForPopup() -> some View {
+        
+        return samplePerson()
+    }
     
     func createMap() -> some View {
         
@@ -348,9 +423,38 @@ withAnimation {
             .clipShape(Circle())
             .overlay(Circle().stroke(colors.randomElement() ?? .blue, lineWidth: 1))
             .shadow(radius: 15)
+            
            
 
             
+    }
+    
+    ///  A Nearby Person we've detected, these views should be at the top (or bottom) scrollable to select from
+    func nearbyPerson(image_url: String) -> some View {
+        
+        var peopleImages = ["https://lh3.googleusercontent.com/ogw/ADea4I5VDilLtQfyS7bwoGxcMqXW46dRo_ugPf4ombhR=s192-c-mo", testImages[0],
+        
+        "https://www.mainewomensnetwork.com/Resources/Pictures/vicki%20aqua%20headshot-smallmwn.jpg",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_tBdq4KSetrBr7nGFHxwxMZkrcBVp8SPpDA&usqp=CAU"]
+        
+        var colors: [Color] = [.gray, .green, .blue, .red, .orange]
+       
+        
+        return Button {
+            
+            print("Tapped Icon")
+            
+        } label: {
+            
+            ImageFromUrl(image_url)
+                .frame(width: 60, height: 60)
+                .clipShape(Circle())
+                .overlay(Circle().stroke(colors.randomElement() ?? .blue, lineWidth: 1))
+                .shadow(radius: 15)
+                .aspectRatio(contentMode: .fit)
+                .padding()
+        }
+
     }
 
     func sampleIcon() -> some View {
@@ -364,7 +468,20 @@ withAnimation {
         
         return Button {
             
-            print("Tapped Icon")
+            withAnimation{
+                
+                showProfilePopup = true
+                
+                
+                
+                
+                
+            }
+           
+            withAnimation(.easeInOut(duration: 3)) {
+                synastryscore = RingProgress.percent(Double.random(in: 0...1))
+            }
+                
             
         } label: {
             
@@ -374,9 +491,9 @@ withAnimation {
                 .clipShape(Circle())
                 .overlay(Circle().stroke(colors.randomElement() ?? .blue, lineWidth: 1))
                 .shadow(radius: 15)
-
                 .padding()
         }
+        
 
         
      
