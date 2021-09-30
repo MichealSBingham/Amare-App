@@ -36,9 +36,12 @@ struct Angle: Codable, Identifiable{
     var iconName: String { name.rawValue }
     
     /// Will return the symbol of the planet
-    func image() ->  some View {
+    /// The small version is just used so that it returns smaller characters if we use the smaller natal chart frame (like in the person pop up view_
+    func image(smallVersion: Bool? = false) ->  some View {
         
         var size: CGFloat = 10
+        
+        
         var text = ""
             
           
@@ -48,6 +51,11 @@ struct Angle: Codable, Identifiable{
                 
                 
             }
+        
+        if smallVersion ?? false {
+            
+            size = size / 2
+        }
         
         
         switch self.name {
@@ -79,6 +87,10 @@ struct Angle: Codable, Identifiable{
         */
         
                 
+    }
+    
+    func smallerImage() -> some View {
+        return self.image(smallVersion: true)
     }
 }
 

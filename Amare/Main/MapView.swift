@@ -9,6 +9,7 @@ import SwiftUI
 import MapKit
 import CoreLocation
 import UICircularProgressRing
+import Combine
 // Sample Data
 
 var sampleNames: [String] = ["Micheal S. Bingham", "John", "Jane", "William Scott"]
@@ -44,6 +45,9 @@ struct MapView: View {
     
     // Profile Popup Stuff
     @State var showAddFriend: Bool = true
+    @State var showBottomPopup: Bool = false
+    @State var infoToShow:String?
+    @State private var chart: NatalChart?
     
     
     
@@ -464,13 +468,17 @@ struct MapView: View {
                         
                     }
                                     
-                     
+                    usersNatalChart()
+                       
                             
                         }
                         
                         .indexViewStyle(.page(backgroundDisplayMode: .interactive))
                         .frame(width: .infinity, height: 150)
                         .tabViewStyle(.page)
+                
+                
+                
                      
                      
                 }
@@ -656,6 +664,69 @@ withAnimation {
      
     }
     
+    func usersNatalChart() -> some View {
+        
+        return SmallNatalChartView()
+
+            .makeSmall(with: chart/*, shownAspect: aspectToGet*/)
+            .animation(.easeIn(duration: 3))
+            .onReceive(Just(account), perform: { _ in
+        
+               // guard !didChangeCharts else { return }
+                
+               // AmareApp().delay(1) {
+                    
+                    //person1 = account.data?.name ?? ""
+                    chart = account.data?.natal_chart
+                    print("The chart after delay ... \(chart)")
+                 
+               // }
+                
+            })
+            .onReceive(NotificationCenter.default.publisher(for: NSNotification.wantsMoreInfoFromNatalChart)) { obj in
+               
+                showBottomPopup = true
+                
+                if let sign = obj.object as? ZodiacSign{
+                    
+                    infoToShow = sign.rawValue
+                }
+                
+                if let planet = obj.object as? Planet{
+                    
+                    infoToShow = planet.name.rawValue
+                }
+                
+                if let house = obj.object as? House{
+                    
+                    infoToShow = String(house.ordinality)
+                }
+                
+                if let angle = obj.object as? Angle{
+                    
+                    infoToShow = angle.name.rawValue
+                }
+             //   infoToShow = (obj.object as? ZodiacSign)?.rawValue }
+            
+            }
+           
+    
+            .onAppear(perform: {
+                
+                
+                AmareApp().delay(1) {
+                    
+                    //person1 = account.data?.name ?? ""
+                    withAnimation(.easeIn(duration: 3)) {
+                        chart = account.data?.natal_chart
+                        print("The chart after delay ... \(chart)")
+                    }
+                    
+                 
+                }
+            })
+            .padding()
+    }
     
     }
     
