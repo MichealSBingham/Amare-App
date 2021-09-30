@@ -70,7 +70,7 @@ struct Planet: Codable, Identifiable{
     
 }
 
-enum PlanetName: String, Codable {
+enum PlanetName: String, Codable, CaseIterable {
     
     case Sun
     case Moon
@@ -86,6 +86,16 @@ enum PlanetName: String, Codable {
     case NorthNode = "North Node"
     case SouthNode = "South Node"
     
-    
+    /// Returns the image for the planet
+    func image() ->  some View {
+        
+      
+        
+        return Image("ZodiacIcons/\(self.rawValue)")
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+                  
+          
+    }
    
 }
