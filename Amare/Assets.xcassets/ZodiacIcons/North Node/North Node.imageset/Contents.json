@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "logo-no-tagline.png",
+      "filename" : "NorthNode.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "logo-no-tagline@2x.png",
+      "filename" : "NorthNode@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "logo-no-tagline@3x.png",
+      "filename" : "NorthNode@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
