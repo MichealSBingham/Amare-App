@@ -83,14 +83,14 @@ struct ChartView: View {
                     VStack{
                         
                         // Name and user name
-                        Text("Micheal S. Bingham")
+                        Text(account.data?.name ?? "Micheal S. Bingham")
                             .foregroundColor(.white)
                             .font(.system(size: 22))
                             .bold()
                             .padding([.trailing, .leading, .top])
                             .padding(.bottom, 3)
                                                    
-                        Text("@micheal")
+                        Text("@saymyname")
                             .foregroundColor(.white)
                             .font(.system(size: 15))
                            //.padding()
