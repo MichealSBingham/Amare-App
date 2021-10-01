@@ -7,12 +7,51 @@
 
 import SwiftUI
 
-/// To be used on the person popup, shows the 3 main placements and colors them
+/// To be used on the person popup, shows the  main placements and colors them
 struct MainPlacementView: View {
     
-    var sign: ZodiacSign? = ZodiacSign.allCases.randomElement()!
     
-    var planet: PlanetName? = PlanetName.allCases.randomElement()!
+    var planet: Planet?
+    
+    var color: Color? = randomColor()
+    
+    var size: CGFloat = 10
+    
+    var body: some View {
+        
+     
+        HStack{
+            
+            
+            
+            (planet?.name ?? PlanetName.allCases.randomElement()!).image()
+                .colorInvert()
+                .colorMultiply(color!)
+                .frame(width: size, height: size)
+                
+            
+            (planet?.sign ?? ZodiacSign.allCases.randomElement()!).image()
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                    .colorInvert()
+                    .colorMultiply(color!)
+                    .frame(width: size, height: size)
+                    
+            
+            
+            
+        }
+        
+        
+        
+    }
+}
+// Angle version of the above
+
+struct MainPlacementView_Angle: View {
+    
+    
+    var angle: Angle?
     
     var color: Color? = randomColor()
     
@@ -22,13 +61,15 @@ struct MainPlacementView: View {
         
         HStack{
             
-            planet?.image()
+            
+            
+            (angle?.name ?? AngleName.allCases.randomElement()!).image()
                 .colorInvert()
                 .colorMultiply(color!)
-                .frame(width: size, height: size)
+             //   .frame(width: 10, height: 10)
                 
             
-            sign?.image()
+            (angle?.sign ?? ZodiacSign.allCases.randomElement()!).image()
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                     .colorInvert()
@@ -44,10 +85,16 @@ struct MainPlacementView: View {
     }
 }
 
+
 struct MainPlacementView_Previews: PreviewProvider {
     static var previews: some View {
-        MainPlacementView()
-            .preferredColorScheme(.dark)
+        VStack{
+            MainPlacementView()
+                .preferredColorScheme(.dark)
+            MainPlacementView_Angle()
+                .preferredColorScheme(.dark)
+        }
+        
             //.frame(width: 25, height: 25)
     }
 }

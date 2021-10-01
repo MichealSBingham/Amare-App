@@ -468,6 +468,7 @@ struct SmallNatalChartView: View {
                 
                 
                 Text("\(house.ordinality)")
+                       .font(.system(size: 5))
                     .rotationEffect(.degrees(-alpha))
                     .position(r__)
                     .onTapGesture{

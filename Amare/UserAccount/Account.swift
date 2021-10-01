@@ -727,6 +727,63 @@ class Account: ObservableObject {
         
     }
     
+    /// THIS WILL GET ALL OF THE USERS IN THE DATABASE USE THIS WITH CARE.
+    func getALLusers( completion: ( (_ err: Error?, _ users: [AmareUser]) -> Void)?  = nil) -> Void  {
+        
+        let DB =  (self.db == nil) ? Firestore.firestore()   :  self.db!
+        self.db = DB
+        
+        DB.collection("generated_users").getDocuments { snapshot, error in
+            
+            if let error = error {
+                completion!(error, [])
+                return
+            }
+            
+            var users: [AmareUser] = []
+            for document in snapshot!.documents{
+                
+                let result = Result {
+                    try document.data(as: AmareUser.self)
+                }
+                
+                switch result {
+                
+                
+                case .success(let data):
+                    
+                    if let user = data{
+                        
+                        // Data object contains all of the user's data
+                      
+                        // append it
+                        users.append(user)
+                        
+                        
+                    } else{
+                        
+                        // Could not retreive the data for some reason
+                        return
+                    }
+                    
+                
+                case .failure(let error):
+                    // Handle errors
+                    print("Some error happened trying to convert the user data to a User Data object: \(error.localizedDescription)")
+                    return
+              
+                }
+
+                
+            }
+            completion!(nil, users)
+            
+            
+        }
+        
+        
+        
+    }
     
     /// Returns the natal chart for a public arbitary user specified by id
     /// - Parameters:

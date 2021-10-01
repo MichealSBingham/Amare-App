@@ -31,8 +31,9 @@ public struct NatalChart: Codable {
    
     
 }
-
+/// Used for grabbing specific planet
 extension Array where Element == Planet {
+    /// Returns the planet of an array of planets 
     func get(planet: PlanetName) -> Planet? {
         for planet_obj in self{
             if planet_obj.name == planet{

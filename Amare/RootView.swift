@@ -85,7 +85,7 @@ struct RootView: View {
             /// This will only run ONCE in a lifetime (unless the app is deleted and redownloaded, or unless it's rebuilt in dev). This will sign out the user.
             
             
-          //  _ =  RootView.signOutOnlyOnce
+            _ =  RootView.signOutOnlyOnce//
 
         /*
             func doOnce() {

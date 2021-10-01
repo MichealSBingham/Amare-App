@@ -65,7 +65,7 @@ struct MapView: View {
                 }
           //  textForDeniedLocationServices()
             
-            ZStack{
+           /* ZStack{
                 
             VStack{
                 
@@ -75,12 +75,14 @@ struct MapView: View {
                         
                         HStack{
                             
+                            
                             sampleIcon()
                             sampleIcon()
                             sampleIcon()
                             sampleIcon()
                             sampleIcon()
                             sampleIcon()
+                            
                         }
                         
                         
@@ -106,7 +108,7 @@ struct MapView: View {
                     
                     
                 }
-                            
+               */
                
                 
             }
@@ -161,45 +163,7 @@ struct MapView: View {
             
             
             VStack{
-                /*
-                ZStack{
-                    HStack{
-                        Spacer()
-                        
-                        
-                        ZStack{
-                            
-                            Button {
-                                
-                                showAddFriend.toggle()
-                            } label: {
-                                
-                                ZStack{
-                                    Image(systemName: "plus.circle.fill")
-                                          .modifier(ConvexGlassView())
-                                          .opacity(showAddFriend ? 1: 0 )
-                                    
-                                    Image(systemName: "plus.circle.fill")
-                                          .modifier(ConcaveGlassView())
-                                          .opacity(showAddFriend == false ? 1 : 0)
-                                }
-                                
-                               
-                                
-                                
-                                
-                            }
-                            
-                           
-                        }
-                        
-                        
-
-                              
-                      
-                    }
-                }
-                */
+               
                 
                 ZStack{
                     
@@ -280,7 +244,7 @@ struct MapView: View {
                                    // .shimmering(duration: 5, bounce: true)
                                    // .padding([.bottom, .top])
                 TabView{
-                    
+                    /*
                     HStack{
                         
                         MainPlacementView(planet: .Sun, size: 20).padding(.trailing)
@@ -320,10 +284,10 @@ struct MapView: View {
                         
                         
                         
+                     
                         
                         
-                        
-                        
+                        */
                     
                    
                 }
@@ -467,8 +431,13 @@ struct MapView: View {
                                     }
                         
                     }
-                                    
-                    usersNatalChart()
+                            
+                    Button(action: {
+                        print("Tapped natal chart")
+                    }) {
+                        //usersNatalChart()
+                    }
+                
                        
                             
                         }
@@ -496,6 +465,14 @@ struct MapView: View {
         .foregroundStyle(.ultraThinMaterial)
         .cornerRadius(20)
         .padding()
+        .onAppear {
+            /*
+            account.getALLusers { err, users in
+                
+                for user in users {
+                }
+            } */
+        }
             
     }
     

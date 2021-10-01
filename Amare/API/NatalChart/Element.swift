@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Element: String, Codable{
+enum Element: String, Codable, CaseIterable{
     case water = "Water"
     case earth = "Earth"
     case fire = "Fire"
