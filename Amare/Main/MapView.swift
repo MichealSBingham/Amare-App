@@ -74,6 +74,9 @@ struct MapView: View {
                     withAnimation {
                         print("** Tapped off screen")
                         showProfilePopup = false
+                        AmareApp().delay(0.25) {
+                            selected_user = nil
+                        }
                         
                     }
                     
