@@ -21,7 +21,6 @@ var colors: [Color] = [.gray, .green, .blue, .red, .orange]
 struct ProfilePopup: View {
     
     /*@State*/ var user: AmareUser?
-  //  @State var natalChart: NatalChart?
     
     @State var showProfilePopup: Bool = false
     
@@ -48,12 +47,20 @@ struct ProfilePopup: View {
                 
                 ZStack{
                     
-                    ImageFromUrl(user?.profile_image_url ?? peopleImages.randomElement()!)
-                         .aspectRatio(contentMode: .fit)
-                         .frame(width: 100, height: 100)
-                         .clipShape(Circle())
-                         .overlay(Circle().stroke(colors.randomElement() ?? .blue, lineWidth: 1))
-                         .shadow(radius: 15)
+                    Button {
+                        print("tapped profile to view images")
+                    } label: {
+                        
+                        ImageFromUrl(user?.profile_image_url ?? peopleImages.randomElement()!)
+                             .aspectRatio(contentMode: .fit)
+                             .frame(width: 100, height: 100)
+                             .clipShape(Circle())
+                             .overlay(Circle().stroke(colors.randomElement() ?? .blue, lineWidth: 1))
+                             .shadow(radius: 15)
+                    }
+
+                    
+                   
                     
                     HStack{
                         Spacer()
@@ -134,7 +141,7 @@ struct ProfilePopup: View {
                     
                     HStack{
                         
-                        
+                   
                         
                         MainPlacementView( planet: user?.natal_chart?.planets.get(planet: .Sun), size: 20).padding(.trailing)
                             
@@ -145,7 +152,7 @@ struct ProfilePopup: View {
                     MainPlacementView_Angle(angle: user?.natal_chart?.angles.get(planet: .asc), size: 20).padding(.trailing)
                         
                         
-                        
+                     
                     }
                         
                     HStack{
@@ -246,10 +253,13 @@ struct ProfilePopup: View {
                                 }//.animation(.easeInOut(duration: 5))
                                     .frame(width: 150, height: 150)
                                     .onAppear {
-                                        
-                                        withAnimation(.easeInOut(duration: 3)) {
-                                            synastryscore = RingProgress.percent(Double.random(in: 0...1))
+                                        AmareApp().delay(1) {
+                                            
+                                            withAnimation(.easeInOut(duration: 3)) {
+                                                synastryscore = RingProgress.percent(Double.random(in: 0...1))
+                                            }
                                         }
+                                       
                                     }
                     
                                   
@@ -376,7 +386,12 @@ struct ProfilePopup: View {
         .padding()
         .onAppear(perform: {
             
-            showProfilePopup = true
+                withAnimation {
+                    showProfilePopup = true
+                
+              
+            }
+       
         })
     }
     

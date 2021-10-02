@@ -19,28 +19,34 @@ struct MainPlacementView: View {
     
     var body: some View {
         
-     
-        HStack{
+        Button {
+            print("Placement pressed ")
+        } label: {
             
-            
-            
-            (planet?.name ?? PlanetName.allCases.randomElement()!).image()
-                .colorInvert()
-                .colorMultiply(color!)
-                .frame(width: size, height: size)
+            HStack{
                 
-            
-            (planet?.sign ?? ZodiacSign.allCases.randomElement()!).image()
-                .resizable()
-                .aspectRatio(contentMode: .fit)
+                
+                
+                (planet?.name ?? PlanetName.allCases.randomElement()!).image()
                     .colorInvert()
                     .colorMultiply(color!)
                     .frame(width: size, height: size)
                     
-            
-            
-            
+                
+                (planet?.sign ?? ZodiacSign.allCases.randomElement()!).image()
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                        .colorInvert()
+                        .colorMultiply(color!)
+                        .frame(width: size, height: size)
+                        
+                
+                
+                
+            }
         }
+
+        
         
         
         
@@ -59,29 +65,36 @@ struct MainPlacementView_Angle: View {
     
     var body: some View {
         
-        HStack{
+        Button {
             
-            
-            
-            (angle?.name ?? AngleName.allCases.randomElement()!).image()
-                .colorInvert()
-                .colorMultiply(color!)
-             //   .frame(width: 10, height: 10)
+            print("pressed placement")
+        } label: {
+            HStack{
                 
-            
-            (angle?.sign ?? ZodiacSign.allCases.randomElement()!).image()
-                .resizable()
-                .aspectRatio(contentMode: .fit)
+                
+                
+                (angle?.name ?? AngleName.allCases.randomElement()!).image()
                     .colorInvert()
                     .colorMultiply(color!)
-                    .frame(width: size, height: size)
+                 //   .frame(width: 10, height: 10)
                     
-            
+                
+                (angle?.sign ?? ZodiacSign.allCases.randomElement()!).image()
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                        .colorInvert()
+                        .colorMultiply(color!)
+                        .frame(width: size, height: size)
+                        
+                
+                
+                
+            }
             
             
         }
-        
-        
+
+       
     }
 }
 

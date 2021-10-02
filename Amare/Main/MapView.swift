@@ -16,6 +16,16 @@ var sampleNames: [String] = ["Micheal S. Bingham", "John", "Jane", "William Scot
 var sampleClassifications: [String] = ["Better Off Friends", "Soulmate", "Partner", "Fling", "Enemy", "Stay Away"]
 var sampleLatinPhrases: [String] = ["Amor Vincit Omnia", "Enjoy while it lasts, but days of length you shall not have", "Love conquers all.", "This is your soulmate.", "Don't fall in love.", "Beautiful Relationship."]
 
+/// Will soon be nearby people but for now just shows all people
+class NearbyPeople: ObservableObject{
+    @Published var users: [AmareUser]
+
+    init(){
+        self.users = []
+    }
+
+}
+
 struct MapView: View {
     @EnvironmentObject private var account: Account
     
@@ -42,13 +52,17 @@ struct MapView: View {
     
     @State var places: [MapAnnotation] = []
     
-    
+    /*
     // Profile Popup Stuff
     @State var showAddFriend: Bool = true
     @State var showBottomPopup: Bool = false
     @State var infoToShow:String?
     @State private var chart: NatalChart?
+    */
     
+    
+    @StateObject var nearbyUsers: NearbyPeople = NearbyPeople()
+    @State var selected_user: AmareUser?
     
     
     var body: some View {
@@ -58,11 +72,99 @@ struct MapView: View {
             createMap()
                 .onTapGesture {
                     withAnimation {
+                        print("** Tapped off screen")
                         showProfilePopup = false
                         
                     }
                     
                 }
+                
+            
+            
+            VStack{
+                
+             //   HStack{
+                    
+                    ScrollView(.horizontal, showsIndicators: true) {
+                        
+                        HStack{
+                            
+                            
+                            
+                            ForEach(nearbyUsers.users, id: \.interal_ui_use_only_for_iding) { user in
+                             
+                               
+            
+                                    //TODO: make this a state variable so it can listen to real time changes
+                                Button {
+                                 
+                                    withAnimation(.easeInOut) {
+                                        showProfilePopup = true
+                                        selected_user = user
+                                    }
+                                } label: {
+                                    
+                                    nearbyUser(user: user)
+                                    
+                                    /*
+                                    var name: String = user.name ?? "noname"
+                                    Text(name)
+                                        */
+                                    
+                                        
+                                }.onAppear(perform: {
+                                
+                                    print("should have loaded \(user.name)")
+                                })
+
+                           
+                                    
+                                 /*   Button {
+                                        
+                                        print("** Did tap \(user)")
+                                        withAnimation(.easeInOut) {
+                                            showProfilePopup = true
+                                            selected_user = user
+                                        }
+                                        
+                                    } label: {
+                                        
+                                        
+                                        ImageFromUrl(user.profile_image_url ?? testImages[0])
+                                            .frame(width: 60, height: 60)
+                                            .clipShape(Circle())
+                                            .overlay(Circle().stroke(colors.randomElement() ?? .blue, lineWidth: 1))
+                                            .shadow(radius: 15)
+                                            .aspectRatio(contentMode: .fit)
+                                            .padding()
+                                        
+                                    }
+                                    */
+                                    
+                                
+                            }
+                       }
+                           
+                    
+                       
+                        
+                        
+                        
+                    }
+            //    }
+               
+                
+                Spacer()
+                
+                Toggle("", isOn: $discoverModeEnabled )
+                    .padding()
+            }
+            
+            
+            
+            ProfilePopup(user: selected_user)
+                .preferredColorScheme(.dark)
+                .opacity(showProfilePopup && selected_user != nil ? 1 : 0 )
           //  textForDeniedLocationServices()
             
            /* ZStack{
@@ -111,7 +213,22 @@ struct MapView: View {
                */
                
                 
+        }.onAppear {
+            // Load the nearby users
+            account.getALLusers { err, foundusers in
+                
+                nearbyUsers.users = foundusers
+                for user in nearbyUsers.users{
+                    var name = user.name
+                    print("inside get all users ... nearbyUsers.users is \(name)")
+                }
+                
+            
+
+               
+                
             }
+        }
             
             
            
@@ -151,7 +268,7 @@ struct MapView: View {
                         strokeStyle: .init(lineWidth: 5),
                         padding: 2.5)
     }
-         
+        /*
     /// A popup view of a profile from a person clicked on in the map/globe discover view.
     func profilePopup() -> some View {
         
@@ -475,7 +592,7 @@ struct MapView: View {
         }
             
     }
-    
+    */
     /// The profile image for the popup
     func profileImageForPopup() -> some View {
         
@@ -548,6 +665,29 @@ withAnimation {
         
     }
 
+    /// Nearby user up to that you can tap on
+    struct nearbyUser:  View {
+        
+        @State var user: AmareUser
+        
+        var body: some View{
+        
+    
+            
+            
+            ImageFromUrl(user.profile_image_url ?? testImages[0])
+                .frame(width: 60, height: 60)
+                .clipShape(Circle())
+                .overlay(Circle().stroke(colors.randomElement() ?? .blue, lineWidth: 1))
+                .shadow(radius: 15)
+                .aspectRatio(contentMode: .fit)
+                .padding()
+            
+        
+        
+    }
+
+    }
     
     func samplePerson() -> some View {
         
@@ -572,7 +712,7 @@ withAnimation {
     }
     
     ///  A Nearby Person we've detected, these views should be at the top (or bottom) scrollable to select from
-    func nearbyPerson(image_url: String) -> some View {
+    func nearbyPerson(user: AmareUser) -> some View {
         
         var peopleImages = ["https://lh3.googleusercontent.com/ogw/ADea4I5VDilLtQfyS7bwoGxcMqXW46dRo_ugPf4ombhR=s192-c-mo", testImages[0],
         
@@ -584,11 +724,11 @@ withAnimation {
         
         return Button {
             
-            print("Tapped Icon")
+            showProfilePopup = true
             
         } label: {
             
-            ImageFromUrl(image_url)
+            ImageFromUrl(user.profile_image_url ?? testImages[0])
                 .frame(width: 60, height: 60)
                 .clipShape(Circle())
                 .overlay(Circle().stroke(colors.randomElement() ?? .blue, lineWidth: 1))
@@ -641,6 +781,7 @@ withAnimation {
      
     }
     
+    /*
     func usersNatalChart() -> some View {
         
         return SmallNatalChartView()
@@ -704,7 +845,7 @@ withAnimation {
             })
             .padding()
     }
-    
+    */
     }
     
     

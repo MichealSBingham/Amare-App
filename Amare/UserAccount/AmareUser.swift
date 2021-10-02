@@ -14,7 +14,7 @@ import SwiftUI
 public struct AmareUser: Codable{
     
         ///Unique user id of the user.
-    @DocumentID var id: String?
+    @DocumentID public var id: String?
     
     var name: String? = nil
     var hometown: Place? = nil
@@ -27,7 +27,7 @@ public struct AmareUser: Codable{
     var orientation: [Sex]? = nil // M, F, MF (male and female), or A (everything)
     var natal_chart: NatalChart? = nil
 
-    
+    let interal_ui_use_only_for_iding: UUID = UUID()
     
     enum CodingKeys: String, CodingKey {
         case name
