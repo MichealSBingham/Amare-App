@@ -754,10 +754,23 @@ class Account: ObservableObject {
                     
                     if let user = data{
                         
+                        print("\n\n\n\n\n\n***The document object is .. \(document.data())")
                         // Data object contains all of the user's data
                       
                         // append it
+                        self.getNatalChart(from: user.id ?? "hello", pathTousers: "generated_users") { err, natalChart in
+                            if let natal_chart = natalChart{
+                                //user.natal_chart = natal_chart
+                                
+                            }
+                            
+                            print("appending \(user) to \(users)")
+                            users.append(user)
+                            print("the count of users appendedare ... \(users.count)")
+                            
+                        }
                         users.append(user)
+
                         
                         
                     } else{
@@ -776,6 +789,7 @@ class Account: ObservableObject {
 
                 
             }
+            print("Running completed block with \(users.count) users")
             completion!(nil, users)
             
             
@@ -788,16 +802,17 @@ class Account: ObservableObject {
     /// Returns the natal chart for a public arbitary user specified by id
     /// - Parameters:
     ///   - id: ID of the user
+    ///   - pathTousers: By default 'users' only change if you're collecting the users from a different collection, like `generated_users`
     ///   - isOuterChart: False by default. This will make sure the planets and other luminary bodies returned have the attribute`forSynastry` marked true. (useful for the `NatalChartView`
     ///   - completion: Returns the error and natal chart
-    func getNatalChart(from id: String, isOuterChart: Bool? = false, completion: ( (_ err: Error?, _ natalChart: NatalChart?) -> Void)?  = nil )  {
+    func getNatalChart(from id: String, pathTousers: String = "users", isOuterChart: Bool? = false, completion: ( (_ err: Error?, _ natalChart: NatalChart?) -> Void)?  = nil )  {
         
         
         let DB =  (self.db == nil) ? Firestore.firestore()   :  self.db!
         self.db = DB
         
     
-        DB.collection("users").document(id).collection("public").document("natal_chart").getDocument { document, error in
+        DB.collection(pathTousers).document(id).collection("public").document("natal_chart").getDocument { document, error in
             
             guard error == nil else{
                 // Handle these errors....

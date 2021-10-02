@@ -101,10 +101,17 @@ struct MapView: View {
                                     withAnimation(.easeInOut) {
                                         showProfilePopup = true
                                         selected_user = user
+                                        
+                                      /*  account.getNatalChart(from: "40gNhuGuSzg1aS9Hm2MzRfy4UW63") { err, natalChart in
+                                            
+                                            if let natalChart = natalChart{
+                                                selected_user?.natal_chart = natalChart
+                                            }
+                                        } */
                                     }
                                 } label: {
                                     
-                                    nearbyUser(user: user)
+                                    nearbyUser(user: selected_user ?? user)
                                     
                                     /*
                                     var name: String = user.name ?? "noname"
@@ -113,8 +120,8 @@ struct MapView: View {
                                     
                                         
                                 }.onAppear(perform: {
-                                
-                                    print("should have loaded \(user.name)")
+                                //TODO: this is called way before the image is tapped, that's why the synastry score won't reload
+                                   
                                 })
 
                            
@@ -217,6 +224,7 @@ struct MapView: View {
             // Load the nearby users
             account.getALLusers { err, foundusers in
                 
+                print("the FOUND USERS are \(foundusers) with count \(foundusers.count)")
                 nearbyUsers.users = foundusers
                 for user in nearbyUsers.users{
                     var name = user.name

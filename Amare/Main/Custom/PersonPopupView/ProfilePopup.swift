@@ -212,7 +212,7 @@ struct ProfilePopup: View {
                 .frame(width: .infinity, height: 150)
                 .tabViewStyle(.page)
                 .padding(.top, -50)
-             
+                
               
                     
                 
@@ -253,14 +253,21 @@ struct ProfilePopup: View {
                                 }//.animation(.easeInOut(duration: 5))
                                     .frame(width: 150, height: 150)
                                     .onAppear {
+                                        
                                         AmareApp().delay(1) {
+                                            
+                                
                                             
                                             withAnimation(.easeInOut(duration: 3)) {
                                                 synastryscore = RingProgress.percent(Double.random(in: 0...1))
+                                                
                                             }
+                                    
+                                            
                                         }
                                        
                                     }
+                                    
                     
                                   
                                 
@@ -294,6 +301,7 @@ struct ProfilePopup: View {
 
                                         }
                                     }
+                                    
                                 
                                 
                                 ProgressRing(progress: $love, axis: .top, clockwise: true, outerRingStyle: o_ringstyle, innerRingStyle: ringStyleFor(progress: "love")) { percent in
@@ -322,6 +330,7 @@ struct ProfilePopup: View {
 
                                         }
                                     }
+                                   
                                 
                                 ProgressRing(progress: $sex, axis: .top, clockwise: true, outerRingStyle: o_ringstyle, innerRingStyle: ringStyleFor(progress: "sex")) { percent in
                                     
@@ -349,7 +358,7 @@ struct ProfilePopup: View {
 
                                         }
                                     }
-                        
+                                    
                     }
                             
                     Button(action: {
@@ -388,11 +397,27 @@ struct ProfilePopup: View {
             
                 withAnimation {
                     showProfilePopup = true
+                        
                 
               
             }
        
         })
+        /* Does NOTHING helpful
+        .onDisappear {
+            
+            withAnimation {
+                synastryscore = RingProgress.percent(0)
+                chemistry = RingProgress.percent(0)
+                love = RingProgress.percent(0)
+                sex = RingProgress.percent(0)
+                
+                    
+            
+          
+        }
+        }
+        */
     }
     
     func ringStyleFor(progress: String ) -> RingStyle {

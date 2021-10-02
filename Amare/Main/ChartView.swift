@@ -83,14 +83,14 @@ struct ChartView: View {
                     VStack{
                         
                         // Name and user name
-                        Text(account.data?.name ?? "Micheal S. Bingham")
+                        Text(account.data?.name ?? "You have no name")
                             .foregroundColor(.white)
                             .font(.system(size: 22))
                             .bold()
                             .padding([.trailing, .leading, .top])
                             .padding(.bottom, 3)
-                                                   
-                        Text("@saymyname")
+                       
+                        Text("\(account.data?.id ?? "@saymyname") ")
                             .foregroundColor(.white)
                             .font(.system(size: 15))
                            //.padding()
@@ -111,54 +111,12 @@ struct ChartView: View {
             
             
             
-            
-            /*
-            VStack{
-                
-                HStack{
-                    
-                    Spacer()
-                    Text( person2.isEmpty ? "\(person1)'s Natal Chart" : "\(person1) and \(person2)'s Synastry Chart")
-                        .offset( y: 20)
-                        .onTapGesture {
-                            
-                            var ids = ["6K3xXehsHBVXA5KrZvwPFkCikF73": "Lily", "DI8bW3wCcvPl6Xxigd5936lYn363": "Eric", "pIsF8X2k4COgwSRaZNGGtC3zatf1": "Micheal", "q7PxPu7095eSrmZoG1sO1zncty32": "David", "zoWurg8bnDXwNMGC2fXml9cvtGq2": "Someone born Yesterday" ]
-                            
-                            
-                            let randomPerson = ids.keys.randomElement() ?? ""
-                            
-                            guard randomPerson != account.data?.id else {
-                                chart = nil
-                                chart = account.data?.natal_chart
-                                return
-                            }
-                            
-                            person2 = ids[randomPerson] ?? ""
-                            
-                            didChangeCharts = true
-                           
-                            
-                            account.getNatalChart(from: randomPerson ?? "" , isOuterChart: true) { error, natal in
-                                
-                                didChangeCharts = true
-                                chart?.synastryPlanets = natal?.planets
-                                chart?.synastryAngles = natal?.angles
-                            }
-                        }
-                        .padding()
-                    
-                    Spacer()
-                }
-                
-                Spacer()
-            }
-            
-            */
-            
         
         
         //
+        
             usersNatalChart()
+                .offset(x: 0, y: 50)
                 
                 
                 
@@ -232,10 +190,11 @@ struct ChartView: View {
              //   infoToShow = (obj.object as? ZodiacSign)?.rawValue }
             
             }
+            .make(with: chart)
             .position(location)
-            .gesture(
-                            simpleDrag
-                        )
+            //.gesture(
+                   //         simpleDrag
+             //           )
             .scaleEffect(scale)
             .gesture(MagnificationGesture()
                         .onChanged { val in
