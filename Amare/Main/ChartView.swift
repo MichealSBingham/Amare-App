@@ -295,7 +295,7 @@ extension BinaryFloatingPoint {
         let Seconds = seconds % 60
         
         
-        return "\(degrees)°\(minutes)'\(Seconds)"
+        return "\(degrees)°\(minutes)'\(Seconds)\""
         
     }
     
