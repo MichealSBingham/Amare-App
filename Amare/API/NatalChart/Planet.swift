@@ -71,6 +71,17 @@ struct Planet: Codable, Identifiable{
             .colorInvert()
     }
     
+    func inWhatHouse(houses: [House]) -> House? {
+        
+        guard  let  body = Body(rawValue: self.name.rawValue)  else { return nil }
+        for house in houses{
+           // var body =
+            if house.rulingBodies?.contains(body) ?? false{
+                return house
+            }
+        }
+        return nil
+    }
     
 }
 
