@@ -214,6 +214,38 @@ enum PlanetName: String, Codable, CaseIterable {
         }
     }
     
+    //TODO: Finish
+    func houseRuler() -> HouseNameOrd? {
+        
+        switch self {
+        case .Sun:
+            return nil
+        case .Moon:
+            return .fourth
+        case .Mercury:
+            return nil
+        case .Venus:
+            return nil
+        case .Mars:
+            return nil
+        case .Jupiter:
+            return nil
+        case .Saturn:
+            return nil
+        case .Uranus:
+            return nil
+        case .Neptune:
+            return nil
+        case .Pluto:
+            return nil
+        case .Chiron:
+            return nil
+        case .NorthNode:
+            return nil
+        case .SouthNode:
+            return nil 
+        }
+    }
     
    
     /// Returns the 3Dimage for the planet

@@ -79,7 +79,7 @@ struct MoreInfoOnGenericPlanet: View {
                 
                 HStack{
                     //Should alternate definitions
-                    Text("At Home in ")
+                    Text("At Home in")
                         .font(.largeTitle)
                          .bold()
                        //  .frame(maxWidth : .infinity, alignment: .center)
@@ -124,10 +124,9 @@ struct MoreInfoOnGenericPlanet: View {
     
     
     /// Returns the house that the planet is at home in
-    /// TODO: calculate what house the planet rules
     func atHomeIn() -> some View {
         
-        var name_of_house =  HouseNameOrd.allCases.randomElement()!.rawValue
+        var name_of_house = planet?.name.houseRuler()?.rawValue ?? HouseNameOrd.allCases.randomElement()!.rawValue
       
      return  Text("\(name_of_house) House")
       .font(.largeTitle)
@@ -189,15 +188,20 @@ struct MoreInfoOnGenericPlanet: View {
                 if counter % 2 != 0 {
                     withAnimation {
                     
+                        //TODO: should not be random element
+                        keyword = planet?.name.keywords().randomElement()! ?? ""
                         nameOfPlanet = planetName.rawValue
-                        
-                        AmareApp().delay(1) {
+
+                      /*  AmareApp().delay(1) {
                             withAnimation {
                                 
-                                keyword = planet?.name.keywords()[1] ?? "idk"
+                                
+                                
+                                nameOfPlanet = planetName.rawValue
+
                             }
                             
-                        }
+                        } */
                         
                      
 
@@ -209,14 +213,19 @@ struct MoreInfoOnGenericPlanet: View {
                     // Latin Translation
                     withAnimation {
                         
+                        //TODO: FIx
+                       keyword =  planet?.name.keywords().randomElement()! ?? ""
+
                         nameOfPlanet = planetName.rawValue.latin()
+
                         
-                        AmareApp().delay(1) {
+                       /* AmareApp().delay(1) {
                             withAnimation {
-                                keyword =  "idk3"
+                                nameOfPlanet = planetName.rawValue.latin()
+
                             }
                             
-                        }
+                        }*/
                         
 
                     }
@@ -258,7 +267,7 @@ struct MoreInfoOnGenericPlanet: View {
         
     }
     
-    //TODO: Correct the element.
+    //TODO: Correct the element.... we can just pass the proper element here when we call the structure
     func elementImage() -> some View {
         
         // The element of the planet
