@@ -11,7 +11,28 @@ struct MoreInfoOnGenericPlanet: View {
     
     var planet: Planet?
     
-    @State var keyword: String?
+    // For the fade animation of the keywords of what it rules over
+    @State var control2: Bool = false
+    @State var counter2 = 0
+    @State var keyword: String = ""{
+        didSet{
+            control2.toggle()
+        }
+    }
+    
+    @State var control: Bool = false
+    
+    @State var nameOfPlanet: String = "" {
+        didSet{
+            control.toggle()
+        }
+    }
+    // For alternating between latin and english
+    @State var counter = 0
+    
+    // What the planet rules
+   // var keywords = planet?.name.keywords() ?? [""]
+
     
     var body: some View {
         ZStack{
@@ -147,13 +168,68 @@ struct MoreInfoOnGenericPlanet: View {
     
     func planetName() -> some View {
         
+        let timer = Timer.publish(every: 3, on: .main, in: .default).autoconnect()
+        
         var planetName = planet?.name ??  PlanetName.allCases.randomElement()!
         
-       return Text(planetName.rawValue)
+    
+       return Text(nameOfPlanet)
             .font(.largeTitle)
              .bold()
+             .modifier(FadeModifier(control: control))
+           
+             // Duration of the fade animation
+             // .animation(.easeInOut(duration: 2))
              .frame(maxWidth : .infinity, alignment: .center)
             .foregroundColor(Color.primary.opacity(0.4))
+            .onReceive(timer) { _ in
+                
+                //TODO: these should not animate at same time
+               
+                if counter % 2 != 0 {
+                    withAnimation {
+                    
+                        nameOfPlanet = planetName.rawValue
+                        
+                        AmareApp().delay(1) {
+                            withAnimation {
+                                
+                                keyword = planet?.name.keywords()[1] ?? "idk"
+                            }
+                            
+                        }
+                        
+                     
+
+                    }
+                    
+                    
+                } else {
+                    
+                    // Latin Translation
+                    withAnimation {
+                        
+                        nameOfPlanet = planetName.rawValue.latin()
+                        
+                        AmareApp().delay(1) {
+                            withAnimation {
+                                keyword =  "idk3"
+                            }
+                            
+                        }
+                        
+
+                    }
+                    
+                }
+                
+                counter += 1
+                
+            }
+            .onAppear {
+                nameOfPlanet = planetName.rawValue
+            }
+        
     }
     
     ///  The symbol of the planet
@@ -207,24 +283,44 @@ struct MoreInfoOnGenericPlanet: View {
     //TODO:
     func alternatingTextOfWhatItRules() -> some View {
         
-        var keywords = planet?.name.keywords() ?? [""]
         
         let timer = Timer.publish(every: 2, on: .main, in: .default).autoconnect()
         
         
         
-        return Text(keyword ?? keywords.first!)
+        return Text(keyword)
              .font(.largeTitle)
               .bold()
               .frame(maxWidth : .infinity, alignment: .center)
            // .padding()
              .foregroundColor(Color.primary.opacity(0.4))
-             // .modifier(FadeModifier(control: keyword != nil))
-             .onReceive(timer) { _ in
-                 withAnimation(.easeIn(duration: 3)){
-                     keyword = keywords.randomElement()!
+              .modifier(FadeModifier(control: control2))
+             //.transition(.opacity)
+           /*  .onReceive(timer) { _ in
+                 
+                
+                 if counter2 % 2 != 0 {
+                     withAnimation {
+                         
+                         keyword = planet?.name.keywords()[1] ?? "idk"
+                     }
+                     
+                 } else {
+                     
+                     withAnimation {
+                        
+                    
+                         keyword = /*planet?.name.keywords()[2] ?? */"idk"
+                     }
+                     
                  }
                  
+                 counter2 += 1
+                 
+             }
+        */
+             .onAppear {
+                 keyword = planet?.name.keywords()[0] ?? "Not Known"
              }
              
     }
@@ -241,5 +337,68 @@ struct MoreInfoOnGenericPlanet_Previews: PreviewProvider {
         var p  = Planet(name: .Moon, angle: 21.3, element: .water, onCusp: false, retrograde: false, sign: .Cancer, cusp: nil, speed: 23)
         
         MoreInfoOnGenericPlanet(planet: p).preferredColorScheme(.dark)
+    }
+}
+
+
+import Combine
+
+struct FadingTextView: View {
+    
+    @Binding var source: String
+    var transitionTime: Double
+    
+    @State private var currentText: String? = nil
+    @State private var visible: Bool = false
+    private var publisher: AnyPublisher<[String.Element], Never> {
+        source
+            .publisher
+            .collect()
+            .eraseToAnyPublisher()
+    }
+    
+    init(text: Binding<String>, totalTransitionTime: Double) {
+        self._source = text
+        self.transitionTime = totalTransitionTime / 3
+    }
+    
+    private func update(_: Any) {
+        guard currentText != nil else {
+            currentText = source
+            DispatchQueue.main.asyncAfter(deadline: .now() + (transitionTime)) {
+                self.visible = true
+            }
+            return
+        }
+        guard source != currentText else { return }
+        self.visible = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + (transitionTime)) {
+            self.currentText = source
+            DispatchQueue.main.asyncAfter(deadline: .now() + (transitionTime)) {
+                self.visible = true
+            }
+        }
+    }
+    
+    var body: some View {
+        Text(currentText ?? "")
+            .opacity(visible ? 1 : 0)
+            .animation(.linear(duration: transitionTime))
+            .onReceive(publisher, perform: update(_:))
+    }
+    
+}
+
+
+extension String {
+    
+    /// Converts some strings to Latin. Not all though. If we don't have a translation it'll just return empty string
+    func latin() -> String {
+        
+        if self == "Moon"{
+            return "Luna"
+        }
+        
+        else {return ""}
     }
 }
