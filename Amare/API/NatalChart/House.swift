@@ -74,3 +74,24 @@ enum HouseNameOrd: String, CaseIterable{
     case eleventh = "11th"
     case twelth = "12th"
 }
+
+extension Int {
+    func toHouseNameOrd() -> HouseNameOrd? {
+        switch self {
+        case 1: return .first
+        case 2: return .second
+        case 3: return .third
+        case 4: return .fourth
+        case 5: return .fifth
+        case 6: return .sixth
+        case 7: return .seventh
+        case 8: return .eight
+        case 9: return .ninth
+        case 10: return .tenth
+        case 11: return .eleventh
+        case 12: return .twelth
+        default:
+            return nil
+        }
+    }
+}

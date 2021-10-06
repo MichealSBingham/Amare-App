@@ -21,8 +21,9 @@ struct Planet: Codable, Identifiable{
     let onCusp: Bool
     /// Whether or not planet is moving in retrograde
     let retrograde: Bool
-    
-    
+    //TODO: Set in database a placement interpretation
+    var one_line_placement_interpretation: String? = "One line description of this sign."
+    var longer_placement_interpretation: String? = "Something else that describes this placement."
     let sign: ZodiacSign
     
     /// A cusp object will contain the cusp element and cusp sign the object is on
