@@ -75,14 +75,14 @@ struct MoreInfoOnPlanet: View {
                InterpretationOneLiner()
             
                 //TODO: longer planet description
-                LongerPlanetDescription().padding(.bottom)
+             //   LongerPlanetDescription().padding(.bottom)
             
                 elementImage()
                 
                 
                 // What this planet interacts with in their charts / aspects with
                 
-                
+                //"Aspects"
                 HStack{
                     
                     Text("Aspects")
@@ -109,6 +109,7 @@ struct MoreInfoOnPlanet: View {
                                     .colorInvert()
                                     .colorMultiply(Color.primary.opacity(0.4))
                                     .frame(width: 30, height: 30)
+                                    
                                 PlanetName.allCases.randomElement()?.image()
                                     .colorInvert()
                                     .colorMultiply(Color.primary.opacity(0.4))
@@ -169,9 +170,10 @@ struct MoreInfoOnPlanet: View {
                      //.rotationEffect(.degrees(90))
                     
                 }
+                .padding([.top, .bottom], -10)
                 
                 
-                
+                //"House and degree"
                 HStack{
                     
                     
@@ -203,6 +205,8 @@ struct MoreInfoOnPlanet: View {
                     .lineLimit(1)
                     
                 }
+                .padding([.top, .bottom],-10)
+               // .padding(.bottom, 5)
                 
                 //TODO: Need to give more info on this
                 //TODO: Call this FULL INTERPRETATION
@@ -214,8 +218,18 @@ struct MoreInfoOnPlanet: View {
                 // (5) Information about its modality
                 // (6) Brief Information on what planets it interacts with
                TabView {
+                   
+                   VStack{
+                       
+                       
+                       
+                       Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.").padding()//padding(.bottom, 20)
+                       
+                      Spacer()
+                       Spacer()
+                   }
                 
-                   Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.").padding()
+                 
                    
                     Text("Risus nullam eget felis eget nunc lobortis. Sapien nec sagittis aliquam malesuada. Venenatis lectus magna fringilla urna porttitor rhoncus dolor purus. Risus commodo viverra maecenas accumsan lacus vel facilisis volutpat. Adipiscing tristique risus nec feugiat in fermentum posuere. Dignissim enim sit amet venenatis urna cursus eget nunc. Sit amet consectetur adipiscing elit duis. A lacus vestibulum sed arcu. Vel quam elementum pulvinar etiam non quam. Convallis posuere morbi leo urna molestie at. Urna duis convallis convallis tellus id interdum. Sed viverra tellus in hac habitasse platea dictumst. Vestibulum morbi blandit cursus risus at ultrices mi tempus imperdiet. Volutpat maecenas volutpat blandit aliquam etiam erat. Nunc mattis enim ut tellus elementum. Metus vulputate eu scelerisque felis imperdiet proin fermentum leo vel. Viverra accumsan in nisl nisi scelerisque. Pharetra pharetra massa massa ultricies. Mauris pharetra et ultrices neque ornare aenean euismod elementum. Convallis convallis tellus id interdum velit laoreet id donec ultrices.").padding()
                    
@@ -283,8 +297,9 @@ struct MoreInfoOnPlanet: View {
                 
              
                 
-                Spacer()
+            //Spacer()
             }
+        //.frame(width: .infinity-50, height: 700)
             
         }
         .padding()
@@ -292,6 +307,7 @@ struct MoreInfoOnPlanet: View {
         .foregroundColor(Color.primary.opacity(0.35))
         .foregroundStyle(.ultraThinMaterial)
         .cornerRadius(20)
+        .frame(width: .infinity-60, height: 700)
     }
     
     
@@ -340,11 +356,14 @@ struct MoreInfoOnPlanet: View {
         return Text(desc)
             .font(.title)
               //.bold()
-              .frame(maxWidth : .infinity, alignment: .center)
+              //.frame(maxWidth : .infinity, alignment: .center)
             .padding()
              .foregroundColor(Color.primary.opacity(0.4))
            // .foregroundColor(.white)
              .multilineTextAlignment(.center)
+             //.minimumScaleFactor(0.5)
+             //.lineLimit(1)
+        
     }
     
     func planetName() -> some View {

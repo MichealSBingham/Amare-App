@@ -18,6 +18,7 @@ struct ChartView: View {
     @State private var radius: CGFloat = .infinity
     
     @State private var chart: NatalChart?
+    @State private var selectedPlanet: Planet?
     
     @State var aspectToGet: AspectType = .all
     
@@ -117,17 +118,19 @@ struct ChartView: View {
         
             usersNatalChart()
                 .offset(x: 0, y: 50)
+                .zIndex(0)
                 
                 
                 
-                
-            
+            MoreInfoOnPlanet(planet: selectedPlanet, chart: chart)
+               // .opacity(selectedPlanet == nil ? 0 : 1)
+                 // .frame(width: .infinity - 50 , height: 300)
             
         
             
             
         }
-        .popup(isPresented: $showBottomPopup, type: .toast, position: .bottom) {
+        /* .popup(isPresented: $showBottomPopup, type: .toast, position: .bottom) {
             // your content
             Text("\(infoToShow ?? "")")
                             .frame(width: 200, height: 200)
@@ -138,8 +141,16 @@ struct ChartView: View {
             ImagePickerView(sourceType: .photoLibrary) { image in
                 self.image = image
             }
+            
         
     }
+        */
+        .onTapGesture {
+            withAnimation {
+                selectedPlanet = nil
+            }
+           
+        }
     
 }
     
@@ -164,33 +175,8 @@ struct ChartView: View {
                 
             })
       
-            .onReceive(NotificationCenter.default.publisher(for: NSNotification.wantsMoreInfoFromNatalChart)) { obj in
-               
-                showBottomPopup = true
-                
-                if let sign = obj.object as? ZodiacSign{
-                    
-                    infoToShow = sign.rawValue
-                }
-                
-                if let planet = obj.object as? Planet{
-                    
-                    infoToShow = planet.name.rawValue
-                }
-                
-                if let house = obj.object as? House{
-                    
-                    infoToShow = String(house.ordinality)
-                }
-                
-                if let angle = obj.object as? Angle{
-                    
-                    infoToShow = angle.name.rawValue
-                }
-             //   infoToShow = (obj.object as? ZodiacSign)?.rawValue }
             
-            }
-            .make(with: chart)
+           // .make(with: chart)
             .position(location)
             //.gesture(
                    //         simpleDrag
@@ -224,6 +210,33 @@ struct ChartView: View {
                 }
             })
             .padding()
+            .onReceive(NotificationCenter.default.publisher(for: NSNotification.wantsMoreInfoFromNatalChart)) { obj in
+               
+                showBottomPopup = true
+                
+                if let sign = obj.object as? ZodiacSign{
+                    
+                    infoToShow = sign.rawValue
+                }
+                
+                if let planet = obj.object as? Planet{
+                    
+                    infoToShow = planet.name.rawValue
+                    selectedPlanet = planet
+                }
+                
+                if let house = obj.object as? House{
+                    
+                    infoToShow = String(house.ordinality)
+                }
+                
+                if let angle = obj.object as? Angle{
+                    
+                    infoToShow = angle.name.rawValue
+                }
+             //   infoToShow = (obj.object as? ZodiacSign)?.rawValue }
+            
+            }
     }
     
    
