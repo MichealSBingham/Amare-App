@@ -28,6 +28,8 @@ public struct NatalChart: Codable {
    // var name: String?
     
    // public var id: String {name ?? "EmptyName"}, not needed ATM
+    
+    
    
     
 }

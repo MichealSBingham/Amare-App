@@ -17,6 +17,9 @@ struct MainPlacementView: View {
     
     var size: CGFloat = 10
     
+    /// Set to true only if you don't want the aspect to be colored using the color convention we use for showing the intensity of the placement.
+    var colorless: Bool? = false
+    
     var body: some View {
         
         Button {
@@ -29,7 +32,7 @@ struct MainPlacementView: View {
                 
                 (planet?.name ?? PlanetName.allCases.randomElement()!).image()
                     .colorInvert()
-                    .colorMultiply(color!)
+                    .colorMultiply(colorless == false ? color! : .white)
                     .frame(width: size, height: size)
                     
                 
@@ -37,7 +40,7 @@ struct MainPlacementView: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                         .colorInvert()
-                        .colorMultiply(color!)
+                        .colorMultiply(colorless == false ? color! : .white)
                         .frame(width: size, height: size)
                         
                 
@@ -63,6 +66,9 @@ struct MainPlacementView_Angle: View {
     
     var size: CGFloat = 10
     
+    /// Set to true only if you don't want the aspect to be colored using the color convention we use for showing the intensity of the placement.
+    var colorless: Bool? = false
+    
     var body: some View {
         
         Button {
@@ -75,7 +81,8 @@ struct MainPlacementView_Angle: View {
                 
                 (angle?.name ?? AngleName.allCases.randomElement()!).image()
                     .colorInvert()
-                    .colorMultiply(color!)
+                    .colorMultiply(colorless == false ? color! : .white)
+                
                  //   .frame(width: 10, height: 10)
                     
                 
@@ -83,7 +90,7 @@ struct MainPlacementView_Angle: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                         .colorInvert()
-                        .colorMultiply(color!)
+                        .colorMultiply(colorless == false ?  color! : .white)
                         .frame(width: size, height: size)
                         
                 

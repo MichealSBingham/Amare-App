@@ -15,19 +15,29 @@ struct MoreInfoOnPlanet: View {
     // For the fade animation of the keywords of what it rules over
     @State var control2: Bool = false
     @State var counter2 = 0
-    @State var sign: String = ""{
+    @State var sign: String = ""
+    
+    /* {
+       Taking away fade modifer
         didSet{
             control2.toggle()
         }
-    }
+        
+    } */
     
     @State var control: Bool = false
     
-    @State var nameOfPlanet: String = "" {
+    @State var nameOfPlanet: String = ""
+    /* {
+        
+         Taking away fade motifer
         didSet{
             control.toggle()
         }
+         
     }
+         */
+     
     // For alternating between latin and english
     @State var counter = 0
     
@@ -308,6 +318,7 @@ struct MoreInfoOnPlanet: View {
         .foregroundStyle(.ultraThinMaterial)
         .cornerRadius(20)
         .frame(width: .infinity-60, height: 700)
+        //.frame(width: 700, height: 700)
     }
     
     
@@ -370,19 +381,19 @@ struct MoreInfoOnPlanet: View {
         
         let timer = Timer.publish(every: 3, on: .main, in: .default).autoconnect()
         
-        var planetName = planet?.name ??  PlanetName.allCases.randomElement()!
+      //  var planetName = planet?.name ??  PlanetName.allCases.randomElement()!
         
     
-       return Text(nameOfPlanet)
+       return Text(planet?.name.rawValue ?? "")
             .font(.largeTitle)
              .bold()
-             .modifier(FadeModifier(control: control))
+            // .modifier(FadeModifier(control: control))
            
              // Duration of the fade animation
              // .animation(.easeInOut(duration: 2))
              .frame(maxWidth : .infinity, alignment: .center)
             .foregroundColor(Color.primary.opacity(0.4))
-            .onReceive(timer) { _ in
+       /*     .onReceive(timer) { _ in
                 
                 //TODO: these should not animate at same time
                
@@ -439,17 +450,18 @@ struct MoreInfoOnPlanet: View {
                 
                 counter += 1
                 
-            }
-            .onAppear {
+            } */
+           /* .onAppear {
                 nameOfPlanet = planetName.rawValue
             }
+        */
         
     }
     
     ///  The symbol of the planet
     func planetImage() -> some View {
         
-       return  MainPlacementView( planet: planet, size: 40)
+        return  MainPlacementView( planet: planet, size: 40, colorless: true)
            // .padding()
         
             /*
@@ -504,13 +516,13 @@ struct MoreInfoOnPlanet: View {
         
         
         
-        return Text(sign)
+        return Text(planet?.sign.rawValue ?? "")
              .font(.largeTitle)
               .bold()
               .frame(maxWidth : .infinity, alignment: .center)
            // .padding()
              .foregroundColor(Color.primary.opacity(0.4))
-              .modifier(FadeModifier(control: control2))
+            //  .modifier(FadeModifier(control: control2))
              //.transition(.opacity)
            /*  .onReceive(timer) { _ in
                  
@@ -538,6 +550,8 @@ struct MoreInfoOnPlanet: View {
              .onAppear {
                //  keyword = planet?.name.keywords()[0] ?? "Not Known"
                  sign = planet?.sign.rawValue ?? ""
+                 nameOfPlanet = planet?.name.rawValue
+                 ?? ""
              }
              
     }

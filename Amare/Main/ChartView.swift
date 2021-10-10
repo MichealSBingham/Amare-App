@@ -22,7 +22,7 @@ struct ChartView: View {
     
     @State var aspectToGet: AspectType = .all
     
-    @State var showBottomPopup: Bool = false
+    @State var showMoreInfoPopup: Bool = false
     
     @State var infoToShow: String?
     
@@ -119,13 +119,20 @@ struct ChartView: View {
             usersNatalChart()
                 .offset(x: 0, y: 50)
                 .zIndex(0)
-                
-                
-                
-            MoreInfoOnPlanet(planet: selectedPlanet, chart: chart)
-               // .opacity(selectedPlanet == nil ? 0 : 1)
-                 // .frame(width: .infinity - 50 , height: 300)
             
+            MoreInfoOnPlanet(planet: selectedPlanet, chart: chart)
+            //  .rotationEffect(.degrees(-1*alpha))
+                .opacity(  selectedPlanet != nil ? 1  : 0 )
+                .padding()
+                
+                
+                
+                /*
+            MoreInfoOnPlanet(planet: selectedPlanet, chart: chart)
+                .opacity(selectedPlanet == nil ? 0 : 1)
+                .padding()
+                 // .frame(width: .infinity - 50 , height: 300)
+            */
         
             
             
@@ -148,6 +155,7 @@ struct ChartView: View {
         .onTapGesture {
             withAnimation {
                 selectedPlanet = nil
+                
             }
            
         }
@@ -181,7 +189,7 @@ struct ChartView: View {
             //.gesture(
                    //         simpleDrag
              //           )
-            .scaleEffect(scale)
+       /*     .scaleEffect(scale)
             .gesture(MagnificationGesture()
                         .onChanged { val in
                             let delta = val / self.lastScale
@@ -194,7 +202,7 @@ struct ChartView: View {
                         .onEnded { _ in
                             self.lastScale = 1.0
                         }
-                    )
+                    ) */
             .onAppear(perform: {
                 
                 
@@ -212,7 +220,6 @@ struct ChartView: View {
             .padding()
             .onReceive(NotificationCenter.default.publisher(for: NSNotification.wantsMoreInfoFromNatalChart)) { obj in
                
-                showBottomPopup = true
                 
                 if let sign = obj.object as? ZodiacSign{
                     
