@@ -612,7 +612,7 @@ struct MapView: View {
     
     func createMap() -> some View {
         
-        return Globe()
+        return Globe(people: nearbyUsers)
             .onAppear {
                 
                 AmareApp().delay(1) {
@@ -956,7 +956,10 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
 
 struct Globe: UIViewRepresentable{
     
- 
+    @StateObject var people: NearbyPeople = NearbyPeople()
+
+    /// Pass a state variable here and when it changes, the map will fly to this location
+   // @Binding var locationToGoTo: CLPlacemark? = nil
     
     func makeUIView(context: Context) -> MKMapView {
         let mapView = MKMapView(frame: .zero)
@@ -964,25 +967,35 @@ struct Globe: UIViewRepresentable{
         mapView.mapType = .hybridFlyover
         mapView.tintColor = UIColor(red: 1.00, green: 0.01, blue: 0.40, alpha: 1.00)
         mapView.showsUserLocation = true
+        
+        let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 0, longitude: 0), latitudinalMeters: 16093400, longitudinalMeters: 16093400)
+        
+        mapView.animatedZoom(to: region, for: 3)
     
         return mapView
     }
     
     
     func updateUIView(_ view: MKMapView, context: Context) {
-        /*
-        for location in locations {
+        
+        print("***Inside update UIView")
+        for user in people.users {
             
-            if let loc = location.location?.coordinate{
+            print("***Inside update UI View for user \(user)")
+           
+       
+            if let lat = user.residence?.latitude, let lon =  user.residence?.longitude{
                 
+                print("*** the lat and lon are .. \(lat) and \(lon)")
                 // make a pins
                 let pin = MKPointAnnotation()
                 
                 // set the coordinates
-                pin.coordinate =  loc
+               // pin.coordinate =  loc
+                pin.coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lon)
                 
                 // set the title
-                pin.title = location.name
+              //  pin.title = location.name
             
                 view.showsUserLocation = false
                 // add to map
@@ -991,6 +1004,8 @@ struct Globe: UIViewRepresentable{
        
             
         }
+        
+        /*
         
         if let goToLoc =  locationToGoTo?.location?.coordinate{
             
@@ -1024,6 +1039,7 @@ struct Globe: UIViewRepresentable{
             
         }
         
+        
         else {
             
             view.removeAnnotations(view.annotations)
@@ -1034,14 +1050,24 @@ struct Globe: UIViewRepresentable{
             
            
         }
-        */
+        
         
         view.removeAnnotations(view.annotations)
         view.showsUserLocation = true
         let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 0, longitude: 0), latitudinalMeters: 16093400, longitudinalMeters: 16093400)
         
         view.animatedZoom(to: region, for: 3)
+        
+        */
+        
+       /* let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 0, longitude: 0), latitudinalMeters: 16093400, longitudinalMeters: 16093400)
+        
+        view.animatedZoom(to: region, for: 3)
+        */
+        
+        
     }
+    
 }
 
 struct FlatGlassView : ViewModifier {
