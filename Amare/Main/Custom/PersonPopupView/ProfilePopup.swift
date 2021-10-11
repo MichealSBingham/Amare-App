@@ -25,7 +25,7 @@ struct ProfilePopup: View {
     @State var showProfilePopup: Bool = false
     
     
-    @State var showAddFriend: Bool = true
+    @State var showActionForUser: Bool = false
     @State var showBottomPopup: Bool = false
     @State var infoToShow:String?
     @State private var chart: NatalChart?
@@ -69,8 +69,10 @@ struct ProfilePopup: View {
                         ZStack{
                             
                             Button {
-                                
-                                showAddFriend.toggle()
+                                withAnimation {
+                                    showActionForUser = true
+                                }
+                               
                             } label: {
                                 
                                 ZStack{
@@ -78,13 +80,13 @@ struct ProfilePopup: View {
                                     
                                     Image(systemName: "plus.circle")
                                         .modifier(ConvexGlassView())
-                                         .opacity(showAddFriend ? 1: 0 )
+                                       /*  .opacity(showActionForUser ? 1: 0 ) */
                                      
                                     
                                     
                                     Image(systemName: "plus.circle.fill")
                                           .modifier(ConcaveGlassView())
-                                          .opacity(showAddFriend == false ? 1 : 0)
+                                          /*.opacity(showActionForUser == false ? 1 : 0) */
                                      
                                 }
                                 
@@ -384,8 +386,12 @@ struct ProfilePopup: View {
                      
                      
                 }
+            .brightness(showActionForUser ? -0.5: 0)
             
             
+            
+            PositiveActionOnUserMenu()
+                .opacity(showActionForUser ? 1: 0)
             
         }
         .padding()
@@ -404,6 +410,12 @@ struct ProfilePopup: View {
             }
        
         })
+        .onTapGesture {
+            withAnimation {
+                // Dismiss the action view
+                showActionForUser = false
+            }
+        }
         
     }
     
