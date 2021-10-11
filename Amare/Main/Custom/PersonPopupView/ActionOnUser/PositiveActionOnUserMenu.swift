@@ -118,7 +118,9 @@ struct PositiveActionOnUserMenu: View {
                                  print("What does show interest mean")
                              } label: {
                                  
-                                 Image(systemName: "questionmark.circle.fill").padding()
+                                 Image(systemName: "questionmark.circle.fill")
+                                     .colorMultiply(.white)
+                                     .padding()
                              }
 
                              
