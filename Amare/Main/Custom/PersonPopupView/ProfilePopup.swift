@@ -149,6 +149,7 @@ struct ProfilePopup: View {
                         MainPlacementView(planet: user?.natal_chart?.planets.get(planet: .Moon), size: 20).padding(.trailing)
                         
                       
+                        //TODO: Do something for people who don't know birth times
                     MainPlacementView_Angle(angle: user?.natal_chart?.angles.get(planet: .asc), size: 20).padding(.trailing)
                         
                         
@@ -197,7 +198,7 @@ struct ProfilePopup: View {
                         
                         MainPlacementView_Angle(angle: user?.natal_chart?.angles.get(planet: .desc), size: 20).padding(.trailing)
                     }
-                        
+
                         
                     
                         
@@ -366,7 +367,7 @@ struct ProfilePopup: View {
                     }) {
                         
                         SmallNatalChartView()
-                            .makeSmall(with: chart)
+                            .makeSmall(with: user?.natal_chart)
                         
                     }
                 
@@ -403,21 +404,7 @@ struct ProfilePopup: View {
             }
        
         })
-        /* Does NOTHING helpful
-        .onDisappear {
-            
-            withAnimation {
-                synastryscore = RingProgress.percent(0)
-                chemistry = RingProgress.percent(0)
-                love = RingProgress.percent(0)
-                sex = RingProgress.percent(0)
-                
-                    
-            
-          
-        }
-        }
-        */
+        
     }
     
     func ringStyleFor(progress: String ) -> RingStyle {

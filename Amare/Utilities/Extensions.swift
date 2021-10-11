@@ -233,6 +233,17 @@ struct ImageFromUrl: View {
               .resizable()
               .clipped()
     }
+    
+    func image() -> UIImage {
+        
+        return UIImage(data: self.imageLoader.imageData) ?? UIImage() 
+        /*
+        Image(uiImage: UIImage(data: self.imageLoader.imageData) ?? UIImage())
+            .resizable()
+            .clipped()
+         */
+        
+    }
 }
 
 class ImageLoaderAndCache: ObservableObject {

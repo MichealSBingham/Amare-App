@@ -228,8 +228,10 @@ struct ChartView: View {
                 
                 if let planet = obj.object as? Planet{
                     
-                    infoToShow = planet.name.rawValue
-                    selectedPlanet = planet
+                    withAnimation{
+                        selectedPlanet = planet
+                    }
+               
                 }
                 
                 if let house = obj.object as? House{

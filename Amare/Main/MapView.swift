@@ -26,6 +26,16 @@ class NearbyPeople: ObservableObject{
 
 }
 
+/// Will soon be nearby people but for now just shows all people
+class PeopleForGlobe: ObservableObject{
+    @Published var users: [AmareUser]
+
+    init(){
+        self.users = []
+    }
+
+}
+
 struct MapView: View {
     @EnvironmentObject private var account: Account
     
@@ -62,8 +72,14 @@ struct MapView: View {
     
     
     @StateObject var nearbyUsers: NearbyPeople = NearbyPeople()
+    @StateObject var usersForGlobe: PeopleForGlobe = PeopleForGlobe()
     @State var selected_user: AmareUser?
     
+    // For showing more info popup
+    @State var selectedPlanet: Planet?
+    
+    
+    @State var counter = 0
     
     var body: some View {
         
@@ -72,11 +88,22 @@ struct MapView: View {
             createMap()
                 .onTapGesture {
                     withAnimation {
-                        print("** Tapped off screen")
+                        
+                        guard selectedPlanet == nil else {
+                            withAnimation{
+                                selectedPlanet = nil
+                            }
+                           
+                            return
+                        }
+                         
                         showProfilePopup = false
+                     
+                        
                         AmareApp().delay(0.25) {
                             selected_user = nil
                         }
+                         
                         
                     }
                     
@@ -104,13 +131,15 @@ struct MapView: View {
                                     withAnimation(.easeInOut) {
                                         showProfilePopup = true
                                         selected_user = user
-                                        
-                                      /*  account.getNatalChart(from: "40gNhuGuSzg1aS9Hm2MzRfy4UW63") { err, natalChart in
+                                    
+                                        account.getNatalChart(from: selected_user?.id ?? "1b162d90b9821b24ca3fe6409c6f54b729b1db4f935b097ac6efe1346b76d12a", pathTousers: "generated_users") { err, natalChart in
+                                            
+                                            
                                             
                                             if let natalChart = natalChart{
                                                 selected_user?.natal_chart = natalChart
                                             }
-                                        } */
+                                        }
                                     }
                                 } label: {
                                     
@@ -177,58 +206,24 @@ struct MapView: View {
                 .opacity(showProfilePopup && selected_user != nil ? 1 : 0 )
           //  textForDeniedLocationServices()
             
-           /* ZStack{
+            
+            MoreInfoOnPlanet(planet: selectedPlanet)
+                .opacity(selectedPlanet != nil ? 1 : 0 )
+                .padding()
+
                 
-            VStack{
-                
-          
-                
-                    ScrollView(.horizontal, showsIndicators: false){
-                        
-                        HStack{
-                            
-                            
-                            sampleIcon()
-                            sampleIcon()
-                            sampleIcon()
-                            sampleIcon()
-                            sampleIcon()
-                            sampleIcon()
-                            
-                        }
-                        
-                        
-                    }
-                
-                
-                Spacer()
-                
-                
-                Toggle("", isOn: $discoverModeEnabled )
-                    .padding()
-               
-                
-           }
-                
-      
-                
-                profilePopup()
-                    .opacity(showProfilePopup ? 1: 0)
-                
-                
-                
-                    
-                    
-                }
-               */
+        
                
                 
         }.onAppear {
             // Load the nearby users
+            print("LOADING ALL USERS....\(counter)")
+            counter += 1
             account.getALLusers { err, foundusers in
                 
                 print("the FOUND USERS are \(foundusers) with count \(foundusers.count)")
                 nearbyUsers.users = foundusers
+                usersForGlobe.users = foundusers
                 for user in nearbyUsers.users{
                     var name = user.name
                     print("inside get all users ... nearbyUsers.users is \(name)")
@@ -240,7 +235,30 @@ struct MapView: View {
                 
             }
         }
+        .onReceive(NotificationCenter.default.publisher(for: NSNotification.wantsMoreInfoFromNatalChart)) { obj in
+           
             
+            if let sign = obj.object as? ZodiacSign{
+                
+            }
+            
+            if let planet = obj.object as? Planet{
+                
+                withAnimation{
+                    selectedPlanet = planet
+                }
+           
+            }
+            
+            if let house = obj.object as? House{
+            }
+            
+            if let angle = obj.object as? Angle{
+                
+            }
+         //   infoToShow = (obj.object as? ZodiacSign)?.rawValue }
+        
+        }
             
            
         }
@@ -279,331 +297,7 @@ struct MapView: View {
                         strokeStyle: .init(lineWidth: 5),
                         padding: 2.5)
     }
-        /*
-    /// A popup view of a profile from a person clicked on in the map/globe discover view.
-    func profilePopup() -> some View {
-        
-        
-        
-        // Popup view on person information
-        ZStack{
-            
-            
-            
-            VStack{
-               
-                
-                ZStack{
-                    
-                    profileImageForPopup()
-                    HStack{
-                        Spacer()
-                        
-                        
-                        ZStack{
-                            
-                            Button {
-                                
-                                showAddFriend.toggle()
-                            } label: {
-                                
-                                ZStack{
-                                    
-                                    
-                                    Image(systemName: "plus.circle")
-                                        .modifier(ConvexGlassView())
-                                         .opacity(showAddFriend ? 1: 0 )
-                                     
-                                    
-                                    
-                                    Image(systemName: "plus.circle.fill")
-                                          .modifier(ConcaveGlassView())
-                                          .opacity(showAddFriend == false ? 1 : 0)
-                                     
-                                }
-                                
-                               
-                                
-                                
-                                
-                            }.offset(x: 10, y: -35.0)
-                            
-                           
-                        }
-                        
-                        
-
-                              
-                      
-                    }
-                    
-                }
-                  
-                
-                // Name
-                Text("\(sampleNames.randomElement()!)")
-                            .font(.largeTitle)
-                             .bold()
-                             .frame(maxWidth : .infinity, alignment: .center)
-                            //.padding(.top)
-                            .foregroundColor(Color.primary.opacity(0.4))
-                            .modifier(FadeModifier(control: showProfilePopup))
-                
-                
-                
-                
-                    // Classification
-                Text("\(sampleClassifications.randomElement()!)")
-                                    .font(.callout)
-                                    .frame(maxWidth : .infinity, alignment: .center)
-                                    .foregroundColor(Color.primary.opacity(0.4))
-                                    .padding(.bottom)
-                                    .modifier(FadeModifier(control: showProfilePopup))
-                                   // .shimmering(duration: 5, bounce: true)
-                
-                
-                // Latin Phrase
-                Text("\(sampleLatinPhrases.randomElement()!)")
-                                    .font(.callout)
-                                    .frame(maxWidth : .infinity, alignment: .center)
-                                    .foregroundColor(Color.primary.opacity(0.4))
-                                    .modifier(FadeModifier(control: showProfilePopup))
-                                  
-                                   // .shimmering(duration: 5, bounce: true)
-                                   // .padding([.bottom, .top])
-                TabView{
-                    /*
-                    HStack{
-                        
-                        MainPlacementView(planet: .Sun, size: 20).padding(.trailing)
-                        
-                        MainPlacementView(planet: .Moon, size: 20).padding(.trailing)
-                        
-                        /// Should be ascendant
-                        MainPlacementView(planet: .Jupiter, size: 20).padding(.trailing)
-                        
-                    }
-                        
-                    HStack{
-                        MainPlacementView(planet: .Mercury, size: 20).padding(.trailing)
-                        MainPlacementView(planet: .Venus, size: 20).padding(.trailing)
-                        
-                
-                        MainPlacementView(planet: .Mars, size: 20).padding(.trailing)
-                    }
-                        
-                    HStack{
-                        
-                        MainPlacementView(planet: .Jupiter, size: 20).padding(.trailing)
-                        MainPlacementView(planet: .Saturn, size: 20).padding(.trailing)
-                        
-                    
-                        MainPlacementView(planet: .Uranus, size: 20).padding(.trailing)
-                    }
-                        
-                       
-                    HStack{
-                        MainPlacementView(planet: .Neptune, size: 20).padding(.trailing)
-                        MainPlacementView(planet: .Pluto, size: 20).padding(.trailing)
-                        
-                        /// Should be ascendant
-                        MainPlacementView(planet: .Mars, size: 20).padding(.trailing)
-                    }
-                        
-                        
-                        
-                     
-                        
-                        
-                        */
-                    
-                   
-                }
-             
-                .indexViewStyle(.page(backgroundDisplayMode: .interactive))
-                .frame(width: .infinity, height: 150)
-                .tabViewStyle(.page)
-                .padding(.top, -50)
-              
-                    
-                
-                                    
-                
-                // Ring styles for progress circles
-                let o_ringstyle: RingStyle = .init(
-                    color: .color(.gray),
-                    strokeStyle: .init(lineWidth: 10)
-                )
-                
-              
-               
-                    
-                
-                
-                TabView {
-                    
-                        
-                    
-                                
-                      // Synastry Score
-                                ProgressRing(progress: $synastryscore, axis: .top, clockwise: true, outerRingStyle: o_ringstyle, innerRingStyle: ringStyleFor(progress: "synastry")) { percent in
-                                    
-                                    
-                                    let pcent = Int(round(percent*100))
-                                    
-                                    VStack{
-                                        
-                                            
-                                        
-                                        Text("\(pcent)")
-                                                        .font(.title)
-                                                        .bold()
-                                    }
-                                    
-                                    
-                                }//.animation(.easeInOut(duration: 5))
-                                    .frame(width: 150, height: 150)
-                                    .onAppear {
-                                        
-                                        withAnimation(.easeInOut(duration: 3)) {
-                                            synastryscore = RingProgress.percent(Double.random(in: 0...1))
-                                        }
-                                    }
-                    
-                                  
-                                
-                                
-                 // Chemistry, Love, Sex
-                    HStack{
-                                ProgressRing(progress: $chemistry, axis: .top, clockwise: true, outerRingStyle: o_ringstyle, innerRingStyle: ringStyleFor(progress: "chemistry")) { percent in
-                                    
-                                    
-                                    let pcent = Int(round(percent*100))
-                                    
-                                    VStack{
-                                        
-                                        Text("Chemistry")
-                                            .font(.subheadline)
-                                            
-                                            
-                                        
-                                        Text("\(pcent)")
-                                                        .font(.title)
-                                                        .bold()
-                                    }
-                                    
-                                    
-                                }
-                                    .frame(width: 115, height: 115)
-                                    .onAppear {
-                                        
-                                        withAnimation(.easeInOut(duration: 3)) {
-                                            chemistry = RingProgress.percent(Double.random(in: 0...1))
-
-                                        }
-                                    }
-                                
-                                
-                                ProgressRing(progress: $love, axis: .top, clockwise: true, outerRingStyle: o_ringstyle, innerRingStyle: ringStyleFor(progress: "love")) { percent in
-                                    
-                                    
-                                    let pcent = Int(round(percent*100))
-                                    
-                                    VStack{
-                                        
-                                        Text("Love")
-                                            .font(.subheadline)
-                                            
-                                        
-                                        Text("\(pcent)")
-                                                        .font(.title)
-                                                        .bold()
-                                    }
-                                    
-                                    
-                                }
-                                    .frame(width: 115, height: 115)
-                                    .onAppear {
-                                        
-                                        withAnimation(.easeInOut(duration: 3)) {
-                                            love = RingProgress.percent(Double.random(in: 0...1))
-
-                                        }
-                                    }
-                                
-                                ProgressRing(progress: $sex, axis: .top, clockwise: true, outerRingStyle: o_ringstyle, innerRingStyle: ringStyleFor(progress: "sex")) { percent in
-                                    
-                                    
-                                    let pcent = Int(round(percent*100))
-                                    
-                                    VStack{
-                                        
-                                        Text("Sex")
-                                            .font(.subheadline)
-                                            
-                                        
-                                        Text("\(pcent)")
-                                                        .font(.title)
-                                                        .bold()
-                                    }
-                                    
-                                    
-                                }
-                                    .frame(width: 115, height: 115)
-                                    .onAppear {
-                                        
-                                        withAnimation(.easeInOut(duration: 3)) {
-                                            sex = RingProgress.percent(Double.random(in: 0...1))
-
-                                        }
-                                    }
-                        
-                    }
-                            
-                    Button(action: {
-                        print("Tapped natal chart")
-                    }) {
-                        //usersNatalChart()
-                    }
-                
-                       
-                            
-                        }
-                        
-                        .indexViewStyle(.page(backgroundDisplayMode: .interactive))
-                        .frame(width: .infinity, height: 150)
-                        .tabViewStyle(.page)
-                
-                
-                
-                     
-                     
-                }
-            
-            
-            
-        }
-       
-            
-            
-            
-        .padding()
-        .background(.ultraThinMaterial)
-        .foregroundColor(Color.primary.opacity(0.35))
-        .foregroundStyle(.ultraThinMaterial)
-        .cornerRadius(20)
-        .padding()
-        .onAppear {
-            /*
-            account.getALLusers { err, users in
-                
-                for user in users {
-                }
-            } */
-        }
-            
-    }
-    */
+      
     /// The profile image for the popup
     func profileImageForPopup() -> some View {
         
@@ -612,7 +306,7 @@ struct MapView: View {
     
     func createMap() -> some View {
         
-        return Globe(people: nearbyUsers)
+        return Globe(people: usersForGlobe)
             .onAppear {
                 
                 AmareApp().delay(1) {
@@ -622,6 +316,7 @@ struct MapView: View {
             }
            // .grayscale((locationManager.authorizationStatus == .authorizedAlways) ? 0 : 1)
             .edgesIgnoringSafeArea(.all)
+           
             
         
         /*
@@ -956,13 +651,18 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
 
 struct Globe: UIViewRepresentable{
     
-    @StateObject var people: NearbyPeople = NearbyPeople()
+    @StateObject var people: PeopleForGlobe = PeopleForGlobe()
 
     /// Pass a state variable here and when it changes, the map will fly to this location
    // @Binding var locationToGoTo: CLPlacemark? = nil
     
     func makeUIView(context: Context) -> MKMapView {
         let mapView = MKMapView(frame: .zero)
+        
+       
+    
+        
+        
         // change the map type here
         mapView.mapType = .hybridFlyover
         mapView.tintColor = UIColor(red: 1.00, green: 0.01, blue: 0.40, alpha: 1.00)
@@ -971,32 +671,40 @@ struct Globe: UIViewRepresentable{
         let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 0, longitude: 0), latitudinalMeters: 16093400, longitudinalMeters: 16093400)
         
         mapView.animatedZoom(to: region, for: 3)
-    
+        
+        mapView.delegate = context.coordinator
+        
+        mapView.register(UserAnnotationView.self, forAnnotationViewWithReuseIdentifier: NSStringFromClass(UserAnnotation.self))
+        
         return mapView
     }
     
     
     func updateUIView(_ view: MKMapView, context: Context) {
         
-        print("***Inside update UIView")
+
         for user in people.users {
             
-            print("***Inside update UI View for user \(user)")
            
        
             if let lat = user.residence?.latitude, let lon =  user.residence?.longitude{
                 
                 print("*** the lat and lon are .. \(lat) and \(lon)")
                 // make a pins
-                let pin = MKPointAnnotation()
+              //  let pin = MKPointAnnotation()
+                let pin = UserAnnotation()
+                
+                pin.user = user
                 
                 // set the coordinates
                // pin.coordinate =  loc
                 pin.coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+                //pin.setValue(user.profile_image_url, forKey: "profile_image")
                 
                 // set the title
               //  pin.title = location.name
-            
+              
+                
                 view.showsUserLocation = false
                 // add to map
                 view.addAnnotation(pin)
@@ -1005,68 +713,78 @@ struct Globe: UIViewRepresentable{
             
         }
         
-        /*
-        
-        if let goToLoc =  locationToGoTo?.location?.coordinate{
-            
-            // Animate to the location
-            
-          //  let loc = CLLocationCoordinate2D(latitude: goToLoc.latitude, longitude: goToLoc.longitude)
-            
-            
-            let  region = MKCoordinateRegion(center: goToLoc, latitudinalMeters: 1609340, longitudinalMeters: 1609300)
-            
-            view.animatedZoom(to: region, for: 3)
-            
-            // make a pins
-            let pin = MKPointAnnotation()
-            
-            // set the coordinates
-            pin.coordinate = goToLoc
-            
-            // set the title
-          
-           // pin.title = "\(locationToGoTo?.city ?? ""), \(locationToGoTo?.country ?? "")"
-            pin.title = locationToGoTo?.name ?? ""
-           
-            
-           // view.annotations
-            
-            view.removeAnnotations(view.annotations)
-            view.showsUserLocation = false
-            // add to map
-            view.addAnnotation(pin)
-            
-        }
-        
-        
-        else {
-            
-            view.removeAnnotations(view.annotations)
-            view.showsUserLocation = true
-            let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 0, longitude: 0), latitudinalMeters: 16093400, longitudinalMeters: 16093400)
-            
-            view.animatedZoom(to: region, for: 3)
-            
-           
-        }
-        
-        
-        view.removeAnnotations(view.annotations)
-        view.showsUserLocation = true
-        let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 0, longitude: 0), latitudinalMeters: 16093400, longitudinalMeters: 16093400)
-        
-        view.animatedZoom(to: region, for: 3)
-        
-        */
-        
-       /* let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 0, longitude: 0), latitudinalMeters: 16093400, longitudinalMeters: 16093400)
-        
-        view.animatedZoom(to: region, for: 3)
-        */
+       
         
         
     }
+    
+    func makeCoordinator() -> Coordinator {
+            Coordinator(self)
+        }
+
+        class Coordinator: NSObject, MKMapViewDelegate {
+            var parent: Globe
+
+            init(_ parent: Globe) {
+                self.parent = parent
+            }
+            
+          
+            
+            /// The map view asks `mapView(_:viewFor:)` for an appropiate annotation view for a specific annotation.
+            /// - Tag: CreateAnnotationViews
+            func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+                
+                guard annotation.isKind(of: UserAnnotation.self) else {
+                    // Make a fast exit if the annotation is the `MKUserLocation`, as it's not an annotation view we wish to customize.
+                    print("***Not a type of user annotation..")
+                    return nil
+                }
+                
+                print("***inside mapView(_:)")
+                var annotationView: MKAnnotationView?
+                
+                if let annotation = annotation as? UserAnnotation {
+                    annotationView = setupUserAnnotation(for: annotation, on: mapView)
+                }
+                
+                return annotationView
+                    
+            }
+            
+            
+            /// The map view asks `mapView(_:viewFor:)` for an appropiate annotation view for a specific annotation. The annotation
+            /// should be configured as needed before returning it to the system for display.
+            /// - Tag: ConfigureAnnotationViews
+            private func setupUserAnnotation(for annotation: UserAnnotation, on mapView: MKMapView) -> MKAnnotationView {
+                let reuseIdentifier = NSStringFromClass(UserAnnotation.self)
+                let flagAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseIdentifier, for: annotation)
+                
+                flagAnnotationView.canShowCallout = false
+                
+                // Provide the annotation view's image.
+                //let image = #imageLiteral(resourceName: "flag")
+               // flagAnnotationView.image = image
+                let image = UIImage(systemName: "lasso")!
+                flagAnnotationView.image = image
+       
+                // Provide the left image icon for the annotation.
+                flagAnnotationView.leftCalloutAccessoryView = UIImageView(image: image)
+                
+                //UIImageView(image: #imageLiteral(resourceName: "sf_icon"))
+                
+                // Offset the flag annotation so that the flag pole rests on the map coordinate.
+               // let offset = CGPoint(x: image.size.width / 2, y: -(image.size.height / 2) )
+                //flagAnnotationView.centerOffset = offset
+                
+              //  flagAnnotationView.tintColor = .green
+                
+                return flagAnnotationView
+            }
+            
+            
+        }
+    
     
 }
 
@@ -1088,6 +806,73 @@ struct FlatGlassView : ViewModifier {
     }
 }
 
+class UserAnnotation: NSObject, MKAnnotation {
+    
+    // This property must be key-value observable, which the `@objc dynamic` attributes provide.
+    @objc dynamic var coordinate = CLLocationCoordinate2D(latitude: 37.779_379, longitude: -122.418_433)
+    
+    // Required if you set the annotation view's `canShowCallout` property to `true`
+   // var title: String? = NSLocalizedString("SAN_FRANCISCO_TITLE", comment: "SF annotation")
+    
+    // This property defined by `MKAnnotation` is not required.
+  //  var subtitle: String? = NSLocalizedString("SAN_FRANCISCO_SUBTITLE", comment: "SF annotation")
+    
+    var user: AmareUser?
+    
+}
+
+
+class UserAnnotationView: MKMarkerAnnotationView {
+    static let glyphImage: UIImage = {
+        let rect = CGRect(origin: .zero, size: CGSize(width: 40, height: 40))
+        return UIGraphicsImageRenderer(bounds: rect).image { _ in
+            let radius: CGFloat = 11
+            let offset: CGFloat = 7
+            let insetY: CGFloat = 5
+            let center = CGPoint(x: rect.midX, y: rect.maxY - radius - insetY)
+            let path = UIBezierPath(arcCenter: center, radius: radius, startAngle: 0, endAngle: .pi, clockwise: true)
+            path.addQuadCurve(to: CGPoint(x: rect.midX, y: rect.minY + insetY), controlPoint: CGPoint(x: rect.midX - radius, y: center.y - offset))
+            path.addQuadCurve(to: CGPoint(x: rect.midX + radius, y: center.y), controlPoint: CGPoint(x: rect.midX + radius, y: center.y - offset))
+            path.close()
+            UIColor.white.setFill()
+            path.fill()
+        }
+    }()
+
+    override var annotation: MKAnnotation? {
+        didSet { configure(for: annotation) }
+    }
+
+    override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
+        super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
+
+        if let annotation = annotation as? UserAnnotation{
+        
+            var image = ImageFromUrl(annotation.user?.profile_image_url ?? "")
+            glyphImage =  Self.glyphImage//image.image()
+        }
+       
+      //  markerTintColor = #colorLiteral(red: 0.005868499167, green: 0.5166643262, blue: 0.9889912009, alpha: 1)
+        
+        var colors: [UIColor] = [.blue, .red, .orange, .yellow, .green, .systemPink]
+        markerTintColor = colors.randomElement()!
+
+        configure(for: annotation)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    func configure(for annotation: MKAnnotation?) {
+        displayPriority = .required
+
+        // if doing clustering, also add
+        // clusteringIdentifier = ...
+    }
+    
+    
+}
 struct ConcaveGlassView: ViewModifier {
     func body(content: Content) -> some View {
         
