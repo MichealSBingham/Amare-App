@@ -23,7 +23,9 @@ struct MainPlacementView: View {
     var body: some View {
         
         Button {
-            print("Placement pressed ")
+            
+            NotificationCenter.default.post(name: NSNotification.wantsMoreInfoFromNatalChart, object: planet)
+            
         } label: {
             
             HStack{
@@ -73,7 +75,7 @@ struct MainPlacementView_Angle: View {
         
         Button {
             
-            print("pressed placement")
+            NotificationCenter.default.post(name: NSNotification.wantsMoreInfoFromNatalChart, object: angle)
         } label: {
             HStack{
                 

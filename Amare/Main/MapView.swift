@@ -211,7 +211,10 @@ struct MapView: View {
                 .opacity(selectedPlanet != nil ? 1 : 0 )
                 .padding()
 
-                
+            
+            
+            
+            
         
                
                 
