@@ -28,8 +28,96 @@ public struct NatalChart: Codable {
    // var name: String?
     
    // public var id: String {name ?? "EmptyName"}, not needed ATM
+    /*
+    func planetsThatAspectWith(some planet: Planet) -> [PlanetName] {
+        var planets: [PlanetName] = []
+        
+        for aspect in aspects ?? []{
+            
+            if (aspect.first.rawValue == planet.name.rawValue) || (aspect.second.rawValue == planet.name.rawValue) {
+                
+                
+                if aspect.first.rawValue != planet.name.rawValue {
+                    if let name = PlanetName(rawValue: aspect.first.rawValue){
+                        planets.append(name)
+                        }
+                   
+                } else {
+                    if let name = PlanetName(rawValue: aspect.second.rawValue){
+                        planets.append(name)
+                        }
+                }
+            }
+            
+        }
+        
+        
+        
+        return planets
+    }
+    */
     
+    func bodiesThatAspectWith(some planet: Angle) -> [Body] {
+        var planets: [Body] = []
+        
+        for aspect in aspects ?? []{
+            
+            if (aspect.first.rawValue == planet.name.rawValue) || (aspect.second.rawValue == planet.name.rawValue) {
+                
+                
+                if aspect.first.rawValue != planet.name.rawValue {
+                    if let name = Body(rawValue: aspect.first.rawValue){
+                        planets.append(name)
+                        }
+                   
+                } else {
+                    if let name = Body(rawValue: aspect.second.rawValue){
+                        planets.append(name)
+                        }
+                }
+            }
+            
+        }
+        
+        
+        
+        return planets
+    }
     
+    func bodiesThatAspectWith(some planet: Planet) -> [Body] {
+        var planets: [Body] = []
+        
+        for aspect in aspects ?? []{
+            
+            if (aspect.first.rawValue == planet.name.rawValue) || (aspect.second.rawValue == planet.name.rawValue) {
+                
+                
+                if aspect.first.rawValue != planet.name.rawValue {
+                    if let name = Body(rawValue: aspect.first.rawValue){
+                        planets.append(name)
+                        }
+                   
+                } else {
+                    if let name = Body(rawValue: aspect.second.rawValue){
+                        planets.append(name)
+                        }
+                }
+            }
+            
+        }
+        
+        
+        
+        return planets
+    }
+
+    func getPlanetsThisPlanetAspectsWithSynastry() -> [Planet]? {
+        for aspect in synastryAspects ?? []{
+            
+        }
+        
+        return nil
+    }
    
     
 }

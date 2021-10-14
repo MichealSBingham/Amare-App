@@ -143,10 +143,11 @@ struct PositiveActionOnUserMenu: View {
         }
         //.padding()
         .background(.ultraThinMaterial)
-        .foregroundColor(Color.primary.opacity(0.35))
+        .foregroundColor(.pink)
         .foregroundStyle(.ultraThinMaterial)
         .cornerRadius(20)
         .padding()
+        
     }
 }
 

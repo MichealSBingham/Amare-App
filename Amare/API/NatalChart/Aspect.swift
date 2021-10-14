@@ -27,7 +27,11 @@ struct Aspect: Codable, Identifiable {
     let orb: Double
     
     /// Type of the aspect 
-    let type: AspectType 
+    let type: AspectType
+    
+    //TODO
+    let interpretation: String?
+    let synastry_interpretation: String? 
     
     var id: (String) { name }
     
@@ -86,7 +90,7 @@ enum AspectType: String, Codable, CaseIterable, Identifiable{
 }
 
 /// Either an angle or a planet 
-enum Body: String, Codable {
+enum Body: String, Codable, Identifiable{
     
     case Sun
     case Moon
@@ -106,6 +110,8 @@ enum Body: String, Codable {
     case mc = "MC" // MC
     case desc = "Desc" // Desc
     case ic = "IC" // ic
+    
+    var id: String { self.rawValue }
     
     func string() -> String  {
         

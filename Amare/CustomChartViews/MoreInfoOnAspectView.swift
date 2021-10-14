@@ -1,22 +1,29 @@
 //
-//  MoreInfoOnGenericPlanet.swift
+//  MoreInfoOnAspectView.swift
 //  Amare
 //
-//  Created by Micheal Bingham on 10/3/21.
+//  Created by Micheal Bingham on 10/12/21.
 //
 
 import SwiftUI
 
-struct MoreInfoOnPlanet: View {
+struct MoreInfoOnAspectView: View {
     
     var planet: Planet?
+    var planet2: Planet?
     var chart: NatalChart?
+    
+    var aspect: Aspect?
+    
+    /// False if this aspect is for synastry
+    var isPersonal: Bool?
     
     // For the fade animation of the keywords of what it rules over
     @State var control2: Bool = false
     @State var counter2 = 0
     @State var sign: String = ""
     
+
     /* {
        Taking away fade modifer
         didSet{
@@ -28,11 +35,6 @@ struct MoreInfoOnPlanet: View {
     @State var control: Bool = false
     
     @State var nameOfPlanet: String = ""
-    
-    // The aspect the user selected
-    @State var aspectSelected: Aspect?
-    
-    var mockplanet  = Planet(name: .Moon, angle: 21.3, element: .water, onCusp: false, retrograde: false, one_line_placement_interpretation: "You have intense, deep, and powerful emotions.", sign: .Scorpio, cusp: nil, speed: 23)
     /* {
         
          Taking away fade motifer
@@ -57,16 +59,23 @@ struct MoreInfoOnPlanet: View {
                 
                 HStack{
                     
-                    planet3DImage()
+                    ZStack{
+                        planet3DImage()
+                        planet3DImage2()
+                            .offset(x: 50, y: 0)
+                            .opacity(aspect?.first.rawValue == aspect?.second.rawValue ? 0: 1)
+                    }.padding(.trailing)
+                    
                     
                     VStack{
                         
                         
                        // HStack{
                             
-                            planetName()
-                            
+                            planetNames()
+                            //TODO: should be the aspect image instead
                            planetImage()
+                            
                             
                             
                       //  }.padding()
@@ -74,7 +83,8 @@ struct MoreInfoOnPlanet: View {
                         
                       
                         
-                        alternatingTextOfWhatItRules()
+                        aspectname()
+                            .colorMultiply([.blue as Color, .green, .red, .orange, .yellow].randomElement() as! Color)
                         
                         
                         
@@ -92,11 +102,27 @@ struct MoreInfoOnPlanet: View {
                 //TODO: longer planet description
              //   LongerPlanetDescription().padding(.bottom)
             
-                elementImage()
+                ZStack{
+                    
+                    HStack{
+                        
+                        elementImage()
+                        element2Image()
+                        
+                       
+                    }
+                    .opacity((planet?.element ?? Element.allCases.randomElement()! !=  planet2?.element ?? Element.allCases.randomElement()!) ? 0: 1)
+                    
+                    elementImage()
+                        .opacity(planet?.element ?? Element.allCases.randomElement()! == planet2?.element ?? Element.allCases.randomElement()! ? 1: 0)
+                }
+            
+                
                 
                 
                 // What this planet interacts with in their charts / aspects with
                 
+                /*
                 //"Aspects"
                 HStack{
                     
@@ -113,62 +139,9 @@ struct MoreInfoOnPlanet: View {
                    // Spacer()
                     
                     TabView{
-                    
                         
-                        ForEach(chart?.aspects ?? []){ aspect in
-                            //TODO: Should show the bodies
-                        
-                        
-                            if let planet = PlanetName(rawValue: aspect.first.rawValue){
-                                
-                                Button {
-                                    
-                                    withAnimation {
-                                        
-                                        aspectSelected = aspect
-                                    }
-                                   
-                                
-                                } label: {
-                                    
-                                    planet.image()
-                                        .colorInvert()
-                                        .colorMultiply(Color.primary.opacity(0.4))
-                                        .frame(width: 30, height: 30)
-                                }
-
-                                
-                               
-                                
-                            }
-                            
-                            if let angle = PlanetName(rawValue: aspect.first.rawValue){
-                                
-                                Button{
-                                    withAnimation {
-                                        
-                                        aspectSelected = aspect
-                                    }
-                                   
-
-                                    
-                                } label: {
-                                    
-                                    angle.image()
-                                        .colorInvert()
-                                        .colorMultiply(Color.primary.opacity(0.4))
-                                        .frame(width: 30, height: 30)
-                                }
-                                
-                            } else{
-                                
-                                Text("\(aspect.type.rawValue)")
-                            }
-                            
-                            
-                        }
                 
-                            /*
+                            
                             HStack{
                                 
                                 // TODO: Planets that the sign aspects with
@@ -225,7 +198,6 @@ struct MoreInfoOnPlanet: View {
                                 .colorMultiply(Color.primary.opacity(0.4))
                                 .frame(width: 30, height: 30)
                         }
-                             */
                        
                     }
                  
@@ -241,6 +213,8 @@ struct MoreInfoOnPlanet: View {
                 }
                 .padding([.top, .bottom], -10)
                 
+                */
+                
                 
                 //"House and degree"
                 HStack{
@@ -249,7 +223,7 @@ struct MoreInfoOnPlanet: View {
                     //TODO: Change for producntion
                     var name_of_house = planet?.inWhatHouse(houses: chart?.houses ?? [])?.name() ?? /*"Unknown"*/ HouseNameOrd.allCases.randomElement()!.rawValue//
                     
-                    Text("\(name_of_house) House")
+                    Text("Orb")
                     .font(.largeTitle)
                      .bold()
                     // .frame(maxWidth : .infinity, alignment: .center)
@@ -261,7 +235,7 @@ struct MoreInfoOnPlanet: View {
                     
                     
                     
-                    var angle = planet?.angle.dms ?? Double.random(in: 0..<30).dms
+                    var angle = aspect?.orb.dms ?? Double.random(in: 0..<30).dms
                     
                     Text("\(angle)")
                     .font(.largeTitle)
@@ -370,10 +344,6 @@ struct MoreInfoOnPlanet: View {
             }
         //.frame(width: .infinity-50, height: 700)
             
-            //TODO: incompelte 
-            //MoreInfoOnAspectView(chart: chart, aspect: aspectSelected)
-              //  .opacity(aspectSelected != nil ? 1: 0 )
-            
         }
         .padding()
         .background(.ultraThinMaterial)
@@ -423,8 +393,9 @@ struct MoreInfoOnPlanet: View {
        
         
 
-        var desc = planet?.one_line_placement_interpretation ?? mockplanet.one_line_placement_interpretation ?? "Nothing to say here."
+        //var desc = planet?.one_line_placement_interpretation ?? mockplanet.one_line_placement_interpretation ?? "Nothing to say here."
         
+        var desc = aspect?.interpretation ?? "One line summary of this aspect."
         //var markdownText: AttributedString = try! AttributedString(markdown: desc)
         
         return Text(desc)
@@ -440,22 +411,24 @@ struct MoreInfoOnPlanet: View {
         
     }
     
-    func planetName() -> some View {
+    func planetNames() -> some View {
         
-        let timer = Timer.publish(every: 3, on: .main, in: .default).autoconnect()
-        
+     
       //  var planetName = planet?.name ??  PlanetName.allCases.randomElement()!
-        
+        var name: String = "Your \(planet?.name.rawValue ?? PlanetName.allCases.randomElement()!.rawValue)\n their \(planet2?.name.rawValue ?? PlanetName.allCases.randomElement()!.rawValue)"
     
-       return Text(planet?.name.rawValue ?? "")
+       return Text(name)
             .font(.largeTitle)
              .bold()
             // .modifier(FadeModifier(control: control))
            
              // Duration of the fade animation
              // .animation(.easeInOut(duration: 2))
-             .frame(maxWidth : .infinity, alignment: .center)
+             //.frame(maxWidth : .infinity, alignment: .center)
+             .minimumScaleFactor(0.01)
+             //.scaledToFit()
             .foregroundColor(Color.primary.opacity(0.4))
+            .multilineTextAlignment(.center)
        /*     .onReceive(timer) { _ in
                 
                 //TODO: these should not animate at same time
@@ -524,7 +497,8 @@ struct MoreInfoOnPlanet: View {
     ///  The symbol of the planet
     func planetImage() -> some View {
         
-        return  MainPlacementView( planet: planet, size: 40, colorless: true)
+        return  MainPlacementView( planet: planet, size: 40, colorless: false)
+        
            // .padding()
         
             /*
@@ -541,9 +515,21 @@ struct MoreInfoOnPlanet: View {
     ///  TODO: change the default planet to not moon, which theoretically shouldn't matter because it should never be called anyway.
     func planet3DImage() -> some View {
         
+     //   var firstplanetname: String?  = aspect?.first.rawValue
+        
+            // var firstplanet =
+        
+        return   (PlanetName(rawValue: aspect?.first.rawValue ?? "") ?? PlanetName.allCases.randomElement()!).image_3D()
+                    .frame(width: 150, height: 150)
+            
+        
+    }
+    
+    func planet3DImage2() -> some View {
+    
         
             
-        return   (planet?.name ?? PlanetName.Moon).image_3D()
+        return   ((PlanetName(rawValue: aspect?.second.rawValue ?? "")) ??  PlanetName.allCases.randomElement()!).image_3D()
                     .frame(width: 150, height: 150)
             
         
@@ -552,8 +538,23 @@ struct MoreInfoOnPlanet: View {
     //TODO: Correct the element.... we can just pass the proper element here when we call the structure
     func elementImage() -> some View {
         
+       
+       
         // The element of the planet
         let el = planet?.element
+      return  (el ?? Element.allCases.randomElement()!).image()
+            //.padding()
+    }
+    
+    
+    
+    //TODO: Correct the element.... we can just pass the proper element here when we call the structure
+    func element2Image() -> some View {
+        
+       
+       
+        // The element of the planet
+        let el = planet2?.element
       return  (el ?? Element.allCases.randomElement()!).image()
             //.padding()
     }
@@ -572,19 +573,20 @@ struct MoreInfoOnPlanet: View {
     
     
     //TODO:
-    func alternatingTextOfWhatItRules() -> some View {
+    func aspectname() -> some View {
         
         
-        let timer = Timer.publish(every: 2, on: .main, in: .default).autoconnect()
+       
         
         
         
-        return Text(planet?.sign.rawValue ?? "")
+        return Text(AspectType.allCases.randomElement()!.rawValue.capitalized)
              .font(.largeTitle)
               .bold()
               .frame(maxWidth : .infinity, alignment: .center)
            // .padding()
              .foregroundColor(Color.primary.opacity(0.4))
+             .minimumScaleFactor(0.01)
             //  .modifier(FadeModifier(control: control2))
              //.transition(.opacity)
            /*  .onReceive(timer) { _ in
@@ -625,76 +627,8 @@ struct MoreInfoOnPlanet: View {
 
 }
 
-struct MoreInfoOnPlanet_Previews: PreviewProvider {
+struct MoreInfoOnAspectView_Previews: PreviewProvider {
     static var previews: some View {
-        
-        var p  = Planet(name: .Moon, angle: 21.3, element: .water, onCusp: false, retrograde: false, sign: .Scorpio, cusp: nil, speed: 23)
-        
-        MoreInfoOnPlanet(planet: p).preferredColorScheme(.dark)
+        MoreInfoOnAspectView().preferredColorScheme(.dark)
     }
 }
-
-
-/*
-import Combine
-
-struct FadingTextView: View {
-    
-    @Binding var source: String
-    var transitionTime: Double
-    
-    @State private var currentText: String? = nil
-    @State private var visible: Bool = false
-    private var publisher: AnyPublisher<[String.Element], Never> {
-        source
-            .publisher
-            .collect()
-            .eraseToAnyPublisher()
-    }
-    
-    init(text: Binding<String>, totalTransitionTime: Double) {
-        self._source = text
-        self.transitionTime = totalTransitionTime / 3
-    }
-    
-    private func update(_: Any) {
-        guard currentText != nil else {
-            currentText = source
-            DispatchQueue.main.asyncAfter(deadline: .now() + (transitionTime)) {
-                self.visible = true
-            }
-            return
-        }
-        guard source != currentText else { return }
-        self.visible = false
-        DispatchQueue.main.asyncAfter(deadline: .now() + (transitionTime)) {
-            self.currentText = source
-            DispatchQueue.main.asyncAfter(deadline: .now() + (transitionTime)) {
-                self.visible = true
-            }
-        }
-    }
-    
-    var body: some View {
-        Text(currentText ?? "")
-            .opacity(visible ? 1 : 0)
-            .animation(.linear(duration: transitionTime))
-            .onReceive(publisher, perform: update(_:))
-    }
-    
-}
-
-
-extension String {
-    
-    /// Converts some strings to Latin. Not all though. If we don't have a translation it'll just return empty string
-    func latin() -> String {
-        
-        if self == "Moon"{
-            return "Luna"
-        }
-        
-        else {return ""}
-    }
-}
-*/

@@ -441,6 +441,7 @@ struct NatalChartView: View {
             
     }
     
+    
     func HouseDividers(x_center: Double, y_center: Double, r: Double, R_: Double) -> some View {
         let houses = self.natalChart?.houses ?? []
         
