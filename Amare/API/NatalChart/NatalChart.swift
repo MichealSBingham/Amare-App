@@ -57,6 +57,27 @@ public struct NatalChart: Codable {
     }
     */
     
+    
+    func aspectsInvolving(some planet: Planet) -> [Aspect] {
+        
+        var aspects: [Aspect] = []
+        
+        for aspect in self.aspects {
+            
+            if aspect.type != .none{
+                
+                // the planet is involved in the aspect
+                if aspect.first.rawValue == planet.name.rawValue || aspect.second.rawValue == planet.name.rawValue{
+                    
+                    aspects.append(aspect)
+                }
+            }
+        }
+        
+        
+        return aspects
+    }
+    /// Might be broken
     func bodiesThatAspectWith(some planet: Angle) -> [Body] {
         var planets: [Body] = []
         
@@ -84,6 +105,7 @@ public struct NatalChart: Codable {
         return planets
     }
     
+    /// Might be broken
     func bodiesThatAspectWith(some planet: Planet) -> [Body] {
         var planets: [Body] = []
         

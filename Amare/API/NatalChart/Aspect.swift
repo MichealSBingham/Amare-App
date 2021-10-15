@@ -33,10 +33,11 @@ struct Aspect: Codable, Identifiable {
     let interpretation: String?
     let synastry_interpretation: String? 
     
-    var id: (String) { name }
+    //var id: (String) { name }
     
+    let id = UUID()
     
-    
+
     
 }
 
@@ -68,6 +69,45 @@ enum AspectType: String, Codable, CaseIterable, Identifiable{
         var opt = AspectType.allCases
          opt.removeAll(where: {$0 == .none})
         return opt 
+    }
+    
+    func color() -> Color {
+        
+        switch self {
+        case .none:
+            return .clear
+        case .conjunction:
+            return .green // depends on planets involved
+        case .sextile:
+            return .green
+        case .square:
+            return .red
+        case .trine:
+            return .blue
+        case .opposition:
+            return .yellow // either complementary or problematic
+        case .semisextile:
+            return .gray
+        case .semiquintile:
+               return  .green.opacity(0.5)
+        case .semisquare:
+            return .red.opacity(0.5)
+        case .quintile:
+            return .green.opacity(0.8)
+        case .sesquiquintile:
+            return .orange.opacity(0.5)
+        case .sesquisquare:
+             return .orange.opacity(0.5)
+        case .biquintile:
+            return .green.opacity(0.8)
+        case .quincunx:
+            return .orange
+        case .all:
+               return  .clear
+        case .nothing:
+            return .clear
+        }
+        
     }
     
     func toString() -> String{

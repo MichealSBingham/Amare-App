@@ -21,6 +21,7 @@ struct ChartView: View {
     @State private var selectedPlanet: Planet?
     
     @State var aspectToGet: AspectType = .all
+    @State var aspectSelected: Aspect?
     
     @State var showMoreInfoPopup: Bool = false
     
@@ -124,15 +125,12 @@ struct ChartView: View {
             //  .rotationEffect(.degrees(-1*alpha))
                 .opacity(  selectedPlanet != nil ? 1  : 0 )
                 .padding()
+            
+            MoreInfoOnAspectView(chart: chart, aspect: aspectSelected)
+                .opacity(aspectSelected != nil ? 1: 0 )
                 
                 
-                
-                /*
-            MoreInfoOnPlanet(planet: selectedPlanet, chart: chart)
-                .opacity(selectedPlanet == nil ? 0 : 1)
-                .padding()
-                 // .frame(width: .infinity - 50 , height: 300)
-            */
+              
         
             
             
@@ -155,6 +153,7 @@ struct ChartView: View {
         .onTapGesture {
             withAnimation {
                 selectedPlanet = nil
+                aspectSelected = nil
                 
             }
            
@@ -230,6 +229,14 @@ struct ChartView: View {
                     
                     withAnimation{
                         selectedPlanet = planet
+                    }
+               
+                }
+                
+                if let aspect = obj.object as? Aspect{
+                    
+                    withAnimation{
+                        aspectSelected = aspect
                     }
                
                 }

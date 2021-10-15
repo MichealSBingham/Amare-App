@@ -84,7 +84,7 @@ struct MoreInfoOnAspectView: View {
                       
                         
                         aspectname()
-                            .colorMultiply([.blue as Color, .green, .red, .orange, .yellow].randomElement() as! Color)
+                            .colorMultiply(aspect?.type.color() ?? [.blue as Color, .green, .red, .orange, .yellow].randomElement() as! Color)
                         
                         
                         
@@ -415,7 +415,9 @@ struct MoreInfoOnAspectView: View {
         
      
       //  var planetName = planet?.name ??  PlanetName.allCases.randomElement()!
-        var name: String = "Your \(planet?.name.rawValue ?? PlanetName.allCases.randomElement()!.rawValue)\n their \(planet2?.name.rawValue ?? PlanetName.allCases.randomElement()!.rawValue)"
+      //  var name: String = "Your \(planet?.name.rawValue ?? PlanetName.allCases.randomElement()!.rawValue)\n their \(planet2?.name.rawValue ?? PlanetName.allCases.randomElement()!.rawValue)"
+        
+        var name: String = "Your \(aspect?.first.rawValue ?? PlanetName.allCases.randomElement()!.rawValue)\n and \(aspect?.second.rawValue ?? PlanetName.allCases.randomElement()!.rawValue)"
     
        return Text(name)
             .font(.largeTitle)
@@ -496,8 +498,8 @@ struct MoreInfoOnAspectView: View {
     
     ///  The symbol of the planet
     func planetImage() -> some View {
-        
-        return  MainPlacementView( planet: planet, size: 40, colorless: false)
+        //TODO: Change this to show aspect planets 
+        return  MainPlacementView( planet: planet, size: 40, colorless: true)
         
            // .padding()
         
@@ -580,7 +582,7 @@ struct MoreInfoOnAspectView: View {
         
         
         
-        return Text(AspectType.allCases.randomElement()!.rawValue.capitalized)
+        return Text( aspect?.type.rawValue.capitalized ?? AspectType.allCases.randomElement()!.rawValue.capitalized)
              .font(.largeTitle)
               .bold()
               .frame(maxWidth : .infinity, alignment: .center)

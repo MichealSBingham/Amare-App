@@ -62,14 +62,12 @@ struct MoreInfoOnPlanet: View {
                     VStack{
                         
                         
-                       // HStack{
                             
                             planetName()
                             
                            planetImage()
                             
                             
-                      //  }.padding()
                        
                         
                       
@@ -100,73 +98,105 @@ struct MoreInfoOnPlanet: View {
                 //"Aspects"
                 HStack{
                     
-                    Text("Aspects")
-                    .font(.largeTitle)
-                     .bold()
-                    // .frame(maxWidth : .infinity, alignment: .center)
-                   // .padding(.bottom)
-                    .foregroundColor(Color.primary.opacity(0.4))
-                    .padding()
-                    //.minimumScaleFactor(0.01)
-                   // .lineLimit(1)
+                    AspectsText()
                     
-                   // Spacer()
                     
-                    TabView{
+                    ScrollView(.horizontal){
                     
-                        
-                        ForEach(chart?.aspects ?? []){ aspect in
-                            //TODO: Should show the bodies
-                        
-                        
-                            if let planet = PlanetName(rawValue: aspect.first.rawValue){
+                     
+                        HStack{
+                            
+                            ForEach(chart?.aspectsInvolving(some: planet ?? mockplanet) ?? [], id: \.id){ aspect in
+                                //TODO: Should show the bodies
                                 
-                                Button {
+                            
+                                
+                        
+                                
+                                // If they're both planets
+                                if let p1 = PlanetName(rawValue: aspect.first.rawValue), let p2 = PlanetName(rawValue: aspect.second.rawValue){
                                     
-                                    withAnimation {
+                                    let aspectedPlanet = (planet?.name != p1) ? p1 : p2
+                                    
+                                    if aspect.type != .none{
                                         
-                                        aspectSelected = aspect
+                                        
+                                        Button {
+                                            
+                                            withAnimation {
+                                                
+                                              
+                                                NotificationCenter.default.post(name: NSNotification.wantsMoreInfoFromNatalChart, object: aspect)
+                                                aspectSelected = aspect
+                                            }
+                                           
+                                        
+                                        } label: {
+                                            
+                                            aspectedPlanet.image()
+                                                .colorInvert()
+                                                .colorMultiply(aspect.type.color())
+                                                .frame(width: 30, height: 30)
+                                        }
                                     }
                                    
-                                
-                                } label: {
                                     
-                                    planet.image()
-                                        .colorInvert()
-                                        .colorMultiply(Color.primary.opacity(0.4))
-                                        .frame(width: 30, height: 30)
                                 }
-
-                                
-                               
-                                
-                            }
                             
-                            if let angle = PlanetName(rawValue: aspect.first.rawValue){
-                                
-                                Button{
-                                    withAnimation {
+                        /*
+                                if let planet = PlanetName(rawValue: aspect.first.rawValue){
+                                    
+                                    Button {
                                         
-                                        aspectSelected = aspect
+                                        withAnimation {
+                                            
+                                            aspectSelected = aspect
+                                        }
+                                       
+                                    
+                                    } label: {
+                                        
+                                        planet.image()
+                                            .colorInvert()
+                                            .colorMultiply(Color.primary.opacity(0.4))
+                                            .frame(width: 30, height: 30)
                                     }
-                                   
 
                                     
-                                } label: {
+                                   
                                     
-                                    angle.image()
-                                        .colorInvert()
-                                        .colorMultiply(Color.primary.opacity(0.4))
-                                        .frame(width: 30, height: 30)
                                 }
                                 
-                            } else{
+                                if let angle = PlanetName(rawValue: aspect.first.rawValue){
+                                    
+                                    Button{
+                                        withAnimation {
+                                            
+                                            aspectSelected = aspect
+                                        }
+                                       
+
+                                        
+                                    } label: {
+                                        
+                                        angle.image()
+                                            .colorInvert()
+                                            .colorMultiply(Color.primary.opacity(0.4))
+                                            .frame(width: 30, height: 30)
+                                    }
+                                    
+                                } else{
+                                    
+                                    Text("\(aspect.type.rawValue)")
+                                }
                                 
-                                Text("\(aspect.type.rawValue)")
+                                */
                             }
-                            
                             
                         }
+                        
+                     
+                        
                 
                             /*
                             HStack{
@@ -230,13 +260,9 @@ struct MoreInfoOnPlanet: View {
                     }
                  
                     .frame(width: 100, height: 50)
-                    .tabViewStyle(.page(indexDisplayMode: .never))
-                     .indexViewStyle(.page(backgroundDisplayMode: .never))
-                    //.border(.white)
-                   
-                    
-                     //.tabViewStyle(PageTabViewStyle())
-                     //.rotationEffect(.degrees(90))
+                    //.tabViewStyle(.page(indexDisplayMode: .never))
+                    // .indexViewStyle(.page(backgroundDisplayMode: .never))
+                
                     
                 }
                 .padding([.top, .bottom], -10)
@@ -322,57 +348,19 @@ struct MoreInfoOnPlanet: View {
                 
                 
               
-                /*
-                
-                HStack{
-                    //Should alternate definitions
-                    
-                    /*
-                    Text("House")
-                        .font(.largeTitle)
-                         .bold()
-                       //  .frame(maxWidth : .infinity, alignment: .center)
-                      //  .padding(.top)
-                        .foregroundColor(Color.primary.opacity(0.4))
-                    */
-                    
-                    atHomeIn()
-                }
-                 
-                 */
-                
-                /*
-                HStack{
-                    Spacer()
-                    //TODO: Should also say , alternative between
-                    // Domicile
-                    Text("Rules")
-                        .font(.largeTitle)
-                         .bold()
-                        // .frame(maxWidth : .infinity, alignment: .center)
-                      //  .padding(.top)
-                        .foregroundColor(Color.primary.opacity(0.4))
-                    
-                    Spacer()
-                    planet?.sign.image()
-                        .colorInvert()
-                    
-                    Spacer()
-                       
-                }
-                */
-                
+              
+             
                 
                 
              
                 
-            //Spacer()
+           
             }
         //.frame(width: .infinity-50, height: 700)
             
             //TODO: incompelte 
-            //MoreInfoOnAspectView(chart: chart, aspect: aspectSelected)
-              //  .opacity(aspectSelected != nil ? 1: 0 )
+           // MoreInfoOnAspectView(chart: chart, aspect: aspectSelected)
+               // .opacity(aspectSelected != nil ? 1: 0 )
             
         }
         .padding()
@@ -620,6 +608,16 @@ struct MoreInfoOnPlanet: View {
     }
     
     
+    func AspectsText() -> some View {
+        //TODO: Change what this says
+        Text("Aspects")
+        .font(.largeTitle)
+         .bold()
+        // .frame(maxWidth : .infinity, alignment: .center)
+       // .padding(.bottom)
+        .foregroundColor(Color.primary.opacity(0.4))
+        .padding()
+    }
     
     
 
