@@ -32,6 +32,7 @@
 		26748CC22707A01500B5D338 /* ProfilePopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26748CC12707A01500B5D338 /* ProfilePopup.swift */; };
 		2676E004270A07E90014610B /* MoreInfoOnGenericPlanet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2676E003270A07E90014610B /* MoreInfoOnGenericPlanet.swift */; };
 		267CF36526D30C03006B73BE /* NatalChartViewAlpha.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267CF36426D30C03006B73BE /* NatalChartViewAlpha.swift */; };
+		26872881271C668B00C2F89F /* EnterUsernameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26872880271C668B00C2F89F /* EnterUsernameView.swift */; };
 		26876A8C26E425EC00683CD6 /* NatalChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26876A8B26E425EC00683CD6 /* NatalChartView.swift */; };
 		268E542826DCEC6400E61F40 /* VerificationCodeView3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268E542726DCEC6400E61F40 /* VerificationCodeView3.swift */; };
 		268F26BF2680094A00FBEA7D /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268F26BE2680094A00FBEA7D /* Account.swift */; };
@@ -75,7 +76,7 @@
 		26DE210826C595B50004B5CE /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DE210726C595B50004B5CE /* ChartView.swift */; };
 		26DE210A26C595E80004B5CE /* MessagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DE210926C595E80004B5CE /* MessagesView.swift */; };
 		26DE210C26C5963A0004B5CE /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DE210B26C5963A0004B5CE /* SettingsView.swift */; };
-		26DE210E26C596450004B5CE /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DE210D26C596450004B5CE /* MapView.swift */; };
+		26DE210E26C596450004B5CE /* HomeGlobeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DE210D26C596450004B5CE /* HomeGlobeView.swift */; };
 		26DE211126C5B2E60004B5CE /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = 26DE211026C5B2E60004B5CE /* CodeScanner */; };
 		26EDBB8D26AA7CE2005C1033 /* VerificationCodeView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26EDBB8C26AA7CE2005C1033 /* VerificationCodeView2.swift */; };
 		26F9205F26A760E500A4F8C6 /* Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F9205E26A760E500A4F8C6 /* Animations.swift */; };
@@ -128,6 +129,7 @@
 		26748CC12707A01500B5D338 /* ProfilePopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePopup.swift; sourceTree = "<group>"; };
 		2676E003270A07E90014610B /* MoreInfoOnGenericPlanet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreInfoOnGenericPlanet.swift; sourceTree = "<group>"; };
 		267CF36426D30C03006B73BE /* NatalChartViewAlpha.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NatalChartViewAlpha.swift; sourceTree = "<group>"; };
+		26872880271C668B00C2F89F /* EnterUsernameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterUsernameView.swift; sourceTree = "<group>"; };
 		26876A8B26E425EC00683CD6 /* NatalChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NatalChartView.swift; sourceTree = "<group>"; };
 		268E542726DCEC6400E61F40 /* VerificationCodeView3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationCodeView3.swift; sourceTree = "<group>"; };
 		268F26BE2680094A00FBEA7D /* Account.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
@@ -174,7 +176,7 @@
 		26DE210726C595B50004B5CE /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
 		26DE210926C595E80004B5CE /* MessagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesView.swift; sourceTree = "<group>"; };
 		26DE210B26C5963A0004B5CE /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		26DE210D26C596450004B5CE /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		26DE210D26C596450004B5CE /* HomeGlobeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeGlobeView.swift; sourceTree = "<group>"; };
 		26EDBB8C26AA7CE2005C1033 /* VerificationCodeView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationCodeView2.swift; sourceTree = "<group>"; };
 		26F9205E26A760E500A4F8C6 /* Animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animations.swift; sourceTree = "<group>"; };
 		26F9206A26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MontserratAlternates-SemiBold.ttf"; sourceTree = "<group>"; };
@@ -437,6 +439,7 @@
 			children = (
 				26AB593626BDE47100170192 /* NotDone */,
 				26BBF094267EBBEF00C84019 /* EnterNameView.swift */,
+				26872880271C668B00C2F89F /* EnterUsernameView.swift */,
 				2608CF4B2695136F00826FDA /* EnterGenderView.swift */,
 				2608CF4D2695139800826FDA /* EnterOrientationView.swift */,
 				266C61FA26F14A1D00A34374 /* SelectLocation.swift */,
@@ -466,7 +469,7 @@
 				26DE210726C595B50004B5CE /* ChartView.swift */,
 				26DE210926C595E80004B5CE /* MessagesView.swift */,
 				26DE210B26C5963A0004B5CE /* SettingsView.swift */,
-				26DE210D26C596450004B5CE /* MapView.swift */,
+				26DE210D26C596450004B5CE /* HomeGlobeView.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -784,6 +787,7 @@
 				26B1B011267C28E000A170B3 /* Extensions.swift in Sources */,
 				26BBF093267EBB1300C84019 /* [Deprecated]LiveWhereView.swift in Sources */,
 				2694935126D1D9C400C7AD72 /* NatalChart.swift in Sources */,
+				26872881271C668B00C2F89F /* EnterUsernameView.swift in Sources */,
 				26BBF08F267D80FC00C84019 /* EnterBirthdayView.swift in Sources */,
 				263D6F962683F77C00CBBECC /* Location.swift in Sources */,
 				26970699268101B0007E7961 /* SceneDelegate.swift in Sources */,
@@ -803,7 +807,7 @@
 				2608CF4C2695136F00826FDA /* EnterGenderView.swift in Sources */,
 				2676E004270A07E90014610B /* MoreInfoOnGenericPlanet.swift in Sources */,
 				26BBF091267EA5FF00C84019 /* [Deprecated]FromWhereView_Deprecated.swift in Sources */,
-				26DE210E26C596450004B5CE /* MapView.swift in Sources */,
+				26DE210E26C596450004B5CE /* HomeGlobeView.swift in Sources */,
 				269A1E2C270CB1FB008F4A0F /* MoreInfoOnPlanetView.swift in Sources */,
 				2694935A26D1FD1F00C7AD72 /* Element.swift in Sources */,
 				26748CC22707A01500B5D338 /* ProfilePopup.swift in Sources */,

@@ -26,6 +26,7 @@ public struct AmareUser: Codable{
     var sex: Sex? = nil  // male , female, non-binary, transfemale, transmale || or something else the user enters as a custom gender
     var orientation: [Sex]? = nil // M, F, MF (male and female), or A (everything)
     var natal_chart: NatalChart? = nil
+    var username: String? = nil
 
     let interal_ui_use_only_for_iding: UUID = UUID()
     
@@ -39,13 +40,14 @@ public struct AmareUser: Codable{
         case images
         case sex
         case orientation
+        case username
      
     }
     
     /// Returns if all user data attributes for the sign up flow are completed. Or if the user completed the sign up flow, i.e. the UserData object is complete
     func isComplete() -> Bool {
         
-        return (self.name != nil && self.birthday != nil && self.hometown != nil && self.residence != nil && self.profile_image_url != nil && self.sex != nil && self.orientation != nil)
+        return (self.name != nil && self.birthday != nil && self.hometown != nil && self.residence != nil && self.profile_image_url != nil && self.sex != nil && self.orientation != nil && self.username != nil )
     }
     
     /// Returns the SignUpState the user should be sent to. So let's say the user did not complete their birthday, this will return .birthday. This is a helper function to determine what part of the sign up flow to direct the user if they failed to finish the sign up process before going to thier program. Usually it's because they logged out, got unauthenticated, or quit the app during sign up. It's important to keep the signupflow in its set order otherwise this will not work. Returns nil if nothing is nil (user compeleted sign up)
@@ -54,6 +56,8 @@ public struct AmareUser: Codable{
         if self.isComplete() { return .done}
         
         if self.name == nil { return .name }
+        
+        if self.username == nil { return .name }
         
         else if self.sex == nil { return .sex}
         

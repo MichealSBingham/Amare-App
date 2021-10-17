@@ -34,10 +34,10 @@ class Account: ObservableObject {
                private  var isListeningForSignOut: Bool = false
     
     /// Reference to the firebase database
-    private var db: Firestore?
+    public var db: Firestore?
     
     /// Reference to cloud storage (firebase)
-    private var storage: StorageReference?
+    public var storage: StorageReference?
     
   
     

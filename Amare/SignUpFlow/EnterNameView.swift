@@ -183,7 +183,7 @@ struct EnterNameView: View {
                         buttonIsDisabled = false
                         return
                     }
-                    firstResponder = nil 
+                   // firstResponder = nil 
                     goToNextView()
                 })
             } catch (let error){
@@ -339,7 +339,7 @@ struct EnterNameView: View {
     func goToNextView()  {
         
         
-        navigationStack.push(EnterGenderView().environmentObject(account))
+        navigationStack.push(EnterUsernameView().environmentObject(account))
         
     }
     

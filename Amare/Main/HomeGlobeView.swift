@@ -81,8 +81,39 @@ struct MapView: View {
     
     @State var counter = 0
     
+    @State var searchedUser: String = ""
     var body: some View {
         
+        let binding = Binding<String>(get: {
+                    self.searchedUser
+            
+            
+                }, set: {
+                    self.searchedUser = $0
+                    // do whatever you want here
+                    
+                    /*
+                    
+                    guard !searchedLocation.isEmpty else {selectedCity = nil ; print("Empty search"); return }
+                    
+                    searchForCities(searchString: $0) { cities in
+                        
+                       
+                        
+                        // Grab the first city of the result
+                        if let firstCity = cities.first?.placemark{
+                            // We have a city returned
+                            
+                            selectedCity = firstCity
+                            timezone = cities.first?.timeZone
+                            
+                          //  if let coordinates = firstCity.location?.coordinate{
+                                
+                                // }
+                            
+                        } else { selectedCity = nil }
+                    }
+               */ }  )
         ZStack{
             
             createMap()
@@ -108,12 +139,139 @@ struct MapView: View {
                     }
                     
                 }
-                
-            
             
             VStack{
+            
+                    TextField(
+                       /*cityString ??*/ "Micheal Bingham",
+                        text: binding
+                   )
+                        .onSubmit {
+                        /*
+                            print("Did tap submit")
+                          //  self.searchedLocation = $0
+                            // do whatever you want here
+                            
+                            searchForCities(searchString: self.searchedLocation) { cities in
+                                
+                                //citiesSearchResult = cities
+                                //selectedCity = citiesSearchResult.first?.placemark
+                                
+                                // Grab the first city of the result
+                                if let firstCity = cities.first?.placemark{
+                                    // We have a city returned
+                                    
+                                    selectedCity = firstCity
+                                    
+                                  //  if let coordinates = firstCity.location?.coordinate{
+                                        
+                                        // }
+                                    
+                                } else { selectedCity = nil }
+                            }
+                            */
+                        }
+                    
+                   .foregroundColor(.white)
+                   .frame(width: 300, height: 50)
+                   .background(
+                           RoundedRectangle(cornerRadius: 20)
+                               .fill(Color.white.opacity(0.3)
+                           ))
                 
-             //   HStack{
+                Spacer()
+                
+            }
+                
+            // VERTICAL NEARBY USERS
+            HStack{
+                Spacer()
+                // VERTICAL NEARBY USERS
+                ScrollView(.vertical, showsIndicators: true) {
+                    
+                    VStack{
+                        
+                        
+                        
+                        ForEach(nearbyUsers.users, id: \.interal_ui_use_only_for_iding) { user in
+                         
+                           
+        
+                                //TODO: make this a state variable so it can listen to real time changes
+                            Button {
+                             
+                                withAnimation(.easeInOut) {
+                                    showProfilePopup = true
+                                    selected_user = user
+                                
+                                    account.getNatalChart(from: selected_user?.id ?? "1b162d90b9821b24ca3fe6409c6f54b729b1db4f935b097ac6efe1346b76d12a", pathTousers: "generated_users") { err, natalChart in
+                                        
+                                        
+                                        
+                                        if let natalChart = natalChart{
+                                            selected_user?.natal_chart = natalChart
+                                        }
+                                    }
+                                }
+                            } label: {
+                                
+                                nearbyUser(user: selected_user ?? user)
+                                
+                                /*
+                                var name: String = user.name ?? "noname"
+                                Text(name)
+                                    */
+                                
+                                    
+                            }.onAppear(perform: {
+                            //TODO: this is called way before the image is tapped, that's why the synastry score won't reload
+                               
+                            })
+
+                       
+                                
+                             /*   Button {
+                                    
+                                    print("** Did tap \(user)")
+                                    withAnimation(.easeInOut) {
+                                        showProfilePopup = true
+                                        selected_user = user
+                                    }
+                                    
+                                } label: {
+                                    
+                                    
+                                    ImageFromUrl(user.profile_image_url ?? testImages[0])
+                                        .frame(width: 60, height: 60)
+                                        .clipShape(Circle())
+                                        .overlay(Circle().stroke(colors.randomElement() ?? .blue, lineWidth: 1))
+                                        .shadow(radius: 15)
+                                        .aspectRatio(contentMode: .fit)
+                                        .padding()
+                                    
+                                }
+                                */
+                                
+                            
+                        }
+                   }
+                       
+                
+                   
+                    
+                    
+                    
+                }
+      
+                
+            }
+           
+            /*
+             HORIZONTAL NEARBY USERS
+            VStack{
+                
+            
+                Spacer()
                     
                     ScrollView(.horizontal, showsIndicators: true) {
                         
@@ -190,15 +348,15 @@ struct MapView: View {
                         
                         
                     }
-            //    }
+          
                
                 
-                Spacer()
+        
                 
                 Toggle("", isOn: $discoverModeEnabled )
                     .padding()
             }
-            
+            */
             
             
             ProfilePopup(user: selected_user)
@@ -266,6 +424,7 @@ struct MapView: View {
            
         }
         
+  
     func ringStyleFor(progress: String ) -> RingStyle {
         
         var color: Color = .green
@@ -710,7 +869,7 @@ struct Globe: UIViewRepresentable{
                 
                 view.showsUserLocation = false
                 // add to map
-                view.addAnnotation(pin)
+               // view.addAnnotation(pin)
             }
        
             

@@ -582,7 +582,7 @@ struct MoreInfoOnAspectView: View {
         
         
         
-        return Text( aspect?.type.rawValue.capitalized ?? AspectType.allCases.randomElement()!.rawValue.capitalized)
+        return Text( aspect?.type.rawValue ?? AspectType.allCases.randomElement()!.rawValue.capitalized)
              .font(.largeTitle)
               .bold()
               .frame(maxWidth : .infinity, alignment: .center)
