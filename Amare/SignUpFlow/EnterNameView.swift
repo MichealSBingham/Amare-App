@@ -282,6 +282,7 @@ struct EnterNameView: View {
                 name = name.trimmingCharacters(in: .whitespacesAndNewlines)
                 
                 account.data = AmareUser(id: account.user?.uid ?? "", name: name)
+           
                 
                 do{
                     try account.save(completion: { error in

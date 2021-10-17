@@ -336,7 +336,9 @@ struct EnterUsernameView: View {
       
                 
             var unique_username = username.text.replacingOccurrences(of: "@", with: "")
-            account.data = AmareUser(id: account.user?.uid ?? "", username: unique_username)
+           // account.data = AmareUser(id: account.user?.uid ?? "", username: unique_username)... we comment this out because it was overriding data previously set
+            
+            account.data?.username = unique_username
                 
                 do{
                     try account.save(completion: { error in
@@ -349,11 +351,11 @@ struct EnterUsernameView: View {
                         // Set the taken username in database
                         
                         
-                        account.db?.collection("usernames").document(unique_username).setData(["userId": account.user?.uid ?? ""], completion: { error in
+                        account.db?.collection("usernames").document(unique_username).setData(["userId": account.user?.uid ?? "", "username": unique_username], merge: true, completion: { error in
                             
                             guard error == nil else {
                                 buttonIsDisabled = false
-                                handle(error as! Error)
+                                handle(error!)
                                 return
                                 
                             }

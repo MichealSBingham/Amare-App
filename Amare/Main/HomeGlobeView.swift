@@ -141,7 +141,12 @@ struct MapView: View {
                 }
             
             VStack{
-            
+                
+                HStack{
+                    
+                    Image(systemName: "magnifyingglass")
+                    
+                    
                     TextField(
                        /*cityString ??*/ "Micheal Bingham",
                         text: binding
@@ -178,6 +183,10 @@ struct MapView: View {
                            RoundedRectangle(cornerRadius: 20)
                                .fill(Color.white.opacity(0.3)
                            ))
+                    
+                    
+                }
+                   
                 
                 Spacer()
                 
