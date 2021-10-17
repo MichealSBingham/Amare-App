@@ -152,30 +152,26 @@ struct MapView: View {
                         text: binding
                    )
                         .onSubmit {
-                        /*
-                            print("Did tap submit")
-                          //  self.searchedLocation = $0
-                            // do whatever you want here
-                            
-                            searchForCities(searchString: self.searchedLocation) { cities in
-                                
-                                //citiesSearchResult = cities
-                                //selectedCity = citiesSearchResult.first?.placemark
-                                
-                                // Grab the first city of the result
-                                if let firstCity = cities.first?.placemark{
-                                    // We have a city returned
-                                    
-                                    selectedCity = firstCity
-                                    
-                                  //  if let coordinates = firstCity.location?.coordinate{
-                                        
-                                        // }
-                                    
-                                } else { selectedCity = nil }
-                            }
-                            */
+                        
                         }
+                        .onReceive(Just(searchedUser), perform: { output in
+                            
+                            guard !searchedUser.isEmpty else {return }
+                            
+                            account.db?.collection("generated_users")
+                                .whereField("name", isGreaterThanOrEqualTo: searchedUser)
+                                .getDocuments(completion: { snapshot, error in
+                                    
+                                    guard error == nil else {return}
+                                    
+                                    for document in snapshot!.documents{
+                                        
+                                        var data = document.data()
+                                        print("After searching \(searchedUser) the data is \(data["name"])")
+                                    }
+                                })
+                        })
+            
                     
                    .foregroundColor(.white)
                    .frame(width: 300, height: 50)
@@ -213,10 +209,10 @@ struct MapView: View {
                                     showProfilePopup = true
                                     selected_user = user
                                 
-                                    account.getNatalChart(from: selected_user?.id ?? "1b162d90b9821b24ca3fe6409c6f54b729b1db4f935b097ac6efe1346b76d12a", pathTousers: "generated_users") { err, natalChart in
+                                    account.getNatalChart(from: selected_user?.id ?? "5f7f43021926b0762049e4c44aed0f9bce3918cdbc2df0cdc6fcfcfe89edd86c", pathTousers: "generated_users") { err, natalChart in
                                         
                                         
-                                        
+                            
                                         if let natalChart = natalChart{
                                             selected_user?.natal_chart = natalChart
                                         }
@@ -387,16 +383,16 @@ struct MapView: View {
                 
         }.onAppear {
             // Load the nearby users
-            print("LOADING ALL USERS....\(counter)")
+           // print("LOADING ALL USERS....\(counter)")
             counter += 1
             account.getALLusers { err, foundusers in
                 
-                print("the FOUND USERS are \(foundusers) with count \(foundusers.count)")
+                //print("the FOUND USERS are \(foundusers) with count \(foundusers.count)")
                 nearbyUsers.users = foundusers
                 usersForGlobe.users = foundusers
                 for user in nearbyUsers.users{
                     var name = user.name
-                    print("inside get all users ... nearbyUsers.users is \(name)")
+                    //print("inside get all users ... nearbyUsers.users is \(name)")
                 }
                 
             
@@ -860,7 +856,7 @@ struct Globe: UIViewRepresentable{
        
             if let lat = user.residence?.latitude, let lon =  user.residence?.longitude{
                 
-                print("*** the lat and lon are .. \(lat) and \(lon)")
+               // print("*** the lat and lon are .. \(lat) and \(lon)")
                 // make a pins
               //  let pin = MKPointAnnotation()
                 let pin = UserAnnotation()

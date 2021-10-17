@@ -752,23 +752,25 @@ class Account: ObservableObject {
                 
                 case .success(let data):
                     
-                    if let user = data{
-                        
-                        print("\n\n\n\n\n\n***The document object is .. \(document.data())")
+                    if var user = data{
+                        user.id = document.documentID
+                        //print("\n\n\n\n\n\n***The document object is .. \(document.data())")
                         // Data object contains all of the user's data
                       
                         // append it
+                        /*
                         self.getNatalChart(from: user.id ?? "hello", pathTousers: "generated_users") { err, natalChart in
                             if let natal_chart = natalChart{
                                 //user.natal_chart = natal_chart
                                 
                             }
                             
-                            print("appending \(user) to \(users)")
+                          //  print("appending \(user) to \(users)")
                             users.append(user)
-                            print("the count of users appendedare ... \(users.count)")
+                          //  print("the count of users appendedare ... \(users.count)")
                             
                         }
+                        */
                         users.append(user)
 
                         
