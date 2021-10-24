@@ -39,6 +39,9 @@ extension NSNotification {
     
     /// User likely tapped on a sign/angle/planet/house and wants more information on it. Typically we will show the bottom popup view when we receive this
     static let wantsMoreInfoFromNatalChart = NSNotification.Name.init(rawValue: "wantsMoreInfoFromNatalChart")
+    
+    /// Tells the view to load another user's profile information
+    static let loadUserProfile = NSNotification.Name.init(rawValue: "loadUserProfile")
 
     /*
     /// User likely tapped on a house and wants more information on it. Typically we will show the bottom popup view when we receive this
@@ -264,6 +267,44 @@ class ImageLoaderAndCache: ObservableObject {
                     DispatchQueue.main.async {
                         print("downloaded from internet")
                         self.imageData = data
+                    }
+                }
+            }).resume()
+        }
+    }
+}
+
+
+import Combine
+import SwiftUI
+struct ImageViewController: View {
+    @ObservedObject var url: LoadUrlImage
+
+    init(imageUrl: String) {
+        url = LoadUrlImage(imageURL: imageUrl)
+    }
+
+    var body: some View {
+          Image(uiImage: UIImage(data: self.url.data) ?? UIImage())
+              .resizable()
+              .clipped()
+    }
+}
+
+class LoadUrlImage: ObservableObject {
+    @Published var data = Data()
+    init(imageURL: String) {
+        let cache = URLCache.shared
+        let request = URLRequest(url: URL(string: imageURL)!, cachePolicy: URLRequest.CachePolicy.returnCacheDataElseLoad, timeoutInterval: 60.0)
+        if let data = cache.cachedResponse(for: request)?.data {
+            self.data = data
+        } else {
+            URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) in
+                if let data = data, let response = response {
+                let cachedData = CachedURLResponse(response: response, data: data)
+                                    cache.storeCachedResponse(cachedData, for: request)
+                    DispatchQueue.main.async {
+                        self.data = data
                     }
                 }
             }).resume()

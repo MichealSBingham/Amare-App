@@ -7,7 +7,8 @@
 
 import SwiftUI
 import UICircularProgressRing
-
+import URLImage
+import URLImageStore
 
 // Some random data to use as mock
 var peopleImages = ["https://lh3.googleusercontent.com/ogw/ADea4I5VDilLtQfyS7bwoGxcMqXW46dRo_ugPf4ombhR=s192-c-mo", testImages[0],
@@ -36,7 +37,12 @@ struct ProfilePopup: View {
     @State var love = RingProgress.percent(0)
     @State var sex = RingProgress.percent(0)
     
+    // Indicates whether the user has winked at the user
+    @State var hasWinked: Bool = false
+    
     var body: some View {
+       
+       
         
         ZStack{
             
@@ -51,12 +57,23 @@ struct ProfilePopup: View {
                         print("tapped profile to view images")
                     } label: {
                         
-                        ImageFromUrl(user?.profile_image_url ?? peopleImages.randomElement()!)
-                             .aspectRatio(contentMode: .fit)
-                             .frame(width: 100, height: 100)
-                             .clipShape(Circle())
-                             .overlay(Circle().stroke(colors.randomElement() ?? .blue, lineWidth: 1))
-                             .shadow(radius: 15)
+                    
+                        
+                        URLImage(URL(string: user?.profile_image_url ?? peopleImages.randomElement()!)!) { image in
+                            
+                            
+                            image
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .clipShape(Circle())
+                                // .frame(width: 100, height: 100)
+                                 .overlay(Circle().stroke(colors.randomElement() ?? .blue, lineWidth: 1))
+                                 .shadow(radius: 15)
+                                 .frame(width: 150, height: 150)
+                        }
+                        
+                        
+                        
                     }
 
                     
@@ -129,16 +146,35 @@ struct ProfilePopup: View {
                                     .modifier(FadeModifier(control: showProfilePopup))
                                    // .shimmering(duration: 5, bounce: true)
                 
+                ZStack{
+                    
+                    // Latin Phrase
+                    Text("\(sampleLatinPhrases.randomElement()!)")
+                                        .font(.callout)
+                                        .frame(maxWidth : .infinity, alignment: .center)
+                                        .foregroundColor(Color.primary.opacity(0.4))
+                                        .modifier(FadeModifier(control: showProfilePopup))
+                                        .opacity(hasWinked ? 0: 1)
+                    
+                    Button {
+                        
+                        //
+                    } label: {
+                        
+                        VStack{
+                            Text("😉").padding(.bottom, 1)
+                            Text("\(user?.name ?? sampleNames.randomElement()!) winked at you!")
+                        }
+                        
+                    }.opacity(hasWinked ? 1: 0 )
+
+                    
+                    
+                }
                 
-                // Latin Phrase
-                Text("\(sampleLatinPhrases.randomElement()!)")
-                                    .font(.callout)
-                                    .frame(maxWidth : .infinity, alignment: .center)
-                                    .foregroundColor(Color.primary.opacity(0.4))
-                                    .modifier(FadeModifier(control: showProfilePopup))
+               
                                   
-                                   // .shimmering(duration: 5, bounce: true)
-                                   // .padding([.bottom, .top])
+                                  
                 TabView{
                     
                     HStack{
@@ -390,7 +426,7 @@ struct ProfilePopup: View {
             
             
             
-            PositiveActionOnUserMenu()
+            PositiveActionOnUserMenu(user: user)
                 .opacity(showActionForUser ? 1: 0)
             
         }
@@ -408,6 +444,20 @@ struct ProfilePopup: View {
                 
               
             }
+            
+            // Listen for winks
+            
+        let account = Account()
+            account.db?.collection("winks").document(account.user?.uid ?? "error").collection("people_who_winked").document(user?.id ?? "error").addSnapshotListener({ snapshot, error in
+                
+                if snapshot?.exists ?? false {
+                    withAnimation {
+                        
+                        hasWinked = true
+                    }
+                   
+                }
+            })
        
         })
         .onTapGesture {

@@ -8,7 +8,8 @@
 import SwiftUI
 import Firebase
 import FirebaseAuth
-
+import URLImage
+import URLImageStore
 
 
 @main
@@ -23,6 +24,8 @@ struct AmareApp: App {
 
 
     var body: some Scene {
+        
+       
         
         WindowGroup {
            

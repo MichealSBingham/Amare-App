@@ -728,12 +728,12 @@ class Account: ObservableObject {
     }
     
     /// THIS WILL GET ALL OF THE USERS IN THE DATABASE USE THIS WITH CARE.
-    func getALLusers( completion: ( (_ err: Error?, _ users: [AmareUser]) -> Void)?  = nil) -> Void  {
+    func getALLusers( real: Bool = true, completion: ( (_ err: Error?, _ users: [AmareUser]) -> Void)?  = nil) -> Void  {
         
         let DB =  (self.db == nil) ? Firestore.firestore()   :  self.db!
         self.db = DB
         
-        DB.collection("generated_users").getDocuments { snapshot, error in
+        DB.collection(!real ? "generated_users": "users").getDocuments { snapshot, error in
             
             if let error = error {
                 completion!(error, [])
@@ -742,7 +742,7 @@ class Account: ObservableObject {
             
             var users: [AmareUser] = []
             for document in snapshot!.documents{
-                
+                print("\n\n\n\n\nThe document data is ...\(document.data())")
                 let result = Result {
                     try document.data(as: AmareUser.self)
                 }
@@ -785,7 +785,8 @@ class Account: ObservableObject {
                 case .failure(let error):
                     // Handle errors
                     print("Some error happened trying to convert the user data to a User Data object: \(error.localizedDescription)")
-                    return
+                    continue
+                  //  return
               
                 }
 
@@ -1498,7 +1499,20 @@ class Account: ObservableObject {
     }
     
 
-    
+    ///TODO: Add error handling
+    ///winks at a user given the user ID
+    func wink(at userId: String?) {
+        
+        let DB =  (self.db == nil) ? Firestore.firestore()   :  self.db!
+        self.db = DB
+        
+        guard let id = Auth.auth().currentUser?.uid, let userId = userId else {
+            
+            print("Not winking... id \(self.user?.uid) , userid = \(userId)")
+            return
+        }
+        self.db?.collection("winks").document(userId).collection("people_who_winked").document(id).setData(["didWink": true, "time": Date.now])
+    }
     
     
 }

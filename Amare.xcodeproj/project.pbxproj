@@ -33,6 +33,8 @@
 		2676E004270A07E90014610B /* MoreInfoOnGenericPlanet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2676E003270A07E90014610B /* MoreInfoOnGenericPlanet.swift */; };
 		267CF36526D30C03006B73BE /* NatalChartViewAlpha.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267CF36426D30C03006B73BE /* NatalChartViewAlpha.swift */; };
 		26872881271C668B00C2F89F /* EnterUsernameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26872880271C668B00C2F89F /* EnterUsernameView.swift */; };
+		26872884271CE0AA00C2F89F /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 26872883271CE0AA00C2F89F /* URLImage */; };
+		26872886271CE0AA00C2F89F /* URLImageStore in Frameworks */ = {isa = PBXBuildFile; productRef = 26872885271CE0AA00C2F89F /* URLImageStore */; };
 		26876A8C26E425EC00683CD6 /* NatalChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26876A8B26E425EC00683CD6 /* NatalChartView.swift */; };
 		268E542826DCEC6400E61F40 /* VerificationCodeView3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268E542726DCEC6400E61F40 /* VerificationCodeView3.swift */; };
 		268F26BF2680094A00FBEA7D /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268F26BE2680094A00FBEA7D /* Account.swift */; };
@@ -46,6 +48,7 @@
 		2694935C26D1FEEF00C7AD72 /* ZodiacSign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2694935B26D1FEEF00C7AD72 /* ZodiacSign.swift */; };
 		26970699268101B0007E7961 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26970698268101B0007E7961 /* SceneDelegate.swift */; };
 		269A1E2C270CB1FB008F4A0F /* MoreInfoOnPlanetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269A1E2B270CB1FB008F4A0F /* MoreInfoOnPlanetView.swift */; };
+		26A86D10271E324D009054B8 /* SearchOtherUsersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A86D0F271E324D009054B8 /* SearchOtherUsersView.swift */; };
 		26AF20E626CF458E00D99F36 /* EnterPhoneNumberView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26AF20E526CF458E00D99F36 /* EnterPhoneNumberView2.swift */; };
 		26AF20E926CF564E00D99F36 /* PhoneNumberField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26AF20E826CF564E00D99F36 /* PhoneNumberField.swift */; };
 		26B1AFD62678FFE500A170B3 /* AmareApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B1AFD52678FFE500A170B3 /* AmareApp.swift */; };
@@ -143,6 +146,7 @@
 		2694935B26D1FEEF00C7AD72 /* ZodiacSign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZodiacSign.swift; sourceTree = "<group>"; };
 		26970698268101B0007E7961 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		269A1E2B270CB1FB008F4A0F /* MoreInfoOnPlanetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreInfoOnPlanetView.swift; sourceTree = "<group>"; };
+		26A86D0F271E324D009054B8 /* SearchOtherUsersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchOtherUsersView.swift; sourceTree = "<group>"; };
 		26AF20E526CF458E00D99F36 /* EnterPhoneNumberView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterPhoneNumberView2.swift; sourceTree = "<group>"; };
 		26AF20E826CF564E00D99F36 /* PhoneNumberField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberField.swift; sourceTree = "<group>"; };
 		26B1AFD22678FFE500A170B3 /* Amare.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Amare.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -195,7 +199,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				26872886271CE0AA00C2F89F /* URLImageStore in Frameworks */,
 				26F9207726A8C2E200A4F8C6 /* Shimmer in Frameworks */,
+				26872884271CE0AA00C2F89F /* URLImage in Frameworks */,
 				26B66A8E26EA9E0E001EAA80 /* PopupView in Frameworks */,
 				26B6079B26BF643100CE8491 /* NavigationStack in Frameworks */,
 				26DE211126C5B2E60004B5CE /* CodeScanner in Frameworks */,
@@ -259,6 +265,7 @@
 			children = (
 				2669A62D27054B0100B3C87C /* PersonPopupView */,
 				267CF36426D30C03006B73BE /* NatalChartViewAlpha.swift */,
+				26A86D0F271E324D009054B8 /* SearchOtherUsersView.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -531,6 +538,8 @@
 				26DE211026C5B2E60004B5CE /* CodeScanner */,
 				26B66A8D26EA9E0E001EAA80 /* PopupView */,
 				26D24B20270019A900A3DEE7 /* UICircularProgressRing */,
+				26872883271CE0AA00C2F89F /* URLImage */,
+				26872885271CE0AA00C2F89F /* URLImageStore */,
 			);
 			productName = Love;
 			productReference = 26B1AFD22678FFE500A170B3 /* Amare.app */;
@@ -614,6 +623,7 @@
 				26DE210F26C5B2E60004B5CE /* XCRemoteSwiftPackageReference "CodeScanner" */,
 				26B66A8C26EA9E0E001EAA80 /* XCRemoteSwiftPackageReference "PopupView" */,
 				26D24B1F270019A900A3DEE7 /* XCRemoteSwiftPackageReference "UICircularProgressRing" */,
+				26872882271CE0A900C2F89F /* XCRemoteSwiftPackageReference "url-image" */,
 			);
 			productRefGroup = 26B1AFD32678FFE500A170B3 /* Products */;
 			projectDirPath = "";
@@ -808,6 +818,7 @@
 				2676E004270A07E90014610B /* MoreInfoOnGenericPlanet.swift in Sources */,
 				26BBF091267EA5FF00C84019 /* [Deprecated]FromWhereView_Deprecated.swift in Sources */,
 				26DE210E26C596450004B5CE /* HomeGlobeView.swift in Sources */,
+				26A86D10271E324D009054B8 /* SearchOtherUsersView.swift in Sources */,
 				269A1E2C270CB1FB008F4A0F /* MoreInfoOnPlanetView.swift in Sources */,
 				2694935A26D1FD1F00C7AD72 /* Element.swift in Sources */,
 				26748CC22707A01500B5D338 /* ProfilePopup.swift in Sources */,
@@ -986,7 +997,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = Amare/Amare.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_ASSET_PATHS = "\"Amare/Preview Content\"";
 				DEVELOPMENT_TEAM = HGQ8Q53DV8;
 				ENABLE_PREVIEWS = YES;
@@ -1016,7 +1027,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = Amare/Amare.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_ASSET_PATHS = "\"Amare/Preview Content\"";
 				DEVELOPMENT_TEAM = HGQ8Q53DV8;
 				ENABLE_PREVIEWS = YES;
@@ -1174,6 +1185,14 @@
 				kind = branch;
 			};
 		};
+		26872882271CE0A900C2F89F /* XCRemoteSwiftPackageReference "url-image" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/dmytro-anokhin/url-image";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
 		26B1B0052679566E00A170B3 /* XCRemoteSwiftPackageReference "iPhoneNumberField" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/MojtabaHs/iPhoneNumberField.git";
@@ -1229,6 +1248,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 260A110F26C373DE00873FE6 /* XCRemoteSwiftPackageReference "MbSwiftUIFirstResponder" */;
 			productName = MbSwiftUIFirstResponder;
+		};
+		26872883271CE0AA00C2F89F /* URLImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 26872882271CE0A900C2F89F /* XCRemoteSwiftPackageReference "url-image" */;
+			productName = URLImage;
+		};
+		26872885271CE0AA00C2F89F /* URLImageStore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 26872882271CE0A900C2F89F /* XCRemoteSwiftPackageReference "url-image" */;
+			productName = URLImageStore;
 		};
 		26B1B0062679566E00A170B3 /* iPhoneNumberField */ = {
 			isa = XCSwiftPackageProductDependency;

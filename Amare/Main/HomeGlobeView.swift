@@ -10,6 +10,9 @@ import MapKit
 import CoreLocation
 import UICircularProgressRing
 import Combine
+import URLImage
+import URLImageStore
+import Firebase
 // Sample Data
 
 var sampleNames: [String] = ["Micheal S. Bingham", "John", "Jane", "William Scott"]
@@ -62,13 +65,7 @@ struct MapView: View {
     
     @State var places: [MapAnnotation] = []
     
-    /*
-    // Profile Popup Stuff
-    @State var showAddFriend: Bool = true
-    @State var showBottomPopup: Bool = false
-    @State var infoToShow:String?
-    @State private var chart: NatalChart?
-    */
+  
     
     
     @StateObject var nearbyUsers: NearbyPeople = NearbyPeople()
@@ -82,6 +79,8 @@ struct MapView: View {
     @State var counter = 0
     
     @State var searchedUser: String = ""
+    
+    @State var returnedSearchedUserData: [QueryDocumentSnapshot] = []
     var body: some View {
         
         let binding = Binding<String>(get: {
@@ -147,10 +146,11 @@ struct MapView: View {
                     Image(systemName: "magnifyingglass")
                     
                     
+                    
                     TextField(
                        /*cityString ??*/ "Micheal Bingham",
                         text: binding
-                   )
+                    )
                         .onSubmit {
                         
                         }
@@ -163,6 +163,8 @@ struct MapView: View {
                                 .getDocuments(completion: { snapshot, error in
                                     
                                     guard error == nil else {return}
+                                    
+                                    returnedSearchedUserData = snapshot!.documents
                                     
                                     for document in snapshot!.documents{
                                         
@@ -187,7 +189,7 @@ struct MapView: View {
                 Spacer()
                 
             }
-                
+            
             // VERTICAL NEARBY USERS
             HStack{
                 Spacer()
@@ -209,7 +211,7 @@ struct MapView: View {
                                     showProfilePopup = true
                                     selected_user = user
                                 
-                                    account.getNatalChart(from: selected_user?.id ?? "5f7f43021926b0762049e4c44aed0f9bce3918cdbc2df0cdc6fcfcfe89edd86c", pathTousers: "generated_users") { err, natalChart in
+                                    account.getNatalChart(from: selected_user?.id ?? "error", pathTousers: "users") { err, natalChart in
                                         
                                         
                             
@@ -222,10 +224,7 @@ struct MapView: View {
                                 
                                 nearbyUser(user: selected_user ?? user)
                                 
-                                /*
-                                var name: String = user.name ?? "noname"
-                                Text(name)
-                                    */
+                               
                                 
                                     
                             }.onAppear(perform: {
@@ -235,27 +234,6 @@ struct MapView: View {
 
                        
                                 
-                             /*   Button {
-                                    
-                                    print("** Did tap \(user)")
-                                    withAnimation(.easeInOut) {
-                                        showProfilePopup = true
-                                        selected_user = user
-                                    }
-                                    
-                                } label: {
-                                    
-                                    
-                                    ImageFromUrl(user.profile_image_url ?? testImages[0])
-                                        .frame(width: 60, height: 60)
-                                        .clipShape(Circle())
-                                        .overlay(Circle().stroke(colors.randomElement() ?? .blue, lineWidth: 1))
-                                        .shadow(radius: 15)
-                                        .aspectRatio(contentMode: .fit)
-                                        .padding()
-                                    
-                                }
-                                */
                                 
                             
                         }
@@ -267,6 +245,8 @@ struct MapView: View {
                     
                     
                 }
+                .offset(y: 50)
+               
       
                 
             }
@@ -367,6 +347,16 @@ struct MapView: View {
             ProfilePopup(user: selected_user)
                 .preferredColorScheme(.dark)
                 .opacity(showProfilePopup && selected_user != nil ? 1 : 0 )
+                .onReceive(NotificationCenter.default.publisher(for: NSNotification.loadUserProfile)) { output in
+                    
+                    // The id of the selected user
+                    if let id = output.object as? String{
+                        
+                        print("The id of the user is \(id)")
+                        
+                    }
+                    
+                }
           //  textForDeniedLocationServices()
             
             
@@ -375,13 +365,16 @@ struct MapView: View {
                 .padding()
 
             
+            SearchOtherUsersView( persons: returnedSearchedUserData)
+                .opacity(returnedSearchedUserData.isEmpty || searchedUser.isEmpty ? 0 : 1)
             
             
             
         
                
                 
-        }.onAppear {
+        }
+        .onAppear {
             // Load the nearby users
            // print("LOADING ALL USERS....\(counter)")
             counter += 1
@@ -481,30 +474,12 @@ struct MapView: View {
                     askToTrackLocation()
                 }
             }
-           // .grayscale((locationManager.authorizationStatus == .authorizedAlways) ? 0 : 1)
+           
             .edgesIgnoringSafeArea(.all)
            
             
         
-        /*
-        return Map(coordinateRegion: $region, interactionModes: .all, showsUserLocation: true, annotationItems: places) {
-            
-            MapMarker(coordinate: $0.coordinate, tint: .pink)
-            
-        }.onAppear(perform: {
-            
-            // We delayed because we need to wait for location manager to instanatiate
-            AmareApp().delay(1) {
-                
-                askToTrackLocation()
-            }
-            
-        })
-            .grayscale((locationManager.authorizationStatus == .authorizedAlways) ? 0 : 1)
-            .edgesIgnoringSafeArea(.top)
-            .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text("Some Error Occured")) })
         
-        */
             }
                
     
@@ -545,9 +520,23 @@ withAnimation {
         
         var body: some View{
         
+            URLImage(URL(string: user.profile_image_url ?? testImages[0])!) { image in
+                 
+                 
+                 image
+                     .resizable()
+                     .aspectRatio(contentMode: .fit)
+                     .clipShape(Circle())
+                      .overlay(Circle().stroke(colors.randomElement() ?? .blue, lineWidth: 1))
+                      .shadow(radius: 15)
+                      .frame(width: 100, height: 100)
+                      //.padding()
+                     .environment(\.urlImageService, URLImageService(fileStore: URLImageFileStore(),
+                                                                     inMemoryStore: URLImageInMemoryStore()))
+             }
     
             
-            
+            /*
             ImageFromUrl(user.profile_image_url ?? testImages[0])
                 .frame(width: 60, height: 60)
                 .clipShape(Circle())
@@ -555,6 +544,7 @@ withAnimation {
                 .shadow(radius: 15)
                 .aspectRatio(contentMode: .fit)
                 .padding()
+            */
             
         
         
@@ -598,16 +588,36 @@ withAnimation {
         return Button {
             
             showProfilePopup = true
-            
+        
+
         } label: {
             
-            ImageFromUrl(user.profile_image_url ?? testImages[0])
-                .frame(width: 60, height: 60)
-                .clipShape(Circle())
-                .overlay(Circle().stroke(colors.randomElement() ?? .blue, lineWidth: 1))
-                .shadow(radius: 15)
+            ImageFromUrl( user.profile_image_url ?? testImages[0])
+                //.resizable()
                 .aspectRatio(contentMode: .fit)
-                .padding()
+                .clipShape(Circle())
+                 .overlay(Circle().stroke(colors.randomElement() ?? .blue, lineWidth: 1))
+                 .shadow(radius: 15)
+                 .frame(width: 60, height: 60)
+                 .padding()
+            
+           /* URLImage(URL(string: user.profile_image_url ?? testImages[0])!) { image in
+                
+                
+                image
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .clipShape(Circle())
+                     .overlay(Circle().stroke(colors.randomElement() ?? .blue, lineWidth: 1))
+                     .shadow(radius: 15)
+                     .frame(width: 60, height: 60)
+                     .padding()
+                    .environment(\.urlImageService, URLImageService(fileStore: URLImageFileStore(),
+                                                                    inMemoryStore: URLImageInMemoryStore()))
+            } */
+            
+            
+          
         }
 
     }

@@ -9,6 +9,8 @@ import SwiftUI
 
 /// This should be changed to a floating button soon one day this is just a rough draft of actions a user can each other
 struct PositiveActionOnUserMenu: View {
+    
+    var user: AmareUser?
     var body: some View {
         
         ZStack{
@@ -67,6 +69,13 @@ struct PositiveActionOnUserMenu: View {
                              
                              Button {
                                  print("Show interest")
+                                 
+                              
+                                 if let id = user?.id{
+                                     Account().wink(at: id )
+                                 }
+                                
+                                 
                              } label: {
                                  
                                  Text("😉 Wink")
@@ -151,8 +160,10 @@ struct PositiveActionOnUserMenu: View {
     }
 }
 
+/*
 struct PositiveActionOnUserMenu_Previews: PreviewProvider {
     static var previews: some View {
-        PositiveActionOnUserMenu().preferredColorScheme(.dark)
+     //   PositiveActionOnUserMenu().preferredColorScheme(.dark)
     }
 }
+ */
