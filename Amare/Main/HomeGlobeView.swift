@@ -344,7 +344,7 @@ struct MapView: View {
             */
             
             
-            ProfilePopup(user: selected_user)
+            ProfilePopup(user: selected_user, account: account)
                 .preferredColorScheme(.dark)
                 .opacity(showProfilePopup && selected_user != nil ? 1 : 0 )
                 .onReceive(NotificationCenter.default.publisher(for: NSNotification.loadUserProfile)) { output in
@@ -380,12 +380,11 @@ struct MapView: View {
             counter += 1
             account.getALLusers { err, foundusers in
                 
-                //print("the FOUND USERS are \(foundusers) with count \(foundusers.count)")
+             
                 nearbyUsers.users = foundusers
                 usersForGlobe.users = foundusers
                 for user in nearbyUsers.users{
                     var name = user.name
-                    //print("inside get all users ... nearbyUsers.users is \(name)")
                 }
                 
             
@@ -415,7 +414,6 @@ struct MapView: View {
             if let angle = obj.object as? Angle{
                 
             }
-         //   infoToShow = (obj.object as? ZodiacSign)?.rawValue }
         
         }
             

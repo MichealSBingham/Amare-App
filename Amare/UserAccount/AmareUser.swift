@@ -11,7 +11,9 @@ import FirebaseFirestoreSwift
 import SwiftUI
 
 /// Helper class we're using to store and read data from our backend. All user data properties read from database are here.
-public struct AmareUser: Codable{
+public struct AmareUser: Codable, Equatable{
+    
+    
     
         ///Unique user id of the user.
     @DocumentID public var id: String?
@@ -43,6 +45,13 @@ public struct AmareUser: Codable{
         case username
      
     }
+    
+    
+    public static func == (lhs: AmareUser, rhs: AmareUser) -> Bool {
+        
+        return lhs.id == rhs.id
+    }
+    
     
     /// Returns if all user data attributes for the sign up flow are completed. Or if the user completed the sign up flow, i.e. the UserData object is complete
     func isComplete() -> Bool {

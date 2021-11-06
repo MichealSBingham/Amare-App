@@ -11,6 +11,9 @@ import SwiftUI
 struct PositiveActionOnUserMenu: View {
     
     var user: AmareUser?
+    
+    /*@State*/ var winkstatus: Bool? = nil
+    
     var body: some View {
         
         ZStack{
@@ -68,17 +71,19 @@ struct PositiveActionOnUserMenu: View {
                          TabView{
                              
                              Button {
-                                 print("Show interest")
+                                 print("trying to wink at interest")
                                  
                               
                                  if let id = user?.id{
+                                     print("Winking at ... \(id)")
                                      Account().wink(at: id )
+                                     print("winking at .. \(user?.name)")
                                  }
                                 
                                  
                              } label: {
                                  
-                                 Text("😉 Wink")
+                                 Text((!(winkstatus ?? false)) ? "😉 Wink": "😉 Wink Back" )
                                    //  .font(.largeTitle)
                                       .bold()
                                      // .frame(maxWidth : .infinity, alignment: .center)
