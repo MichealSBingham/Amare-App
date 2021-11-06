@@ -490,6 +490,8 @@ struct ProfilePopup: View {
                         hasWinked = true
                     }
                    
+                } else {
+                    hasWinked = false 
                 }
             })
         })
