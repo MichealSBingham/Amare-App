@@ -6,13 +6,18 @@
 //
 
 import SwiftUI
-
+import Firebase
 /// This should be changed to a floating button soon one day this is just a rough draft of actions a user can each other
 struct PositiveActionOnUserMenu: View {
     
     var user: AmareUser?
+    var account: Account
     
-    /*@State*/ var winkstatus: Bool? = nil
+    /// Whether or not self user winked at the user or not
+   @State var winkstatus: Bool? = nil
+    
+    /// If user winked at self (self account user)
+    @Binding var canWinkBack: Bool
     
     var body: some View {
         
@@ -83,7 +88,7 @@ struct PositiveActionOnUserMenu: View {
                                  
                              } label: {
                                  
-                                 Text((!(winkstatus ?? false)) ? "😉 Wink": "😉 Wink Back" )
+                                 Text((!(winkstatus ?? false)) ? "😉 Wink": "😬 Unwink" )
                                    //  .font(.largeTitle)
                                       .bold()
                                      // .frame(maxWidth : .infinity, alignment: .center)
@@ -161,14 +166,41 @@ struct PositiveActionOnUserMenu: View {
         .foregroundStyle(.ultraThinMaterial)
         .cornerRadius(20)
         .padding()
+     .onChange(of: user, perform: { user_selected in
+            
+            guard let me = Auth.auth().currentUser?.uid , let them = user_selected?.id else  {
+                
+                print("Could not get me: \(Auth.auth().currentUser?.uid) or them: \(user_selected?.id) ")
+                
+                return
+            }
+            print("LISTENING FOR WINKS")
+            account.db?.collection("winks").document(them).collection("people_who_winked").document(me).addSnapshotListener({ snapshot, error in
+                
+                print("*** THe snapshot is \(snapshot) with error \(error)")
+                
+                if snapshot?.exists ?? false {
+                    withAnimation {
+                        
+                        winkstatus = true
+                    }
+                   
+                } else {
+                    winkstatus = false
+                }
+            })
+        })
         
     }
 }
 
 /*
 struct PositiveActionOnUserMenu_Previews: PreviewProvider {
+    
+    @State var canWinkBack: Bool = true
     static var previews: some View {
-     //   PositiveActionOnUserMenu().preferredColorScheme(.dark)
+        PositiveActionOnUserMenu( account: Account(), canWinkBack: $canWinkBack).preferredColorScheme(.dark)
     }
 }
- */
+*/
+ 

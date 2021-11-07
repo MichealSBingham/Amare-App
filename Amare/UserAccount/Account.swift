@@ -615,6 +615,125 @@ class Account: ObservableObject {
     }
     
     
+    /// Reads the user data once from the database and returns it
+    /// - Parameter completion: Completion block ran after an attempt to fetch the user data beloning to the `Account`
+    /// - Parameter error: Will be nil if it was successful or an error of type `AccountError` or `GlobalError` will be passed.
+    /// - Author: Micheal S. Bingham
+    func getOtherUser(from id: String, completion:( ( _ user: AmareUser? , _ err: Error?) -> Void)?  = nil )  {
+        
+        
+        let DB =  (self.db == nil) ? Firestore.firestore()   :  self.db!
+        self.db = DB
+        
+    
+        /*
+        guard let id  = self.user?.uid else {
+            
+            completion?(AccountError.notSignedIn)
+            
+            return
+        }
+        */
+        
+        DB.collection("users").document(id).getDocument { document, error in
+            
+            guard error == nil else{
+                // Handle these errors....
+                
+                if let error = AuthErrorCode(rawValue: error?._code ?? 17999){
+                    
+                    switch error {
+                        
+                        // Handle Global Errors
+                    case .networkError:
+                        completion?(nil, GlobalError.networkError)
+                    case .tooManyRequests:
+                        completion?(nil, GlobalError.tooManyRequests)
+                    case .captchaCheckFailed:
+                        completion?(nil, GlobalError.captchaCheckFailed)
+                    case .quotaExceeded:
+                        completion?(nil, GlobalError.quotaExceeded)
+                    case .operationNotAllowed:
+                        completion?(nil, GlobalError.notAllowed)
+                    case .internalError:
+                        print("\n\nSome error happened, likely an unhandled error from firebase : \(error). This happened inside Account.getUserData()")
+                        completion?(nil, GlobalError.internalError)
+                        
+                        // Handle Account Errors
+                    case .expiredActionCode:
+                        completion?(nil, AccountError.expiredActionCode)
+                    case .sessionExpired:
+                        completion?(nil, AccountError.sessionExpired)
+                    case .userTokenExpired:
+                        completion?(nil, AccountError.userTokenExpired)
+                    case .userDisabled:
+                        completion?(nil, AccountError.disabledUser)
+                    case .wrongPassword:
+                        completion?(nil, AccountError.wrong)
+                    default:
+                        print("\n\nSome error happened, likely an unhandled error from firebase : \(error). This happened inside Account.getUserData()")
+                        completion?(nil, GlobalError.unknown)
+                    }
+                    
+                   return
+                    
+                } else{
+                    
+                    print("\n\nSome error happened, likely an unhandled error from firebase : \(error). This happened inside Account.getUserData()")
+                    completion?(nil, GlobalError.unknown)
+                    return
+                }
+            
+                
+                
+            }
+            
+            if let document = document, document.exists {
+                
+                  
+                
+                let result = Result {
+                    try document.data(as: AmareUser.self)
+                }
+                
+                switch result {
+                
+                
+                case .success(let data):
+                    
+                    if let data = data{
+                        
+                       
+                        completion?(data, nil)
+                        
+                        
+                    } else{
+                        
+                        // Could not retreive the data for some reason
+                        completion?(nil, AccountError.doesNotExist)
+                    }
+                    
+                
+                case .failure(let error):
+                    // Handle errors
+                    print("Some error happened trying to convert the user data to a User Data object: \(error.localizedDescription)")
+                    completion?(nil, GlobalError.unknown)
+              
+                }
+
+                
+                
+                
+                } else {
+                    // User does not exist
+                    completion?(nil, AccountError.doesNotExist)
+                }
+            
+            
+            return
+        }
+        
+    }
     /// Reads the public user data from a particular id
     /// - Parameter completion: Completion block ran after an attempt to fetch the user data beloning to the `Account`
     /// - Parameter error: Will be nil if it was successful or an error of type `AccountError` or `GlobalError` will be passed.
@@ -728,7 +847,7 @@ class Account: ObservableObject {
     }
     
     /// THIS WILL GET ALL OF THE USERS IN THE DATABASE USE THIS WITH CARE.
-    func getALLusers( real: Bool = true, completion: ( (_ err: Error?, _ users: [AmareUser]) -> Void)?  = nil) -> Void  {
+    func getALLusers( real: Bool = false, completion: ( (_ err: Error?, _ users: [AmareUser]) -> Void)?  = nil) -> Void  {
         
         let DB =  (self.db == nil) ? Firestore.firestore()   :  self.db!
         self.db = DB

@@ -81,6 +81,8 @@ struct MapView: View {
     @State var searchedUser: String = ""
     
     @State var returnedSearchedUserData: [QueryDocumentSnapshot] = []
+    
+    var searchreal: Bool = true
     var body: some View {
         
         let binding = Binding<String>(get: {
@@ -91,7 +93,7 @@ struct MapView: View {
                     self.searchedUser = $0
                     // do whatever you want here
                     
-                    /*
+                     /*
                     
                     guard !searchedLocation.isEmpty else {selectedCity = nil ; print("Empty search"); return }
                     
@@ -158,7 +160,7 @@ struct MapView: View {
                             
                             guard !searchedUser.isEmpty else {return }
                             
-                            account.db?.collection("generated_users")
+                            account.db?.collection(!searchreal ? "generated_users": "users")
                                 .whereField("name", isGreaterThanOrEqualTo: searchedUser)
                                 .getDocuments(completion: { snapshot, error in
                                     
@@ -352,7 +354,21 @@ struct MapView: View {
                     // The id of the selected user
                     if let id = output.object as? String{
                         
-                        print("The id of the user is \(id)")
+                        account.getOtherUser(from: id) { user, err in
+                            
+                           // print("The user we got was ... \(user) and here the selected user is ... \(selected_user)")
+                            
+                            searchedUser = ""
+                            selected_user = user
+                            
+                            withAnimation {
+                                
+                                
+                               // print("The selected user is set to \(selected_user) and user is \(user)")
+                                showProfilePopup = true
+                            }
+                            
+                        }
                         
                     }
                     
@@ -415,6 +431,14 @@ struct MapView: View {
                 
             }
         
+        }
+        .onChange(of: searchedUser) { str in
+        
+            if str.isEmpty{
+                AmareApp().dismissKeyboard {
+                    
+                }
+            }
         }
             
            

@@ -441,7 +441,7 @@ struct ProfilePopup: View {
             
             
             
-            PositiveActionOnUserMenu(user: user, winkstatus: hasWinked)
+            PositiveActionOnUserMenu(user: user, account: account, canWinkBack: $hasWinked)
                 .opacity(showActionForUser ? 1: 0)
             
         }
@@ -471,6 +471,7 @@ struct ProfilePopup: View {
                 showActionForUser = false
             }
         }
+        
         .onChange(of: user, perform: { user_selected in
             
             guard let me = Auth.auth().currentUser?.uid , let them = user_selected?.id else  {
@@ -491,10 +492,11 @@ struct ProfilePopup: View {
                     }
                    
                 } else {
-                    hasWinked = false 
+                    hasWinked = false
                 }
             })
         })
+         
         
           
         

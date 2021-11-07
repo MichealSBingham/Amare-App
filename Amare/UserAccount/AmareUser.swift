@@ -47,9 +47,12 @@ public struct AmareUser: Codable, Equatable{
     }
     
     
+    //TODO: Should only need username or id to distinguish 
     public static func == (lhs: AmareUser, rhs: AmareUser) -> Bool {
         
         return lhs.id == rhs.id
+        
+       // return (lhs.name == rhs.name && lhs.known_time == rhs.known_time && lhs.profile_image_url == rhs.profile_image_url && lhs.username == rhs.username )
     }
     
     
