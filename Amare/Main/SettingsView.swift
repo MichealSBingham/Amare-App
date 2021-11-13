@@ -10,7 +10,7 @@ import NavigationStack
 
 struct SettingsView: View {
     @EnvironmentObject private var account: Account
-    @EnvironmentObject private var navigationStack: NavigationStack
+    //@EnvironmentObject private var navigationStack: NavigationStack
 
     
     var body: some View {
@@ -26,7 +26,7 @@ struct SettingsView: View {
             Spacer()
             
             Button("Sign Out") {
-                account.signOut { error in goBackToSignInRootView() }
+                account.signOut { error in /* goBackToSignInRootView()*/ }
             }/*.onReceive(NotificationCenter.default.publisher(for: NSNotification.logout)) { _ in
             
                 goBackToSignInRootView()
@@ -40,9 +40,9 @@ struct SettingsView: View {
     }
     
     
-    func goBackToSignInRootView()  {
+   /* func goBackToSignInRootView()  {
         navigationStack.pop(to: .root)
-    }
+    } */
 }
 
 struct SettingsView_Previews: PreviewProvider {

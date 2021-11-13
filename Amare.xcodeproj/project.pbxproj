@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0B1E74B23AACD48079E710D8 /* Pods_Amare.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2D35E0AE7A6A6C5A1E28960 /* Pods_Amare.framework */; };
+		2606C0C0270614E300D333B4 /* SmallNatalChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2606C0BF270614E300D333B4 /* SmallNatalChartView.swift */; };
 		2608CF44268FDE9700826FDA /* ImageUploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2608CF43268FDE9700826FDA /* ImageUploadView.swift */; };
 		2608CF46268FE27300826FDA /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2608CF45268FE27300826FDA /* ImagePickerView.swift */; };
 		2608CF482691425E00826FDA /* QR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2608CF472691425E00826FDA /* QR.swift */; };
@@ -16,6 +18,7 @@
 		2608CF512697529600826FDA /* GlobalErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2608CF502697529600826FDA /* GlobalErrors.swift */; };
 		2608CF532697C9D600826FDA /* SystemErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2608CF522697C9D600826FDA /* SystemErrors.swift */; };
 		260A111126C373DE00873FE6 /* MbSwiftUIFirstResponder in Frameworks */ = {isa = PBXBuildFile; productRef = 260A111026C373DE00873FE6 /* MbSwiftUIFirstResponder */; };
+		26336035270912B500EEC1B3 /* MoreInfoScratchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26336034270912B400EEC1B3 /* MoreInfoScratchView.swift */; };
 		263695ED269B7872006EEA79 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 263695EC269B7872006EEA79 /* GoogleService-Info.plist */; };
 		263695EE269B7872006EEA79 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 263695EC269B7872006EEA79 /* GoogleService-Info.plist */; };
 		263695EF269B7872006EEA79 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 263695EC269B7872006EEA79 /* GoogleService-Info.plist */; };
@@ -23,11 +26,20 @@
 		263D6F962683F77C00CBBECC /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263D6F952683F77C00CBBECC /* Location.swift */; };
 		263D6F982684012000CBBECC /* AccountErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263D6F972684012000CBBECC /* AccountErrors.swift */; };
 		263D6F9A2684087300CBBECC /* AmareUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263D6F992684087300CBBECC /* AmareUser.swift */; };
+		2669A62C2705488000B3C87C /* MainPlacementsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2669A62B2705488000B3C87C /* MainPlacementsView.swift */; };
+		266C61FB26F14A1D00A34374 /* SelectLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266C61FA26F14A1D00A34374 /* SelectLocation.swift */; };
+		26744A7E26F7E679008E1733 /* SelectLocationForResidenceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26744A7D26F7E679008E1733 /* SelectLocationForResidenceView.swift */; };
+		26748CC22707A01500B5D338 /* ProfilePopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26748CC12707A01500B5D338 /* ProfilePopup.swift */; };
+		2676E004270A07E90014610B /* MoreInfoOnGenericPlanet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2676E003270A07E90014610B /* MoreInfoOnGenericPlanet.swift */; };
 		267CF36526D30C03006B73BE /* NatalChartViewAlpha.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267CF36426D30C03006B73BE /* NatalChartViewAlpha.swift */; };
+		26872881271C668B00C2F89F /* EnterUsernameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26872880271C668B00C2F89F /* EnterUsernameView.swift */; };
+		26872884271CE0AA00C2F89F /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 26872883271CE0AA00C2F89F /* URLImage */; };
+		26872886271CE0AA00C2F89F /* URLImageStore in Frameworks */ = {isa = PBXBuildFile; productRef = 26872885271CE0AA00C2F89F /* URLImageStore */; };
 		26876A8C26E425EC00683CD6 /* NatalChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26876A8B26E425EC00683CD6 /* NatalChartView.swift */; };
 		268E542826DCEC6400E61F40 /* VerificationCodeView3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268E542726DCEC6400E61F40 /* VerificationCodeView3.swift */; };
 		268F26BF2680094A00FBEA7D /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268F26BE2680094A00FBEA7D /* Account.swift */; };
 		268F26C1268018EE00FBEA7D /* ForNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268F26C0268018EE00FBEA7D /* ForNavigation.swift */; };
+		268F717D2715C3F6002C3010 /* MoreInfoOnAspectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268F717C2715C3F5002C3010 /* MoreInfoOnAspectView.swift */; };
 		2694935126D1D9C400C7AD72 /* NatalChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2694935026D1D9C400C7AD72 /* NatalChart.swift */; };
 		2694935426D1DAF300C7AD72 /* Planet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2694935326D1DAF300C7AD72 /* Planet.swift */; };
 		2694935626D1DB3600C7AD72 /* Angle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2694935526D1DB3600C7AD72 /* Angle.swift */; };
@@ -35,6 +47,8 @@
 		2694935A26D1FD1F00C7AD72 /* Element.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2694935926D1FD1F00C7AD72 /* Element.swift */; };
 		2694935C26D1FEEF00C7AD72 /* ZodiacSign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2694935B26D1FEEF00C7AD72 /* ZodiacSign.swift */; };
 		26970699268101B0007E7961 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26970698268101B0007E7961 /* SceneDelegate.swift */; };
+		269A1E2C270CB1FB008F4A0F /* MoreInfoOnPlanetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269A1E2B270CB1FB008F4A0F /* MoreInfoOnPlanetView.swift */; };
+		26A86D10271E324D009054B8 /* SearchOtherUsersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A86D0F271E324D009054B8 /* SearchOtherUsersView.swift */; };
 		26AF20E626CF458E00D99F36 /* EnterPhoneNumberView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26AF20E526CF458E00D99F36 /* EnterPhoneNumberView2.swift */; };
 		26AF20E926CF564E00D99F36 /* PhoneNumberField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26AF20E826CF564E00D99F36 /* PhoneNumberField.swift */; };
 		26B1AFD62678FFE500A170B3 /* AmareApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B1AFD52678FFE500A170B3 /* AmareApp.swift */; };
@@ -55,15 +69,17 @@
 		26B66A9026EB9476001EAA80 /* House.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B66A8F26EB9476001EAA80 /* House.swift */; };
 		26BBF08C267D7C9900C84019 /* [Deprecated]ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BBF08B267D7C9900C84019 /* [Deprecated]ProfileView.swift */; };
 		26BBF08F267D80FC00C84019 /* EnterBirthdayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BBF08E267D80FC00C84019 /* EnterBirthdayView.swift */; };
-		26BBF091267EA5FF00C84019 /* FromWhereView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BBF090267EA5FF00C84019 /* FromWhereView.swift */; };
-		26BBF093267EBB1300C84019 /* LiveWhereView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BBF092267EBB1300C84019 /* LiveWhereView.swift */; };
+		26BBF091267EA5FF00C84019 /* [Deprecated]FromWhereView_Deprecated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BBF090267EA5FF00C84019 /* [Deprecated]FromWhereView_Deprecated.swift */; };
+		26BBF093267EBB1300C84019 /* [Deprecated]LiveWhereView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BBF092267EBB1300C84019 /* [Deprecated]LiveWhereView.swift */; };
 		26BBF095267EBBEF00C84019 /* EnterNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BBF094267EBBEF00C84019 /* EnterNameView.swift */; };
+		26C255B727149B420066735E /* PositiveActionOnUserMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C255B627149B420066735E /* PositiveActionOnUserMenu.swift */; };
+		26D24B21270019A900A3DEE7 /* UICircularProgressRing in Frameworks */ = {isa = PBXBuildFile; productRef = 26D24B20270019A900A3DEE7 /* UICircularProgressRing */; };
 		26DE210326C590480004B5CE /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DE210226C590480004B5CE /* MainView.swift */; };
 		26DE210626C593070004B5CE /* ScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DE210526C593070004B5CE /* ScannerView.swift */; };
 		26DE210826C595B50004B5CE /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DE210726C595B50004B5CE /* ChartView.swift */; };
 		26DE210A26C595E80004B5CE /* MessagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DE210926C595E80004B5CE /* MessagesView.swift */; };
 		26DE210C26C5963A0004B5CE /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DE210B26C5963A0004B5CE /* SettingsView.swift */; };
-		26DE210E26C596450004B5CE /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DE210D26C596450004B5CE /* MapView.swift */; };
+		26DE210E26C596450004B5CE /* HomeGlobeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DE210D26C596450004B5CE /* HomeGlobeView.swift */; };
 		26DE211126C5B2E60004B5CE /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = 26DE211026C5B2E60004B5CE /* CodeScanner */; };
 		26EDBB8D26AA7CE2005C1033 /* VerificationCodeView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26EDBB8C26AA7CE2005C1033 /* VerificationCodeView2.swift */; };
 		26F9205F26A760E500A4F8C6 /* Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F9205E26A760E500A4F8C6 /* Animations.swift */; };
@@ -71,9 +87,8 @@
 		26F9206C26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 26F9206A26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf */; };
 		26F9206D26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 26F9206A26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf */; };
 		26F9207726A8C2E200A4F8C6 /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = 26F9207626A8C2E200A4F8C6 /* Shimmer */; };
-		79C8C30FC1EA0322C745968A /* Pods_AmareTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A146B3B85E1779F45EC69323 /* Pods_AmareTests.framework */; };
-		C344D51F401424021FDE645C /* Pods_Amare_AmareUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A5D388BE3483C4203F36EFA /* Pods_Amare_AmareUITests.framework */; };
-		C40679E4BF3FB8AC42250046 /* Pods_Amare.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B89F6CE175392E87B0FDB87C /* Pods_Amare.framework */; };
+		4D8182AEF8455F0760870930 /* Pods_Amare_AmareUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4130FF10D10128104CE7B7 /* Pods_Amare_AmareUITests.framework */; };
+		84C5C19CEDCAFAE303C75798 /* Pods_AmareTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 295750E8677C3A0B5B48D02D /* Pods_AmareTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -94,7 +109,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		05EF594634523FF34E5E4FA7 /* Pods-Amare.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Amare.debug.xcconfig"; path = "Target Support Files/Pods-Amare/Pods-Amare.debug.xcconfig"; sourceTree = "<group>"; };
+		0FFC091F16FB620D01875737 /* Pods-Amare.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Amare.release.xcconfig"; path = "Target Support Files/Pods-Amare/Pods-Amare.release.xcconfig"; sourceTree = "<group>"; };
+		2606C0BF270614E300D333B4 /* SmallNatalChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallNatalChartView.swift; sourceTree = "<group>"; };
 		2608CF43268FDE9700826FDA /* ImageUploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUploadView.swift; sourceTree = "<group>"; };
 		2608CF45268FE27300826FDA /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
 		2608CF472691425E00826FDA /* QR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QR.swift; sourceTree = "<group>"; };
@@ -103,17 +119,25 @@
 		2608CF4D2695139800826FDA /* EnterOrientationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterOrientationView.swift; sourceTree = "<group>"; };
 		2608CF502697529600826FDA /* GlobalErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalErrors.swift; sourceTree = "<group>"; };
 		2608CF522697C9D600826FDA /* SystemErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemErrors.swift; sourceTree = "<group>"; };
+		26336034270912B400EEC1B3 /* MoreInfoScratchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreInfoScratchView.swift; sourceTree = "<group>"; };
 		263695E9269B495F006EEA79 /* GoogleService-Info .plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info .plist"; sourceTree = "<group>"; };
 		263695EC269B7872006EEA79 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		263D6F9326829F2200CBBECC /*  [Deprecated]RV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = " [Deprecated]RV.swift"; sourceTree = "<group>"; };
 		263D6F952683F77C00CBBECC /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		263D6F972684012000CBBECC /* AccountErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountErrors.swift; sourceTree = "<group>"; };
 		263D6F992684087300CBBECC /* AmareUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmareUser.swift; sourceTree = "<group>"; };
+		2669A62B2705488000B3C87C /* MainPlacementsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPlacementsView.swift; sourceTree = "<group>"; };
+		266C61FA26F14A1D00A34374 /* SelectLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLocation.swift; sourceTree = "<group>"; };
+		26744A7D26F7E679008E1733 /* SelectLocationForResidenceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLocationForResidenceView.swift; sourceTree = "<group>"; };
+		26748CC12707A01500B5D338 /* ProfilePopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePopup.swift; sourceTree = "<group>"; };
+		2676E003270A07E90014610B /* MoreInfoOnGenericPlanet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreInfoOnGenericPlanet.swift; sourceTree = "<group>"; };
 		267CF36426D30C03006B73BE /* NatalChartViewAlpha.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NatalChartViewAlpha.swift; sourceTree = "<group>"; };
+		26872880271C668B00C2F89F /* EnterUsernameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterUsernameView.swift; sourceTree = "<group>"; };
 		26876A8B26E425EC00683CD6 /* NatalChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NatalChartView.swift; sourceTree = "<group>"; };
 		268E542726DCEC6400E61F40 /* VerificationCodeView3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationCodeView3.swift; sourceTree = "<group>"; };
 		268F26BE2680094A00FBEA7D /* Account.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		268F26C0268018EE00FBEA7D /* ForNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForNavigation.swift; sourceTree = "<group>"; };
+		268F717C2715C3F5002C3010 /* MoreInfoOnAspectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreInfoOnAspectView.swift; sourceTree = "<group>"; };
 		2694935026D1D9C400C7AD72 /* NatalChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NatalChart.swift; sourceTree = "<group>"; };
 		2694935326D1DAF300C7AD72 /* Planet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Planet.swift; sourceTree = "<group>"; };
 		2694935526D1DB3600C7AD72 /* Angle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Angle.swift; sourceTree = "<group>"; };
@@ -121,6 +145,8 @@
 		2694935926D1FD1F00C7AD72 /* Element.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Element.swift; sourceTree = "<group>"; };
 		2694935B26D1FEEF00C7AD72 /* ZodiacSign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZodiacSign.swift; sourceTree = "<group>"; };
 		26970698268101B0007E7961 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		269A1E2B270CB1FB008F4A0F /* MoreInfoOnPlanetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreInfoOnPlanetView.swift; sourceTree = "<group>"; };
+		26A86D0F271E324D009054B8 /* SearchOtherUsersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchOtherUsersView.swift; sourceTree = "<group>"; };
 		26AF20E526CF458E00D99F36 /* EnterPhoneNumberView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterPhoneNumberView2.swift; sourceTree = "<group>"; };
 		26AF20E826CF564E00D99F36 /* PhoneNumberField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberField.swift; sourceTree = "<group>"; };
 		26B1AFD22678FFE500A170B3 /* Amare.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Amare.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -145,26 +171,27 @@
 		26BBF08A267D321F00C84019 /* Amare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Amare.entitlements; sourceTree = "<group>"; };
 		26BBF08B267D7C9900C84019 /* [Deprecated]ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "[Deprecated]ProfileView.swift"; sourceTree = "<group>"; };
 		26BBF08E267D80FC00C84019 /* EnterBirthdayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterBirthdayView.swift; sourceTree = "<group>"; };
-		26BBF090267EA5FF00C84019 /* FromWhereView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FromWhereView.swift; sourceTree = "<group>"; };
-		26BBF092267EBB1300C84019 /* LiveWhereView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveWhereView.swift; sourceTree = "<group>"; };
+		26BBF090267EA5FF00C84019 /* [Deprecated]FromWhereView_Deprecated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "[Deprecated]FromWhereView_Deprecated.swift"; sourceTree = "<group>"; };
+		26BBF092267EBB1300C84019 /* [Deprecated]LiveWhereView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "[Deprecated]LiveWhereView.swift"; sourceTree = "<group>"; };
 		26BBF094267EBBEF00C84019 /* EnterNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterNameView.swift; sourceTree = "<group>"; };
+		26C255B627149B420066735E /* PositiveActionOnUserMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositiveActionOnUserMenu.swift; sourceTree = "<group>"; };
 		26DE210226C590480004B5CE /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		26DE210526C593070004B5CE /* ScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerView.swift; sourceTree = "<group>"; };
 		26DE210726C595B50004B5CE /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
 		26DE210926C595E80004B5CE /* MessagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesView.swift; sourceTree = "<group>"; };
 		26DE210B26C5963A0004B5CE /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		26DE210D26C596450004B5CE /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		26DE210D26C596450004B5CE /* HomeGlobeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeGlobeView.swift; sourceTree = "<group>"; };
 		26EDBB8C26AA7CE2005C1033 /* VerificationCodeView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationCodeView2.swift; sourceTree = "<group>"; };
 		26F9205E26A760E500A4F8C6 /* Animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animations.swift; sourceTree = "<group>"; };
 		26F9206A26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MontserratAlternates-SemiBold.ttf"; sourceTree = "<group>"; };
-		3F882646B9682EFF1D8FDED8 /* Pods-AmareTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AmareTests.debug.xcconfig"; path = "Target Support Files/Pods-AmareTests/Pods-AmareTests.debug.xcconfig"; sourceTree = "<group>"; };
-		5757CE374CF618459F1EF4AB /* Pods-AmareTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AmareTests.release.xcconfig"; path = "Target Support Files/Pods-AmareTests/Pods-AmareTests.release.xcconfig"; sourceTree = "<group>"; };
-		9A5D388BE3483C4203F36EFA /* Pods_Amare_AmareUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Amare_AmareUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		A146B3B85E1779F45EC69323 /* Pods_AmareTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AmareTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B89F6CE175392E87B0FDB87C /* Pods_Amare.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Amare.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D072F71D4B5D8A869DBDBA60 /* Pods-Amare-AmareUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Amare-AmareUITests.release.xcconfig"; path = "Target Support Files/Pods-Amare-AmareUITests/Pods-Amare-AmareUITests.release.xcconfig"; sourceTree = "<group>"; };
-		EB6CD64876C07E59C878DE1D /* Pods-Amare-AmareUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Amare-AmareUITests.debug.xcconfig"; path = "Target Support Files/Pods-Amare-AmareUITests/Pods-Amare-AmareUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		F420A03FAFC0CC3FBE155963 /* Pods-Amare.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Amare.release.xcconfig"; path = "Target Support Files/Pods-Amare/Pods-Amare.release.xcconfig"; sourceTree = "<group>"; };
+		295750E8677C3A0B5B48D02D /* Pods_AmareTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AmareTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2AA4070DD907E7EFC2C0264E /* Pods-Amare-AmareUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Amare-AmareUITests.release.xcconfig"; path = "Target Support Files/Pods-Amare-AmareUITests/Pods-Amare-AmareUITests.release.xcconfig"; sourceTree = "<group>"; };
+		2F378CCBAEE099183BCE4911 /* Pods-Amare-AmareUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Amare-AmareUITests.debug.xcconfig"; path = "Target Support Files/Pods-Amare-AmareUITests/Pods-Amare-AmareUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		2FE1C2A06883BB4CA96D46E1 /* Pods-AmareTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AmareTests.debug.xcconfig"; path = "Target Support Files/Pods-AmareTests/Pods-AmareTests.debug.xcconfig"; sourceTree = "<group>"; };
+		75B98B9DE24F4B95CF8A6EE3 /* Pods-AmareTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AmareTests.release.xcconfig"; path = "Target Support Files/Pods-AmareTests/Pods-AmareTests.release.xcconfig"; sourceTree = "<group>"; };
+		CE4130FF10D10128104CE7B7 /* Pods_Amare_AmareUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Amare_AmareUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE87F57A8E74B0B25143E091 /* Pods-Amare.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Amare.debug.xcconfig"; path = "Target Support Files/Pods-Amare/Pods-Amare.debug.xcconfig"; sourceTree = "<group>"; };
+		F2D35E0AE7A6A6C5A1E28960 /* Pods_Amare.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Amare.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,13 +199,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				26872886271CE0AA00C2F89F /* URLImageStore in Frameworks */,
 				26F9207726A8C2E200A4F8C6 /* Shimmer in Frameworks */,
+				26872884271CE0AA00C2F89F /* URLImage in Frameworks */,
 				26B66A8E26EA9E0E001EAA80 /* PopupView in Frameworks */,
 				26B6079B26BF643100CE8491 /* NavigationStack in Frameworks */,
 				26DE211126C5B2E60004B5CE /* CodeScanner in Frameworks */,
 				260A111126C373DE00873FE6 /* MbSwiftUIFirstResponder in Frameworks */,
 				26B1B0072679566E00A170B3 /* iPhoneNumberField in Frameworks */,
-				C40679E4BF3FB8AC42250046 /* Pods_Amare.framework in Frameworks */,
+				26D24B21270019A900A3DEE7 /* UICircularProgressRing in Frameworks */,
+				0B1E74B23AACD48079E710D8 /* Pods_Amare.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -186,7 +216,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				79C8C30FC1EA0322C745968A /* Pods_AmareTests.framework in Frameworks */,
+				84C5C19CEDCAFAE303C75798 /* Pods_AmareTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -194,7 +224,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C344D51F401424021FDE645C /* Pods_Amare_AmareUITests.framework in Frameworks */,
+				4D8182AEF8455F0760870930 /* Pods_Amare_AmareUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -220,10 +250,22 @@
 			path = EarlierViewVersionsStillWorking;
 			sourceTree = "<group>";
 		};
+		2669A62D27054B0100B3C87C /* PersonPopupView */ = {
+			isa = PBXGroup;
+			children = (
+				26C255B527149B140066735E /* ActionOnUser */,
+				2669A62B2705488000B3C87C /* MainPlacementsView.swift */,
+				26748CC12707A01500B5D338 /* ProfilePopup.swift */,
+			);
+			path = PersonPopupView;
+			sourceTree = "<group>";
+		};
 		267CF36126D30BC4006B73BE /* Custom */ = {
 			isa = PBXGroup;
 			children = (
+				2669A62D27054B0100B3C87C /* PersonPopupView */,
 				267CF36426D30C03006B73BE /* NatalChartViewAlpha.swift */,
+				26A86D0F271E324D009054B8 /* SearchOtherUsersView.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -232,6 +274,11 @@
 			isa = PBXGroup;
 			children = (
 				26876A8B26E425EC00683CD6 /* NatalChartView.swift */,
+				2606C0BF270614E300D333B4 /* SmallNatalChartView.swift */,
+				26336034270912B400EEC1B3 /* MoreInfoScratchView.swift */,
+				2676E003270A07E90014610B /* MoreInfoOnGenericPlanet.swift */,
+				269A1E2B270CB1FB008F4A0F /* MoreInfoOnPlanetView.swift */,
+				268F717C2715C3F5002C3010 /* MoreInfoOnAspectView.swift */,
 			);
 			path = CustomChartViews;
 			sourceTree = "<group>";
@@ -299,7 +346,7 @@
 				26B1AFF62678FFE700A170B3 /* AmareUITests */,
 				26B1AFD32678FFE500A170B3 /* Products */,
 				805D8D6FEA81726841F9AFBC /* Pods */,
-				D6382BAB178902659F77D694 /* Frameworks */,
+				4ADAD09353ACC6E02B2542D9 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -399,14 +446,25 @@
 			children = (
 				26AB593626BDE47100170192 /* NotDone */,
 				26BBF094267EBBEF00C84019 /* EnterNameView.swift */,
+				26872880271C668B00C2F89F /* EnterUsernameView.swift */,
 				2608CF4B2695136F00826FDA /* EnterGenderView.swift */,
 				2608CF4D2695139800826FDA /* EnterOrientationView.swift */,
-				26BBF090267EA5FF00C84019 /* FromWhereView.swift */,
+				266C61FA26F14A1D00A34374 /* SelectLocation.swift */,
+				26BBF090267EA5FF00C84019 /* [Deprecated]FromWhereView_Deprecated.swift */,
 				26BBF08E267D80FC00C84019 /* EnterBirthdayView.swift */,
-				26BBF092267EBB1300C84019 /* LiveWhereView.swift */,
+				26744A7D26F7E679008E1733 /* SelectLocationForResidenceView.swift */,
+				26BBF092267EBB1300C84019 /* [Deprecated]LiveWhereView.swift */,
 				2608CF43268FDE9700826FDA /* ImageUploadView.swift */,
 			);
 			path = SignUpFlow;
+			sourceTree = "<group>";
+		};
+		26C255B527149B140066735E /* ActionOnUser */ = {
+			isa = PBXGroup;
+			children = (
+				26C255B627149B420066735E /* PositiveActionOnUserMenu.swift */,
+			);
+			path = ActionOnUser;
 			sourceTree = "<group>";
 		};
 		26DE210426C592B20004B5CE /* Main */ = {
@@ -418,7 +476,7 @@
 				26DE210726C595B50004B5CE /* ChartView.swift */,
 				26DE210926C595E80004B5CE /* MessagesView.swift */,
 				26DE210B26C5963A0004B5CE /* SettingsView.swift */,
-				26DE210D26C596450004B5CE /* MapView.swift */,
+				26DE210D26C596450004B5CE /* HomeGlobeView.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -431,27 +489,27 @@
 			path = FontResources;
 			sourceTree = "<group>";
 		};
+		4ADAD09353ACC6E02B2542D9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F2D35E0AE7A6A6C5A1E28960 /* Pods_Amare.framework */,
+				CE4130FF10D10128104CE7B7 /* Pods_Amare_AmareUITests.framework */,
+				295750E8677C3A0B5B48D02D /* Pods_AmareTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		805D8D6FEA81726841F9AFBC /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				05EF594634523FF34E5E4FA7 /* Pods-Amare.debug.xcconfig */,
-				F420A03FAFC0CC3FBE155963 /* Pods-Amare.release.xcconfig */,
-				EB6CD64876C07E59C878DE1D /* Pods-Amare-AmareUITests.debug.xcconfig */,
-				D072F71D4B5D8A869DBDBA60 /* Pods-Amare-AmareUITests.release.xcconfig */,
-				3F882646B9682EFF1D8FDED8 /* Pods-AmareTests.debug.xcconfig */,
-				5757CE374CF618459F1EF4AB /* Pods-AmareTests.release.xcconfig */,
+				CE87F57A8E74B0B25143E091 /* Pods-Amare.debug.xcconfig */,
+				0FFC091F16FB620D01875737 /* Pods-Amare.release.xcconfig */,
+				2F378CCBAEE099183BCE4911 /* Pods-Amare-AmareUITests.debug.xcconfig */,
+				2AA4070DD907E7EFC2C0264E /* Pods-Amare-AmareUITests.release.xcconfig */,
+				2FE1C2A06883BB4CA96D46E1 /* Pods-AmareTests.debug.xcconfig */,
+				75B98B9DE24F4B95CF8A6EE3 /* Pods-AmareTests.release.xcconfig */,
 			);
 			path = Pods;
-			sourceTree = "<group>";
-		};
-		D6382BAB178902659F77D694 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				B89F6CE175392E87B0FDB87C /* Pods_Amare.framework */,
-				9A5D388BE3483C4203F36EFA /* Pods_Amare_AmareUITests.framework */,
-				A146B3B85E1779F45EC69323 /* Pods_AmareTests.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -461,11 +519,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 26B1AFFC2678FFE700A170B3 /* Build configuration list for PBXNativeTarget "Amare" */;
 			buildPhases = (
-				199540878F44201595183D20 /* [CP] Check Pods Manifest.lock */,
+				E9E72F9BE8041BD8F7DE8A0D /* [CP] Check Pods Manifest.lock */,
 				26B1AFCE2678FFE500A170B3 /* Sources */,
 				26B1AFCF2678FFE500A170B3 /* Frameworks */,
 				26B1AFD02678FFE500A170B3 /* Resources */,
-				5FE575CB747F955CB11FE8C4 /* [CP] Embed Pods Frameworks */,
+				692F15DBC014905E988D89A2 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -479,6 +537,9 @@
 				260A111026C373DE00873FE6 /* MbSwiftUIFirstResponder */,
 				26DE211026C5B2E60004B5CE /* CodeScanner */,
 				26B66A8D26EA9E0E001EAA80 /* PopupView */,
+				26D24B20270019A900A3DEE7 /* UICircularProgressRing */,
+				26872883271CE0AA00C2F89F /* URLImage */,
+				26872885271CE0AA00C2F89F /* URLImageStore */,
 			);
 			productName = Love;
 			productReference = 26B1AFD22678FFE500A170B3 /* Amare.app */;
@@ -488,7 +549,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 26B1AFFF2678FFE700A170B3 /* Build configuration list for PBXNativeTarget "AmareTests" */;
 			buildPhases = (
-				F0BDFD6F2780F10956B80D01 /* [CP] Check Pods Manifest.lock */,
+				6B04BD0E2E954E1D16DE12F8 /* [CP] Check Pods Manifest.lock */,
 				26B1AFE42678FFE700A170B3 /* Sources */,
 				26B1AFE52678FFE700A170B3 /* Frameworks */,
 				26B1AFE62678FFE700A170B3 /* Resources */,
@@ -507,11 +568,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 26B1B0022678FFE700A170B3 /* Build configuration list for PBXNativeTarget "AmareUITests" */;
 			buildPhases = (
-				43003FCC32250F34C220ECCF /* [CP] Check Pods Manifest.lock */,
+				FCE72DB2950CC669D2B11B26 /* [CP] Check Pods Manifest.lock */,
 				26B1AFEF2678FFE700A170B3 /* Sources */,
 				26B1AFF02678FFE700A170B3 /* Frameworks */,
 				26B1AFF12678FFE700A170B3 /* Resources */,
-				028B102D5B0E3A8E27350162 /* [CP] Embed Pods Frameworks */,
+				A0AB7B861AE9B5B566596053 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -561,6 +622,8 @@
 				260A110F26C373DE00873FE6 /* XCRemoteSwiftPackageReference "MbSwiftUIFirstResponder" */,
 				26DE210F26C5B2E60004B5CE /* XCRemoteSwiftPackageReference "CodeScanner" */,
 				26B66A8C26EA9E0E001EAA80 /* XCRemoteSwiftPackageReference "PopupView" */,
+				26D24B1F270019A900A3DEE7 /* XCRemoteSwiftPackageReference "UICircularProgressRing" */,
+				26872882271CE0A900C2F89F /* XCRemoteSwiftPackageReference "url-image" */,
 			);
 			productRefGroup = 26B1AFD32678FFE500A170B3 /* Products */;
 			projectDirPath = "";
@@ -606,7 +669,46 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		028B102D5B0E3A8E27350162 /* [CP] Embed Pods Frameworks */ = {
+		692F15DBC014905E988D89A2 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Amare/Pods-Amare-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Amare/Pods-Amare-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Amare/Pods-Amare-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6B04BD0E2E954E1D16DE12F8 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AmareTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A0AB7B861AE9B5B566596053 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -623,7 +725,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Amare-AmareUITests/Pods-Amare-AmareUITests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		199540878F44201595183D20 /* [CP] Check Pods Manifest.lock */ = {
+		E9E72F9BE8041BD8F7DE8A0D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -645,7 +747,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		43003FCC32250F34C220ECCF /* [CP] Check Pods Manifest.lock */ = {
+		FCE72DB2950CC669D2B11B26 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -661,45 +763,6 @@
 			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-Amare-AmareUITests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		5FE575CB747F955CB11FE8C4 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Amare/Pods-Amare-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Amare/Pods-Amare-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Amare/Pods-Amare-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F0BDFD6F2780F10956B80D01 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-AmareTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -728,11 +791,13 @@
 				2608CF532697C9D600826FDA /* SystemErrors.swift in Sources */,
 				263D6F9A2684087300CBBECC /* AmareUser.swift in Sources */,
 				26B6079D26C021C900CE8491 /* SignInOrUpView.swift in Sources */,
+				2669A62C2705488000B3C87C /* MainPlacementsView.swift in Sources */,
 				26B6079826BF60EF00CE8491 /* RootView.swift in Sources */,
 				2608CF4A2695131F00826FDA /* PickAttractivePeopleView.swift in Sources */,
 				26B1B011267C28E000A170B3 /* Extensions.swift in Sources */,
-				26BBF093267EBB1300C84019 /* LiveWhereView.swift in Sources */,
+				26BBF093267EBB1300C84019 /* [Deprecated]LiveWhereView.swift in Sources */,
 				2694935126D1D9C400C7AD72 /* NatalChart.swift in Sources */,
+				26872881271C668B00C2F89F /* EnterUsernameView.swift in Sources */,
 				26BBF08F267D80FC00C84019 /* EnterBirthdayView.swift in Sources */,
 				263D6F962683F77C00CBBECC /* Location.swift in Sources */,
 				26970699268101B0007E7961 /* SceneDelegate.swift in Sources */,
@@ -742,14 +807,23 @@
 				2694935C26D1FEEF00C7AD72 /* ZodiacSign.swift in Sources */,
 				26B1AFD82678FFE500A170B3 /* EnterPhoneNumberView.swift in Sources */,
 				26DE210626C593070004B5CE /* ScannerView.swift in Sources */,
+				268F717D2715C3F6002C3010 /* MoreInfoOnAspectView.swift in Sources */,
+				2606C0C0270614E300D333B4 /* SmallNatalChartView.swift in Sources */,
 				26F9205F26A760E500A4F8C6 /* Animations.swift in Sources */,
 				26B1AFD62678FFE500A170B3 /* AmareApp.swift in Sources */,
+				266C61FB26F14A1D00A34374 /* SelectLocation.swift in Sources */,
+				26336035270912B500EEC1B3 /* MoreInfoScratchView.swift in Sources */,
 				263D6F9426829F2200CBBECC /*  [Deprecated]RV.swift in Sources */,
 				2608CF4C2695136F00826FDA /* EnterGenderView.swift in Sources */,
-				26BBF091267EA5FF00C84019 /* FromWhereView.swift in Sources */,
-				26DE210E26C596450004B5CE /* MapView.swift in Sources */,
+				2676E004270A07E90014610B /* MoreInfoOnGenericPlanet.swift in Sources */,
+				26BBF091267EA5FF00C84019 /* [Deprecated]FromWhereView_Deprecated.swift in Sources */,
+				26DE210E26C596450004B5CE /* HomeGlobeView.swift in Sources */,
+				26A86D10271E324D009054B8 /* SearchOtherUsersView.swift in Sources */,
+				269A1E2C270CB1FB008F4A0F /* MoreInfoOnPlanetView.swift in Sources */,
 				2694935A26D1FD1F00C7AD72 /* Element.swift in Sources */,
+				26748CC22707A01500B5D338 /* ProfilePopup.swift in Sources */,
 				26B1AFE22678FFE700A170B3 /* Love.xcdatamodeld in Sources */,
+				26C255B727149B420066735E /* PositiveActionOnUserMenu.swift in Sources */,
 				268F26C1268018EE00FBEA7D /* ForNavigation.swift in Sources */,
 				2608CF482691425E00826FDA /* QR.swift in Sources */,
 				2608CF4E2695139800826FDA /* EnterOrientationView.swift in Sources */,
@@ -758,6 +832,7 @@
 				26B1B00A2679961200A170B3 /* VerificationCodeView.swift in Sources */,
 				26DE210826C595B50004B5CE /* ChartView.swift in Sources */,
 				26DE210326C590480004B5CE /* MainView.swift in Sources */,
+				26744A7E26F7E679008E1733 /* SelectLocationForResidenceView.swift in Sources */,
 				26BBF095267EBBEF00C84019 /* EnterNameView.swift in Sources */,
 				26AF20E626CF458E00D99F36 /* EnterPhoneNumberView2.swift in Sources */,
 				2608CF44268FDE9700826FDA /* ImageUploadView.swift in Sources */,
@@ -833,7 +908,6 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -848,10 +922,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -895,7 +969,6 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				"EXCLUDED_ARCHS[sdk=*]" = arm64;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -904,9 +977,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
@@ -916,74 +990,78 @@
 		};
 		26B1AFFD2678FFE700A170B3 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 05EF594634523FF34E5E4FA7 /* Pods-Amare.debug.xcconfig */;
+			baseConfigurationReference = CE87F57A8E74B0B25143E091 /* Pods-Amare.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = Amare/Amare.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_ASSET_PATHS = "\"Amare/Preview Content\"";
 				DEVELOPMENT_TEAM = HGQ8Q53DV8;
 				ENABLE_PREVIEWS = YES;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
 				INFOPLIST_FILE = Amare/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.0.2;
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = app.amare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "$(ARCHS_STANDARD) x86_64 i386";
 			};
 			name = Debug;
 		};
 		26B1AFFE2678FFE700A170B3 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F420A03FAFC0CC3FBE155963 /* Pods-Amare.release.xcconfig */;
+			baseConfigurationReference = 0FFC091F16FB620D01875737 /* Pods-Amare.release.xcconfig */;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = Amare/Amare.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_ASSET_PATHS = "\"Amare/Preview Content\"";
 				DEVELOPMENT_TEAM = HGQ8Q53DV8;
 				ENABLE_PREVIEWS = YES;
-				"EXCLUDED_ARCHS[sdk=*]" = "";
 				INFOPLIST_FILE = Amare/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.0.2;
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = app.amare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "$(ARCHS_STANDARD) x86_64 i386";
 			};
 			name = Release;
 		};
 		26B1B0002678FFE700A170B3 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3F882646B9682EFF1D8FDED8 /* Pods-AmareTests.debug.xcconfig */;
+			baseConfigurationReference = 2FE1C2A06883BB4CA96D46E1 /* Pods-AmareTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HGQ8Q53DV8;
 				INFOPLIST_FILE = AmareTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = love.iris.LoveTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -994,18 +1072,19 @@
 		};
 		26B1B0012678FFE700A170B3 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5757CE374CF618459F1EF4AB /* Pods-AmareTests.release.xcconfig */;
+			baseConfigurationReference = 75B98B9DE24F4B95CF8A6EE3 /* Pods-AmareTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HGQ8Q53DV8;
 				INFOPLIST_FILE = AmareTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = love.iris.LoveTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1016,7 +1095,7 @@
 		};
 		26B1B0032678FFE700A170B3 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EB6CD64876C07E59C878DE1D /* Pods-Amare-AmareUITests.debug.xcconfig */;
+			baseConfigurationReference = 2F378CCBAEE099183BCE4911 /* Pods-Amare-AmareUITests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HGQ8Q53DV8;
@@ -1026,7 +1105,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = love.iris.LoveUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1037,7 +1116,7 @@
 		};
 		26B1B0042678FFE700A170B3 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D072F71D4B5D8A869DBDBA60 /* Pods-Amare-AmareUITests.release.xcconfig */;
+			baseConfigurationReference = 2AA4070DD907E7EFC2C0264E /* Pods-Amare-AmareUITests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HGQ8Q53DV8;
@@ -1047,7 +1126,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = love.iris.LoveUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1106,6 +1185,14 @@
 				kind = branch;
 			};
 		};
+		26872882271CE0A900C2F89F /* XCRemoteSwiftPackageReference "url-image" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/dmytro-anokhin/url-image";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
 		26B1B0052679566E00A170B3 /* XCRemoteSwiftPackageReference "iPhoneNumberField" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/MojtabaHs/iPhoneNumberField.git";
@@ -1128,6 +1215,14 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 1.0.1;
+			};
+		};
+		26D24B1F270019A900A3DEE7 /* XCRemoteSwiftPackageReference "UICircularProgressRing" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/luispadron/UICircularProgressRing.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.0.0;
 			};
 		};
 		26DE210F26C5B2E60004B5CE /* XCRemoteSwiftPackageReference "CodeScanner" */ = {
@@ -1154,6 +1249,16 @@
 			package = 260A110F26C373DE00873FE6 /* XCRemoteSwiftPackageReference "MbSwiftUIFirstResponder" */;
 			productName = MbSwiftUIFirstResponder;
 		};
+		26872883271CE0AA00C2F89F /* URLImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 26872882271CE0A900C2F89F /* XCRemoteSwiftPackageReference "url-image" */;
+			productName = URLImage;
+		};
+		26872885271CE0AA00C2F89F /* URLImageStore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 26872882271CE0A900C2F89F /* XCRemoteSwiftPackageReference "url-image" */;
+			productName = URLImageStore;
+		};
 		26B1B0062679566E00A170B3 /* iPhoneNumberField */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 26B1B0052679566E00A170B3 /* XCRemoteSwiftPackageReference "iPhoneNumberField" */;
@@ -1168,6 +1273,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 26B66A8C26EA9E0E001EAA80 /* XCRemoteSwiftPackageReference "PopupView" */;
 			productName = PopupView;
+		};
+		26D24B20270019A900A3DEE7 /* UICircularProgressRing */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 26D24B1F270019A900A3DEE7 /* XCRemoteSwiftPackageReference "UICircularProgressRing" */;
+			productName = UICircularProgressRing;
 		};
 		26DE211026C5B2E60004B5CE /* CodeScanner */ = {
 			isa = XCSwiftPackageProductDependency;

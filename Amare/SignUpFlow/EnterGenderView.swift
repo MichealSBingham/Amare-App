@@ -114,7 +114,7 @@ struct EnterGenderView: View {
                     Alert(title: Text("TODO: Allow more genders"), message: Text("This is not finished yet, but it will allow you to select additional genders"))
  
                 } */
-                .onAppear(perform: {settings.viewType = .EnterGenderView})
+                .onAppear(perform: {settings.viewType = .EnterGenderView}) 
 
                 
               

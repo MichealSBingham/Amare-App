@@ -27,7 +27,7 @@ struct EnterBirthdayView: View {
     
     @State private var date = Date()
     
-    public var timezone: TimeZone?
+    public var timezone: TimeZone
     
     @State private var someErrorOccured: Bool = false
     @State private var alertMessage: String  = ""
@@ -66,7 +66,7 @@ struct EnterBirthdayView: View {
                         Toggle("I know my birth time", isOn: $knowsBirthTime).padding()
                         
                         
-                        DatePicker(selection: $date, in :...Date().dateFor(years: -13) , displayedComponents: [.date, .hourAndMinute], label: { Text("Birthday") }).environment(\.timeZone, self.timezone!)
+                        DatePicker(selection: $date, in :...Date().dateFor(years: -13) , displayedComponents: [.date, .hourAndMinute], label: { Text("Birthday") }).environment(\.timeZone, self.timezone)
                             .padding()
                     
                         
@@ -85,7 +85,7 @@ struct EnterBirthdayView: View {
                         
                         Alert(
                                         title: Text("Is this when you were born?"),
-                                        message: Text("\(date)"),
+                                        message: Text("\(date.to(timezone: timezone))"),
                                         primaryButton: .default(Text("Yes")) {
                                             saveBirthdayAndGoToNextView()
                                         },
@@ -188,7 +188,7 @@ struct EnterBirthdayView: View {
     
     /// Goes to the next screen / view,. Verification Code Screen
     func goToNextView()  {
-        navigationStack.push(LiveWhereView().environmentObject(account))
+        navigationStack.push(SelectLocationForResidenceView().environmentObject(account))
         
        
     }
@@ -364,4 +364,15 @@ struct EnterBirthdayView_Previews: PreviewProvider {
         
         
     }
+}
+
+
+extension Date{
+    func to(timezone: TimeZone) -> String {
+         let formatter = DateFormatter()
+         formatter.dateFormat = "cccc, MMMM d, YYYY h:m a vvvv"
+         formatter.timeZone = timezone
+         return formatter.string(from: self)
+            
+        }
 }

@@ -37,6 +37,9 @@ struct SignInOrUpView: View {
     
     @State private var buttonDisabled: Bool = false
     
+    /// Whether or not this view became the root view when it was instantiated 
+     var isRoot: Bool
+    
     var body: some View {
         
         VStack{
@@ -146,6 +149,8 @@ struct SignInOrUpView: View {
     func createPolicyAndConditionsAcceptance() -> some View  {
         
         return HStack{  box(); agreeToPolicyText }.modifier(ShakeEffect(shakes: attempts*2)).animation(Animation.default, value: attempts)
+     
+     // add font ... (.footnote)
     }
     */
     
@@ -401,6 +406,7 @@ struct SignInOrUpView: View {
     private var agreeToPolicyText: some View {
         
         Text(agreeToPolicyTextAttributedString()).foregroundColor(.white).font(.system(size: 16))
+     .font(footnote)
     }
  */
     

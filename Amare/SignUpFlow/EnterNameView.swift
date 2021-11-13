@@ -183,7 +183,7 @@ struct EnterNameView: View {
                         buttonIsDisabled = false
                         return
                     }
-                    firstResponder = nil 
+                   // firstResponder = nil 
                     goToNextView()
                 })
             } catch (let error){
@@ -222,7 +222,7 @@ struct EnterNameView: View {
             guard error == nil else { return }
             
                 firstResponder = nil
-                navigationStack.pop(to: .root)
+                navigationStack.pop(to: .previous)
             
            
             return
@@ -282,6 +282,7 @@ struct EnterNameView: View {
                 name = name.trimmingCharacters(in: .whitespacesAndNewlines)
                 
                 account.data = AmareUser(id: account.user?.uid ?? "", name: name)
+           
                 
                 do{
                     try account.save(completion: { error in
@@ -339,7 +340,7 @@ struct EnterNameView: View {
     func goToNextView()  {
         
         
-        navigationStack.push(EnterGenderView().environmentObject(account))
+        navigationStack.push(EnterUsernameView().environmentObject(account))
         
     }
     

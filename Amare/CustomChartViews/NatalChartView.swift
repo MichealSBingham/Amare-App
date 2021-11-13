@@ -44,7 +44,9 @@ struct NatalChartView: View {
     
     @State var showHouses: Bool = true
     
-    @State var showBottomPopup: Bool = false
+    @State var showMoreInfo: Bool = false
+    
+    
     
    // @State var aspectSelected: AspectType?
     
@@ -299,6 +301,8 @@ struct NatalChartView: View {
                                         .onTapGesture{
                                             print("Planet selected: \(planet)")
                                        NotificationCenter.default.post(name: NSNotification.wantsMoreInfoFromNatalChart, object: planet)
+                                            planetSelected = planet
+                                           
                                         }
                                         .zIndex(1)
                                     
@@ -410,7 +414,14 @@ struct NatalChartView: View {
                            
                     }
                         
+                    /*
+                    MoreInfoOnPlanet(planet: planetSelected, chart: natalChart)
+                        .rotationEffect(.degrees(-1*alpha))
+                        .opacity((natalChart?.showDetailsOfThisChart ?? false) ? 1 : 0 )
+                        .padding()
+                        .offset(x: 0, y: -50)
                     
+                    */
                     
                 }.frame(width: (R != .infinity) ? CGFloat(2*R): .infinity, height: (R != .infinity) ? CGFloat(2*R): .infinity)
                 .rotationEffect(.degrees(alpha))
@@ -429,6 +440,7 @@ struct NatalChartView: View {
         
             
     }
+    
     
     func HouseDividers(x_center: Double, y_center: Double, r: Double, R_: Double) -> some View {
         let houses = self.natalChart?.houses ?? []
@@ -867,7 +879,7 @@ struct Make: AnimatableModifier{
             return NatalChartView(alpha: -1*rotation_offset, natalChart: with, aspectSelected: aspectSelected ?? .all)
                 //.rotate(degrees: rotation_offset )
         }
-        /// - WARNING: setting alpha to -180 by default here will cancel spin annimation on initalization if ascendant is not given
+        /// - WARNING: setting alpha to -180 by default here will cancel spin annimation n initalization if ascendant is not given
         return NatalChartView( alpha: -180, natalChart: with,aspectSelected: aspectSelected ?? .all )
         
     }

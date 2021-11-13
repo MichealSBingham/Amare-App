@@ -8,7 +8,8 @@
 import SwiftUI
 import Firebase
 import FirebaseAuth
-
+import URLImage
+import URLImageStore
 
 
 @main
@@ -23,6 +24,8 @@ struct AmareApp: App {
 
 
     var body: some Scene {
+        
+       
         
         WindowGroup {
            
@@ -110,7 +113,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
-        
+        /*
         if !(isDoneWithSignUp()){
                 // if not done with sign up... log user out.
             print("not done with sign up ... signing out..")
@@ -126,7 +129,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         
-        
+        */
         
     }
     

@@ -27,12 +27,17 @@ struct Aspect: Codable, Identifiable {
     let orb: Double
     
     /// Type of the aspect 
-    let type: AspectType 
+    let type: AspectType
     
-    var id: (String) { name }
+    //TODO
+    let interpretation: String?
+    let synastry_interpretation: String? 
     
+    //var id: (String) { name }
     
+    let id = UUID()
     
+
     
 }
 
@@ -66,6 +71,45 @@ enum AspectType: String, Codable, CaseIterable, Identifiable{
         return opt 
     }
     
+    func color() -> Color {
+        
+        switch self {
+        case .none:
+            return .clear
+        case .conjunction:
+            return .green // depends on planets involved
+        case .sextile:
+            return .green
+        case .square:
+            return .red
+        case .trine:
+            return .blue
+        case .opposition:
+            return .yellow // either complementary or problematic
+        case .semisextile:
+            return .gray
+        case .semiquintile:
+               return  .green.opacity(0.5)
+        case .semisquare:
+            return .red.opacity(0.5)
+        case .quintile:
+            return .green.opacity(0.8)
+        case .sesquiquintile:
+            return .orange.opacity(0.5)
+        case .sesquisquare:
+             return .orange.opacity(0.5)
+        case .biquintile:
+            return .green.opacity(0.8)
+        case .quincunx:
+            return .orange
+        case .all:
+               return  .clear
+        case .nothing:
+            return .clear
+        }
+        
+    }
+    
     func toString() -> String{
         
         switch self {
@@ -86,7 +130,7 @@ enum AspectType: String, Codable, CaseIterable, Identifiable{
 }
 
 /// Either an angle or a planet 
-enum Body: String, Codable {
+enum Body: String, Codable, Identifiable{
     
     case Sun
     case Moon
@@ -106,6 +150,8 @@ enum Body: String, Codable {
     case mc = "MC" // MC
     case desc = "Desc" // Desc
     case ic = "IC" // ic
+    
+    var id: String { self.rawValue }
     
     func string() -> String  {
         

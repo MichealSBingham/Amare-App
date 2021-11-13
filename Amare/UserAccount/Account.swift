@@ -34,10 +34,10 @@ class Account: ObservableObject {
                private  var isListeningForSignOut: Bool = false
     
     /// Reference to the firebase database
-    private var db: Firestore?
+    public var db: Firestore?
     
     /// Reference to cloud storage (firebase)
-    private var storage: StorageReference?
+    public var storage: StorageReference?
     
   
     
@@ -192,51 +192,66 @@ class Account: ObservableObject {
                     case .networkError:
                         print("Login Completion Block 2 ")
                         runThisClosure!(GlobalError.networkError, nil, nil)
+                        return
                     case .tooManyRequests:
                         print("Login Completion Block 3")
                         runThisClosure!(GlobalError.tooManyRequests, nil, nil)
+                        return
                     case .captchaCheckFailed:
                         print("Login Completion Block 4 ")
                         runThisClosure!(GlobalError.captchaCheckFailed, nil, nil)
+                        return
                     case .invalidPhoneNumber:
                         print("Login Completion Block 5 ")
                         runThisClosure!(GlobalError.invalidInput, nil, nil)
+                        return
                     case .quotaExceeded:
                         print("Login Completion Block 6 ")
                         runThisClosure!(GlobalError.quotaExceeded, nil, nil)
+                        return
                     case .operationNotAllowed:
                         print("Login Completion Block 7 ")
                         runThisClosure!(GlobalError.notAllowed, nil, nil)
+                        return
                     case .internalError:
                         print("Login Completion Block 8 ")
                         runThisClosure!(GlobalError.internalError, nil, nil)
+                        return
                         
                         // Handle Account Errors
                     case .expiredActionCode:
                         print("Login Completion Block 9 ")
                         runThisClosure!(AccountError.expiredActionCode, nil, nil)
+                        return
                     case .sessionExpired:
                         print("Login Completion Block 10 ")
                         runThisClosure!(AccountError.sessionExpired, nil, nil)
+                        return
                     case .userTokenExpired:
                         print("Login Completion Block 11 ")
                         runThisClosure!(AccountError.userTokenExpired, nil, nil)
+                        return
                     case .userDisabled:
                         print("Login Completion Block 12 ")
                         runThisClosure!(AccountError.disabledUser, nil, nil)
+                        return
                     case .wrongPassword:
                         print("Login Completion Block 13 ")
                         runThisClosure!(AccountError.wrong, nil, nil)
+                        return
                     case .invalidVerificationCode:
                         print("Login Completion Block 14 ")
                         runThisClosure!(AccountError.wrong, nil, nil )
+                        return
                     case .missingVerificationCode:
                         print("Login Completion Block 15 ")
                         runThisClosure!(AccountError.wrong, nil , nil )
+                        return
                     default:
                         print("Login Completion Block 16 ")
                         print("\n\nSome error happened, likely an unhandled error from firebase : \(error). This happened inside Account.login()")
                         runThisClosure!(GlobalError.unknown, nil, nil)
+                        return
                     }
                     
                    return
@@ -375,8 +390,12 @@ class Account: ObservableObject {
             self.isSignedIn = false
         }
         //clear verification code
+    
         UserDefaults.standard.removeObject(forKey: "authVerificationID")
+        UserDefaults.standard.reset()
         completion?(nil)
+        NotificationCenter.default.post(name: NSNotification.logout, object: nil)
+        return
         
     } catch let signOutError as NSError {
     
@@ -405,6 +424,7 @@ class Account: ObservableObject {
         
         print ("Some Error happened signing out: %@", signOutError)
         completion?(GlobalError.unknown)
+        return
     }
       
     }
@@ -595,6 +615,125 @@ class Account: ObservableObject {
     }
     
     
+    /// Reads the user data once from the database and returns it
+    /// - Parameter completion: Completion block ran after an attempt to fetch the user data beloning to the `Account`
+    /// - Parameter error: Will be nil if it was successful or an error of type `AccountError` or `GlobalError` will be passed.
+    /// - Author: Micheal S. Bingham
+    func getOtherUser(from id: String, completion:( ( _ user: AmareUser? , _ err: Error?) -> Void)?  = nil )  {
+        
+        
+        let DB =  (self.db == nil) ? Firestore.firestore()   :  self.db!
+        self.db = DB
+        
+    
+        /*
+        guard let id  = self.user?.uid else {
+            
+            completion?(AccountError.notSignedIn)
+            
+            return
+        }
+        */
+        
+        DB.collection("users").document(id).getDocument { document, error in
+            
+            guard error == nil else{
+                // Handle these errors....
+                
+                if let error = AuthErrorCode(rawValue: error?._code ?? 17999){
+                    
+                    switch error {
+                        
+                        // Handle Global Errors
+                    case .networkError:
+                        completion?(nil, GlobalError.networkError)
+                    case .tooManyRequests:
+                        completion?(nil, GlobalError.tooManyRequests)
+                    case .captchaCheckFailed:
+                        completion?(nil, GlobalError.captchaCheckFailed)
+                    case .quotaExceeded:
+                        completion?(nil, GlobalError.quotaExceeded)
+                    case .operationNotAllowed:
+                        completion?(nil, GlobalError.notAllowed)
+                    case .internalError:
+                        print("\n\nSome error happened, likely an unhandled error from firebase : \(error). This happened inside Account.getUserData()")
+                        completion?(nil, GlobalError.internalError)
+                        
+                        // Handle Account Errors
+                    case .expiredActionCode:
+                        completion?(nil, AccountError.expiredActionCode)
+                    case .sessionExpired:
+                        completion?(nil, AccountError.sessionExpired)
+                    case .userTokenExpired:
+                        completion?(nil, AccountError.userTokenExpired)
+                    case .userDisabled:
+                        completion?(nil, AccountError.disabledUser)
+                    case .wrongPassword:
+                        completion?(nil, AccountError.wrong)
+                    default:
+                        print("\n\nSome error happened, likely an unhandled error from firebase : \(error). This happened inside Account.getUserData()")
+                        completion?(nil, GlobalError.unknown)
+                    }
+                    
+                   return
+                    
+                } else{
+                    
+                    print("\n\nSome error happened, likely an unhandled error from firebase : \(error). This happened inside Account.getUserData()")
+                    completion?(nil, GlobalError.unknown)
+                    return
+                }
+            
+                
+                
+            }
+            
+            if let document = document, document.exists {
+                
+                  
+                
+                let result = Result {
+                    try document.data(as: AmareUser.self)
+                }
+                
+                switch result {
+                
+                
+                case .success(let data):
+                    
+                    if let data = data{
+                        
+                       
+                        completion?(data, nil)
+                        
+                        
+                    } else{
+                        
+                        // Could not retreive the data for some reason
+                        completion?(nil, AccountError.doesNotExist)
+                    }
+                    
+                
+                case .failure(let error):
+                    // Handle errors
+                    print("Some error happened trying to convert the user data to a User Data object: \(error.localizedDescription)")
+                    completion?(nil, GlobalError.unknown)
+              
+                }
+
+                
+                
+                
+                } else {
+                    // User does not exist
+                    completion?(nil, AccountError.doesNotExist)
+                }
+            
+            
+            return
+        }
+        
+    }
     /// Reads the public user data from a particular id
     /// - Parameter completion: Completion block ran after an attempt to fetch the user data beloning to the `Account`
     /// - Parameter error: Will be nil if it was successful or an error of type `AccountError` or `GlobalError` will be passed.
@@ -707,20 +846,95 @@ class Account: ObservableObject {
         
     }
     
+    /// THIS WILL GET ALL OF THE USERS IN THE DATABASE USE THIS WITH CARE.
+    func getALLusers( real: Bool = false, completion: ( (_ err: Error?, _ users: [AmareUser]) -> Void)?  = nil) -> Void  {
+        
+        let DB =  (self.db == nil) ? Firestore.firestore()   :  self.db!
+        self.db = DB
+        
+        DB.collection(!real ? "generated_users": "users").getDocuments { snapshot, error in
+            
+            if let error = error {
+                completion!(error, [])
+                return
+            }
+            
+            var users: [AmareUser] = []
+            for document in snapshot!.documents{
+                print("\n\n\n\n\nThe document data is ...\(document.data())")
+                let result = Result {
+                    try document.data(as: AmareUser.self)
+                }
+                
+                switch result {
+                
+                
+                case .success(let data):
+                    
+                    if var user = data{
+                        user.id = document.documentID
+                        //print("\n\n\n\n\n\n***The document object is .. \(document.data())")
+                        // Data object contains all of the user's data
+                      
+                        // append it
+                        /*
+                        self.getNatalChart(from: user.id ?? "hello", pathTousers: "generated_users") { err, natalChart in
+                            if let natal_chart = natalChart{
+                                //user.natal_chart = natal_chart
+                                
+                            }
+                            
+                          //  print("appending \(user) to \(users)")
+                            users.append(user)
+                          //  print("the count of users appendedare ... \(users.count)")
+                            
+                        }
+                        */
+                        users.append(user)
+
+                        
+                        
+                    } else{
+                        
+                        // Could not retreive the data for some reason
+                        return
+                    }
+                    
+                
+                case .failure(let error):
+                    // Handle errors
+                    print("Some error happened trying to convert the user data to a User Data object: \(error.localizedDescription)")
+                    continue
+                  //  return
+              
+                }
+
+                
+            }
+            print("Running completed block with \(users.count) users")
+            completion!(nil, users)
+            
+            
+        }
+        
+        
+        
+    }
     
     /// Returns the natal chart for a public arbitary user specified by id
     /// - Parameters:
     ///   - id: ID of the user
+    ///   - pathTousers: By default 'users' only change if you're collecting the users from a different collection, like `generated_users`
     ///   - isOuterChart: False by default. This will make sure the planets and other luminary bodies returned have the attribute`forSynastry` marked true. (useful for the `NatalChartView`
     ///   - completion: Returns the error and natal chart
-    func getNatalChart(from id: String, isOuterChart: Bool? = false, completion: ( (_ err: Error?, _ natalChart: NatalChart?) -> Void)?  = nil )  {
+    func getNatalChart(from id: String, pathTousers: String = "users", isOuterChart: Bool? = false, completion: ( (_ err: Error?, _ natalChart: NatalChart?) -> Void)?  = nil )  {
         
         
         let DB =  (self.db == nil) ? Firestore.firestore()   :  self.db!
         self.db = DB
         
     
-        DB.collection("users").document(id).collection("public").document("natal_chart").getDocument { document, error in
+        DB.collection(pathTousers).document(id).collection("public").document("natal_chart").getDocument { document, error in
             
             guard error == nil else{
                 // Handle these errors....
@@ -1093,12 +1307,12 @@ class Account: ObservableObject {
     ///   - image: UIImage to upload
     ///   - isProfileImage: Whether or not we should set this image as the user's profile image
     ///   - completion: An `AccountError` , `SystemError` or `GlobalError` could be passed here but will be nil if it was a success
-    func upload(image: UIImage, isProfileImage: Bool = false, completion: ( (_ error: Error?) -> () )? = nil)  {
+    func upload(image: UIImage, isProfileImage: Bool = false, completion: @escaping ( (_ error: Error?) -> () ))  {
         
         guard let userid = self.user?.uid else {
             
             // There is no signed in user, throw error or pass in handler
-            completion?(AccountError.notSignedIn)
+            completion(AccountError.notSignedIn)
             return
         }
         
@@ -1106,16 +1320,22 @@ class Account: ObservableObject {
         self.db = DB
         
        // Get reference to cloud storage
-        let ref =  (self.storage == nil) ? Storage.storage().reference()   :  self.storage!
+      //  let ref =  (self.storage == nil) ? Storage.storage().reference()   :  self.storage!
+        let ref = Storage.storage(url: "gs://loveequationapp.appspot.com").reference()
         self.storage = ref
         
+      //  Auth().currentUser?.reauthenticate(with: <#T##AuthCredential#>, completion: <#T##((AuthDataResult?, Error?) -> Void)?##((AuthDataResult?, Error?) -> Void)?##(AuthDataResult?, Error?) -> Void#>)
+        let nameOfImage = isProfileImage ? "profile_image_\(UUID.init().uuidString).jpg" : "\(UUID.init().uuidString).jpg"
         
-        let nameOfImage = isProfileImage ? "profile_image.jpg" : "\(UUID.init().uuidString).jpg"
+        print("***name of the image .. \(nameOfImage)")
         
         let uploadRef = ref.child("users").child(userid).child("images").child(nameOfImage)
         
+        print("***image uplaod ref is ... \(uploadRef)")
+        
        
-        guard let imageData = image.jpegData(compressionQuality: 1) else { completion?(SystemError.imageCompress) ;/* Some error compresing the  image */ return  }
+        guard let imageData = image.jpegData(compressionQuality: 1) else { completion(SystemError.imageCompress) ; print("can't get image data"); /* Some error compresing the  image */ return  }
+        
         let uploadMetaData = StorageMetadata.init()
         uploadMetaData.contentType = "image/jpeg"
         
@@ -1125,34 +1345,40 @@ class Account: ObservableObject {
             
             if let error = error {
                 // some error occured
-                completion?(AccountError.uploadError)
+                print("***Some error uplaoding in task reference ... \(error)")
+                completion(AccountError.uploadError)
+                return
 
             }
             
             //  No error, get the image URL
             
             uploadRef.downloadURL { url, error in
-                
+                print("***Dowloading url with  error \(error) and url \(url)")
                 if let error = error{
-                    completion?(AccountError.uploadError)
+                    completion(AccountError.uploadError)
+                    return
                 }
                 
                 // No error after getting url
                 
                 let imageURL = url?.absoluteString
                 
+                print("***image url is .. \(imageURL)")
+                
                 // Set the url link in the database
                
                 
                 if isProfileImage{  self.data?.profile_image_url = imageURL
                     
-                    print("It's a profile image... \(self.data?.profile_image_url)")
+                    print("***It's a profile image... \(self.data?.profile_image_url)")
                     do{
-                        print("trying...to save profile image ")
+                        print("***trying...to save profile image ")
                         try self.save()
                     } catch (let error){
-                        print("could not save profile image with error .. \(error)")
-                        completion?(error)
+                        print("***could not save profile image with error .. \(error)")
+                        completion(error)
+                        return
                     }
                 }
 
@@ -1177,11 +1403,14 @@ class Account: ObservableObject {
                                 
                                 // Handle Global Errors
                             case .quotaExceeded:
-                                completion?(GlobalError.quotaExceeded)
+                                completion(GlobalError.quotaExceeded)
+                                return
                             case .unauthorized:
-                                completion?(AccountError.notAuthorized)
+                                completion(AccountError.notAuthorized)
+                                return
                             case .unauthenticated:
-                                completion?(AccountError.notSignedIn)
+                                completion(AccountError.notSignedIn)
+                                return
                             case .objectNotFound:
                                 // There is no object located here so we need to create one and add it.
                                 DB.collection("users").document(self.data?.id ?? self.user!.uid).setData(["images": []]) { error in
@@ -1190,8 +1419,9 @@ class Account: ObservableObject {
                                     
                                    guard error == nil else  {
                                         print("We failed to upload it in the databases, we tried to set the images data to an empty array but it dind't work")
-                                        completion?(GlobalError.unknown)
+                                       completion(GlobalError.unknown)
                                        return
+                                       
                                     }
                                     
                                     // It worked so let's just try again
@@ -1202,13 +1432,15 @@ class Account: ObservableObject {
                                         guard error == nil else {
                                             // It didn't work so just try again
                                             print("error We failed trying to recursiviely upload the image if .objectNotfound with error \(error!.localizedDescription)")
-                                            completion?(GlobalError.unknown)
+                                            completion(GlobalError.unknown)
                                             return
+                                            
                                             
                                         }
                                         // It worked.
                                         print("it worked .. self.upload")
-                                        completion?(nil) 
+                                        completion(nil)
+                                        return
                                   
                                         
                                     }
@@ -1216,7 +1448,8 @@ class Account: ObservableObject {
                            
                             default:
                                 print("\n\nSome error happened, likely an unhandled error from firebase : \(error). This happened inside Account.upload()")
-                                completion?(GlobalError.unknown)
+                                completion(GlobalError.unknown)
+                                return
                             }
                             
                             
@@ -1224,12 +1457,13 @@ class Account: ObservableObject {
                         
                         // it's some other error , unknown to us
                         print("\n\nSome error happened, global \(error?.localizedDescription) happened at the end of upload ")
-                        completion?(GlobalError.unknown)
+                        completion(GlobalError.unknown)
                         return
                     }
                    
                     print("No error ..uploaded image")
-                    completion?(nil)
+                    completion(nil)
+                    return 
                     
                 }
                 
@@ -1384,7 +1618,20 @@ class Account: ObservableObject {
     }
     
 
-    
+    ///TODO: Add error handling
+    ///winks at a user given the user ID
+    func wink(at userId: String?) {
+        
+        let DB =  (self.db == nil) ? Firestore.firestore()   :  self.db!
+        self.db = DB
+        
+        guard let id = Auth.auth().currentUser?.uid, let userId = userId else {
+            
+            print("Not winking... id \(self.user?.uid) , userid = \(userId)")
+            return
+        }
+        self.db?.collection("winks").document(userId).collection("people_who_winked").document(id).setData(["didWink": true, "time": Date.now])
+    }
     
     
 }
@@ -1393,3 +1640,14 @@ class Account: ObservableObject {
 
 
 
+extension PhoneAuthCredential{
+    func save() {
+        
+        UserDefaults.standard.set(self, forKey: "authInfo")
+    }
+    
+    class func get() -> PhoneAuthCredential? {
+        
+        return UserDefaults.standard.object(forKey: "authInfo") as? PhoneAuthCredential
+    }
+}

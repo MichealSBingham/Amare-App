@@ -36,9 +36,12 @@ struct Angle: Codable, Identifiable{
     var iconName: String { name.rawValue }
     
     /// Will return the symbol of the planet
-    func image() ->  some View {
+    /// The small version is just used so that it returns smaller characters if we use the smaller natal chart frame (like in the person pop up view_
+    func image(smallVersion: Bool? = false) ->  some View {
         
         var size: CGFloat = 10
+        
+        
         var text = ""
             
           
@@ -48,6 +51,11 @@ struct Angle: Codable, Identifiable{
                 
                 
             }
+        
+        if smallVersion ?? false {
+            
+            size = size / 2
+        }
         
         
         switch self.name {
@@ -80,11 +88,15 @@ struct Angle: Codable, Identifiable{
         
                 
     }
+    
+    func smallerImage() -> some View {
+        return self.image(smallVersion: true)
+    }
 }
 
 
 
-enum AngleName: String, Codable{
+enum AngleName: String, Codable, CaseIterable{
     
     case asc = "Asc" // Ascendant
     case mc = "MC" // MC
@@ -103,6 +115,61 @@ enum AngleName: String, Codable{
         case .ic:
             return "Imum Coeli"
         }
+    }
+    
+    
+    /// Will return the symbol of the planet
+    /// The small version is just used so that it returns smaller characters if we use the smaller natal chart frame (like in the person pop up view_
+    func image(smallVersion: Bool? = false) ->  some View {
+        
+        var size: CGFloat = 15
+        
+        
+        var text = ""
+            
+          
+        
+        if smallVersion ?? false {
+            
+            size = size / 2
+        }
+        
+        
+        switch self {
+        case .asc:
+            text = "ASC"
+        case .mc:
+            text = "MC"
+        case .desc:
+            text = "DESC"
+        case .ic:
+            text = "IC"
+        default:
+            text = ""
+        }
+                
+            
+        
+        return Text(text)
+            .font(.system(size: size))
+            .bold()
+            .colorInvert()
+           // .frame(width: CGFloat(sizeToUse*0.30), height: CGFloat(sizeToUse*0.30))
+            
+            
+            /*
+            return Image("ZodiacIcons/\(self.iconName)")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: CGFloat(sizeToUse*0.30), height: CGFloat(sizeToUse*0.30))
+                .colorInvert()
+        */
+        
+                
+    }
+    
+    func smallerImage() -> some View {
+        return self.image(smallVersion: true)
     }
     
 }

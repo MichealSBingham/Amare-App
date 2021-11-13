@@ -41,6 +41,16 @@ struct House: Codable, Identifiable {
     }
     
     var id: Int { ordinality }
+    
+    /// Returns '1st', '2nd' , '3rd', etc..
+    func name() -> String? {
+        
+        
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .ordinal
+        let house = formatter.string(from: NSNumber(value: self.ordinality))
+        return house
+    }
 }
 
 enum HouseCondition: String, Codable{
@@ -48,4 +58,40 @@ enum HouseCondition: String, Codable{
     case Succedent
     case Angular
     case Cadent
+}
+
+enum HouseNameOrd: String, CaseIterable{
+    case first = "1st"
+    case second = "2nd"
+    case third = "3rd"
+    case fourth = "4th"
+    case fifth = "5th"
+    case sixth = "6th"
+    case seventh = "7th"
+    case eight = "8th"
+    case ninth = "9th"
+    case tenth = "10th"
+    case eleventh = "11th"
+    case twelth = "12th"
+}
+
+extension Int {
+    func toHouseNameOrd() -> HouseNameOrd? {
+        switch self {
+        case 1: return .first
+        case 2: return .second
+        case 3: return .third
+        case 4: return .fourth
+        case 5: return .fifth
+        case 6: return .sixth
+        case 7: return .seventh
+        case 8: return .eight
+        case 9: return .ninth
+        case 10: return .tenth
+        case 11: return .eleventh
+        case 12: return .twelth
+        default:
+            return nil
+        }
+    }
 }

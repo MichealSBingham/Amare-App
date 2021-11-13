@@ -555,7 +555,7 @@ struct EnterOrientationView: View {
     /// Goes to the next screen / view,.
     func goToNextView()  {
         
-        navigationStack.push(FromWhereView().environmentObject(account), withId: FromWhereView.id)
+        navigationStack.push(SelectLocationView().environmentObject(account), withId: SelectLocationView.id)
         
     }
     

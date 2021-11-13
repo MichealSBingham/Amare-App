@@ -17,7 +17,8 @@ struct MainView: View {
     @EnvironmentObject private var account: Account
     @EnvironmentObject private var navigationStack: NavigationStack
 
-    
+    /// Whether or not this view became the root view when it was instantiated 
+     var isRoot: Bool
     
     var body: some View {
         
@@ -36,7 +37,7 @@ struct MainView: View {
             }
             .onAppear(perform: { thingsToDoWhenMainViewLoads()})
             .onReceive(NotificationCenter.default.publisher(for: NSNotification.logout), perform: { _ in
-            
+            print("Received notification to sign out...")
                 goBackToSignInRootView()
         
         })
@@ -92,7 +93,16 @@ struct MainView: View {
     
     
     func goBackToSignInRootView()  {
-        navigationStack.pop(to: .root)
+        print("Should be going back to root sign in ")
+        if isRoot {
+            // Push it back I suppose ...
+            navigationStack.push(SignInOrUpView( isRoot: false))
+        } else{
+            
+            navigationStack.pop(to: .root)
+        }
+     
+        
     }
     
     
@@ -105,6 +115,14 @@ struct MainView: View {
     func thingsToDoWhenMainViewLoads()  {
         
         print("Things to do when view loads... ")
+        
+        /// We ensure that the data has complete sign up data otherwise we sign them out. This handles the case whre they begin signing up but for some reason they never finish. We don't want to show them the main view.
+        /*guard account.data?.isComplete() ?? false  else {
+            account.signOut { error in
+                
+            }
+            return
+        } */
         account.listen_for_user_data_updates()
         account.listenOnlyForSignOut()
         settings.viewType = .main
@@ -117,7 +135,7 @@ struct MainView: View {
 
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
-        MainView()
+        MainView( isRoot: false)
             .environmentObject(Account())
             .environmentObject(NavigationStack())
     }

@@ -8,7 +8,8 @@
 import SwiftUI
 import UIKit
 import NavigationStack
-
+import URLImage
+import URLImageStore
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
@@ -19,6 +20,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         account.listen()
         
+        let urlImageService = URLImageService(fileStore: nil, inMemoryStore: URLImageInMemoryStore())
+        
         
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
@@ -26,6 +29,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
           
             let firstView = RootView()
                                     .environmentObject(self.account)
+                                    .environment(\.urlImageService, urlImageService)
                                     ////.environmentObject(NavigationModel())
                                         
             window.rootViewController = UIHostingController(rootView: firstView)

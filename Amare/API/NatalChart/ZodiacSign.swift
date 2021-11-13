@@ -11,7 +11,7 @@ import SwiftUI
 ///  a list of zodiac signs in order from Aries
 let ZODIAC_SIGNS: [ZodiacSign] = [ .Aries, .Taurus, .Gemini, .Cancer, .Leo, .Virgo, .Libra, .Scorpio, .Sagittarius, .Capricorn, .Aquarius, .Pisces]
 
-enum ZodiacSign: String, Codable{
+enum ZodiacSign: String, Codable, CaseIterable{
     
     case Aries
     case Taurus
