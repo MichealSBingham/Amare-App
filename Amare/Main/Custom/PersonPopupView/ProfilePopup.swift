@@ -11,6 +11,7 @@ import URLImage
 import URLImageStore
 import FirebaseAuth
 import Combine
+import ConfettiSwiftUI
 
 // Some random data to use as mock
 var peopleImages = ["https://lh3.googleusercontent.com/ogw/ADea4I5VDilLtQfyS7bwoGxcMqXW46dRo_ugPf4ombhR=s192-c-mo", testImages[0],
@@ -42,6 +43,8 @@ struct ProfilePopup: View {
     
     // Indicates whether the user has winked at the user
     @State var hasWinked: Bool = false // set to false for prod
+    
+    @State var counterForConfetti: Int = 0
     
     
     var body: some View {
@@ -162,26 +165,34 @@ struct ProfilePopup: View {
                                         .multilineTextAlignment(.center)
                                         
                     
-                    //TODO: Make this area more tappable 
-                    Button {
+                    //TODO: Make this area more tappable
+                    ZStack{
                         
-                        
-                        withAnimation {
+                        Button {
                             
-                            showActionForUser = true
-                        }
-                    } label: {
-                        
-                       
-                            VStack{
-                                Text("😉").padding(.bottom, 1)
-                                Text("\(user?.name ?? sampleNames.randomElement()!) winked at you!")
+                            
+                            withAnimation {
+                                
+                                showActionForUser = true
                             }
+                        } label: {
+                            
+                           
+                                VStack{
+                                    Text("😉").padding(.bottom, 1)
+                                    Text("\(user?.name ?? sampleNames.randomElement()!) winked at you!")
+                                }
+                            
+                            
+                            
+                        }.opacity(hasWinked ? 1: 0 )
+                        .zIndex(1)
+                        
+                        ConfettiCannon(counter: $counterForConfetti)
                         
                         
-                        
-                    }.opacity(hasWinked ? 1: 0 )
-                    .zIndex(1)
+                    }
+                    
 
                     
                     
@@ -503,10 +514,13 @@ struct ProfilePopup: View {
                     withAnimation {
                         
                         hasWinked = true
+                        counterForConfetti += 1 
                     }
                    
                 } else {
-                    hasWinked = false
+                    withAnimation {
+                        hasWinked = false
+                    }
                 }
             })
         })
