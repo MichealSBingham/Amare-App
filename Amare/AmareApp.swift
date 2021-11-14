@@ -10,7 +10,7 @@ import Firebase
 import FirebaseAuth
 import URLImage
 import URLImageStore
-
+import PushNotifications
 
 @main
 struct AmareApp: App {
@@ -86,10 +86,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
     var account: Account = Account()
+    let beamsClient = PushNotifications.shared
+
 
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         
+        self.beamsClient.start(instanceId: "YOUR_INSTANCE_ID")
+                self.beamsClient.registerForRemoteNotifications()
+        try? self.beamsClient.addDeviceInterest(interest: "hello")
+        try? self.beamsClient.addDeviceInterest(interest: "debug-hello")
         FirebaseApp.configure()
         
         return true

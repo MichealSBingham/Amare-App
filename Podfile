@@ -14,6 +14,7 @@ target 'Amare' do
   pod 'FirebaseFirestoreSwift', '> 8.2.0-beta'
   pod 'GeoFire/Utils'
   pod 'Firebase/Storage'
+  pod 'PushNotifications'
 
   
  
