@@ -4,13 +4,13 @@
 //
 //  Created by Micheal Bingham on 6/15/21.
 //
-
+/*
 import SwiftUI
 import CoreData
-import iPhoneNumberField
+//import iPhoneNumberField
 import Firebase
 import FirebaseAuth
-import PhoneNumberKit
+//import PhoneNumberKit
 import NavigationStack
 
 
@@ -332,7 +332,9 @@ struct EnterPhoneNumberView_Previews: PreviewProvider {
         
     }
 }
+ */
 
+import CoreData
 extension String{
     /// Saves the phone number under the key 'PhoneNumber' in UserDefaults. To be used to help resend verification code on next view
     func savePhoneNumber()  {
@@ -343,3 +345,4 @@ extension String{
        return  UserDefaults.standard.string(forKey: "PhoneNumber")
     }
 }
+

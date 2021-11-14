@@ -847,7 +847,7 @@ class Account: ObservableObject {
     }
     
     /// THIS WILL GET ALL OF THE USERS IN THE DATABASE USE THIS WITH CARE.
-    func getALLusers( real: Bool = false, completion: ( (_ err: Error?, _ users: [AmareUser]) -> Void)?  = nil) -> Void  {
+    func getALLusers( real: Bool = true, completion: ( (_ err: Error?, _ users: [AmareUser]) -> Void)?  = nil) -> Void  {
         
         let DB =  (self.db == nil) ? Firestore.firestore()   :  self.db!
         self.db = DB

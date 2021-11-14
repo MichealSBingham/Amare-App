@@ -71,6 +71,7 @@ struct MapView: View {
     @StateObject var nearbyUsers: NearbyPeople = NearbyPeople()
     @StateObject var usersForGlobe: PeopleForGlobe = PeopleForGlobe()
     @State var selected_user: AmareUser?
+   // @State var selected_chart: NatalChart?
     
     // For showing more info popup
     @State var selectedPlanet: Planet?
@@ -369,6 +370,15 @@ struct MapView: View {
                             }
                             
                         }
+                        /*
+                        account.getNatalChart(from: id) { err, natalChart in
+                            withAnimation {
+                                print("the natal chart got is ... \(natalChart)")
+                                selected_chart = natalChart
+                            }
+                        }
+                        
+                        */
                         
                     }
                     

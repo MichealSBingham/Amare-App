@@ -32,7 +32,7 @@ struct ProfilePopup: View {
     @State var showActionForUser: Bool = false
     @State var showBottomPopup: Bool = false
     @State var infoToShow:String?
-    @State private var chart: NatalChart?
+    @State var chart: NatalChart?
     
     // Properties for the profile pop up
     @State var synastryscore = RingProgress.percent(0)
@@ -196,40 +196,40 @@ struct ProfilePopup: View {
                         
                    
                         
-                        MainPlacementView( planet: user?.natal_chart?.planets.get(planet: .Sun), size: 20).padding(.trailing)
+                        MainPlacementView( planet: chart?.planets.get(planet: .Sun), size: 20).padding(.trailing)
                             
                         
-                        MainPlacementView(planet: user?.natal_chart?.planets.get(planet: .Moon), size: 20).padding(.trailing)
+                        MainPlacementView(planet: chart?.planets.get(planet: .Moon), size: 20).padding(.trailing)
                         
                       
                         //TODO: Do something for people who don't know birth times
-                    MainPlacementView_Angle(angle: user?.natal_chart?.angles.get(planet: .asc), size: 20).padding(.trailing)
+                    MainPlacementView_Angle(angle: chart?.angles.get(planet: .asc), size: 20).padding(.trailing)
                         
                         
                      
                     }
                         
                     HStack{
-                        MainPlacementView(planet: user?.natal_chart?.planets.get(planet: .Mercury), size: 20).padding(.trailing)
-                        MainPlacementView(planet: user?.natal_chart?.planets.get(planet: .Venus), size: 20).padding(.trailing)
+                        MainPlacementView(planet: chart?.planets.get(planet: .Mercury), size: 20).padding(.trailing)
+                        MainPlacementView(planet: chart?.planets.get(planet: .Venus), size: 20).padding(.trailing)
                         
                 
-                        MainPlacementView(planet: user?.natal_chart?.planets.get(planet: .Mars), size: 20).padding(.trailing)
+                        MainPlacementView(planet: chart?.planets.get(planet: .Mars), size: 20).padding(.trailing)
                     }
                         
                     HStack{
                         
-                        MainPlacementView(planet: user?.natal_chart?.planets.get(planet: .Jupiter), size: 20).padding(.trailing)
-                        MainPlacementView(planet: user?.natal_chart?.planets.get(planet: .Saturn), size: 20).padding(.trailing)
+                        MainPlacementView(planet: chart?.planets.get(planet: .Jupiter), size: 20).padding(.trailing)
+                        MainPlacementView(planet: chart?.planets.get(planet: .Saturn), size: 20).padding(.trailing)
                         
                     
-                        MainPlacementView(planet: user?.natal_chart?.planets.get(planet: .Uranus), size: 20).padding(.trailing)
+                        MainPlacementView(planet: chart?.planets.get(planet: .Uranus), size: 20).padding(.trailing)
                     }
                         
                        
                     HStack{
-                        MainPlacementView(planet: user?.natal_chart?.planets.get(planet: .Neptune), size: 20).padding(.trailing)
-                        MainPlacementView(planet: user?.natal_chart?.planets.get(planet: .Pluto), size: 20).padding(.trailing)
+                        MainPlacementView(planet: chart?.planets.get(planet: .Neptune), size: 20).padding(.trailing)
+                        MainPlacementView(planet: chart?.planets.get(planet: .Pluto), size: 20).padding(.trailing)
                         
                         
                     }
@@ -237,19 +237,19 @@ struct ProfilePopup: View {
                     HStack{
                         
                         
-                        MainPlacementView(planet: user?.natal_chart?.planets.get(planet: .NorthNode), size: 20).padding(.trailing)
+                        MainPlacementView(planet: chart?.planets.get(planet: .NorthNode), size: 20).padding(.trailing)
                         
                        
-                        MainPlacementView(planet: user?.natal_chart?.planets.get(planet: .SouthNode), size: 20).padding(.trailing)
+                        MainPlacementView(planet: chart?.planets.get(planet: .SouthNode), size: 20).padding(.trailing)
                     }
                     
                     HStack{
                         
-                        MainPlacementView_Angle(angle: user?.natal_chart?.angles.get(planet: .ic), size: 20).padding(.trailing)
+                        MainPlacementView_Angle(angle: chart?.angles.get(planet: .ic), size: 20).padding(.trailing)
                         
-                        MainPlacementView_Angle(angle: user?.natal_chart?.angles.get(planet: .mc), size: 20).padding(.trailing)
+                        MainPlacementView_Angle(angle: chart?.angles.get(planet: .mc), size: 20).padding(.trailing)
                         
-                        MainPlacementView_Angle(angle: user?.natal_chart?.angles.get(planet: .desc), size: 20).padding(.trailing)
+                        MainPlacementView_Angle(angle: chart?.angles.get(planet: .desc), size: 20).padding(.trailing)
                     }
 
                         
@@ -307,6 +307,7 @@ struct ProfilePopup: View {
                                 }//.animation(.easeInOut(duration: 5))
                                     .frame(width: 150, height: 150)
                                     .onAppear {
+                                        
                                         
                                         AmareApp().delay(1) {
                                             
@@ -420,7 +421,7 @@ struct ProfilePopup: View {
                     }) {
                         
                         SmallNatalChartView()
-                            .makeSmall(with: user?.natal_chart)
+                            .makeSmall(with: chart)
                         
                     }
                 
@@ -474,12 +475,25 @@ struct ProfilePopup: View {
         
         .onChange(of: user, perform: { user_selected in
             
+            print("The user selected is \(user_selected)")
             guard let me = Auth.auth().currentUser?.uid , let them = user_selected?.id else  {
                 
                 print("Could not get me: \(Auth.auth().currentUser?.uid) or them: \(user_selected?.id) ")
                 
                 return
             }
+            
+            // get the natal chart
+            
+            account.getNatalChart(from: them, pathTousers: "users") { err, natalChart in
+                print("The natal chart we get from profile has error \(err) ith chart \(natalChart)")
+                
+                withAnimation {
+                    chart = natalChart
+                }
+            }
+            
+            
             print("LISTENING FOR WINKS")
             account.db?.collection("winks").document(me).collection("people_who_winked").document(them).addSnapshotListener({ snapshot, error in
                 

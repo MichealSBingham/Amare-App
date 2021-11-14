@@ -11,12 +11,12 @@
         }
       },
       {
-        "package": "iPhoneNumberField",
-        "repositoryURL": "https://github.com/MojtabaHs/iPhoneNumberField.git",
+        "package": "ConfettiSwiftUI",
+        "repositoryURL": "https://github.com/simibac/ConfettiSwiftUI",
         "state": {
-          "branch": null,
-          "revision": "a6b5fcc6c9b085285932fe4fe754086ab92409cb",
-          "version": "0.6.1"
+          "branch": "master",
+          "revision": "cab01453f51c70f18727a7607e80fe90e08c4218",
+          "version": null
         }
       },
       {
@@ -26,15 +26,6 @@
           "branch": "main",
           "revision": "4eafce5e917742334183f9bde9ebeedbcc0b1651",
           "version": null
-        }
-      },
-      {
-        "package": "PhoneNumberKit",
-        "repositoryURL": "https://github.com/marmelroy/PhoneNumberKit",
-        "state": {
-          "branch": null,
-          "revision": "1ef0431b971f69c48ca5eb4cdba07f2c5da54c35",
-          "version": "3.3.3"
         }
       },
       {
