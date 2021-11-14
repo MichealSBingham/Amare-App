@@ -12,6 +12,7 @@ import Combine
 import FirebaseFirestoreSwift
 import SwiftUI
 import FirebaseStorage
+import PushNotifications
 
 
 /// Class for handling user account related things such as signing in, signing out, listening for auth changes, adding and reading from the database, etc. An account is associated with one user.
@@ -38,6 +39,7 @@ class Account: ObservableObject {
     
     /// Reference to cloud storage (firebase)
     public var storage: StorageReference?
+    let beamsClient = PushNotifications.shared
     
   
     
@@ -393,8 +395,9 @@ class Account: ObservableObject {
     
         UserDefaults.standard.removeObject(forKey: "authVerificationID")
         UserDefaults.standard.reset()
-        completion?(nil)
         NotificationCenter.default.post(name: NSNotification.logout, object: nil)
+        try? self.beamsClient.clearDeviceInterests()
+        completion?(nil)
         return
         
     } catch let signOutError as NSError {

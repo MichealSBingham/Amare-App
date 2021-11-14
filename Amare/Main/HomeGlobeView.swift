@@ -13,6 +13,7 @@ import Combine
 import URLImage
 import URLImageStore
 import Firebase
+import PushNotifications
 // Sample Data
 
 var sampleNames: [String] = ["Micheal S. Bingham", "John", "Jane", "William Scott"]
@@ -41,6 +42,7 @@ class PeopleForGlobe: ObservableObject{
 
 struct MapView: View {
     @EnvironmentObject private var account: Account
+    let beamsClient = PushNotifications.shared
     
     @State private var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 0, longitude: 0), span: MKCoordinateSpan(latitudeDelta: 180, longitudeDelta: 360))
     
@@ -403,6 +405,10 @@ struct MapView: View {
         .onAppear {
             // Load the nearby users
            // print("LOADING ALL USERS....\(counter)")
+            if let id = Auth.auth().currentUser?.uid {
+                
+                try? self.beamsClient.addDeviceInterest(interest: id)
+            }
             counter += 1
             account.getALLusers { err, foundusers in
                 
