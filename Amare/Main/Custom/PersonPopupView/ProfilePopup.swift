@@ -55,6 +55,7 @@ struct ProfilePopup: View {
             
             
             
+            
             VStack{
                 
                 
@@ -188,7 +189,13 @@ struct ProfilePopup: View {
                         }.opacity(hasWinked ? 1: 0 )
                         .zIndex(1)
                         
-                        ConfettiCannon(counter: $counterForConfetti)
+                      //  ConfettiCannon(counter: $counterForConfetti)
+                       /* ConfettiCannon(counter: $counterForConfetti, num: 150, confettis: [.text("😉")], openingAngle: .degrees(0), closingAngle: .degrees(360), radius: 200)
+                        */
+                        
+                        
+                        
+
                         
                         
                     }
@@ -456,6 +463,9 @@ struct ProfilePopup: View {
             PositiveActionOnUserMenu(user: user, account: account, canWinkBack: $hasWinked)
                 .opacity(showActionForUser ? 1: 0)
             
+            ConfettiCannon(counter: $counterForConfetti, num: 250, confettis: [.text("😉")], rainHeight: 700/*, closingAngle: .degrees(140)*/)
+                .offset(y: 30)
+            
         }
         .padding()
         .background(.ultraThinMaterial)
@@ -514,7 +524,7 @@ struct ProfilePopup: View {
                     withAnimation {
                         
                         hasWinked = true
-                        counterForConfetti += 1 
+                        counterForConfetti += 1
                     }
                    
                 } else {
