@@ -1633,6 +1633,24 @@ class Account: ObservableObject {
         self.db?.collection("winks").document(userId).collection("people_who_winked").document(id).setData(["didWink": true, "time": Date.now])
     }
     
+    ///TODO: Add error handling
+    ///winks at a user given the user ID
+    func unwink(at userId: String?) {
+        
+        let DB =  (self.db == nil) ? Firestore.firestore()   :  self.db!
+        self.db = DB
+        
+        guard let id = Auth.auth().currentUser?.uid, let userId = userId else {
+            
+            print("Not winking... id \(self.user?.uid) , userid = \(userId)")
+            return
+        }
+        self.db?.collection("winks").document(userId).collection("people_who_winked").document(id).delete(completion: { error in
+            // 
+        })
+    }
+
+    
     
 }
 

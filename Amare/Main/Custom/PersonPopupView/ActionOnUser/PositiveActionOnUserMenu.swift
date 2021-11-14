@@ -81,8 +81,15 @@ struct PositiveActionOnUserMenu: View {
                               
                                  if let id = user?.id{
                                      print("Winking at ... \(id)")
-                                     Account().wink(at: id )
-                                     print("winking at .. \(user?.name)")
+                                     
+                                     if winkstatus ?? false  {
+                                         // unwink
+                                         Account().unwink(at: id)
+                                     } else {
+                                         
+                                         Account().wink(at: id )
+                                     }
+                                    
                                  }
                                 
                                  
@@ -189,6 +196,23 @@ struct PositiveActionOnUserMenu: View {
                     winkstatus = false
                 }
             })
+         
+         
+         // See if the other user winked back
+         account.db?.collection("winks").document(me).collection("people_who_winked").document(them).addSnapshotListener({ snapshot, error in
+             
+             print("*** THe snapshot is \(snapshot) with error \(error)")
+             
+             if snapshot?.exists ?? false {
+                 withAnimation {
+                     
+                     canWinkBack = true
+                 }
+                
+             } else {
+                 canWinkBack = false
+             }
+         })
         })
         
     }
