@@ -92,7 +92,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         
-        self.beamsClient.start(instanceId: "YOUR_INSTANCE_ID")
+        self.beamsClient.start(instanceId: "ac1386a2-eac8-4f11-aaab-cad17174260a")
                 self.beamsClient.registerForRemoteNotifications()
         try? self.beamsClient.addDeviceInterest(interest: "hello")
         try? self.beamsClient.addDeviceInterest(interest: "debug-hello")
@@ -103,6 +103,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        
+        self.beamsClient.handleNotification(userInfo: userInfo)
+
         
         if Auth.auth().canHandleNotification(userInfo){
             completionHandler(.noData)
@@ -158,6 +161,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        
+        self.beamsClient.registerDeviceToken(deviceToken)
         
         Auth.auth().setAPNSToken(deviceToken, type: .prod)
     }
