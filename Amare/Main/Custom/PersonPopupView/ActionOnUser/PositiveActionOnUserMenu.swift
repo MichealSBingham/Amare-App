@@ -13,10 +13,10 @@ struct PositiveActionOnUserMenu: View {
     var user: AmareUser?
     var account: Account
     
-    /// Whether or not self user winked at the user or not
+    /// Whether or not THIS user winked at the user or not
    @State var winkstatus: Bool? = nil
     
-    /// If user winked at self (self account user)
+    /// If other user winked at THIS user (self account user)
     @Binding var canWinkBack: Bool
     
     var body: some View {
@@ -95,12 +95,22 @@ struct PositiveActionOnUserMenu: View {
                                  
                              } label: {
                                  
-                                 Text((!(winkstatus ?? false)) ? "😉 Wink": "😬 Unwink" )
-                                   //  .font(.largeTitle)
-                                      .bold()
-                                     // .frame(maxWidth : .infinity, alignment: .center)
-                                     //.padding(.top)
-                                     .foregroundColor(Color.primary.opacity(0.4))
+                                 ZStack{
+                                     
+                                     Text((!(winkstatus ?? false)) ? "😉 Wink": "😬 Unwink" )
+                                          .bold()
+                                         .foregroundColor(Color.primary.opacity(0.4))
+                                         .opacity(!canWinkBack ? 1: 0)
+                                     
+                                     Text((!(winkstatus ?? false)) ? "😉 Wink Back": "😬 Unwink" )
+                                          .bold()
+                                         .foregroundColor(Color.primary.opacity(0.4))
+                                         .opacity(canWinkBack ? 1: 0)
+                                 }
+                                
+                                 
+                                 
+                                 
                              }.padding()
                              
                              Button {
@@ -219,12 +229,13 @@ struct PositiveActionOnUserMenu: View {
 }
 
 /*
+
 struct PositiveActionOnUserMenu_Previews: PreviewProvider {
     
     @State var canWinkBack: Bool = true
     static var previews: some View {
-        PositiveActionOnUserMenu( account: Account(), canWinkBack: $canWinkBack).preferredColorScheme(.dark)
+        PositiveActionOnUserMenu( account: Account(), canWinkBack: .constant(true)).preferredColorScheme(.dark)
     }
 }
-*/
- 
+
+ */
