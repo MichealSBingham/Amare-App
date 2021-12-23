@@ -11,6 +11,8 @@ import FirebaseAuth
 import URLImage
 import URLImageStore
 import PushNotifications
+import GooglePlaces
+
 
 @main
 struct AmareApp: App {
@@ -91,6 +93,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        
+      //  GMSServices.provideAPIKey("YOUR_API_KEY")
+        GMSPlacesClient.provideAPIKey("AIzaSyDezwobB5BsaO8E8RuuBA715EIc5CeZSCc")
         
         self.beamsClient.start(instanceId: "ac1386a2-eac8-4f11-aaab-cad17174260a")
                 self.beamsClient.registerForRemoteNotifications()

@@ -15,8 +15,9 @@ target 'Amare' do
   pod 'GeoFire/Utils'
   pod 'Firebase/Storage'
   pod 'PushNotifications'
+  pod 'GooglePlaces', '6.0.0'
+  pod 'TimeZoneLocate'
 
-  
  
 
 

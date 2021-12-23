@@ -54,6 +54,8 @@ struct ChartView: View {
                 }
         }
     
+    @State var showNewChartMenu = false
+    
     var body: some View {
         
         
@@ -66,11 +68,13 @@ struct ChartView: View {
             
             VStack{
                 
-                Text("Amor Vincit Omnia")
+                /*
+                Text("Natal Chart")
                     .foregroundColor(.white)
                     .font(.system(size: 25))
                     .bold()
                     .padding()
+                */
                 
                     
                // Spacer()
@@ -80,19 +84,18 @@ struct ChartView: View {
                     profileUIImage()
                       // .padding()
                 
-                    //Spacer()
                     
                     VStack{
                         
                         // Name and user name
-                        Text(account.data?.name ?? "You have no name")
+                        Text(account.data?.name ?? "Mikhael Leason")
                             .foregroundColor(.white)
                             .font(.system(size: 22))
                             .bold()
                             .padding([.trailing, .leading, .top])
                             .padding(.bottom, 3)
                        
-                        Text("\(account.data?.id ?? "@saymyname") ")
+                        Text("\(account.data?.username ?? "@mikhael") ")
                             .foregroundColor(.white)
                             .font(.system(size: 15))
                            //.padding()
@@ -102,24 +105,69 @@ struct ChartView: View {
                     }.padding()
                     
                     Spacer()
-                   // Spacer()
+
                 }.padding()
                 
+                
+                
+                // // // // // \\ \\ \\ \\
+    
+                /*
+                Button {
+                    
+                    print("Add")
+                    
+                } label: {
+                    
+                    Image(systemName: "person.fill.badge.plus")
+                        
+
+                }
+*/
+                
+                
+                HStack{
+                    
+                    newChartButton()
+                    
+                    
+                    
+                }
+                
                 Spacer()
+                
+                
 
             }
             
             
             
             
-            
-        
+      
         
         //
-        
+            
             usersNatalChart()
-                .offset(x: 0, y: 50)
+                .offset(x: 0, y: 110)
                 .zIndex(0)
+            
+            /*
+            TabView{
+                
+                usersNatalChart()
+                    .offset(x: 0, y: 50)
+                    .zIndex(0)
+                
+                Text("Run Compatibility with Someone Else")
+                
+            }
+            .indexViewStyle(.page(backgroundDisplayMode: .interactive))
+           // .frame(width: .infinity, height: 150)
+            .tabViewStyle(.page)
+            */
+           
+            
+            
             
             MoreInfoOnPlanet(planet: selectedPlanet, chart: chart)
             //  .rotationEffect(.degrees(-1*alpha))
@@ -129,7 +177,8 @@ struct ChartView: View {
             MoreInfoOnAspectView(chart: chart, aspect: aspectSelected)
                 .opacity(aspectSelected != nil ? 1: 0 )
                 
-                
+                NewChartMenuUIView()
+                .opacity(showNewChartMenu ? 1: 0 )
               
         
             
@@ -150,6 +199,8 @@ struct ChartView: View {
         
     }
         */
+        
+        
         .onTapGesture {
             withAnimation {
                 selectedPlanet = nil
@@ -161,6 +212,23 @@ struct ChartView: View {
     
 }
     
+    func newChartButton() -> some View {
+        
+        
+        
+        return Button {
+            
+            showNewChartMenu = true 
+            
+        } label: {
+            
+            Image(systemName: "person.fill.badge.plus")
+            Text("New Chart Analysis")
+                
+            
+        }
+        .buttonStyle(.plain)
+    }
    
     func usersNatalChart() -> some View {
         
@@ -205,7 +273,7 @@ struct ChartView: View {
             .onAppear(perform: {
                 
                 
-                AmareApp().delay(1) {
+               /* AmareApp().delay(1) {
                     
                     //person1 = account.data?.name ?? ""
                     withAnimation(.easeIn(duration: 3)) {
@@ -215,6 +283,7 @@ struct ChartView: View {
                     
                  
                 }
+                */
             })
             .padding()
             .onReceive(NotificationCenter.default.publisher(for: NSNotification.wantsMoreInfoFromNatalChart)) { obj in

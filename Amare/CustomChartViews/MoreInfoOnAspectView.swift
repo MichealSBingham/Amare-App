@@ -63,7 +63,7 @@ struct MoreInfoOnAspectView: View {
                         planet3DImage()
                         planet3DImage2()
                             .offset(x: 50, y: 0)
-                            .opacity(aspect?.first.rawValue == aspect?.second.rawValue ? 0: 1)
+                          //  .opacity(aspect?.first.rawValue == aspect?.second.rawValue ? 0: 1)
                     }.padding(.trailing)
                     
                     

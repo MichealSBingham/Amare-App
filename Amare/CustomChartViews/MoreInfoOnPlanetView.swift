@@ -386,8 +386,6 @@ struct MoreInfoOnPlanet: View {
      return  Text("\(name_of_house) House")
       .font(.largeTitle)
        .bold()
-      // .frame(maxWidth : .infinity, alignment: .center)
-     // .padding(.bottom)
       .foregroundColor(Color.primary.opacity(0.4))
       .padding()
       .minimumScaleFactor(0.01)
@@ -607,9 +605,11 @@ struct MoreInfoOnPlanet: View {
              
     }
     
-    
+    //TODO: change the name
+    ///    Current User's Planet
+    ///    TODO: Change what this says
     func AspectsText() -> some View {
-        //TODO: Change what this says
+        
         Text("Aspects")
         .font(.largeTitle)
          .bold()
