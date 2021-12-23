@@ -1056,15 +1056,18 @@ class Account: ObservableObject {
     ///   - completion: Will pass an error otherwise nil if it is successful
     ///   - error: Of type `AccountError` or `GlobalError`
     ///   -  Warning: Do not try to add images (with the exception of the profile image) to the Account this way. Use `upload()`.
-   private func set(data: AmareUser, completion:( (_ error: Error?) -> () )? = nil )  {
+    ///   - isTheSignedInUser: Default true. Only change this to `false` if this data does not belong (describe) the signed in user but instead you're creating a new amare user data. Typically for custom natal charts that users add
+     func set(data: AmareUser, isTheSignedInUser: Bool = true, completion:( (_ error: Error?) -> () )? = nil )  {
         
         let DB =  (self.db == nil) ? Firestore.firestore()   :  self.db!
         self.db = DB
         
+         
         
-        if let uid = self.user?.uid{
+         if var uid = (isTheSignedInUser ? self.user?.uid :  UUID().uuidString)   {
             
          
+           
             
             
             do {

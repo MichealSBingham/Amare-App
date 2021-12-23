@@ -11,6 +11,7 @@
 import SwiftUI
 import Combine
 import TimeZoneLocate
+import Firebase
 
 struct NewChartMenuUIView: View {
     
@@ -29,12 +30,15 @@ struct NewChartMenuUIView: View {
     
     @State var timezone: TimeZone = .current
     
+    @State var knownTime: Bool = false
+    
     var location: CLLocation?
     
     var body: some View {
         
         ZStack{
             VStack{
+                
                 Text("Discover About Another")
                     //.font(.title)
                      .bold()
@@ -45,37 +49,59 @@ struct NewChartMenuUIView: View {
                 
                 
                 
-                TextField("Name", text: $name) {
+                TextField("What is their name?", text: $name) {
                     
                     // After entering name
                 }
                 .padding()
                 
                 
-                Button {
-                    presentLocationSearchMenu = true 
-                } label: {
+                TextField("Where were they born?", text: $birthlocation).onTapGesture {
                     
-                    TextField("Birth Location", text: $birthlocation)
-                }
+                    presentLocationSearchMenu = true
+                }.padding()
+                
+                
+              
 
-                 
+                Toggle("I know their birthtime.", isOn: $knownTime).padding().tint(.pink)
                 
                
                 
+                ZStack{
+                    
+                    DatePicker(selection: $date, in :...Date().dateFor(years: -13) , displayedComponents: [.date], label: { Text("Birthday?") })
+                        .padding()
+                        .environment(\.timeZone, timezone)
+                        .opacity(!knownTime ? 1: 0)
+                        //.datePickerStyle(.graphical)
+                    
+                    DatePicker(selection: $date, in :...Date().dateFor(years: -13) , displayedComponents: [.date, .hourAndMinute], label: { Text("Birthday?") })
+                        .padding()
+                        .environment(\.timeZone, timezone)
+                        .opacity(knownTime ? 1: 0)
+                        //.datePickerStyle(.graphical)
+                }
                 
-                DatePicker(selection: $date, in :...Date().dateFor(years: -13) , displayedComponents: [.date, .hourAndMinute], label: { Text("Birthday") })
-                    .padding()
-                    .environment(\.timeZone, timezone)
-                    //.datePickerStyle(.graphical)
                 
                
                
                 Button {
-                    print("Date is .. \(date.to(timezone: timezone))")
+                    
+                    createNewCustomUser()
+
                 } label: {
                     
-                    Text("Click Me To Verify Date Timezone")
+                    HStack{
+                        Image(systemName: "book.circle.fill")
+                            .colorMultiply(.pink)
+                        
+                        Text("Discover")
+                            //.tint(.pink)
+                           
+                    }.padding()
+                       
+                    
                 }
 
                 
@@ -91,6 +117,7 @@ struct NewChartMenuUIView: View {
             .foregroundColor(Color.primary.opacity(0.35))
             .foregroundStyle(.ultraThinMaterial)
             .cornerRadius(20)
+            .padding()
             .sheet(isPresented: $presentLocationSearchMenu) {
                PlacePicker(place: $birthplace)
                 
@@ -119,6 +146,20 @@ struct NewChartMenuUIView: View {
                 }
                
             }
+    }
+    
+    func createNewCustomUser()  {
+        
+        var user = AmareUser()
+        user.name = name
+        user.hometown = birthplace
+        user.known_time = knownTime
+        user.birthday = Birthday(timestamp: Timestamp(date: date), month: date.month(), day: date.day(), year: date.year())
+        
+        Account().set(data: user, isTheSignedInUser: false) { error in
+            print("the error is ... \(error)")
+        }
+        
     }
 }
 
