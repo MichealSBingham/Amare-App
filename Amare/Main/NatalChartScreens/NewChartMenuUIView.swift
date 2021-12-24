@@ -164,8 +164,9 @@ struct NewChartMenuUIView: View {
         user.name = name
         user.hometown = birthplace
         user.known_time = knownTime
-        user.isReal = false 
+        user.isReal = false
         user.birthday = Birthday(timestamp: Timestamp(date: date), month: date.month(), day: date.day(), year: date.year())
+        user.profile_image_url = "https://randomuser.me/api/portraits/\(["women", "men"].randomElement()!)/\(Int.random(in: 1...100)).jpg"
         print("before account .set")
         Account().set(data: user, isTheSignedInUser: false) { error, uid in
             
@@ -178,6 +179,8 @@ struct NewChartMenuUIView: View {
                     
                     // the natal chart has loaded
                     isLoading = false
+                
+                    NotificationCenter.default.post(name: NSNotification.completedLoadingAnotherNatalChart, object: uid)
                 }
             })
         }

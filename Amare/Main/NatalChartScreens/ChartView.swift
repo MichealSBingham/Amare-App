@@ -12,6 +12,7 @@ var testImages = ["https://lh3.google.com/u/0/ogw/ADea4I57grRsMmsG3Wxmx_ayco7IOg
 
 struct ChartView: View {
     @EnvironmentObject private var account: Account
+    @Binding var tabSelection: Int
     
     @State private var deg: Double = 0
     @State private var space: Double = 150
@@ -164,6 +165,22 @@ struct ChartView: View {
                 
                 NewChartMenuUIView()
                 .opacity(showNewChartMenu ? 1: 0 )
+                .onReceive(NotificationCenter.default.publisher(for: NSNotification.completedLoadingAnotherNatalChart)) { output in
+                    
+                    if let uid = output.object as? String {
+                        
+                        // loaded the user 'uid'
+                        showNewChartMenu = false
+                        // show profile popup view
+                        
+                       
+                               tabSelection = 1
+                        NotificationCenter.default.post(name: NSNotification.loadUserProfile, object: uid)
+                        
+                        
+                    }
+                    
+                }
               
         
             
@@ -387,10 +404,13 @@ extension BinaryFloatingPoint {
 }
 
 struct ChartView_Previews: PreviewProvider {
+    @Binding var tabSelection: Int
+
     static var previews: some View {
         
-       // ForEach([ "iPhone 8", "iPhone 12 Pro Max"], id: \.self) { //deviceName in
-                       ChartView()
+        
+        // ForEach([ "iPhone 8", _"iPhone 12 Pro Max"], id: \.self) { //deviceName in
+        ChartView(tabSelection: .constant(1))
                            // .previewDevice(PreviewDevice(rawValue: deviceName))
                           //  .previewDisplayName(deviceName)
                             .environmentObject(Account())

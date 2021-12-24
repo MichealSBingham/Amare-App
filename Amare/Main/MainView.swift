@@ -16,6 +16,8 @@ struct MainView: View {
     
     @EnvironmentObject private var account: Account
     @EnvironmentObject private var navigationStack: NavigationStack
+    
+    @State private var tabSelection = 1
 
     /// Whether or not this view became the root view when it was instantiated 
      var isRoot: Bool
@@ -25,13 +27,20 @@ struct MainView: View {
        
     
 
-            TabView{
+        TabView(selection: $tabSelection) {
                 
                 Map()
+                .tag(1)
+        
                 NatalChart()
+                .tag(2)
+            
                 Scanner()
+                .tag(3)
                 Chats()
+                .tag(4)
                 Perferences()
+                .tag(5)
                 
                 
             }
@@ -61,7 +70,7 @@ struct MainView: View {
     
     func NatalChart() ->  some View  {
         
-        return ChartView()
+        return ChartView(tabSelection: $tabSelection)
                 .tabItem { Label("Chart", systemImage: "calendar.circle") }
                 .environmentObject(account)
         
