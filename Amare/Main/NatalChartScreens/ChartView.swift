@@ -110,21 +110,6 @@ struct ChartView: View {
                 
                 
                 
-                // // // // // \\ \\ \\ \\
-    
-                /*
-                Button {
-                    
-                    print("Add")
-                    
-                } label: {
-                    
-                    Image(systemName: "person.fill.badge.plus")
-                        
-
-                }
-*/
-                
                 
                 HStack{
                     
@@ -205,6 +190,7 @@ struct ChartView: View {
             withAnimation {
                 selectedPlanet = nil
                 aspectSelected = nil
+                showNewChartMenu = false
                 
             }
            

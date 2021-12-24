@@ -29,6 +29,8 @@ public struct AmareUser: Codable, Equatable{
     var orientation: [Sex]? = nil // M, F, MF (male and female), or A (everything)
     var natal_chart: NatalChart? = nil
     var username: String? = nil
+    /// Default true, is only false if this isn't a real user that has downloaded the app. i.e., custom user profile that a user has added or mock data. 
+    var isReal: Bool? = true
 
     let interal_ui_use_only_for_iding: UUID = UUID()
     
@@ -43,6 +45,7 @@ public struct AmareUser: Codable, Equatable{
         case sex
         case orientation
         case username
+        case isReal
      
     }
     

@@ -32,6 +32,9 @@ struct NewChartMenuUIView: View {
     
     @State var knownTime: Bool = false
     
+    /// If a new chart is loading this is true until it's finished
+    @State var isLoading: Bool = false
+    
     var location: CLLocation?
     
     var body: some View {
@@ -100,6 +103,8 @@ struct NewChartMenuUIView: View {
                             //.tint(.pink)
                            
                     }.padding()
+                        
+                        .disabled((name.isEmpty || name == nil) || birthplace == nil )
                        
                     
                 }
@@ -107,8 +112,10 @@ struct NewChartMenuUIView: View {
                 
               
             }
+            .opacity(isLoading ? 0: 1)
             
-            
+            ProgressView()
+                .opacity(isLoading ? 1: 0)
             
             
             
@@ -150,15 +157,33 @@ struct NewChartMenuUIView: View {
     
     func createNewCustomUser()  {
         
+        NotificationCenter.default.post(name: NSNotification.loadingAnotherNatalChart, object: nil)
+        
+        isLoading = true
         var user = AmareUser()
         user.name = name
         user.hometown = birthplace
         user.known_time = knownTime
+        user.isReal = false 
         user.birthday = Birthday(timestamp: Timestamp(date: date), month: date.month(), day: date.day(), year: date.year())
-        
-        Account().set(data: user, isTheSignedInUser: false) { error in
-            print("the error is ... \(error)")
+        print("before account .set")
+        Account().set(data: user, isTheSignedInUser: false) { error, uid in
+            
+            // Place listenser on /publc/ to watch for changes for when the natal chart has been added to this user
+            
+            Firestore.firestore().collection("users").document(uid ?? "").collection("public").addSnapshotListener({ snapshot, error in
+                
+                
+                if !(snapshot?.isEmpty ?? true) {
+                    
+                    // the natal chart has loaded
+                    isLoading = false
+                }
+            })
         }
+        
+        
+        // Load
         
     }
 }

@@ -129,6 +129,12 @@ struct SettingsView: View {
                     Toggle("Allow direct messaging", isOn: $fromEveryone)
         }
                 
+                Button("Sign Out") {
+                    account.signOut { error in /* goBackToSignInRootView()*/ }
+                }.onReceive(NotificationCenter.default.publisher(for: NSNotification.logout)) { _ in
+                
+                  //  goBackToSignInRootView()
+                }
                 
                 
                 

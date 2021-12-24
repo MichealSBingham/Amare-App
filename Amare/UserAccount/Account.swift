@@ -1057,7 +1057,7 @@ class Account: ObservableObject {
     ///   - error: Of type `AccountError` or `GlobalError`
     ///   -  Warning: Do not try to add images (with the exception of the profile image) to the Account this way. Use `upload()`.
     ///   - isTheSignedInUser: Default true. Only change this to `false` if this data does not belong (describe) the signed in user but instead you're creating a new amare user data. Typically for custom natal charts that users add
-     func set(data: AmareUser, isTheSignedInUser: Bool = true, completion:( (_ error: Error?) -> () )? = nil )  {
+    func set(data: AmareUser, isTheSignedInUser: Bool = true, completion:( (_ error: Error?, _ uid: String?) -> () )? = nil )  {
         
         let DB =  (self.db == nil) ? Firestore.firestore()   :  self.db!
         self.db = DB
@@ -1084,33 +1084,33 @@ class Account: ObservableObject {
                            
                            // Handle Global Errors
                        case .networkError:
-                           completion?(GlobalError.networkError)
+                           completion?(GlobalError.networkError, nil)
                        case .tooManyRequests:
-                           completion?(GlobalError.tooManyRequests)
+                           completion?(GlobalError.tooManyRequests, nil )
                        case .captchaCheckFailed:
-                           completion?(GlobalError.captchaCheckFailed)
+                           completion?(GlobalError.captchaCheckFailed, nil )
                        case .quotaExceeded:
-                           completion?(GlobalError.quotaExceeded)
+                           completion?(GlobalError.quotaExceeded, nil)
                        case .operationNotAllowed:
-                           completion?(GlobalError.notAllowed)
+                           completion?(GlobalError.notAllowed, nil)
                        case .internalError:
                            print("\n\nSome error happened, likely an unhandled error from firebase : \(error). This happened inside Account.set()")
-                           completion?(GlobalError.internalError)
+                           completion?(GlobalError.internalError, nil)
                            
                            // Handle Account Errors
                        case .expiredActionCode:
-                           completion?(AccountError.expiredActionCode)
+                           completion?(AccountError.expiredActionCode, nil )
                        case .sessionExpired:
-                           completion?(AccountError.sessionExpired)
+                           completion?(AccountError.sessionExpired, nil)
                        case .userTokenExpired:
-                           completion?(AccountError.userTokenExpired)
+                           completion?(AccountError.userTokenExpired, nil)
                        case .userDisabled:
-                           completion?(AccountError.disabledUser)
+                           completion?(AccountError.disabledUser, nil)
                        case .wrongPassword:
-                           completion?(AccountError.wrong)
+                           completion?(AccountError.wrong, nil)
                        default:
                            print("\n\nSome error happened, likely an unhandled error from firebase : \(error). This happened inside Account.set()")
-                           completion?(GlobalError.unknown)
+                           completion?(GlobalError.unknown, nil)
                        }
                        
                       return
@@ -1118,7 +1118,7 @@ class Account: ObservableObject {
                    } else{
                        
                        print("\n\nSome error happened, likely an unhandled error from firebase : \(error). This happened inside Account.set()")
-                       completion?(GlobalError.unknown)
+                       completion?(GlobalError.unknown, nil)
                        return
                    }
                    
@@ -1127,7 +1127,7 @@ class Account: ObservableObject {
                        
                }
                    
-                   
+                   completion!(nil, uid)
                 }
                 
             } catch let error{
@@ -1138,33 +1138,33 @@ class Account: ObservableObject {
                         
                         // Handle Global Errors
                     case .networkError:
-                        completion?(GlobalError.networkError)
+                        completion?(GlobalError.networkError, nil)
                     case .tooManyRequests:
-                        completion?(GlobalError.tooManyRequests)
+                        completion?(GlobalError.tooManyRequests, nil)
                     case .captchaCheckFailed:
-                        completion?(GlobalError.captchaCheckFailed)
+                        completion?(GlobalError.captchaCheckFailed, nil)
                     case .quotaExceeded:
-                        completion?(GlobalError.quotaExceeded)
+                        completion?(GlobalError.quotaExceeded, nil)
                     case .operationNotAllowed:
-                        completion?(GlobalError.notAllowed)
+                        completion?(GlobalError.notAllowed, nil)
                     case .internalError:
                         print("\n\nSome error happened, likely an unhandled error from firebase : \(error). This happened inside Account.login()")
-                        completion?(GlobalError.internalError)
+                        completion?(GlobalError.internalError, nil)
                         
                         // Handle Account Errors
                     case .expiredActionCode:
-                        completion?(AccountError.expiredActionCode)
+                        completion?(AccountError.expiredActionCode, nil)
                     case .sessionExpired:
-                        completion?(AccountError.sessionExpired)
+                        completion?(AccountError.sessionExpired, nil)
                     case .userTokenExpired:
-                        completion?(AccountError.userTokenExpired)
+                        completion?(AccountError.userTokenExpired, nil)
                     case .userDisabled:
-                        completion?(AccountError.disabledUser)
+                        completion?(AccountError.disabledUser, nil)
                     case .wrongPassword:
-                        completion?(AccountError.wrong)
+                        completion?(AccountError.wrong, nil)
                     default:
                         print("\n\nSome error happened, likely an unhandled error from firebase : \(error). This happened inside Account.login()")
-                        completion?(GlobalError.unknown)
+                        completion?(GlobalError.unknown, nil)
                     }
                     
                    return
@@ -1172,7 +1172,7 @@ class Account: ObservableObject {
                 } else{
                     
                     print("\n\nSome error happened, likely an unhandled error from firebase : \(error). This happened inside Account.login()")
-                    completion?(GlobalError.unknown)
+                    completion?(GlobalError.unknown, nil)
                     return
                 }
                 
@@ -1188,7 +1188,7 @@ class Account: ObservableObject {
             
         } else{
             
-            completion?(AccountError.notSignedIn)
+            completion?(AccountError.notSignedIn, nil)
             
             
         }

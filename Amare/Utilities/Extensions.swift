@@ -42,6 +42,13 @@ extension NSNotification {
     
     /// Tells the view to load another user's profile information
     static let loadUserProfile = NSNotification.Name.init(rawValue: "loadUserProfile")
+    
+    /// Used when user enters information to compute another natal chart and the information is loading
+    static let loadingAnotherNatalChart = NSNotification.Name.init(rawValue: "loadingAnotherNatalChart")
+    
+    /// Used when user enters information to compute another natal chart and the information has completed
+    static let completedLoadingAnotherNatalChart = NSNotification.Name.init(rawValue: "completedLoadingAnotherNatalChart")
+    
 
     /*
     /// User likely tapped on a house and wants more information on it. Typically we will show the bottom popup view when we receive this
