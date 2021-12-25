@@ -1497,6 +1497,98 @@ class Account: ObservableObject {
     }
     
   
+    /// Uploads an image to the database and return the link to it
+    /// - Parameters:
+    ///   - image: UIImage to upload
+    ///   - uid: The UID to use for the image url
+    ///   - completion: An `AccountError` , `SystemError` or `GlobalError` could be passed here but will be nil if it was a success
+    func uploadAnother(image: UIImage, completion: @escaping ( (_ error: Error?, _ url: String?) -> () ))  {
+        
+        
+        let DB =  (self.db == nil) ? Firestore.firestore()   :  self.db!
+        self.db = DB
+        
+       // Get reference to cloud storage
+      //  let ref =  (self.storage == nil) ? Storage.storage().reference()   :  self.storage!
+        let ref = Storage.storage(url: "gs://loveequationapp.appspot.com").reference()
+        self.storage = ref
+        
+      //  Auth().currentUser?.reauthenticate(with: <#T##AuthCredential#>, completion: <#T##((AuthDataResult?, Error?) -> Void)?##((AuthDataResult?, Error?) -> Void)?##(AuthDataResult?, Error?) -> Void#>)
+        let nameOfImage =  "profile_image\(UUID().uuidString).jpg"
+        
+        print("***name of the image .. \(nameOfImage)")
+        
+        let uploadRef = ref.child("users").child(UUID().uuidString).child("images").child(nameOfImage)
+        
+        print("***image uplaod ref is ... \(uploadRef)")
+        
+       
+        guard let imageData = image.jpegData(compressionQuality: 1) else { completion(SystemError.imageCompress, nil) ; print("can't get image data"); /* Some error compresing the  image */ return  }
+        
+        let uploadMetaData = StorageMetadata.init()
+        uploadMetaData.contentType = "image/jpeg"
+        
+    
+        
+        let taskReference = uploadRef.putData(imageData, metadata: uploadMetaData) { downloadMetaData, error in
+            
+            if let error = error {
+                // some error occured
+                print("***Some error uplaoding in task reference ... \(error)")
+                completion(AccountError.uploadError, nil)
+                return
+
+            }
+            
+            //  No error, get the image URL
+            
+            uploadRef.downloadURL { url, error in
+                print("***Dowloading url with  error \(error) and url \(url)")
+                if let error = error{
+                    completion(AccountError.uploadError, nil)
+                    return
+                }
+                
+                // No error after getting url
+                
+                let imageURL = url?.absoluteString
+                
+                print("***image url is .. \(imageURL)")
+                
+                if let url = imageURL {
+                    completion(nil, url)
+                } else{
+                    completion(AccountError.uploadError, nil)
+                }
+                
+               
+             
+                
+                
+                
+                
+            }
+            
+           
+            
+            
+            //
+        }
+        
+        
+        // for keepign track of download progress
+        taskReference.observe(.progress) { [weak self ] snapshot in
+            
+            guard  let pctThere = snapshot.progress?.fractionCompleted else { return  }
+                
+                print("Image upload progress : \(pctThere)")
+                
+        }
+        
+        
+    }
+    
+  
     
     /// Listen for real time updates on the user's data in the database.
     /// - TODO:  Throw an error when it doesn't work .
@@ -1621,6 +1713,19 @@ class Account: ObservableObject {
         
         
         
+    }
+    
+    ///When the signed in user adds a custom chart for `userId` (they make a custom natal chart for someone)  use this function to save it in database
+    func addCustomChart(from userId: String?) {
+        
+        let DB =  (self.db == nil) ? Firestore.firestore()   :  self.db!
+        self.db = DB
+        
+        guard let id = Auth.auth().currentUser?.uid, let userId = userId else {
+            
+            return
+        }
+        self.db?.collection("users").document(userId).collection("custom_charts").document(id).setData(["made_new_chart": true, "time": Date.now])
     }
     
 

@@ -74,13 +74,13 @@ struct NewChartMenuUIView: View {
                 
                 ZStack{
                     
-                    DatePicker(selection: $date, in :...Date().dateFor(years: -13) , displayedComponents: [.date], label: { Text("Birthday?") })
+                    DatePicker(selection: $date, in :...Date().dateFor(years: 70) , displayedComponents: [.date], label: { Text("Birthday?") })
                         .padding()
                         .environment(\.timeZone, timezone)
                         .opacity(!knownTime ? 1: 0)
                         //.datePickerStyle(.graphical)
                     
-                    DatePicker(selection: $date, in :...Date().dateFor(years: -13) , displayedComponents: [.date, .hourAndMinute], label: { Text("Birthday?") })
+                    DatePicker(selection: $date, in :...Date().dateFor(years: 70) , displayedComponents: [.date, .hourAndMinute], label: { Text("Birthday?") })
                         .padding()
                         .environment(\.timeZone, timezone)
                         .opacity(knownTime ? 1: 0)
@@ -160,7 +160,7 @@ struct NewChartMenuUIView: View {
         
         
         guard !name.isEmpty && birthplace != nil else {
-            return 
+            return
         }
         
         NotificationCenter.default.post(name: NSNotification.loadingAnotherNatalChart, object: nil)
@@ -173,37 +173,48 @@ struct NewChartMenuUIView: View {
         //imageView.image = ipimage.generateImage()
         let image = ipimage.generateImage()
         
-        
-        
-        var user = AmareUser()
-        user.name = name
-        
-        
-        user.hometown = birthplace
-        user.known_time = knownTime
-        user.isReal = false
-        user.birthday = Birthday(timestamp: Timestamp(date: date), month: date.month(), day: date.day(), year: date.year())
-        user.profile_image_url = "https://randomuser.me/api/portraits/\(["women", "men"].randomElement()!)/\(Int.random(in: 1...100)).jpg"
-        print("before account .set")
-        Account().set(data: user, isTheSignedInUser: false) { error, uid in
+        guard image != nil else { return }
+        Account().uploadAnother(image: image!) { error, url in
+             // set in database
+            // finished uplaoding the image
             
-            // Place listenser on /publc/ to watch for changes for when the natal chart has been added to this user
             
-            Firestore.firestore().collection("users").document(uid ?? "").collection("public").addSnapshotListener({ snapshot, error in
+            var user = AmareUser()
+            user.name = name
+            
+            
+            user.hometown = birthplace
+            user.known_time = knownTime
+            user.isReal = false
+            user.birthday = Birthday(timestamp: Timestamp(date: date), month: date.month(), day: date.day(), year: date.year())
+            user.profile_image_url = url!
+            Account().set(data: user, isTheSignedInUser: false) { error, uid in
                 
+                // Place listenser on /publc/ to watch for changes for when the natal chart has been added to this userd
+                guard uid != nil else {return}
+                Account().addCustomChart(from: uid!)
                 
-                if !(snapshot?.isEmpty ?? true) {
+                Firestore.firestore().collection("users").document(uid ?? "").collection("public").addSnapshotListener({ snapshot, error in
                     
-                    // the natal chart has loaded
-                    isLoading = false
-                
-                    NotificationCenter.default.post(name: NSNotification.completedLoadingAnotherNatalChart, object: uid)
-                }
-            })
+                    
+                    if !(snapshot?.isEmpty ?? true) {
+                        
+                        // the natal chart has loaded
+                        isLoading = false
+                    
+                        NotificationCenter.default.post(name: NSNotification.completedLoadingAnotherNatalChart, object: uid)
+                    }
+                })
+            }
+            
         }
         
         
-        // Load
+        
+        
+        
+        
+        
         
     }
 }

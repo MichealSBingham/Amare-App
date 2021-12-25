@@ -277,7 +277,7 @@ struct ChartView: View {
         
         
         .onTapGesture {
-            /*
+            /* ===> Moved this somewhere else to fix bug; otherwise, it would dismiss when you tap on the view too instead of its parent
             withAnimation {
                 selectedPlanet = nil
                 aspectSelected = nil
