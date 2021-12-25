@@ -855,7 +855,12 @@ class Account: ObservableObject {
         let DB =  (self.db == nil) ? Firestore.firestore()   :  self.db!
         self.db = DB
         
-        DB.collection(!real ? "generated_users": "users").getDocuments { snapshot, error in
+        let uid = Auth.auth().currentUser?.uid ?? ""
+        
+        DB.collection(!real ? "generated_users": "users")
+           .whereField("isReal", isNotEqualTo: false)
+           // .whereField("uid", isNotEqualTo: uid)
+            .getDocuments { snapshot, error in
             
             if let error = error {
                 completion!(error, [])
@@ -893,7 +898,12 @@ class Account: ObservableObject {
                             
                         }
                         */
-                        users.append(user)
+                       // guard user.isReal ?? false else {return}
+                        
+                        if user.id != uid {
+                            users.append(user)
+                        }
+                        
 
                         
                         
@@ -923,6 +933,74 @@ class Account: ObservableObject {
         
         
     }
+    
+    
+    
+    func getAllCustomUserChartsThisUserMade(  completion: ( (_ err: Error?, _ users: [AmareUser]) -> Void)?  = nil) -> Void  {
+        
+        let DB =  (self.db == nil) ? Firestore.firestore()   :  self.db!
+        self.db = DB
+        
+        let uid = Auth.auth().currentUser?.uid ?? ""
+        
+        DB.collection("users")
+           .whereField("isReal", isNotEqualTo: true)
+            .getDocuments { snapshot, error in
+            
+            if let error = error {
+                completion!(error, [])
+                return
+            }
+            
+            var users: [AmareUser] = []
+            for document in snapshot!.documents{
+                print("\n\n\n\n\nThe document data is ...\(document.data())")
+                let result = Result {
+                    try document.data(as: AmareUser.self)
+                }
+                
+                switch result {
+                
+                
+                case .success(let data):
+                    
+                    if var user = data{
+                        user.id = document.documentID
+                        
+                        
+                      
+                            users.append(user)
+                        
+                        
+                        
+                    } else{
+                        
+                        // Could not retreive the data for some reason
+                        return
+                    }
+                    
+                
+                case .failure(let error):
+                    // Handle errors
+                    print("Some error happened trying to convert the user data to a User Data object: \(error.localizedDescription)")
+                    continue
+                  //  return
+              
+                }
+
+                
+            }
+            print("Running completed block with \(users.count) users")
+            completion!(nil, users)
+            
+            
+        }
+        
+        
+        
+    }
+    
+    
     
     /// Returns the natal chart for a public arbitary user specified by id
     /// - Parameters:
@@ -1759,6 +1837,32 @@ class Account: ObservableObject {
         self.db?.collection("winks").document(userId).collection("people_who_winked").document(id).delete(completion: { error in
             // 
         })
+    }
+    
+    func deleteCustomProfile(id: String)  {
+        
+        let DB =  (self.db == nil) ? Firestore.firestore()   :  self.db!
+        self.db = DB
+        
+        guard let currentSignedInUserId = Auth.auth().currentUser?.uid  else {
+            
+        
+            return
+        }
+        
+        // Delete from custom charts
+        self.db?.collection("users").document(currentSignedInUserId).collection("custom_charts").document(id).delete(completion: {error in
+            
+        })
+        
+        // Delete the actual  user
+        self.db?.collection("users").document(id).delete(completion: {error in
+            
+        })
+        
+        NotificationCenter.default.post(name: NSNotification.deletedCustomUserNatalChart, object: id)
+        
+        
     }
 
     

@@ -17,7 +17,7 @@
 		2608CF4E2695139800826FDA /* EnterOrientationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2608CF4D2695139800826FDA /* EnterOrientationView.swift */; };
 		2608CF512697529600826FDA /* GlobalErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2608CF502697529600826FDA /* GlobalErrors.swift */; };
 		2608CF532697C9D600826FDA /* SystemErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2608CF522697C9D600826FDA /* SystemErrors.swift */; };
-		260A111126C373DE00873FE6 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 260A111026C373DE00873FE6 /* SwiftPackageProductDependency */; };
+		260A111126C373DE00873FE6 /* MbSwiftUIFirstResponder in Frameworks */ = {isa = PBXBuildFile; productRef = 260A111026C373DE00873FE6 /* MbSwiftUIFirstResponder */; };
 		261571612773B2D7001DFD18 /* NewChartMenuUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261571602773B2D7001DFD18 /* NewChartMenuUIView.swift */; };
 		261571632773C023001DFD18 /* locationsearchswiftuimenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261571622773C023001DFD18 /* locationsearchswiftuimenu.swift */; };
 		26336035270912B500EEC1B3 /* MoreInfoScratchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26336034270912B400EEC1B3 /* MoreInfoScratchView.swift */; };
@@ -34,10 +34,10 @@
 		26748CC22707A01500B5D338 /* ProfilePopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26748CC12707A01500B5D338 /* ProfilePopup.swift */; };
 		2676E004270A07E90014610B /* MoreInfoOnGenericPlanet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2676E003270A07E90014610B /* MoreInfoOnGenericPlanet.swift */; };
 		267CF36526D30C03006B73BE /* NatalChartViewAlpha.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267CF36426D30C03006B73BE /* NatalChartViewAlpha.swift */; };
-		267EEBEB274076A2006909B9 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 267EEBEA274076A2006909B9 /* SwiftPackageProductDependency */; };
+		267EEBEB274076A2006909B9 /* ConfettiSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 267EEBEA274076A2006909B9 /* ConfettiSwiftUI */; };
 		26872881271C668B00C2F89F /* EnterUsernameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26872880271C668B00C2F89F /* EnterUsernameView.swift */; };
-		26872884271CE0AA00C2F89F /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 26872883271CE0AA00C2F89F /* SwiftPackageProductDependency */; };
-		26872886271CE0AA00C2F89F /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 26872885271CE0AA00C2F89F /* SwiftPackageProductDependency */; };
+		26872884271CE0AA00C2F89F /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 26872883271CE0AA00C2F89F /* URLImage */; };
+		26872886271CE0AA00C2F89F /* URLImageStore in Frameworks */ = {isa = PBXBuildFile; productRef = 26872885271CE0AA00C2F89F /* URLImageStore */; };
 		26876A8C26E425EC00683CD6 /* NatalChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26876A8B26E425EC00683CD6 /* NatalChartView.swift */; };
 		268E542826DCEC6400E61F40 /* VerificationCodeView3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268E542726DCEC6400E61F40 /* VerificationCodeView3.swift */; };
 		268F26BF2680094A00FBEA7D /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268F26BE2680094A00FBEA7D /* Account.swift */; };
@@ -65,30 +65,31 @@
 		26B1B00A2679961200A170B3 /* VerificationCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B1B0092679961100A170B3 /* VerificationCodeView.swift */; };
 		26B1B011267C28E000A170B3 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B1B010267C28E000A170B3 /* Extensions.swift */; };
 		26B6079826BF60EF00CE8491 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B6079726BF60EF00CE8491 /* RootView.swift */; };
-		26B6079B26BF643100CE8491 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 26B6079A26BF643100CE8491 /* SwiftPackageProductDependency */; };
+		26B6079B26BF643100CE8491 /* NavigationStack in Frameworks */ = {isa = PBXBuildFile; productRef = 26B6079A26BF643100CE8491 /* NavigationStack */; };
 		26B6079D26C021C900CE8491 /* SignInOrUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B6079C26C021C900CE8491 /* SignInOrUpView.swift */; };
-		26B66A8E26EA9E0E001EAA80 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 26B66A8D26EA9E0E001EAA80 /* SwiftPackageProductDependency */; };
+		26B66A8E26EA9E0E001EAA80 /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = 26B66A8D26EA9E0E001EAA80 /* PopupView */; };
 		26B66A9026EB9476001EAA80 /* House.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B66A8F26EB9476001EAA80 /* House.swift */; };
 		26BBF08C267D7C9900C84019 /* [Deprecated]ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BBF08B267D7C9900C84019 /* [Deprecated]ProfileView.swift */; };
 		26BBF08F267D80FC00C84019 /* EnterBirthdayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BBF08E267D80FC00C84019 /* EnterBirthdayView.swift */; };
 		26BBF091267EA5FF00C84019 /* [Deprecated]FromWhereView_Deprecated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BBF090267EA5FF00C84019 /* [Deprecated]FromWhereView_Deprecated.swift */; };
 		26BBF093267EBB1300C84019 /* [Deprecated]LiveWhereView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BBF092267EBB1300C84019 /* [Deprecated]LiveWhereView.swift */; };
 		26BBF095267EBBEF00C84019 /* EnterNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BBF094267EBBEF00C84019 /* EnterNameView.swift */; };
+		26BD22F42777AAD1002BC49B /* NegativeActionOnUserMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BD22F32777AAD1002BC49B /* NegativeActionOnUserMenu.swift */; };
 		26C255B727149B420066735E /* PositiveActionOnUserMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C255B627149B420066735E /* PositiveActionOnUserMenu.swift */; };
-		26D24B21270019A900A3DEE7 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 26D24B20270019A900A3DEE7 /* SwiftPackageProductDependency */; };
+		26D24B21270019A900A3DEE7 /* UICircularProgressRing in Frameworks */ = {isa = PBXBuildFile; productRef = 26D24B20270019A900A3DEE7 /* UICircularProgressRing */; };
 		26DE210326C590480004B5CE /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DE210226C590480004B5CE /* MainView.swift */; };
 		26DE210626C593070004B5CE /* ScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DE210526C593070004B5CE /* ScannerView.swift */; };
 		26DE210826C595B50004B5CE /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DE210726C595B50004B5CE /* ChartView.swift */; };
 		26DE210A26C595E80004B5CE /* MessagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DE210926C595E80004B5CE /* MessagesView.swift */; };
 		26DE210C26C5963A0004B5CE /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DE210B26C5963A0004B5CE /* SettingsView.swift */; };
 		26DE210E26C596450004B5CE /* HomeGlobeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DE210D26C596450004B5CE /* HomeGlobeView.swift */; };
-		26DE211126C5B2E60004B5CE /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 26DE211026C5B2E60004B5CE /* SwiftPackageProductDependency */; };
+		26DE211126C5B2E60004B5CE /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = 26DE211026C5B2E60004B5CE /* CodeScanner */; };
 		26EDBB8D26AA7CE2005C1033 /* VerificationCodeView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26EDBB8C26AA7CE2005C1033 /* VerificationCodeView2.swift */; };
 		26F9205F26A760E500A4F8C6 /* Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F9205E26A760E500A4F8C6 /* Animations.swift */; };
 		26F9206B26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 26F9206A26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf */; };
 		26F9206C26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 26F9206A26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf */; };
 		26F9206D26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 26F9206A26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf */; };
-		26F9207726A8C2E200A4F8C6 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 26F9207626A8C2E200A4F8C6 /* SwiftPackageProductDependency */; };
+		26F9207726A8C2E200A4F8C6 /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = 26F9207626A8C2E200A4F8C6 /* Shimmer */; };
 		905DA6BBF3406131BFC3BF72 /* Pods_Amare.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E1A6BA558EAF855210E857F /* Pods_Amare.framework */; };
 		A6D3E3B64BBCFE3DA909673B /* Pods_AmareTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 205415F89BAF3319E6B1473A /* Pods_AmareTests.framework */; };
 /* End PBXBuildFile section */
@@ -179,6 +180,7 @@
 		26BBF090267EA5FF00C84019 /* [Deprecated]FromWhereView_Deprecated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "[Deprecated]FromWhereView_Deprecated.swift"; sourceTree = "<group>"; };
 		26BBF092267EBB1300C84019 /* [Deprecated]LiveWhereView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "[Deprecated]LiveWhereView.swift"; sourceTree = "<group>"; };
 		26BBF094267EBBEF00C84019 /* EnterNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterNameView.swift; sourceTree = "<group>"; };
+		26BD22F32777AAD1002BC49B /* NegativeActionOnUserMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NegativeActionOnUserMenu.swift; sourceTree = "<group>"; };
 		26C255B627149B420066735E /* PositiveActionOnUserMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositiveActionOnUserMenu.swift; sourceTree = "<group>"; };
 		26DE210226C590480004B5CE /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		26DE210526C593070004B5CE /* ScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerView.swift; sourceTree = "<group>"; };
@@ -203,15 +205,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				26872886271CE0AA00C2F89F /* BuildFile in Frameworks */,
-				26F9207726A8C2E200A4F8C6 /* BuildFile in Frameworks */,
-				26872884271CE0AA00C2F89F /* BuildFile in Frameworks */,
-				26B66A8E26EA9E0E001EAA80 /* BuildFile in Frameworks */,
-				26B6079B26BF643100CE8491 /* BuildFile in Frameworks */,
-				26DE211126C5B2E60004B5CE /* BuildFile in Frameworks */,
-				260A111126C373DE00873FE6 /* BuildFile in Frameworks */,
-				26D24B21270019A900A3DEE7 /* BuildFile in Frameworks */,
-				267EEBEB274076A2006909B9 /* BuildFile in Frameworks */,
+				26872886271CE0AA00C2F89F /* URLImageStore in Frameworks */,
+				26F9207726A8C2E200A4F8C6 /* Shimmer in Frameworks */,
+				26872884271CE0AA00C2F89F /* URLImage in Frameworks */,
+				26B66A8E26EA9E0E001EAA80 /* PopupView in Frameworks */,
+				26B6079B26BF643100CE8491 /* NavigationStack in Frameworks */,
+				26DE211126C5B2E60004B5CE /* CodeScanner in Frameworks */,
+				260A111126C373DE00873FE6 /* MbSwiftUIFirstResponder in Frameworks */,
+				26D24B21270019A900A3DEE7 /* UICircularProgressRing in Frameworks */,
+				267EEBEB274076A2006909B9 /* ConfettiSwiftUI in Frameworks */,
 				905DA6BBF3406131BFC3BF72 /* Pods_Amare.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -477,6 +479,7 @@
 			isa = PBXGroup;
 			children = (
 				26C255B627149B420066735E /* PositiveActionOnUserMenu.swift */,
+				26BD22F32777AAD1002BC49B /* NegativeActionOnUserMenu.swift */,
 			);
 			path = ActionOnUser;
 			sourceTree = "<group>";
@@ -546,15 +549,15 @@
 			);
 			name = Amare;
 			packageProductDependencies = (
-				26F9207626A8C2E200A4F8C6 /* SwiftPackageProductDependency */,
-				26B6079A26BF643100CE8491 /* SwiftPackageProductDependency */,
-				260A111026C373DE00873FE6 /* SwiftPackageProductDependency */,
-				26DE211026C5B2E60004B5CE /* SwiftPackageProductDependency */,
-				26B66A8D26EA9E0E001EAA80 /* SwiftPackageProductDependency */,
-				26D24B20270019A900A3DEE7 /* SwiftPackageProductDependency */,
-				26872883271CE0AA00C2F89F /* SwiftPackageProductDependency */,
-				26872885271CE0AA00C2F89F /* SwiftPackageProductDependency */,
-				267EEBEA274076A2006909B9 /* SwiftPackageProductDependency */,
+				26F9207626A8C2E200A4F8C6 /* Shimmer */,
+				26B6079A26BF643100CE8491 /* NavigationStack */,
+				260A111026C373DE00873FE6 /* MbSwiftUIFirstResponder */,
+				26DE211026C5B2E60004B5CE /* CodeScanner */,
+				26B66A8D26EA9E0E001EAA80 /* PopupView */,
+				26D24B20270019A900A3DEE7 /* UICircularProgressRing */,
+				26872883271CE0AA00C2F89F /* URLImage */,
+				26872885271CE0AA00C2F89F /* URLImageStore */,
+				267EEBEA274076A2006909B9 /* ConfettiSwiftUI */,
 			);
 			productName = Love;
 			productReference = 26B1AFD22678FFE500A170B3 /* Amare.app */;
@@ -632,14 +635,14 @@
 			);
 			mainGroup = 26B1AFC92678FFE500A170B3;
 			packageReferences = (
-				26F9207526A8C2E200A4F8C6 /* RemoteSwiftPackageReference */,
-				26B6079926BF643100CE8491 /* RemoteSwiftPackageReference */,
-				260A110F26C373DE00873FE6 /* RemoteSwiftPackageReference */,
-				26DE210F26C5B2E60004B5CE /* RemoteSwiftPackageReference */,
-				26B66A8C26EA9E0E001EAA80 /* RemoteSwiftPackageReference */,
-				26D24B1F270019A900A3DEE7 /* RemoteSwiftPackageReference */,
-				26872882271CE0A900C2F89F /* RemoteSwiftPackageReference */,
-				267EEBE9274076A2006909B9 /* RemoteSwiftPackageReference */,
+				26F9207526A8C2E200A4F8C6 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
+				26B6079926BF643100CE8491 /* XCRemoteSwiftPackageReference "swiftui-navigation-stack" */,
+				260A110F26C373DE00873FE6 /* XCRemoteSwiftPackageReference "MbSwiftUIFirstResponder" */,
+				26DE210F26C5B2E60004B5CE /* XCRemoteSwiftPackageReference "CodeScanner" */,
+				26B66A8C26EA9E0E001EAA80 /* XCRemoteSwiftPackageReference "PopupView" */,
+				26D24B1F270019A900A3DEE7 /* XCRemoteSwiftPackageReference "UICircularProgressRing" */,
+				26872882271CE0A900C2F89F /* XCRemoteSwiftPackageReference "url-image" */,
+				267EEBE9274076A2006909B9 /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */,
 			);
 			productRefGroup = 26B1AFD32678FFE500A170B3 /* Products */;
 			projectDirPath = "";
@@ -848,6 +851,7 @@
 				261571632773C023001DFD18 /* locationsearchswiftuimenu.swift in Sources */,
 				26BBF093267EBB1300C84019 /* [Deprecated]LiveWhereView.swift in Sources */,
 				2694935126D1D9C400C7AD72 /* NatalChart.swift in Sources */,
+				26BD22F42777AAD1002BC49B /* NegativeActionOnUserMenu.swift in Sources */,
 				26872881271C668B00C2F89F /* EnterUsernameView.swift in Sources */,
 				261571612773B2D7001DFD18 /* NewChartMenuUIView.swift in Sources */,
 				26BBF08F267D80FC00C84019 /* EnterBirthdayView.swift in Sources */,
@@ -1229,7 +1233,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		260A110F26C373DE00873FE6 /* RemoteSwiftPackageReference */ = {
+		260A110F26C373DE00873FE6 /* XCRemoteSwiftPackageReference "MbSwiftUIFirstResponder" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Mobilinked/MbSwiftUIFirstResponder";
 			requirement = {
@@ -1237,7 +1241,7 @@
 				kind = branch;
 			};
 		};
-		267EEBE9274076A2006909B9 /* RemoteSwiftPackageReference */ = {
+		267EEBE9274076A2006909B9 /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/simibac/ConfettiSwiftUI";
 			requirement = {
@@ -1245,7 +1249,7 @@
 				kind = branch;
 			};
 		};
-		26872882271CE0A900C2F89F /* RemoteSwiftPackageReference */ = {
+		26872882271CE0A900C2F89F /* XCRemoteSwiftPackageReference "url-image" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/dmytro-anokhin/url-image";
 			requirement = {
@@ -1253,7 +1257,7 @@
 				minimumVersion = 3.0.0;
 			};
 		};
-		26B6079926BF643100CE8491 /* RemoteSwiftPackageReference */ = {
+		26B6079926BF643100CE8491 /* XCRemoteSwiftPackageReference "swiftui-navigation-stack" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/matteopuc/swiftui-navigation-stack.git";
 			requirement = {
@@ -1261,7 +1265,7 @@
 				minimumVersion = 1.0.0;
 			};
 		};
-		26B66A8C26EA9E0E001EAA80 /* RemoteSwiftPackageReference */ = {
+		26B66A8C26EA9E0E001EAA80 /* XCRemoteSwiftPackageReference "PopupView" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/exyte/PopupView.git";
 			requirement = {
@@ -1269,7 +1273,7 @@
 				minimumVersion = 1.0.1;
 			};
 		};
-		26D24B1F270019A900A3DEE7 /* RemoteSwiftPackageReference */ = {
+		26D24B1F270019A900A3DEE7 /* XCRemoteSwiftPackageReference "UICircularProgressRing" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/luispadron/UICircularProgressRing.git";
 			requirement = {
@@ -1277,7 +1281,7 @@
 				minimumVersion = 8.0.0;
 			};
 		};
-		26DE210F26C5B2E60004B5CE /* RemoteSwiftPackageReference */ = {
+		26DE210F26C5B2E60004B5CE /* XCRemoteSwiftPackageReference "CodeScanner" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/twostraws/CodeScanner.git";
 			requirement = {
@@ -1285,7 +1289,7 @@
 				minimumVersion = 1.0.0;
 			};
 		};
-		26F9207526A8C2E200A4F8C6 /* RemoteSwiftPackageReference */ = {
+		26F9207526A8C2E200A4F8C6 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/markiv/SwiftUI-Shimmer";
 			requirement = {
@@ -1296,49 +1300,49 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		260A111026C373DE00873FE6 /* SwiftPackageProductDependency */ = {
+		260A111026C373DE00873FE6 /* MbSwiftUIFirstResponder */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 260A110F26C373DE00873FE6 /* RemoteSwiftPackageReference */;
+			package = 260A110F26C373DE00873FE6 /* XCRemoteSwiftPackageReference "MbSwiftUIFirstResponder" */;
 			productName = MbSwiftUIFirstResponder;
 		};
-		267EEBEA274076A2006909B9 /* SwiftPackageProductDependency */ = {
+		267EEBEA274076A2006909B9 /* ConfettiSwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 267EEBE9274076A2006909B9 /* RemoteSwiftPackageReference */;
+			package = 267EEBE9274076A2006909B9 /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */;
 			productName = ConfettiSwiftUI;
 		};
-		26872883271CE0AA00C2F89F /* SwiftPackageProductDependency */ = {
+		26872883271CE0AA00C2F89F /* URLImage */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 26872882271CE0A900C2F89F /* RemoteSwiftPackageReference */;
+			package = 26872882271CE0A900C2F89F /* XCRemoteSwiftPackageReference "url-image" */;
 			productName = URLImage;
 		};
-		26872885271CE0AA00C2F89F /* SwiftPackageProductDependency */ = {
+		26872885271CE0AA00C2F89F /* URLImageStore */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 26872882271CE0A900C2F89F /* RemoteSwiftPackageReference */;
+			package = 26872882271CE0A900C2F89F /* XCRemoteSwiftPackageReference "url-image" */;
 			productName = URLImageStore;
 		};
-		26B6079A26BF643100CE8491 /* SwiftPackageProductDependency */ = {
+		26B6079A26BF643100CE8491 /* NavigationStack */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 26B6079926BF643100CE8491 /* RemoteSwiftPackageReference */;
+			package = 26B6079926BF643100CE8491 /* XCRemoteSwiftPackageReference "swiftui-navigation-stack" */;
 			productName = NavigationStack;
 		};
-		26B66A8D26EA9E0E001EAA80 /* SwiftPackageProductDependency */ = {
+		26B66A8D26EA9E0E001EAA80 /* PopupView */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 26B66A8C26EA9E0E001EAA80 /* RemoteSwiftPackageReference */;
+			package = 26B66A8C26EA9E0E001EAA80 /* XCRemoteSwiftPackageReference "PopupView" */;
 			productName = PopupView;
 		};
-		26D24B20270019A900A3DEE7 /* SwiftPackageProductDependency */ = {
+		26D24B20270019A900A3DEE7 /* UICircularProgressRing */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 26D24B1F270019A900A3DEE7 /* RemoteSwiftPackageReference */;
+			package = 26D24B1F270019A900A3DEE7 /* XCRemoteSwiftPackageReference "UICircularProgressRing" */;
 			productName = UICircularProgressRing;
 		};
-		26DE211026C5B2E60004B5CE /* SwiftPackageProductDependency */ = {
+		26DE211026C5B2E60004B5CE /* CodeScanner */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 26DE210F26C5B2E60004B5CE /* RemoteSwiftPackageReference */;
+			package = 26DE210F26C5B2E60004B5CE /* XCRemoteSwiftPackageReference "CodeScanner" */;
 			productName = CodeScanner;
 		};
-		26F9207626A8C2E200A4F8C6 /* SwiftPackageProductDependency */ = {
+		26F9207626A8C2E200A4F8C6 /* Shimmer */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 26F9207526A8C2E200A4F8C6 /* RemoteSwiftPackageReference */;
+			package = 26F9207526A8C2E200A4F8C6 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */;
 			productName = Shimmer;
 		};
 /* End XCSwiftPackageProductDependency section */

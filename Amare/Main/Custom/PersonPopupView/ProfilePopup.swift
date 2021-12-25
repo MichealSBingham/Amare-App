@@ -31,6 +31,7 @@ struct ProfilePopup: View {
     
     
     @State var showActionForUser: Bool = false
+    @State var showNegativeActionForUser: Bool = false
     @State var showBottomPopup: Bool = false
     @State var infoToShow:String?
     @State var chart: NatalChart?
@@ -88,9 +89,46 @@ struct ProfilePopup: View {
                    
                     
                     HStack{
+                        
+                        
+                    //For the negative actions
+                        ZStack{
+                            
+                            Button {
+                                withAnimation {
+                                   
+                                    showNegativeActionForUser = true
+                                }
+                               
+                            } label: {
+                                
+                                ZStack{
+                                    
+                                    
+                                    Image(systemName: "minus.circle")
+                                        .modifier(ConvexGlassView())
+                                       
+                                     
+                                    
+                                    
+                                    Image(systemName: "minus.circle.fill")
+                                          .modifier(ConcaveGlassView())
+                                          
+                                     
+                                }
+                                
+                               
+                                
+                                
+                                
+                            }.offset(x: 10, y: -35.0)
+                            
+                           
+                        }
+                        .opacity(user?.isReal ?? true == false  ? 1 : 0)
+                        
                         Spacer()
-                        
-                        
+                        //For the position actions menu
                         ZStack{
                             
                             Button {
@@ -123,7 +161,7 @@ struct ProfilePopup: View {
                             
                            
                         }
-                        
+                        .opacity(user?.isReal ?? true == true  ? 1 : 0)
                         
 
                               
@@ -457,11 +495,28 @@ struct ProfilePopup: View {
                      
                 }
             .brightness(showActionForUser ? -0.5: 0)
+            .brightness(showNegativeActionForUser ? -0.5: 0)
             
             
             
             PositiveActionOnUserMenu(user: user, account: account, canWinkBack: $hasWinked)
                 .opacity(showActionForUser ? 1: 0)
+            
+            
+            NegativeActionOnUserMenu(user: user, account: account)
+                .opacity(showNegativeActionForUser ? 1: 0 )
+                .onReceive(NotificationCenter.default.publisher(for: NSNotification.deletedCustomUserNatalChart)) { output in
+                    
+                    withAnimation {
+                        
+                        showActionForUser = false
+                        showNegativeActionForUser = false
+                     
+                        
+                    }
+                    
+                    
+                }
             
             ConfettiCannon(counter: $counterForConfetti, num: 250, confettis: [.text("😉")], rainHeight: 700/*, closingAngle: .degrees(140)*/)
                 .offset(y: 30)
@@ -491,6 +546,7 @@ struct ProfilePopup: View {
             withAnimation {
                 // Dismiss the action view
                 showActionForUser = false
+                showNegativeActionForUser = false
             }
         }
         

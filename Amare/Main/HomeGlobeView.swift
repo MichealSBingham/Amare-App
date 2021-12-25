@@ -68,6 +68,8 @@ struct MapView: View {
     @State var places: [MapAnnotation] = []
     
   
+    // We only declare it as a same type as NearbyPeople purely because I'm lazy and i've already coded the UI for this.
+    @StateObject var customProfiles: NearbyPeople = NearbyPeople()
     
     
     @StateObject var nearbyUsers: NearbyPeople = NearbyPeople()
@@ -197,6 +199,61 @@ struct MapView: View {
             
             // VERTICAL NEARBY USERS
             HStack{
+                
+                // VERTICAL NEARBY USERS
+                ScrollView(.vertical, showsIndicators: true) {
+                    
+                    VStack{
+                        
+                        
+                        
+                        ForEach(customProfiles.users, id: \.interal_ui_use_only_for_iding) { user in
+                         
+                           
+        
+                                //TODO: make this a state variable so it can listen to real time changes
+                            Button {
+                             
+                                withAnimation(.easeInOut) {
+                                    showProfilePopup = true
+                                    selected_user = user
+                                
+                                    account.getNatalChart(from: selected_user?.id ?? "error", pathTousers: "users") { err, natalChart in
+                                        
+                                        
+                            
+                                        if let natalChart = natalChart{
+                                            selected_user?.natal_chart = natalChart
+                                        }
+                                    }
+                                }
+                            } label: {
+                                
+                                nearbyUser(user: selected_user ?? user)
+                                
+                               
+                                
+                                    
+                            }.onAppear(perform: {
+                            //TODO: this is called way before the image is tapped, that's why the synastry score won't reload
+                               
+                            })
+
+                       
+                                
+                                
+                            
+                        }
+                   }
+                       
+                
+                   
+                    
+                    
+                    
+                }
+                .offset(y: 50)
+                
                 Spacer()
                 // VERTICAL NEARBY USERS
                 ScrollView(.vertical, showsIndicators: true) {
@@ -385,6 +442,17 @@ struct MapView: View {
                     }
                     
                 }
+                .onReceive(NotificationCenter.default.publisher(for: NSNotification.deletedCustomUserNatalChart)) { output in
+                    
+                    if let id = output.object as? String{
+                        withAnimation {
+                            
+                            showProfilePopup = false
+                        }
+                        
+                    }
+                    
+                }
           //  textForDeniedLocationServices()
             
             
@@ -403,27 +471,36 @@ struct MapView: View {
                 
         }
         .onAppear {
-            // Load the nearby users
-           // print("LOADING ALL USERS....\(counter)")
+          
             if let id = Auth.auth().currentUser?.uid {
                 
                 try? self.beamsClient.addDeviceInterest(interest: id)
             }
             counter += 1
+            // Will be nearby users in future
             account.getALLusers { err, foundusers in
                 
              
                 nearbyUsers.users = foundusers
                 usersForGlobe.users = foundusers
+                /*
                 for user in nearbyUsers.users{
                     var name = user.name
                 }
+                */
                 
-            
-
-               
                 
             }
+            
+            account.getAllCustomUserChartsThisUserMade { err, users in
+                
+                customProfiles.users = users
+                
+            }
+            
+            
+            
+            
         }
         .onReceive(NotificationCenter.default.publisher(for: NSNotification.wantsMoreInfoFromNatalChart)) { obj in
            

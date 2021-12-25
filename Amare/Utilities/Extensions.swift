@@ -49,6 +49,8 @@ extension NSNotification {
     /// Used when user enters information to compute another natal chart and the information has completed
     static let completedLoadingAnotherNatalChart = NSNotification.Name.init(rawValue: "completedLoadingAnotherNatalChart")
     
+    /// When the user deleted a custom natal chart they made
+    static let deletedCustomUserNatalChart = NSNotification.Name.init(rawValue: "deletedCustomUserNatalChart")
 
     /*
     /// User likely tapped on a house and wants more information on it. Typically we will show the bottom popup view when we receive this
