@@ -45,6 +45,12 @@ struct ChartView: View {
     
     var defaultImage: String = testImages[0]
     
+    ///  We use the bondaries to detect when we touch in or outside a view
+    @State var placementInfoFrameBoundaries: FrameBoundaries?
+    @State var aspectInfoFrameBoundaries: FrameBoundaries?
+    @State var newChartMenuFrameBoundaries: FrameBoundaries?
+    
+    
     
     @State private var location: CGPoint = CGPoint(x: UIScreen.main.bounds.midX - 15 , y: UIScreen.main.bounds.midY - 50)
     var simpleDrag: some Gesture {
@@ -154,33 +160,90 @@ struct ChartView: View {
            
             
             
-            
-            MoreInfoOnPlanet(planet: selectedPlanet, chart: chart)
-            //  .rotationEffect(.degrees(-1*alpha))
-                .opacity(  selectedPlanet != nil ? 1  : 0 )
-                .padding()
-            
-            MoreInfoOnAspectView(chart: chart, aspect: aspectSelected)
-                .opacity(aspectSelected != nil ? 1: 0 )
+            GeometryReader{ geo in
                 
-                NewChartMenuUIView()
-                .opacity(showNewChartMenu ? 1: 0 )
-                .onReceive(NotificationCenter.default.publisher(for: NSNotification.completedLoadingAnotherNatalChart)) { output in
+                
+                VStack{
                     
-                    if let uid = output.object as? String {
+                    Spacer()
+                    MoreInfoOnPlanet(planet: selectedPlanet, chart: chart)
+                    //  .rotationEffect(.degrees(-1*alpha))
+                        .opacity(  selectedPlanet != nil ? 1  : 0 )
+                        .padding()
+                        .onAppear {
+                            
+                            // Set boundaries of this view
+                            placementInfoFrameBoundaries = FrameBoundaries(minX: geo.frame(in: .global).minX, minY: geo.frame(in: .global).minY, maxX: geo.frame(in: .global).maxX, maxY: geo.frame(in: .global).maxY)
+                        }
+                    Spacer()
+                    
+
+                }
+               
+                
+                
+                
+            }
+            
+            GeometryReader { geo in
+                
+                VStack{
+                    Spacer()
+                    
+                    MoreInfoOnAspectView(chart: chart, aspect: aspectSelected)
+                        .opacity(aspectSelected != nil ? 1: 0 )
+                        .onAppear {
+                            
+                            // Set boundaries of this view
+                            aspectInfoFrameBoundaries = FrameBoundaries(minX: geo.frame(in: .global).minX, minY: geo.frame(in: .global).minY, maxX: geo.frame(in: .global).maxX, maxY: geo.frame(in: .global).maxY)
+                        }
+                    
+                    Spacer()
+                    
+                }
+                
+                    
+            }
+            
+            
+            GeometryReader { geo in
+                
+                VStack{
+                    
+                    Spacer()
+                    
+                    NewChartMenuUIView()
+                        .onAppear {
+                            
+                            // Set boundaries of this view
+                            newChartMenuFrameBoundaries = FrameBoundaries(minX: geo.frame(in: .global).minX, minY: geo.frame(in: .global).minY, maxX: geo.frame(in: .global).maxX, maxY: geo.frame(in: .global).maxY)
+                        }
+                    .opacity(showNewChartMenu ? 1: 0 )
+                    .onReceive(NotificationCenter.default.publisher(for: NSNotification.completedLoadingAnotherNatalChart)) { output in
                         
-                        // loaded the user 'uid'
-                        showNewChartMenu = false
-                        // show profile popup view
-                        
-                       
-                               tabSelection = 1
-                        NotificationCenter.default.post(name: NSNotification.loadUserProfile, object: uid)
-                        
+                        if let uid = output.object as? String {
+                            
+                            // loaded the user 'uid'
+                            showNewChartMenu = false
+                            // show profile popup view
+                            
+                           
+                         
+                                tabSelection = 1
+                            
+                     
+                            NotificationCenter.default.post(name: NSNotification.loadUserProfile, object: uid)
+                            
+                            
+                        }
                         
                     }
                     
+                    Spacer()
                 }
+            }
+            
+              
               
         
             
@@ -401,6 +464,14 @@ extension BinaryFloatingPoint {
     }
     
     
+}
+
+struct FrameBoundaries {
+    
+    var minX: CGFloat
+    var minY: CGFloat
+    var maxX: CGFloat
+    var maxY: CGFloat
 }
 
 struct ChartView_Previews: PreviewProvider {
