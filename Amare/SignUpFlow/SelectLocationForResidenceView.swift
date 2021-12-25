@@ -215,7 +215,7 @@ struct SelectLocationForResidenceView: View {
                .frame(width: 33, height: 66)
                .offset(x: beginAnimation ? -15: 0, y: 0)
                .animation(.easeInOut(duration: 1.3).repeatForever(autoreverses: true), value: beginAnimation)
-               .onAppear { withAnimation { beginAnimation = true } }
+               .onAppear { withAnimation { beginAnimation = true }; doneWithSignUp(state: false) }
             
           
             

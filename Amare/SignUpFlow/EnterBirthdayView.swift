@@ -93,7 +93,7 @@ struct EnterBirthdayView: View {
                                     )
                 
                     }
-                    .onAppear(perform: {settings.viewType = .EnterBirthdayView})
+                    .onAppear(perform: {settings.viewType = .EnterBirthdayView; doneWithSignUp(state: false)})
                     
                     
                     

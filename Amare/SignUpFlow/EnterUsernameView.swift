@@ -109,7 +109,7 @@ struct EnterUsernameView: View {
                 .frame(width: 33, height: 66)
                 .offset(x: beginAnimation ? 7: 0, y: -10)
                 .animation(.easeInOut(duration: 1.3).repeatForever(autoreverses: true), value: beginAnimation)
-                .onAppear { withAnimation { beginAnimation = true } }
+                .onAppear { withAnimation { beginAnimation = true }; doneWithSignUp(state: false) }
             
               
         }.disabled(buttonIsDisabled)

@@ -126,8 +126,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     }
     
+    /*
+    func applicationWillResignActive(_ application: UIApplication) {
+        
+        if !(isDoneWithSignUp()){
+                // if not done with sign up... log user out.
+            print("not done with sign up ... signing out..")
+            account.signOut { error in
+                
+                guard error == nil else{
+                    return
+                }
+                
+            }
+            
+          
+        }
+    }
+    */
+    
+    
     func applicationWillTerminate(_ application: UIApplication) {
-        /*
+        
+        /* Alternative Solution is to just sign them out if the data isn't complete on the homepage
+        print("application WILL terminate ")
         if !(isDoneWithSignUp()){
                 // if not done with sign up... log user out.
             print("not done with sign up ... signing out..")
@@ -142,8 +164,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
           
         }
         
-        
         */
+        
+        
+        
         
     }
     

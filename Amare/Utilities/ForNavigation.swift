@@ -93,14 +93,19 @@ struct NavigationBarModifier: ViewModifier {
 //TODO: fix `isDoneWithSignUp`
 /// Checks if the user finished the sign up process .
 /// Does not work as expected //TODO:
+///  - WARNING: THIS DOES NOT WORK AS EXPECTED. Alternative solution now is to just check if data is complete on homepage and sign the user out if it isn't
 func isDoneWithSignUp() -> Bool {
    
+    /*
     switch Settings.shared.viewType{
     case .main:
         return true
     default:
         return false
     }
+    */
+    
+    return UserDefaults.standard.bool(forKey: "isDoneWithSignUp") ?? false
     
 }
 

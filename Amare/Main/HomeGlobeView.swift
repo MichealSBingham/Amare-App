@@ -88,6 +88,9 @@ struct MapView: View {
     @State var returnedSearchedUserData: [QueryDocumentSnapshot] = []
     
     var searchreal: Bool = true
+    
+    // If the user is found to not have the data of a completed user, their data got corruped during sign up and they need to be signed out of the app and alerted 
+    @State var dataGotCorruptDuringSignUp: Bool = false
     var body: some View {
         
         let binding = Binding<String>(get: {
@@ -466,12 +469,35 @@ struct MapView: View {
             
             
             
+            //TODO: Fix this, the case that data is corrupt
+            Text("Please contact support. Your data is corrupt.")
+                .opacity(dataGotCorruptDuringSignUp ? 1: 0 )
+            
         
                
                 
         }
+        
+       /*
+        
+        Somehow causes bug...
+        
+        .alert(isPresented: $dataGotCorruptDuringSignUp) { Alert(title: Text("Something isn't right..."), message: Text("You should not be seeing this screen. Please sign out, your data is corrupted. This is probably because you exited the app during the sign up process and never finished properly. You will need to sign out.")) } */
         .onAppear {
-          
+            
+         //   print("Data is complete? \(account.data?.isComplete())")
+        
+        
+        
+            /// Might be culprit for bug ...
+            guard account.data?.isComplete() ?? false else {
+                print("Data is not complete... ")
+                dataGotCorruptDuringSignUp = true
+                return
+            }
+        
+            
+            
             if let id = Auth.auth().currentUser?.uid {
                 
                 try? self.beamsClient.addDeviceInterest(interest: id)

@@ -196,7 +196,7 @@ struct EnterOrientationView: View {
             .alert(isPresented: $tappedMore) {
                 Alert(title: Text("TODO: Allow more genders"), message: Text("This is not finished yet, but it will allow you to select additional genders"))
             }
-            .onAppear(perform: {settings.viewType = .EnterOrientationView})
+            .onAppear(perform: {settings.viewType = .EnterOrientationView; doneWithSignUp(state: false) })
                 
                
               
