@@ -8,6 +8,7 @@
 import SwiftUI
 import Combine
 
+
 var testImages = ["https://lh3.google.com/u/0/ogw/ADea4I57grRsMmsG3Wxmx_ayco7IOgQV40Pc8hc78ylE=s64-c-mo", "https://www.edmundsgovtech.com/wp-content/uploads/2020/01/default-picture_0_0.png"]
 
 struct ChartView: View {
@@ -70,6 +71,12 @@ struct ChartView: View {
         ZStack{
             
             Background()
+                .onTapGesture {
+                    withAnimation {
+                        dismissAllViews()
+                        
+                    }
+                }
             
 
             
@@ -142,6 +149,9 @@ struct ChartView: View {
             usersNatalChart()
                 .offset(x: 0, y: 110)
                 .zIndex(0)
+                .onTapGesture {
+                    dismissAllViews()
+                }
             
             /*
             TabView{
@@ -267,12 +277,14 @@ struct ChartView: View {
         
         
         .onTapGesture {
+            /*
             withAnimation {
                 selectedPlanet = nil
                 aspectSelected = nil
                 showNewChartMenu = false
                 
             }
+             */
            
         }
     
@@ -284,7 +296,9 @@ struct ChartView: View {
         
         return Button {
             
-            showNewChartMenu = true 
+            withAnimation {
+                showNewChartMenu = true
+            }
             
         } label: {
             
@@ -441,6 +455,13 @@ struct ChartView: View {
         
     }
         
+    
+    /// DIsmisses the aspect views, planet placement views, and menu views that may be on the screen
+    func dismissAllViews()  {
+        selectedPlanet = nil
+        aspectSelected = nil
+        showNewChartMenu = false
+    }
        
     
 }

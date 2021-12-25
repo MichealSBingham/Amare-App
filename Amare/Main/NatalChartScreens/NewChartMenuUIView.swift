@@ -12,6 +12,7 @@ import SwiftUI
 import Combine
 import TimeZoneLocate
 import Firebase
+import IPImage
 
 struct NewChartMenuUIView: View {
     
@@ -157,11 +158,27 @@ struct NewChartMenuUIView: View {
     
     func createNewCustomUser()  {
         
+        
+        guard !name.isEmpty && birthplace != nil else {
+            return 
+        }
+        
         NotificationCenter.default.post(name: NSNotification.loadingAnotherNatalChart, object: nil)
         
         isLoading = true
+        
+        
+        // Create profile image for it and upload
+        let ipimage = IPImage(text: name, radius: 30, font: UIFont(name: "Cochin-Italic", size: 30), textColor: nil, randomBackgroundColor: true)
+        //imageView.image = ipimage.generateImage()
+        let image = ipimage.generateImage()
+        
+        
+        
         var user = AmareUser()
         user.name = name
+        
+        
         user.hometown = birthplace
         user.known_time = knownTime
         user.isReal = false

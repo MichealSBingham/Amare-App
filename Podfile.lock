@@ -433,6 +433,7 @@ PODS:
     - gRPC-Core/Interface (= 1.28.2)
   - gRPC-Core/Interface (1.28.2)
   - GTMSessionFetcher/Core (1.7.0)
+  - IPImage (1.0.2)
   - leveldb-library (1.22.1)
   - nanopb (2.30908.0):
     - nanopb/decode (= 2.30908.0)
@@ -450,6 +451,7 @@ DEPENDENCIES:
   - FirebaseFirestoreSwift (> 8.2.0-beta)
   - GeoFire/Utils
   - GooglePlaces (= 6.0.0)
+  - IPImage
   - PushNotifications
   - TimeZoneLocate
 
@@ -471,6 +473,7 @@ SPEC REPOS:
     - "gRPC-C++"
     - gRPC-Core
     - GTMSessionFetcher
+    - IPImage
     - leveldb-library
     - nanopb
     - PromisesObjC
@@ -494,12 +497,13 @@ SPEC CHECKSUMS:
   "gRPC-C++": 13d8ccef97d5c3c441b7e3c529ef28ebee86fad2
   gRPC-Core: 4afa11bfbedf7cdecd04de535a9e046893404ed5
   GTMSessionFetcher: 43748f93435c2aa068b1cbe39655aaf600652e91
+  IPImage: 11ea6a9481706a6ad5e724a7c07ccd57739f8103
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
   PushNotifications: 2b2174b28bf48b1fe552686d1f95c53d62a4781d
   TimeZoneLocate: 8536d7435a408ac14b6e0190ffcca2c2bb91aff8
 
-PODFILE CHECKSUM: dd06580c6a7d7dd685f1a2dc824c8465fbd2224a
+PODFILE CHECKSUM: 17c107ef67c585984d9547b3d4cde420403f4a25
 
 COCOAPODS: 1.10.1

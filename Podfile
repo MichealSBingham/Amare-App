@@ -17,6 +17,7 @@ target 'Amare' do
   pod 'PushNotifications'
   pod 'GooglePlaces', '6.0.0'
   pod 'TimeZoneLocate'
+  pod 'IPImage'
 
  
 
