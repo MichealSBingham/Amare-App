@@ -84,7 +84,7 @@ struct AmareApp: App {
 
 
 
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     
     var window: UIWindow?
     var account: Account = Account()
@@ -94,6 +94,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         
+        UNUserNotificationCenter.current().delegate = self
+         
       //  GMSServices.provideAPIKey("YOUR_API_KEY")
         GMSPlacesClient.provideAPIKey("AIzaSyDezwobB5BsaO8E8RuuBA715EIc5CeZSCc")
         
@@ -119,6 +121,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     
+    // Notification received in foreground
+    
+   
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+    
+        print("**** RECEIVED Notification **** ")
+        completionHandler([.alert, .badge, .sound])
+    }
     
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         

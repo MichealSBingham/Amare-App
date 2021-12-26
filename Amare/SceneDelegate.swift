@@ -62,28 +62,28 @@ func sceneDidEnterBackground(_ scene: UIScene) {
     
 }
     
-    func sceneWillResignActive(_ scene: UIScene) {
-       
-
-    }
+func sceneWillResignActive(_ scene: UIScene) {
     
-    func sceneDidDisconnect(_ scene: UIScene) {
-        /*
-        print("application WILL terminate ")
-        if !(isDoneWithSignUp()){
-                // if not done with sign up... log user out.
-            print("not done with sign up ... signing out..")
-            account.signOut { error in
-                
-                guard error == nil else{
-                    return
-                }
-                
+
+}
+    
+func sceneDidDisconnect(_ scene: UIScene) {
+    /*
+    print("application WILL terminate ")
+    if !(isDoneWithSignUp()){
+            // if not done with sign up... log user out.
+        print("not done with sign up ... signing out..")
+        account.signOut { error in
+            
+            guard error == nil else{
+                return
             }
             
-          
         }
-        */
+        
+        
     }
+    */
+}
     
 }
