@@ -1803,7 +1803,7 @@ class Account: ObservableObject {
             
             return
         }
-        self.db?.collection("users").document(userId).collection("custom_charts").document(id).setData(["made_new_chart": true, "time": Date.now])
+        self.db?.collection("users").document(id).collection("custom_charts").document(userId).setData(["made_new_chart": true, "time": Date.now])
     }
     
 
