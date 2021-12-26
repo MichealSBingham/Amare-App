@@ -469,9 +469,22 @@ struct MapView: View {
             
             
             
-            //TODO: Fix this, the case that data is corrupt
+            //TODO: Fix this, the case that data is corruptf
             Text("Please contact support. Your data is corrupt.")
                 .opacity(dataGotCorruptDuringSignUp ? 1: 0 )
+                .onReceive(Just(account)) { acc in
+                
+                    print("Checking if ... \(acc.data) is complete..")
+                    guard acc.data?.isComplete() ?? false else {
+                        print("Data is not complete... ")
+                        dataGotCorruptDuringSignUp = true
+                        return
+                    }
+                    print("Data IS complete")
+                    dataGotCorruptDuringSignUp = false 
+
+                
+                }
             
         
                
@@ -487,15 +500,16 @@ struct MapView: View {
             
          //   print("Data is complete? \(account.data?.isComplete())")
         
-        
+        /*
         
             /// Might be culprit for bug ...
+         //Warning- moving this somehwer eelse
             guard account.data?.isComplete() ?? false else {
                 print("Data is not complete... ")
                 dataGotCorruptDuringSignUp = true
                 return
             }
-        
+        */
             
             
             if let id = Auth.auth().currentUser?.uid {
@@ -559,6 +573,7 @@ struct MapView: View {
                 }
             }
         }
+        
             
            
         }
