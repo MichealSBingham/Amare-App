@@ -51,6 +51,8 @@ extension NSNotification {
     
     /// When the user deleted a custom natal chart they made
     static let deletedCustomUserNatalChart = NSNotification.Name.init(rawValue: "deletedCustomUserNatalChart")
+    
+    static let gotWinkedAt = NSNotification.Name.init(rawValue: "gotWinkedAt")
 
     /*
     /// User likely tapped on a house and wants more information on it. Typically we will show the bottom popup view when we receive this
