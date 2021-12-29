@@ -351,7 +351,7 @@ struct EnterUsernameView: View {
                         // Set the taken username in database
                         
                         
-                        account.db?.collection("usernames").document(unique_username).setData(["userId": account.user?.uid ?? "", "username": unique_username], merge: true, completion: { error in
+                        account.db?.collection("usernames").document(unique_username).setData(["userId": account.user?.uid ?? "", "username": unique_username, "isNotable": false], merge: true, completion: { error in
                             
                             guard error == nil else {
                                 buttonIsDisabled = false

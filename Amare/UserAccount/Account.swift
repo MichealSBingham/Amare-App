@@ -1866,6 +1866,10 @@ class Account: ObservableObject {
     }
 
     
+    func notablesWithAspect() {
+        
+        
+    }
     
 }
 
