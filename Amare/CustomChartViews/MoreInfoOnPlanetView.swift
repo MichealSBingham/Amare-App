@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import Firebase
+import Combine
 
 struct MoreInfoOnPlanet: View {
     
@@ -48,6 +50,8 @@ struct MoreInfoOnPlanet: View {
     
     // What the planet rules
    // var keywords = planet?.name.keywords() ?? [""]
+    
+    @State var otherNotableUsersWithAspect: [AmareUser] = []
 
     
     var body: some View {
@@ -73,6 +77,10 @@ struct MoreInfoOnPlanet: View {
                       
                         
                         alternatingTextOfWhatItRules()
+                            .onReceive(Just(otherNotableUsersWithAspect)) { output in
+                                
+                                print("Just changed notable users.. it is \(output)")
+                            }
                         
                         
                         
@@ -86,11 +94,41 @@ struct MoreInfoOnPlanet: View {
              
                 //TODO: One line interpretation
                InterpretationOneLiner()
+                    .onReceive(Just(planet), perform: { output in
+                        
+                        getAndLoadNotableUsersWithSamePlacement()
+                    })
+                   
             
                 //TODO: longer planet description
              //   LongerPlanetDescription().padding(.bottom)
             
-                elementImage()
+                
+            
+                    
+                ZStack{
+                    
+                    elementImage()
+                    
+                    HStack {
+                        
+                        friendsWithPlacementViews()
+                        
+                        Spacer()
+                        
+                        notablePeopleWithPlacementViews()
+                   
+                        
+                    }.padding(-10)
+                    
+                    
+                }
+                
+                 
+                    
+                   
+                
+              
                 
                 
                 // What this planet interacts with in their charts / aspects with
@@ -363,6 +401,11 @@ struct MoreInfoOnPlanet: View {
                // .opacity(aspectSelected != nil ? 1: 0 )
             
         }
+        .onAppear(perform: {
+            
+            
+                
+        })
         .padding()
         .background(.ultraThinMaterial)
         .foregroundColor(Color.primary.opacity(0.35))
@@ -370,6 +413,7 @@ struct MoreInfoOnPlanet: View {
         .cornerRadius(20)
         .frame(width: .infinity-60, height: 700)
         //.frame(width: 700, height: 700)
+    
     }
     
     
@@ -619,6 +663,226 @@ struct MoreInfoOnPlanet: View {
         .padding()
     }
     
+    
+    func notablePeopleWithPlacementViews() -> some View {
+        
+        
+       //let array = otherNotableUsersWithAspect.reverse()
+        
+       return  Button {
+            //go to notable people
+        } label: {
+            
+            ZStack {
+                
+                
+                ForEach(otherNotableUsersWithAspect.indices, id: \.self) {
+                     index in
+                    
+                    let offset: CGFloat = CGFloat(-10-(5*index))
+                    
+                    ImageFromUrl(otherNotableUsersWithAspect[index].profile_image_url ?? peopleImages.randomElement()!)
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 50, height: 50)
+                        .clipShape(Circle())
+                        .overlay(Circle().stroke(colors.randomElement() ?? .blue, lineWidth: 1))
+                        .shadow(radius: 15)
+                        .padding([.leading, .trailing])
+                        .offset(x: index == 0 ? 0: offset)
+                    
+                }
+                
+                
+                
+                
+                
+                
+                /*
+                ForEach(0..<otherNotableUsersWithAspect.count){ i in
+                    
+                   // let offset = -10-(5*i)
+                    let offset: CGFloat = 10
+                    ImageFromUrl(otherNotableUsersWithAspect[i].profile_image_url ?? peopleImages.randomElement()!)
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 50, height: 50)
+                        .clipShape(Circle())
+                        .overlay(Circle().stroke(colors.randomElement() ?? .blue, lineWidth: 1))
+                        .shadow(radius: 15)
+                        .padding([.leading, .trailing])
+                        .offset(x: i == 0 ? 0: offset)
+                    
+                    
+                }
+                */
+                
+                
+                
+                /*
+                 
+                 // You can safely delete this once you finish limiting the query results above to not print too many faces here
+                
+                ImageFromUrl(peopleImages[0])
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 50, height: 50)
+                    .clipShape(Circle())
+                    .overlay(Circle().stroke(colors.randomElement() ?? .blue, lineWidth: 1))
+                    .shadow(radius: 15)
+                    .padding([.leading, .trailing])
+                
+                ImageFromUrl(peopleImages[1])
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 50, height: 50)
+                    .clipShape(Circle())
+                    .overlay(Circle().stroke(colors.randomElement() ?? .blue, lineWidth: 1))
+                    .shadow(radius: 15)
+                    .padding([.leading, .trailing])
+                    .offset(x: -10)
+                
+                ImageFromUrl(peopleImages[2])
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 50, height: 50)
+                    .clipShape(Circle())
+                    .overlay(Circle().stroke(colors.randomElement() ?? .blue, lineWidth: 1))
+                    .shadow(radius: 15)
+                    .padding([.leading, .trailing])
+                    .offset(x: -15)
+                
+                ImageFromUrl(peopleImages[3])
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 50, height: 50)
+                    .clipShape(Circle())
+                    .overlay(Circle().stroke(colors.randomElement() ?? .blue, lineWidth: 1))
+                    .shadow(radius: 15)
+                    .padding([.leading, .trailing])
+                    .offset(x: -20)
+                
+                */
+                
+            }
+        }
+
+            
+
+            
+        
+        
+        
+    }
+    
+    func friendsWithPlacementViews() -> some View {
+        
+        return  Button {
+             //go to notable people
+         } label: {
+             
+             ZStack {
+                 
+                 ImageFromUrl(peopleImages[3])
+                     .aspectRatio(contentMode: .fit)
+                     .frame(width: 50, height: 50)
+                     .clipShape(Circle())
+                     .overlay(Circle().stroke(colors.randomElement() ?? .blue, lineWidth: 1))
+                     .shadow(radius: 15)
+                     .padding([.leading, .trailing])
+                 
+                 ImageFromUrl(peopleImages[2])
+                     .aspectRatio(contentMode: .fit)
+                     .frame(width: 50, height: 50)
+                     .clipShape(Circle())
+                     .overlay(Circle().stroke(colors.randomElement() ?? .blue, lineWidth: 1))
+                     .shadow(radius: 15)
+                     .padding([.leading, .trailing])
+                     .offset(x: 10)
+                 
+                 ImageFromUrl(peopleImages[1])
+                     .aspectRatio(contentMode: .fit)
+                     .frame(width: 50, height: 50)
+                     .clipShape(Circle())
+                     .overlay(Circle().stroke(colors.randomElement() ?? .blue, lineWidth: 1))
+                     .shadow(radius: 15)
+                     .padding([.leading, .trailing])
+                     .offset(x: 15)
+                 
+                 ImageFromUrl(peopleImages[0])
+                     .aspectRatio(contentMode: .fit)
+                     .frame(width: 50, height: 50)
+                     .clipShape(Circle())
+                     .overlay(Circle().stroke(colors.randomElement() ?? .blue, lineWidth: 1))
+                     .shadow(radius: 15)
+                     .padding([.leading, .trailing])
+                     .offset(x: 20)
+                 
+             }
+         }
+
+        
+            
+          
+            
+        
+        
+        
+    }
+    
+    func getAndLoadNotableUsersWithSamePlacement()  {
+        
+        guard let Planet = planet else {
+            print("Guard statement failed planet is .. \(planet)")
+            return
+        }
+        
+        Account().notablesWithPlacement(planet: Planet) { error, users in
+            
+            
+            otherNotableUsersWithAspect = users
+        }
+        
+        /*
+        // Getting Notable Users With This Sign
+        Firestore.firestore()
+            .collection("placements")
+            .document(Planet.name.rawValue)
+            .collection(Planet.sign.rawValue)
+          // .whereField("isNotable", isEqualTo: true)
+           .limit(to: 4)
+            .getDocuments { snapshot, error in
+                 
+                
+                var usersfromdatabase: [AmareUser] = []
+                
+                print("Getting documents.... \(Planet.name.rawValue) : \(Planet.sign.rawValue)")
+                
+                guard error == nil else {return}
+                print("Error getting docs is ... \(error)")
+                
+                for document in snapshot!.documents{
+                    
+                    let doc = document.data()
+                    let id = document.documentID
+                    let is_notable = doc["is_notable"]
+                    
+                    print("FOUND FIT: the doc is ... \(doc)")
+                    
+                    Account().getOtherUser(from: id) { user, error in
+                        
+                        guard let user = user else {return}
+                        
+                        // Append user to the users of similar aspects
+                        print("Adding to notable users")
+                        usersfromdatabase.append(user)
+                        print("now the usersfromdatabase is \(usersfromdatabase)")
+                    }
+                    
+                    
+                  
+                }
+                
+                otherNotableUsersWithAspect = usersfromdatabase
+                print("other notable users: \(otherNotableUsersWithAspect) and users from database: \(usersfromdatabase)")
+            }
+        
+        */
+    }
     
 
 }

@@ -8,7 +8,9 @@
 import SwiftUI
 import CodeScanner
 import AVFoundation
-
+import Firebase
+import FirebaseFirestore
+import FirebaseCore
 
 struct ScannerView: View {
     @EnvironmentObject private var account: Account
@@ -24,6 +26,33 @@ struct ScannerView: View {
                 textForDeniedCameraAccess()
                 
             }.opacity(!haveCameraAccess ? 1: 0)
+                .onAppear {
+                    
+                    // All notable scorpio suns
+                    Firestore.firestore()
+                        .collection("placements")
+                        .document("Sun")
+                        .collection("Capricorn")
+                       // .whereField("isNotable", isEqualTo: nil)
+                        .getDocuments { snapshot, error in
+                             
+                            
+                            guard error == nil else {return}
+                            
+                            
+                            for document in snapshot!.documents{
+                                
+                                let doc = document.data()
+                                let id = document.documentID
+                                let is_notable = doc["is_notable"]
+                                
+                                
+                              
+                            }
+                        }
+                        
+                        
+                }
             
             Camera()
         }

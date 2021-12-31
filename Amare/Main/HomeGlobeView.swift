@@ -757,7 +757,8 @@ withAnimation {
                  .frame(width: 60, height: 60)
                  .padding()
             
-           /* URLImage(URL(string: user.profile_image_url ?? testImages[0])!) { image in
+           /* URLImage(URL(string: user.profile_image_url ??
+            testImages[0])!) { image in
                 
                 
                 image

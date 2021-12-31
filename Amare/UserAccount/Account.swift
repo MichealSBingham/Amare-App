@@ -1865,12 +1865,90 @@ class Account: ObservableObject {
         
     }
 
-    
-    func notablesWithAspect() {
+    /// Returns the notable profiles with the same aspect
+    func notablesWithAspect(aspect: Aspect) {
         
+        let DB =  (self.db == nil) ? Firestore.firestore()   :  self.db!
+        self.db = DB
+        
+        let uid = Auth.auth().currentUser?.uid ?? ""
+        
+        //
+          //  - isNotable = True
+        //users/uid/public(collection)/natal_chart(document)/aspects(array)/<ASPECT OBJ>
+        
+        DB.collection("users")
+            .whereField("isNotable", isEqualTo: true)
+         
         
     }
     
+    
+    
+    func notablesWithPlacement(planet: Planet,   completion: @escaping (_ error: Error?, _ users: [AmareUser]) -> Void )  {
+        
+        
+        let DB =  (self.db == nil) ? Firestore.firestore()   :  self.db!
+        self.db = DB
+    
+            DB
+            .collection("placements")
+            .document(planet.name.rawValue)
+            .collection(planet.sign.rawValue)
+          // .whereField("isNotable", isEqualTo: true)
+           .limit(to: 4)
+            .getDocuments { snapshot, error in
+                 
+                
+                var usersfromdatabase: [AmareUser] = []
+                
+                print("Getting documents.... \(planet.name.rawValue) : \(planet.sign.rawValue)")
+                
+                guard error == nil else { completion(error, []); return}
+                print("Error getting docs is ... \(error)")
+                
+                let myGroup = DispatchGroup()
+               
+                
+                for document in snapshot!.documents{
+                    
+                    myGroup.enter()
+                    
+                    let doc = document.data()
+                    let id = document.documentID
+                    let is_notable = doc["is_notable"]
+                    
+                    print("FOUND FIT: the doc is ... \(doc)")
+                    
+                    
+                    
+                    Account().getOtherUser(from: id) { user, error in
+                        
+                        guard let user = user else {completion(error, []); return}
+                        
+                        // Append user to the users of similar aspects
+                        print("Adding to notable users")
+                        usersfromdatabase.append(user)
+                        print("now the usersfromdatabase is \(usersfromdatabase)")
+                        myGroup.leave()
+                        
+                    }
+                    
+                    
+                  
+                }
+                
+                myGroup.notify(queue: .main) {
+                    
+                    completion(nil, usersfromdatabase)
+                    }
+                
+                
+                
+                
+            }
+
+    }
 }
 
 
