@@ -667,7 +667,7 @@ struct MoreInfoOnPlanet: View {
     func notablePeopleWithPlacementViews() -> some View {
         
         
-       //let array = otherNotableUsersWithAspect.reverse()
+       
         
        return  Button {
             //go to notable people
@@ -697,66 +697,8 @@ struct MoreInfoOnPlanet: View {
                 
                 
                 
-                /*
-                ForEach(0..<otherNotableUsersWithAspect.count){ i in
-                    
-                   // let offset = -10-(5*i)
-                    let offset: CGFloat = 10
-                    ImageFromUrl(otherNotableUsersWithAspect[i].profile_image_url ?? peopleImages.randomElement()!)
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 50, height: 50)
-                        .clipShape(Circle())
-                        .overlay(Circle().stroke(colors.randomElement() ?? .blue, lineWidth: 1))
-                        .shadow(radius: 15)
-                        .padding([.leading, .trailing])
-                        .offset(x: i == 0 ? 0: offset)
-                    
-                    
-                }
-                */
-                
-                
-                
-                /*
-                 
-                 // You can safely delete this once you finish limiting the query results above to not print too many faces here
-                
-                ImageFromUrl(peopleImages[0])
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 50, height: 50)
-                    .clipShape(Circle())
-                    .overlay(Circle().stroke(colors.randomElement() ?? .blue, lineWidth: 1))
-                    .shadow(radius: 15)
-                    .padding([.leading, .trailing])
-                
-                ImageFromUrl(peopleImages[1])
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 50, height: 50)
-                    .clipShape(Circle())
-                    .overlay(Circle().stroke(colors.randomElement() ?? .blue, lineWidth: 1))
-                    .shadow(radius: 15)
-                    .padding([.leading, .trailing])
-                    .offset(x: -10)
-                
-                ImageFromUrl(peopleImages[2])
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 50, height: 50)
-                    .clipShape(Circle())
-                    .overlay(Circle().stroke(colors.randomElement() ?? .blue, lineWidth: 1))
-                    .shadow(radius: 15)
-                    .padding([.leading, .trailing])
-                    .offset(x: -15)
-                
-                ImageFromUrl(peopleImages[3])
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 50, height: 50)
-                    .clipShape(Circle())
-                    .overlay(Circle().stroke(colors.randomElement() ?? .blue, lineWidth: 1))
-                    .shadow(radius: 15)
-                    .padding([.leading, .trailing])
-                    .offset(x: -20)
-                
-                */
+       
+  
                 
             }
         }
@@ -771,6 +713,44 @@ struct MoreInfoOnPlanet: View {
     
     func friendsWithPlacementViews() -> some View {
         
+        return  Button {
+             //go to notable people
+         } label: {
+             
+             ZStack {
+                 
+                 
+                 ForEach(otherNotableUsersWithAspect.indices, id: \.self) {
+                      index in
+                     
+                     let offset: CGFloat = CGFloat(10+(5*index))
+                     
+                     ImageFromUrl(otherNotableUsersWithAspect[index].profile_image_url ?? peopleImages.randomElement()!)
+                         .aspectRatio(contentMode: .fit)
+                         .frame(width: 50, height: 50)
+                         .clipShape(Circle())
+                         .overlay(Circle().stroke(colors.randomElement() ?? .blue, lineWidth: 1))
+                         .shadow(radius: 15)
+                         .padding([.leading, .trailing])
+                         .offset(x: index == 0 ? 0: offset)
+                     
+                 }
+                 
+                 
+                 
+                 
+                 
+                 
+        
+   
+                 
+             }
+         }
+
+
+        
+        
+        /*
         return  Button {
              //go to notable people
          } label: {
@@ -815,7 +795,7 @@ struct MoreInfoOnPlanet: View {
              }
          }
 
-        
+        */
             
           
             

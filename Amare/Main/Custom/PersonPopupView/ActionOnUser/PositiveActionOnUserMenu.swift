@@ -19,6 +19,10 @@ struct PositiveActionOnUserMenu: View {
     /// If other user winked at THIS user (self account user)
     @Binding var canWinkBack: Bool
     
+    
+    /// Whether or not THis user sent a friend request
+    @State var sentFriendRequest: Bool? = nil
+    
     var body: some View {
         
         ZStack{
@@ -27,13 +31,23 @@ struct PositiveActionOnUserMenu: View {
             VStack{
                 
                 Button {
-                    print("Add friend")
+                    
+                    addFriend()
+                   
+                        
                 } label: {
                     
                     HStack{
-                        Image(systemName: "person.fill.badge.plus")
                         
-                        Text("Add Friend")
+                        ZStack{
+                            
+                            Image(systemName: "nosign").opacity(sentFriendRequest ?? false ? 1: 0)
+                            Image(systemName: "person.fill.badge.plus").opacity(sentFriendRequest ?? false ? 0: 1)
+                            
+                        }
+                       
+                        
+                        Text(sentFriendRequest ?? false ? "Cancel Friend Request" : "Add Friend")
                           //  .font(.largeTitle)
                              .bold()
                             // .frame(maxWidth : .infinity, alignment: .center)
@@ -191,6 +205,31 @@ struct PositiveActionOnUserMenu: View {
                 
                 return
             }
+         
+         
+         // Listener at this user's friend requests, check if I sent a friend to this user
+        print("Listening for friend requests")
+         account.db?.collection("friends").document(them).collection("requests").document(me).addSnapshotListener({ snapshot, error in
+             
+             if snapshot?.exists ?? false {
+                 // There is a friend request there that I sent to this user
+                 let didAccept: Bool  = snapshot?.data()?["accepted"] as? Bool ?? false
+                 withAnimation {
+                     sentFriendRequest = !didAccept
+                 }
+                 
+                 
+             }  else {
+                 // there is most definitely no friend pending
+                 withAnimation {
+                     sentFriendRequest = false
+                 }
+                
+             }
+         })
+         
+         
+         
             print("LISTENING FOR WINKS")
             account.db?.collection("winks").document(them).collection("people_who_winked").document(me).addSnapshotListener({ snapshot, error in
                 
@@ -225,6 +264,27 @@ struct PositiveActionOnUserMenu: View {
          })
         })
         
+    }
+    
+    
+    
+    /// Sends request to database to add a friend or cancel friend request
+    func addFriend()  {
+      
+        guard !(sentFriendRequest ?? false) else {
+            
+            account.cancelFriendRequest(to: user?.id) { error in
+                
+                print("The error after cancelling friend request is \(error)")
+            }
+            
+            return
+        }
+        
+        account.sendFriendRequest(to: user?.id) { error in
+            
+            print("The error after sending friend request is \(error)")
+        }
     }
 }
 

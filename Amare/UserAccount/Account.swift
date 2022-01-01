@@ -860,6 +860,7 @@ class Account: ObservableObject {
         DB.collection(!real ? "generated_users": "users")
            .whereField("isReal", isNotEqualTo: false)
            // .whereField("uid", isNotEqualTo: uid)
+           .limit(to: 5)
             .getDocuments { snapshot, error in
             
             if let error = error {
@@ -945,6 +946,7 @@ class Account: ObservableObject {
         
         DB.collection("users")
            .whereField("isReal", isNotEqualTo: true)
+           .limit(to: 5)
             .getDocuments { snapshot, error in
             
             if let error = error {
@@ -1806,6 +1808,69 @@ class Account: ObservableObject {
         self.db?.collection("users").document(id).collection("custom_charts").document(userId).setData(["made_new_chart": true, "time": Date.now])
     }
     
+    func sendFriendRequest(to userId: String?,  completion: @escaping ( (_ error: Error?) -> () ) )  {
+        
+        let DB =  (self.db == nil) ? Firestore.firestore()   :  self.db!
+        self.db = DB
+        
+        guard let id = Auth.auth().currentUser?.uid, let userId = userId else {
+            
+            return
+        }
+        
+        // Suppose Amanda sends a friend request to Micheal
+        // - friends
+            // - Micheal
+                // friend_requests
+                    // - amandaID
+                    // - accepted: false
+        self.db?.collection("friends").document(userId).collection("requests").document(id).setData(["request_by": id, "time": Date.now, "accepted": false], completion: { error in
+            
+            completion(error)
+        })
+
+        
+    }
+    
+    
+    func acceptFriendRequest(from userId: String?, completion: @escaping ( (_ error: Error?) -> () ))  {
+        
+        let DB =  (self.db == nil) ? Firestore.firestore()   :  self.db!
+        self.db = DB
+        
+        guard let id = Auth.auth().currentUser?.uid, let userId = userId else {
+            
+            return
+        }
+        //TODO: Make cloud function to accept and add friend to database
+        self.db?.collection("friends").document(id).collection("requests").document(userId).updateData(["accepted": true], completion: { error in
+            
+            completion(error)
+        })
+    }
+    
+    func cancelFriendRequest(to userId: String?,  completion: @escaping ( (_ error: Error?) -> () ) )  {
+        
+        let DB =  (self.db == nil) ? Firestore.firestore()   :  self.db!
+        self.db = DB
+        
+        guard let id = Auth.auth().currentUser?.uid, let userId = userId else {
+            
+            return
+        }
+        
+       
+        self.db?.collection("friends").document(userId).collection("requests").document(id).delete(completion: { error in
+            completion(error)
+        })
+            
+            
+         
+
+        
+    }
+    
+    
 
     ///TODO: Add error handling
     ///winks at a user given the user ID
@@ -1895,9 +1960,9 @@ class Account: ObservableObject {
             .collection("placements")
             .document(planet.name.rawValue)
             .collection(planet.sign.rawValue)
-          // .whereField("isNotable", isEqualTo: true)
+          .whereField("is_notable", isEqualTo: true)
            .limit(to: 4)
-            .getDocuments { snapshot, error in
+            .addSnapshotListener { snapshot, error in
                  
                 
                 var usersfromdatabase: [AmareUser] = []
