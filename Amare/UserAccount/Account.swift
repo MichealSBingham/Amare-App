@@ -62,7 +62,7 @@ class Account: ObservableObject {
      func sendVerificationCode(to phoneNumber: String,
                                andAfter  runThisClosure: ((_ error: Error?) -> Void)? = nil ) {
          
-       //  Auth.auth().settings?.isAppVerificationDisabledForTesting = true//, enable or disable this for testing
+         Auth.auth().settings?.isAppVerificationDisabledForTesting = true//, enable or disable this for testing
         PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber, uiDelegate: nil) { verificationID, error in
             
             
@@ -1843,6 +1843,22 @@ class Account: ObservableObject {
             return
         }
         //TODO: Make cloud function to accept and add friend to database
+        self.db?.collection("friends").document(id).collection("requests").document(userId).delete(completion: { error in
+            
+            completion(error)
+        })
+    }
+    
+    func rejectFriendRequest(from userId: String?, completion: @escaping ( (_ error: Error?) -> () ))  {
+        
+        let DB =  (self.db == nil) ? Firestore.firestore()   :  self.db!
+        self.db = DB
+        
+        guard let id = Auth.auth().currentUser?.uid, let userId = userId else {
+            
+            return
+        }
+        //TODO: Make cloud function to accept and add friend to database
         self.db?.collection("friends").document(id).collection("requests").document(userId).updateData(["accepted": true], completion: { error in
             
             completion(error)
@@ -1869,6 +1885,7 @@ class Account: ObservableObject {
 
         
     }
+    
     
     
 

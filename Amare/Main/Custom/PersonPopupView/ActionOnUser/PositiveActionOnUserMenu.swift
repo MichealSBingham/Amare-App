@@ -23,6 +23,9 @@ struct PositiveActionOnUserMenu: View {
     /// Whether or not THis user sent a friend request
     @State var sentFriendRequest: Bool? = nil
     
+    @State var shouldRespondToFriendRequest: Bool? = nil
+    
+    
     var body: some View {
         
         ZStack{
@@ -30,33 +33,120 @@ struct PositiveActionOnUserMenu: View {
             
             VStack{
                 
-                Button {
+                HStack{
                     
-                    addFriend()
-                   
+                    ZStack{
                         
-                } label: {
-                    
-                    HStack{
-                        
-                        ZStack{
+                        // Only show this when you should respond to a friend request otherwise show the other view
+                        TabView(selection: $shouldRespondToFriendRequest){
                             
-                            Image(systemName: "nosign").opacity(sentFriendRequest ?? false ? 1: 0)
-                            Image(systemName: "person.fill.badge.plus").opacity(sentFriendRequest ?? false ? 0: 1)
+                        
+                           
+                            Button {
+                                
+                               acceptFriendRequest()
+                               
+                                    
+                            } label: {
+                                
+                                
+                                    
+                                   
+                                        
+                                        Image(systemName: "person.fill.checkmark")
+                                        
+                                        
+                            
+                                   
+                                    
+                                    Text("Accept Friend Request")
+                                      //  .font(.largeTitle)
+                                         .bold()
+                                        // .frame(maxWidth : .infinity, alignment: .center)
+                                        //.padding(.top)
+                                        .foregroundColor(Color.primary.opacity(0.4))
+                                
+                            }
+                            .tag(0)
+                            
+                            // needs to respond to friend request
+                            Button {
+                                
+                                rejectFriendRequest()
+                               
+                                    
+                            } label: {
+                                
+                                
+                                    
+                                    ZStack{
+                                        
+                                        Image(systemName: "xmark")
+                                        
+                                    }
+                                   
+                                    
+                                    Text("Reject Friend Request")
+                                      //  .font(.largeTitle)
+                                         .bold()
+                                        // .frame(maxWidth : .infinity, alignment: .center)
+                                        //.padding(.top)
+                                        .foregroundColor(Color.primary.opacity(0.4))
+                                
+                            }
+                            .tag(1)
+                            .opacity(0)
+                            
                             
                         }
-                       
+                        //TODO: might need to adjust this
+                        .frame(width: .infinity, height: 50)
+                        .tabViewStyle(.page(indexDisplayMode: .never))
+                        .opacity(shouldRespondToFriendRequest ?? false ? 1: 0)
                         
-                        Text(sentFriendRequest ?? false ? "Cancel Friend Request" : "Add Friend")
-                          //  .font(.largeTitle)
-                             .bold()
-                            // .frame(maxWidth : .infinity, alignment: .center)
-                            //.padding(.top)
-                            .foregroundColor(Color.primary.opacity(0.4))
-                    }.padding()
+                        
+                        Button {
+                            
+                            addFriend()
+                           
+                                
+                        } label: {
+                            
+                            
+                                
+                                ZStack{
+                                    
+                                    Image(systemName: "nosign").opacity(sentFriendRequest ?? false ? 1: 0)
+                                    Image(systemName: "person.fill.badge.plus").opacity(sentFriendRequest ?? false ? 0: 1)
+                                    
+                                }
+                               
+                                
+                                Text(sentFriendRequest ?? false ? "Cancel Friend Request" : "Add Friend")
+                                  //  .font(.largeTitle)
+                                     .bold()
+                                    // .frame(maxWidth : .infinity, alignment: .center)
+                                    //.padding(.top)
+                                    .foregroundColor(Color.primary.opacity(0.4))
+                            
+                        }
+                        .opacity(shouldRespondToFriendRequest ?? false ? 0: 1)
+                        
+                        
+                        
+                        
+                    }
+                    
+                   
+                    
+                    
+                    
                 }
+                
+               
 
                 
+            
                 
                Divider()
                 
@@ -121,11 +211,13 @@ struct PositiveActionOnUserMenu: View {
                                          .foregroundColor(Color.primary.opacity(0.4))
                                          .opacity(canWinkBack ? 1: 0)
                                  }
-                                
+                               
                                  
                                  
                                  
                              }.padding()
+                                 
+                                
                              
                              Button {
                                  print("Approach?")
@@ -137,8 +229,10 @@ struct PositiveActionOnUserMenu: View {
                                      // .frame(maxWidth : .infinity, alignment: .center)
                                      //.padding(.top)
                                      .foregroundColor(Color.primary.opacity(0.4))
+                                    
                                      
                              }.padding()
+                                
                              
                              Button {
                                  print("Ask For Consent?")
@@ -151,7 +245,10 @@ struct PositiveActionOnUserMenu: View {
                                      //.padding(.top)
                                      .foregroundColor(Color.primary.opacity(0.4))
                                      
+                                     
                              }.padding()
+                                 
+                               
                              
                              
                              
@@ -228,6 +325,27 @@ struct PositiveActionOnUserMenu: View {
              }
          })
          
+         // Checking if friend requests were sent to me
+         print("Listening for friend requests that i hsould respond to")
+          account.db?.collection("friends").document(me).collection("requests").document(them).addSnapshotListener({ snapshot, error in
+              
+              if snapshot?.exists ?? false {
+                  // They sent me (current signed in user) a friend request
+                 
+                  withAnimation {
+                      shouldRespondToFriendRequest = true
+                  }
+                  
+                  
+              }  else {
+                  // They did not send me a freind request
+                  withAnimation {
+                      shouldRespondToFriendRequest = false
+                  }
+                 
+              }
+          })
+         
          
          
             print("LISTENING FOR WINKS")
@@ -285,6 +403,23 @@ struct PositiveActionOnUserMenu: View {
             
             print("The error after sending friend request is \(error)")
         }
+    }
+    
+    
+    func acceptFriendRequest()  {
+        
+        account.acceptFriendRequest(from: user?.id) { error in
+            print("Accepting Friend Request with error \(error)")
+        }
+    }
+    
+    
+    func rejectFriendRequest()  {
+        
+        account.acceptFriendRequest(from: user?.id) { error in
+            print("Accepting Friend Request with error \(error)")
+        }
+        
     }
 }
 

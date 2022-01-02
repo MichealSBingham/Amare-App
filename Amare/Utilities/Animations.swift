@@ -66,6 +66,10 @@ struct FadeModifier: AnimatableModifier {
 /// - Parameters
 ///    - style: The style of the gradient's animation. By default, `.normal` swirls the colors in one direction
 struct Background: View {
+    
+    
+    
+    
     /// Style of gradient animation rotation
     var style: Style = .normal
     @State var start = UnitPoint.leading
@@ -79,7 +83,11 @@ struct Background: View {
     @State var colorsExtended = [ Color(UIColor(red: 1.00, green: 0.01, blue: 0.40, alpha: 1.00)),
                                   .blue]
 
+    var body: some View{
+        EmptyView()
+    }
 
+    /*
     var body: some View {
         LinearGradient(gradient: Gradient(colors: !(style == .creative) ? colors: colorsExtended), startPoint: start, endPoint: end)
             .animation(Animation.easeInOut(duration: 2).repeatForever(), value: start) /// don't forget the `value`!
@@ -116,6 +124,8 @@ struct Background: View {
             return .top
         }
     }
+    
+    */
 }
 
 /// Style of gradient view animating
