@@ -54,17 +54,17 @@ struct PositiveActionOnUserMenu: View {
                                    
                                         
                                         Image(systemName: "person.fill.checkmark")
+                                    .foregroundColor(.green)
                                         
                                         
                             
                                    
                                     
                                     Text("Accept Friend Request")
-                                      //  .font(.largeTitle)
                                          .bold()
-                                        // .frame(maxWidth : .infinity, alignment: .center)
-                                        //.padding(.top)
-                                        .foregroundColor(Color.primary.opacity(0.4))
+                                         .foregroundColor(.green)
+                                       
+                                        // .foregroundColor(.green.opacity(0.4))
                                 
                             }
                             .tag(0)
@@ -82,20 +82,21 @@ struct PositiveActionOnUserMenu: View {
                                     ZStack{
                                         
                                         Image(systemName: "xmark")
+                                            .foregroundColor(.red)
                                         
                                     }
                                    
                                     
-                                    Text("Reject Friend Request")
-                                      //  .font(.largeTitle)
+                                    Text("Decline Friend Request")
                                          .bold()
-                                        // .frame(maxWidth : .infinity, alignment: .center)
-                                        //.padding(.top)
-                                        .foregroundColor(Color.primary.opacity(0.4))
+                                         .foregroundColor(.red)
+                                        // .foregroundColor(.red.opacity(0.4))
+                                      
+                                
                                 
                             }
                             .tag(1)
-                            .opacity(0)
+                           
                             
                             
                         }
@@ -302,6 +303,11 @@ struct PositiveActionOnUserMenu: View {
                 
                 return
             }
+         
+         
+            //Checking If we are already friends
+         
+         print("Checking if we are already friends")
          
          
          // Listener at this user's friend requests, check if I sent a friend to this user
