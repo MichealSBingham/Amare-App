@@ -113,7 +113,7 @@ struct PositiveActionOnUserMenu: View {
                         .frame(width: .infinity, height: 50)
                         .tabViewStyle(.page(indexDisplayMode: .never))
                         .opacity((shouldRespondToFriendRequest ?? false) && !(friendsAlready ?? false) ? 1: 0)
-                        
+                        .opacity(friendsAlready ?? false ? 0: 1)
                         
                         
                         
@@ -139,7 +139,8 @@ struct PositiveActionOnUserMenu: View {
                                     .foregroundColor(Color.primary.opacity(0.4))
                             
                         }
-                        .opacity((shouldRespondToFriendRequest ?? false) && !(friendsAlready ?? false) ? 0: 1)
+                        .opacity((shouldRespondToFriendRequest ?? false) ? 0: 1)
+                        .opacity(friendsAlready ?? false ? 0: 1)
                     
                         
                         
@@ -286,12 +287,14 @@ struct PositiveActionOnUserMenu: View {
                                      
                                      Text((!(winkstatus ?? false)) ? "😉 Wink": "😬 Unwink" )
                                           .bold()
-                                         .foregroundColor(Color.primary.opacity(0.4))
+                                         //.foregroundColor(Color.primary.opacity(0.4))
+                                          .foregroundColor(!(winkstatus ?? false) ? .blue.opacity(0.4) : .red.opacity(0.4))
                                          .opacity(!canWinkBack ? 1: 0)
                                      
                                      Text((!(winkstatus ?? false)) ? "😉 Wink Back": "😬 Unwink" )
                                           .bold()
-                                         .foregroundColor(Color.primary.opacity(0.4))
+                                        // .foregroundColor(Color.primary.opacity(0.4))
+                                          .foregroundColor(!(winkstatus ?? false) ? .blue.opacity(0.4) : .red.opacity(0.4))
                                          .opacity(canWinkBack ? 1: 0)
                                  }
                                
