@@ -1887,6 +1887,25 @@ class Account: ObservableObject {
     }
     
     
+    /// Deletes friend from user base
+    func removeFriend(removedUserId: String?, completion: @escaping ( (_ error: Error?) -> () ) )  {
+        
+        let DB =  (self.db == nil) ? Firestore.firestore()   :  self.db!
+        self.db = DB
+        
+        guard let me = Auth.auth().currentUser?.uid, let removedIdUser = removedUserId else {
+            
+            return
+        }
+        
+        
+        //Listener on cloud function to delete this '2-way' as well and also remove any possible friend requests by both
+        self.db?.collection("friends").document(me).collection("myFriends").document(removedIdUser).delete(completion: { error in
+            completion(error)
+        })
+    }
+    
+    
     
 
     ///TODO: Add error handling

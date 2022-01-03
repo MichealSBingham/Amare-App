@@ -181,9 +181,7 @@ struct PositiveActionOnUserMenu: View {
                             // needs to respond to friend request
                             Button {
                                 
-                                //TODO: Make function for removing a friend
-                            print("make function for removing friend request ")
-                               
+                                removeFriend()
                                     
                             } label: {
                                 
@@ -286,15 +284,15 @@ struct PositiveActionOnUserMenu: View {
                                  ZStack{
                                      
                                      Text((!(winkstatus ?? false)) ? "😉 Wink": "😬 Unwink" )
-                                          .bold()
+                                          .bold() // NEW BLUE
                                          //.foregroundColor(Color.primary.opacity(0.4))
-                                          .foregroundColor(!(winkstatus ?? false) ? .blue.opacity(0.4) : .red.opacity(0.4))
+                                          .foregroundColor(!(winkstatus ?? false) ? .blue.opacity(0.7) : .red.opacity(0.7))
                                          .opacity(!canWinkBack ? 1: 0)
                                      
                                      Text((!(winkstatus ?? false)) ? "😉 Wink Back": "😬 Unwink" )
-                                          .bold()
+                                         .bold() // NEW BLUE
                                         // .foregroundColor(Color.primary.opacity(0.4))
-                                          .foregroundColor(!(winkstatus ?? false) ? .blue.opacity(0.4) : .red.opacity(0.4))
+                                          .foregroundColor(!(winkstatus ?? false) ? .blue.opacity(0.7) : .red.opacity(0.7))
                                          .opacity(canWinkBack ? 1: 0)
                                  }
                                
@@ -527,6 +525,14 @@ struct PositiveActionOnUserMenu: View {
             print("Accepting Friend Request with error \(error)")
         }
         
+    }
+    
+    func removeFriend(){
+        
+        account.removeFriend(removedUserId: user?.id) { error in
+            
+            print("Removing Friend  with error \(error)")
+        }
     }
 }
 
