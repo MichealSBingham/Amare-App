@@ -1833,7 +1833,7 @@ class Account: ObservableObject {
     }
     
     
-    func acceptFriendRequest(from userId: String?, completion: @escaping ( (_ error: Error?) -> () ))  {
+    func rejectFriendRequest(from userId: String?, completion: @escaping ( (_ error: Error?) -> () ))  {
         
         let DB =  (self.db == nil) ? Firestore.firestore()   :  self.db!
         self.db = DB
@@ -1849,7 +1849,7 @@ class Account: ObservableObject {
         })
     }
     
-    func rejectFriendRequest(from userId: String?, completion: @escaping ( (_ error: Error?) -> () ))  {
+    func acceptFriendRequest(from userId: String?, completion: @escaping ( (_ error: Error?) -> () ))  {
         
         let DB =  (self.db == nil) ? Firestore.firestore()   :  self.db!
         self.db = DB

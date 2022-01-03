@@ -25,6 +25,9 @@ struct PositiveActionOnUserMenu: View {
     
     @State var shouldRespondToFriendRequest: Bool? = nil
     
+    //Whether or not these are already friends
+    @State var friendsAlready: Bool? = nil
+    
     
     var body: some View {
         
@@ -52,19 +55,25 @@ struct PositiveActionOnUserMenu: View {
                                 
                                     
                                    
-                                        
+                          
                                         Image(systemName: "person.fill.checkmark")
                                     .foregroundColor(.green)
                                         
+                                
+                                
+                               
+                                
                                         
                             
-                                   
+                                
                                     
                                     Text("Accept Friend Request")
                                          .bold()
                                          .foregroundColor(.green)
                                        
-                                        // .foregroundColor(.green.opacity(0.4))
+                                        
+                                
+                              
                                 
                             }
                             .tag(0)
@@ -103,7 +112,9 @@ struct PositiveActionOnUserMenu: View {
                         //TODO: might need to adjust this
                         .frame(width: .infinity, height: 50)
                         .tabViewStyle(.page(indexDisplayMode: .never))
-                        .opacity(shouldRespondToFriendRequest ?? false ? 1: 0)
+                        .opacity((shouldRespondToFriendRequest ?? false) && !(friendsAlready ?? false) ? 1: 0)
+                        
+                        
                         
                         
                         Button {
@@ -124,14 +135,85 @@ struct PositiveActionOnUserMenu: View {
                                
                                 
                                 Text(sentFriendRequest ?? false ? "Cancel Friend Request" : "Add Friend")
-                                  //  .font(.largeTitle)
                                      .bold()
-                                    // .frame(maxWidth : .infinity, alignment: .center)
-                                    //.padding(.top)
                                     .foregroundColor(Color.primary.opacity(0.4))
                             
                         }
-                        .opacity(shouldRespondToFriendRequest ?? false ? 0: 1)
+                        .opacity((shouldRespondToFriendRequest ?? false) && !(friendsAlready ?? false) ? 0: 1)
+                    
+                        
+                        
+                        // If they are already friends only show them options to remove friend
+                        TabView(selection: $friendsAlready){
+                            
+                        
+                           
+                            Button {
+                                
+                               print("Friends Already ")
+                               
+                                    
+                            } label: {
+                                
+                                
+                                    
+                                   
+                                        
+                                      
+                                Image(systemName: "checkmark.shield.fill")
+                                   .foregroundColor(.green)
+                                
+                                        
+                                        
+                            
+                                   
+                                    
+                                    Text("Friends")
+                                         .bold()
+                                         .foregroundColor(Color.primary.opacity(0.4))
+                                       
+                                
+                            }
+                            .disabled(true)
+                            .tag(0)
+                            
+                            // needs to respond to friend request
+                            Button {
+                                
+                                //TODO: Make function for removing a friend
+                            print("make function for removing friend request ")
+                               
+                                    
+                            } label: {
+                                
+                                
+                                    
+                                    ZStack{
+                                        
+                                        Image(systemName: "xmark")
+                                            .foregroundColor(.red)
+                                        
+                                    }
+                                   
+                                    
+                                    Text("Remove Friend")
+                                         .bold()
+                                         .foregroundColor(.red)
+                                        // .foregroundColor(.red.opacity(0.4))
+                                      
+                                
+                                
+                            }
+                            .tag(1)
+                           
+                            
+                            
+                        }
+                        //TODO: might need to adjust this
+                        .frame(width: .infinity, height: 50)
+                        .tabViewStyle(.page(indexDisplayMode: .never))
+                        .opacity((friendsAlready ?? false) ? 1: 0 )
+                        
                         
                         
                         
@@ -308,6 +390,22 @@ struct PositiveActionOnUserMenu: View {
             //Checking If we are already friends
          
          print("Checking if we are already friends")
+         account.db?.collection("friends").document(me).collection("myFriends").document(them).addSnapshotListener({ snapshot, error in
+             
+             if snapshot?.exists ?? false {
+                 // friends already
+                 
+                 withAnimation {
+                     friendsAlready = true
+                 }
+             } else {
+                 
+                 withAnimation {
+                     friendsAlready = false
+                 }
+                
+             }
+         })
          
          
          // Listener at this user's friend requests, check if I sent a friend to this user
