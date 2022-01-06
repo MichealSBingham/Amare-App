@@ -24,6 +24,9 @@ struct EnterUsernameView: View {
   //  @State   var username: String = ""
     @State private var goToNext: Bool = false
     
+    /// When this is false, we will go back to EnterNameView
+    @Binding  var showThisView: Bool
+    
    
     @State private var someErrorOccured: Bool = false
     @State private var alertMessage: String  = ""
@@ -58,7 +61,7 @@ struct EnterUsernameView: View {
         VStack{
             
             ZStack{
-                backButton()
+                backButton().onAppear(perform: {buttonIsDisabled = false})
                 createLogo()
             }
             
@@ -183,7 +186,11 @@ struct EnterUsernameView: View {
     
     func goBack()   {
         
-        navigationStack.pop()
+      
+        withAnimation {
+            showThisView = false
+        }
+    
     }
     
     /// Title of the view text .
@@ -462,7 +469,7 @@ struct EnterUsernameView_Previews: PreviewProvider {
     static var previews: some View {
         ZStack{
             Background()
-            EnterUsernameView()
+            EnterUsernameView( showThisView: .constant(false))
         }
        
     }

@@ -59,8 +59,6 @@ struct EnterPhoneNumberView2: View {
                 
                     
                     backButton()
-                    
-                
                                
                 
                                 
@@ -249,7 +247,7 @@ struct EnterPhoneNumberView2: View {
         return HStack{ Button {
             buttonDisabled = true
             goBack()
-            
+            buttonDisabled = false
         } label: {
             
              Image("RootView/right-arrow")

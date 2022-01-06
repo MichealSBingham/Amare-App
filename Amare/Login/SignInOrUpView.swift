@@ -215,6 +215,7 @@ struct SignInOrUpView: View {
             
            
           goToNextView()
+            buttonDisabled = false
             
         } label: {
             // Creating the view

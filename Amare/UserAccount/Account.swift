@@ -50,10 +50,13 @@ class Account: ObservableObject {
     /// User Data saved to an account object. This won't always have the user's saved data as it is stored in the `Account` object so you must pull the UserData from the dataset first before expecting this attribute to have the updated information.
     @Published var data: AmareUser? = AmareUser()
     
+    public var signUpData: AmareUser = AmareUser()
+    
 
     init(){
-        self.getUserData()
+        
     }
+
 
     
     
@@ -340,7 +343,7 @@ class Account: ObservableObject {
                     // No Error occured
                   
                   
-                    guard (self.data?.isComplete())! else{
+                    guard (self.data?.isComplete() ?? false) else{
                         
                         // The user data isn't complete so should go to the sign up state
                         // Means the user did not finish signing up
