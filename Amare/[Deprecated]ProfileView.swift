@@ -170,7 +170,7 @@ struct ProfileView_Previews: PreviewProvider {
         
         
             
-            ProfileView().environmentObject(Account())
+        RotatingGradientView()
             //.environmentObject(NavigationModel())
                           //  .preferredColorScheme(.dark)
         
@@ -181,3 +181,31 @@ struct ProfileView_Previews: PreviewProvider {
 
 
 
+
+
+struct RotatingGradientView: View {
+    @State var gradientAngle: Double = 0
+    
+     var colors = [ Color(UIColor(red: 1.00, green: 0.01, blue: 0.40, alpha: 1.00)),
+                   Color(UIColor(red: 0.94, green: 0.16, blue: 0.77, alpha: 1.00)) ]
+    
+    var body: some View {
+        ZStack {
+            Rectangle()
+            .fill(AngularGradient(gradient: Gradient(colors: colors), center: .center, angle: .degrees(gradientAngle)))  .edgesIgnoringSafeArea(.all)
+           // .brightness(0.2)
+           // .saturation(0.7)
+            .blur(radius: 5)
+            
+            
+            
+            
+        }
+      
+        .onAppear {
+            withAnimation(Animation.linear(duration: 12).repeatForever(autoreverses: false)) {
+                self.gradientAngle = 360
+            }
+        }
+    }
+}
