@@ -82,9 +82,8 @@ struct Background: View {
     
     @State var colorsExtended = [ Color(UIColor(red: 1.00, green: 0.01, blue: 0.40, alpha: 1.00)),
                                   .blue]
-
     var body: some View{
-        EmptyView()
+          EmptyView()
     }
 
     /*

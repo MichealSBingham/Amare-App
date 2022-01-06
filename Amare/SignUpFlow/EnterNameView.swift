@@ -82,7 +82,7 @@ struct EnterNameView: View {
                     }
                 .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
                 //.onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; timer.upstream.connect().cancel()}
-                .onAppear { withAnimation {beginAnimation = true} ; settings.viewType = .EnterNameView; doneWithSignUp(state: false) }
+                .onAppear { withAnimation {beginAnimation = true} /*; settings.viewType = .EnterNameView; doneWithSignUp(state: false) */}
 
                 
                         

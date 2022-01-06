@@ -20,6 +20,8 @@ import PushNotifications
 ///  - Warning: If unexpected behavior occurs, set handle, didChange to public
 class Account: ObservableObject {
 
+    /// Shared instance of type `Account`
+      static let shared = Account()
    
     /// Helper property that assists us in listening to real time changes to certain published attributes of the `Account` object
                private var didChange = PassthroughSubject<Account, Never>()
@@ -41,16 +43,23 @@ class Account: ObservableObject {
     public var storage: StorageReference?
     let beamsClient = PushNotifications.shared
     
-  
-    
+
     
     
     
     /// User Data saved to an account object. This won't always have the user's saved data as it is stored in the `Account` object so you must pull the UserData from the dataset first before expecting this attribute to have the updated information.
     @Published var data: AmareUser? = AmareUser()
     
+
+    init(){
+        self.getUserData()
+    }
+
     
     
+    func is_Signed_In() -> Bool {
+        return self.isSignedIn
+    }
     
     /// Sends a verification code to the user's phone number to be used to login or create an account
     /// - Parameters:
@@ -438,7 +447,7 @@ class Account: ObservableObject {
     /// - Author: Micheal S. Bingham
     func listen () {
             // monitor authentication changes using firebase
-        
+        print("Listening on \(self.user?.uid)")
         self.isListening = true
             handle = Auth.auth().addStateDidChangeListener { (auth, user) in
                 
@@ -497,7 +506,7 @@ class Account: ObservableObject {
             }
         }
     
-    /// Reads the user data once from the database and saves it in the object (Saves it to `account.data`). l. Assigns a `UserData` object to `self.data`
+    /// Reads the user data /in real time/  from the database and saves it in the object (Saves it to `account.data`). l. Assigns a `UserData` object to `self.data`. This will make the userdata subscribe to changes
     /// - Parameter completion: Completion block ran after an attempt to fetch the user data beloning to the `Account`
     /// - Parameter error: Will be nil if it was successful or an error of type `AccountError` or `GlobalError` will be passed.
     /// - Author: Micheal S. Bingham
@@ -516,7 +525,8 @@ class Account: ObservableObject {
             return
         }
         
-        DB.collection("users").document(id).getDocument { document, error in
+        DB.collection("users").document(id)
+            .addSnapshotListener { document, error in
             
             guard error == nil else{
                 // Handle these errors....
@@ -569,9 +579,9 @@ class Account: ObservableObject {
                 
             }
             
-            if let document = document, document.exists {
+                if let document = document {
                 
-                  
+                    guard document.exists else { self.data = nil; completion?(nil); return}
                 
                 let result = Result {
                     try document.data(as: AmareUser.self)
