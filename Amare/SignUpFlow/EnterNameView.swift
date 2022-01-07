@@ -88,6 +88,7 @@ struct EnterNameView: View {
             
             EnterUsernameView(showThisView: $goToNext)
                 .opacity(goToNext ? 1: 0)
+                .environmentObject(account)
         }
                     
                

@@ -37,6 +37,8 @@ struct EnterUsernameView: View {
     @State private var buttonIsDisabled: Bool = false
     
     @State var isUniqueUsername: Bool = false
+	
+	@State var usernameIsSelected: Bool = false
     
     
     enum FirstResponders: Int {
@@ -61,7 +63,7 @@ struct EnterUsernameView: View {
         VStack{
             
             ZStack{
-                backButton().onAppear(perform: {buttonIsDisabled = false})
+                backButton()
                 createLogo()
             }
             
@@ -235,7 +237,7 @@ struct EnterUsernameView: View {
                 account.db?.collection("usernames").document(nametolookfor).getDocument(completion: { doc, error in
                     
                    
-                    if doc?.exists ?? false {
+                    if (doc?.exists ??  false ) && !usernameIsSelected  {
                         print("\(nametolookfor) is not a unique username")
                         isUniqueUsername = false
                         message = "Try something unique. That's taken."
@@ -329,6 +331,7 @@ struct EnterUsernameView: View {
         
         return Button {
             
+			usernameIsSelected = true
             buttonIsDisabled = true
                 
             guard !(username.text.isEmpty) else{
@@ -343,10 +346,29 @@ struct EnterUsernameView: View {
       
                 
             var unique_username = username.text.replacingOccurrences(of: "@", with: "")
-           // account.data = AmareUser(id: account.user?.uid ?? "", username: unique_username)... we comment this out because it was overriding data previously set
+        
             
-            account.data?.username = unique_username
-                
+			Account.shared.signUpData.username = unique_username
+			
+			
+			// TODO: Reserving the username... set GITHUB ticket.
+			
+			account.db?.collection("usernames").document(unique_username).setData(["userId": account.user?.uid ?? "", "username": unique_username, "isNotable": false], merge: true, completion: { error in
+				
+				guard error == nil else {
+					buttonIsDisabled = false
+					handle(error!)
+					usernameIsSelected = false
+					return
+					
+				}
+				goToNextView()
+				buttonIsDisabled = false
+			})
+			
+			
+			
+                /*
                 do{
                     try account.save(completion: { error in
                         guard error == nil else {
@@ -376,7 +398,7 @@ struct EnterUsernameView: View {
                     handle(error)
                     return
                 }
-                
+                */
                
                 
             
