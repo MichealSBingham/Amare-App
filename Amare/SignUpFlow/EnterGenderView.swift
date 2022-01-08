@@ -511,6 +511,7 @@ struct EnterGenderView: View {
         return HStack { Button {
             buttonIsDisabled = true
             goBack()
+			
             
         } label: {
             

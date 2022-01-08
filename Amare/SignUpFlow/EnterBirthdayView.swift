@@ -112,24 +112,13 @@ struct EnterBirthdayView: View {
     func saveBirthdayAndGoToNextView()  {
         
         let bday = Birthday(timestamp: Timestamp(date: date), month: date.month(), day: date.day(), year: date.year())
+		
+		Account.shared.signUpData.birthday = bday
+		Account.shared.signUpData.known_time = knowsBirthTime
+		
+		goToNextView()
         
-        
-        account.data?.birthday = bday
-        account.data?.known_time = knowsBirthTime
-        
-        do {
-            
-            try account.save(completion: { error in
-                guard error == nil else {
-                    return
-                }
-                goToNextView()
-            })
-            
-        } catch (let error){
-           
-            handle(error)
-        }
+       
 
     }
     

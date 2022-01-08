@@ -500,7 +500,7 @@ struct EnterOrientationView: View {
     /// Title of the view text .
     func title() -> some View {
         
-        let gender = account.data?.sex ?? .non_binary
+		let gender = Account.shared.signUpData.sex ?? .non_binary
         
         return Text("I am *\(gender.string())* and I like...")
             .bold()
@@ -579,7 +579,14 @@ struct EnterOrientationView: View {
             if likesWomen { orientation += "W"}
                 //orientation = orientation.sorted() */
             
+			Account.shared.signUpData.orientation = Array(Set(sexesSelected))
+			
+			goToNextView()
+			
+			/*
             account.data?.orientation = Array(Set(sexesSelected))
+			
+			
             
             do {
                 try account.save(completion: { error in
@@ -595,7 +602,7 @@ struct EnterOrientationView: View {
                 buttonIsDisabled = false
                     handle(error)
             }
-            
+            */
             
         } label: {
             

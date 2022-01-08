@@ -180,28 +180,14 @@ struct SelectLocationView: View {
             
   
                 
-                account.data?.hometown = Place(latitude: city.location?.coordinate.latitude, longitude: city.location?.coordinate.longitude, city: city.city, state: city.state, country: city.country, geohash: city.geohash)
+			Account.shared.signUpData.hometown = Place(latitude: city.location?.coordinate.latitude, longitude: city.location?.coordinate.longitude, city: city.city, state: city.state, country: city.country, geohash: city.geohash)
             
+			goToNextView()
             
             
           
             
-            do {
-                
-                try account.save(completion: { error in
-                    guard error == nil else {
-                        
-                        handle(error!)
-                        return
-                    }
-                    goToNextView()
-                })
-                
-                
-            } catch (let error) {
-                
-                handle(error)
-            }
+            
             
             
         } label: {

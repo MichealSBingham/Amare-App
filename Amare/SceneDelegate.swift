@@ -31,6 +31,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                                     .environmentObject(self.account)
                                     .environment(\.urlImageService, urlImageService)
                                     ////.environmentObject(NavigationModel())
+			///
+			window.overrideUserInterfaceStyle = .dark
                                         
             window.rootViewController = UIHostingController(rootView: firstView)
             

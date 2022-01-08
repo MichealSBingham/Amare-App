@@ -368,38 +368,6 @@ struct EnterUsernameView: View {
 			
 			
 			
-                /*
-                do{
-                    try account.save(completion: { error in
-                        guard error == nil else {
-                            buttonIsDisabled = false
-                            return
-                        }
-                       firstResponder = nil
-                        
-                        // Set the taken username in database
-                        
-                        
-                        account.db?.collection("usernames").document(unique_username).setData(["userId": account.user?.uid ?? "", "username": unique_username, "isNotable": false], merge: true, completion: { error in
-                            
-                            guard error == nil else {
-                                buttonIsDisabled = false
-                                handle(error!)
-                                return
-                                
-                            }
-                            goToNextView()
-                        })
-                        
-                       
-                    })
-                } catch (let error){
-                    buttonIsDisabled = false
-                    handle(error)
-                    return
-                }
-                */
-               
                 
             
             
