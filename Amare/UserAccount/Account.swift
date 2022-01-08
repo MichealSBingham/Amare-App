@@ -1880,9 +1880,9 @@ class Account: ObservableObject {
     
   
     
-    /// Listen for real time updates on the user's data in the database.
+    /// Listen for real time updates on the user's data in the database. Optional completion block will return the datas
     /// - TODO:  Throw an error when it doesn't work .
-    func listen_for_user_data_updates()  {
+	func listen_for_user_data_updates(completion:( (_ data: AmareUser?) -> () )? = nil )  {
         
         let DB =  (self.db == nil) ? Firestore.firestore()   :  self.db!
         self.db = DB
@@ -1928,6 +1928,7 @@ class Account: ObservableObject {
                     
                     // Data object contains all of the user's data
                     self.data = data
+					completion?(data)
                     print("The user data is .. \(data)")
                   //  completion?(nil) .no error.
                     
@@ -1936,13 +1937,13 @@ class Account: ObservableObject {
                     
                     // Could not retreive the data for some reason
                     // Throw error
-                    //completion?(AccountError.doesNotExist)
+                    completion?(nil)
                 }
                 
             
             case .failure(let error):
                 print("Some error happened trying to convert the user data to a User Data object: \(error.localizedDescription)")
-                    // completion?(error) Throw error
+                    completion?(nil) //Throw error
           
             }
                 

@@ -57,7 +57,7 @@ struct RootView: View {
                  
                    MainView(isRoot: true )
                         .environmentObject(account)
-                        .onAppear(perform: {  account.stopListening() })
+                        .onAppear(perform: { account.stopListening()})
                         
                         
                     
