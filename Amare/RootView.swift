@@ -18,12 +18,16 @@ struct RootView: View {
     
     @EnvironmentObject private var navigationStack: NavigationStack
 
+    // Will only happen once in the applications entire lifecycle, really only using this for debugging and such
     static var signOutOnlyOnce: PerformOnce = {
         Account().signOut { error in
             return
         }
             return {}
         }()
+    
+     var isSignedIn: Bool = false
+     var dataIsComplete: Bool = false
     
     var body: some View {
         
@@ -32,29 +36,37 @@ struct RootView: View {
         
         ZStack{
             
+            /*
             let timer = Timer.publish(every: 0.5, on: .main, in: .default).autoconnect()
-            Background(timer: timer)
+             Background(timer: timer)
+             */
+            Background()
             
             NavigationStackView(transitionType: .custom(.opacity), easing: .easeInOut(duration: 0.8)){
                 
                
                
-             
-               if account.isSignedIn{
+                
+                // If signed in and done with user sign up procress
+                if account.isSignedIn{
                     
                     
-                    
-                    
+    
+            
+            
+                 
                    MainView(isRoot: true )
                         .environmentObject(account)
-                        .onAppear(perform: {  account.stopListening() })
+                        .onAppear(perform: { account.stopListening()})
+                        
+                        
                     
                     
                 } else {
 
                     SignInOrUpView(isRoot: true )
                         .environmentObject(account)
-                        .onAppear {  account.stopListening()}
+                        .onAppear { account.stopListening()}
                         
                         
                     
@@ -82,6 +94,10 @@ struct RootView: View {
             
             
         }.onAppear {
+            
+            print("***Here is the info: am i signed in? :\(account.isSignedIn)\nis my data complete?: \(account.data?.isComplete()) ")
+        }
+        /*.onAppear {
             /// This will only run ONCE in a lifetime (unless the app is deleted and redownloaded, or unless it's rebuilt in dev). This will sign out the user.
             
             
@@ -103,7 +119,7 @@ struct RootView: View {
             */
             //doOnce()
             
-        }
+        }*/
                 
     }
     

@@ -152,17 +152,7 @@ struct SelectLocationForResidenceView: View {
     /// Goes to the next screen / view,. Verification Code Screen
     func goToNextView()  {
         navigationStack.push(ImageUploadView().environmentObject(account))
-        /*
-        guard let timezone = timezone else {
-            someErrorOccured = true
-            alertMessage = "We couldn't find the timezone of this city. Select the closest major city."
-            return
-        }
-        print("Should go to next view ...")
- 
-        navigationStack.push(EnterBirthdayView(timezone: timezone).environmentObject(account))
-       
-        */
+        
     }
     
     func nextButton() -> some View {
@@ -181,27 +171,11 @@ struct SelectLocationForResidenceView: View {
            
             
                 
-                account.data?.residence = Place(latitude: city.location?.coordinate.latitude, longitude: city.location?.coordinate.longitude, city: city.city, state: city.state, country: city.country, geohash: city.geohash)
+			Account.shared.signUpData.residence = Place(latitude: city.location?.coordinate.latitude, longitude: city.location?.coordinate.longitude, city: city.city, state: city.state, country: city.country, geohash: city.geohash)
             
             
           
-            
-            do {
-                
-                try account.save(completion: { error in
-                    guard error == nil else {
-                        
-                        handle(error!)
-                        return
-                    }
-                    goToNextView()
-                })
-                
-                
-            } catch (let error) {
-                
-                handle(error)
-            }
+            goToNextView()
             
             
         } label: {

@@ -45,45 +45,53 @@ struct EnterNameView: View {
        
 
         
+        ZStack{
             
+            VStack{
                     
-                VStack{
-                        
+            
+                ZStack{
+                    
+                    backButton()
+                    createLogo()
+                }
                 
-                    ZStack{
-                        
-                        backButton()
-                        createLogo()
-                    }
+                Spacer()
+               
+                title().padding()
+                
+           
+                
+               Text("Enter your name below")
+                    .font(.system(size: 20))
+                    .foregroundColor(.white)
+                    .padding()
+                
+           
+                
+                enterNameField().padding()
+                nextButton()
+                
+                Spacer()
+             
                     
-                    Spacer()
+                Spacer()
                    
-                    title().padding()
+     
                     
-               
-                    
-                   Text("Enter your name below")
-                        .font(.system(size: 20))
-                        .foregroundColor(.white)
-                        .padding()
-                    
-               
-                    
-                    enterNameField().padding()
-                    nextButton()
-                    
-                    Spacer()
-                 
-                        
-                    Spacer()
-                       
-         
-                        
-                    }
-                .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
-                //.onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; timer.upstream.connect().cancel()}
-                .onAppear { withAnimation {beginAnimation = true} ; settings.viewType = .EnterNameView; doneWithSignUp(state: false) }
+                }
+            .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
+            //.onReceive(timer) { _ in  withAnimation { beginAnimation.toggle() }; timer.upstream.connect().cancel()}
+            .onAppear { withAnimation {beginAnimation = true} /*; settings.viewType = .EnterNameView; doneWithSignUp(state: false) */}
+            .opacity(goToNext ? 0: 1)
 
+            
+            EnterUsernameView(showThisView: $goToNext)
+                .opacity(goToNext ? 1: 0)
+                .environmentObject(account)
+        }
+                    
+               
                 
                         
                     
@@ -175,6 +183,19 @@ struct EnterNameView: View {
           
             name = name.trimmingCharacters(in: .whitespacesAndNewlines)
             
+    
+              
+          // Add to shared instance that stores account data
+          Account.shared.signUpData.id = account.user?.uid ?? ""
+          Account.shared.signUpData.name = name
+          
+          buttonIsDisabled = false
+          
+          withAnimation {
+              goToNext = true
+          }
+            
+            /*
             account.data = AmareUser(id: account.user?.uid ?? "", name: name)
             
             do{
@@ -191,6 +212,7 @@ struct EnterNameView: View {
                 handle(error)
                 return
             }
+            */
             
            
             
@@ -214,15 +236,27 @@ struct EnterNameView: View {
     
     /// Goes back to the login screen
     func goBack()   {
-    
         
+        print("Just tapped goBack go to next: \(goToNext)")
+    
+        // Just toggles to different page/question/signupstuff
+        guard goToNext == false else {
+            print("Go to next is not == false so we are setting it to false")
+            withAnimation {
+                goToNext = false
+            }
+            return
+        }
+        
+        print("Go to next is not == false so we are signing out")
+
         
         account.signOut { error in
             
             guard error == nil else { return }
             
                 firstResponder = nil
-                navigationStack.pop(to: .previous)
+                navigationStack.pop(to: .root)
             
            
             return
@@ -236,7 +270,15 @@ struct EnterNameView: View {
     func backButton() -> some View {
         
         return HStack { Button {
-            buttonIsDisabled = true
+            //buttonIsDisabled = true
+            /*
+            if goToNext {
+                goToNext = false
+            } else {
+                goBack()
+            }
+            */
+            
             goBack()
             
         } label: {
@@ -268,19 +310,42 @@ struct EnterNameView: View {
         
         return Button {
             
-            buttonIsDisabled = true
+            
+            if goToNext == false {
                 
-                guard !(name.isEmpty) else{
+                buttonIsDisabled = true
                     
-                    // User entered an empty name
-                   buttonIsDisabled = false
-                    return
+                    guard !(name.isEmpty) else{
+                        
+                        // User entered an empty name
+                       buttonIsDisabled = false
+                        return
+                    }
+                    
+                 
+                  
+                    name = name.trimmingCharacters(in: .whitespacesAndNewlines)
+                    
+                // Add to shared instance that stores account data
+                Account.shared.signUpData.id = account.user?.uid ?? ""
+                Account.shared.signUpData.name = name
+                
+                buttonIsDisabled = false
+                
+                withAnimation {
+                    goToNext = true
                 }
+            
+            } else {
+                // Save it as a username instead
                 
-             
-              
-                name = name.trimmingCharacters(in: .whitespacesAndNewlines)
                 
+            }
+            
+           
+            
+            
+            /*  We're not going to save the data yet, we'll keep it in the stored instance 
                 account.data = AmareUser(id: account.user?.uid ?? "", name: name)
            
                 
@@ -298,6 +363,8 @@ struct EnterNameView: View {
                     handle(error)
                     return
                 }
+            
+            */
                 
                
                 
@@ -337,12 +404,14 @@ struct EnterNameView: View {
     }
     
     /// Goes to the next screen / view,. Verification Code Screen
+/*
     func goToNextView()  {
         
         
         navigationStack.push(EnterUsernameView().environmentObject(account))
         
     }
+    */
     
     func handle(_ error: Error)  {
         

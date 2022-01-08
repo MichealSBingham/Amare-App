@@ -452,8 +452,12 @@ struct EnterGenderView: View {
     func SelectGenderAction(gender: Sex)  {
         
      
-        
-        self.account.data?.sex = gender
+        		
+		Account.shared.signUpData.sex = gender
+		
+		goToNextView()
+		
+		/*
         
         do{
             
@@ -475,7 +479,7 @@ struct EnterGenderView: View {
             
             // Handle Error //
         }
-        
+        */
             
         
         
@@ -487,7 +491,7 @@ struct EnterGenderView: View {
     /// Title of the view text .
     func title() -> some View {
         
-        let name = account.data?.name?.components(separatedBy: " ").first ?? "No Name"
+		let name = Account.shared.signUpData.name?.components(separatedBy: " ").first ?? "No Name"
         
         return Text("Hey \(name).")
             .bold()
@@ -507,6 +511,7 @@ struct EnterGenderView: View {
         return HStack { Button {
             buttonIsDisabled = true
             goBack()
+			
             
         } label: {
             

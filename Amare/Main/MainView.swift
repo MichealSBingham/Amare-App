@@ -105,9 +105,11 @@ struct MainView: View {
         print("Should be going back to root sign in ")
         if isRoot {
             // Push it back I suppose ...
+			print("***Pushing back is root")
             navigationStack.push(SignInOrUpView( isRoot: false))
         } else{
             
+			print("***popping back instead ")
             navigationStack.pop(to: .root)
         }
      
@@ -132,9 +134,22 @@ struct MainView: View {
             }
             return
         } */
-        account.listen_for_user_data_updates()
+		account.listen_for_user_data_updates { data in
+			
+			print("*** thingsToDoWhenMainViewLoads() after listenining for user data : \(data)")
+			
+			if !(data?.isComplete() ?? false)  {
+				
+				print("Should be signing out")
+				account.signOut()
+			}
+		}
         account.listenOnlyForSignOut()
         settings.viewType = .main
+		
+		
+		
+		
     }
     
 }

@@ -198,8 +198,28 @@ struct ImageUploadView: View {
     /// Goes to the next screen /
     func goToNextView()  {
        
-        
-        navigationStack.push(MainView( isRoot: false).environmentObject(account))
+		guard Account.shared.signUpData.isComplete() else {
+			
+			someErrorOccured = true
+			alertMessage = "Please go back and complete signing up."
+			return
+		}
+		
+		account.data = Account.shared.signUpData
+		
+		do{
+			try account.create()
+				
+			
+			navigationStack.push(MainView( isRoot: false).environmentObject(account))
+
+		} catch (let error) {
+			
+			print("Could not save the data for reason: \(error)")
+			someErrorOccured = true
+			alertMessage = "Something bad happened... try again?"
+		}
+		
        
     }
     

@@ -24,6 +24,9 @@ struct EnterUsernameView: View {
   //  @State   var username: String = ""
     @State private var goToNext: Bool = false
     
+    /// When this is false, we will go back to EnterNameView
+    @Binding  var showThisView: Bool
+    
    
     @State private var someErrorOccured: Bool = false
     @State private var alertMessage: String  = ""
@@ -34,6 +37,8 @@ struct EnterUsernameView: View {
     @State private var buttonIsDisabled: Bool = false
     
     @State var isUniqueUsername: Bool = false
+	
+	@State var usernameIsSelected: Bool = false
     
     
     enum FirstResponders: Int {
@@ -183,7 +188,11 @@ struct EnterUsernameView: View {
     
     func goBack()   {
         
-        navigationStack.pop()
+      
+        withAnimation {
+            showThisView = false
+        }
+    
     }
     
     /// Title of the view text .
@@ -228,7 +237,7 @@ struct EnterUsernameView: View {
                 account.db?.collection("usernames").document(nametolookfor).getDocument(completion: { doc, error in
                     
                    
-                    if doc?.exists ?? false {
+                    if (doc?.exists ??  false ) && !usernameIsSelected  {
                         print("\(nametolookfor) is not a unique username")
                         isUniqueUsername = false
                         message = "Try something unique. That's taken."
@@ -322,6 +331,7 @@ struct EnterUsernameView: View {
         
         return Button {
             
+			usernameIsSelected = true
             buttonIsDisabled = true
                 
             guard !(username.text.isEmpty) else{
@@ -336,41 +346,28 @@ struct EnterUsernameView: View {
       
                 
             var unique_username = username.text.replacingOccurrences(of: "@", with: "")
-           // account.data = AmareUser(id: account.user?.uid ?? "", username: unique_username)... we comment this out because it was overriding data previously set
+        
             
-            account.data?.username = unique_username
-                
-                do{
-                    try account.save(completion: { error in
-                        guard error == nil else {
-                            buttonIsDisabled = false
-                            return
-                        }
-                       firstResponder = nil
-                        
-                        // Set the taken username in database
-                        
-                        
-                        account.db?.collection("usernames").document(unique_username).setData(["userId": account.user?.uid ?? "", "username": unique_username, "isNotable": false], merge: true, completion: { error in
-                            
-                            guard error == nil else {
-                                buttonIsDisabled = false
-                                handle(error!)
-                                return
-                                
-                            }
-                            goToNextView()
-                        })
-                        
-                       
-                    })
-                } catch (let error){
-                    buttonIsDisabled = false
-                    handle(error)
-                    return
-                }
-                
-               
+			Account.shared.signUpData.username = unique_username
+			
+			
+			// TODO: Reserving the username... set GITHUB ticket.
+			
+			account.db?.collection("usernames").document(unique_username).setData(["userId": account.user?.uid ?? "", "username": unique_username, "isNotable": false], merge: true, completion: { error in
+				
+				guard error == nil else {
+					buttonIsDisabled = false
+					handle(error!)
+					usernameIsSelected = false
+					return
+					
+				}
+				goToNextView()
+				buttonIsDisabled = false
+			})
+			
+			
+			
                 
             
             
@@ -462,7 +459,7 @@ struct EnterUsernameView_Previews: PreviewProvider {
     static var previews: some View {
         ZStack{
             Background()
-            EnterUsernameView()
+            EnterUsernameView( showThisView: .constant(false))
         }
        
     }

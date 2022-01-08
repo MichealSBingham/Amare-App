@@ -68,6 +68,7 @@ public struct VerificationCodeView3: View {
             Background()
                 .opacity(isLoading ? 1: 0)
                 .animation(.linear, value: phonenumber)
+                .onAppear(perform: {buttonDisabled = false})
             
             ProgressView("Please wait...")
                 .progressViewStyle(CircularProgressViewStyle(tint: .white))
@@ -224,7 +225,7 @@ public struct VerificationCodeView3: View {
                     
                     return
                 }
-                goToNext(screen: signUpState ?? .done)
+                  goToNext(signUpDataIsComplete: account.data?.isComplete() ?? false)
                 
                 
                 return
@@ -454,10 +455,10 @@ public struct VerificationCodeView3: View {
         
     }
     
-    func goToNext(screen: SignUpState)  {
+    func goToNext(signUpDataIsComplete: Bool = false)  {
         
-        print("The screen is .. \(screen)")
-        guard screen == .done else {
+        
+        guard signUpDataIsComplete else {
            
             navigationStack.push(EnterNameView().environmentObject(account), withId: EnterNameView.id)
             return

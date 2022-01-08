@@ -468,7 +468,7 @@ struct MapView: View {
                 .opacity(returnedSearchedUserData.isEmpty || searchedUser.isEmpty ? 0 : 1)
             
             
-            
+            /*
             //TODO: Fix this, the case that data is corruptf
             Text("Please contact support. Your data is corrupt.")
                 .opacity(dataGotCorruptDuringSignUp ? 1: 0 )
@@ -485,6 +485,7 @@ struct MapView: View {
 
                 
                 }
+            */
             
         
                
