@@ -225,7 +225,7 @@ public struct VerificationCodeView3: View {
                     
                     return
                 }
-                goToNext(signUpDataIsComplete: account.data?.isComplete() ?? false)
+                  goToNext(signUpDataIsComplete: account.data?.isComplete() ?? false)
                 
                 
                 return
