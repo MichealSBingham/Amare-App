@@ -54,9 +54,9 @@
 	<key>NSCameraUsageDescription</key>
 	<string>You will need your camera to take pictures, videos, and to scan other love signatures.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Your soulmate might be right next to you when you&apos;re out shopping or getting a haircut! We&apos;ll let you know if someone compatible is near you in real time but we&apos;ll never reveal your location without your permission. You need to have this on for the app to work the way it was designed!</string>
+	<string>Your soulmate might be right next to you when you're out shopping or getting a haircut! We'll let you know if someone compatible is near you in real time but we'll never reveal your location without your permission. You need to have this on for the app to work the way it was designed!</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Your soulmate might be right next to you when you&apos;re out shopping or getting a haircut! We&apos;ll let you know if someone compatible is near you in real time but we&apos;ll never reveal your location without your permission. You need to have this on for the app to work the way it was designed!</string>
+	<string>Your soulmate might be right next to you when you're out shopping or getting a haircut! We'll let you know if someone compatible is near you in real time but we'll never reveal your location without your permission. You need to have this on for the app to work the way it was designed!</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>This will make it easier to find what city you live in.</string>
 	<key>UIAppFonts</key>
