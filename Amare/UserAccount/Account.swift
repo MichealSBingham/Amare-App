@@ -1400,6 +1400,111 @@ class Account: ObservableObject {
     }
     
     
+	/// Creates  user data to the account in the database. Will not override if nil data is provided. The difference between this and `save()` is that this is for creating user data not updating it. 
+	/// - Parameters:
+	///   - completion: You do not need to use this as it's optional and you can acheive same functionality by just catching the error that's thrown.Will pass an error otherwise nil if it is successful. This competion block is optional because the function will throw an error of `AccountError` or `GlobalError` type.
+	///  - Throws: `AccountError` or `GlobalError `
+	///  - Note: Just do save(),  and catch for any errors using the completion block is unnecessary.
+	///  - Author: Micheal S. Bingham
+	func create( completion:( (_ error: Error?) -> () )? = nil ) throws {
+		
+		let DB =  (self.db == nil) ? Firestore.firestore()   :  self.db!
+		self.db = DB
+		
+		
+		if let uid = self.user?.uid{
+			
+			self.data?.id = uid
+		 
+			
+			
+			do {
+				
+				
+				try DB.collection("users").document(uid).setData(from: self.data, merge: true) { error in
+
+				   // No error
+					completion?(nil)
+					
+				}
+				
+			} catch let error{
+				
+				
+				if let error = AuthErrorCode(rawValue: error._code ?? 17999){
+					
+					switch error {
+						
+						// Handle Global Errors
+					case .networkError:
+						completion?(GlobalError.networkError)
+						throw GlobalError.networkError
+					case .tooManyRequests:
+						completion?(GlobalError.tooManyRequests)
+						throw GlobalError.tooManyRequests
+					case .captchaCheckFailed:
+						completion?(GlobalError.captchaCheckFailed)
+						throw GlobalError.captchaCheckFailed
+					case .quotaExceeded:
+						completion?(GlobalError.quotaExceeded)
+						throw GlobalError.quotaExceeded
+					case .operationNotAllowed:
+						completion?(GlobalError.notAllowed)
+						throw GlobalError.notAllowed
+					case .internalError:
+						print("\n\nSome error happened, likely an unhandled error from firebase : \(error). This happened inside Account.login()")
+						completion?(GlobalError.internalError)
+						throw GlobalError.internalError
+						
+						// Handle Account Errors
+					case .expiredActionCode:
+						completion?(AccountError.expiredActionCode)
+						throw AccountError.expiredActionCode
+					case .sessionExpired:
+						completion?(AccountError.sessionExpired)
+						throw AccountError.sessionExpired
+					case .userTokenExpired:
+						completion?(AccountError.userTokenExpired)
+						throw AccountError.userTokenExpired
+					case .userDisabled:
+						completion?(AccountError.disabledUser)
+						throw AccountError.disabledUser
+					case .wrongPassword:
+						completion?(AccountError.wrong)
+						throw AccountError.wrong
+					default:
+						print("\n\nSome error happened, likely an unhandled error from firebase : \(error). This happened inside Account.login()")
+						completion?(GlobalError.unknown)
+						throw GlobalError.unknown
+					}
+					
+				   
+					
+				} else{
+					
+					print("\n\nSome error happened, likely an unhandled error from firebase : \(error). This happened inside Account.login()")
+					completion?(GlobalError.unknown)
+					throw GlobalError.unknown
+					
+				}
+				
+				
+			}
+			
+			
+			
+			
+		} else{
+			
+	
+			completion?(AccountError.notSignedIn)
+			throw AccountError.notSignedIn
+			
+		}
+		
+	   
+		
+	}
     
     /// Uploads an image to the database for the user.
     /// - Parameters:
@@ -1468,7 +1573,15 @@ class Account: ObservableObject {
                 // Set the url link in the database
                
                 
-                if isProfileImage{  self.data?.profile_image_url = imageURL
+                if isProfileImage{
+					
+					//TODO: Rewrite image upload
+					
+					Account.shared.signUpData.profile_image_url = imageURL
+					
+					/*
+					
+					self.data?.profile_image_url = imageURL
                     
                     print("***It's a profile image... \(self.data?.profile_image_url)")
                     do{
@@ -1480,13 +1593,96 @@ class Account: ObservableObject {
                         return
                     }
                 }
+				
+				*/
 
-                
+				}
                 // Now add it to the images array
                 //****************************
                
-                
              
+				if isProfileImage {
+					
+					DB.collection("users").document(userid).setData(["images": FieldValue.arrayUnion([imageURL!])]) { error in
+						
+						
+						guard error == nil else {
+							// There is an error when trying to update the data
+							
+							if let error = StorageErrorCode(rawValue: error?._code ?? 17999){
+								// We try to read the error
+
+								
+								switch error {
+									
+									// Handle Global Errors
+								case .quotaExceeded:
+									completion(GlobalError.quotaExceeded)
+									return
+								case .unauthorized:
+									completion(AccountError.notAuthorized)
+									return
+								case .unauthenticated:
+									completion(AccountError.notSignedIn)
+									return
+								case .objectNotFound:
+									// There is no object located here so we need to create one and add it.
+									DB.collection("users").document(self.data?.id ?? self.user!.uid).setData(["images": []]) { error in
+										
+										print("Object Not found...")
+										
+									   guard error == nil else  {
+											print("We failed to upload it in the databases, we tried to set the images data to an empty array but it dind't work")
+										   completion(GlobalError.unknown)
+										   return
+										   
+										}
+										
+										// It worked so let's just try again
+										self.upload(image: image, isProfileImage: isProfileImage) { error in
+											
+											print("Trying again .. (upload) ")
+											
+											guard error == nil else {
+												// It didn't work so just try again
+												print("error We failed trying to recursiviely upload the image if .objectNotfound with error \(error!.localizedDescription)")
+												completion(GlobalError.unknown)
+												return
+												
+												
+											}
+											// It worked.
+											print("it worked .. self.upload")
+											completion(nil)
+											return
+									  
+											
+										}
+									}
+							   
+								default:
+									print("\n\nSome error happened, likely an unhandled error from firebase : \(error). This happened inside Account.upload()")
+									completion(GlobalError.unknown)
+									return
+								}
+								
+								
+							}
+							
+							// it's some other error , unknown to us
+							print("\n\nSome error happened, global \(error?.localizedDescription) happened at the end of upload ")
+							completion(GlobalError.unknown)
+							return
+						}
+					   
+						print("No error ..uploaded image")
+						completion(nil)
+						return
+						
+					}
+					
+					
+				} else {
                 
                 DB.collection("users").document(userid).updateData(["images": FieldValue.arrayUnion([imageURL!])]) { error in
                     
@@ -1566,6 +1762,7 @@ class Account: ObservableObject {
                     
                 }
                 
+				}
                 
                 
             }
