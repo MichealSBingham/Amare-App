@@ -8,11 +8,13 @@
 import SwiftUI
 import NavigationStack
 
+
 struct MainView: View {
     
     /// id of view
     static let id = String(describing: Self.self)
-    @ObservedObject var settings = Settings.shared
+   
+    @ObservedObject private var mainViewModel: HomeViewModel = HomeViewModel()
     
     @EnvironmentObject private var account: Account
     @EnvironmentObject private var navigationStack: NavigationStack
@@ -50,7 +52,12 @@ struct MainView: View {
                 goBackToSignInRootView()
         
         })
-        
+            .onChange(of: mainViewModel.inCompleteData) { isIncomplete in
+                
+                print("*****Incomplete data variable changed in mainview : \(isIncomplete) ")
+                
+                if isIncomplete { account.signOut() }
+            }
                         
             
             
@@ -128,28 +135,11 @@ struct MainView: View {
         print("Things to do when view loads... ")
         
         /// We ensure that the data has complete sign up data otherwise we sign them out. This handles the case whre they begin signing up but for some reason they never finish. We don't want to show them the main view.
-        /*guard account.data?.isComplete() ?? false  else {
-            account.signOut { error in
-                
-            }
-            return
-        } */
+     
         
-        /*
-		account.listen_for_user_data_updates { data in
-			
-			print("*** thingsToDoWhenMainViewLoads() after listenining for user data : \(data)")
-			
-			if !(data?.isComplete() ?? false)  {
-				
-				print("Should be signing out")
-				account.signOut()
-			}
-		}
-        
-        */
+        mainViewModel.subscribeToUserDataChanges()
         account.listenOnlyForSignOut()
-        settings.viewType = .main
+        
 		
 		
 		

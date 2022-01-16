@@ -57,11 +57,12 @@ class UsernameAvailabilityViewModel: ObservableObject{
 }
 
 
-
+/// View Model for obtaining the signed in user's data and will tell you if it's complete or not
 class HomeViewModel: ObservableObject{
     
     @Published var userData: AmareUser?
     
+    /// Will be true if the user has incomplete data in the database so some error happened during account creation/signup process so sign the user out if this happens so they can resign up. 
     @Published var inCompleteData: Bool = false
     
     private var db = Firestore.firestore()
