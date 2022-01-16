@@ -529,7 +529,7 @@ class Account: ObservableObject {
         }
         
         DB.collection("users").document(id)
-            .addSnapshotListener { document, error in
+            .getDocument { document, error in
             
             guard error == nil else{
                 // Handle these errors....

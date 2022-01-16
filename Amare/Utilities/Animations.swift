@@ -92,7 +92,7 @@ struct Background: View {
     
     var body: some View {
         LinearGradient(gradient: Gradient(colors: colors /*!(style == .creative) ? colors: colorsExtended*/), startPoint: start, endPoint: end)
-            .animation(Animation.easeInOut(duration: 1.5).repeatForever(), value: start) /// don't forget the `value`!
+            .animation(Animation.easeInOut(duration: 2), value: start) /// don't forget the `value`!
             .onReceive(timer) { _ in
                 /*
                 self.start = nextPointFrom(style == .normal ? self.start : self.end)

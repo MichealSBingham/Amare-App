@@ -134,6 +134,8 @@ struct MainView: View {
             }
             return
         } */
+        
+        /*
 		account.listen_for_user_data_updates { data in
 			
 			print("*** thingsToDoWhenMainViewLoads() after listenining for user data : \(data)")
@@ -144,6 +146,8 @@ struct MainView: View {
 				account.signOut()
 			}
 		}
+        
+        */
         account.listenOnlyForSignOut()
         settings.viewType = .main
 		

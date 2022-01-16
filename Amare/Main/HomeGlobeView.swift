@@ -93,7 +93,7 @@ struct MapView: View {
     var searchreal: Bool = true
     
     // If the user is found to not have the data of a completed user, their data got corruped during sign up and they need to be signed out of the app and alerted 
-    @State var dataGotCorruptDuringSignUp: Bool = false
+   // @State var dataGotCorruptDuringSignUp: Bool = false
     var body: some View {
         
         let binding = Binding<String>(get: {
