@@ -354,6 +354,7 @@ struct EnterUsernameView: View {
 			// TODO: Reserving the username... set GITHUB ticket.
 			
 			account.db?.collection("usernames").document(unique_username).setData(["userId": account.user?.uid ?? "", "username": unique_username, "isNotable": false], merge: true, completion: { error in
+                print("*** reserving username  error: \(error)")
 				
 				guard error == nil else {
 					buttonIsDisabled = false

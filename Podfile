@@ -9,11 +9,11 @@ target 'Amare' do
 
  
   #pod 'Firebase/Analytics'
-  pod 'Firebase/Auth'
-  pod 'Firebase/Firestore'
-  pod 'FirebaseFirestoreSwift', '> 8.2.0-beta'
+  #pod 'Firebase/Auth'
+  #pod 'Firebase/Firestore'
+  #pod 'FirebaseFirestoreSwift', '> 8.2.0-beta'
   pod 'GeoFire/Utils'
-  pod 'Firebase/Storage'
+  #pod 'Firebase/Storage'
   pod 'PushNotifications'
   pod 'GooglePlaces', '6.0.0'
   pod 'TimeZoneLocate'

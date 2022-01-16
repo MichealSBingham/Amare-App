@@ -41,6 +41,9 @@ class PeopleForGlobe: ObservableObject{
 }
 
 struct MapView: View {
+    
+    @ObservedObject var viewModel: HomeViewModel = HomeViewModel()
+    
     @EnvironmentObject private var account: Account
     let beamsClient = PushNotifications.shared
     
@@ -492,13 +495,14 @@ struct MapView: View {
                 
         }
         
-       /*
+       
         
-        Somehow causes bug...
         
-        .alert(isPresented: $dataGotCorruptDuringSignUp) { Alert(title: Text("Something isn't right..."), message: Text("You should not be seeing this screen. Please sign out, your data is corrupted. This is probably because you exited the app during the sign up process and never finished properly. You will need to sign out.")) } */
+        
+        .alert(isPresented: $viewModel.inCompleteData) { Alert(title: Text("Something isn't right..."), message: Text("You should not be seeing this screen. Please sign out, your data is corrupted. This is probably because you exited the app during the sign up process and never finished properly. You will need to sign out.")) }
         .onAppear {
             
+            viewModel.subscribeToUserDataChanges()
          //   print("Data is complete? \(account.data?.isComplete())")
         
         /*
@@ -541,6 +545,12 @@ struct MapView: View {
             
             
             
+            //
+            
+            
+            
+            
+            
             
         }
         .onReceive(NotificationCenter.default.publisher(for: NSNotification.wantsMoreInfoFromNatalChart)) { obj in
@@ -574,6 +584,19 @@ struct MapView: View {
                 }
             }
         }
+        /*
+        // Logs the user out if data is incomplete 
+        .onChange(of: viewModel.inCompleteData) { newValue in
+            
+            print("***View model incomplete data has changed \(newValue)")
+            
+            if newValue {
+                
+                print("Signing out... ")
+                account.signOut()
+            }
+        }
+         */
         
             
            

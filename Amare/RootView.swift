@@ -17,6 +17,7 @@ struct RootView: View {
     @EnvironmentObject private var account: Account
     
     @EnvironmentObject private var navigationStack: NavigationStack
+    
 
     // Will only happen once in the applications entire lifecycle, really only using this for debugging and such
     static var signOutOnlyOnce: PerformOnce = {
@@ -48,7 +49,7 @@ struct RootView: View {
                
                 
                 // If signed in and done with user sign up procress
-                if account.isSignedIn{
+                if account.isSignedIn {
                     
                     
     
@@ -93,10 +94,14 @@ struct RootView: View {
             
             
             
-        }.onAppear {
+        }
+        
+        
+        /*
+        .onAppear {
             
             print("***Here is the info: am i signed in? :\(account.isSignedIn)\nis my data complete?: \(account.data?.isComplete()) ")
-        }
+        } */
         /*.onAppear {
             /// This will only run ONCE in a lifetime (unless the app is deleted and redownloaded, or unless it's rebuilt in dev). This will sign out the user.
             
