@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2454AD7E9E67CEEAD32CCEFD /* Pods_Amare.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09F5EA8D06FC01701CC26A0E /* Pods_Amare.framework */; };
+		26007F032795A91F00B0E7C7 /* UserProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26007F022795A91F00B0E7C7 /* UserProfileView.swift */; };
 		2606C0C0270614E300D333B4 /* SmallNatalChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2606C0BF270614E300D333B4 /* SmallNatalChartView.swift */; };
 		2608CF44268FDE9700826FDA /* ImageUploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2608CF43268FDE9700826FDA /* ImageUploadView.swift */; };
 		2608CF46268FE27300826FDA /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2608CF45268FE27300826FDA /* ImagePickerView.swift */; };
@@ -22,6 +23,7 @@
 		261571632773C023001DFD18 /* locationsearchswiftuimenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261571622773C023001DFD18 /* locationsearchswiftuimenu.swift */; };
 		2623D7B027935E88002456DF /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2623D7AF27935E88002456DF /* HomeView.swift */; };
 		26336035270912B500EEC1B3 /* MoreInfoScratchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26336034270912B400EEC1B3 /* MoreInfoScratchView.swift */; };
+		26356C242795C9240048A72B /* UserProfileViewDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26356C232795C9240048A72B /* UserProfileViewDataModel.swift */; };
 		263695ED269B7872006EEA79 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 263695EC269B7872006EEA79 /* GoogleService-Info.plist */; };
 		263695EE269B7872006EEA79 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 263695EC269B7872006EEA79 /* GoogleService-Info.plist */; };
 		263695EF269B7872006EEA79 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 263695EC269B7872006EEA79 /* GoogleService-Info.plist */; };
@@ -122,6 +124,7 @@
 /* Begin PBXFileReference section */
 		09F5EA8D06FC01701CC26A0E /* Pods_Amare.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Amare.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1CC382B4557B5C614CCC7E51 /* Pods-Amare.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Amare.release.xcconfig"; path = "Target Support Files/Pods-Amare/Pods-Amare.release.xcconfig"; sourceTree = "<group>"; };
+		26007F022795A91F00B0E7C7 /* UserProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileView.swift; sourceTree = "<group>"; };
 		2606C0BF270614E300D333B4 /* SmallNatalChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallNatalChartView.swift; sourceTree = "<group>"; };
 		2608CF43268FDE9700826FDA /* ImageUploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUploadView.swift; sourceTree = "<group>"; };
 		2608CF45268FE27300826FDA /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
@@ -135,6 +138,7 @@
 		261571622773C023001DFD18 /* locationsearchswiftuimenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = locationsearchswiftuimenu.swift; sourceTree = "<group>"; };
 		2623D7AF27935E88002456DF /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HomeView.swift; path = Amare/Main/HomeView.swift; sourceTree = SOURCE_ROOT; };
 		26336034270912B400EEC1B3 /* MoreInfoScratchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreInfoScratchView.swift; sourceTree = "<group>"; };
+		26356C232795C9240048A72B /* UserProfileViewDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewDataModel.swift; sourceTree = "<group>"; };
 		263695E9269B495F006EEA79 /* GoogleService-Info .plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info .plist"; sourceTree = "<group>"; };
 		263695EC269B7872006EEA79 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		263D6F9326829F2200CBBECC /*  [Deprecated]RV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = " [Deprecated]RV.swift"; sourceTree = "<group>"; };
@@ -253,6 +257,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		26007F012795A6AE00B0E7C7 /* UserProfileView */ = {
+			isa = PBXGroup;
+			children = (
+				26007F022795A91F00B0E7C7 /* UserProfileView.swift */,
+			);
+			path = UserProfileView;
+			sourceTree = "<group>";
+		};
 		2608CF4F2697522300826FDA /* Errors */ = {
 			isa = PBXGroup;
 			children = (
@@ -402,6 +414,7 @@
 		26B1AFD42678FFE500A170B3 /* Amare */ = {
 			isa = PBXGroup;
 			children = (
+				26007F012795A6AE00B0E7C7 /* UserProfileView */,
 				26876A8A26E425CC00683CD6 /* CustomChartViews */,
 				2694934F26D1D9B700C7AD72 /* API */,
 				26F9206926A8752200A4F8C6 /* FontResources */,
@@ -513,6 +526,7 @@
 			isa = PBXGroup;
 			children = (
 				26D001A4279248F4005E99A1 /* MainViewModel.swift */,
+				26356C232795C9240048A72B /* UserProfileViewDataModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -888,10 +902,12 @@
 				2669A62C2705488000B3C87C /* MainPlacementsView.swift in Sources */,
 				26B6079826BF60EF00CE8491 /* RootView.swift in Sources */,
 				2608CF4A2695131F00826FDA /* PickAttractivePeopleView.swift in Sources */,
+				26007F032795A91F00B0E7C7 /* UserProfileView.swift in Sources */,
 				26B1B011267C28E000A170B3 /* Extensions.swift in Sources */,
 				261571632773C023001DFD18 /* locationsearchswiftuimenu.swift in Sources */,
 				26BBF093267EBB1300C84019 /* [Deprecated]LiveWhereView.swift in Sources */,
 				2694935126D1D9C400C7AD72 /* NatalChart.swift in Sources */,
+				26356C242795C9240048A72B /* UserProfileViewDataModel.swift in Sources */,
 				26BD22F42777AAD1002BC49B /* NegativeActionOnUserMenu.swift in Sources */,
 				26872881271C668B00C2F89F /* EnterUsernameView.swift in Sources */,
 				261571612773B2D7001DFD18 /* NewChartMenuUIView.swift in Sources */,

@@ -61,107 +61,28 @@ struct ProfilePopup: View {
                 
                 
                 ZStack{
+                     
+                    profileImageView()
                     
-                    Button {
-                        print("tapped profile to view images")
-                    } label: {
-                        
-                    
-                        
-                        URLImage(URL(string: user?.profile_image_url ?? peopleImages.randomElement()!)!) { image in
-                            
-                            
-                            image
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .clipShape(Circle())
-                                // .frame(width: 100, height: 100)
-                                 .overlay(Circle().stroke(colors.randomElement() ?? .blue, lineWidth: 1))
-                                 .shadow(radius: 15)
-                                 .frame(width: 150, height: 150)
-                        }
-                        
-                        
-                        
-                    }
+                  
 
                     
                    
                     
                     HStack{
                         
+                        // For the negative action
+                        minusMenuButtonView()
                         
-                    //For the negative actions
-                        ZStack{
-                            
-                            Button {
-                                withAnimation {
-                                   
-                                    showNegativeActionForUser = true
-                                }
-                               
-                            } label: {
-                                
-                                ZStack{
-                                    
-                                    
-                                    Image(systemName: "minus.circle")
-                                        .modifier(ConvexGlassView())
-                                       
-                                     
-                                    
-                                    
-                                    Image(systemName: "minus.circle.fill")
-                                          .modifier(ConcaveGlassView())
-                                          
-                                     
-                                }
-                                
-                               
-                                
-                                
-                                
-                            }.offset(x: 10, y: -35.0)
-                            
-                           
-                        }
-                        .opacity(user?.isReal ?? true == false  ? 1 : 0)
+                   
                         
                         Spacer()
                         //For the position actions menu
-                        ZStack{
-                            
-                            Button {
-                                withAnimation {
-                                    showActionForUser = true
-                                }
-                               
-                            } label: {
-                                
-                                ZStack{
-                                    
-                                    
-                                    Image(systemName: "plus.circle")
-                                        .modifier(ConvexGlassView())
-                                       /*  .opacity(showActionForUser ? 1: 0 ) */
-                                     
-                                    
-                                    
-                                    Image(systemName: "plus.circle.fill")
-                                          .modifier(ConcaveGlassView())
-                                          /*.opacity(showActionForUser == false ? 1 : 0) */
-                                     
-                                }
-                                
-                               
-                                
-                                
-                                
-                            }.offset(x: 10, y: -35.0)
-                            
-                           
-                        }
-                        .opacity(user?.isReal ?? true == true  ? 1 : 0)
+                        
+                        
+                        plusMenuButtonView()
+                        
+                       
                         
 
                               
@@ -171,329 +92,49 @@ struct ProfilePopup: View {
                 }
                   
                 
-                // Name
-                Text("\(user?.name ?? sampleNames.randomElement()!)")
-                            .font(.largeTitle)
-                             .bold()
-                             .frame(maxWidth : .infinity, alignment: .center)
-                            //.padding(.top)
-                            .foregroundColor(Color.primary.opacity(0.4))
-                            .modifier(FadeModifier(control: showProfilePopup))
                 
                 
+                nameView()
                 
                 
-                    // Classification
-                Text( "\(sampleClassifications.randomElement()!)")
-                                    .font(.callout)
-                                    .frame(maxWidth : .infinity, alignment: .center)
-                                    .foregroundColor(Color.primary.opacity(0.4))
-                                    .padding(.bottom)
-                                    .modifier(FadeModifier(control: showProfilePopup))
-                                   // .shimmering(duration: 5, bounce: true)
+                classificationView()
+                
+                
                 
                 ZStack{
                     
                     // Latin Phrase
-                    Text("\(sampleLatinPhrases.randomElement()!)")
-                                        .font(.callout)
-                                        .frame(maxWidth : .infinity, alignment: .center)
-                                        .foregroundColor(Color.primary.opacity(0.4))
-                                        .modifier(FadeModifier(control: showProfilePopup))
-                                        .opacity(hasWinked ? 0: 1)
-                                        .multilineTextAlignment(.center)
+                    latinPhraseView()
+                    
                                         
                     
                     //TODO: Make this area more tappable
-                    ZStack{
-                        
-                        Button {
-                            
-                            
-                            withAnimation {
-                                
-                                showActionForUser = true
-                            }
-                        } label: {
-                            
-                           
-                                VStack{
-                                    Text("😉").padding(.bottom, 1)
-                                    Text("\(user?.name ?? sampleNames.randomElement()!) winked at you!")
-                                }
-                            
-                            
-                            
-                        }.opacity(hasWinked ? 1: 0 )
-                        .zIndex(1)
-                        
-                      //  ConfettiCannon(counter: $counterForConfetti)
-                       /* ConfettiCannon(counter: $counterForConfetti, num: 150, confettis: [.text("😉")], openingAngle: .degrees(0), closingAngle: .degrees(360), radius: 200)
-                        */
-                        
-                        
-                        
-
-                        
-                        
-                    }
                     
+                    someoneWinkedAtYouView()
 
                     
                     
                 }
                 
                
+                  
+                tabViewForPlacementsInChart()
                                   
-                                  
-                TabView{
-                    
-                    HStack{
-                        
-                   
-                        
-                        MainPlacementView( planet: chart?.planets.get(planet: .Sun), size: 20).padding(.trailing)
-                            
-                        
-                        MainPlacementView(planet: chart?.planets.get(planet: .Moon), size: 20).padding(.trailing)
-                        
-                      
-                        //TODO: Do something for people who don't know birth times
-                    MainPlacementView_Angle(angle: chart?.angles.get(planet: .asc), size: 20).padding(.trailing)
-                        
-                        
-                     
-                    }
-                        
-                    HStack{
-                        MainPlacementView(planet: chart?.planets.get(planet: .Mercury), size: 20).padding(.trailing)
-                        MainPlacementView(planet: chart?.planets.get(planet: .Venus), size: 20).padding(.trailing)
-                        
                 
-                        MainPlacementView(planet: chart?.planets.get(planet: .Mars), size: 20).padding(.trailing)
-                    }
-                        
-                    HStack{
-                        
-                        MainPlacementView(planet: chart?.planets.get(planet: .Jupiter), size: 20).padding(.trailing)
-                        MainPlacementView(planet: chart?.planets.get(planet: .Saturn), size: 20).padding(.trailing)
-                        
-                    
-                        MainPlacementView(planet: chart?.planets.get(planet: .Uranus), size: 20).padding(.trailing)
-                    }
-                        
-                       
-                    HStack{
-                        MainPlacementView(planet: chart?.planets.get(planet: .Neptune), size: 20).padding(.trailing)
-                        MainPlacementView(planet: chart?.planets.get(planet: .Pluto), size: 20).padding(.trailing)
-                        
-                        
-                    }
-                    
-                    HStack{
-                        
-                        
-                        MainPlacementView(planet: chart?.planets.get(planet: .NorthNode), size: 20).padding(.trailing)
-                        
-                       
-                        MainPlacementView(planet: chart?.planets.get(planet: .SouthNode), size: 20).padding(.trailing)
-                    }
-                    
-                    HStack{
-                        
-                        MainPlacementView_Angle(angle: chart?.angles.get(planet: .ic), size: 20).padding(.trailing)
-                        
-                        MainPlacementView_Angle(angle: chart?.angles.get(planet: .mc), size: 20).padding(.trailing)
-                        
-                        MainPlacementView_Angle(angle: chart?.angles.get(planet: .desc), size: 20).padding(.trailing)
-                    }
-
-                        
-                    
-                        
-                        
-                        
-                        
-                    
-                   
-                }
-             
-                .indexViewStyle(.page(backgroundDisplayMode: .interactive))
-                .frame(width: .infinity, height: 150)
-                .tabViewStyle(.page)
-                .padding(.top, -50)
                 
               
                     
-                
+                tabViewForProgressCircles()
                                     
-                
-                // Ring styles for progress circles
-                let o_ringstyle: RingStyle = .init(
-                    color: .color(.gray),
-                    strokeStyle: .init(lineWidth: 10)
-                )
                 
               
-               
-                    
-                
-                
-                TabView {
-                    
-                        
-                    
-                                
-                      // Synastry Score
-                                ProgressRing(progress: $synastryscore, axis: .top, clockwise: true, outerRingStyle: o_ringstyle, innerRingStyle: ringStyleFor(progress: "synastry")) { percent in
-                                    
-                                    
-                                    let pcent = Int(round(percent*100))
-                                    
-                                    VStack{
-                                        
-                                            
-                                        
-                                        Text("\(pcent)")
-                                                        .font(.title)
-                                                        .bold()
-                                    }
-                                    
-                                    
-                                }//.animation(.easeInOut(duration: 5))
-                                    .frame(width: 150, height: 150)
-                                    .onAppear {
-                                        
-                                        
-                                        AmareApp().delay(1) {
-                                            
-                                
-                                            
-                                            withAnimation(.easeInOut(duration: 3)) {
-                                                synastryscore = RingProgress.percent(Double.random(in: 0...1))
-                                                
-                                            }
-                                    
-                                            
-                                        }
-                                       
-                                    }
-                                    
-                    
-                                  
-                                
-                                
-                 // Chemistry, Love, Sex
-                    HStack{
-                                ProgressRing(progress: $chemistry, axis: .top, clockwise: true, outerRingStyle: o_ringstyle, innerRingStyle: ringStyleFor(progress: "chemistry")) { percent in
-                                    
-                                    
-                                    let pcent = Int(round(percent*100))
-                                    
-                                    VStack{
-                                        
-                                        Text("Chemistry")
-                                            .font(.subheadline)
-                                            
-                                            
-                                        
-                                        Text("\(pcent)")
-                                                        .font(.title)
-                                                        .bold()
-                                    }
-                                    
-                                    
-                                }
-                                    .frame(width: 115, height: 115)
-                                    .onAppear {
-                                        
-                                        withAnimation(.easeInOut(duration: 3)) {
-                                            chemistry = RingProgress.percent(Double.random(in: 0...1))
-
-                                        }
-                                    }
-                                    
-                                
-                                
-                                ProgressRing(progress: $love, axis: .top, clockwise: true, outerRingStyle: o_ringstyle, innerRingStyle: ringStyleFor(progress: "love")) { percent in
-                                    
-                                    
-                                    let pcent = Int(round(percent*100))
-                                    
-                                    VStack{
-                                        
-                                        Text("Love")
-                                            .font(.subheadline)
-                                            
-                                        
-                                        Text("\(pcent)")
-                                                        .font(.title)
-                                                        .bold()
-                                    }
-                                    
-                                    
-                                }
-                                    .frame(width: 115, height: 115)
-                                    .onAppear {
-                                        
-                                        withAnimation(.easeInOut(duration: 3)) {
-                                            love = RingProgress.percent(Double.random(in: 0...1))
-
-                                        }
-                                    }
-                                   
-                                
-                                ProgressRing(progress: $sex, axis: .top, clockwise: true, outerRingStyle: o_ringstyle, innerRingStyle: ringStyleFor(progress: "sex")) { percent in
-                                    
-                                    
-                                    let pcent = Int(round(percent*100))
-                                    
-                                    VStack{
-                                        
-                                        Text("Sex")
-                                            .font(.subheadline)
-                                            
-                                        
-                                        Text("\(pcent)")
-                                                        .font(.title)
-                                                        .bold()
-                                    }
-                                    
-                                    
-                                }
-                                    .frame(width: 115, height: 115)
-                                    .onAppear {
-                                        
-                                        withAnimation(.easeInOut(duration: 3)) {
-                                            sex = RingProgress.percent(Double.random(in: 0...1))
-
-                                        }
-                                    }
-                                    
-                    }
-                            
-                    Button(action: {
-                        print("Tapped natal chart")
-                    }) {
-                        
-                        SmallNatalChartView()
-                            .makeSmall(with: chart)
-                        
-                    }
-                
-                       
-                            
-                        }
-                        
-                        .indexViewStyle(.page(backgroundDisplayMode: .interactive))
-                        .frame(width: .infinity, height: 150)
-                        .tabViewStyle(.page)
                 
                 
                 
                      
                      
                 }
+            // Turns down the brightness when the menu pops up
             .brightness(showActionForUser ? -0.5: 0)
             .brightness(showNegativeActionForUser ? -0.5: 0)
             
@@ -597,6 +238,432 @@ struct ProfilePopup: View {
         
     }
     
+  
+    /// Button for the profile image view.
+    /// TODO: should show rest of the users images/media
+    func profileImageView() -> some View  {
+        
+        return Button {
+            
+            //TODO: Show rest of images
+            print("Tapped profile to view images. TODO: Show profile image ")
+            
+        } label: {
+            
+        
+            
+            URLImage(URL(string: user?.profile_image_url ?? peopleImages.randomElement()!)!) { image in
+                
+                
+                image
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .clipShape(Circle())
+                    // .frame(width: 100, height: 100)
+                     .overlay(Circle().stroke(colors.randomElement() ?? .blue, lineWidth: 1))
+                     .shadow(radius: 15)
+                     .frame(width: 150, height: 150)
+            }
+            
+            
+            
+        }
+    }
+    
+    /// Name of the user
+    func nameView() -> some View {
+       
+        Text("\(user?.name ?? sampleNames.randomElement()!)")
+                    .font(.largeTitle)
+                     .bold()
+                     .frame(maxWidth : .infinity, alignment: .center)
+                    //.padding(.top)
+                    .foregroundColor(Color.primary.opacity(0.4))
+                    .modifier(FadeModifier(control: showProfilePopup))
+    }
+    
+    /// Soulmate, friend, enemy etc
+    func classificationView() -> some View {
+        
+        // Classification
+    return Text( "\(sampleClassifications.randomElement()!)")
+                        .font(.callout)
+                        .frame(maxWidth : .infinity, alignment: .center)
+                        .foregroundColor(Color.primary.opacity(0.4))
+                        .padding(.bottom)
+                        .modifier(FadeModifier(control: showProfilePopup))
+                       // .shimmering(duration: 5, bounce: true)
+    }
+    
+    
+    
+    /// Button for showing menu for actions on this user
+    func plusMenuButtonView() -> some View {
+        
+        return ZStack{
+            
+            Button {
+                withAnimation {
+                    showActionForUser = true
+                }
+               
+            } label: {
+                
+                ZStack{
+                    
+                    
+                    Image(systemName: "plus.circle")
+                        .modifier(ConvexGlassView())
+                       /*  .opacity(showActionForUser ? 1: 0 ) */
+                     
+                    
+                    
+                    Image(systemName: "plus.circle.fill")
+                          .modifier(ConcaveGlassView())
+                          /*.opacity(showActionForUser == false ? 1 : 0) */
+                     
+                }
+                
+               
+                
+                
+                
+            }.offset(x: 10, y: -35.0)
+            
+           
+        }
+        .opacity(user?.isReal ?? true == true  ? 1 : 0)
+    }
+    
+    func minusMenuButtonView() -> some View {
+        //For the negative actions
+            ZStack{
+                
+                Button {
+                    withAnimation {
+                       
+                        showNegativeActionForUser = true
+                    }
+                   
+                } label: {
+                    
+                    ZStack{
+                        
+                        
+                        Image(systemName: "minus.circle")
+                            .modifier(ConvexGlassView())
+                           
+                         
+                        
+                        
+                        Image(systemName: "minus.circle.fill")
+                              .modifier(ConcaveGlassView())
+                              
+                         
+                    }
+                    
+                   
+                    
+                    
+                    
+                }.offset(x: 10, y: -35.0)
+                
+               
+            }
+            .opacity(user?.isReal ?? true == false  ? 1 : 0)
+    }
+    
+    /// View for the latin phrase that describes relationshio
+    func latinPhraseView() -> some View {
+        Text("\(sampleLatinPhrases.randomElement()!)")
+                            .font(.callout)
+                            .frame(maxWidth : .infinity, alignment: .center)
+                            .foregroundColor(Color.primary.opacity(0.4))
+                            .modifier(FadeModifier(control: showProfilePopup))
+                            .opacity(hasWinked ? 0: 1)
+                            .multilineTextAlignment(.center)
+    }
+    
+    func someoneWinkedAtYouView() -> some View {
+        ZStack{
+            
+            Button {
+                
+                
+                withAnimation {
+                    
+                    showActionForUser = true
+                }
+            } label: {
+                
+               
+                    VStack{
+                        Text("😉").padding(.bottom, 1)
+                        Text("\(user?.name ?? sampleNames.randomElement()!) winked at you!")
+                    }
+                
+                
+                
+            }.opacity(hasWinked ? 1: 0 )
+            .zIndex(1)
+            
+          //  ConfettiCannon(counter: $counterForConfetti)
+           /* ConfettiCannon(counter: $counterForConfetti, num: 150, confettis: [.text("😉")], openingAngle: .degrees(0), closingAngle: .degrees(360), radius: 200)
+            */
+            
+            
+            
+
+            
+            
+        }
+    }
+    
+    func tabViewForPlacementsInChart() -> some View {
+        TabView{
+            
+            HStack{
+                
+           
+                
+                MainPlacementView( planet: chart?.planets.get(planet: .Sun), size: 20).padding(.trailing)
+                    
+                
+                MainPlacementView(planet: chart?.planets.get(planet: .Moon), size: 20).padding(.trailing)
+                
+              
+                //TODO: Do something for people who don't know birth times
+            MainPlacementView_Angle(angle: chart?.angles.get(planet: .asc), size: 20).padding(.trailing)
+                
+                
+             
+            }
+                
+            HStack{
+                MainPlacementView(planet: chart?.planets.get(planet: .Mercury), size: 20).padding(.trailing)
+                
+                MainPlacementView(planet: chart?.planets.get(planet: .Venus), size: 20).padding(.trailing)
+                
+        
+                MainPlacementView(planet: chart?.planets.get(planet: .Mars), size: 20).padding(.trailing)
+            }
+                
+            HStack{
+                
+                MainPlacementView(planet: chart?.planets.get(planet: .Jupiter), size: 20).padding(.trailing)
+                
+                MainPlacementView(planet: chart?.planets.get(planet: .Saturn), size: 20).padding(.trailing)
+                
+            
+                MainPlacementView(planet: chart?.planets.get(planet: .Uranus), size: 20).padding(.trailing)
+            }
+                
+               
+            HStack{
+                MainPlacementView(planet: chart?.planets.get(planet: .Neptune), size: 20).padding(.trailing)
+                MainPlacementView(planet: chart?.planets.get(planet: .Pluto), size: 20).padding(.trailing)
+                
+                
+            }
+            
+            HStack{
+                
+                
+                MainPlacementView(planet: chart?.planets.get(planet: .NorthNode), size: 20).padding(.trailing)
+                
+               
+                MainPlacementView(planet: chart?.planets.get(planet: .SouthNode), size: 20).padding(.trailing)
+            }
+            
+            HStack{
+                
+                MainPlacementView_Angle(angle: chart?.angles.get(planet: .ic), size: 20).padding(.trailing)
+                
+                MainPlacementView_Angle(angle: chart?.angles.get(planet: .mc), size: 20).padding(.trailing)
+                
+                MainPlacementView_Angle(angle: chart?.angles.get(planet: .desc), size: 20).padding(.trailing)
+            }
+
+                
+            
+                
+                
+                
+                
+            
+           
+        }
+     
+        .indexViewStyle(.page(backgroundDisplayMode: .interactive))
+        .frame(width: .infinity, height: 150)
+        .tabViewStyle(.page)
+        .padding(.top, -50)
+    }
+    
+    func tabViewForProgressCircles() -> some View {
+        // Ring styles for progress circles
+        let o_ringstyle: RingStyle = .init(
+            color: .color(.gray),
+            strokeStyle: .init(lineWidth: 10)
+        )
+        
+      
+       
+            
+        
+        
+       return  TabView {
+            
+                
+            
+                        
+              // Synastry Score
+                        ProgressRing(progress: $synastryscore, axis: .top, clockwise: true, outerRingStyle: o_ringstyle, innerRingStyle: ringStyleFor(progress: "synastry")) { percent in
+                            
+                            
+                            let pcent = Int(round(percent*100))
+                            
+                            VStack{
+                                
+                                    
+                                
+                                Text("\(pcent)")
+                                                .font(.title)
+                                                .bold()
+                            }
+                            
+                            
+                        }//.animation(.easeInOut(duration: 5))
+                            .frame(width: 150, height: 150)
+                            .onAppear {
+                                
+                                
+                                AmareApp().delay(1) {
+                                    
+                        
+                                    
+                                    withAnimation(.easeInOut(duration: 3)) {
+                                        synastryscore = RingProgress.percent(Double.random(in: 0...1))
+                                        
+                                    }
+                            
+                                    
+                                }
+                               
+                            }
+                            
+            
+                          
+                        
+                        
+         // Chemistry, Love, Sex
+            HStack{
+                        ProgressRing(progress: $chemistry, axis: .top, clockwise: true, outerRingStyle: o_ringstyle, innerRingStyle: ringStyleFor(progress: "chemistry")) { percent in
+                            
+                            
+                            let pcent = Int(round(percent*100))
+                            
+                            VStack{
+                                
+                                Text("Chemistry")
+                                    .font(.subheadline)
+                                    
+                                    
+                                
+                                Text("\(pcent)")
+                                                .font(.title)
+                                                .bold()
+                            }
+                            
+                            
+                        }
+                            .frame(width: 115, height: 115)
+                            .onAppear {
+                                
+                                withAnimation(.easeInOut(duration: 3)) {
+                                    chemistry = RingProgress.percent(Double.random(in: 0...1))
+
+                                }
+                            }
+                            
+                        
+                        
+                        ProgressRing(progress: $love, axis: .top, clockwise: true, outerRingStyle: o_ringstyle, innerRingStyle: ringStyleFor(progress: "love")) { percent in
+                            
+                            
+                            let pcent = Int(round(percent*100))
+                            
+                            VStack{
+                                
+                                Text("Love")
+                                    .font(.subheadline)
+                                    
+                                
+                                Text("\(pcent)")
+                                                .font(.title)
+                                                .bold()
+                            }
+                            
+                            
+                        }
+                            .frame(width: 115, height: 115)
+                            .onAppear {
+                                
+                                withAnimation(.easeInOut(duration: 3)) {
+                                    love = RingProgress.percent(Double.random(in: 0...1))
+
+                                }
+                            }
+                           
+                        
+                        ProgressRing(progress: $sex, axis: .top, clockwise: true, outerRingStyle: o_ringstyle, innerRingStyle: ringStyleFor(progress: "sex")) { percent in
+                            
+                            
+                            let pcent = Int(round(percent*100))
+                            
+                            VStack{
+                                
+                                Text("Sex")
+                                    .font(.subheadline)
+                                    
+                                
+                                Text("\(pcent)")
+                                                .font(.title)
+                                                .bold()
+                            }
+                            
+                            
+                        }
+                            .frame(width: 115, height: 115)
+                            .onAppear {
+                                
+                                withAnimation(.easeInOut(duration: 3)) {
+                                    sex = RingProgress.percent(Double.random(in: 0...1))
+
+                                }
+                            }
+                            
+            }
+                    
+            Button(action: {
+                print("Tapped natal chart")
+            }) {
+                
+                SmallNatalChartView()
+                    .makeSmall(with: chart)
+                
+            }
+        
+               
+                    
+                }
+                
+                .indexViewStyle(.page(backgroundDisplayMode: .interactive))
+                .frame(width: .infinity, height: 150)
+                .tabViewStyle(.page)
+    }
+    
+
     func ringStyleFor(progress: String ) -> RingStyle {
         
         var color: Color = .green
