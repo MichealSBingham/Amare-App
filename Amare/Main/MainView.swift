@@ -47,6 +47,7 @@ struct MainView: View {
                 
             }
             .onAppear(perform: { thingsToDoWhenMainViewLoads()})
+            .onDisappear(perform: {mainViewModel.unsubscribeToUserDataChanges()})
             .onReceive(NotificationCenter.default.publisher(for: NSNotification.logout), perform: { _ in
             print("Received notification to sign out...")
                 goBackToSignInRootView()

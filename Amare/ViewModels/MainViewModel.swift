@@ -67,6 +67,8 @@ class HomeViewModel: ObservableObject{
     
     private var db = Firestore.firestore()
     
+    private var userDataSnapshotListener: ListenerRegistration?
+    
     
     /// Subscribes to changes to the current signed in user's data
     func subscribeToUserDataChanges()  {
@@ -74,8 +76,9 @@ class HomeViewModel: ObservableObject{
         print("***Subscribing to user data changes")
         if let id = Auth.auth().currentUser?.uid {
             
+       
             
-            db.collection("users").document(id).addSnapshotListener { snapshot, error in
+            userDataSnapshotListener  =  db.collection("users").document(id).addSnapshotListener { snapshot, error in
                 
                 print("The id is ... \(id)")
                 
@@ -115,9 +118,15 @@ class HomeViewModel: ObservableObject{
             }
             
         }
-        
-        
        
         
+    }
+    
+    /// Unsubscribes to changes to the current signed in user's data
+    func unsubscribeToUserDataChanges()  {
+       
+        if let listener = userDataSnapshotListener {
+            listener.remove()
+        }
     }
 }
