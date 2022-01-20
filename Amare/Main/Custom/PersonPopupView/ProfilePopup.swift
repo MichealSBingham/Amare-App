@@ -24,8 +24,10 @@ var colors: [Color] = [.gray, .green, .blue, .red, .orange]
 
 struct ProfilePopup: View {
     
-    /*@Binding*/ var user: AmareUser?
-    @State  var account: Account
+    ///*@Binding*/ var user: AmareUser?
+    //@State  var account: Account
+    
+    @ObservedObject var viewModel: HomeViewModel = HomeViewModel()
     
     @State var showProfilePopup: Bool = false
     
@@ -139,7 +141,7 @@ struct ProfilePopup: View {
             .brightness(showNegativeActionForUser ? -0.5: 0)
             
             
-            
+            /*
             PositiveActionOnUserMenu(user: user, account: account, canWinkBack: $hasWinked)
                 .opacity(showActionForUser ? 1: 0)
             
@@ -159,6 +161,8 @@ struct ProfilePopup: View {
                     
                 }
             
+            */
+            
             ConfettiCannon(counter: $counterForConfetti, num: 250, confettis: [.text("😉")], rainHeight: 700/*, closingAngle: .degrees(140)*/)
                 .offset(y: 30)
             
@@ -172,9 +176,8 @@ struct ProfilePopup: View {
         .onAppear(perform: {
             
                 withAnimation {
+                    viewModel.subscribeToUserDataChanges()
                     showProfilePopup = true
-                        
-                
               
             }
             
@@ -190,7 +193,7 @@ struct ProfilePopup: View {
                 showNegativeActionForUser = false
             }
         }
-        
+        /*
         .onChange(of: user, perform: { user_selected in
             
             print("The user selected is \(user_selected)")
@@ -231,7 +234,7 @@ struct ProfilePopup: View {
                 }
             })
         })
-         
+         */
         
           
         
@@ -252,7 +255,7 @@ struct ProfilePopup: View {
             
         
             
-            URLImage(URL(string: user?.profile_image_url ?? peopleImages.randomElement()!)!) { image in
+            URLImage(URL(string: viewModel.userData?.profile_image_url ?? peopleImages.randomElement()!)!) { image in
                 
                 
                 image
@@ -273,7 +276,7 @@ struct ProfilePopup: View {
     /// Name of the user
     func nameView() -> some View {
        
-        Text("\(user?.name ?? sampleNames.randomElement()!)")
+        Text("\(viewModel.userData?.name ?? sampleNames.randomElement()!)")
                     .font(.largeTitle)
                      .bold()
                      .frame(maxWidth : .infinity, alignment: .center)
@@ -332,7 +335,7 @@ struct ProfilePopup: View {
             
            
         }
-        .opacity(user?.isReal ?? true == true  ? 1 : 0)
+        .opacity(viewModel.userData?.isReal ?? true == true  ? 1 : 0)
     }
     
     func minusMenuButtonView() -> some View {
@@ -370,7 +373,7 @@ struct ProfilePopup: View {
                 
                
             }
-            .opacity(user?.isReal ?? true == false  ? 1 : 0)
+            .opacity(viewModel.userData?.isReal ?? true == false  ? 1 : 0)
     }
     
     /// View for the latin phrase that describes relationshio
@@ -399,7 +402,7 @@ struct ProfilePopup: View {
                
                     VStack{
                         Text("😉").padding(.bottom, 1)
-                        Text("\(user?.name ?? sampleNames.randomElement()!) winked at you!")
+                        Text("\(viewModel.userData?.name ?? sampleNames.randomElement()!) winked at you!")
                     }
                 
                 
@@ -701,9 +704,11 @@ struct ProfilePopup: View {
 }
 
 
+/*
 struct ProfilePopup_Previews: PreviewProvider {
     static var previews: some View {
         ProfilePopup( account: Account()).preferredColorScheme(.dark)
     }
 }
+*/
 

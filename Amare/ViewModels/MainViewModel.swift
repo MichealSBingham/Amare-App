@@ -69,6 +69,13 @@ class HomeViewModel: ObservableObject{
     
     private var userDataSnapshotListener: ListenerRegistration?
     
+    /*
+    init() {
+        
+        subscribeToUserDataChanges()
+    }
+    */
+    
     
     /// Subscribes to changes to the current signed in user's data
     func subscribeToUserDataChanges()  {
@@ -122,6 +129,58 @@ class HomeViewModel: ObservableObject{
         
     }
     
+    /// Subscribes to changes to the given user with `id`
+    func subscribeToUserDataChanges(for id: String?)  {
+        
+        print("***Subscribing to user data changes \(id)")
+        if let id = id{
+            
+       
+            
+            userDataSnapshotListener  =  db.collection("users").document(id).addSnapshotListener { snapshot, error in
+                
+                print("The id is ... \(id)")
+                
+                print("The snapshot is \(snapshot) does it exist? \(snapshot?.exists) and error is \(error)")
+                
+                // Make sure the document exists
+                guard snapshot?.exists ?? false else {
+                    self.inCompleteData = true
+                    print("Snapshot doesn't exist ")
+                    return
+                }
+                
+            
+                // Convert to AmareUser object
+                let result = Result {
+                    try snapshot?.data(as: AmareUser.self)
+                }
+                
+                switch result {
+                case .success(let success):
+                    print("***There was success grabbing user \(success) is complete: \(success?.isComplete())")
+                    self.userData = success
+                    
+                    // check if the user data is complete
+                    if let isComplete = success?.isComplete() {
+                        
+                        self.inCompleteData = !isComplete
+                    }  else {
+                        self.inCompleteData = true
+                    }
+                case .failure(let failure):
+                    
+                    print("**The enrror grabbing user data is .. \(failure)")
+                    
+                }
+                
+            }
+            
+        }
+       
+        
+    }
+
     /// Unsubscribes to changes to the current signed in user's data
     func unsubscribeToUserDataChanges()  {
        

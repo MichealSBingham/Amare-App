@@ -15,6 +15,7 @@
 			dependencies = (
 			);
 			name = GooglePlaces;
+			productName = GooglePlaces;
 		};
 /* End PBXAggregateTarget section */
 
@@ -190,7 +191,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0020F5ECAD97B08AF8E04E0DF1E9BC44 /* IPImage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = IPImage.framework; path = IPImage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0020F5ECAD97B08AF8E04E0DF1E9BC44 /* IPImage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = IPImage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		073C5D25B47BDEA546DC788B2FBB21B8 /* Array+CalculateMD5Hash.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Array+CalculateMD5Hash.swift"; path = "Sources/Extensions/Array+CalculateMD5Hash.swift"; sourceTree = "<group>"; };
 		079EE4418A4C33F8AFDCAAF09D403995 /* Register.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Register.swift; path = Sources/Models/Register.swift; sourceTree = "<group>"; };
 		103D375F2FD37E7B49F614AF56AD8338 /* GeoFire-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "GeoFire-dummy.m"; sourceTree = "<group>"; };
@@ -206,7 +207,7 @@
 		2ADD601A2E8CAAF79AEE67FE565757A1 /* ServerSyncJobStore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ServerSyncJobStore.swift; path = Sources/Services/ServerSyncJobStore.swift; sourceTree = "<group>"; };
 		2BEA3A43722D52CDA7DA925135AA9E9B /* ReportEventType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ReportEventType.swift; path = Sources/Protocols/ReportEventType.swift; sourceTree = "<group>"; };
 		2C1E6E395008C4986D394B704EAD270E /* NetworkService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NetworkService.swift; path = Sources/Services/NetworkService.swift; sourceTree = "<group>"; };
-		32E659A750922293270082E60C177197 /* timezones.json */ = {isa = PBXFileReference; includeInIndex = 1; name = timezones.json; path = Pod/Assets/timezones.json; sourceTree = "<group>"; };
+		32E659A750922293270082E60C177197 /* timezones.json */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.json; name = timezones.json; path = Pod/Assets/timezones.json; sourceTree = "<group>"; };
 		3357996ADB628E3474591D01740AE0C3 /* IPImage-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "IPImage-umbrella.h"; sourceTree = "<group>"; };
 		3620C3EFA1F7AA5B4D8D61032045EFC2 /* GeoFire-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "GeoFire-umbrella.h"; sourceTree = "<group>"; };
 		377C0BA5867E2CE166EC511E8C14D4C0 /* Pods-Amare.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Amare.release.xcconfig"; sourceTree = "<group>"; };
@@ -218,11 +219,11 @@
 		40E6E6B2EC3E6E5DCFAEFBD717F410BE /* IPImage-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "IPImage-prefix.pch"; sourceTree = "<group>"; };
 		453E148B688FE57D66D359EFE8B52754 /* Pods-Amare-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Amare-Info.plist"; sourceTree = "<group>"; };
 		45E7AD6E9FD5DE7F643BA4377D894259 /* PushNotifications.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = PushNotifications.release.xcconfig; sourceTree = "<group>"; };
-		46B0217C7C05CEFA2E960AAE2795A3CA /* PushNotifications.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = PushNotifications.framework; path = PushNotifications.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		46B0217C7C05CEFA2E960AAE2795A3CA /* PushNotifications.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PushNotifications.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		46C93630E9217376A4348CD2DCA5F06A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		48969A9D71A8E707A02E02AD382A193A /* Pods-Amare-AmareUITests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Amare-AmareUITests-Info.plist"; sourceTree = "<group>"; };
-		48A726DF1D199755E6FC15D4F94DCBCF /* Pods_Amare.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_Amare.framework; path = "Pods-Amare.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		4B74CD22F656E781E9D55A80D223416F /* Pods_Amare_AmareUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_Amare_AmareUITests.framework; path = "Pods-Amare-AmareUITests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		48A726DF1D199755E6FC15D4F94DCBCF /* Pods_Amare.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Amare.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4B74CD22F656E781E9D55A80D223416F /* Pods_Amare_AmareUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Amare_AmareUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B8776C286169B8E5358C43D2E5AE7A0 /* Pods-Amare-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Amare-acknowledgements.markdown"; sourceTree = "<group>"; };
 		4C720DF47740C9C351C03A4F21C9098A /* ServerSyncEventHandler.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ServerSyncEventHandler.swift; path = Sources/Services/ServerSyncEventHandler.swift; sourceTree = "<group>"; };
 		4E7236ECD6236C6024C3BA2E0DD300C5 /* AuthData.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AuthData.swift; path = Sources/Models/AuthData.swift; sourceTree = "<group>"; };
@@ -236,9 +237,9 @@
 		5FD064FB039C3BD281F9853460667ADA /* GeoFire-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "GeoFire-prefix.pch"; sourceTree = "<group>"; };
 		600626400749219471C675402F0F19CB /* ServerSyncJob.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ServerSyncJob.swift; path = Sources/Models/ServerSyncJob.swift; sourceTree = "<group>"; };
 		625460E0B52C73D234D343E7D4B7BFDD /* GooglePlaces.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GooglePlaces.framework; path = Frameworks/GooglePlaces.framework; sourceTree = "<group>"; };
-		6303EFBB031EC4B1287569F36E789B1F /* TimeZoneLocate.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = TimeZoneLocate.framework; path = TimeZoneLocate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6303EFBB031EC4B1287569F36E789B1F /* TimeZoneLocate.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TimeZoneLocate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		641D3D5D67659E7B6C1787254141FB74 /* GeoFire.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = GeoFire.debug.xcconfig; sourceTree = "<group>"; };
-		65AAFED18F518E23E1C4FCD6B61035D3 /* TimeZoneLocate.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = TimeZoneLocate.bundle; path = "TimeZoneLocate-TimeZoneLocate.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
+		65AAFED18F518E23E1C4FCD6B61035D3 /* TimeZoneLocate.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TimeZoneLocate.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AB502EE82E6C467DD1C9CD7C07B3671 /* ServerSyncProcessHandler.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ServerSyncProcessHandler.swift; path = Sources/Services/ServerSyncProcessHandler.swift; sourceTree = "<group>"; };
 		6D8B13F3095CBF9ED72F2EAC42F06198 /* PusherAlreadyRegisteredError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PusherAlreadyRegisteredError.swift; path = Sources/Models/PusherAlreadyRegisteredError.swift; sourceTree = "<group>"; };
 		6DA7AAC1C4881E21D9EB96A1635BB12F /* GFGeoHash.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = GFGeoHash.m; path = GeoFire/Utils/GFGeoHash.m; sourceTree = "<group>"; };
@@ -260,14 +261,14 @@
 		8B2ED6AB5A1A7F1B571DAFBE54785C8F /* Interests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Interests.swift; path = Sources/Models/Interests.swift; sourceTree = "<group>"; };
 		8D7D8E9EABD3B00BEBA25CB8C6068C29 /* Pods-Amare.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-Amare.modulemap"; sourceTree = "<group>"; };
 		91999FEE5820C6D547149E52610A0C5E /* MultipleInvalidInterestsError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MultipleInvalidInterestsError.swift; path = Sources/Models/MultipleInvalidInterestsError.swift; sourceTree = "<group>"; };
-		933AC30A190B2F139D02EC2AAA01B1F3 /* Pods_AmareTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_AmareTests.framework; path = "Pods-AmareTests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		933AC30A190B2F139D02EC2AAA01B1F3 /* Pods_AmareTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AmareTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		937E0A32A88BCFDFD198597AF17E8A24 /* TimeZoneLocate.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = TimeZoneLocate.debug.xcconfig; sourceTree = "<group>"; };
 		93DA17611A9D36845869170A0BC376AB /* Device.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Device.swift; path = Sources/Models/Device.swift; sourceTree = "<group>"; };
 		94FD4CE2BC6F8E0A419F3429F485ED85 /* Pods-Amare-AmareUITests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Amare-AmareUITests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		95CB3704A80AB54C1EB865E9552B076A /* GooglePlaces.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; name = GooglePlaces.bundle; path = Frameworks/GooglePlaces.framework/Resources/GooglePlaces.bundle; sourceTree = "<group>"; };
 		966E33F9B3326CC859ACC7FFC792E51F /* TimeZoneLocate.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = TimeZoneLocate.modulemap; sourceTree = "<group>"; };
 		9A17FD47E3A0BCA2A53F86976D222D9D /* Pods-Amare-AmareUITests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-Amare-AmareUITests.modulemap"; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		9E6AB30D7144105A2B970303C48A2CAA /* GFGeoHashQuery.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GFGeoHashQuery.h; path = GeoFire/Utils/GFGeoHashQuery.h; sourceTree = "<group>"; };
 		9E757201361F0EBF4078BFC35D8B5ADC /* Pods-Amare-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Amare-resources.sh"; sourceTree = "<group>"; };
 		9FABD671E2A1CBA0195D480C2187A23A /* DeviceTokenHelper.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DeviceTokenHelper.swift; path = Sources/Helpers/DeviceTokenHelper.swift; sourceTree = "<group>"; };
@@ -300,7 +301,7 @@
 		CC6F722B64505D0DFAE8C43682405395 /* IPImage.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = IPImage.debug.xcconfig; sourceTree = "<group>"; };
 		D3D5B2E6CCC9A2461597576E22FCC0DF /* Token.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Token.swift; path = Sources/Models/Token.swift; sourceTree = "<group>"; };
 		D41C75E1A3FDF19308B2C5814CE8168C /* PushNotifications-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "PushNotifications-prefix.pch"; sourceTree = "<group>"; };
-		D449099C9456E9F8C3CDC1324C09DF0B /* GeoFire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = GeoFire.framework; path = GeoFire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D449099C9456E9F8C3CDC1324C09DF0B /* GeoFire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GeoFire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D70E9A8DBB2D235855411EE52F3ABF8C /* TimeZoneLocate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TimeZoneLocate.swift; path = Pod/Classes/TimeZoneLocate.swift; sourceTree = "<group>"; };
 		D7A8F70F36788D30F41B6C4967DD2662 /* Pods-Amare-AmareUITests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Amare-AmareUITests-frameworks.sh"; sourceTree = "<group>"; };
 		D8A63A3669EFB85A0F6341D000CFFE47 /* String+HexStringToData.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "String+HexStringToData.swift"; path = "Sources/Extensions/String+HexStringToData.swift"; sourceTree = "<group>"; };
@@ -546,7 +547,6 @@
 				A4562D65BA29712B6A90432D57C39368 /* IPImage.swift */,
 				1D7CCD9500975C0A4E9F99E60BB6D307 /* Support Files */,
 			);
-			name = IPImage;
 			path = IPImage;
 			sourceTree = "<group>";
 		};
@@ -578,7 +578,6 @@
 				3334131F62706C599F57458DE8CDD69B /* Support Files */,
 				8AD99E44858515AB596D4A678818EE7D /* Utils */,
 			);
-			name = GeoFire;
 			path = GeoFire;
 			sourceTree = "<group>";
 		};
@@ -633,7 +632,6 @@
 				49FA449C4DD647458999724E4DE0B0EB /* Resources */,
 				77DE9C3C8DC9605C8E2FF4D3A3714EA8 /* Support Files */,
 			);
-			name = TimeZoneLocate;
 			path = TimeZoneLocate;
 			sourceTree = "<group>";
 		};
@@ -659,7 +657,6 @@
 				88B061D763FC2AFA7B9E2B54CCE8F2DD /* Resources */,
 				8C0C6864360E0A8752ACB90FE14772A9 /* Support Files */,
 			);
-			name = GooglePlaces;
 			path = GooglePlaces;
 			sourceTree = "<group>";
 		};
@@ -711,7 +708,6 @@
 				C78ED31E239A2EF7C0D5F509EA5F6038 /* URL+NetworkService.swift */,
 				DC6FB86A1307B6B8ACAFC00ACA1F3228 /* Support Files */,
 			);
-			name = PushNotifications;
 			path = PushNotifications;
 			sourceTree = "<group>";
 		};
