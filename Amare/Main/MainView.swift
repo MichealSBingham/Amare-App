@@ -32,7 +32,7 @@ struct MainView: View {
         TabView(selection: $tabSelection) {
                 
                 //Map()
-            TestView()
+            ProfilePopup()
                 .tag(1)
         
                 NatalChart()

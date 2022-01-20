@@ -19,6 +19,7 @@ struct TestView: View {
             
             
             Text(viewModel.userData?.name ?? "nothing")
+                
             
             
             Button {
@@ -27,6 +28,9 @@ struct TestView: View {
             } label: {
                 Text("Subscribe")
             }
+        }
+        .onAppear {
+            viewModel.subscribeToUserDataChanges(for: "U214TAvtCsVUSxecjeoPl7cs8PW2")
         }
         
        

@@ -250,6 +250,7 @@ struct ProfilePopup: View {
             
             //TODO: Show rest of images
             print("Tapped profile to view images. TODO: Show profile image ")
+            viewModel.subscribeToUserDataChanges(for: "U214TAvtCsVUSxecjeoPl7cs8PW2")
             
         } label: {
             
