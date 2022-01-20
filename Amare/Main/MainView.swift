@@ -16,6 +16,8 @@ struct MainView: View {
    
     @ObservedObject private var mainViewModel: HomeViewModel = HomeViewModel()
     
+    
+    
     @EnvironmentObject private var account: Account
     @EnvironmentObject private var navigationStack: NavigationStack
     
@@ -32,7 +34,7 @@ struct MainView: View {
         TabView(selection: $tabSelection) {
                 
                 //Map()
-            ProfilePopup()
+            Map()
                 .tag(1)
         
                 NatalChart()
@@ -141,6 +143,7 @@ struct MainView: View {
         
         mainViewModel.subscribeToUserDataChanges()
         account.listenOnlyForSignOut()
+      
         
 		
 		

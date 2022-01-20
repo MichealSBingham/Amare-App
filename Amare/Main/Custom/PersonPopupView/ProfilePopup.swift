@@ -27,7 +27,7 @@ struct ProfilePopup: View {
     ///*@Binding*/ var user: AmareUser?
     //@State  var account: Account
     
-    @ObservedObject var viewModel: HomeViewModel = HomeViewModel()
+    @ObservedObject var viewModel: UserDataModel = UserDataModel()
     
     @State var showProfilePopup: Bool = false
     
@@ -176,7 +176,7 @@ struct ProfilePopup: View {
         .onAppear(perform: {
             
                 withAnimation {
-                    viewModel.subscribeToUserDataChanges()
+                    
                     showProfilePopup = true
               
             }
@@ -250,7 +250,7 @@ struct ProfilePopup: View {
             
             //TODO: Show rest of images
             print("Tapped profile to view images. TODO: Show profile image ")
-            viewModel.subscribeToUserDataChanges(for: "U214TAvtCsVUSxecjeoPl7cs8PW2")
+          
             
         } label: {
             
@@ -705,11 +705,11 @@ struct ProfilePopup: View {
 }
 
 
-/*
+
 struct ProfilePopup_Previews: PreviewProvider {
     static var previews: some View {
-        ProfilePopup( account: Account()).preferredColorScheme(.dark)
+        ProfilePopup( ).preferredColorScheme(.dark)
     }
 }
-*/
+
 
