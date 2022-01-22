@@ -34,7 +34,7 @@ struct MainView: View {
         TabView(selection: $tabSelection) {
                 
                 //Map()
-            Map()
+           TestView()
                 .tag(1)
         
                 NatalChart()
