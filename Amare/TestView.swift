@@ -15,10 +15,13 @@ struct TestView: View {
     var body: some View {
         
         
-        VStack{
+        
+        
+        
+        
+        ZStack{
             
             
-            Text(viewModel.userData?.name ?? "nothing")
                 
             
             
@@ -28,10 +31,11 @@ struct TestView: View {
             } label: {
                 Text("Subscribe")
             }
+            
+            ProfilePopup(user: $viewModel.userData)
+                .opacity(viewModel.userData != nil ? 1 : 0 )
         }
-        .onAppear {
-            viewModel.subscribeToUserDataChanges(for: "U214TAvtCsVUSxecjeoPl7cs8PW2")
-        }
+       
         
        
 

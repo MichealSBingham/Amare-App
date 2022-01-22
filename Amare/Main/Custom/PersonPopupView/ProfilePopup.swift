@@ -24,10 +24,10 @@ var colors: [Color] = [.gray, .green, .blue, .red, .orange]
 
 struct ProfilePopup: View {
     
-    ///*@Binding*/ var user: AmareUser?
+    @Binding var user: AmareUser?
     //@State  var account: Account
     
-    @ObservedObject var viewModel: UserDataModel = UserDataModel()
+//    @ObservedObject var viewModel: UserDataModel = UserDataModel()
     
     @State var showProfilePopup: Bool = false
     
@@ -256,7 +256,7 @@ struct ProfilePopup: View {
             
         
             
-            URLImage(URL(string: viewModel.userData?.profile_image_url ?? peopleImages.randomElement()!)!) { image in
+            URLImage(URL(string: user?.profile_image_url ?? peopleImages.randomElement()!)!) { image in
                 
                 
                 image
@@ -277,7 +277,7 @@ struct ProfilePopup: View {
     /// Name of the user
     func nameView() -> some View {
        
-        Text("\(viewModel.userData?.name ?? sampleNames.randomElement()!)")
+        Text("\(user?.name ?? sampleNames.randomElement()!)")
                     .font(.largeTitle)
                      .bold()
                      .frame(maxWidth : .infinity, alignment: .center)
@@ -336,7 +336,7 @@ struct ProfilePopup: View {
             
            
         }
-        .opacity(viewModel.userData?.isReal ?? true == true  ? 1 : 0)
+        .opacity(user?.isReal ?? true == true  ? 1 : 0)
     }
     
     func minusMenuButtonView() -> some View {
@@ -374,7 +374,7 @@ struct ProfilePopup: View {
                 
                
             }
-            .opacity(viewModel.userData?.isReal ?? true == false  ? 1 : 0)
+            .opacity(user?.isReal ?? true == false  ? 1 : 0)
     }
     
     /// View for the latin phrase that describes relationshio
@@ -403,7 +403,7 @@ struct ProfilePopup: View {
                
                     VStack{
                         Text("😉").padding(.bottom, 1)
-                        Text("\(viewModel.userData?.name ?? sampleNames.randomElement()!) winked at you!")
+                        Text("\(user?.name ?? sampleNames.randomElement()!) winked at you!")
                     }
                 
                 
@@ -708,7 +708,7 @@ struct ProfilePopup: View {
 
 struct ProfilePopup_Previews: PreviewProvider {
     static var previews: some View {
-        ProfilePopup( ).preferredColorScheme(.dark)
+        ProfilePopup( user: .constant(AmareUser())).preferredColorScheme(.dark)
     }
 }
 
