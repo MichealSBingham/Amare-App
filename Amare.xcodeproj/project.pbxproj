@@ -262,6 +262,7 @@
 		26007F012795A6AE00B0E7C7 /* UserProfileView */ = {
 			isa = PBXGroup;
 			children = (
+				2669A62D27054B0100B3C87C /* PersonPopupView */,
 				26007F022795A91F00B0E7C7 /* UserProfileView.swift */,
 			);
 			path = UserProfileView;
@@ -316,7 +317,6 @@
 		267CF36126D30BC4006B73BE /* Custom */ = {
 			isa = PBXGroup;
 			children = (
-				2669A62D27054B0100B3C87C /* PersonPopupView */,
 				267CF36426D30C03006B73BE /* NatalChartViewAlpha.swift */,
 				26A86D0F271E324D009054B8 /* SearchOtherUsersView.swift */,
 			);

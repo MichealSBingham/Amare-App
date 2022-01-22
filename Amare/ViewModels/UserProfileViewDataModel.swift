@@ -14,8 +14,7 @@ class UserDataModel: ObservableObject{
     
     @Published var userData: AmareUser?
     
-    @Published var natalChart: NatalChart?
-    
+
 
     
     /// Will be true if the user has incomplete data in the database so some error happened during account creation/signup process so sign the user out if this happens so they can resign up.
@@ -188,7 +187,7 @@ class UserDataModel: ObservableObject{
                             data.angles[index].forSynastry = isOuterChart
                         }
                         
-                        self.natalChart = data
+                        self.userData?.natal_chart = data
                         
                         completion?(nil, data)
                         

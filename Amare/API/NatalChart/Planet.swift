@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct Planet: Codable, Identifiable{
+struct Planet: Codable, Identifiable, Equatable{
     
   
     
@@ -38,6 +38,9 @@ struct Planet: Codable, Identifiable{
     /// If we run synastry with person A and person B, this distinguishes A's planets from B's. So if B is the outer person on the bi-wheel chart, this property will be true for B's planets. 
     var forSynastry: Bool? = false
     
+    /// This is not data that comes from the database; rather, WE set this variable so that we know what color to color `MainPlacementView`
+    var _aspectThatExists: AspectType? = nil
+    
     enum CodingKeys: String, CodingKey {
         
         case name
@@ -51,6 +54,8 @@ struct Planet: Codable, Identifiable{
      
      
     }
+    
+    
     
     /// Returns the image for the planet of given size, will autosize if it's a synastry planet or not
     func image(size: Double) ->  some View {
@@ -84,6 +89,10 @@ struct Planet: Codable, Identifiable{
         return nil
     }
     
+    
+    static func ==(lhs: Planet, rhs: Planet) -> Bool {
+        return lhs.id == rhs.id
+    }
 }
 
 enum PlanetName: String, Codable, CaseIterable {

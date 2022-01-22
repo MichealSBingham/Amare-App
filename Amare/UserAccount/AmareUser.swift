@@ -35,6 +35,9 @@ public struct AmareUser: Codable, Equatable{
 
     let interal_ui_use_only_for_iding: UUID = UUID()
     
+    /// Synastry score between the current user and this user. Set this so that the synastry score can be shown on a popup view. This is not grabbed from the database. 
+    var _synastryScore: Double = 0 
+    
     enum CodingKeys: String, CodingKey {
         case name
         case hometown
