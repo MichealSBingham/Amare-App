@@ -9,7 +9,7 @@ import SwiftUI
 
 struct TestView: View {
     
-    @ObservedObject var viewModel: HomeViewModel = HomeViewModel()
+    @ObservedObject var viewModel: UserDataModel = UserDataModel()
     
     
     var body: some View {
@@ -28,11 +28,15 @@ struct TestView: View {
             Button {
                 print("subscribed")
                 viewModel.subscribeToUserDataChanges(for: "U214TAvtCsVUSxecjeoPl7cs8PW2")
+                
+                viewModel.subscribeToNatalChart(for: "U214TAvtCsVUSxecjeoPl7cs8PW2")
+                
+                
             } label: {
                 Text("Subscribe")
             }
             
-            ProfilePopup(user: $viewModel.userData)
+            ProfilePopup(user: $viewModel.userData,  chart: $viewModel.natalChart)
                 .opacity(viewModel.userData != nil ? 1 : 0 )
         }
        

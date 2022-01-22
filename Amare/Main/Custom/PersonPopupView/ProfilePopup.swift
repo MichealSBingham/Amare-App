@@ -25,6 +25,7 @@ var colors: [Color] = [.gray, .green, .blue, .red, .orange]
 struct ProfilePopup: View {
     
     @Binding var user: AmareUser?
+    @Binding var chart: NatalChart?
     //@State  var account: Account
     
 //    @ObservedObject var viewModel: UserDataModel = UserDataModel()
@@ -36,7 +37,7 @@ struct ProfilePopup: View {
     @State var showNegativeActionForUser: Bool = false
     @State var showBottomPopup: Bool = false
     @State var infoToShow:String?
-    @State var chart: NatalChart?
+    
     
     // Properties for the profile pop up
     @State var synastryscore = RingProgress.percent(0)
@@ -705,11 +706,11 @@ struct ProfilePopup: View {
 }
 
 
-
+/*
 struct ProfilePopup_Previews: PreviewProvider {
     static var previews: some View {
         ProfilePopup( user: .constant(AmareUser())).preferredColorScheme(.dark)
     }
 }
 
-
+*/
