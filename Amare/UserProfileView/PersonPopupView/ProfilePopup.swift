@@ -197,10 +197,36 @@ struct ProfilePopup: View {
                 withAnimation(.easeInOut(duration: 3)) {
                     synastryscore = RingProgress.percent(newValue)
                 }
-             
-                
             }
         }
+        
+        .onChange(of: user?._chemistryScore) { newValue in
+            
+            if let newValue = newValue {
+                withAnimation(.easeInOut(duration: 3)) {
+                    chemistry = RingProgress.percent(newValue)
+                }
+            }
+        }
+        
+        .onChange(of: user?._sexScore) { newValue in
+            
+            if let newValue = newValue {
+                withAnimation(.easeInOut(duration: 3)) {
+                    sex = RingProgress.percent(newValue)
+                }
+            }
+        }
+        
+        .onChange(of: user?._loveScore) { newValue in
+            
+            if let newValue = newValue {
+                withAnimation(.easeInOut(duration: 3)) {
+                    love = RingProgress.percent(newValue)
+                }
+            }
+        }
+        
         /*
         .onChange(of: user, perform: { user_selected in
             
@@ -547,25 +573,9 @@ struct ProfilePopup: View {
                             }
                             
                             
-                        }//.animation(.easeInOut(duration: 5))
+                        }
                             .frame(width: 150, height: 150)
-                           /* .onAppear {
-                                
-                                
-                                AmareApp().delay(1) {
-                                    
-                        
-                                    
-                                    withAnimation(.easeInOut(duration: 3)) {
-                                        synastryscore = RingProgress.percent(Double.random(in: 0...1))
-                                        
-                                    }
-                            
-                                    
-                                }
-                               
-                            }
-           */
+                          
                             
             
                           
@@ -716,11 +726,17 @@ struct ProfilePopup: View {
 }
 
 
-/*
+
 struct ProfilePopup_Previews: PreviewProvider {
     static var previews: some View {
-        ProfilePopup( user: .constant(AmareUser())).preferredColorScheme(.dark)
+        
+        
+        let a = AmareUser(id: "23", name: "Micheal", hometown: nil, birthday: nil, known_time: true, residence: nil, profile_image_url: "https://twitter.com", images: [], sex: .male, orientation: nil, natal_chart: nil, username: "micheal", isReal: true, isNotable: true, _synastryScore: 0)
+        
+        ProfilePopup( user: .constant(a)).preferredColorScheme(.dark)
+        
+       
     }
 }
 
-*/
+
