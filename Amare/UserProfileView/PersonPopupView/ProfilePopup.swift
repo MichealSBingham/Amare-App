@@ -297,16 +297,16 @@ struct ProfilePopup: View {
                                  
                                         
                                         MoreInfoOnPlanet(planet: planet)
-                            //.rotationEffect(.degrees(-90))
+                            
                                             .padding()
                                             
-                                            .border(.white)
+                                     
                                         
-                                        MoreInfoOnPlanet(planet: planet)
-                                            //.rotationEffect(.degrees(-90))
+                                    MoreInfoOnPlanet(planet: Account.shared.data?.natal_chart?.planets.get(planet: planet.name))
+                                           
                                             .padding()
                         
-                                            .border(.green)
+                                           
                                     
                                         
                                     
@@ -315,9 +315,9 @@ struct ProfilePopup: View {
                                    
                                 }
                                 .tabViewStyle(.page)
-                               // .rotationEffect(.degrees(90))
+                             
                               
-                                .border(.blue)
+                               
                                 
                             
                          
