@@ -50,7 +50,7 @@ struct TestView: View {
                   
                     
                     withAnimation(.easeIn(duration: 3)){
-                        
+                        // change color of aspect 
                         viewModel.userData?.natal_chart?.planets[0]._aspectThatExists = .trine
                     }
                     
@@ -74,6 +74,11 @@ struct TestView: View {
                     
                     viewModel.userData?._synastryScore = Double.random(in: 0...1)
                 
+                viewModel.userData?._chemistryScore = Double.random(in: 0...1)
+                
+                viewModel.userData?._loveScore = Double.random(in: 0...1)
+                
+                viewModel.userData?._sexScore = Double.random(in: 0...1)
                 
 
             } label: {

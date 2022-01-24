@@ -48,11 +48,15 @@ struct ProfilePopup: View {
     @State var counterForConfetti: Int = 0
     
     
+    /// The particular planet /placement the user clicks on on this profile to display
+    @State var placementToDisplay: Planet?
+    
+    
     var body: some View {
        
-       
-        
         ZStack{
+        
+            ZStack{
             
             
             
@@ -161,9 +165,12 @@ struct ProfilePopup: View {
             
             */
             
+          
+            
             ConfettiCannon(counter: $counterForConfetti, num: 250, confettis: [.text("😉")], rainHeight: 700/*, closingAngle: .degrees(140)*/)
                 .offset(y: 30)
             
+
         }
         .padding()
         .background(.ultraThinMaterial)
@@ -189,6 +196,7 @@ struct ProfilePopup: View {
                 // Dismiss the action view
                 showActionForUser = false
                 showNegativeActionForUser = false
+                //placementToDisplay = nil
             }
         }
         .onChange(of: user?._synastryScore) { newValue in
@@ -270,8 +278,34 @@ struct ProfilePopup: View {
         })
          */
         
-          
-        
+            if user?.natal_chart?.planets.count ?? 0 > 0 {
+                
+                TabView{
+                    
+                   // HStack{
+                        
+                        ForEach(user?.natal_chart?.planets ?? []){ planet in
+                            
+                            
+                                MoreInfoOnPlanet(planet: planet)
+                                    .padding()
+                            
+                           
+                                
+                        }
+                  //  }
+                   
+                    
+                }
+                //.tabViewStyle(.page(indexDisplayMode: .always))
+                .tabViewStyle(.page)
+
+                .opacity(placementToDisplay == nil ? 0 : 1 )
+            }
+            
+            
+    
+        }
         
     }
     
@@ -465,9 +499,17 @@ struct ProfilePopup: View {
             HStack{
                 
            
-                
-                MainPlacementView( planet: user?.natal_chart?.planets.get(planet: .Sun), size: 20).padding(.trailing)
+                var sun = user?.natal_chart?.planets.get(planet: .Sun)
+        
+                Button {
+                    placementToDisplay = sun
+                } label: {
                     
+                    MainPlacementView( planet: sun, size: 20).padding(.trailing)
+                }
+
+                  
+                
                 
                 MainPlacementView(planet: user?.natal_chart?.planets.get(planet: .Moon), size: 20).padding(.trailing)
                 
@@ -481,6 +523,7 @@ struct ProfilePopup: View {
                 
             HStack{
                 MainPlacementView(planet: user?.natal_chart?.planets.get(planet: .Mercury), size: 20).padding(.trailing)
+                
                 
                 MainPlacementView(planet: user?.natal_chart?.planets.get(planet: .Venus), size: 20).padding(.trailing)
                 

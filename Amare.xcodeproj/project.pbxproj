@@ -24,6 +24,7 @@
 		261571632773C023001DFD18 /* locationsearchswiftuimenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261571622773C023001DFD18 /* locationsearchswiftuimenu.swift */; };
 		2623D7B027935E88002456DF /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2623D7AF27935E88002456DF /* HomeView.swift */; };
 		26336035270912B500EEC1B3 /* MoreInfoScratchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26336034270912B400EEC1B3 /* MoreInfoScratchView.swift */; };
+		2633A13D279E20C300839581 /* TestView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2633A13C279E20C300839581 /* TestView2.swift */; };
 		26356C242795C9240048A72B /* UserProfileViewDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26356C232795C9240048A72B /* UserProfileViewDataModel.swift */; };
 		263695ED269B7872006EEA79 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 263695EC269B7872006EEA79 /* GoogleService-Info.plist */; };
 		263695EE269B7872006EEA79 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 263695EC269B7872006EEA79 /* GoogleService-Info.plist */; };
@@ -140,6 +141,7 @@
 		261571622773C023001DFD18 /* locationsearchswiftuimenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = locationsearchswiftuimenu.swift; sourceTree = "<group>"; };
 		2623D7AF27935E88002456DF /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HomeView.swift; path = Amare/Main/HomeView.swift; sourceTree = SOURCE_ROOT; };
 		26336034270912B400EEC1B3 /* MoreInfoScratchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreInfoScratchView.swift; sourceTree = "<group>"; };
+		2633A13C279E20C300839581 /* TestView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView2.swift; sourceTree = "<group>"; };
 		26356C232795C9240048A72B /* UserProfileViewDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewDataModel.swift; sourceTree = "<group>"; };
 		263695E9269B495F006EEA79 /* GoogleService-Info .plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info .plist"; sourceTree = "<group>"; };
 		263695EC269B7872006EEA79 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -441,6 +443,7 @@
 				26B1AFE02678FFE700A170B3 /* Love.xcdatamodeld */,
 				26B1AFDB2678FFE700A170B3 /* Preview Content */,
 				2609E3C42798A30000B4805E /* TestView.swift */,
+				2633A13C279E20C300839581 /* TestView2.swift */,
 			);
 			path = Amare;
 			sourceTree = "<group>";
@@ -954,6 +957,7 @@
 				26DE210326C590480004B5CE /* MainView.swift in Sources */,
 				26744A7E26F7E679008E1733 /* SelectLocationForResidenceView.swift in Sources */,
 				26BBF095267EBBEF00C84019 /* EnterNameView.swift in Sources */,
+				2633A13D279E20C300839581 /* TestView2.swift in Sources */,
 				26AF20E626CF458E00D99F36 /* EnterPhoneNumberView2.swift in Sources */,
 				2608CF44268FDE9700826FDA /* ImageUploadView.swift in Sources */,
 			);

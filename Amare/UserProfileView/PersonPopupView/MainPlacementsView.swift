@@ -23,11 +23,7 @@ struct MainPlacementView: View {
     
     var body: some View {
         
-        Button {
-            
-            NotificationCenter.default.post(name: NSNotification.wantsMoreInfoFromNatalChart, object: planet)
-            
-        } label: {
+        
             
             HStack{
                 
@@ -52,7 +48,7 @@ struct MainPlacementView: View {
                 
                 
             }
-        }
+        
 
         
         
