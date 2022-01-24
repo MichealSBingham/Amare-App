@@ -89,6 +89,7 @@
 		26D001A22792448F005E99A1 /* FirebaseStorageSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 26D001A12792448F005E99A1 /* FirebaseStorageSwift-Beta */; };
 		26D001A5279248F5005E99A1 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D001A4279248F4005E99A1 /* MainViewModel.swift */; };
 		26D24B21270019A900A3DEE7 /* UICircularProgressRing in Frameworks */ = {isa = PBXBuildFile; productRef = 26D24B20270019A900A3DEE7 /* UICircularProgressRing */; };
+		26D79ABA279F246900DA44CB /* VTabView in Frameworks */ = {isa = PBXBuildFile; productRef = 26D79AB9279F246900DA44CB /* VTabView */; };
 		26DE210326C590480004B5CE /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DE210226C590480004B5CE /* MainView.swift */; };
 		26DE210626C593070004B5CE /* ScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DE210526C593070004B5CE /* ScannerView.swift */; };
 		26DE210826C595B50004B5CE /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DE210726C595B50004B5CE /* ChartView.swift */; };
@@ -224,6 +225,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				26D79ABA279F246900DA44CB /* VTabView in Frameworks */,
 				26872886271CE0AA00C2F89F /* URLImageStore in Frameworks */,
 				26F9207726A8C2E200A4F8C6 /* Shimmer in Frameworks */,
 				26872884271CE0AA00C2F89F /* URLImage in Frameworks */,
@@ -618,6 +620,7 @@
 				26D0019D2792448F005E99A1 /* FirebaseFirestoreSwift-Beta */,
 				26D0019F2792448F005E99A1 /* FirebaseStorage */,
 				26D001A12792448F005E99A1 /* FirebaseStorageSwift-Beta */,
+				26D79AB9279F246900DA44CB /* VTabView */,
 			);
 			productName = Love;
 			productReference = 26B1AFD22678FFE500A170B3 /* Amare.app */;
@@ -704,6 +707,7 @@
 				26872882271CE0A900C2F89F /* XCRemoteSwiftPackageReference "url-image" */,
 				267EEBE9274076A2006909B9 /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */,
 				26D001982792448F005E99A1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				26D79AB8279F246900DA44CB /* XCRemoteSwiftPackageReference "SwiftUI-VerticalTabView" */,
 			);
 			productRefGroup = 26B1AFD32678FFE500A170B3 /* Products */;
 			projectDirPath = "";
@@ -1357,6 +1361,14 @@
 				minimumVersion = 8.0.0;
 			};
 		};
+		26D79AB8279F246900DA44CB /* XCRemoteSwiftPackageReference "SwiftUI-VerticalTabView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/lorenzofiamingo/SwiftUI-VerticalTabView";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		26DE210F26C5B2E60004B5CE /* XCRemoteSwiftPackageReference "CodeScanner" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/twostraws/CodeScanner.git";
@@ -1435,6 +1447,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 26D24B1F270019A900A3DEE7 /* XCRemoteSwiftPackageReference "UICircularProgressRing" */;
 			productName = UICircularProgressRing;
+		};
+		26D79AB9279F246900DA44CB /* VTabView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 26D79AB8279F246900DA44CB /* XCRemoteSwiftPackageReference "SwiftUI-VerticalTabView" */;
+			productName = VTabView;
 		};
 		26DE211026C5B2E60004B5CE /* CodeScanner */ = {
 			isa = XCSwiftPackageProductDependency;

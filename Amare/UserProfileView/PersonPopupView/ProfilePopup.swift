@@ -12,6 +12,7 @@ import URLImageStore
 import FirebaseAuth
 import Combine
 import ConfettiSwiftUI
+import VTabView
 
 // Some random data to use as mock
 var peopleImages = ["https://lh3.googleusercontent.com/ogw/ADea4I5VDilLtQfyS7bwoGxcMqXW46dRo_ugPf4ombhR=s192-c-mo", testImages[0],
@@ -280,27 +281,67 @@ struct ProfilePopup: View {
         
             if user?.natal_chart?.planets.count ?? 0 > 0 {
                 
+                // Showing the other user's planetary placements 
                 TabView{
                     
-                   // HStack{
+             
                         
                         ForEach(user?.natal_chart?.planets ?? []){ planet in
                             
+                           
+                          
+                                
+                                VTabView{
+                                    
+                                  
+                                 
+                                        
+                                        MoreInfoOnPlanet(planet: planet)
+                            //.rotationEffect(.degrees(-90))
+                                            .padding()
+                                            
+                                            .border(.white)
+                                        
+                                        MoreInfoOnPlanet(planet: planet)
+                                            //.rotationEffect(.degrees(-90))
+                                            .padding()
+                        
+                                            .border(.green)
+                                    
+                                        
+                                    
+                                    
+                                    
+                                   
+                                }
+                                .tabViewStyle(.page)
+                               // .rotationEffect(.degrees(90))
+                              
+                                .border(.blue)
+                                
                             
-                                MoreInfoOnPlanet(planet: planet)
-                                    .padding()
+                         
+                                
+                                
+                            
+                            
+                            
+                            
+                            
+                            
+                               
                             
                            
                                 
                         }
-                  //  }
+              
                    
                     
                 }
                 //.tabViewStyle(.page(indexDisplayMode: .always))
                 .tabViewStyle(.page)
-
                 .opacity(placementToDisplay == nil ? 0 : 1 )
+                .border(.orange)
             }
             
             

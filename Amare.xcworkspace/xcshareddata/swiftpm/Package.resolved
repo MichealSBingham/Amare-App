@@ -164,6 +164,15 @@
         }
       },
       {
+        "package": "VTabView",
+        "repositoryURL": "https://github.com/lorenzofiamingo/SwiftUI-VerticalTabView",
+        "state": {
+          "branch": null,
+          "revision": "fb6375b0c2d1b90d6849c177d442319e6f8dedf6",
+          "version": "1.0.0"
+        }
+      },
+      {
         "package": "UICircularProgressRing",
         "repositoryURL": "https://github.com/luispadron/UICircularProgressRing.git",
         "state": {
