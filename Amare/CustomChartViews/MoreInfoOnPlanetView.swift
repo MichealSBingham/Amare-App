@@ -14,6 +14,9 @@ struct MoreInfoOnPlanet: View {
     var planet: Planet?
     var chart: NatalChart?
     
+    /// State to dismiss view or not  
+    @Binding var exit: Bool
+    
     // For the fade animation of the keywords of what it rules over
     @State var control2: Bool = false
     @State var counter2 = 0
@@ -872,7 +875,7 @@ struct MoreInfoOnPlanet_Previews: PreviewProvider {
         
         var p  = Planet(name: .Moon, angle: 21.3, element: .water, onCusp: false, retrograde: false, sign: .Scorpio, cusp: nil, speed: 23)
         
-        MoreInfoOnPlanet(planet: p).preferredColorScheme(.dark)
+        MoreInfoOnPlanet(planet: p, exit: .constant(false)).preferredColorScheme(.dark)
     }
 }
 

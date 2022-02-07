@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct Planet: Codable, Identifiable, Equatable{
+struct Planet: Codable, Identifiable, Equatable, Hashable{
     
   
     
@@ -55,6 +55,9 @@ struct Planet: Codable, Identifiable, Equatable{
      
     }
     
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
     
     
     /// Returns the image for the planet of given size, will autosize if it's a synastry planet or not
@@ -110,6 +113,39 @@ enum PlanetName: String, Codable, CaseIterable {
     case Chiron
     case NorthNode = "North Node"
     case SouthNode = "South Node"
+    
+    /// place in the solar system
+    func number() -> Int {
+        
+        switch self {
+        case .Sun:
+            return 1
+        case .Moon:
+            return 4
+        case .Mercury:
+            return 2
+        case .Venus:
+            return 3
+        case .Mars:
+            return 5
+        case .Jupiter:
+            return 6
+        case .Saturn:
+            return 7
+        case .Uranus:
+            return 8
+        case .Neptune:
+            return 9
+        case .Pluto:
+            return 10
+        case .Chiron:
+            return 11
+        case .NorthNode:
+            return 12
+        case .SouthNode:
+            return 13 
+        }
+    }
     
     /// Returns the description of the planet and how it relates to astrology.
     func description() -> String {

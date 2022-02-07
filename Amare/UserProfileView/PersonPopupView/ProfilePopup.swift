@@ -26,7 +26,8 @@ var colors: [Color] = [.gray, .green, .blue, .red, .orange]
 struct ProfilePopup: View {
     
     @Binding var user: AmareUser?
-
+    
+    
     
     @State var showProfilePopup: Bool = false
     
@@ -51,6 +52,8 @@ struct ProfilePopup: View {
     
     /// The particular planet /placement the user clicks on on this profile to display
     @State var placementToDisplay: Planet?
+    
+    @State var selectedBody: Int = 6
     
     
     var body: some View {
@@ -281,8 +284,11 @@ struct ProfilePopup: View {
         
             if user?.natal_chart?.planets.count ?? 0 > 0 {
                 
+                
+                
+                
                 // Showing the other user's planetary placements 
-                TabView{
+                TabView(selection: $selectedBody){
                     
              
                         
@@ -296,25 +302,30 @@ struct ProfilePopup: View {
                                   
                                  
                                         
-                                        MoreInfoOnPlanet(planet: planet)
-                            
+                            MoreInfoOnPlanet(planet: planet)
+                                        
+
                                             .padding()
                                             
                                      
+                            
                                         
                                     MoreInfoOnPlanet(planet: Account.shared.data?.natal_chart?.planets.get(planet: planet.name))
                                            
                                             .padding()
                         
                                            
-                                    
+                                
                                         
                                     
                                     
                                     
                                    
                                 }
+                                .tag(planet.name.number())
                                 .tabViewStyle(.page)
+                              
+                             
                              
                               
                                
@@ -334,14 +345,15 @@ struct ProfilePopup: View {
                            
                                 
                         }
-              
+                        
                    
                     
                 }
                 //.tabViewStyle(.page(indexDisplayMode: .always))
                 .tabViewStyle(.page)
                 .opacity(placementToDisplay == nil ? 0 : 1 )
-                .border(.orange)
+                .animation(.easeInOut)
+                //.border(.orange)
             }
             
             
@@ -544,6 +556,7 @@ struct ProfilePopup: View {
         
                 Button {
                     placementToDisplay = sun
+                    selectedBody = placementToDisplay?.name.number() ?? 12
                 } label: {
                     
                     MainPlacementView( planet: sun, size: 20).padding(.trailing)
@@ -551,11 +564,23 @@ struct ProfilePopup: View {
 
                   
                 
+                let moon = user?.natal_chart?.planets.get(planet: .Moon)
                 
-                MainPlacementView(planet: user?.natal_chart?.planets.get(planet: .Moon), size: 20).padding(.trailing)
+                Button{
+                    placementToDisplay = moon
+                    selectedBody = placementToDisplay?.name.number() ?? 12
+                } label: {
+                    
+                    MainPlacementView(planet: user?.natal_chart?.planets.get(planet: .Moon), size: 20).padding(.trailing)
+                }
                 
+               
+                
+                let asc = user?.natal_chart?.angles.get(planet: .asc)
               
                 //TODO: Do something for people who don't know birth times
+                
+                
                 MainPlacementView_Angle(angle: user?.natal_chart?.angles.get(planet: .asc), size: 20).padding(.trailing)
                 
                 
@@ -563,40 +588,141 @@ struct ProfilePopup: View {
             }
                 
             HStack{
-                MainPlacementView(planet: user?.natal_chart?.planets.get(planet: .Mercury), size: 20).padding(.trailing)
+                
+                let mercury = user?.natal_chart?.planets.get(planet: .Mercury)
+                
+                Button{
+                    
+                    placementToDisplay = mercury
+                    selectedBody = placementToDisplay?.name.number() ?? 12
+                    
+                } label: {
+                    
+                    MainPlacementView(planet: user?.natal_chart?.planets.get(planet: .Mercury), size: 20).padding(.trailing)
+                    
+                }
                 
                 
-                MainPlacementView(planet: user?.natal_chart?.planets.get(planet: .Venus), size: 20).padding(.trailing)
+                
+                let venus = user?.natal_chart?.planets.get(planet: .Venus)
+                
+                Button{
+                    
+                    placementToDisplay = venus
+                    selectedBody = placementToDisplay?.name.number() ?? 12
+                    
+                } label: {
+                    
+                    MainPlacementView(planet: user?.natal_chart?.planets.get(planet: .Venus), size: 20).padding(.trailing)
+                }
+                
+                
+                let mars = user?.natal_chart?.planets.get(planet: .Mars)
                 
         
-                MainPlacementView(planet: user?.natal_chart?.planets.get(planet: .Mars), size: 20).padding(.trailing)
+                Button{
+                    
+                    placementToDisplay = mars
+                    selectedBody = placementToDisplay?.name.number() ?? 12
+                    
+                } label: {
+                    
+                    MainPlacementView(planet: user?.natal_chart?.planets.get(planet: .Mars), size: 20).padding(.trailing)
+                }
+               
             }
                 
             HStack{
                 
-                MainPlacementView(planet: user?.natal_chart?.planets.get(planet: .Jupiter), size: 20).padding(.trailing)
+                let jupiter = user?.natal_chart?.planets.get(planet: .Jupiter)
+                let saturn = user?.natal_chart?.planets.get(planet: .Saturn)
+                let uranus = user?.natal_chart?.planets.get(planet: .Uranus)
                 
-                MainPlacementView(planet: user?.natal_chart?.planets.get(planet: .Saturn), size: 20).padding(.trailing)
+                
+                Button{
+                    placementToDisplay = jupiter
+                    selectedBody = placementToDisplay?.name.number() ?? 12
+                } label: {
+                    
+                    MainPlacementView(planet: user?.natal_chart?.planets.get(planet: .Jupiter), size: 20).padding(.trailing)
+                }
+              
+                
+                Button{
+                    placementToDisplay = saturn
+                    selectedBody = placementToDisplay?.name.number() ?? 12
+                } label: {
+                    
+                    MainPlacementView(planet: user?.natal_chart?.planets.get(planet: .Saturn), size: 20).padding(.trailing)
+                }
+                
+                Button{
+                    placementToDisplay = uranus
+                    selectedBody = placementToDisplay?.name.number() ?? 12
+                } label: {
+                    
+                    MainPlacementView(planet: user?.natal_chart?.planets.get(planet: .Uranus), size: 20).padding(.trailing)
+                }
+              
+                
+               
                 
             
-                MainPlacementView(planet: user?.natal_chart?.planets.get(planet: .Uranus), size: 20).padding(.trailing)
+               
             }
                 
                
             HStack{
-                MainPlacementView(planet: user?.natal_chart?.planets.get(planet: .Neptune), size: 20).padding(.trailing)
-                MainPlacementView(planet: user?.natal_chart?.planets.get(planet: .Pluto), size: 20).padding(.trailing)
+                
+                let neptune = user?.natal_chart?.planets.get(planet: .Neptune)
+                let pluto = user?.natal_chart?.planets.get(planet: .Pluto)
+                
+                Button{
+                    
+                    placementToDisplay = neptune
+                    selectedBody = placementToDisplay?.name.number() ?? 12
+                } label: {
+                    
+                    MainPlacementView(planet: user?.natal_chart?.planets.get(planet: .Neptune), size: 20).padding(.trailing)
+                }
+                
+                Button{
+                    
+                    placementToDisplay = pluto
+                    selectedBody = placementToDisplay?.name.number() ?? 12
+                } label: {
+                    
+                    MainPlacementView(planet: user?.natal_chart?.planets.get(planet: .Pluto), size: 20).padding(.trailing)
+                }
+              
+               
                 
                 
             }
             
             HStack{
                 
+                let northNode = user?.natal_chart?.planets.get(planet: .NorthNode)
+                let southNode = user?.natal_chart?.planets.get(planet: .SouthNode)
                 
-                MainPlacementView(planet: user?.natal_chart?.planets.get(planet: .NorthNode), size: 20).padding(.trailing)
+                
+                Button{
+                     placementToDisplay = northNode
+                    selectedBody = placementToDisplay?.name.number() ?? 12
+                } label: {
+                    MainPlacementView(planet: user?.natal_chart?.planets.get(planet: .NorthNode), size: 20).padding(.trailing)
+                }
+                
+                Button{
+                     placementToDisplay = southNode
+                    selectedBody = placementToDisplay?.name.number() ?? 12
+                } label: {
+                    MainPlacementView(planet: user?.natal_chart?.planets.get(planet: .SouthNode), size: 20).padding(.trailing)
+                }
+        
                 
                
-                MainPlacementView(planet: user?.natal_chart?.planets.get(planet: .SouthNode), size: 20).padding(.trailing)
+              
             }
             
             HStack{

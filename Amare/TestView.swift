@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Firebase
 
 struct TestView: View {
     
@@ -27,10 +28,12 @@ struct TestView: View {
             
             Button {
                 print("subscribed")
-                viewModel.subscribeToUserDataChanges(for: "U214TAvtCsVUSxecjeoPl7cs8PW2")
                 
-                viewModel.subscribeToNatalChart(for: "U214TAvtCsVUSxecjeoPl7cs8PW2")
                 
+                viewModel.subscribeToUserDataChanges(for: Auth.auth().currentUser?.uid ?? "U214TAvtCsVUSxecjeoPl7cs8PW2")
+                
+                viewModel.subscribeToNatalChart(for: Auth.auth().currentUser?.uid ?? "U214TAvtCsVUSxecjeoPl7cs8PW2")
+               
                 
                 AmareApp().delay(5) {
                     print("Changing color..")
@@ -66,6 +69,7 @@ struct TestView: View {
             
             ProfilePopup(user: $viewModel.userData)
                 .opacity(viewModel.userData != nil ? 1 : 0 )
+                .hoverEffect()
             
             
             
