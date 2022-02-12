@@ -28,6 +28,7 @@ struct ProfilePopup: View {
     @Binding var user: AmareUser?
     
     
+    @State var exitInfoOnPlacement: Bool = false
     
     @State var showProfilePopup: Bool = false
     
@@ -238,6 +239,12 @@ struct ProfilePopup: View {
                 }
             }
         }
+        .onChange(of: placementToDisplay) { newValue in
+            
+            if newValue != nil {
+                exitInfoOnPlacement = false 
+            }
+        }
         
         /*
         .onChange(of: user, perform: { user_selected in
@@ -302,7 +309,8 @@ struct ProfilePopup: View {
                                   
                                  
                                         
-                            MoreInfoOnPlanet(planet: planet)
+                                    MoreInfoOnPlanet(planet: planet, exit: $exitInfoOnPlacement)
+                                      //  .opacity(exitInfoOnPlacement ? 0: 1)
                                         
 
                                             .padding()
@@ -310,7 +318,8 @@ struct ProfilePopup: View {
                                      
                             
                                         
-                                    MoreInfoOnPlanet(planet: Account.shared.data?.natal_chart?.planets.get(planet: planet.name))
+                                    MoreInfoOnPlanet(planet: Account.shared.data?.natal_chart?.planets.get(planet: planet.name), exit: $exitInfoOnPlacement)
+                                      //  .opacity(exitInfoOnPlacement ? 0: 1)
                                            
                                             .padding()
                         
@@ -352,6 +361,7 @@ struct ProfilePopup: View {
                 //.tabViewStyle(.page(indexDisplayMode: .always))
                 .tabViewStyle(.page)
                 .opacity(placementToDisplay == nil ? 0 : 1 )
+                .opacity(exitInfoOnPlacement ? 0: 1)
                 .animation(.easeInOut)
                 //.border(.orange)
             }

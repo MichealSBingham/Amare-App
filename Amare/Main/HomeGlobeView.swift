@@ -465,13 +465,17 @@ struct MapView: View {
           //  textForDeniedLocationServices()
             
             
+                /*
             MoreInfoOnPlanet(planet: selectedPlanet)
                 .opacity(selectedPlanet != nil ? 1 : 0 )
                 .padding()
+            */
 
             
             SearchOtherUsersView( persons: returnedSearchedUserData)
                 .opacity(returnedSearchedUserData.isEmpty || searchedUser.isEmpty ? 0 : 1)
+            
+            
             
             
             /*

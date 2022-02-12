@@ -41,6 +41,7 @@
 		2676E004270A07E90014610B /* MoreInfoOnGenericPlanet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2676E003270A07E90014610B /* MoreInfoOnGenericPlanet.swift */; };
 		267CF36526D30C03006B73BE /* NatalChartViewAlpha.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267CF36426D30C03006B73BE /* NatalChartViewAlpha.swift */; };
 		267EEBEB274076A2006909B9 /* ConfettiSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 267EEBEA274076A2006909B9 /* ConfettiSwiftUI */; };
+		2686CBBD27B41E0F00E65ED4 /* CloseButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2686CBBC27B41E0F00E65ED4 /* CloseButtonView.swift */; };
 		26872881271C668B00C2F89F /* EnterUsernameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26872880271C668B00C2F89F /* EnterUsernameView.swift */; };
 		26872884271CE0AA00C2F89F /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 26872883271CE0AA00C2F89F /* URLImage */; };
 		26872886271CE0AA00C2F89F /* URLImageStore in Frameworks */ = {isa = PBXBuildFile; productRef = 26872885271CE0AA00C2F89F /* URLImageStore */; };
@@ -157,6 +158,7 @@
 		26748CC12707A01500B5D338 /* ProfilePopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePopup.swift; sourceTree = "<group>"; };
 		2676E003270A07E90014610B /* MoreInfoOnGenericPlanet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreInfoOnGenericPlanet.swift; sourceTree = "<group>"; };
 		267CF36426D30C03006B73BE /* NatalChartViewAlpha.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NatalChartViewAlpha.swift; sourceTree = "<group>"; };
+		2686CBBC27B41E0F00E65ED4 /* CloseButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseButtonView.swift; sourceTree = "<group>"; };
 		26872880271C668B00C2F89F /* EnterUsernameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterUsernameView.swift; sourceTree = "<group>"; };
 		26876A8B26E425EC00683CD6 /* NatalChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NatalChartView.swift; sourceTree = "<group>"; };
 		268E542726DCEC6400E61F40 /* VerificationCodeView3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationCodeView3.swift; sourceTree = "<group>"; };
@@ -336,6 +338,7 @@
 				2676E003270A07E90014610B /* MoreInfoOnGenericPlanet.swift */,
 				269A1E2B270CB1FB008F4A0F /* MoreInfoOnPlanetView.swift */,
 				268F717C2715C3F5002C3010 /* MoreInfoOnAspectView.swift */,
+				2686CBBC27B41E0F00E65ED4 /* CloseButtonView.swift */,
 			);
 			path = CustomChartViews;
 			sourceTree = "<group>";
@@ -422,7 +425,6 @@
 			children = (
 				26007F012795A6AE00B0E7C7 /* UserProfileView */,
 				26876A8A26E425CC00683CD6 /* CustomChartViews */,
-				2694934F26D1D9B700C7AD72 /* API */,
 				26F9206926A8752200A4F8C6 /* FontResources */,
 				26BBF08A267D321F00C84019 /* Amare.entitlements */,
 				26B1AFD52678FFE500A170B3 /* AmareApp.swift */,
@@ -546,6 +548,7 @@
 				267CF36126D30BC4006B73BE /* Custom */,
 				26DE210226C590480004B5CE /* MainView.swift */,
 				2623D7AF27935E88002456DF /* HomeView.swift */,
+				2694934F26D1D9B700C7AD72 /* API */,
 				26DE210526C593070004B5CE /* ScannerView.swift */,
 				26DE210926C595E80004B5CE /* MessagesView.swift */,
 				26DE210B26C5963A0004B5CE /* SettingsView.swift */,
@@ -908,6 +911,7 @@
 				2608CF46268FE27300826FDA /* ImagePickerView.swift in Sources */,
 				2608CF532697C9D600826FDA /* SystemErrors.swift in Sources */,
 				263D6F9A2684087300CBBECC /* AmareUser.swift in Sources */,
+				2686CBBD27B41E0F00E65ED4 /* CloseButtonView.swift in Sources */,
 				26B6079D26C021C900CE8491 /* SignInOrUpView.swift in Sources */,
 				2669A62C2705488000B3C87C /* MainPlacementsView.swift in Sources */,
 				26B6079826BF60EF00CE8491 /* RootView.swift in Sources */,

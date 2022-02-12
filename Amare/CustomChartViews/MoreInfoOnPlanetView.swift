@@ -58,7 +58,11 @@ struct MoreInfoOnPlanet: View {
 
     
     var body: some View {
+        
+        
         ZStack{
+            
+         
             
             VStack{
                 
@@ -403,7 +407,42 @@ struct MoreInfoOnPlanet: View {
            // MoreInfoOnAspectView(chart: chart, aspect: aspectSelected)
                // .opacity(aspectSelected != nil ? 1: 0 )
             
+            VStack{
+                
+                HStack{
+                    
+                    Spacer()
+                    Button{
+                        
+                        print("Exit")
+                        
+                        withAnimation{
+                            
+                            exit = true
+                        }
+                        
+                    } label: {
+                        
+                        Image(systemName: "xmark").resizable()
+                            .foregroundColor(.red.opacity(0.5))
+                            .clipShape(Circle())
+                            .frame(width: 25, height: 25)
+                            
+                            //.ignoresSafeArea()
+                            //.offset(x: -20, y: -40)
+                    }
+                    
+                        
+                    
+                }
+                
+                
+                Spacer()
+            }
+            
+            
         }
+        
         .onAppear(perform: {
             
             
@@ -415,6 +454,7 @@ struct MoreInfoOnPlanet: View {
         .foregroundStyle(.ultraThinMaterial)
         .cornerRadius(20)
         .frame(width: .infinity-60, height: 700)
+    
         //.frame(width: 700, height: 700)
     
     }
