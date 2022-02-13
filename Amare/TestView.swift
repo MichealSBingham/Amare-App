@@ -29,10 +29,13 @@ struct TestView: View {
             Button {
                 print("subscribed to : \(Auth.auth().currentUser?.uid) ")
                 
-                
+                /*
                 viewModel.subscribeToUserDataChanges(for: Auth.auth().currentUser?.uid ?? "U214TAvtCsVUSxecjeoPl7cs8PW2")
                 
                 viewModel.subscribeToNatalChart(for: Auth.auth().currentUser?.uid ?? "U214TAvtCsVUSxecjeoPl7cs8PW2")
+                */
+                
+                viewModel.load(user: "r743CWVkAnQQjQdfvDEHkquxWfM2")
                
                 
                 AmareApp().delay(5) {

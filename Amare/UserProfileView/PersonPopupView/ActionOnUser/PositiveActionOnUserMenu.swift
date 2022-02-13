@@ -11,22 +11,7 @@ import Firebase
 struct PositiveActionOnUserMenu: View {
     
     @Binding var user: AmareUser
-   // var account: Account
-    
-    /// Whether or not THIS user winked at the user or not
-        // @State var winkstatus: Bool? = nil
-    
-    /// If other user winked at THIS user (self account user)
-    //@Binding var canWinkBack: Bool
-    
-    
-    /// Whether or not THis user sent a friend request
-    //@State var sentFriendRequest: Bool? = nil
-    
-    //@State var shouldRespondToFriendRequest: Bool? = nil
-    
-    //Whether or not these are already friends
-   // @State var friendsAlready: Bool? = nil
+   
     
     
     var body: some View {
@@ -57,6 +42,7 @@ struct PositiveActionOnUserMenu: View {
                                    
                           
                                         Image(systemName: "person.fill.checkmark")
+                                    .animation(.easeInOut)
                                     .foregroundColor(.green)
                                         
                                 
@@ -92,6 +78,7 @@ struct PositiveActionOnUserMenu: View {
                                         
                                         Image(systemName: "xmark")
                                             .foregroundColor(.red)
+                                            .animation(.easeInOut)
                                         
                                     }
                                    
@@ -99,6 +86,7 @@ struct PositiveActionOnUserMenu: View {
                                     Text("Decline Friend Request")
                                          .bold()
                                          .foregroundColor(.red)
+                                         .animation(.easeInOut)
                                         // .foregroundColor(.red.opacity(0.4))
                                       
                                 
@@ -119,6 +107,7 @@ struct PositiveActionOnUserMenu: View {
                         
                         Button {
                             
+                            print("Trying to add friend of user with id .. \(user.id)")
                             addFriend()
                            
                                 
@@ -129,7 +118,9 @@ struct PositiveActionOnUserMenu: View {
                                 ZStack{
                                     
                                     Image(systemName: "nosign").opacity(user.requested ?? false ? 1: 0)
+                                        .animation(.easeInOut)
                                     Image(systemName: "person.fill.badge.plus").opacity(user.requested ?? false ? 0: 1)
+                                        .animation(.easeInOut)
                                     
                                 }
                                
@@ -137,7 +128,7 @@ struct PositiveActionOnUserMenu: View {
                             Text(user.requested ?? false ? "Cancel Friend Request" : "Add Friend")
                                      .bold()
                                     .foregroundColor(Color.primary.opacity(0.4))
-                            
+                                    .animation(.easeInOut)
                         }
                         .opacity((user.openFriendRequest ?? false) ? 0: 1)
                         .opacity(user.areFriends ?? false ? 0: 1)
@@ -163,6 +154,7 @@ struct PositiveActionOnUserMenu: View {
                                       
                                 Image(systemName: "checkmark.shield.fill")
                                    .foregroundColor(.green)
+                                   .animation(.easeInOut)
                                 
                                         
                                         
@@ -172,6 +164,7 @@ struct PositiveActionOnUserMenu: View {
                                     Text("Friends")
                                          .bold()
                                          .foregroundColor(Color.primary.opacity(0.4))
+                                         .animation(.easeInOut)
                                        
                                 
                             }
@@ -191,6 +184,7 @@ struct PositiveActionOnUserMenu: View {
                                         
                                         Image(systemName: "xmark")
                                             .foregroundColor(.red)
+                                            .animation(.easeInOut)
                                         
                                     }
                                    
@@ -198,6 +192,7 @@ struct PositiveActionOnUserMenu: View {
                                     Text("Remove Friend")
                                          .bold()
                                          .foregroundColor(.red)
+                                         .animation(.easeInOut)
                                         // .foregroundColor(.red.opacity(0.4))
                                       
                                 
@@ -238,6 +233,7 @@ struct PositiveActionOnUserMenu: View {
                     
                     HStack{
                         Image(systemName: "message.circle.fill")
+                            .animation(.easeInOut)
                         
                         Text("Message")
                           //  .font(.largeTitle)
@@ -270,10 +266,10 @@ struct PositiveActionOnUserMenu: View {
                                      
                                      if user.winkedTo ?? false  {
                                          // unwink
-                                         Account().unwink(at: id)
+                                         Account.shared.unwink(at: id)
                                      } else {
                                          
-                                         Account().wink(at: id )
+                                         Account.shared.wink(at: id )
                                      }
                                     
                                  }
@@ -283,17 +279,28 @@ struct PositiveActionOnUserMenu: View {
                                  
                                  ZStack{
                                      
-                                     Text((!(user.winkedTo ?? false)) ? "😉 Wink": "😬 Unwink" )
-                                          .bold() // NEW BLUE
-                                         //.foregroundColor(Color.primary.opacity(0.4))
-                                          .foregroundColor(!(user.winkedTo ?? false) ? .blue.opacity(0.7) : .red.opacity(0.7))
-                                          .opacity(!(user.winkedAtMe ?? false) ? 1: 0)
                                      
-                                     Text((!(user.winkedTo ?? false)) ? "😉 Wink Back": "😬 Unwink" )
+                                     
+                                     // If I wink at the user then I need the option to unwink == if i haven't winked at you(wink) otherwise unwink
+                                     
+                                     Text(!(user.winkedTo ?? false) ?
+                                          "😉 Wink": "😬 Unwink")
+                                         .bold()
+                                         .foregroundColor(!(user.winkedTo ?? false) ? .blue.opacity(0.7) : .red.opacity(0.7))
+                                         .opacity(!(user.winkedAtMe ?? false) ? 1: 0)
+                                         .animation(.easeInOut)
+                                     // only show this label if the other person hasn't winked at me
+                                     
+                                     
+                                     
+                                    
+                                     // if they winked at me, can wink back
+                                     Text(!(user.winkedTo ?? false)  ? "😉 Wink Back": "😬 Unwink" )
                                          .bold() // NEW BLUE
                                         // .foregroundColor(Color.primary.opacity(0.4))
-                                         .foregroundColor(!(user.winkedTo ?? false) ? .blue.opacity(0.7) : .red.opacity(0.7))
-                                         .opacity(user.winkedAtMe ?? false ? 1: 0)
+                                         .foregroundColor((user.winkedAtMe ?? false) && !(user.winkedTo ?? false) ? .blue.opacity(0.7) : .red.opacity(0.7))
+                                         .opacity((user.winkedAtMe ?? false) ? 1: 0)
+                                         .animation(.easeInOut)
                                  }
                                
                                  
@@ -313,7 +320,7 @@ struct PositiveActionOnUserMenu: View {
                                      // .frame(maxWidth : .infinity, alignment: .center)
                                      //.padding(.top)
                                      .foregroundColor(Color.primary.opacity(0.4))
-                                    
+                                     .animation(.easeInOut)
                                      
                              }.padding()
                                 
@@ -328,7 +335,7 @@ struct PositiveActionOnUserMenu: View {
                                      // .frame(maxWidth : .infinity, alignment: .center)
                                      //.padding(.top)
                                      .foregroundColor(Color.primary.opacity(0.4))
-                                     
+                                     .animation(.easeInOut)
                                      
                              }.padding()
                                  
@@ -351,7 +358,9 @@ struct PositiveActionOnUserMenu: View {
                                  
                                  Image(systemName: "questionmark.circle.fill")
                                      .colorMultiply(.white)
+                                     .animation(.easeInOut)
                                      .padding()
+                                 
                              }
 
                              

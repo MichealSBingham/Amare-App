@@ -44,10 +44,18 @@ class UserDataModel: ObservableObject{
     }
     */
     
-    
+    /// Subscribes to real-time data for user of this user // their natal chart, user data infromation, wink/friendship status
+    func load(user id: String)   {
+        
+        self.subscribeToUserDataChanges(for: id)
+        self.subscribeToNatalChart(for: id)
+        self.subscribeToFriendshipStatus(them: id)
+        self.subscribeToWinkStatus(them: id)
+        
+    }
    
     /// Subscribes to changes to the given user with `id`
-    func subscribeToUserDataChanges(for id: String? )  {
+    private func subscribeToUserDataChanges(for id: String? )  {
         
         print("***Subscribing to user data changes \(id)")
         if let id = id{
@@ -77,7 +85,8 @@ class UserDataModel: ObservableObject{
                 case .success(let success):
                     print("|***There was success grabbing user \(success) is complete: \(success?.isComplete())")
                     
-                    if let data = success { self.userData = data }
+                    
+                    if var data = success { data.id = id ; self.userData = data }
                     
                     
                     // check if the user data is complete
@@ -111,7 +120,7 @@ class UserDataModel: ObservableObject{
     ///   - id: Id of the user
     ///   - isOuterChart: Default `false`. Set to `true` if this user should be the outer chart when doing synastry
     ///   - completion: Passing the error and the natal chart in this completion block. Will also be publisehd to the view model
-    func subscribeToNatalChart(for id: String?, isOuterChart: Bool = false, completion: ( (_ err: Error?, _ natalChart: NatalChart?) -> Void)?  = nil )  {
+    private func subscribeToNatalChart(for id: String?, isOuterChart: Bool = false, completion: ( (_ err: Error?, _ natalChart: NatalChart?) -> Void)?  = nil )  {
         
         // // \\ \\ // \\ // \\ // \\ // \\ // \\ 
         print("***Subscribing to user data changes \(id)")
@@ -248,7 +257,7 @@ class UserDataModel: ObservableObject{
     
     
     /// Subscribes to updates to the friendship status; i.e. this is called to see if the user  `userData.id` is friends with the current signed in user. Will also check if there is an open friend request.
-    /*private*/ func subscribeToFriendshipStatus(them: String)  {
+    private func subscribeToFriendshipStatus(them: String)  {
         
         if let me = Auth.auth().currentUser?.uid {
             
@@ -311,7 +320,8 @@ class UserDataModel: ObservableObject{
         
     }
     
-    func subscribeToWinkStatus(them: String)   {
+    /// Subscribes to updates to whether or not we've winked at each other
+    private func subscribeToWinkStatus(them: String)   {
         
         guard  let me = Auth.auth().currentUser?.uid else {return }
         
