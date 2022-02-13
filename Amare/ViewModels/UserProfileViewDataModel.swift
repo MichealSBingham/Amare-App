@@ -12,7 +12,7 @@ import Firebase
 /// Class for view model of  a user shown on screen
 class UserDataModel: ObservableObject{
     
-    @Published var userData: AmareUser?
+    @Published var userData: AmareUser = AmareUser()
     
 
 
@@ -25,7 +25,17 @@ class UserDataModel: ObservableObject{
     private var userDataSnapshotListener: ListenerRegistration?
     
     private var natalChartListener: ListenerRegistration?
+    
+    private var myFriendsListener: ListenerRegistration?
 
+    private var requestsListener: ListenerRegistration?
+    
+    private var openFriendRequestsListener: ListenerRegistration?
+    
+
+    private var winkStatusListener: ListenerRegistration?
+    
+    private var winkStatusAtMeListener: ListenerRegistration?
     
     /*
     init() {
@@ -65,16 +75,22 @@ class UserDataModel: ObservableObject{
                 
                 switch result {
                 case .success(let success):
-                    print("***There was success grabbing user \(success) is complete: \(success?.isComplete())")
-                    self.userData = success
+                    print("|***There was success grabbing user \(success) is complete: \(success?.isComplete())")
+                    
+                    if let data = success { self.userData = data }
+                    
                     
                     // check if the user data is complete
                     if let isComplete = success?.isComplete() {
                         
+                        print("It is complete data")
                         self.inCompleteData = !isComplete
                     }  else {
                         self.inCompleteData = true
                     }
+                    
+                   
+                    
                 case .failure(let failure):
                     
                     print("**The enrror grabbing user data is .. \(failure)")
@@ -89,6 +105,7 @@ class UserDataModel: ObservableObject{
     }
     
     
+    //TODO: Make private
     /// Subscribes to changes to the given user with `id`
     /// - Parameters:
     ///   - id: Id of the user
@@ -187,7 +204,7 @@ class UserDataModel: ObservableObject{
                             data.angles[index].forSynastry = isOuterChart
                         }
                         
-                        self.userData?.natal_chart = data
+                        self.userData.natal_chart = data
                         
                         completion?(nil, data)
                         
@@ -227,6 +244,110 @@ class UserDataModel: ObservableObject{
         if let listener = natalChartListener {
             listener.remove()
         }
+    }
+    
+    
+    /// Subscribes to updates to the friendship status; i.e. this is called to see if the user  `userData.id` is friends with the current signed in user. Will also check if there is an open friend request.
+    /*private*/ func subscribeToFriendshipStatus(them: String)  {
+        
+        if let me = Auth.auth().currentUser?.uid {
+            
+            myFriendsListener =  db.collection("friends").document(me).collection("myFriends").document(them)
+                .addSnapshotListener({ snapshot, error in
+                    
+                    if snapshot?.exists ?? false {
+                        // friends already
+                        
+                       
+                        self.userData.areFriends = true
+                    
+                    } else {
+                        
+                     
+                        self.userData.areFriends = false
+                        
+                       
+                    }
+                })
+
+           requestsListener = db.collection("friends").document(them).collection("requests").document(me).addSnapshotListener({ snapshot, error in
+                
+                if snapshot?.exists ?? false {
+                    // There is a friend request there that I sent to this user
+                    let didAccept: Bool  = snapshot?.data()?["accepted"] as? Bool ?? false
+                   
+                    self.userData.requested = !didAccept
+  
+                    
+                }  else {
+                    // there is most definitely no friend pending
+                    self.userData.requested = false
+
+                }
+            })
+            
+            
+            openFriendRequestsListener = db.collection("friends").document(me).collection("requests").document(them).addSnapshotListener({ snapshot, error in
+                    
+                    if snapshot?.exists ?? false {
+                        // They sent me (current signed in user) a friend request
+                       
+                      
+                        self.userData.openFriendRequest = true
+                        
+                        
+                        
+                    }  else {
+                        // They did not send me a freind request
+                      
+                        self.userData.openFriendRequest = false
+                        
+                       
+                    }
+                })
+            
+            
+        }
+        
+    }
+    
+    func subscribeToWinkStatus(them: String)   {
+        
+        guard  let me = Auth.auth().currentUser?.uid else {return }
+        
+        winkStatusListener = db.collection("winks").document(them).collection("people_who_winked").document(me).addSnapshotListener({ snapshot, error in
+            
+            print("*** THe snapshot is \(snapshot) with error \(error)")
+            
+            if snapshot?.exists ?? false {
+                
+                    
+                self.userData.winkedTo = true
+                
+               
+            } else {
+                self.userData.winkedTo = false
+            }
+        })
+        
+        
+        winkStatusAtMeListener = db.collection("winks").document(me).collection("people_who_winked").document(them).addSnapshotListener({ snapshot, error in
+            
+            print("*** THe snapshot is \(snapshot) with error \(error)")
+            
+            if snapshot?.exists ?? false {
+                
+                    
+                self.userData.winkedAtMe = true
+                
+               
+            } else {
+                self.userData.winkedAtMe = false
+            }
+        })
+    
+    
+
     }
     
     

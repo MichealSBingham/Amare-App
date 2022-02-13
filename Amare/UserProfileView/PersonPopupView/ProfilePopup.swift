@@ -25,7 +25,7 @@ var colors: [Color] = [.gray, .green, .blue, .red, .orange]
 
 struct ProfilePopup: View {
     
-    @Binding var user: AmareUser?
+    @Binding var user: AmareUser
     
     
     @State var exitInfoOnPlacement: Bool = false
@@ -148,11 +148,12 @@ struct ProfilePopup: View {
             .brightness(showNegativeActionForUser ? -0.5: 0)
             
             
-            /*
-            PositiveActionOnUserMenu(user: user, account: account, canWinkBack: $hasWinked)
+            
+            PositiveActionOnUserMenu(user: $user)
                 .opacity(showActionForUser ? 1: 0)
             
             
+             /*
             NegativeActionOnUserMenu(user: user, account: account)
                 .opacity(showNegativeActionForUser ? 1: 0 )
                 .onReceive(NotificationCenter.default.publisher(for: NSNotification.deletedCustomUserNatalChart)) { output in
@@ -204,46 +205,42 @@ struct ProfilePopup: View {
                 //placementToDisplay = nil
             }
         }
-        .onChange(of: user?._synastryScore) { newValue in
+        .onChange(of: user._synastryScore) { newValue in
             
-            if let newValue = newValue {
+        
                 withAnimation(.easeInOut(duration: 3)) {
                     synastryscore = RingProgress.percent(newValue)
                 }
-            }
+            
         }
         
-        .onChange(of: user?._chemistryScore) { newValue in
+        .onChange(of: user._chemistryScore) { newValue in
             
-            if let newValue = newValue {
                 withAnimation(.easeInOut(duration: 3)) {
                     chemistry = RingProgress.percent(newValue)
                 }
-            }
+            
         }
         
-        .onChange(of: user?._sexScore) { newValue in
+        .onChange(of: user._sexScore) { newValue in
             
-            if let newValue = newValue {
                 withAnimation(.easeInOut(duration: 3)) {
                     sex = RingProgress.percent(newValue)
                 }
-            }
+            
         }
         
-        .onChange(of: user?._loveScore) { newValue in
+        .onChange(of: user._loveScore) { newValue in
             
-            if let newValue = newValue {
                 withAnimation(.easeInOut(duration: 3)) {
                     love = RingProgress.percent(newValue)
                 }
-            }
+            
         }
         .onChange(of: placementToDisplay) { newValue in
             
-            if newValue != nil {
                 exitInfoOnPlacement = false 
-            }
+            
         }
         
         /*
@@ -289,7 +286,7 @@ struct ProfilePopup: View {
         })
          */
         
-            if user?.natal_chart?.planets.count ?? 0 > 0 {
+            if user.natal_chart?.planets.count ?? 0 > 0 {
                 
                 
                 
@@ -299,7 +296,7 @@ struct ProfilePopup: View {
                     
              
                         
-                        ForEach(user?.natal_chart?.planets ?? []){ planet in
+                    ForEach(user.natal_chart?.planets ?? []){ planet in
                             
                            
                           
@@ -387,7 +384,7 @@ struct ProfilePopup: View {
             
         
             
-            URLImage(URL(string: user?.profile_image_url ?? peopleImages.randomElement()!)!) { image in
+            URLImage(URL(string: user.profile_image_url ?? peopleImages.randomElement()!)!) { image in
                 
                 
                 image
@@ -408,7 +405,7 @@ struct ProfilePopup: View {
     /// Name of the user
     func nameView() -> some View {
        
-        Text("\(user?.name ?? sampleNames.randomElement()!)")
+        Text("\(user.name ?? sampleNames.randomElement()!)")
                     .font(.largeTitle)
                      .bold()
                      .frame(maxWidth : .infinity, alignment: .center)
@@ -467,7 +464,7 @@ struct ProfilePopup: View {
             
            
         }
-        .opacity(user?.isReal ?? true == true  ? 1 : 0)
+        .opacity(user.isReal ?? true == true  ? 1 : 0)
     }
     
     func minusMenuButtonView() -> some View {
@@ -505,7 +502,7 @@ struct ProfilePopup: View {
                 
                
             }
-            .opacity(user?.isReal ?? true == false  ? 1 : 0)
+            .opacity(user.isReal ?? true == false  ? 1 : 0)
     }
     
     /// View for the latin phrase that describes relationshio
@@ -534,7 +531,7 @@ struct ProfilePopup: View {
                
                     VStack{
                         Text("😉").padding(.bottom, 1)
-                        Text("\(user?.name ?? sampleNames.randomElement()!) winked at you!")
+                        Text("\(user.name ?? sampleNames.randomElement()!) winked at you!")
                     }
                 
                 
@@ -562,7 +559,7 @@ struct ProfilePopup: View {
             HStack{
                 
            
-                var sun = user?.natal_chart?.planets.get(planet: .Sun)
+                var sun = user.natal_chart?.planets.get(planet: .Sun)
         
                 Button {
                     placementToDisplay = sun
@@ -574,24 +571,24 @@ struct ProfilePopup: View {
 
                   
                 
-                let moon = user?.natal_chart?.planets.get(planet: .Moon)
+                let moon = user.natal_chart?.planets.get(planet: .Moon)
                 
                 Button{
                     placementToDisplay = moon
                     selectedBody = placementToDisplay?.name.number() ?? 12
                 } label: {
                     
-                    MainPlacementView(planet: user?.natal_chart?.planets.get(planet: .Moon), size: 20).padding(.trailing)
+                    MainPlacementView(planet: user.natal_chart?.planets.get(planet: .Moon), size: 20).padding(.trailing)
                 }
                 
                
                 
-                let asc = user?.natal_chart?.angles.get(planet: .asc)
+                let asc = user.natal_chart?.angles.get(planet: .asc)
               
                 //TODO: Do something for people who don't know birth times
                 
                 
-                MainPlacementView_Angle(angle: user?.natal_chart?.angles.get(planet: .asc), size: 20).padding(.trailing)
+                MainPlacementView_Angle(angle: user.natal_chart?.angles.get(planet: .asc), size: 20).padding(.trailing)
                 
                 
              
@@ -599,7 +596,7 @@ struct ProfilePopup: View {
                 
             HStack{
                 
-                let mercury = user?.natal_chart?.planets.get(planet: .Mercury)
+                let mercury = user.natal_chart?.planets.get(planet: .Mercury)
                 
                 Button{
                     
@@ -608,13 +605,13 @@ struct ProfilePopup: View {
                     
                 } label: {
                     
-                    MainPlacementView(planet: user?.natal_chart?.planets.get(planet: .Mercury), size: 20).padding(.trailing)
+                    MainPlacementView(planet: user.natal_chart?.planets.get(planet: .Mercury), size: 20).padding(.trailing)
                     
                 }
                 
                 
                 
-                let venus = user?.natal_chart?.planets.get(planet: .Venus)
+                let venus = user.natal_chart?.planets.get(planet: .Venus)
                 
                 Button{
                     
@@ -623,11 +620,11 @@ struct ProfilePopup: View {
                     
                 } label: {
                     
-                    MainPlacementView(planet: user?.natal_chart?.planets.get(planet: .Venus), size: 20).padding(.trailing)
+                    MainPlacementView(planet: user.natal_chart?.planets.get(planet: .Venus), size: 20).padding(.trailing)
                 }
                 
                 
-                let mars = user?.natal_chart?.planets.get(planet: .Mars)
+                let mars = user.natal_chart?.planets.get(planet: .Mars)
                 
         
                 Button{
@@ -637,16 +634,16 @@ struct ProfilePopup: View {
                     
                 } label: {
                     
-                    MainPlacementView(planet: user?.natal_chart?.planets.get(planet: .Mars), size: 20).padding(.trailing)
+                    MainPlacementView(planet: user.natal_chart?.planets.get(planet: .Mars), size: 20).padding(.trailing)
                 }
                
             }
                 
             HStack{
                 
-                let jupiter = user?.natal_chart?.planets.get(planet: .Jupiter)
-                let saturn = user?.natal_chart?.planets.get(planet: .Saturn)
-                let uranus = user?.natal_chart?.planets.get(planet: .Uranus)
+                let jupiter = user.natal_chart?.planets.get(planet: .Jupiter)
+                let saturn = user.natal_chart?.planets.get(planet: .Saturn)
+                let uranus = user.natal_chart?.planets.get(planet: .Uranus)
                 
                 
                 Button{
@@ -654,7 +651,7 @@ struct ProfilePopup: View {
                     selectedBody = placementToDisplay?.name.number() ?? 12
                 } label: {
                     
-                    MainPlacementView(planet: user?.natal_chart?.planets.get(planet: .Jupiter), size: 20).padding(.trailing)
+                    MainPlacementView(planet: user.natal_chart?.planets.get(planet: .Jupiter), size: 20).padding(.trailing)
                 }
               
                 
@@ -663,7 +660,7 @@ struct ProfilePopup: View {
                     selectedBody = placementToDisplay?.name.number() ?? 12
                 } label: {
                     
-                    MainPlacementView(planet: user?.natal_chart?.planets.get(planet: .Saturn), size: 20).padding(.trailing)
+                    MainPlacementView(planet: user.natal_chart?.planets.get(planet: .Saturn), size: 20).padding(.trailing)
                 }
                 
                 Button{
@@ -671,7 +668,7 @@ struct ProfilePopup: View {
                     selectedBody = placementToDisplay?.name.number() ?? 12
                 } label: {
                     
-                    MainPlacementView(planet: user?.natal_chart?.planets.get(planet: .Uranus), size: 20).padding(.trailing)
+                    MainPlacementView(planet: user.natal_chart?.planets.get(planet: .Uranus), size: 20).padding(.trailing)
                 }
               
                 
@@ -684,8 +681,8 @@ struct ProfilePopup: View {
                
             HStack{
                 
-                let neptune = user?.natal_chart?.planets.get(planet: .Neptune)
-                let pluto = user?.natal_chart?.planets.get(planet: .Pluto)
+                let neptune = user.natal_chart?.planets.get(planet: .Neptune)
+                let pluto = user.natal_chart?.planets.get(planet: .Pluto)
                 
                 Button{
                     
@@ -693,7 +690,7 @@ struct ProfilePopup: View {
                     selectedBody = placementToDisplay?.name.number() ?? 12
                 } label: {
                     
-                    MainPlacementView(planet: user?.natal_chart?.planets.get(planet: .Neptune), size: 20).padding(.trailing)
+                    MainPlacementView(planet: user.natal_chart?.planets.get(planet: .Neptune), size: 20).padding(.trailing)
                 }
                 
                 Button{
@@ -702,7 +699,7 @@ struct ProfilePopup: View {
                     selectedBody = placementToDisplay?.name.number() ?? 12
                 } label: {
                     
-                    MainPlacementView(planet: user?.natal_chart?.planets.get(planet: .Pluto), size: 20).padding(.trailing)
+                    MainPlacementView(planet: user.natal_chart?.planets.get(planet: .Pluto), size: 20).padding(.trailing)
                 }
               
                
@@ -712,22 +709,22 @@ struct ProfilePopup: View {
             
             HStack{
                 
-                let northNode = user?.natal_chart?.planets.get(planet: .NorthNode)
-                let southNode = user?.natal_chart?.planets.get(planet: .SouthNode)
+                let northNode = user.natal_chart?.planets.get(planet: .NorthNode)
+                let southNode = user.natal_chart?.planets.get(planet: .SouthNode)
                 
                 
                 Button{
                      placementToDisplay = northNode
                     selectedBody = placementToDisplay?.name.number() ?? 12
                 } label: {
-                    MainPlacementView(planet: user?.natal_chart?.planets.get(planet: .NorthNode), size: 20).padding(.trailing)
+                    MainPlacementView(planet: user.natal_chart?.planets.get(planet: .NorthNode), size: 20).padding(.trailing)
                 }
                 
                 Button{
                      placementToDisplay = southNode
                     selectedBody = placementToDisplay?.name.number() ?? 12
                 } label: {
-                    MainPlacementView(planet: user?.natal_chart?.planets.get(planet: .SouthNode), size: 20).padding(.trailing)
+                    MainPlacementView(planet: user.natal_chart?.planets.get(planet: .SouthNode), size: 20).padding(.trailing)
                 }
         
                 
@@ -737,11 +734,11 @@ struct ProfilePopup: View {
             
             HStack{
                 
-                MainPlacementView_Angle(angle: user?.natal_chart?.angles.get(planet: .ic), size: 20).padding(.trailing)
+                MainPlacementView_Angle(angle: user.natal_chart?.angles.get(planet: .ic), size: 20).padding(.trailing)
                 
-                MainPlacementView_Angle(angle: user?.natal_chart?.angles.get(planet: .mc), size: 20).padding(.trailing)
+                MainPlacementView_Angle(angle: user.natal_chart?.angles.get(planet: .mc), size: 20).padding(.trailing)
                 
-                MainPlacementView_Angle(angle: user?.natal_chart?.angles.get(planet: .desc), size: 20).padding(.trailing)
+                MainPlacementView_Angle(angle: user.natal_chart?.angles.get(planet: .desc), size: 20).padding(.trailing)
             }
 
                 
@@ -895,7 +892,7 @@ struct ProfilePopup: View {
             }) {
                 
                 SmallNatalChartView()
-                    .makeSmall(with: user?.natal_chart)
+                    .makeSmall(with: user.natal_chart)
                 
             }
         

@@ -27,7 +27,7 @@ struct TestView: View {
             
             
             Button {
-                print("subscribed")
+                print("subscribed to : \(Auth.auth().currentUser?.uid) ")
                 
                 
                 viewModel.subscribeToUserDataChanges(for: Auth.auth().currentUser?.uid ?? "U214TAvtCsVUSxecjeoPl7cs8PW2")
@@ -38,7 +38,7 @@ struct TestView: View {
                 AmareApp().delay(5) {
                     print("Changing color..")
                     
-                    viewModel.userData?._synastryScore = 0.94
+                    viewModel.userData._synastryScore = 0.94
                     
                     
                 
@@ -54,7 +54,7 @@ struct TestView: View {
                     
                     withAnimation(.easeIn(duration: 3)){
                         // change color of aspect 
-                        viewModel.userData?.natal_chart?.planets[0]._aspectThatExists = .trine
+                        viewModel.userData.natal_chart?.planets[0]._aspectThatExists = .trine
                     }
                     
                     
@@ -68,7 +68,7 @@ struct TestView: View {
             }
             
             ProfilePopup(user: $viewModel.userData)
-                .opacity(viewModel.userData != nil ? 1 : 0 )
+                 .opacity(viewModel.userData.isComplete() ? 1 : 0 )
                 .hoverEffect()
             
             
@@ -76,18 +76,19 @@ struct TestView: View {
             Button {
                 
                     
-                    viewModel.userData?._synastryScore = Double.random(in: 0...1)
+                viewModel.userData._synastryScore = Double.random(in: 0...1)
                 
-                viewModel.userData?._chemistryScore = Double.random(in: 0...1)
+                viewModel.userData._chemistryScore = Double.random(in: 0...1)
                 
-                viewModel.userData?._loveScore = Double.random(in: 0...1)
+                viewModel.userData._loveScore = Double.random(in: 0...1)
                 
-                viewModel.userData?._sexScore = Double.random(in: 0...1)
+                viewModel.userData._sexScore = Double.random(in: 0...1)
                 
 
             } label: {
                 Text("Regenerate")
             }
+            .opacity(0)
             .offset(x: 10, y: 20)
 
         }

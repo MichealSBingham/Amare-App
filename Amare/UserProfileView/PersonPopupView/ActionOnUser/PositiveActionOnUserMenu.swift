@@ -10,23 +10,23 @@ import Firebase
 /// This should be changed to a floating button soon one day this is just a rough draft of actions a user can each other
 struct PositiveActionOnUserMenu: View {
     
-    var user: AmareUser?
-    var account: Account
+    @Binding var user: AmareUser
+   // var account: Account
     
     /// Whether or not THIS user winked at the user or not
-   @State var winkstatus: Bool? = nil
+        // @State var winkstatus: Bool? = nil
     
     /// If other user winked at THIS user (self account user)
-    @Binding var canWinkBack: Bool
+    //@Binding var canWinkBack: Bool
     
     
     /// Whether or not THis user sent a friend request
-    @State var sentFriendRequest: Bool? = nil
+    //@State var sentFriendRequest: Bool? = nil
     
-    @State var shouldRespondToFriendRequest: Bool? = nil
+    //@State var shouldRespondToFriendRequest: Bool? = nil
     
     //Whether or not these are already friends
-    @State var friendsAlready: Bool? = nil
+   // @State var friendsAlready: Bool? = nil
     
     
     var body: some View {
@@ -41,7 +41,7 @@ struct PositiveActionOnUserMenu: View {
                     ZStack{
                         
                         // Only show this when you should respond to a friend request otherwise show the other view
-                        TabView(selection: $shouldRespondToFriendRequest){
+                        TabView(selection: $user.openFriendRequest){
                             
                         
                            
@@ -112,8 +112,8 @@ struct PositiveActionOnUserMenu: View {
                         //TODO: might need to adjust this
                         .frame(width: .infinity, height: 50)
                         .tabViewStyle(.page(indexDisplayMode: .never))
-                        .opacity((shouldRespondToFriendRequest ?? false) && !(friendsAlready ?? false) ? 1: 0)
-                        .opacity(friendsAlready ?? false ? 0: 1)
+                        .opacity((user.openFriendRequest ?? false) && !(user.areFriends ?? false) ? 1: 0)
+                        .opacity(user.areFriends ?? false ? 0: 1)
                         
                         
                         
@@ -128,24 +128,24 @@ struct PositiveActionOnUserMenu: View {
                                 
                                 ZStack{
                                     
-                                    Image(systemName: "nosign").opacity(sentFriendRequest ?? false ? 1: 0)
-                                    Image(systemName: "person.fill.badge.plus").opacity(sentFriendRequest ?? false ? 0: 1)
+                                    Image(systemName: "nosign").opacity(user.requested ?? false ? 1: 0)
+                                    Image(systemName: "person.fill.badge.plus").opacity(user.requested ?? false ? 0: 1)
                                     
                                 }
                                
                                 
-                                Text(sentFriendRequest ?? false ? "Cancel Friend Request" : "Add Friend")
+                            Text(user.requested ?? false ? "Cancel Friend Request" : "Add Friend")
                                      .bold()
                                     .foregroundColor(Color.primary.opacity(0.4))
                             
                         }
-                        .opacity((shouldRespondToFriendRequest ?? false) ? 0: 1)
-                        .opacity(friendsAlready ?? false ? 0: 1)
+                        .opacity((user.openFriendRequest ?? false) ? 0: 1)
+                        .opacity(user.areFriends ?? false ? 0: 1)
                     
                         
                         
                         // If they are already friends only show them options to remove friend
-                        TabView(selection: $friendsAlready){
+                        TabView(selection: $user.areFriends ){
                             
                         
                            
@@ -211,7 +211,7 @@ struct PositiveActionOnUserMenu: View {
                         //TODO: might need to adjust this
                         .frame(width: .infinity, height: 50)
                         .tabViewStyle(.page(indexDisplayMode: .never))
-                        .opacity((friendsAlready ?? false) ? 1: 0 )
+                        .opacity((user.areFriends ?? false) ? 1: 0 )
                         
                         
                         
@@ -265,10 +265,10 @@ struct PositiveActionOnUserMenu: View {
                                  print("trying to wink at interest")
                                  
                               
-                                 if let id = user?.id{
+                                 if let id = user.id{
                                      print("Winking at ... \(id)")
                                      
-                                     if winkstatus ?? false  {
+                                     if user.winkedTo ?? false  {
                                          // unwink
                                          Account().unwink(at: id)
                                      } else {
@@ -283,17 +283,17 @@ struct PositiveActionOnUserMenu: View {
                                  
                                  ZStack{
                                      
-                                     Text((!(winkstatus ?? false)) ? "😉 Wink": "😬 Unwink" )
+                                     Text((!(user.winkedTo ?? false)) ? "😉 Wink": "😬 Unwink" )
                                           .bold() // NEW BLUE
                                          //.foregroundColor(Color.primary.opacity(0.4))
-                                          .foregroundColor(!(winkstatus ?? false) ? .blue.opacity(0.7) : .red.opacity(0.7))
-                                         .opacity(!canWinkBack ? 1: 0)
+                                          .foregroundColor(!(user.winkedTo ?? false) ? .blue.opacity(0.7) : .red.opacity(0.7))
+                                          .opacity(!(user.winkedAtMe ?? false) ? 1: 0)
                                      
-                                     Text((!(winkstatus ?? false)) ? "😉 Wink Back": "😬 Unwink" )
+                                     Text((!(user.winkedTo ?? false)) ? "😉 Wink Back": "😬 Unwink" )
                                          .bold() // NEW BLUE
                                         // .foregroundColor(Color.primary.opacity(0.4))
-                                          .foregroundColor(!(winkstatus ?? false) ? .blue.opacity(0.7) : .red.opacity(0.7))
-                                         .opacity(canWinkBack ? 1: 0)
+                                         .foregroundColor(!(user.winkedTo ?? false) ? .blue.opacity(0.7) : .red.opacity(0.7))
+                                         .opacity(user.winkedAtMe ?? false ? 1: 0)
                                  }
                                
                                  
@@ -378,7 +378,7 @@ struct PositiveActionOnUserMenu: View {
         .foregroundStyle(.ultraThinMaterial)
         .cornerRadius(20)
         .padding()
-     .onChange(of: user, perform: { user_selected in
+    /* .onChange(of: user, perform: { user_selected in
             
             guard let me = Auth.auth().currentUser?.uid , let them = user_selected?.id else  {
                 
@@ -485,7 +485,7 @@ struct PositiveActionOnUserMenu: View {
                  canWinkBack = false
              }
          })
-        })
+        }) */
         
     }
     
@@ -494,9 +494,9 @@ struct PositiveActionOnUserMenu: View {
     /// Sends request to database to add a friend or cancel friend request
     func addFriend()  {
       
-        guard !(sentFriendRequest ?? false) else {
+        guard !(user.requested ?? false) else {
             
-            account.cancelFriendRequest(to: user?.id) { error in
+            Account.shared.cancelFriendRequest(to: user.id) { error in
                 
                 print("The error after cancelling friend request is \(error)")
             }
@@ -504,7 +504,7 @@ struct PositiveActionOnUserMenu: View {
             return
         }
         
-        account.sendFriendRequest(to: user?.id) { error in
+        Account.shared.sendFriendRequest(to: user.id) { error in
             
             print("The error after sending friend request is \(error)")
         }
@@ -513,7 +513,7 @@ struct PositiveActionOnUserMenu: View {
     
     func acceptFriendRequest()  {
         
-        account.acceptFriendRequest(from: user?.id) { error in
+        Account.shared.acceptFriendRequest(from: user.id) { error in
             print("Accepting Friend Request with error \(error)")
         }
     }
@@ -521,7 +521,7 @@ struct PositiveActionOnUserMenu: View {
     
     func rejectFriendRequest()  {
         
-        account.acceptFriendRequest(from: user?.id) { error in
+        Account.shared.acceptFriendRequest(from: user.id) { error in
             print("Accepting Friend Request with error \(error)")
         }
         
@@ -529,21 +529,21 @@ struct PositiveActionOnUserMenu: View {
     
     func removeFriend(){
         
-        account.removeFriend(removedUserId: user?.id) { error in
+        Account.shared.removeFriend(removedUserId: user.id) { error in
             
             print("Removing Friend  with error \(error)")
         }
     }
 }
 
-/*
+
 
 struct PositiveActionOnUserMenu_Previews: PreviewProvider {
     
     @State var canWinkBack: Bool = true
     static var previews: some View {
-        PositiveActionOnUserMenu( account: Account(), canWinkBack: .constant(true)).preferredColorScheme(.dark)
+        PositiveActionOnUserMenu( user: .constant(AmareUser())).preferredColorScheme(.dark)
     }
 }
 
- */
+ 

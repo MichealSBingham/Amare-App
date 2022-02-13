@@ -42,6 +42,21 @@ public struct AmareUser: Codable, Equatable{
     var _sexScore: Double = 0
     var _loveScore: Double = 0
     
+    /// Whether or not the current signed in user is friends with this user. 
+    var areFriends: Bool = false
+    
+    /// Whether or not a friend request was sent to this user or not 
+    var requested: Bool?
+    
+    /// Whether or not the singed in user should respond to a friend request from this user 
+    var openFriendRequest: Bool = false 
+    
+    /// Whether or not the signed in user (me) winked to this user
+    var winkedTo: Bool?
+    
+    /// Whether or not the user winked at me (the signed in user) 
+    var winkedAtMe: Bool?
+    
     enum CodingKeys: String, CodingKey {
         case name
         case hometown
