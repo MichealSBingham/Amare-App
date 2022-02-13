@@ -46,7 +46,7 @@ struct ProfilePopup: View {
     @State var sex = RingProgress.percent(0)
     
     // Indicates whether the user has winked at the user
-    @State var hasWinked: Bool = false // set to false for prod
+   // @State var hasWinked: Bool = false // set to false for prod
     
     @State var counterForConfetti: Int = 0
     
@@ -241,6 +241,35 @@ struct ProfilePopup: View {
             
                 exitInfoOnPlacement = false 
             
+        }
+        .onChange(of: user.winkedAtMe) { didWinkAtMe in
+            
+            if didWinkAtMe ?? false  { withAnimation {
+                
+                AmareApp().delay(3) {
+                    
+                    counterForConfetti += 1
+                }
+                
+            } } else {
+                
+                withAnimation {
+                    counterForConfetti = 0
+                }
+            }
+        }
+        .onChange(of: user.winkedTo) { iWinkedTo in
+            if iWinkedTo ?? false  && user.winkedAtMe ?? false  {
+                withAnimation {
+                    
+                    AmareApp().delay(3) {
+                        
+                        counterForConfetti += 1
+                    }
+                    
+                    
+                }
+            }
         }
         
         /*
@@ -512,7 +541,7 @@ struct ProfilePopup: View {
                             .frame(maxWidth : .infinity, alignment: .center)
                             .foregroundColor(Color.primary.opacity(0.4))
                             .modifier(FadeModifier(control: showProfilePopup))
-                            .opacity(hasWinked ? 0: 1)
+                            .opacity(user.winkedAtMe ?? false ? 0: 1)
                             .multilineTextAlignment(.center)
     }
     
@@ -531,17 +560,19 @@ struct ProfilePopup: View {
                
                     VStack{
                         Text("😉").padding(.bottom, 1)
+                            .animation(.easeInOut)
                         Text("\(user.name ?? sampleNames.randomElement()!) winked at you!")
+                            .animation(.easeInOut)
                     }
                 
                 
                 
-            }.opacity(hasWinked ? 1: 0 )
+            }.opacity( counterForConfetti > 0  ? 1: 0 )
             .zIndex(1)
             
           //  ConfettiCannon(counter: $counterForConfetti)
-           /* ConfettiCannon(counter: $counterForConfetti, num: 150, confettis: [.text("😉")], openingAngle: .degrees(0), closingAngle: .degrees(360), radius: 200)
-            */
+            ConfettiCannon(counter: $counterForConfetti, num: 150, confettis: [.text("😉")], openingAngle: .degrees(0), closingAngle: .degrees(360), radius: 200)
+            
             
             
             
