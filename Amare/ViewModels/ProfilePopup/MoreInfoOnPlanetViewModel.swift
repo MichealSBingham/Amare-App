@@ -13,6 +13,8 @@ import Firebase
 
 class MoreInfoOnPlanetViewModel: ObservableObject{
     
+    static let shared: MoreInfoOnPlanetViewModel = MoreInfoOnPlanetViewModel()
+    
       @Published var friendsWithThisPlacement =  [AmareUser]()
       @Published var notablePeopleWithThisPlacement =  [AmareUser]()
     

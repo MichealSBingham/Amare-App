@@ -11,6 +11,8 @@ import Combine
 
 struct MoreInfoOnPlanet: View {
     
+    @EnvironmentObject var viewModel: MoreInfoOnPlanetViewModel
+    
     @State var planet: Planet?
     var chart: NatalChart?
     
@@ -22,8 +24,8 @@ struct MoreInfoOnPlanet: View {
     /// State to dismiss view or not  
     @Binding var exit: Bool
     
-    @Binding var friendsWithPlacement :  [AmareUser]
-    @Binding var notablesWithPlacement : [AmareUser]
+   // @Binding var friendsWithPlacement :  [AmareUser]
+   // @Binding var notablesWithPlacement : [AmareUser]
     
     //@State var _friendsWithPlacement =  [AmareUser]()
     //@State var _notablesWithPlacement = [AmareUser]()
@@ -137,7 +139,7 @@ struct MoreInfoOnPlanet: View {
                         
                         Spacer()
                         
-                        notablePeopleWithPlacementViews()
+                      //  notablePeopleWithPlacementViews()
                    
                         
                     }.padding(-10)
@@ -480,7 +482,7 @@ struct MoreInfoOnPlanet: View {
             
                 
         })
-        .onChange(of: friendsWithPlacement, perform: { friends in
+      /*  .onChange(of: friendsWithPlacement, perform: { friends in
             
             print("JUST CHANGED friends \(friends)")
             /*
@@ -497,7 +499,7 @@ struct MoreInfoOnPlanet: View {
                 print("Fail safe : \(fail_safe_viewModel.friendsWithThisPlacement)")
             } */
         })
-        .onChange(of: notablesWithPlacement, perform: { notables in
+       .onChange(of: notablesWithPlacement, perform: { notables in
             
             //if notables != [] { _notables = notables}
             /*
@@ -512,7 +514,7 @@ struct MoreInfoOnPlanet: View {
                 
                 print("Fail safe : \(fail_safe_viewModel.notablePeopleWithThisPlacement)")
             } */
-        })
+        }) */
       /*  .onChange(of: planet, perform: { planet in
             
             print("Just changed planet its... \(planet)")
@@ -789,6 +791,7 @@ struct MoreInfoOnPlanet: View {
     }
     
     
+    /*
     func notablePeopleWithPlacementViews() -> some View {
         
         
@@ -800,15 +803,19 @@ struct MoreInfoOnPlanet: View {
             
             ZStack {
                 
-                if !notablesWithPlacement.isEmpty{
+                if !viewModel.notablesWithPlacement.isEmpty{
                     
                     
-                    ForEach($notablesWithPlacement.indices, id: \.self) {
+                    ForEach($viewModel.notablesWithPlacement.indices, id: \.self) {
                          index in
                         
-                        let offset: CGFloat = CGFloat(-10-(5*index))
+                        let i: Double = 5*index
+                        let o: Double = -10 - i
+                        let offset: CGFloat = CGFloat(o)
                         
-                        ImageFromUrl(notablesWithPlacement[index].profile_image_url ?? peopleImages.randomElement()!)
+                        let image: String? = viewModel.notablesWithPlacement[index].profile_image_url
+                        
+                        ImageFromUrl(image ?? peopleImages.randomElement()!)
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 50, height: 50)
                             .clipShape(Circle())
@@ -839,6 +846,7 @@ struct MoreInfoOnPlanet: View {
         
         
     }
+    */
     
     func friendsWithPlacementViews() -> some View {
         
@@ -849,15 +857,15 @@ struct MoreInfoOnPlanet: View {
              ZStack {
                  
 
-                 if !friendsWithPlacement.isEmpty
+                 if !viewModel.friendsWithThisPlacement.isEmpty
                  {
                      
-                     ForEach($friendsWithPlacement.indices, id: \.self) {
+                     ForEach($viewModel.friendsWithThisPlacement.indices, id: \.self) {
                           index in
                          
                          let offset: CGFloat = CGFloat(10+(5*index))
                          
-                         ImageFromUrl(friendsWithPlacement[index].profile_image_url ?? peopleImages.randomElement()!)
+                         ImageFromUrl(viewModel.friendsWithThisPlacement[index].profile_image_url ?? peopleImages.randomElement()!)
                              .aspectRatio(contentMode: .fit)
                              .frame(width: 50, height: 50)
                              .clipShape(Circle())
@@ -1009,7 +1017,7 @@ struct MoreInfoOnPlanet_Previews: PreviewProvider {
         
         var p  = Planet(name: .Moon, angle: 21.3, element: .water, onCusp: false, retrograde: false, sign: .Scorpio, cusp: nil, speed: 23)
         
-        MoreInfoOnPlanet(planet: p, exit: .constant(false), friendsWithPlacement: .constant([]), notablesWithPlacement: .constant([])).preferredColorScheme(.dark)
+        MoreInfoOnPlanet(planet: p, exit: .constant(false)).preferredColorScheme(.dark)
     }
 }
 

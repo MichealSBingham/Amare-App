@@ -240,7 +240,13 @@ struct ProfilePopup: View {
         }
         .onChange(of: placementToDisplay) { newValue in
             
-                exitInfoOnPlacement = false 
+            // This is called when you click on a placement .. not when you scroll through them.
+                exitInfoOnPlacement = false
+            
+            print("***CHANGED PLACEMENT TO DISPLAY \(newValue)")
+            if let placement = placementToDisplay{
+                viewModelForPlanetView.findPeople(with: placement)
+            }
             
         }
         .onChange(of: user.winkedAtMe) { didWinkAtMe in
@@ -271,6 +277,12 @@ struct ProfilePopup: View {
                     
                 }
             }
+        }
+        .onChange(of: selectedBody) { body in
+             
+            print("***JUST changed selected body ... it is \(body)")
+            // works on first click
+            
         }
         
         /*
@@ -338,13 +350,15 @@ struct ProfilePopup: View {
                                   
                                  
                                    
-                                    MoreInfoOnPlanet(planet: planet, exit: $exitInfoOnPlacement,
-                                                     friendsWithPlacement: $viewModelForPlanetView.friendsWithThisPlacement,
-                                                     notablesWithPlacement: $viewModelForPlanetView.notablePeopleWithThisPlacement)
+                                    MoreInfoOnPlanet(planet: planet, exit: $exitInfoOnPlacement)
+                                        .environmentObject(viewModelForPlanetView)
+                                    
+                                    
                                         .onAppear(perform: {
                                             
-                                        print("ON APPEAR: from profile popup")
-                                             viewModelForPlanetView.findPeople(with: planet)
+                                            
+                                        print("***CALLED IN FOREACH ... the planet is \(planet)")
+                                            // viewModelForPlanetView.findPeople(with: planet)
                                         })
                                       //  .opacity(exitInfoOnPlacement ? 0: 1)
                                         
@@ -354,8 +368,8 @@ struct ProfilePopup: View {
                                      
                             
                                         
-                                    MoreInfoOnPlanet(planet: Account.shared.data?.natal_chart?.planets.get(planet: planet.name), exit: $exitInfoOnPlacement, friendsWithPlacement: $viewModelForPlanetView.friendsWithThisPlacement ,
-                                        notablesWithPlacement: $viewModelForPlanetView.notablePeopleWithThisPlacement)
+                                    MoreInfoOnPlanet(planet: Account.shared.data?.natal_chart?.planets.get(planet: planet.name), exit: $exitInfoOnPlacement)
+                                        .environmentObject(viewModelForPlanetView)
                                       //  .opacity(exitInfoOnPlacement ? 0: 1)
                                            
                                             .padding()
