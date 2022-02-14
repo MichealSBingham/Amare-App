@@ -243,6 +243,7 @@ struct PositiveActionOnUserMenu: View {
                             .foregroundColor(Color.primary.opacity(0.4))
                     }.padding()
                 }
+               // .border(.orange)
 
                 
                 Divider()
@@ -307,6 +308,7 @@ struct PositiveActionOnUserMenu: View {
                                  
                                  
                              }.padding()
+                                // .border(.blue)
                                  
                                 
                              
@@ -347,6 +349,8 @@ struct PositiveActionOnUserMenu: View {
                          //TODO: might need to adjust this
                          .frame(width: .infinity, height: 50)
                              .tabViewStyle(.page(indexDisplayMode: .never))
+                            // .border(.green)
+                             
                              
                               
                          HStack{
@@ -387,114 +391,6 @@ struct PositiveActionOnUserMenu: View {
         .foregroundStyle(.ultraThinMaterial)
         .cornerRadius(20)
         .padding()
-    /* .onChange(of: user, perform: { user_selected in
-            
-            guard let me = Auth.auth().currentUser?.uid , let them = user_selected?.id else  {
-                
-                print("Could not get me: \(Auth.auth().currentUser?.uid) or them: \(user_selected?.id) ")
-                
-                return
-            }
-         
-         
-            //Checking If we are already friends
-         
-         print("Checking if we are already friends")
-         account.db?.collection("friends").document(me).collection("myFriends").document(them).addSnapshotListener({ snapshot, error in
-             
-             if snapshot?.exists ?? false {
-                 // friends already
-                 
-                 withAnimation {
-                     friendsAlready = true
-                 }
-             } else {
-                 
-                 withAnimation {
-                     friendsAlready = false
-                 }
-                
-             }
-         })
-         
-         
-         // Listener at this user's friend requests, check if I sent a friend to this user
-        print("Listening for friend requests")
-         account.db?.collection("friends").document(them).collection("requests").document(me).addSnapshotListener({ snapshot, error in
-             
-             if snapshot?.exists ?? false {
-                 // There is a friend request there that I sent to this user
-                 let didAccept: Bool  = snapshot?.data()?["accepted"] as? Bool ?? false
-                 withAnimation {
-                     sentFriendRequest = !didAccept
-                 }
-                 
-                 
-             }  else {
-                 // there is most definitely no friend pending
-                 withAnimation {
-                     sentFriendRequest = false
-                 }
-                
-             }
-         })
-         
-         // Checking if friend requests were sent to me
-         print("Listening for friend requests that i hsould respond to")
-          account.db?.collection("friends").document(me).collection("requests").document(them).addSnapshotListener({ snapshot, error in
-              
-              if snapshot?.exists ?? false {
-                  // They sent me (current signed in user) a friend request
-                 
-                  withAnimation {
-                      shouldRespondToFriendRequest = true
-                  }
-                  
-                  
-              }  else {
-                  // They did not send me a freind request
-                  withAnimation {
-                      shouldRespondToFriendRequest = false
-                  }
-                 
-              }
-          })
-         
-         
-         
-            print("LISTENING FOR WINKS")
-            account.db?.collection("winks").document(them).collection("people_who_winked").document(me).addSnapshotListener({ snapshot, error in
-                
-                print("*** THe snapshot is \(snapshot) with error \(error)")
-                
-                if snapshot?.exists ?? false {
-                    withAnimation {
-                        
-                        winkstatus = true
-                    }
-                   
-                } else {
-                    winkstatus = false
-                }
-            })
-         
-         
-         // See if the other user winked back
-         account.db?.collection("winks").document(me).collection("people_who_winked").document(them).addSnapshotListener({ snapshot, error in
-             
-             print("*** THe snapshot is \(snapshot) with error \(error)")
-             
-             if snapshot?.exists ?? false {
-                 withAnimation {
-                     
-                     canWinkBack = true
-                 }
-                
-             } else {
-                 canWinkBack = false
-             }
-         })
-        }) */
         
     }
     

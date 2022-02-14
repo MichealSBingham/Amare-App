@@ -178,7 +178,7 @@ struct ChartView: View {
                 VStack{
                     
                     Spacer()
-                    MoreInfoOnPlanet(planet: selectedPlanet, chart: chart, exit: $showme)
+                    MoreInfoOnPlanet(planet: selectedPlanet, chart: chart, exit: $showme, friendsWithPlacement: .constant([]), notablesWithPlacement: .constant([]))
                     //  .rotationEffect(.degrees(-1*alpha))
                         .opacity(  selectedPlanet != nil ? 1  : 0 )
                         .padding()

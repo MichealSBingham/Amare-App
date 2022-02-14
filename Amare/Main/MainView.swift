@@ -141,7 +141,7 @@ struct MainView: View {
         /// We ensure that the data has complete sign up data otherwise we sign them out. This handles the case whre they begin signing up but for some reason they never finish. We don't want to show them the main view.
      
         
-        mainViewModel.subscribeToUserDataChanges()
+            //mainViewModel.subscribeToUserDataChanges()
         account.listenOnlyForSignOut()
       
         

@@ -56,6 +56,7 @@ struct ProfilePopup: View {
     
     @State var selectedBody: Int = 6
     
+   @ObservedObject var viewModelForPlanetView = MoreInfoOnPlanetViewModel()
     
     var body: some View {
        
@@ -314,7 +315,10 @@ struct ProfilePopup: View {
             })
         })
          */
+            
+            
         
+            
             if user.natal_chart?.planets.count ?? 0 > 0 {
                 
                 
@@ -327,15 +331,21 @@ struct ProfilePopup: View {
                         
                     ForEach(user.natal_chart?.planets ?? []){ planet in
                             
-                           
                           
                                 
                                 VTabView{
                                     
                                   
                                  
-                                        
-                                    MoreInfoOnPlanet(planet: planet, exit: $exitInfoOnPlacement)
+                                   
+                                    MoreInfoOnPlanet(planet: planet, exit: $exitInfoOnPlacement,
+                                                     friendsWithPlacement: $viewModelForPlanetView.friendsWithThisPlacement,
+                                                     notablesWithPlacement: $viewModelForPlanetView.notablePeopleWithThisPlacement)
+                                        .onAppear(perform: {
+                                            
+                                        print("ON APPEAR: from profile popup")
+                                             viewModelForPlanetView.findPeople(with: planet)
+                                        })
                                       //  .opacity(exitInfoOnPlacement ? 0: 1)
                                         
 
@@ -344,7 +354,8 @@ struct ProfilePopup: View {
                                      
                             
                                         
-                                    MoreInfoOnPlanet(planet: Account.shared.data?.natal_chart?.planets.get(planet: planet.name), exit: $exitInfoOnPlacement)
+                                    MoreInfoOnPlanet(planet: Account.shared.data?.natal_chart?.planets.get(planet: planet.name), exit: $exitInfoOnPlacement, friendsWithPlacement: $viewModelForPlanetView.friendsWithThisPlacement ,
+                                        notablesWithPlacement: $viewModelForPlanetView.notablePeopleWithThisPlacement)
                                       //  .opacity(exitInfoOnPlacement ? 0: 1)
                                            
                                             .padding()
@@ -389,9 +400,13 @@ struct ProfilePopup: View {
                 .opacity(placementToDisplay == nil ? 0 : 1 )
                 .opacity(exitInfoOnPlacement ? 0: 1)
                 .animation(.easeInOut)
+                .onDisappear {
+                    //viewModelForPlanetView.stopLookingForPeopleWithAspect()
+                }
+              
                 //.border(.orange)
             }
-            
+          
             
     
         }
