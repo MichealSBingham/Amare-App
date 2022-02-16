@@ -127,7 +127,7 @@ class UserDataModel: ObservableObject{
         if let id = id{
             
             natalChartListener  =  db.collection("users").document(id).collection("public").document("natal_chart")
-                .addSnapshotListener { snapshot, error in
+                .addSnapshotListener {   snapshot, error in
                 
                 
                 
@@ -214,6 +214,29 @@ class UserDataModel: ObservableObject{
                         }
                         
                         self.userData.natal_chart = data
+                        
+                        
+                        
+     //***888************     //   // Find friends with same placement.......TODO: make more efficient
+                        
+                        guard self.userData.natal_chart?.planets != nil else {return}
+                        
+                                
+                        for p in data.planets{
+                            
+                            self.findPeople(with: p)
+                        }
+                        /*
+                        for i in 0 ..< self.userData.natal_chart!.planets.count {
+                            print("[[[finding people for .. \(self.userData.natal_chart!.planets[i])]]")
+                            self.findPeople(with: &self.userData.natal_chart!.planets[i])
+                        }
+                        */
+                        
+                        // /// / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / /// / // /
+                        
+                        
+                        
                         
                         completion?(nil, data)
                         
@@ -360,5 +383,100 @@ class UserDataModel: ObservableObject{
 
     }
     
+    
+    /// Finds other users with the same placement as given below.
+    ///  - user: defaulty the current signed in user. For instance if you change this to 'david_uid' it'll be david's friends with this particular placement
+    private func findPeople(with placement:  Planet, of user: String? = Auth.auth().currentUser?.uid)  {
+        
+        print("Finding people with placemenet \(placement)")
+        // find all notable people with this placement
+                                         // (Planet)  | | (Sign) | |
+        
+        
+        /*notablePlacementsListener =*/ db.collection("all_placements")
+            .document(placement.name.rawValue)
+            .collection(placement.sign.rawValue)
+            .addSnapshotListener { querySnapshot, error in
+                
+                
+                guard let documents = querySnapshot?.documents else {  print("No documents with placement"); return }
+                
+                var people: [AmareUser] = documents.map({ (queryDocumentSnapshot) -> AmareUser in
+                    
+                    let data = queryDocumentSnapshot.data()
+                    
+                    print("Found user with placement: \(data)")
+                    
+                    let uid = queryDocumentSnapshot.documentID
+                    
+                    
+                    
+                    
+                    return AmareUser(id: uid)
+                    
+                    
+                })
+                
+                guard !people.isEmpty else {return }
+                //self.notablePeopleWithThisPlacement = people
+                //placement.notablesWithThisPlacement = people
+                
+                if let i = self.userData.natal_chart?.planets.firstIndex(where: { $0.name == placement.name}) {
+                    self.userData.natal_chart?.planets[i].notablesWithThisPlacement = people
+                    
+                }
+                
+                
+            }
+        
+        
+        
+        if let id = user {
+            
+            /*friendsWithPlacementsListener =*/    db.collection("friends")
+                .document(id)
+                .collection(placement.name.rawValue)
+                .document("doc")
+                .collection(placement.sign.rawValue)
+                .addSnapshotListener { querySnapshot, error in
+                    
+                    
+                    guard let documents = querySnapshot?.documents else {  print("No documents with placement"); return }
+                    
+                    var people: [AmareUser] = documents.map({ (queryDocumentSnapshot) -> AmareUser in
+                        
+                        let data = queryDocumentSnapshot.data()
+                        
+                        print("Found user with placement: \(data)")
+                        
+                        let uid = queryDocumentSnapshot.documentID
+                        
+                        
+                        
+                        
+                        return AmareUser(id: uid)
+                        
+                        
+                    })
+                    
+                    guard !people.isEmpty else {return }
+                    
+
+                   // placement.friendsWithThisPlacement = people
+                    if let i = self.userData.natal_chart?.planets.firstIndex(where: { $0.name == placement.name}) {
+                        self.userData.natal_chart?.planets[i].friendsWithThisPlacement = people
+                        
+                    }
+                    
+                    
+
+                }
+        }
+        
+        
+        
+            //.query()
+            
+    }
     
 }

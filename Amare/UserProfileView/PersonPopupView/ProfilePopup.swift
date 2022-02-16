@@ -56,7 +56,7 @@ struct ProfilePopup: View {
     
     @State var selectedBody: Int = 6
     
-   @ObservedObject var viewModelForPlanetView = MoreInfoOnPlanetViewModel()
+   //@ObservedObject var viewModelForPlanetView = MoreInfoOnPlanetViewModel()
     
     var body: some View {
        
@@ -243,11 +243,12 @@ struct ProfilePopup: View {
             // This is called when you click on a placement .. not when you scroll through them.
                 exitInfoOnPlacement = false
             
+            /*
             print("***CHANGED PLACEMENT TO DISPLAY \(newValue)")
             if let placement = placementToDisplay{
                 viewModelForPlanetView.findPeople(with: placement)
             }
-            
+            */
         }
         .onChange(of: user.winkedAtMe) { didWinkAtMe in
             
@@ -341,7 +342,7 @@ struct ProfilePopup: View {
                     
              
                         
-                    ForEach(user.natal_chart?.planets ?? []){ planet in
+                    ForEach(user.natal_chart?.planets ?? [] ){ planet in
                             
                           
                                 
@@ -351,7 +352,7 @@ struct ProfilePopup: View {
                                  
                                    
                                     MoreInfoOnPlanet(planet: planet, exit: $exitInfoOnPlacement)
-                                        .environmentObject(viewModelForPlanetView)
+                                       
                                     
                                     
                                         .onAppear(perform: {
@@ -369,8 +370,7 @@ struct ProfilePopup: View {
                             
                                         
                                     MoreInfoOnPlanet(planet: Account.shared.data?.natal_chart?.planets.get(planet: planet.name), exit: $exitInfoOnPlacement)
-                                        .environmentObject(viewModelForPlanetView)
-                                      //  .opacity(exitInfoOnPlacement ? 0: 1)
+                                                                              //  .opacity(exitInfoOnPlacement ? 0: 1)
                                            
                                             .padding()
                         

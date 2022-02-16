@@ -41,6 +41,11 @@ struct Planet: Codable, Identifiable, Equatable, Hashable{
     /// This is not data that comes from the database; rather, WE set this variable so that we know what color to color `MainPlacementView`
     var _aspectThatExists: AspectType? = nil
     
+    /// Friends that will have this similar placement - Note: this won't automatically be pulled from database usually unless it's loading the profile entirely 
+    var friendsWithThisPlacement: [AmareUser] = []
+    /// Notable people with similar placmenet. - Note: this won't automatically be pulled from database usually unless it's loading the profile entirely
+    var notablesWithThisPlacement: [AmareUser] = []
+    
     enum CodingKeys: String, CodingKey {
         
         case name

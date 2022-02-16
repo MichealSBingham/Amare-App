@@ -857,15 +857,15 @@ struct MoreInfoOnPlanet: View {
              ZStack {
                  
 
-                 if !viewModel.friendsWithThisPlacement.isEmpty
+                 if !(planet?.friendsWithThisPlacement.isEmpty ?? true)
                  {
                      
-                     ForEach($viewModel.friendsWithThisPlacement.indices, id: \.self) {
+                     ForEach(planet!.friendsWithThisPlacement.indices, id: \.self) {
                           index in
                          
                          let offset: CGFloat = CGFloat(10+(5*index))
                          
-                         ImageFromUrl(viewModel.friendsWithThisPlacement[index].profile_image_url ?? peopleImages.randomElement()!)
+                         ImageFromUrl(planet!.friendsWithThisPlacement[index].profile_image_url ?? peopleImages.randomElement()!)
                              .aspectRatio(contentMode: .fit)
                              .frame(width: 50, height: 50)
                              .clipShape(Circle())
