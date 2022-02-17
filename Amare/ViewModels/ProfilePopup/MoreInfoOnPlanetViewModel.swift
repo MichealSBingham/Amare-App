@@ -13,14 +13,11 @@ import Firebase
 
 class MoreInfoOnPlanetViewModel: ObservableObject{
     
-    static let shared: MoreInfoOnPlanetViewModel = MoreInfoOnPlanetViewModel()
     
       @Published var friendsWithThisPlacement =  [AmareUser]()
       @Published var notablePeopleWithThisPlacement =  [AmareUser]()
     
-    //@Published var friends =  [String: [AmareUser]]()
-   // @Published var notables = [String: [AmareUser]]()
-    
+
     
     private var notablePlacementsListener: ListenerRegistration?
     private var friendsWithPlacementsListener: ListenerRegistration?
@@ -71,7 +68,7 @@ class MoreInfoOnPlanetViewModel: ObservableObject{
                     
                 })
                 
-                guard !people.isEmpty else {return }
+                //guard !people.isEmpty else {return }
                 self.notablePeopleWithThisPlacement = people
             }
         
@@ -79,7 +76,7 @@ class MoreInfoOnPlanetViewModel: ObservableObject{
         
         if let id = user {
             
-            friendsWithPlacementsListener =    db.collection("friends")
+            /*friendsWithPlacementsListener =*/    db.collection("friends")
                 .document(id)
                 .collection(placement.name.rawValue)
                 .document("doc")
@@ -93,7 +90,6 @@ class MoreInfoOnPlanetViewModel: ObservableObject{
                         
                         let data = queryDocumentSnapshot.data()
                         
-                        print("Found user with placement: \(data)")
                         
                         let uid = queryDocumentSnapshot.documentID
                         
@@ -105,7 +101,10 @@ class MoreInfoOnPlanetViewModel: ObservableObject{
                         
                     })
                     
-                    guard !people.isEmpty else {return }
+                   // guard !people.isEmpty else {return }
+                    
+                    print("Found \(people.count) users with placement: \(placement.name.rawValue)")
+
 
                     self.friendsWithThisPlacement = people
                 }

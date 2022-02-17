@@ -11,7 +11,7 @@ import Combine
 
 struct MoreInfoOnPlanet: View {
     
-    @EnvironmentObject var viewModel: MoreInfoOnPlanetViewModel
+    @StateObject var viewModel: MoreInfoOnPlanetViewModel = MoreInfoOnPlanetViewModel()
     
     @State var planet: Planet?
     var chart: NatalChart?
@@ -27,8 +27,8 @@ struct MoreInfoOnPlanet: View {
    // @Binding var friendsWithPlacement :  [AmareUser]
    // @Binding var notablesWithPlacement : [AmareUser]
     
-    //@State var _friendsWithPlacement =  [AmareUser]()
-    //@State var _notablesWithPlacement = [AmareUser]()
+   // @State var friendsWithPlacement =  [AmareUser]()
+   // @State var notablesWithPlacement = [AmareUser]()
 
     
     // For the fade animation of the keywords of what it rules over
@@ -89,6 +89,9 @@ struct MoreInfoOnPlanet: View {
                         
                             
                             planetName()
+                            .onAppear {
+                                viewModel.findPeople(with: planet!)
+                            }
                             
                            planetImage()
                             
@@ -857,15 +860,15 @@ struct MoreInfoOnPlanet: View {
              ZStack {
                  
 
-                 if !(planet?.friendsWithThisPlacement.isEmpty ?? true)
-                 {
+                 //if !(viewModel.friendsWithThisPlacement.isEmpty ?? true)
+                // {
                      
-                     ForEach(planet!.friendsWithThisPlacement.indices, id: \.self) {
+                     ForEach($viewModel.friendsWithThisPlacement.indices, id: \.self) {
                           index in
                          
                          let offset: CGFloat = CGFloat(10+(5*index))
                          
-                         ImageFromUrl(planet!.friendsWithThisPlacement[index].profile_image_url ?? peopleImages.randomElement()!)
+                         ImageFromUrl(viewModel.friendsWithThisPlacement[index].profile_image_url ?? peopleImages.randomElement()!)
                              .aspectRatio(contentMode: .fit)
                              .frame(width: 50, height: 50)
                              .clipShape(Circle())
@@ -876,7 +879,7 @@ struct MoreInfoOnPlanet: View {
                          
                      }
                      
-                 }
+               //  }
                 
                  
                  
@@ -884,7 +887,7 @@ struct MoreInfoOnPlanet: View {
                  
                  
                  
-        
+                 Text("\(viewModel.friendsWithThisPlacement.count)")
    
                  
              }
