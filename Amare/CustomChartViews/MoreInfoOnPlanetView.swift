@@ -884,10 +884,7 @@ struct MoreInfoOnPlanet: View {
                  
                  
                  
-                 
-                 
-                 
-                 Text("\(viewModel.friendsWithThisPlacement.count)")
+                
    
                  
              }
