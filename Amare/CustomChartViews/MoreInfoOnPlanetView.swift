@@ -90,6 +90,7 @@ struct MoreInfoOnPlanet: View {
                             
                             planetName()
                             .onAppear {
+                                guard planet != nil else { return }
                                 viewModel.findPeople(with: planet!)
                             }
                             
