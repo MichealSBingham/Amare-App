@@ -26,6 +26,8 @@ struct Planet: Codable, Identifiable, Equatable, Hashable{
     var longer_placement_interpretation: String? = "Something else that describes this placement."
     let sign: ZodiacSign
     
+    let house: Int?  =  1
+    
     /// A cusp object will contain the cusp element and cusp sign the object is on
     let cusp: CuspObject?
     
@@ -53,7 +55,7 @@ struct Planet: Codable, Identifiable, Equatable, Hashable{
         case sign
         case cusp = "almost"
         case speed
-     
+        case house
      
     }
     

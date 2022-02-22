@@ -35,7 +35,7 @@ struct TestView: View {
                 viewModel.subscribeToNatalChart(for: Auth.auth().currentUser?.uid ?? "U214TAvtCsVUSxecjeoPl7cs8PW2")
                 */
                 
-                viewModel.load(user: "\(Auth.auth().currentUser?.uid ?? "")")
+                viewModel.load(user: Auth.auth().currentUser?.uid ?? "EazC8bIbkRVQHkPTNpnSeLzRldC3")
                
                 
                 AmareApp().delay(5) {

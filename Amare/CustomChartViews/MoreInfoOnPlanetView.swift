@@ -338,9 +338,10 @@ struct MoreInfoOnPlanet: View {
                     
                     
                     //TODO: Change for producntion
-                    var name_of_house = planet?.inWhatHouse(houses: chart?.houses ?? [])?.name() ?? /*"Unknown"*/ HouseNameOrd.allCases.randomElement()!.rawValue//
+                    //var name_of_house = planet?.inWhatHouse(houses: chart?.houses ?? [])?.name() ?? /*"Unknown"*/ HouseNameOrd.allCases.randomElement()!.rawValue//
                     
-                    Text("\(name_of_house) House")
+                    var name_of_house = planet?.house?.toHouseNameOrd()
+                    Text("\(name_of_house?.rawValue ?? "") House")
                     .font(.largeTitle)
                      .bold()
                     // .frame(maxWidth : .infinity, alignment: .center)
@@ -366,6 +367,7 @@ struct MoreInfoOnPlanet: View {
                     
                 }
                 .padding([.top, .bottom],-10)
+                // TODO: only show this if house is available (birthtiem)
                // .padding(.bottom, 5)
                 
                 //TODO: Need to give more info on this

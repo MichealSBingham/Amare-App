@@ -60,10 +60,10 @@ class MoreInfoOnPlanetViewModel: ObservableObject{
                     
                     let uid = queryDocumentSnapshot.documentID
                     
+                    let img = data["profile_image_url"] as? String ?? ""
                     
                     
-                    
-                    return AmareUser(id: uid)
+                    return AmareUser(id: uid, profile_image_url: img)
                     
                     
                 })
@@ -94,9 +94,9 @@ class MoreInfoOnPlanetViewModel: ObservableObject{
                         let uid = queryDocumentSnapshot.documentID
                         
                         
+                        let img = data["profile_image_url"] as? String ?? ""
                         
-                        
-                        return AmareUser(id: uid)
+                        return AmareUser(id: uid, profile_image_url: img)
                         
                         
                     })
