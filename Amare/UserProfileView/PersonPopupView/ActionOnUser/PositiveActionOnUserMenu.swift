@@ -26,7 +26,7 @@ struct PositiveActionOnUserMenu: View {
                     ZStack{
                         
                         // Only show this when you should respond to a friend request otherwise show the other view
-                        TabView(selection: $user.openFriendRequest){
+                        TabView(/*selection: $user.openFriendRequest*/){
                             
                         
                            
@@ -136,7 +136,7 @@ struct PositiveActionOnUserMenu: View {
                         
                         
                         // If they are already friends only show them options to remove friend
-                        TabView(selection: $user.areFriends ){
+                        TabView(/*selection: $user.areFriends */){
                             
                         
                            

@@ -7,10 +7,12 @@
 
 import SwiftUI
 import Firebase
+import PushNotifications
 
 struct TestView: View {
     
     @ObservedObject var viewModel: UserDataModel = UserDataModel()
+    let beamsClient = PushNotifications.shared
     
     
     var body: some View {
@@ -29,13 +31,20 @@ struct TestView: View {
             Button {
                 print("subscribed to : \(Auth.auth().currentUser?.uid) ")
                 
+                let me = Auth.auth().currentUser?.uid
+                
                 /*
                 viewModel.subscribeToUserDataChanges(for: Auth.auth().currentUser?.uid ?? "U214TAvtCsVUSxecjeoPl7cs8PW2")
                 
                 viewModel.subscribeToNatalChart(for: Auth.auth().currentUser?.uid ?? "U214TAvtCsVUSxecjeoPl7cs8PW2")
                 */
                 
-                viewModel.load(user: Auth.auth().currentUser?.uid ?? "EazC8bIbkRVQHkPTNpnSeLzRldC3")
+                let will = "hcrmKaxcEcc8CqY4B6Uh5VGG7Yc2"
+                let micheal = "u4uS1JxH2ZO8re6mchQUJ1q18Km2"
+                
+                let personWhoIsntMe = (me != will) ? will: micheal
+                
+                viewModel.load(user: personWhoIsntMe)
                
                 
                 AmareApp().delay(5) {
@@ -94,7 +103,13 @@ struct TestView: View {
             .opacity(0)
             .offset(x: 10, y: 20)
 
-        }
+        }.onAppear {
+            
+            if  let me = Auth.auth().currentUser?.uid{
+               try? beamsClient.addDeviceInterest(interest: me)
+
+            }
+    }
        
         
        

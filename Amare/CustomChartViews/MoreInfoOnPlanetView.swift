@@ -16,19 +16,14 @@ struct MoreInfoOnPlanet: View {
     @State var planet: Planet?
     var chart: NatalChart?
     
-    /// Fail safe copy of a view model that will reload placements in case it is empty
-    //@ObservedObject var fail_safe_viewModel: MoreInfoOnPlanetViewModel = MoreInfoOnPlanetViewModel()
+
 
   
     
     /// State to dismiss view or not  
     @Binding var exit: Bool
     
-   // @Binding var friendsWithPlacement :  [AmareUser]
-   // @Binding var notablesWithPlacement : [AmareUser]
-    
-   // @State var friendsWithPlacement =  [AmareUser]()
-   // @State var notablesWithPlacement = [AmareUser]()
+   
 
     
     // For the fade animation of the keywords of what it rules over
@@ -52,15 +47,7 @@ struct MoreInfoOnPlanet: View {
     @State var aspectSelected: Aspect?
     
     var mockplanet  = Planet(name: .Moon, angle: 21.3, element: .water, onCusp: false, retrograde: false, one_line_placement_interpretation: "You have intense, deep, and powerful emotions.", sign: .Scorpio, cusp: nil, speed: 23)
-    /* {
-        
-         Taking away fade motifer
-        didSet{
-            control.toggle()
-        }
-         
-    }
-         */
+    
      
     // For alternating between latin and english
     @State var counter = 0
@@ -143,7 +130,7 @@ struct MoreInfoOnPlanet: View {
                         
                         Spacer()
                         
-                      //  notablePeopleWithPlacementViews()
+                        notablePeopleWithPlacementViews()
                    
                         
                     }.padding(-10)
@@ -797,7 +784,7 @@ struct MoreInfoOnPlanet: View {
     }
     
     
-    /*
+    
     func notablePeopleWithPlacementViews() -> some View {
         
         
@@ -809,19 +796,23 @@ struct MoreInfoOnPlanet: View {
             
             ZStack {
                 
-                if !viewModel.notablesWithPlacement.isEmpty{
+                
+                if !$viewModel.notablePeopleWithThisPlacement.isEmpty{
                     
                     
-                    ForEach($viewModel.notablesWithPlacement.indices, id: \.self) {
+                    ForEach($viewModel.notablePeopleWithThisPlacement.prefix(5).indices, id: \.self) {
                          index in
                         
-                        let i: Double = 5*index
+                        
+                        let offset: CGFloat = CGFloat(10+(5*index))
+
+                     /*   let i: Double = 5*index
                         let o: Double = -10 - i
-                        let offset: CGFloat = CGFloat(o)
+                        let offset: CGFloat = CGFloat(o) */
                         
-                        let image: String? = viewModel.notablesWithPlacement[index].profile_image_url
+                        let image: String? = viewModel.notablePeopleWithThisPlacement[index].profile_image_url
                         
-                        ImageFromUrl(image ?? peopleImages.randomElement()!)
+                        ImageFromUrl(image ?? "    https://lh3.googleusercontent.com/ogw/ADea4I5VDilLtQfyS7bwoGxcMqXW46dRo_ugPf4ombhR=s192-c-mo")
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 50, height: 50)
                             .clipShape(Circle())
@@ -852,7 +843,7 @@ struct MoreInfoOnPlanet: View {
         
         
     }
-    */
+    
     
     func friendsWithPlacementViews() -> some View {
         
@@ -866,7 +857,7 @@ struct MoreInfoOnPlanet: View {
                  //if !(viewModel.friendsWithThisPlacement.isEmpty ?? true)
                 // {
                      
-                     ForEach($viewModel.friendsWithThisPlacement.indices, id: \.self) {
+                 ForEach($viewModel.friendsWithThisPlacement.prefix(5).indices, id: \.self) {
                           index in
                          
                          let offset: CGFloat = CGFloat(10+(5*index))
