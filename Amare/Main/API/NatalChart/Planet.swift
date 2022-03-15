@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct Planet: Codable, Identifiable{
+struct Planet: Codable, Identifiable, Equatable, Hashable{
     
   
     
@@ -26,6 +26,8 @@ struct Planet: Codable, Identifiable{
     var longer_placement_interpretation: String? = "Something else that describes this placement."
     let sign: ZodiacSign
     
+    var house: Int?  =  1
+    
     /// A cusp object will contain the cusp element and cusp sign the object is on
     let cusp: CuspObject?
     
@@ -38,6 +40,11 @@ struct Planet: Codable, Identifiable{
     /// If we run synastry with person A and person B, this distinguishes A's planets from B's. So if B is the outer person on the bi-wheel chart, this property will be true for B's planets. 
     var forSynastry: Bool? = false
     
+    /// This is not data that comes from the database; rather, WE set this variable so that we know what color to color `MainPlacementView`
+    var _aspectThatExists: AspectType? = nil
+    
+  
+    
     enum CodingKeys: String, CodingKey {
         
         case name
@@ -48,9 +55,14 @@ struct Planet: Codable, Identifiable{
         case sign
         case cusp = "almost"
         case speed
-     
+        case house
      
     }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
     
     /// Returns the image for the planet of given size, will autosize if it's a synastry planet or not
     func image(size: Double) ->  some View {
@@ -84,6 +96,10 @@ struct Planet: Codable, Identifiable{
         return nil
     }
     
+    
+    static func ==(lhs: Planet, rhs: Planet) -> Bool {
+        return lhs.id == rhs.id
+    }
 }
 
 enum PlanetName: String, Codable, CaseIterable {
@@ -101,6 +117,39 @@ enum PlanetName: String, Codable, CaseIterable {
     case Chiron
     case NorthNode = "North Node"
     case SouthNode = "South Node"
+    
+    /// place in the solar system
+    func number() -> Int {
+        
+        switch self {
+        case .Sun:
+            return 1
+        case .Moon:
+            return 4
+        case .Mercury:
+            return 2
+        case .Venus:
+            return 3
+        case .Mars:
+            return 5
+        case .Jupiter:
+            return 6
+        case .Saturn:
+            return 7
+        case .Uranus:
+            return 8
+        case .Neptune:
+            return 9
+        case .Pluto:
+            return 10
+        case .Chiron:
+            return 11
+        case .NorthNode:
+            return 12
+        case .SouthNode:
+            return 13 
+        }
+    }
     
     /// Returns the description of the planet and how it relates to astrology.
     func description() -> String {

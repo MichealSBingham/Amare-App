@@ -16,6 +16,8 @@ struct MainView: View {
    
     @ObservedObject private var mainViewModel: HomeViewModel = HomeViewModel()
     
+    
+    
     @EnvironmentObject private var account: Account
     @EnvironmentObject private var navigationStack: NavigationStack
     
@@ -31,7 +33,8 @@ struct MainView: View {
 
         TabView(selection: $tabSelection) {
                 
-                Map()
+                //Map()
+           TestView()
                 .tag(1)
         
                 NatalChart()
@@ -138,8 +141,9 @@ struct MainView: View {
         /// We ensure that the data has complete sign up data otherwise we sign them out. This handles the case whre they begin signing up but for some reason they never finish. We don't want to show them the main view.
      
         
-        mainViewModel.subscribeToUserDataChanges()
+            //mainViewModel.subscribeToUserDataChanges()
         account.listenOnlyForSignOut()
+      
         
 		
 		

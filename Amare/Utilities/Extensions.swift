@@ -266,7 +266,7 @@ class ImageLoaderAndCache: ObservableObject {
     
     init(imageURL: String) {
         let cache = URLCache.shared
-        let request = URLRequest(url: URL(string: imageURL)!, cachePolicy: URLRequest.CachePolicy.returnCacheDataElseLoad, timeoutInterval: 60.0)
+        let request = URLRequest(url: URL(string: imageURL) ?? URL(string: peopleImages.randomElement()!)! , cachePolicy: URLRequest.CachePolicy.returnCacheDataElseLoad, timeoutInterval: 60.0)
         if let data = cache.cachedResponse(for: request)?.data {
             print("got image from cache")
             self.imageData = data

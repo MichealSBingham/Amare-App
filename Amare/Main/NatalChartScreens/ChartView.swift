@@ -51,7 +51,7 @@ struct ChartView: View {
     @State var aspectInfoFrameBoundaries: FrameBoundaries?
     @State var newChartMenuFrameBoundaries: FrameBoundaries?
     
-    
+    @State var shouldExit: Bool = false
     
     @State private var location: CGPoint = CGPoint(x: UIScreen.main.bounds.midX - 15 , y: UIScreen.main.bounds.midY - 50)
     var simpleDrag: some Gesture {
@@ -63,6 +63,8 @@ struct ChartView: View {
         }
     
     @State var showNewChartMenu = false
+    
+    @State var showme = false
     
     var body: some View {
         
@@ -176,7 +178,7 @@ struct ChartView: View {
                 VStack{
                     
                     Spacer()
-                    MoreInfoOnPlanet(planet: selectedPlanet, chart: chart)
+                    MoreInfoOnPlanet(planet: selectedPlanet, chart: chart, exit: $showme)
                     //  .rotationEffect(.degrees(-1*alpha))
                         .opacity(  selectedPlanet != nil ? 1  : 0 )
                         .padding()

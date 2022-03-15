@@ -35,6 +35,28 @@ public struct AmareUser: Codable, Equatable{
 
     let interal_ui_use_only_for_iding: UUID = UUID()
     
+    /// Synastry score between the current user and this user. Set this so that the synastry score can be shown on a popup view. This is not grabbed from the database. 
+    var _synastryScore: Double = 0
+    
+    var _chemistryScore: Double = 0
+    var _sexScore: Double = 0
+    var _loveScore: Double = 0
+    
+    /// Whether or not the current signed in user is friends with this user. 
+    var areFriends: Bool = false
+    
+    /// Whether or not a friend request was sent to this user or not 
+    var requested: Bool?
+    
+    /// Whether or not the singed in user should respond to a friend request from this user 
+    var openFriendRequest: Bool = false 
+    
+    /// Whether or not the signed in user (me) winked to this user
+    var winkedTo: Bool?
+    
+    /// Whether or not the user winked at me (the signed in user) 
+    var winkedAtMe: Bool?
+    
     enum CodingKeys: String, CodingKey {
         case name
         case hometown

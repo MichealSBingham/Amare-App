@@ -296,7 +296,7 @@ class Account: ObservableObject {
                         
                  }
                 
-                self.getUserData { [self] error in
+                self.getUserData { [self] error, amare_user  in
                     
                     guard error == nil else {
                         // Handle Errors Now...
@@ -348,6 +348,7 @@ class Account: ObservableObject {
                         // The user data isn't complete so should go to the sign up state
                         // Means the user did not finish signing up
                         self.data = data
+                        Account.shared.data = data
                         print("Login Completion Block 22 ")
                         runThisClosure!(nil, user, data?.getFirstNilInSignUpState())
     
@@ -357,6 +358,7 @@ class Account: ObservableObject {
                    
                   // Otherwise sign in the user. False because it finished signing up and doesn't need to be taken to the sign up state
                     self.data = data
+                    Account.shared.data = data
                     print("Login Completion Block 23 ")
                     runThisClosure!(nil, user, .done )
                     
@@ -513,7 +515,7 @@ class Account: ObservableObject {
     /// - Parameter completion: Completion block ran after an attempt to fetch the user data beloning to the `Account`
     /// - Parameter error: Will be nil if it was successful or an error of type `AccountError` or `GlobalError` will be passed.
     /// - Author: Micheal S. Bingham
-    func getUserData(completion:( (_ err: Error?) -> Void)?  = nil )  {
+    func getUserData(completion:( (_ err: Error?, _ data: AmareUser? ) -> Void)?  = nil )  {
         
         
         let DB =  (self.db == nil) ? Firestore.firestore()   :  self.db!
@@ -521,9 +523,10 @@ class Account: ObservableObject {
         
     
         
-        guard let id  = self.user?.uid else {
+        guard let id  = Auth.auth().currentUser?.uid else {
             
-            completion?(AccountError.notSignedIn)
+            
+            completion?(AccountError.notSignedIn, nil)
             
             return
         }
@@ -540,33 +543,33 @@ class Account: ObservableObject {
                         
                         // Handle Global Errors
                     case .networkError:
-                        completion?(GlobalError.networkError)
+                        completion?(GlobalError.networkError, nil)
                     case .tooManyRequests:
-                        completion?(GlobalError.tooManyRequests)
+                        completion?(GlobalError.tooManyRequests, nil)
                     case .captchaCheckFailed:
-                        completion?(GlobalError.captchaCheckFailed)
+                        completion?(GlobalError.captchaCheckFailed, nil)
                     case .quotaExceeded:
-                        completion?(GlobalError.quotaExceeded)
+                        completion?(GlobalError.quotaExceeded, nil)
                     case .operationNotAllowed:
-                        completion?(GlobalError.notAllowed)
+                        completion?(GlobalError.notAllowed, nil)
                     case .internalError:
                         print("\n\nSome error happened, likely an unhandled error from firebase : \(error). This happened inside Account.getUserData()")
-                        completion?(GlobalError.internalError)
+                        completion?(GlobalError.internalError, nil)
                         
                         // Handle Account Errors
                     case .expiredActionCode:
-                        completion?(AccountError.expiredActionCode)
+                        completion?(AccountError.expiredActionCode, nil)
                     case .sessionExpired:
-                        completion?(AccountError.sessionExpired)
+                        completion?(AccountError.sessionExpired, nil)
                     case .userTokenExpired:
-                        completion?(AccountError.userTokenExpired)
+                        completion?(AccountError.userTokenExpired, nil)
                     case .userDisabled:
-                        completion?(AccountError.disabledUser)
+                        completion?(AccountError.disabledUser, nil)
                     case .wrongPassword:
-                        completion?(AccountError.wrong)
+                        completion?(AccountError.wrong, nil)
                     default:
                         print("\n\nSome error happened, likely an unhandled error from firebase : \(error). This happened inside Account.getUserData()")
-                        completion?(GlobalError.unknown)
+                        completion?(GlobalError.unknown, nil)
                     }
                     
                    return
@@ -574,7 +577,7 @@ class Account: ObservableObject {
                 } else{
                     
                     print("\n\nSome error happened, likely an unhandled error from firebase : \(error). This happened inside Account.getUserData()")
-                    completion?(GlobalError.unknown)
+                    completion?(GlobalError.unknown, nil)
                     return
                 }
             
@@ -584,7 +587,7 @@ class Account: ObservableObject {
             
                 if let document = document {
                 
-                    guard document.exists else { self.data = nil; completion?(nil); return}
+                    guard document.exists else { self.data = nil; completion?(nil, nil); return}
                 
                 let result = Result {
                     try document.data(as: AmareUser.self)
@@ -599,20 +602,21 @@ class Account: ObservableObject {
                         
                         // Data object contains all of the user's data
                         self.data = data
-                        completion?(nil)
+                        Account.shared.data = data
+                        completion?(nil, data)
                         
                         
                     } else{
                         
                         // Could not retreive the data for some reason
-                        completion?(AccountError.doesNotExist)
+                        completion?(AccountError.doesNotExist, nil)
                     }
                     
                 
                 case .failure(let error):
                     // Handle errors
                     print("Some error happened trying to convert the user data to a User Data object: \(error.localizedDescription)")
-                    completion?(GlobalError.unknown)
+                    completion?(GlobalError.unknown, nil)
               
                 }
 
@@ -621,7 +625,7 @@ class Account: ObservableObject {
                 
                 } else {
                     // User does not exist
-                    completion?(AccountError.doesNotExist)
+                    completion?(AccountError.doesNotExist, nil)
                 }
             
             
@@ -952,10 +956,10 @@ class Account: ObservableObject {
     
     func getAllCustomUserChartsThisUserMade(  completion: ( (_ err: Error?, _ users: [AmareUser]) -> Void)?  = nil) -> Void  {
         
-        let DB =  (self.db == nil) ? Firestore.firestore()   :  self.db!
+        var DB =  (self.db == nil) ? Firestore.firestore()   :  self.db!
         self.db = DB
         
-        let uid = Auth.auth().currentUser?.uid ?? ""
+        _ = Auth.auth().currentUser?.uid ?? ""
         
         DB.collection("users")
            .whereField("isReal", isNotEqualTo: true)
@@ -1154,10 +1158,10 @@ class Account: ObservableObject {
         
         let DB =  (self.db == nil) ? Firestore.firestore()   :  self.db!
         self.db = DB
-        
+       
          
         
-         if var uid = (isTheSignedInUser ? self.user?.uid :  UUID().uuidString)   {
+        if let uid = (isTheSignedInUser ? self.user?.uid :  UUID().uuidString)   {
             
          
            
@@ -1225,7 +1229,7 @@ class Account: ObservableObject {
                 
             } catch let error{
                 
-                if let error = AuthErrorCode(rawValue: error._code ?? 17999){
+                if let error = AuthErrorCode(rawValue: error._code ){
                     
                     switch error {
                         
@@ -1324,7 +1328,7 @@ class Account: ObservableObject {
             } catch let error{
                 
                 
-                if let error = AuthErrorCode(rawValue: error._code ?? 17999){
+                if let error = AuthErrorCode(rawValue: error._code ){
                     
                     switch error {
                         
@@ -1428,10 +1432,10 @@ class Account: ObservableObject {
 					
 				}
 				
-			} catch let error{
+            } catch let error{
 				
 				
-				if let error = AuthErrorCode(rawValue: error._code ?? 17999){
+                if let error = AuthErrorCode(rawValue: error._code ){
 					
 					switch error {
 						
@@ -1556,10 +1560,10 @@ class Account: ObservableObject {
             }
             
             //  No error, get the image URL
-            
+        
             uploadRef.downloadURL { url, error in
                 print("***Dowloading url with  error \(error) and url \(url)")
-                if let error = error{
+                if error != nil{
                     completion(AccountError.uploadError)
                     return
                 }
@@ -1834,7 +1838,7 @@ class Account: ObservableObject {
             
             uploadRef.downloadURL { url, error in
                 print("***Dowloading url with  error \(error) and url \(url)")
-                if let error = error{
+                if error != nil{
                     completion(AccountError.uploadError, nil)
                     return
                 }
@@ -2021,6 +2025,7 @@ class Account: ObservableObject {
     
     func sendFriendRequest(to userId: String?,  completion: @escaping ( (_ error: Error?) -> () ) )  {
         
+        
         let DB =  (self.db == nil) ? Firestore.firestore()   :  self.db!
         self.db = DB
         
@@ -2029,13 +2034,34 @@ class Account: ObservableObject {
             return
         }
         
+        
+        // The user data should be in the shared instance
+        
+        guard let myProfilePic = Account.shared.data?.profile_image_url else {
+            
+            // if not, load it
+            print("Profile picture WAS NOT in the shared instance ")
+            self.getUserData { err,user  in
+                
+                print("the errr \(err) and user is \(user)")
+                let image = user?.profile_image_url ?? ""
+                self.db?.collection("friends").document(userId).collection("requests").document(id).setData(["request_by": id, "time": Date.now, "accepted": false, "profile_image_url": image], completion: { error in
+                    
+                    completion(error)
+                })
+                
+            }
+            return
+        }
+        
+        print("Profile picture WAS in the shared instance ")
         // Suppose Amanda sends a friend request to Micheal
         // - friends
             // - Micheal
                 // friend_requests
                     // - amandaID
                     // - accepted: false
-        self.db?.collection("friends").document(userId).collection("requests").document(id).setData(["request_by": id, "time": Date.now, "accepted": false], completion: { error in
+        self.db?.collection("friends").document(userId).collection("requests").document(id).setData(["request_by": id, "time": Date.now, "accepted": false, "profile_image_url": myProfilePic], completion: { error in
             
             completion(error)
         })
@@ -2131,7 +2157,28 @@ class Account: ObservableObject {
             print("Not winking... id \(self.user?.uid) , userid = \(userId)")
             return
         }
-        self.db?.collection("winks").document(userId).collection("people_who_winked").document(id).setData(["didWink": true, "time": Date.now])
+        
+        guard let myProfilePic = Account.shared.data?.profile_image_url else {
+            
+            print("no profile image saved")
+            self.getUserData { err, data in
+                
+                print("Got amare user  with \(err) \(data)")
+                if let amareUser = data {
+                    
+                    self.db?.collection("winks").document(userId).collection("people_who_winked").document(id).setData(["didWink": true, "time": Date.now, "profile_image_url": amareUser.profile_image_url ?? ""])
+                    
+                    
+                }
+            }
+            
+            return
+            
+          
+        }
+        
+        print("bout to wink")
+        self.db?.collection("winks").document(userId).collection("people_who_winked").document(id).setData(["didWink": true, "time": Date.now, "profile_image_url": myProfilePic])
     }
     
     ///TODO: Add error handling
@@ -2183,7 +2230,7 @@ class Account: ObservableObject {
         let DB =  (self.db == nil) ? Firestore.firestore()   :  self.db!
         self.db = DB
         
-        let uid = Auth.auth().currentUser?.uid ?? ""
+        _ = Auth.auth().currentUser?.uid ?? ""
         
         //
           //  - isNotable = True
@@ -2228,7 +2275,7 @@ class Account: ObservableObject {
                     
                     let doc = document.data()
                     let id = document.documentID
-                    let is_notable = doc["is_notable"]
+                    _ = doc["is_notable"]
                     
                     print("FOUND FIT: the doc is ... \(doc)")
                     

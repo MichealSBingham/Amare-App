@@ -10,23 +10,20 @@ import SwiftUI
 /// To be used on the person popup, shows the  main placements and colors them
 struct MainPlacementView: View {
     
+    /// Planet that this placement shows , i.e. Mars in Scorpio
+     var planet: Planet?
     
-    var planet: Planet?
-    
+    /// Will be deprecated in the future. Overrides the color of the placement, but this should automatically be pulled from the `Planet` binding variable
     var color: Color? = randomColor()
     
     var size: CGFloat = 10
     
-    /// Set to true only if you don't want the aspect to be colored using the color convention we use for showing the intensity of the placement.
+    /// Set to true only if you don't want the aspect to be colored using the color convention we use for showing the intensity of the placement. Deprecate in future
     var colorless: Bool? = false
     
     var body: some View {
         
-        Button {
-            
-            NotificationCenter.default.post(name: NSNotification.wantsMoreInfoFromNatalChart, object: planet)
-            
-        } label: {
+        
             
             HStack{
                 
@@ -34,7 +31,8 @@ struct MainPlacementView: View {
                 
                 (planet?.name ?? PlanetName.allCases.randomElement()!).image()
                     .colorInvert()
-                    .colorMultiply(colorless == false ? color! : .white)
+                    .colorMultiply(colorless == false ? planet?._aspectThatExists?.color() ?? .white : .white)
+                    .animation(.easeInOut, value: planet)
                     .frame(width: size, height: size)
                     
                 
@@ -42,14 +40,15 @@ struct MainPlacementView: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                         .colorInvert()
-                        .colorMultiply(colorless == false ? color! : .white)
+                        .colorMultiply(colorless == false ? planet?._aspectThatExists?.color() ?? .white : .white)
+                        .animation(.easeInOut, value: planet)
                         .frame(width: size, height: size)
                         
                 
                 
                 
             }
-        }
+        
 
         
         
@@ -111,8 +110,8 @@ struct MainPlacementView_Angle: View {
 struct MainPlacementView_Previews: PreviewProvider {
     static var previews: some View {
         VStack{
-            MainPlacementView()
-                .preferredColorScheme(.dark)
+          //  MainPlacementView()
+          //      .preferredColorScheme(.dark)
             MainPlacementView_Angle()
                 .preferredColorScheme(.dark)
         }

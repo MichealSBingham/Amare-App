@@ -11,8 +11,20 @@ import Combine
 
 struct MoreInfoOnPlanet: View {
     
-    var planet: Planet?
+    @StateObject var viewModel: MoreInfoOnPlanetViewModel = MoreInfoOnPlanetViewModel()
+    
+    @State var planet: Planet?
     var chart: NatalChart?
+    
+
+
+  
+    
+    /// State to dismiss view or not  
+    @Binding var exit: Bool
+    
+   
+
     
     // For the fade animation of the keywords of what it rules over
     @State var control2: Bool = false
@@ -35,15 +47,7 @@ struct MoreInfoOnPlanet: View {
     @State var aspectSelected: Aspect?
     
     var mockplanet  = Planet(name: .Moon, angle: 21.3, element: .water, onCusp: false, retrograde: false, one_line_placement_interpretation: "You have intense, deep, and powerful emotions.", sign: .Scorpio, cusp: nil, speed: 23)
-    /* {
-        
-         Taking away fade motifer
-        didSet{
-            control.toggle()
-        }
-         
-    }
-         */
+    
      
     // For alternating between latin and english
     @State var counter = 0
@@ -51,11 +55,15 @@ struct MoreInfoOnPlanet: View {
     // What the planet rules
    // var keywords = planet?.name.keywords() ?? [""]
     
-    @State var otherNotableUsersWithAspect: [AmareUser] = []
+   // @State var otherNotableUsersWithAspect: [AmareUser] = []
 
     
     var body: some View {
+        
+        
         ZStack{
+            
+         
             
             VStack{
                 
@@ -68,6 +76,10 @@ struct MoreInfoOnPlanet: View {
                         
                             
                             planetName()
+                            .onAppear {
+                                guard planet != nil else { return }
+                                viewModel.findPeople(with: planet!)
+                            }
                             
                            planetImage()
                             
@@ -77,10 +89,11 @@ struct MoreInfoOnPlanet: View {
                       
                         
                         alternatingTextOfWhatItRules()
-                            .onReceive(Just(otherNotableUsersWithAspect)) { output in
+                           /* .onReceive(Just(otherNotableUsersWithAspect)) { output in
                                 
                                 print("Just changed notable users.. it is \(output)")
                             }
+                        */
                         
                         
                         
@@ -94,10 +107,11 @@ struct MoreInfoOnPlanet: View {
              
                 //TODO: One line interpretation
                InterpretationOneLiner()
-                    .onReceive(Just(planet), perform: { output in
+                   /* .onReceive(Just(planet), perform: { output in
                         
                         getAndLoadNotableUsersWithSamePlacement()
                     })
+                */
                    
             
                 //TODO: longer planet description
@@ -311,9 +325,10 @@ struct MoreInfoOnPlanet: View {
                     
                     
                     //TODO: Change for producntion
-                    var name_of_house = planet?.inWhatHouse(houses: chart?.houses ?? [])?.name() ?? /*"Unknown"*/ HouseNameOrd.allCases.randomElement()!.rawValue//
+                    //var name_of_house = planet?.inWhatHouse(houses: chart?.houses ?? [])?.name() ?? /*"Unknown"*/ HouseNameOrd.allCases.randomElement()!.rawValue//
                     
-                    Text("\(name_of_house) House")
+                    var name_of_house = planet?.house?.toHouseNameOrd()
+                    Text("\(name_of_house?.rawValue ?? "") House")
                     .font(.largeTitle)
                      .bold()
                     // .frame(maxWidth : .infinity, alignment: .center)
@@ -339,6 +354,7 @@ struct MoreInfoOnPlanet: View {
                     
                 }
                 .padding([.top, .bottom],-10)
+                // TODO: only show this if house is available (birthtiem)
                // .padding(.bottom, 5)
                 
                 //TODO: Need to give more info on this
@@ -400,18 +416,122 @@ struct MoreInfoOnPlanet: View {
            // MoreInfoOnAspectView(chart: chart, aspect: aspectSelected)
                // .opacity(aspectSelected != nil ? 1: 0 )
             
+            VStack{
+                
+                HStack{
+                    
+                    Spacer()
+                    Button{
+                        
+                        print("Exit")
+                        
+                        withAnimation{
+                            
+                            exit = true
+                        }
+                        
+                    } label: {
+                        
+                        Image(systemName: "xmark").resizable()
+                            .foregroundColor(.red.opacity(0.5))
+                            .clipShape(Circle())
+                            .frame(width: 25, height: 25)
+                            
+                            //.ignoresSafeArea()
+                            //.offset(x: -20, y: -40)
+                    }
+                    
+                        
+                    
+                }
+                
+                
+                Spacer()
+            }
+            
+            
         }
+        
         .onAppear(perform: {
             
+            sign = planet?.sign.rawValue ?? ""
+            nameOfPlanet = planet?.name.rawValue
+            ?? ""
+            
+            // Loads people with this placement (friends and notables)
+           
+            print("ON APPEAR Just changed planet on appear \(planet) ")
+            guard let p = planet else  {
+               print("Can't get planet")
+                return
+            }
+            
+            /*
+            withAnimation{
+                viewModel.findPeople(with: p)
+            }
+            */
+           
             
                 
         })
+      /*  .onChange(of: friendsWithPlacement, perform: { friends in
+            
+            print("JUST CHANGED friends \(friends)")
+            /*
+            if friendsWithPlacement != [] { _friendsWithPlacement = friendsWithPlacement}
+             */
+                /* if friends == []{
+                print("EMPTY FRIENDS ")
+                // Fail safe so reload friends
+                
+                guard let p = planet else {return }
+                fail_safe_viewModel.findPeople(with: p)
+                friendsWithPlacement = fail_safe_viewModel.friendsWithThisPlacement
+                
+                print("Fail safe : \(fail_safe_viewModel.friendsWithThisPlacement)")
+            } */
+        })
+       .onChange(of: notablesWithPlacement, perform: { notables in
+            
+            //if notables != [] { _notables = notables}
+            /*
+            print("JUST CHANGED notables \(notables)")
+            if notables == []{
+                print("EMPTY NOTABLES ")
+                guard let p = planet else {return }
+
+                // fail safe so reload notables
+                fail_safe_viewModel.findPeople(with: p)
+                notablesWithPlacement   = fail_safe_viewModel.notablePeopleWithThisPlacement
+                
+                print("Fail safe : \(fail_safe_viewModel.notablePeopleWithThisPlacement)")
+            } */
+        }) */
+      /*  .onChange(of: planet, perform: { planet in
+            
+            print("Just changed planet its... \(planet)")
+            guard let p = planet else  {
+               print("Can't get planet")
+                return
+            }
+            
+            
+            withAnimation{
+                
+                viewModel.findPeople(with: p)
+            }
+        })
+        */
+        
+        
         .padding()
         .background(.ultraThinMaterial)
         .foregroundColor(Color.primary.opacity(0.35))
         .foregroundStyle(.ultraThinMaterial)
         .cornerRadius(20)
         .frame(width: .infinity-60, height: 700)
+    
         //.frame(width: 700, height: 700)
     
     }
@@ -642,10 +762,10 @@ struct MoreInfoOnPlanet: View {
         */
              .onAppear {
                //  keyword = planet?.name.keywords()[0] ?? "Not Known"
-                 sign = planet?.sign.rawValue ?? ""
-                 nameOfPlanet = planet?.name.rawValue
-                 ?? ""
+                
+
              }
+             
              
     }
     
@@ -664,6 +784,7 @@ struct MoreInfoOnPlanet: View {
     }
     
     
+    
     func notablePeopleWithPlacementViews() -> some View {
         
         
@@ -676,19 +797,31 @@ struct MoreInfoOnPlanet: View {
             ZStack {
                 
                 
-                ForEach(otherNotableUsersWithAspect.indices, id: \.self) {
-                     index in
+                if !$viewModel.notablePeopleWithThisPlacement.isEmpty{
                     
-                    let offset: CGFloat = CGFloat(-10-(5*index))
                     
-                    ImageFromUrl(otherNotableUsersWithAspect[index].profile_image_url ?? peopleImages.randomElement()!)
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 50, height: 50)
-                        .clipShape(Circle())
-                        .overlay(Circle().stroke(colors.randomElement() ?? .blue, lineWidth: 1))
-                        .shadow(radius: 15)
-                        .padding([.leading, .trailing])
-                        .offset(x: index == 0 ? 0: offset)
+                    ForEach($viewModel.notablePeopleWithThisPlacement.prefix(5).indices, id: \.self) {
+                         index in
+                        
+                        
+                        let offset: CGFloat = CGFloat(10+(5*index))
+
+                     /*   let i: Double = 5*index
+                        let o: Double = -10 - i
+                        let offset: CGFloat = CGFloat(o) */
+                        
+                        let image: String? = viewModel.notablePeopleWithThisPlacement[index].profile_image_url
+                        
+                        ImageFromUrl(image ?? "    https://lh3.googleusercontent.com/ogw/ADea4I5VDilLtQfyS7bwoGxcMqXW46dRo_ugPf4ombhR=s192-c-mo")
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 50, height: 50)
+                            .clipShape(Circle())
+                            .overlay(Circle().stroke(colors.randomElement() ?? .blue, lineWidth: 1))
+                            .shadow(radius: 15)
+                            .padding([.leading, .trailing])
+                            .offset(x: index == 0 ? 0: offset)
+                        
+                    }
                     
                 }
                 
@@ -711,6 +844,7 @@ struct MoreInfoOnPlanet: View {
         
     }
     
+    
     func friendsWithPlacementViews() -> some View {
         
         return  Button {
@@ -719,29 +853,32 @@ struct MoreInfoOnPlanet: View {
              
              ZStack {
                  
-                 
-                 ForEach(otherNotableUsersWithAspect.indices, id: \.self) {
-                      index in
+
+                 //if !(viewModel.friendsWithThisPlacement.isEmpty ?? true)
+                // {
                      
-                     let offset: CGFloat = CGFloat(10+(5*index))
+                 ForEach($viewModel.friendsWithThisPlacement.prefix(5).indices, id: \.self) {
+                          index in
+                         
+                         let offset: CGFloat = CGFloat(10+(5*index))
+                         
+                         ImageFromUrl(viewModel.friendsWithThisPlacement[index].profile_image_url ?? peopleImages.randomElement()!)
+                             .aspectRatio(contentMode: .fit)
+                             .frame(width: 50, height: 50)
+                             .clipShape(Circle())
+                             .overlay(Circle().stroke(colors.randomElement() ?? .blue, lineWidth: 1))
+                             .shadow(radius: 15)
+                             .padding([.leading, .trailing])
+                             .offset(x: index == 0 ? 0: offset)
+                         
+                     }
                      
-                     ImageFromUrl(otherNotableUsersWithAspect[index].profile_image_url ?? peopleImages.randomElement()!)
-                         .aspectRatio(contentMode: .fit)
-                         .frame(width: 50, height: 50)
-                         .clipShape(Circle())
-                         .overlay(Circle().stroke(colors.randomElement() ?? .blue, lineWidth: 1))
-                         .shadow(radius: 15)
-                         .padding([.leading, .trailing])
-                         .offset(x: index == 0 ? 0: offset)
-                     
-                 }
+               //  }
+                
                  
                  
                  
-                 
-                 
-                 
-        
+                
    
                  
              }
@@ -804,6 +941,7 @@ struct MoreInfoOnPlanet: View {
         
     }
     
+    /*
     func getAndLoadNotableUsersWithSamePlacement()  {
         
         guard let Planet = planet else {
@@ -863,6 +1001,7 @@ struct MoreInfoOnPlanet: View {
         
         */
     }
+     */
     
 
 }
@@ -872,7 +1011,7 @@ struct MoreInfoOnPlanet_Previews: PreviewProvider {
         
         var p  = Planet(name: .Moon, angle: 21.3, element: .water, onCusp: false, retrograde: false, sign: .Scorpio, cusp: nil, speed: 23)
         
-        MoreInfoOnPlanet(planet: p).preferredColorScheme(.dark)
+        MoreInfoOnPlanet(planet: p, exit: .constant(false)).preferredColorScheme(.dark)
     }
 }
 
