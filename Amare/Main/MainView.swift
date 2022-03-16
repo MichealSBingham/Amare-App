@@ -7,6 +7,7 @@
 
 import SwiftUI
 import NavigationStack
+import MultipeerKit
 
 
 struct MainView: View {
@@ -20,6 +21,8 @@ struct MainView: View {
     
     @EnvironmentObject private var account: Account
     @EnvironmentObject private var navigationStack: NavigationStack
+    @EnvironmentObject var multipeerDataSource: MultipeerDataSource
+
     
     @State private var tabSelection = 1
 
@@ -35,6 +38,7 @@ struct MainView: View {
                 
                 //Map()
            TestView()
+                .environmentObject(multipeerDataSource)
                 .tag(1)
         
                 NatalChart()

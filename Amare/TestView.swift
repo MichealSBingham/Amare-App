@@ -8,11 +8,25 @@
 import SwiftUI
 import Firebase
 import PushNotifications
+import MultipeerKit
 
 struct TestView: View {
     
+    @EnvironmentObject var multipeerDataSource: MultipeerDataSource
+
     @ObservedObject var viewModel: UserDataModel = UserDataModel()
     let beamsClient = PushNotifications.shared
+    
+    
+   
+
+    
+    // Consider Adding elsewhere
+    
+ 
+  
+    
+
     
     
     var body: some View {
@@ -24,10 +38,21 @@ struct TestView: View {
         
         ZStack{
             
-            
+            Button {
+                
+                print("boardcasting ")
+                multipeerDataSource.transceiver.broadcast("Hello World!")
+                
+            } label: {
+                
+                Text("Peers: \(multipeerDataSource.availablePeers.count) ")
+            }
+
+          //
                 
             
-            
+            /*
+             EXAMPLE USAGE OF PROFILE POPUP
             Button {
                 print("subscribed to : \(Auth.auth().currentUser?.uid) ")
                 
@@ -102,13 +127,28 @@ struct TestView: View {
             }
             .opacity(0)
             .offset(x: 10, y: 20)
+            
+            */
 
         }.onAppear {
             
             if  let me = Auth.auth().currentUser?.uid{
                try? beamsClient.addDeviceInterest(interest: me)
+                
+        
 
             }
+            
+           
+            
+            
+            
+            // Resume the transceiver
+            print("resuming transceiver")
+            //multipeerDataSource.transceiver.resume()
+            
+            
+            
     }
        
         

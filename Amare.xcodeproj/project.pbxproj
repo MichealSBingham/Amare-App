@@ -20,6 +20,7 @@
 		2608CF532697C9D600826FDA /* SystemErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2608CF522697C9D600826FDA /* SystemErrors.swift */; };
 		2609E3C52798A30000B4805E /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2609E3C42798A30000B4805E /* TestView.swift */; };
 		260A111126C373DE00873FE6 /* MbSwiftUIFirstResponder in Frameworks */ = {isa = PBXBuildFile; productRef = 260A111026C373DE00873FE6 /* MbSwiftUIFirstResponder */; };
+		260A73DC27E102A7007C2B30 /* MultipeerKit in Frameworks */ = {isa = PBXBuildFile; productRef = 260A73DB27E102A7007C2B30 /* MultipeerKit */; };
 		261571612773B2D7001DFD18 /* NewChartMenuUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261571602773B2D7001DFD18 /* NewChartMenuUIView.swift */; };
 		261571632773C023001DFD18 /* locationsearchswiftuimenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261571622773C023001DFD18 /* locationsearchswiftuimenu.swift */; };
 		2623D7B027935E88002456DF /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2623D7AF27935E88002456DF /* HomeView.swift */; };
@@ -245,6 +246,7 @@
 				26D001A02792448F005E99A1 /* FirebaseStorage in Frameworks */,
 				267EEBEB274076A2006909B9 /* ConfettiSwiftUI in Frameworks */,
 				2454AD7E9E67CEEAD32CCEFD /* Pods_Amare.framework in Frameworks */,
+				260A73DC27E102A7007C2B30 /* MultipeerKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -635,6 +637,7 @@
 				26D0019F2792448F005E99A1 /* FirebaseStorage */,
 				26D001A12792448F005E99A1 /* FirebaseStorageSwift-Beta */,
 				26D79AB9279F246900DA44CB /* VTabView */,
+				260A73DB27E102A7007C2B30 /* MultipeerKit */,
 			);
 			productName = Love;
 			productReference = 26B1AFD22678FFE500A170B3 /* Amare.app */;
@@ -722,6 +725,7 @@
 				267EEBE9274076A2006909B9 /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */,
 				26D001982792448F005E99A1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				26D79AB8279F246900DA44CB /* XCRemoteSwiftPackageReference "SwiftUI-VerticalTabView" */,
+				260A73DA27E102A6007C2B30 /* XCRemoteSwiftPackageReference "MultipeerKit" */,
 			);
 			productRefGroup = 26B1AFD32678FFE500A170B3 /* Products */;
 			projectDirPath = "";
@@ -1141,7 +1145,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = Amare/Amare.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 23;
+				CURRENT_PROJECT_VERSION = 24;
 				DEVELOPMENT_ASSET_PATHS = "\"Amare/Preview Content\"";
 				DEVELOPMENT_TEAM = HGQ8Q53DV8;
 				ENABLE_PREVIEWS = YES;
@@ -1171,7 +1175,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = Amare/Amare.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 23;
+				CURRENT_PROJECT_VERSION = 24;
 				DEVELOPMENT_ASSET_PATHS = "\"Amare/Preview Content\"";
 				DEVELOPMENT_TEAM = HGQ8Q53DV8;
 				ENABLE_PREVIEWS = YES;
@@ -1329,6 +1333,14 @@
 				kind = branch;
 			};
 		};
+		260A73DA27E102A6007C2B30 /* XCRemoteSwiftPackageReference "MultipeerKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/insidegui/MultipeerKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.4.0;
+			};
+		};
 		267EEBE9274076A2006909B9 /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/simibac/ConfettiSwiftUI";
@@ -1408,6 +1420,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 260A110F26C373DE00873FE6 /* XCRemoteSwiftPackageReference "MbSwiftUIFirstResponder" */;
 			productName = MbSwiftUIFirstResponder;
+		};
+		260A73DB27E102A7007C2B30 /* MultipeerKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 260A73DA27E102A6007C2B30 /* XCRemoteSwiftPackageReference "MultipeerKit" */;
+			productName = MultipeerKit;
 		};
 		267EEBEA274076A2006909B9 /* ConfettiSwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;
