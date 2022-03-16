@@ -18,7 +18,6 @@ struct RootView: View {
     
     @EnvironmentObject private var navigationStack: NavigationStack
     
-    @EnvironmentObject  var multipeerDataSource: MultipeerDataSource
 
     // Will only happen once in the applications entire lifecycle, really only using this for debugging and such
     static var signOutOnlyOnce: PerformOnce = {
@@ -63,7 +62,6 @@ struct RootView: View {
                    MainView(isRoot: true )
                         .environmentObject(account)
                         .onAppear(perform: { account.stopListening()})
-                        .environmentObject(multipeerDataSource)
                      //   .environmentObject(multipeerDataSource)
                         
                     

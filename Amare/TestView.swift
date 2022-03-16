@@ -12,12 +12,15 @@ import MultipeerKit
 
 struct TestView: View {
     
-    @EnvironmentObject var multipeerDataSource: MultipeerDataSource
+   // @EnvironmentObject var multipeerDataSource: MultipeerDataSource
 
     @ObservedObject var viewModel: UserDataModel = UserDataModel()
     let beamsClient = PushNotifications.shared
     
     
+    @StateObject var multipeerDataSource: MultipeerDataSource =
+    MultipeerDataSource(transceiver: MultipeerTransceiver(configuration: MultipeerConfiguration(serviceType: "Amare", peerName: Auth.auth().currentUser?.uid ?? "id", defaults: UserDefaults.standard, security: .default, invitation: .automatic)))
+
    
 
     
@@ -145,7 +148,20 @@ struct TestView: View {
             
             // Resume the transceiver
             print("resuming transceiver")
-            //multipeerDataSource.transceiver.resume()
+            multipeerDataSource.transceiver.resume()
+            
+            multipeerDataSource.transceiver.receive(String.self) { payload, sender in
+                
+                
+                
+                // send notification when received
+                let content = UNMutableNotificationContent()
+                        content.body = "\"\(payload)\" from \(sender.name)"
+                        let request = UNNotificationRequest(identifier: payload, content: content, trigger: nil)
+                        UNUserNotificationCenter.current().add(request) { _ in
+
+                        }
+            }
             
             
             
