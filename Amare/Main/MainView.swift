@@ -38,6 +38,7 @@ struct MainView: View {
                 //Map()
            TestView()
                 .tag(1)
+                .environmentObject(mainViewModel)
         
                 NatalChart()
                 .tag(2)
@@ -52,7 +53,7 @@ struct MainView: View {
                 
             }
             .onAppear(perform: { thingsToDoWhenMainViewLoads()})
-            .onDisappear(perform: {mainViewModel.unsubscribeToUserDataChanges()})
+            // .onDisappear(perform: {mainViewModel.unsubscribeToUserDataChanges()})
             .onReceive(NotificationCenter.default.publisher(for: NSNotification.logout), perform: { _ in
             print("Received notification to sign out...")
                 goBackToSignInRootView()
@@ -143,7 +144,7 @@ struct MainView: View {
         /// We ensure that the data has complete sign up data otherwise we sign them out. This handles the case whre they begin signing up but for some reason they never finish. We don't want to show them the main view.
      
         
-            //mainViewModel.subscribeToUserDataChanges()
+        mainViewModel.subscribeToUserDataChanges()
         account.listenOnlyForSignOut()
       
         

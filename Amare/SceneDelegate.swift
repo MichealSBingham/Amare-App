@@ -18,7 +18,25 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     var account: Account = Account()
     
-   
+    private lazy var transceiver: MultipeerTransceiver = {
+            var config = MultipeerConfiguration.default
+            config.serviceType = "Amare"
+
+            config.security.encryptionPreference = .required
+        
+     
+         
+            let t = MultipeerTransceiver(configuration: config)
+        
+       
+           
+
+            return t
+        }()
+
+        private lazy var dataSource: MultipeerDataSource = {
+            MultipeerDataSource(transceiver: transceiver)
+        }()
     
     
    
@@ -32,7 +50,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         
        
-      
+        transceiver.resume()
+        
+        
+        
         
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
@@ -41,6 +62,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let firstView = RootView()
                                     .environmentObject(self.account)
                                     .environment(\.urlImageService, urlImageService)
+                                    .environmentObject(dataSource)
                                     
 			///
 			window.overrideUserInterfaceStyle = .dark
@@ -79,6 +101,7 @@ func sceneWillResignActive(_ scene: UIScene) {
     
 
 }
+    
     
 func sceneDidDisconnect(_ scene: UIScene) {
     /*

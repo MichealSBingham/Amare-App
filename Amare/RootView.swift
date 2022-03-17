@@ -13,6 +13,7 @@ typealias PerformOnce = () -> Void
 
 struct RootView: View {
     
+    
     static let id = String(describing: Self.self)
     @EnvironmentObject private var account: Account
     

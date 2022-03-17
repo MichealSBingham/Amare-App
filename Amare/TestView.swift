@@ -411,6 +411,7 @@ class TestViewModel: ObservableObject{
                         
                         guard amareUserData.isComplete() else { return }
                         
+                        amareUserData.id = snapshot!.documentID
                         // Make sure it's not already in the array
                         guard !idsWeAlreadyHave.contains(amareUserData.id!) else {return}
                         
@@ -437,15 +438,18 @@ class TestViewModel: ObservableObject{
 struct TestView: View {
     
 
+    @EnvironmentObject var mainViewModel: HomeViewModel
     @ObservedObject var viewModel: TestViewModel = TestViewModel()
     let beamsClient = PushNotifications.shared
     
     
+    /*
     @ObservedObject var multipeerDataSource: MultipeerDataSource =
     MultipeerDataSource(transceiver: MultipeerTransceiver(configuration: MultipeerConfiguration(serviceType: "Amare", peerName: Auth.auth().currentUser?.uid ?? "id", defaults: UserDefaults.standard, security: .default, invitation: .automatic)))
-
+*/
     @State var showingPopup = true
    
+    @EnvironmentObject var multipeerDataSource: MultipeerDataSource
 
     
     // Consider Adding elsewhere
@@ -469,11 +473,11 @@ struct TestView: View {
             
            
             // Not needed , example for broadcasting
-            /*
+            
             Button {
                 
                 
-                multipeerDataSource.transceiver.broadcast("Hi peers.")
+                multipeerDataSource.transceiver.broadcast(mainViewModel.Me?.name ?? "No name")
                 
             } label: {
                 
@@ -481,8 +485,9 @@ struct TestView: View {
             }
             
             
-            */
+            
 
+            /*
             VStack{
                 
                 ForEach(viewModel.nearbyUsersByMultipeer, id: \.id) { person in
@@ -502,7 +507,7 @@ struct TestView: View {
             }
                 
             
-           
+           */
             
             
             
@@ -514,17 +519,11 @@ struct TestView: View {
                 
             }
             
-           
-        
-            
-            // Resume the transceiver
-            print("resuming transceiver")
-            multipeerDataSource.transceiver.resume()
+
             
             
             //*** Example usage of receiving message from peer
             multipeerDataSource.transceiver.receive(String.self) { payload, sender in
-                
                 
                 
                 // send notification when received
