@@ -15,7 +15,7 @@ struct MainView: View {
     /// id of view
     static let id = String(describing: Self.self)
    
-    @ObservedObject private var mainViewModel: HomeViewModel = HomeViewModel()
+    @ObservedObject private var mainViewModel: UserDataModel = UserDataModel()
     
     
     
@@ -144,7 +144,7 @@ struct MainView: View {
         /// We ensure that the data has complete sign up data otherwise we sign them out. This handles the case whre they begin signing up but for some reason they never finish. We don't want to show them the main view.
      
         
-        mainViewModel.subscribeToUserDataChanges()
+        mainViewModel.load()
         account.listenOnlyForSignOut()
       
         

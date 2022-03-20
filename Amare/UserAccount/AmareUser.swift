@@ -10,8 +10,9 @@ import Firebase
 import FirebaseFirestoreSwift
 import SwiftUI
 
+
 /// Helper class we're using to store and read data from our backend. All user data properties read from database are here.
-public struct AmareUser: Codable, Equatable{
+public struct AmareUser: Codable, Equatable, Hashable, Identifiable{
     
     
     
@@ -57,6 +58,10 @@ public struct AmareUser: Codable, Equatable{
     /// Whether or not the user winked at me (the signed in user) 
     var winkedAtMe: Bool?
     
+    var image: Data?
+    
+    var deviceID: String? 
+    
     enum CodingKeys: String, CodingKey {
         case name
         case hometown
@@ -70,9 +75,31 @@ public struct AmareUser: Codable, Equatable{
         case username
         case isReal
         case isNotable
-     
+        
+       
     }
     
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
+    /// Returns the downloaded profile image 
+     func downloadProfileImage() -> Data? {
+
+        guard self.profile_image_url != nil else { return nil  }
+        
+        guard image == nil else {return nil }
+        
+        let url = URL(string: profile_image_url!)!
+
+        
+        if let data = try? Data(contentsOf: url) {
+                // Create Image and Update Image View
+            //imageView.image = UIImage(data: data)
+           return data
+            
+        } else { return  nil }
+    }
     
     //TODO: Should only need username or id to distinguish 
     public static func == (lhs: AmareUser, rhs: AmareUser) -> Bool {

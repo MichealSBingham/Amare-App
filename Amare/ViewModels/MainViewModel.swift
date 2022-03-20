@@ -111,7 +111,7 @@ class HomeViewModel: ObservableObject{
                     
                     success!.id = snapshot!.documentID
                     self.Me = success
-                    
+                    Account.shared.data = success
                     
                     
                     // check if the user data is complete
@@ -194,3 +194,4 @@ class HomeViewModel: ObservableObject{
         }
     }
 }
+

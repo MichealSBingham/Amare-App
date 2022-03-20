@@ -87,7 +87,7 @@ struct AmareApp: App {
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     
     var window: UIWindow?
-    var account: Account?
+   // var account: Account?
     let beamsClient = PushNotifications.shared
 
 
@@ -105,7 +105,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         try? self.beamsClient.addDeviceInterest(interest: "debug-hello")
         FirebaseApp.configure()
         
-        account = Account()
+        //account = Account()
         
         return true
     }

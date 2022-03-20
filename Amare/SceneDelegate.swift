@@ -24,19 +24,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
             config.security.encryptionPreference = .required
         
+            if let deviceID = UIDevice.current.identifierForVendor?.uuidString {
+            config.peerName = deviceID
+        }
      
-         
             let t = MultipeerTransceiver(configuration: config)
         
-       
-           
-
             return t
         }()
 
-        private lazy var dataSource: MultipeerDataSource = {
-            MultipeerDataSource(transceiver: transceiver)
-        }()
+    private lazy var dataSource: MultipeerDataSource = {
+        MultipeerDataSource(transceiver: transceiver)
+    }()
     
     
    
@@ -76,7 +75,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
     }
     
-    
+    func sceneWillEnterForeground(_ scene: UIScene) {
+        
+        print("the account data is \(account.data)")
+        
+        if (account.data?.isComplete() ?? false) && account.isSignedIn {
+            print("!Just entered foreground ")
+        }
+
+    }
     
     
 func sceneDidEnterBackground(_ scene: UIScene) {

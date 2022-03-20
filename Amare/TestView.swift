@@ -14,7 +14,13 @@ class TestViewModel: ObservableObject{
     
     @Published var userData: AmareUser = AmareUser()
     
-    @Published var nearbyUsersByMultipeer: [AmareUser] = []
+    @Published var nearbyUsersByMultipeer =  Set<AmareUser>()
+    
+    @Published var nearby: [AmareUser] = []
+    
+    public var allNearbyUsers: [AmareUser] {
+       Array( nearbyUsersByMultipeer)
+    }
 
     
     /// Will be true if the user has incomplete data in the database so some error happened during account creation/signup process so sign the user out if this happens so they can resign up.
@@ -374,6 +380,8 @@ class TestViewModel: ObservableObject{
     }
     
     */
+    
+    /*
 
     /// Gets the user data for the nearby peers detected, tries to get from cache first when loading user data
     /// TODO: Change to cache AND watch for  !
@@ -415,7 +423,6 @@ class TestViewModel: ObservableObject{
                         // Make sure it's not already in the array
                         guard !idsWeAlreadyHave.contains(amareUserData.id!) else {return}
                         
-                        nearbyUsersByMultipeer.append(amareUserData)
                     }
                     
                     
@@ -431,6 +438,8 @@ class TestViewModel: ObservableObject{
     
     }
     
+    */
+    
 }
 
 
@@ -438,8 +447,13 @@ class TestViewModel: ObservableObject{
 struct TestView: View {
     
 
-    @EnvironmentObject var mainViewModel: HomeViewModel
+    /// View model for the current signed in user's realtime data.
+    @EnvironmentObject var mainViewModel: UserDataModel
+    
+    /// View model for nearby users and other data that populates this view
     @ObservedObject var viewModel: TestViewModel = TestViewModel()
+    
+    
     let beamsClient = PushNotifications.shared
     
     
@@ -471,19 +485,14 @@ struct TestView: View {
         ZStack{
             
             
-           
-            // Not needed , example for broadcasting
-            
-            Button {
+            VStack{
                 
-                
-                multipeerDataSource.transceiver.broadcast(mainViewModel.Me?.name ?? "No name")
-                
-            } label: {
-                
-                Text("Peer Count:  \(multipeerDataSource.availablePeers.count) ")
+                List($viewModel.nearby){ $person in
+                    
+                    Text(person.name ?? "No name")
+                    
+                }
             }
-            
             
             
 
@@ -518,28 +527,106 @@ struct TestView: View {
                try? beamsClient.addDeviceInterest(interest: me)
                 
             }
+         
             
-
+            // Add the user to nearby whenever you receive a broadcast of a new user
+            
+            /*
+            multipeerDataSource.transceiver.peerAdded = { peer in
+                print("!Peer added ")
+                broadcast(to: peer)
+            }
+             */
+            
+            // remove the user whenever he detaches
             
             
-            //*** Example usage of receiving message from peer
-            multipeerDataSource.transceiver.receive(String.self) { payload, sender in
+            /*
+            multipeerDataSource.transceiver.peerRemoved = { peer in
+                 
+                print("!\(peer.name) removed")
                 
+                /*
+                for user in viewModel.nearbyUsersByMultipeer{
+                    
+                    print("!Looping through nearbyusers on \(user.deviceID)")
+                   
+                    if user.deviceID == peer.name{
+                        print("!removing .. \(peer.name)")
+                        viewModel.nearbyUsersByMultipeer.remove(user)
+                    }
+                }
+                */
+            
+            }
+             */
+            
+            
+            multipeerDataSource.transceiver.receive(UserDataToSend.self) { payload, sender in
                 
-                // send notification when received
+                print("@Received data: \(payload) ")
+                viewModel.nearbyUsersByMultipeer.insert(payload.userData)
+                viewModel.nearby.append(payload.userData)
+                
+            
+                //print("<!!the array is ... \(viewModel.nearbyUsersByMultipeer)")
                 let content = UNMutableNotificationContent()
-                        content.body = "\"\(payload)\" from \(sender.name)"
-                        let request = UNNotificationRequest(identifier: payload, content: content, trigger: nil)
+                content.body = "\(payload.id) is near you"
+                let request = UNNotificationRequest(identifier: "newpeer", content: content, trigger: nil)
                         UNUserNotificationCenter.current().add(request) { _ in
 
                         }
+                
+                
             }
             
-            //*** Example usage of receiving message from peer
             
+            
+        // broadcastToNearByUsers()
+        
             
             
     }
+        /*
+        .onChange(of: mainViewModel.userData, perform: { newData in
+            
+           
+            broadcastToNearByUsers()
+        })
+        */
+        // Optimize later .. would much rather not broadcast every time this changes but no other solutions at the current moment. 
+        .onChange(of: multipeerDataSource.availablePeers) { peers in
+            
+            print("new peer in array")
+            // send notification when received
+            let content = UNMutableNotificationContent()
+            content.body = "Available peers did change"
+            let request = UNNotificationRequest(identifier: "newpeer", content: content, trigger: nil)
+                    UNUserNotificationCenter.current().add(request) { _ in
+
+                    }
+            
+            broadcastToNearByUsers()
+          
+        
+        }
+        
+        
+        /*
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { output in
+            
+            
+            // broadcast user data
+            
+            AmareApp().delay(2) {
+                
+                broadcastToNearByUsers()
+            }
+            
+           
+        }
+        */
+      
         
        
         
@@ -631,6 +718,32 @@ struct TestView: View {
     }
      
      */
+    
+    /// Will broadcast our user data to nearby users by multipeer. We do this so that other nearby users know that we are around
+    func broadcastToNearByUsers()  {
+        
+        print("broadcasting to nearby users")
+        guard mainViewModel.userData.isComplete() else { print("!No need to broadcast to all ... incomplete data"); return }
+    
+        //print("!!! Broadcasting this data .. \(mainViewModel.userData)")
+
+        var data = UserDataToSend(userData: mainViewModel.userData, id: mainViewModel.userData.id!, chart: mainViewModel.userData.natal_chart)
+        
+        multipeerDataSource.transceiver.broadcast(data)
+    }
+    
+    /// Broadcasts the signed in person's user data to a specific peer
+    func broadcast(to: Peer)   {
+        
+        
+        guard mainViewModel.userData.isComplete() else { print("!No need to broadcast // my data is incomplete"); return }
+        
+        print("!!! Broadcasting this data .. \(mainViewModel.userData)")
+        multipeerDataSource.transceiver.send(mainViewModel.userData, to: [to])
+    }
+    
+    
+    
 }
 
 struct TestView_Previews: PreviewProvider {
@@ -641,4 +754,14 @@ struct TestView_Previews: PreviewProvider {
 
 
 
-
+struct UserDataToSend: Codable{
+    var userData: AmareUser
+    var id: String
+    var chart: NatalChart?
+    
+   /* enum CodingKeys: String, CodingKey{
+        case userData
+        case id
+        case chart 
+    }*/
+}
