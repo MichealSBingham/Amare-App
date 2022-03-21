@@ -15,7 +15,7 @@ struct MainView: View {
     /// id of view
     static let id = String(describing: Self.self)
    
-    @ObservedObject private var mainViewModel: UserDataModel = UserDataModel()
+    @StateObject private var mainViewModel: UserDataModel = UserDataModel()
     
     
     

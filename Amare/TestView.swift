@@ -16,7 +16,7 @@ class TestViewModel: ObservableObject{
     
     @Published var nearbyUsersByMultipeer =  Set<AmareUser>()
     
-    @Published var nearby: [AmareUser] = []
+
     
     public var allNearbyUsers: [AmareUser] {
        Array( nearbyUsersByMultipeer)
@@ -458,9 +458,9 @@ struct TestView: View {
     
     
     /*
-    @ObservedObject var multipeerDataSource: MultipeerDataSource =
-    MultipeerDataSource(transceiver: MultipeerTransceiver(configuration: MultipeerConfiguration(serviceType: "Amare", peerName: Auth.auth().currentUser?.uid ?? "id", defaults: UserDefaults.standard, security: .default, invitation: .automatic)))
-*/
+    @StateObject var multipeerDataSource: MultipeerDataSource =
+    MultipeerDataSource(transceiver: MultipeerTransceiver(configuration: MultipeerConfiguration(serviceType: "Amare", peerName: Auth.auth().currentUser?.uid ?? "id", defaults: UserDefaults.standard, security: .default, invitation: .automatic))) */
+
     @State var showingPopup = true
    
     @EnvironmentObject var multipeerDataSource: MultipeerDataSource
@@ -487,13 +487,14 @@ struct TestView: View {
             
             VStack{
                 
-                List($viewModel.nearby){ $person in
+                List(viewModel.allNearbyUsers){ person in
                     
                     Text(person.name ?? "No name")
                     
                 }
                 
-                Text($viewModel.nearby.count.NumberString)
+                Text(viewModel.allNearbyUsers.count.NumberString)
+                Text(multipeerDataSource.availablePeers.count.NumberString)
             }
             
             
@@ -538,17 +539,18 @@ struct TestView: View {
                 print("!Peer added ")
                 broadcast(to: peer)
             }
-             */
+            */
+             
             
             // remove the user whenever he detaches
             
             
-            /*
+            
             multipeerDataSource.transceiver.peerRemoved = { peer in
                  
-                print("!\(peer.name) removed")
+               // print("!\(peer.deviceID) removed")
                 
-                /*
+                
                 for user in viewModel.nearbyUsersByMultipeer{
                     
                     print("!Looping through nearbyusers on \(user.deviceID)")
@@ -556,12 +558,22 @@ struct TestView: View {
                     if user.deviceID == peer.name{
                         print("!removing .. \(peer.name)")
                         viewModel.nearbyUsersByMultipeer.remove(user)
+                        
+                        
+                        let content = UNMutableNotificationContent()
+                        content.body = "\(user.name) removed"
+                        let request = UNNotificationRequest(identifier: "lesspeer", content: content, trigger: nil)
+                                UNUserNotificationCenter.current().add(request) { _ in
+
+                                }
+
+                        
                     }
                 }
-                */
+                
             
             }
-             */
+             
             
             
             multipeerDataSource.transceiver.receive(UserDataToSend.self) { payload, sender in
@@ -570,18 +582,17 @@ struct TestView: View {
                 var data =   payload.userData
                 data.id = payload.id
                 data.natal_chart = payload.chart
+                data.deviceID = payload.deviceID
                 
-                //payload.userData.natal_chart = payload.chart
                 
             
                 viewModel.nearbyUsersByMultipeer.insert(data)
-                viewModel.nearby.append(data)
                 
                 
             
                 //print("<!!the array is ... \(viewModel.nearbyUsersByMultipeer)")
                 let content = UNMutableNotificationContent()
-                content.body = "\(payload.id) is near you"
+                content.body = "\(payload.userData.name ?? "no name") is near you"
                 let request = UNNotificationRequest(identifier: "newpeer", content: content, trigger: nil)
                         UNUserNotificationCenter.current().add(request) { _ in
 
@@ -592,18 +603,20 @@ struct TestView: View {
             
             
             
-        // broadcastToNearByUsers()
+         broadcastToNearByUsers()
         
             
             
     }
-        /*
+        
         .onChange(of: mainViewModel.userData, perform: { newData in
             
            
             broadcastToNearByUsers()
         })
-        */
+        
+        
+        
         // Optimize later .. would much rather not broadcast every time this changes but no other solutions at the current moment. 
         .onChange(of: multipeerDataSource.availablePeers) { peers in
             
@@ -636,6 +649,7 @@ struct TestView: View {
            
         }
         */
+        
       
         
        
@@ -737,7 +751,11 @@ struct TestView: View {
     
         //print("!!! Broadcasting this data .. \(mainViewModel.userData)")
 
-        var data = UserDataToSend(userData: mainViewModel.userData, id: mainViewModel.userData.id!, chart: mainViewModel.userData.natal_chart)
+        guard let deviceID = UIDevice.current.identifierForVendor?.uuidString else { return }
+                
+        var data = UserDataToSend(userData: mainViewModel.userData, id: mainViewModel.userData.id!, chart: mainViewModel.userData.natal_chart, deviceID: deviceID)
+        
+        
         
         multipeerDataSource.transceiver.broadcast(data)
     }
@@ -768,7 +786,7 @@ struct UserDataToSend: Codable{
     var userData: AmareUser
     var id: String
     var chart: NatalChart?
-    
+    var deviceID: String
    /* enum CodingKeys: String, CodingKey{
         case userData
         case id
