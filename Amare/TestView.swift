@@ -451,7 +451,7 @@ struct TestView: View {
     @EnvironmentObject var mainViewModel: UserDataModel
     
     /// View model for nearby users and other data that populates this view
-    @ObservedObject var viewModel: TestViewModel = TestViewModel()
+    @StateObject var viewModel: TestViewModel = TestViewModel()
     
     
     let beamsClient = PushNotifications.shared
@@ -492,6 +492,8 @@ struct TestView: View {
                     Text(person.name ?? "No name")
                     
                 }
+                
+                Text($viewModel.nearby.count.NumberString)
             }
             
             
@@ -564,9 +566,17 @@ struct TestView: View {
             
             multipeerDataSource.transceiver.receive(UserDataToSend.self) { payload, sender in
                 
-                print("@Received data: \(payload) ")
-                viewModel.nearbyUsersByMultipeer.insert(payload.userData)
-                viewModel.nearby.append(payload.userData)
+                //payload.userData.id = payload.id
+                var data =   payload.userData
+                data.id = payload.id
+                data.natal_chart = payload.chart
+                
+                //payload.userData.natal_chart = payload.chart
+                
+            
+                viewModel.nearbyUsersByMultipeer.insert(data)
+                viewModel.nearby.append(data)
+                
                 
             
                 //print("<!!the array is ... \(viewModel.nearbyUsersByMultipeer)")
