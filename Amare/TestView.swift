@@ -12,10 +12,16 @@ import MultipeerKit
 
 class TestViewModel: ObservableObject{
     
-    @Published var userData: AmareUser = AmareUser()
+    //@Published var userData: AmareUser?
+    
+    @Published var selectedUser: AmareUser?
     
     @Published var nearbyUsersByMultipeer =  Set<AmareUser>()
     
+    
+    // @Published computed variables are unreliable so we do this to so that the `allNearbyUsers` array has the proper value
+   // private var subscriptions = Set<AnyCancellable>()
+
 
     
     public var allNearbyUsers: [AmareUser] {
@@ -457,9 +463,6 @@ struct TestView: View {
     let beamsClient = PushNotifications.shared
     
     
-    /*
-    @StateObject var multipeerDataSource: MultipeerDataSource =
-    MultipeerDataSource(transceiver: MultipeerTransceiver(configuration: MultipeerConfiguration(serviceType: "Amare", peerName: Auth.auth().currentUser?.uid ?? "id", defaults: UserDefaults.standard, security: .default, invitation: .automatic))) */
 
     @State var showingPopup = true
    
@@ -487,16 +490,45 @@ struct TestView: View {
             
             VStack{
                 
-                List(viewModel.allNearbyUsers){ person in
+              
                     
-                    Text(person.name ?? "No name")
                     
-                }
+                    VStack{
+                        
+                        ForEach(viewModel.allNearbyUsers){ person in
+                            
+                            
+                            
+                            Button {
+                                
+                               // withAnimation {
+                                    viewModel.selectedUser = person
+                                //}
+                                
+                              print("Button tapped ")
+                                
+                                
+                            } label: {
+                                
+                                Text(person.name ?? "No name")
+                            }
+                        }
+                    }
+                   
+
+                  
+                    
                 
-                Text(viewModel.allNearbyUsers.count.NumberString)
-                Text(multipeerDataSource.availablePeers.count.NumberString)
+                
+               
             }
             
+            if let selectedUser = Binding<AmareUser>($viewModel.selectedUser){
+              
+                ProfilePopup(user: selectedUser)
+                    .opacity(viewModel.selectedUser?.isComplete() ?? false ? 1 : 0 )
+            }
+           
             
 
             /*
@@ -535,11 +567,13 @@ struct TestView: View {
             // Add the user to nearby whenever you receive a broadcast of a new user
             
             /*
+            
             multipeerDataSource.transceiver.peerAdded = { peer in
                 print("!Peer added ")
                 broadcast(to: peer)
             }
             */
+            
              
             
             // remove the user whenever he detaches
@@ -559,13 +593,15 @@ struct TestView: View {
                         print("!removing .. \(peer.name)")
                         viewModel.nearbyUsersByMultipeer.remove(user)
                         
-                        
+                        /*
                         let content = UNMutableNotificationContent()
                         content.body = "\(user.name) removed"
                         let request = UNNotificationRequest(identifier: "lesspeer", content: content, trigger: nil)
                                 UNUserNotificationCenter.current().add(request) { _ in
 
                                 }
+                        
+                        */
 
                         
                     }
@@ -591,13 +627,14 @@ struct TestView: View {
                 
             
                 //print("<!!the array is ... \(viewModel.nearbyUsersByMultipeer)")
+                /*
                 let content = UNMutableNotificationContent()
                 content.body = "\(payload.userData.name ?? "no name") is near you"
                 let request = UNNotificationRequest(identifier: "newpeer", content: content, trigger: nil)
                         UNUserNotificationCenter.current().add(request) { _ in
 
                         }
-                
+                */
                 
             }
             
@@ -608,6 +645,13 @@ struct TestView: View {
             
             
     }
+        .onTapGesture {
+            withAnimation {
+                
+                viewModel.selectedUser = nil
+            }
+            
+        }
         
         .onChange(of: mainViewModel.userData, perform: { newData in
             
@@ -622,17 +666,20 @@ struct TestView: View {
             
             print("new peer in array")
             // send notification when received
+            /*
             let content = UNMutableNotificationContent()
             content.body = "Available peers did change"
             let request = UNNotificationRequest(identifier: "newpeer", content: content, trigger: nil)
                     UNUserNotificationCenter.current().add(request) { _ in
 
                     }
+            */
             
             broadcastToNearByUsers()
           
         
         }
+        
         
         
         /*
@@ -649,6 +696,7 @@ struct TestView: View {
            
         }
         */
+        
         
       
         
