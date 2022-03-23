@@ -469,6 +469,7 @@ struct TestView: View {
     @EnvironmentObject var multipeerDataSource: MultipeerDataSource
 
     
+    @State var showProfile: Bool = false
     // Consider Adding elsewhere
     
  
@@ -488,7 +489,7 @@ struct TestView: View {
         ZStack{
             
             
-            VStack{
+     
                 
               
                     
@@ -503,6 +504,7 @@ struct TestView: View {
                                 
                                // withAnimation {
                                     viewModel.selectedUser = person
+                                showProfile = true
                                 //}
                                 
                               print("Button tapped ")
@@ -514,20 +516,23 @@ struct TestView: View {
                             }
                         }
                     }
+                    .popover(isPresented: $showProfile) {
+                        
+                        
+                        
+                        if let selectedUser = Binding<AmareUser>($viewModel.selectedUser){
+                          
+                            ProfilePopup(user: selectedUser)
+                                
+                        }
+                    }
+                
                    
 
                   
                     
                 
                 
-               
-            }
-            
-            if let selectedUser = Binding<AmareUser>($viewModel.selectedUser){
-              
-                ProfilePopup(user: selectedUser)
-                    .opacity(viewModel.selectedUser?.isComplete() ?? false ? 1 : 0 )
-            }
            
             
 
@@ -682,6 +687,8 @@ struct TestView: View {
         
         
         
+        
+        
         /*
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { output in
             
@@ -825,6 +832,7 @@ struct TestView: View {
 struct TestView_Previews: PreviewProvider {
     static var previews: some View {
         TestView()
+            .environmentObject(UserDataModel())
     }
 }
 
@@ -840,4 +848,17 @@ struct UserDataToSend: Codable{
         case id
         case chart 
     }*/
+}
+
+
+struct BackgroundClearView: UIViewRepresentable {
+    func makeUIView(context: Context) -> UIView {
+        let view = UIView()
+        DispatchQueue.main.async {
+            view.superview?.superview?.backgroundColor = .clear
+        }
+        return view
+    }
+
+    func updateUIView(_ uiView: UIView, context: Context) {}
 }
