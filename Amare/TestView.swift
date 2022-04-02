@@ -502,10 +502,10 @@ struct TestView: View {
                             
                             Button {
                                 
-                               // withAnimation {
+                            withAnimation {
                                     viewModel.selectedUser = person
                                 showProfile = true
-                                //}
+                                }
                                 
                               print("Button tapped ")
                                 
@@ -516,16 +516,17 @@ struct TestView: View {
                             }
                         }
                     }
-                    .popover(isPresented: $showProfile) {
+                
                         
                         
-                        
+                        /*
                         if let selectedUser = Binding<AmareUser>($viewModel.selectedUser){
                           
                             ProfilePopup(user: selectedUser)
+                                .opacity(showProfile ? 1: 0)
                                 
                         }
-                    }
+            */
                 
                    
 
@@ -561,7 +562,32 @@ struct TestView: View {
             
             
 
-        }.onAppear {
+        }
+        
+        .popup(isPresented: $showProfile, closeOnTap: false, closeOnTapOutside: true, view: {
+            
+      
+              
+                ProfilePopup(user: Binding<AmareUser>($viewModel.selectedUser) ?? .constant(AmareUser()))
+                    .opacity(showProfile ? 1: 0)
+                    
+            
+        })
+        
+        /*
+        .sheet(isPresented: $showProfile, content: {
+            
+         
+                ProfilePopup(user: Binding<AmareUser>($viewModel.selectedUser) ?? .constant(AmareUser()))
+                    .opacity(showProfile ? 1: 0)
+                    
+            
+            
+            
+        })
+        */
+        
+        .onAppear {
             
             if  let me = Auth.auth().currentUser?.uid{
                try? beamsClient.addDeviceInterest(interest: me)
@@ -625,21 +651,21 @@ struct TestView: View {
                 data.natal_chart = payload.chart
                 data.deviceID = payload.deviceID
                 
-                
+                print("!*Received some data \(data)")
             
                 viewModel.nearbyUsersByMultipeer.insert(data)
                 
                 
             
                 //print("<!!the array is ... \(viewModel.nearbyUsersByMultipeer)")
-                /*
+                
                 let content = UNMutableNotificationContent()
                 content.body = "\(payload.userData.name ?? "no name") is near you"
                 let request = UNNotificationRequest(identifier: "newpeer", content: content, trigger: nil)
                         UNUserNotificationCenter.current().add(request) { _ in
 
                         }
-                */
+                
                 
             }
             
@@ -650,13 +676,7 @@ struct TestView: View {
             
             
     }
-        .onTapGesture {
-            withAnimation {
-                
-                viewModel.selectedUser = nil
-            }
-            
-        }
+        
         
         .onChange(of: mainViewModel.userData, perform: { newData in
             
@@ -833,6 +853,7 @@ struct TestView_Previews: PreviewProvider {
     static var previews: some View {
         TestView()
             .environmentObject(UserDataModel())
+            .environmentObject(MultipeerDataSource(transceiver: MultipeerTransceiver()))
     }
 }
 
@@ -860,5 +881,18 @@ struct BackgroundClearView: UIViewRepresentable {
         return view
     }
 
+    func updateUIView(_ uiView: UIView, context: Context) {}
+}
+
+
+struct BackgroundBlurView: UIViewRepresentable {
+    func makeUIView(context: Context) -> UIView {
+        let view = UIVisualEffectView(effect: UIBlurEffect(style: .light))
+        DispatchQueue.main.async {
+            view.superview?.superview?.backgroundColor = .clear
+        }
+        return view
+    }
+    
     func updateUIView(_ uiView: UIView, context: Context) {}
 }

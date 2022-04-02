@@ -100,6 +100,7 @@
 		26DE210C26C5963A0004B5CE /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DE210B26C5963A0004B5CE /* SettingsView.swift */; };
 		26DE210E26C596450004B5CE /* HomeGlobeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DE210D26C596450004B5CE /* HomeGlobeView.swift */; };
 		26DE211126C5B2E60004B5CE /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = 26DE211026C5B2E60004B5CE /* CodeScanner */; };
+		26EB6CE327F8D84700CEA6DC /* SkeletonUI in Frameworks */ = {isa = PBXBuildFile; productRef = 26EB6CE227F8D84700CEA6DC /* SkeletonUI */; };
 		26EDBB8D26AA7CE2005C1033 /* VerificationCodeView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26EDBB8C26AA7CE2005C1033 /* VerificationCodeView2.swift */; };
 		26F9205F26A760E500A4F8C6 /* Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F9205E26A760E500A4F8C6 /* Animations.swift */; };
 		26F9206B26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 26F9206A26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf */; };
@@ -231,6 +232,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				26D79ABA279F246900DA44CB /* VTabView in Frameworks */,
+				26EB6CE327F8D84700CEA6DC /* SkeletonUI in Frameworks */,
 				26872886271CE0AA00C2F89F /* URLImageStore in Frameworks */,
 				26F9207726A8C2E200A4F8C6 /* Shimmer in Frameworks */,
 				26872884271CE0AA00C2F89F /* URLImage in Frameworks */,
@@ -638,6 +640,7 @@
 				26D001A12792448F005E99A1 /* FirebaseStorageSwift-Beta */,
 				26D79AB9279F246900DA44CB /* VTabView */,
 				260A73DB27E102A7007C2B30 /* MultipeerKit */,
+				26EB6CE227F8D84700CEA6DC /* SkeletonUI */,
 			);
 			productName = Love;
 			productReference = 26B1AFD22678FFE500A170B3 /* Amare.app */;
@@ -726,6 +729,7 @@
 				26D001982792448F005E99A1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				26D79AB8279F246900DA44CB /* XCRemoteSwiftPackageReference "SwiftUI-VerticalTabView" */,
 				260A73DA27E102A6007C2B30 /* XCRemoteSwiftPackageReference "MultipeerKit" */,
+				26EB6CE127F8D84700CEA6DC /* XCRemoteSwiftPackageReference "SkeletonUI" */,
 			);
 			productRefGroup = 26B1AFD32678FFE500A170B3 /* Products */;
 			projectDirPath = "";
@@ -1405,6 +1409,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		26EB6CE127F8D84700CEA6DC /* XCRemoteSwiftPackageReference "SkeletonUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/CSolanaM/SkeletonUI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		26F9207526A8C2E200A4F8C6 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/markiv/SwiftUI-Shimmer";
@@ -1490,6 +1502,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 26DE210F26C5B2E60004B5CE /* XCRemoteSwiftPackageReference "CodeScanner" */;
 			productName = CodeScanner;
+		};
+		26EB6CE227F8D84700CEA6DC /* SkeletonUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 26EB6CE127F8D84700CEA6DC /* XCRemoteSwiftPackageReference "SkeletonUI" */;
+			productName = SkeletonUI;
 		};
 		26F9207626A8C2E200A4F8C6 /* Shimmer */ = {
 			isa = XCSwiftPackageProductDependency;

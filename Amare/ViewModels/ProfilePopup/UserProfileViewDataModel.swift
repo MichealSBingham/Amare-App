@@ -110,7 +110,6 @@ class UserDataModel: ObservableObject{
                             var image_ = data.downloadProfileImage()
                             data.image = image_
                             
-                            print("!!! image is \(data.image)")
                             
                             // Add device id to this
                             if let deviceID = UIDevice.current.identifierForVendor?.uuidString {

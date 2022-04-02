@@ -13,6 +13,7 @@ import FirebaseAuth
 import Combine
 import ConfettiSwiftUI
 import VTabView
+import SkeletonUI
 
 // Some random data to use as mock
 var peopleImages = ["https://lh3.googleusercontent.com/ogw/ADea4I5VDilLtQfyS7bwoGxcMqXW46dRo_ugPf4ombhR=s192-c-mo", testImages[0],
@@ -26,6 +27,7 @@ var colors: [Color] = [.gray, .green, .blue, .red, .orange]
 struct ProfilePopup: View {
     
     @Binding var user: AmareUser
+    
     
     
     @State var exitInfoOnPlacement: Bool = false
@@ -54,6 +56,9 @@ struct ProfilePopup: View {
     /// The particular planet /placement the user clicks on on this profile to display
     @State var placementToDisplay: Planet?
     
+    // whether or not to show the placmenets/planets 
+    @State var showPlacements: Bool = false
+    
     @State var selectedBody: Int = 6
     
    //@ObservedObject var viewModelForPlanetView = MoreInfoOnPlanetViewModel()
@@ -72,7 +77,22 @@ struct ProfilePopup: View {
                 
                 ZStack{
                      
-                    profileImageView()
+                    
+                    if let imgdata = user.image {
+                        //print("#Got image data.,,")
+                        Image(uiImage: UIImage(data: imgdata)!)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .clipShape(Circle())
+                            // .frame(width: 100, height: 100)
+                             .shadow(radius: 15)
+                             .frame(width: 150, height: 150)
+                             
+                    } else {
+                       // print("no image data to reach")
+                        profileImageView()
+                        
+                    }
                     
                   
 
@@ -240,8 +260,10 @@ struct ProfilePopup: View {
         }
         .onChange(of: placementToDisplay) { newValue in
             
+           
             // This is called when you click on a placement .. not when you scroll through them.
                 exitInfoOnPlacement = false
+            if let _ = placementToDisplay { showPlacements = true }
             
             /*
             print("***CHANGED PLACEMENT TO DISPLAY \(newValue)")
@@ -330,7 +352,7 @@ struct ProfilePopup: View {
          */
             
             
-        
+        /*
             
             if user.natal_chart?.planets.count ?? 0 > 0 {
                 
@@ -384,6 +406,7 @@ struct ProfilePopup: View {
                                 }
                                 .tag(planet.name.number())
                                 .tabViewStyle(.page)
+                               
                               
                              
                              
@@ -414,17 +437,112 @@ struct ProfilePopup: View {
                 .opacity(placementToDisplay == nil ? 0 : 1 )
                 .opacity(exitInfoOnPlacement ? 0: 1)
                 .animation(.easeInOut)
+              
                 .onDisappear {
                     //viewModelForPlanetView.stopLookingForPeopleWithAspect()
                 }
               
                 //.border(.orange)
             }
+            
+            */
           
            
     
         }
-        
+        .fullScreenCover(isPresented: $showPlacements ) {
+            
+            if user.natal_chart?.planets.count ?? 0 > 0 {
+                
+                
+                
+                
+                // Showing the other user's planetary placements
+                TabView(selection: $selectedBody){
+                    
+             
+                        
+                    ForEach(user.natal_chart?.planets ?? [] ){ planet in
+                            
+                          
+                                
+                                VTabView{
+                                    
+                                  
+                                 
+                                   
+                                    MoreInfoOnPlanet(planet: planet, exit: $exitInfoOnPlacement)
+                                       
+                                    
+                                    
+                                        .onAppear(perform: {
+                                            
+                                            
+                                        print("***CALLED IN FOREACH ... the planet is \(planet)")
+                                            // viewModelForPlanetView.findPeople(with: planet)
+                                        })
+                                      //  .opacity(exitInfoOnPlacement ? 0: 1)
+                                        
+
+                                            .padding()
+                                            
+                                     
+                            
+                                        
+                                    MoreInfoOnPlanet(planet: Account.shared.data?.natal_chart?.planets.get(planet: planet.name), exit: $exitInfoOnPlacement)
+                                                                              //  .opacity(exitInfoOnPlacement ? 0: 1)
+                                           
+                                            .padding()
+                        
+                                           
+                                
+                                        
+                                    
+                                    
+                                    
+                                   
+                                }
+                                .tag(planet.name.number())
+                                .tabViewStyle(.page)
+                               
+                              
+                             
+                             
+                              
+                               
+                                
+                            
+                         
+                                
+                                
+                            
+                            
+                            
+                            
+                            
+                            
+                               
+                            
+                           
+                                
+                        }
+                        
+                   
+                    
+                }
+                //.tabViewStyle(.page(indexDisplayMode: .always))
+                .tabViewStyle(.page)
+                .opacity(placementToDisplay == nil ? 0 : 1 )
+                .opacity(exitInfoOnPlacement ? 0: 1)
+                .animation(.easeInOut)
+              
+                .onDisappear {
+                    //viewModelForPlanetView.stopLookingForPeopleWithAspect()
+                }
+              
+                //.border(.orange)
+            }
+        }
     }
     
   
@@ -440,9 +558,38 @@ struct ProfilePopup: View {
             
         } label: {
             
+            URLImage(URL(string: user.profile_image_url ?? peopleImages.randomElement()!)!) { progress in
+                
+                Image(systemName: "person.circle.fill")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .clipShape(Circle())
+                    // .frame(width: 100, height: 100)
+                     .shadow(radius: 15)
+                     .frame(width: 150, height: 150)
+                     .skeleton(with: true, size: CGSize(width: 150, height: 150), transition: .slide)
+                     .animation(type: .pulse())
+                
+                     
+                
+            } content: { image, info in
+                
+                image
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .clipShape(Circle())
+                    // .frame(width: 100, height: 100)
+                     .overlay(Circle().stroke(colors.randomElement() ?? .blue, lineWidth: 1))
+                     .shadow(radius: 15)
+                     .frame(width: 150, height: 150)
+            }
+
         
+
             
-            URLImage(URL(string: user.profile_image_url ?? peopleImages.randomElement()!)!) { image in
+           /* URLImage(URL(string: user.profile_image_url ?? peopleImages.randomElement()!)!, inProgress: { progress in
+                <#code#>
+            } , content: { image in
                 
                 
                 image
@@ -457,7 +604,9 @@ struct ProfilePopup: View {
             
             
             
-        }
+        }) */
+    }
+        
     }
     
     /// Name of the user
