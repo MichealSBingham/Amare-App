@@ -450,6 +450,9 @@ struct ProfilePopup: View {
            
     
         }
+        .onReceive(NotificationCenter.default.publisher(for: NSNotification.exitPlacements), perform: { _ in
+            showPlacements = false
+        })
         .fullScreenCover(isPresented: $showPlacements ) {
             
             if user.natal_chart?.planets.count ?? 0 > 0 {
@@ -471,7 +474,7 @@ struct ProfilePopup: View {
                                   
                                  
                                    
-                                    MoreInfoOnPlanet(planet: planet, exit: $exitInfoOnPlacement)
+                                    MoreInfoOnPlanet(planet: planet, exit: $showPlacements)
                                        
                                     
                                     
@@ -489,7 +492,7 @@ struct ProfilePopup: View {
                                      
                             
                                         
-                                    MoreInfoOnPlanet(planet: Account.shared.data?.natal_chart?.planets.get(planet: planet.name), exit: $exitInfoOnPlacement)
+                                    MoreInfoOnPlanet(planet: Account.shared.data?.natal_chart?.planets.get(planet: planet.name), exit: $showPlacements)
                                                                               //  .opacity(exitInfoOnPlacement ? 0: 1)
                                            
                                             .padding()

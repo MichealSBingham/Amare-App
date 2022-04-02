@@ -35,6 +35,8 @@ extension NSNotification {
     static let logout = NSNotification.Name.init("logout")
     /// Due to an error or some other type of reason, we need to the view to 'go back' one view (or pop back) so we use this notification to tell us when to do that. Post this notification whenever the view needs to go backwards and some reason you can't access the exact view the user is on at the moment. 
     static let goBack = NSNotification.Name.init("goBack")
+    /// Dismiss the tab views for showing the user's placements 
+    static let exitPlacements = NSNotification.Name.init("exitPlacements")
     static let verificationCodeSent = NSNotification.Name.init(rawValue: "verificationCodeSent")
     
     /// User likely tapped on a sign/angle/planet/house and wants more information on it. Typically we will show the bottom popup view when we receive this

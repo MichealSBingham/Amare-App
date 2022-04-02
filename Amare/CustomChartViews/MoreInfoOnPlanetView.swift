@@ -424,10 +424,11 @@ struct MoreInfoOnPlanet: View {
                     Button{
                         
                         print("Exit")
-                        
+                        NotificationCenter.default.post(name: NSNotification.exitPlacements, object: nil)
                         withAnimation{
                             
                             exit = true
+                            
                         }
                         
                     } label: {

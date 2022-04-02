@@ -659,12 +659,15 @@ struct TestView: View {
             
                 //print("<!!the array is ... \(viewModel.nearbyUsersByMultipeer)")
                 
+                /*
                 let content = UNMutableNotificationContent()
                 content.body = "\(payload.userData.name ?? "no name") is near you"
                 let request = UNNotificationRequest(identifier: "newpeer", content: content, trigger: nil)
                         UNUserNotificationCenter.current().add(request) { _ in
 
                         }
+                
+                */
                 
                 
             }
