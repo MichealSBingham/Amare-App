@@ -16,6 +16,11 @@ class TestViewModel: ObservableObject{
     
     @Published var selectedUser: AmareUser?
     
+    /// See    `AccountErrors` and `GlobalErrors`. If not authorized, usually because they are not friends
+    @Published var errorLoadingUser: Error?
+    
+    
+    
     @Published var nearbyUsersByMultipeer =  Set<AmareUser>()
     
     
@@ -34,7 +39,7 @@ class TestViewModel: ObservableObject{
     
     private var db = Firestore.firestore()
     
-    /*
+    
     private var userDataSnapshotListener: ListenerRegistration?
     
     private var natalChartListener: ListenerRegistration?
@@ -50,7 +55,7 @@ class TestViewModel: ObservableObject{
     
     private var winkStatusAtMeListener: ListenerRegistration?
     
-    */
+    
     /*
     init() {
         
@@ -59,35 +64,32 @@ class TestViewModel: ObservableObject{
     */
     
     
-    /*
+    
     /// Subscribes to real-time data for user of this user // their natal chart, user data infromation, wink/friendship status
     func load(user id: String)   {
         
         self.subscribeToUserDataChanges(for: id)
-        self.subscribeToNatalChart(for: id)
-        self.subscribeToFriendshipStatus(them: id)
-        self.subscribeToWinkStatus(them: id)
+      //  self.subscribeToNatalChart(for: id)
+      //  self.subscribeToFriendshipStatus(them: id)
+      //  self.subscribeToWinkStatus(them: id)
         
     }
    
     /// Subscribes to changes to the given user with `id`
     private func subscribeToUserDataChanges(for id: String? )  {
         
-        print("***Subscribing to user data changes \(id)")
         if let id = id{
             
        
             
             userDataSnapshotListener  =  db.collection("users").document(id).addSnapshotListener { snapshot, error in
                 
-                print("The id is ... \(id)")
-                
-                print("The snapshot is \(snapshot) does it exist? \(snapshot?.exists) and error is \(error)")
+              
                 
                 // Make sure the document exists
                 guard snapshot?.exists ?? false else {
-                    self.inCompleteData = true
-                    print("Snapshot doesn't exist ")
+                    self.errorLoadingUser = AccountError.doesNotExist
+                    
                     return
                 }
                 
@@ -99,26 +101,40 @@ class TestViewModel: ObservableObject{
                 
                 switch result {
                 case .success(let success):
-                    print("|***There was success grabbing user \(success) is complete: \(success?.isComplete())")
+                  
                     
                     
-                    if var data = success { data.id = id ; self.userData = data }
+                    if var data = success { data.id = id ; self.selectedUser = data }
                     
                     
                     // check if the user data is complete
                     if let isComplete = success?.isComplete() {
-                        
-                        print("It is complete data")
-                        self.inCompleteData = !isComplete
+                       // complete data
                     }  else {
-                        self.inCompleteData = true
+                        self.errorLoadingUser = AccountError.doesNotExist
                     }
                     
                    
                     
                 case .failure(let failure):
                     
-                    print("**The enrror grabbing user data is .. \(failure)")
+                    if let error = FirestoreErrorCode(rawValue: failure._code){
+                        
+                        
+                        
+                        switch error {
+                        case .permissionDenied:
+                            self.errorLoadingUser = AccountError.notAuthorized
+                        case .unauthenticated:
+                            self.errorLoadingUser = AccountError.notAuthorized
+                    
+                        default:
+                            self.errorLoadingUser = GlobalError.unknown
+                        }
+                        
+                        
+                    }
+                  
                     
                 }
                 
@@ -129,6 +145,7 @@ class TestViewModel: ObservableObject{
         
     }
     
+    /*
     
     //TODO: Make private
     /// Subscribes to changes to the given user with `id`
@@ -496,38 +513,56 @@ struct TestView: View {
                     
                     VStack{
                         
-                        ForEach(viewModel.allNearbyUsers){ person in
+              
+                        // Nearby users testing out
+                        List{
                             
-                            
-                            
-                            Button {
+                            Section(header: Text("Nearby Users")){
                                 
-                            withAnimation {
-                                    viewModel.selectedUser = person
-                                showProfile = true
+                                ForEach(viewModel.allNearbyUsers){ person in
+                                    
+                                    
+                                    
+                                    Button {
+                                        
+                                        
+                                    withAnimation {
+                                            viewModel.selectedUser = person
+                                        showProfile = true
+                                        }
+                                        
+                                      
+                                        
+                                        
+                                        
+                                    } label: {
+                                        
+                                        Text(person.name ?? "No name")
+                                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                                   .contentShape(Rectangle())
+                                    }
+                                    .buttonStyle(PlainButtonStyle())
+                                    /*  .onTapGesture {
+                                        viewModel.selectedUser = person
+                                    showProfile = true
+                                    }
+                                    */
                                 }
+                            }
+                            
+                            
+                            
+                            Section(header: Text("Some Others Users")){
                                 
-                              print("Button tapped ")
                                 
-                                
-                            } label: {
-                                
-                                Text(person.name ?? "No name")
                             }
                         }
+                        
                     }
                 
                         
-                        
-                        /*
-                        if let selectedUser = Binding<AmareUser>($viewModel.selectedUser){
-                          
-                            ProfilePopup(user: selectedUser)
-                                .opacity(showProfile ? 1: 0)
-                                
-                        }
-            */
-                
+                   
+                   
                    
 
                   
@@ -564,7 +599,7 @@ struct TestView: View {
 
         }
         
-        .popup(isPresented: $showProfile, closeOnTap: false, closeOnTapOutside: true, view: {
+        .popup(isPresented: $showProfile, closeOnTap: false, closeOnTapOutside: false, view: {
             
       
               
@@ -613,7 +648,6 @@ struct TestView: View {
             
             multipeerDataSource.transceiver.peerRemoved = { peer in
                  
-               // print("!\(peer.deviceID) removed")
                 
                 
                 for user in viewModel.nearbyUsersByMultipeer{
@@ -650,8 +684,9 @@ struct TestView: View {
                 data.id = payload.id
                 data.natal_chart = payload.chart
                 data.deviceID = payload.deviceID
+                data.image = payload.profileImage
                 
-                print("!*Received some data \(data)")
+         
             
                 viewModel.nearbyUsersByMultipeer.insert(data)
                 
@@ -831,7 +866,7 @@ struct TestView: View {
 
         guard let deviceID = UIDevice.current.identifierForVendor?.uuidString else { return }
                 
-        var data = UserDataToSend(userData: mainViewModel.userData, id: mainViewModel.userData.id!, chart: mainViewModel.userData.natal_chart, deviceID: deviceID)
+        var data = UserDataToSend(userData: mainViewModel.userData, id: mainViewModel.userData.id!, chart: mainViewModel.userData.natal_chart, deviceID: deviceID, profileImage: mainViewModel.userData.image)
         
         
         
@@ -867,6 +902,7 @@ struct UserDataToSend: Codable{
     var id: String
     var chart: NatalChart?
     var deviceID: String
+    var profileImage: Data?
    /* enum CodingKeys: String, CodingKey{
         case userData
         case id

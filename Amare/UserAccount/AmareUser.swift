@@ -60,7 +60,11 @@ public struct AmareUser: Codable, Equatable, Hashable, Identifiable{
     
     var image: Data?
     
-    var deviceID: String? 
+    var deviceID: String?
+    
+    var synastry_classification: String?
+    var synastry_latin_phrase: String?
+    
     
     enum CodingKeys: String, CodingKey {
         case name

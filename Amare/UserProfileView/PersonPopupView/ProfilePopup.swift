@@ -628,7 +628,7 @@ struct ProfilePopup: View {
     func classificationView() -> some View {
         
         // Classification
-    return Text( "\(sampleClassifications.randomElement()!)")
+        return Text( "\(user.synastry_classification ?? "Friends")")
                         .font(.callout)
                         .frame(maxWidth : .infinity, alignment: .center)
                         .foregroundColor(Color.primary.opacity(0.4))
@@ -717,7 +717,7 @@ struct ProfilePopup: View {
     
     /// View for the latin phrase that describes relationshio
     func latinPhraseView() -> some View {
-        Text("\(sampleLatinPhrases.randomElement()!)")
+        Text( "\(user.synastry_latin_phrase ?? "Amor Vincit Omnia")")
                             .font(.callout)
                             .frame(maxWidth : .infinity, alignment: .center)
                             .foregroundColor(Color.primary.opacity(0.4))
