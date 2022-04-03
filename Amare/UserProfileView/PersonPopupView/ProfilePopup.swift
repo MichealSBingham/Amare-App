@@ -61,6 +61,10 @@ struct ProfilePopup: View {
     
     @State var selectedBody: Int = 6
     
+    /// For showing redacted animation
+    @State var condition: Bool = false
+    @State var condition2: Bool = false
+    
    //@ObservedObject var viewModelForPlanetView = MoreInfoOnPlanetViewModel()
     
     var body: some View {
@@ -80,13 +84,23 @@ struct ProfilePopup: View {
                     
                     if let imgdata = user.image {
                         //print("#Got image data.,,")
-                        Image(uiImage: UIImage(data: imgdata)!)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .clipShape(Circle())
-                            // .frame(width: 100, height: 100)
-                             .shadow(radius: 15)
-                             .frame(width: 150, height: 150)
+                        Button {
+                            
+                        
+
+                          
+                        } label: {
+                            
+                            
+                            Image(uiImage: UIImage(data: imgdata)!)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .clipShape(Circle())
+                                // .frame(width: 100, height: 100)
+                                 .shadow(radius: 15)
+                                 .frame(width: 150, height: 150)
+                        }
+
                              
                     } else {
                        // print("no image data to reach")
@@ -258,6 +272,7 @@ struct ProfilePopup: View {
                 }
             
         }
+            
         .onChange(of: placementToDisplay) { newValue in
             
            
@@ -557,11 +572,17 @@ struct ProfilePopup: View {
             
             //TODO: Show rest of images
             print("Tapped profile to view images. TODO: Show profile image ")
+            // remove later
+            user._synastryScore = 0.83
           
             
         } label: {
             
-            URLImage(URL(string: user.profile_image_url ?? peopleImages.randomElement()!)!) { progress in
+            
+            
+          
+            URLImage(URL(string: user.profile_image_url ?? "https://findamare.com")!) { progress in
+                
                 
                 Image(systemName: "person.circle.fill")
                     .resizable()
@@ -570,12 +591,45 @@ struct ProfilePopup: View {
                     // .frame(width: 100, height: 100)
                      .shadow(radius: 15)
                      .frame(width: 150, height: 150)
-                     .skeleton(with: true, size: CGSize(width: 150, height: 150), transition: .slide)
-                     .animation(type: .pulse())
+                     .redacted(reason: .placeholder)
+                     .blur(radius: condition ? 0.0 : 4.0)
+                     //.scaleEffect(condition ? 0.9 : 1.0)
+     
+                     .animation(Animation
+                                .easeInOut(duration: 3)
+                                 .repeatForever(autoreverses: true))
+                     .onAppear { condition = true }
                 
                      
                 
-            } content: { image, info in
+            }
+            
+        failure: {  error,retry in
+            
+            Image(systemName: "person.fill.questionmark")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .clipShape(Circle())
+                // .frame(width: 100, height: 100)
+                 .shadow(radius: 15)
+                 .frame(width: 150, height: 150)
+                 .redacted(reason: user.profile_image_url == nil ? .placeholder : [])
+                 .blur(radius: condition2 ? 4.0 : 0.0)
+                 //.scaleEffect(condition2 ? 0.8 : 1.0)
+                 //.animation(Animation
+                 //           .easeInOut(duration: 3)
+                  //           .repeatForever(autoreverses: true))
+                 .onAppear {  withAnimation(.easeIn(duration: 3).repeatForever(autoreverses: true)) {
+                     condition2 = true
+                 }  }
+        }
+        
+        
+        content: { image, info in
+                
+            
+            ZStack{
+                
                 
                 image
                     .resizable()
@@ -585,29 +639,30 @@ struct ProfilePopup: View {
                      .overlay(Circle().stroke(colors.randomElement() ?? .blue, lineWidth: 1))
                      .shadow(radius: 15)
                      .frame(width: 150, height: 150)
+                     .opacity(user.profile_image_url != nil ? 1: 0)
+                
+                Image(systemName: "person.circle.fill")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .clipShape(Circle())
+                    // .frame(width: 100, height: 100)
+                     .shadow(radius: 15)
+                     .frame(width: 150, height: 150)
+                     .redacted(reason: .placeholder)
+                     .blur(radius: condition ? 0.0 : 4.0)
+                     //.scaleEffect(condition ? 0.9 : 1.0)
+     
+                     .animation(Animation
+                                .easeInOut(duration: 1)
+                                .repeatForever(autoreverses: true))
+                     .opacity(user.profile_image_url == nil ? 1: 0)
+                     .onAppear { condition = true }
+            }
+                
             }
 
         
 
-            
-           /* URLImage(URL(string: user.profile_image_url ?? peopleImages.randomElement()!)!, inProgress: { progress in
-                <#code#>
-            } , content: { image in
-                
-                
-                image
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .clipShape(Circle())
-                    // .frame(width: 100, height: 100)
-                     .overlay(Circle().stroke(colors.randomElement() ?? .blue, lineWidth: 1))
-                     .shadow(radius: 15)
-                     .frame(width: 150, height: 150)
-            }
-            
-            
-            
-        }) */
     }
         
     }
@@ -615,13 +670,23 @@ struct ProfilePopup: View {
     /// Name of the user
     func nameView() -> some View {
        
-        Text("\(user.name ?? sampleNames.randomElement()!)")
+        Text("\(user.name ?? "Name Not Found")")
                     .font(.largeTitle)
                      .bold()
                      .frame(maxWidth : .infinity, alignment: .center)
                     //.padding(.top)
                     .foregroundColor(Color.primary.opacity(0.4))
                     .modifier(FadeModifier(control: showProfilePopup))
+                    .redacted(reason: user.name == nil ? .placeholder : [])
+                    .blur(radius: condition ? 0.0 : 4.0)
+                    //.scaleEffect(condition ? 0.9 : 1.0)
+    
+                    .animation(Animation
+                               .easeInOut(duration: 1)
+                                .repeatForever(autoreverses: true))
+                    .onAppear { condition = true }
+                  
+                    
     }
     
     /// Soulmate, friend, enemy etc
@@ -634,6 +699,7 @@ struct ProfilePopup: View {
                         .foregroundColor(Color.primary.opacity(0.4))
                         .padding(.bottom)
                         .modifier(FadeModifier(control: showProfilePopup))
+                        .redacted(reason: .privacy)
                        // .shimmering(duration: 5, bounce: true)
     }
     
@@ -1003,7 +1069,16 @@ struct ProfilePopup: View {
                             
                             
                         }
+                        .animation(.easeInOut(duration: 5))
                             .frame(width: 150, height: 150)
+                            
+                            .onAppear {
+                                
+                                withAnimation(.easeInOut(duration: 15)) {
+                                    synastryscore = RingProgress.percent(Double.random(in: 0...1))
+
+                                }
+                            }
                           
                             
             
@@ -1012,6 +1087,8 @@ struct ProfilePopup: View {
                         
          // Chemistry, Love, Sex
             HStack{
+                
+                
                         ProgressRing(progress: $chemistry, axis: .top, clockwise: true, outerRingStyle: o_ringstyle, innerRingStyle: ringStyleFor(progress: "chemistry")) { percent in
                             
                             
@@ -1032,9 +1109,10 @@ struct ProfilePopup: View {
                             
                         }
                             .frame(width: 115, height: 115)
+                            .animation(.easeInOut(duration: 5))
                             .onAppear {
                                 
-                                withAnimation(.easeInOut(duration: 3)) {
+                                withAnimation(.easeInOut(duration: 15)) {
                                     chemistry = RingProgress.percent(Double.random(in: 0...1))
 
                                 }
@@ -1061,6 +1139,7 @@ struct ProfilePopup: View {
                             
                         }
                             .frame(width: 115, height: 115)
+                            .animation(.easeInOut(duration: 5))
                             .onAppear {
                                 
                                 withAnimation(.easeInOut(duration: 3)) {
@@ -1089,6 +1168,7 @@ struct ProfilePopup: View {
                             
                         }
                             .frame(width: 115, height: 115)
+                            .animation(.easeInOut(duration: 5))
                             .onAppear {
                                 
                                 withAnimation(.easeInOut(duration: 3)) {
@@ -1115,6 +1195,7 @@ struct ProfilePopup: View {
                 .indexViewStyle(.page(backgroundDisplayMode: .interactive))
                 .frame(width: .infinity, height: 150)
                 .tabViewStyle(.page)
+               
     }
     
 

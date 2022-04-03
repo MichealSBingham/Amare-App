@@ -16,8 +16,11 @@ class TestViewModel: ObservableObject{
     
     @Published var selectedUser: AmareUser?
     
+    
     /// See    `AccountErrors` and `GlobalErrors`. If not authorized, usually because they are not friends
     @Published var errorLoadingUser: Error?
+    /// See    `AccountErrors` and `GlobalErrors`. If not authorized, usually because they are not friends
+    @Published var errorLoadingChart: Error?
     
     
     
@@ -69,7 +72,7 @@ class TestViewModel: ObservableObject{
     func load(user id: String)   {
         
         self.subscribeToUserDataChanges(for: id)
-      //  self.subscribeToNatalChart(for: id)
+        self.subscribeToNatalChart(for: id)
       //  self.subscribeToFriendshipStatus(them: id)
       //  self.subscribeToWinkStatus(them: id)
         
@@ -145,9 +148,9 @@ class TestViewModel: ObservableObject{
         
     }
     
-    /*
     
-    //TODO: Make private
+    
+
     /// Subscribes to changes to the given user with `id`
     /// - Parameters:
     ///   - id: Id of the user
@@ -246,7 +249,7 @@ class TestViewModel: ObservableObject{
                             data.angles[index].forSynastry = isOuterChart
                         }
                         
-                        self.userData.natal_chart = data
+                        self.selectedUser?.natal_chart = data
                         
                         
                         
@@ -263,12 +266,31 @@ class TestViewModel: ObservableObject{
                     } else{
                         
                         // Could not retreive the data for some reason
+                        self.errorLoadingChart = AccountError.doesNotExist
                         completion?(AccountError.doesNotExist, nil )
                     }
                     
                 case .failure(let failure):
                     
-                    print("**The error grabbing user data is .. \(failure)")
+                    
+                    
+                    if let error = FirestoreErrorCode(rawValue: failure._code){
+                        
+                        
+                        
+                        switch error {
+                        case .permissionDenied:
+                            self.errorLoadingChart = AccountError.notAuthorized
+                        case .unauthenticated:
+                            self.errorLoadingChart = AccountError.notAuthorized
+                    
+                        default:
+                            self.errorLoadingChart = GlobalError.unknown
+                        }
+                        
+                        
+                    }
+                    
                     completion?(failure, nil)
                     
                 }
@@ -280,6 +302,7 @@ class TestViewModel: ObservableObject{
         
     }
     
+    /*
 
     /// Unsubscribes to changes to the current signed in user's data
     func unsubscribeToUserDataChanges()  {
@@ -402,9 +425,9 @@ class TestViewModel: ObservableObject{
 
     }
     
-    */
     
-    /*
+    
+    */
 
     /// Gets the user data for the nearby peers detected, tries to get from cache first when loading user data
     /// TODO: Change to cache AND watch for  !
@@ -461,7 +484,7 @@ class TestViewModel: ObservableObject{
     
     }
     
-    */
+    
     
 }
 
@@ -490,6 +513,7 @@ struct TestView: View {
     // Consider Adding elsewhere
     
  
+    let testUsers = ["u4uS1JxH2ZO8re6mchQUJ1q18Km2", "hcrmKaxcEcc8CqY4B6Uh5VGG7Yc2"]
   
     
 
@@ -554,6 +578,23 @@ struct TestView: View {
                             
                             Section(header: Text("Some Others Users")){
                                 
+                                ForEach(testUsers, id: \.self) {  id in
+                                    
+                                    Button {
+                                        
+                                        withAnimation {
+                                               
+                                            showProfile = true
+                                            }
+                                        
+                                    } label: {
+                                        
+                                        Text("\(id)")
+                                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                                   .contentShape(Rectangle())
+                                    }
+                                    .buttonStyle(PlainButtonStyle())
+                                }
                                 
                             }
                         }
@@ -599,7 +640,15 @@ struct TestView: View {
 
         }
         
-        .popup(isPresented: $showProfile, closeOnTap: false, closeOnTapOutside: false, view: {
+       
+        
+        .popup(isPresented: $showProfile, closeOnTap: false, closeOnTapOutside: false, dismissCallback: {
+            
+            withAnimation {
+                viewModel.selectedUser = nil
+            }
+            
+        }, view: {
             
       
               

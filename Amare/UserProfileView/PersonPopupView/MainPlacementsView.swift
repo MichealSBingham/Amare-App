@@ -63,7 +63,7 @@ struct MainPlacementView_Angle: View {
     
     var angle: Angle?
     
-    var color: Color? = randomColor()
+    var color: Color? = .white
     
     var size: CGFloat = 10
     
