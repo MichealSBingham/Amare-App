@@ -65,6 +65,8 @@ struct ProfilePopup: View {
     @State var condition: Bool = false
     @State var condition2: Bool = false
     
+    @State var tagSelected: Int = 1
+    
    //@ObservedObject var viewModelForPlanetView = MoreInfoOnPlanetViewModel()
     
     var body: some View {
@@ -142,6 +144,7 @@ struct ProfilePopup: View {
                 
                 
                 classificationView()
+                    .redacted(reason: user.synastry_classification == nil ? .placeholder : [])
                 
                 
                 
@@ -149,6 +152,7 @@ struct ProfilePopup: View {
                     
                     // Latin Phrase
                     latinPhraseView()
+                        .redacted(reason: user.synastry_classification == nil ? .placeholder : [])
                     
                                         
                     
@@ -156,19 +160,22 @@ struct ProfilePopup: View {
                     
                     someoneWinkedAtYouView()
 
-                    
+    
                     
                 }
                 
                
                   
                 tabViewForPlacementsInChart()
+                    .redacted(reason: user.natal_chart == nil ? .placeholder : [])
                                   
                 
                 
               
                     
                 tabViewForProgressCircles()
+                    .Redacted(reason: user.synastry_classification == nil ? .blurred : nil)
+                
                                     
                 
               
@@ -1033,6 +1040,7 @@ struct ProfilePopup: View {
         .frame(width: .infinity, height: 150)
         .tabViewStyle(.page)
         .padding(.top, -50)
+       
     }
     
     func tabViewForProgressCircles() -> some View {
@@ -1047,12 +1055,13 @@ struct ProfilePopup: View {
             
         
         
-       return  TabView {
+        return  TabView(selection: $tagSelected) {
             
                 
             
                         
               // Synastry Score
+         
                         ProgressRing(progress: $synastryscore, axis: .top, clockwise: true, outerRingStyle: o_ringstyle, innerRingStyle: ringStyleFor(progress: "synastry")) { percent in
                             
                             
@@ -1071,14 +1080,23 @@ struct ProfilePopup: View {
                         }
                         .animation(.easeInOut(duration: 5))
                             .frame(width: 150, height: 150)
+                            //.offset(y: 35)
                             
                             .onAppear {
                                 
-                                withAnimation(.easeInOut(duration: 15)) {
-                                    synastryscore = RingProgress.percent(Double.random(in: 0...1))
+                                AmareApp().delay(3) {
+                                    
+                                    withAnimation(.easeInOut(duration: 3)) {
+                                        synastryscore = RingProgress.percent(Double.random(in: 0...1))
+
+                                    }
 
                                 }
-                            }
+                            }.tag(1)
+               
+           
+       
+                            
                           
                             
             
@@ -1110,6 +1128,7 @@ struct ProfilePopup: View {
                         }
                             .frame(width: 115, height: 115)
                             .animation(.easeInOut(duration: 5))
+                           // .offset(y: 10)
                             .onAppear {
                                 
                                 withAnimation(.easeInOut(duration: 15)) {
@@ -1140,6 +1159,7 @@ struct ProfilePopup: View {
                         }
                             .frame(width: 115, height: 115)
                             .animation(.easeInOut(duration: 5))
+                          //  .offset(y: 10)
                             .onAppear {
                                 
                                 withAnimation(.easeInOut(duration: 3)) {
@@ -1169,6 +1189,7 @@ struct ProfilePopup: View {
                         }
                             .frame(width: 115, height: 115)
                             .animation(.easeInOut(duration: 5))
+                          //  .offset(y: 10)
                             .onAppear {
                                 
                                 withAnimation(.easeInOut(duration: 3)) {
@@ -1177,7 +1198,7 @@ struct ProfilePopup: View {
                                 }
                             }
                             
-            }
+            }.tag(2)
                     
             Button(action: {
                 print("Tapped natal chart")
@@ -1186,7 +1207,7 @@ struct ProfilePopup: View {
                 SmallNatalChartView()
                     .makeSmall(with: user.natal_chart)
                 
-            }
+            }.tag(3)
         
                
                     
@@ -1195,6 +1216,8 @@ struct ProfilePopup: View {
                 .indexViewStyle(.page(backgroundDisplayMode: .interactive))
                 .frame(width: .infinity, height: 150)
                 .tabViewStyle(.page)
+            
+                
                
     }
     
@@ -1250,3 +1273,67 @@ struct ProfilePopup_Previews: PreviewProvider {
 }
 
 
+
+public enum RedactionReason {
+  case placeholder
+  case confidential
+  case blurred
+}
+
+
+struct Placeholder: ViewModifier {
+  func body(content: Content) -> some View {
+    content
+      .accessibility(label: Text("Placeholder"))
+      .opacity(0)
+      .overlay(
+        RoundedRectangle(cornerRadius: 2)
+          .fill(Color.black.opacity(0.1))
+          .padding(.vertical, 4.5)
+    )
+  }
+}
+
+struct Confidential: ViewModifier {
+  func body(content: Content) -> some View {
+    content
+      .accessibility(label: Text("Confidential"))
+      .overlay(Color.black)
+    
+  }
+}
+
+struct Blurred: ViewModifier {
+  func body(content: Content) -> some View {
+    content
+      .accessibility(label: Text("Blurred"))
+      .blur(radius: 10)
+  }
+}
+
+struct Redactable: ViewModifier {
+  let reason: RedactionReason?
+
+  @ViewBuilder
+  func body(content: Content) -> some View {
+    switch reason {
+    case .placeholder:
+      content
+        .modifier(Placeholder())
+    case .confidential:
+      content
+        .modifier(Confidential())
+    case .blurred:
+      content
+        .modifier(Blurred())
+    case nil:
+      content
+    }
+  }
+}
+
+extension View {
+  func Redacted(reason: RedactionReason?) -> some View {
+    modifier(Redactable(reason: reason))
+  }
+}

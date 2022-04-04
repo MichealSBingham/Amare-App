@@ -642,7 +642,7 @@ struct TestView: View {
         
        
         
-        .popup(isPresented: $showProfile, closeOnTap: false, closeOnTapOutside: false, dismissCallback: {
+        .popup(isPresented: $showProfile , closeOnTap: false, closeOnTapOutside: false, dismissCallback: {
             
             withAnimation {
                 viewModel.selectedUser = nil
