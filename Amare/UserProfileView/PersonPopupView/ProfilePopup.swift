@@ -580,7 +580,6 @@ struct ProfilePopup: View {
             //TODO: Show rest of images
             print("Tapped profile to view images. TODO: Show profile image ")
             // remove later
-            user._synastryScore = 0.83
           
             
         } label: {
@@ -677,21 +676,38 @@ struct ProfilePopup: View {
     /// Name of the user
     func nameView() -> some View {
        
-        Text("\(user.name ?? "Name Not Found")")
-                    .font(.largeTitle)
-                     .bold()
-                     .frame(maxWidth : .infinity, alignment: .center)
-                    //.padding(.top)
-                    .foregroundColor(Color.primary.opacity(0.4))
-                    .modifier(FadeModifier(control: showProfilePopup))
-                    .redacted(reason: user.name == nil ? .placeholder : [])
-                    .blur(radius: condition ? 0.0 : 4.0)
-                    //.scaleEffect(condition ? 0.9 : 1.0)
-    
-                    .animation(Animation
-                               .easeInOut(duration: 1)
-                                .repeatForever(autoreverses: true))
-                    .onAppear { condition = true }
+        ZStack {
+            
+            Text("\(user.name ?? "Name Not Found")")
+                        .font(.largeTitle)
+                         .bold()
+                         .frame(maxWidth : .infinity, alignment: .center)
+                        //.padding(.top)
+                        .foregroundColor(Color.primary.opacity(0.4))
+                        .modifier(FadeModifier(control: showProfilePopup))
+                        .redacted(reason: user.name == nil ? .placeholder : [])
+                        .blur(radius: condition ? 0.0 : 4.0)
+                        //.scaleEffect(condition ? 0.9 : 1.0)
+        
+                        .animation(Animation
+                                   .easeInOut(duration: 1)
+                                    .repeatForever(autoreverses: true))
+                        .onAppear { condition = true }
+                        .opacity(user.name == nil ? 1: 0)
+            
+            Text("\(user.name ?? "Name Not Found")")
+                        .font(.largeTitle)
+                         .bold()
+                         .frame(maxWidth : .infinity, alignment: .center)
+                        //.padding(.top)
+                        .foregroundColor(Color.primary.opacity(0.4))
+                        .modifier(FadeModifier(control: showProfilePopup))
+                        .opacity(user.name == nil ? 0: 1)
+                        //.scaleEffect(condition ? 0.9 : 1.0)
+        
+                       
+        }
+       
                   
                     
     }

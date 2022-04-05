@@ -14,11 +14,28 @@ class TestViewModel: ObservableObject{
     
     //@Published var userData: AmareUser?
     
-    @Published var selectedUser: AmareUser?
+    @Published var selectedUser: AmareUser? {
+        didSet{
+            if let _ = self.selectedUser {
+                errorLoadingUser = nil
+            }
+        }
+    }
+    
     
     
     /// See    `AccountErrors` and `GlobalErrors`. If not authorized, usually because they are not friends
-    @Published var errorLoadingUser: Error?
+    @Published var errorLoadingUser: Error? {
+        didSet {
+            if let _ = self.errorLoadingUser{
+                
+                selectedUser = nil
+            }
+            
+        }
+    }
+    
+    
     /// See    `AccountErrors` and `GlobalErrors`. If not authorized, usually because they are not friends
     @Published var errorLoadingChart: Error?
     
@@ -92,7 +109,7 @@ class TestViewModel: ObservableObject{
                 // Make sure the document exists
                 guard snapshot?.exists ?? false else {
                     self.errorLoadingUser = AccountError.doesNotExist
-                    
+                  //  self.selectedUser = nil
                     return
                 }
                 
@@ -115,6 +132,7 @@ class TestViewModel: ObservableObject{
                        // complete data
                     }  else {
                         self.errorLoadingUser = AccountError.doesNotExist
+                       // self.selectedUser = nil
                     }
                     
                    
@@ -137,6 +155,7 @@ class TestViewModel: ObservableObject{
                         
                         
                     }
+                  //  self.selectedUser = nil
                   
                     
                 }
@@ -165,7 +184,7 @@ class TestViewModel: ObservableObject{
             natalChartListener  =  db.collection("users").document(id).collection("public").document("natal_chart")
                 .addSnapshotListener {   snapshot, error in
                 
-                
+                print("!Subscripping to natal chart.. error. \(error)")
                 
                     guard error == nil else{
                         // Handle these errors....
@@ -210,6 +229,7 @@ class TestViewModel: ObservableObject{
                         } else{
                             
                             print("\n\nSome error happened, likely an unhandled error from firebase : \(error). This happened inside Account.getUserData()")
+                            self.selectedUser?.natal_chart = nil
                             completion?(GlobalError.unknown, nil )
                             return
                         }
@@ -267,6 +287,7 @@ class TestViewModel: ObservableObject{
                         
                         // Could not retreive the data for some reason
                         self.errorLoadingChart = AccountError.doesNotExist
+                        self.selectedUser?.natal_chart = nil
                         completion?(AccountError.doesNotExist, nil )
                     }
                     
@@ -289,8 +310,9 @@ class TestViewModel: ObservableObject{
                         }
                         
                         
+                        
                     }
-                    
+                    self.selectedUser?.natal_chart = nil
                     completion?(failure, nil)
                     
                 }
@@ -584,6 +606,7 @@ struct TestView: View {
                                         
                                         withAnimation {
                                                
+                                            viewModel.load(user: id)
                                             showProfile = true
                                             }
                                         
