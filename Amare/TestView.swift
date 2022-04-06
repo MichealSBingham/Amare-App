@@ -270,8 +270,7 @@ class TestViewModel: ObservableObject{
                             return
                         }
                     
-                        // some error unknown error occured
-                        self.errorLoadingChart = GlobalError.unknown
+                        
                         
                         
                     }
@@ -308,7 +307,7 @@ class TestViewModel: ObservableObject{
                         }
                         
                         self.selectedUser?.natal_chart = data
-                        self.errorLoadingChart = nil
+                      //  not needed  self.errorLoadingChart = nil
                         
                         
      
@@ -391,7 +390,6 @@ class TestViewModel: ObservableObject{
             myFriendsListener =  db.collection("friends").document(me).collection("myFriends").document(them)
                 .addSnapshotListener({ snapshot, error in
                     
-                    print("!Subscribing to friendship : \(snapshot) with error \(error)")
                     guard error == nil else {
                         self.errorLoadingFriendship = error
                         return
@@ -680,47 +678,42 @@ struct TestView: View {
                         
                     }
                 
-                        
+                    
                    
                    
                    
 
                   
-                    
-                
-                
+                    /*
+            ProfilePopup(user: Binding<AmareUser>($viewModel.selectedUser) ?? .constant(AmareUser()))
+                .opacity(showProfile ? 1: 0)
+                */
            
             
 
-            /*
-            VStack{
-                
-                ForEach(viewModel.nearbyUsersByMultipeer, id: \.id) { person in
-                    
-                    Text("\(person.name ?? "No name")")
-                }
-                
-                
-                    .onChange(of: multipeerDataSource.availablePeers) { peers in
-                        
-                        let idSet = NSCountedSet(array: (peers).map { $0.name }).allObjects as? [String] ?? []
-                        
-                        viewModel.fetchDataOfNearbyMultipeers(userIds: idSet)
-
-                        
-                    }
-            }
-                
-            
-           */
+           
             
             
             
 
         }
+        /*
+        .sheet(isPresented: $showProfile, content: {
+            
+            
+    ProfilePopup(user: Binding<AmareUser>($viewModel.selectedUser) ?? .constant(AmareUser()))
+        .opacity(showProfile ? 1: 0)
+        
+        })
+        
+        */
+        
         
        
-        
+        /*
+         
+         I would much rather have this; however, it causes a bug in the UI when I use a popup view for Profilepopup
+        */
         .popup(isPresented: $showProfile , closeOnTap: false, closeOnTapOutside: false, dismissCallback: {
             
             withAnimation {
@@ -737,6 +730,7 @@ struct TestView: View {
             
         })
         
+        
         /*
         .sheet(isPresented: $showProfile, content: {
             
@@ -749,6 +743,8 @@ struct TestView: View {
             
         })
         */
+        
+        
         
         .onAppear {
             
@@ -898,7 +894,7 @@ struct TestView: View {
        
 
     }
-    
+        
     /*
     func exampleUsageOfProfilePopup(<#parameters#>) -> <#return type#> {
         
