@@ -164,11 +164,19 @@ struct ProfilePopup: View {
                     
                 }
                 
-               
+                
+                
+                // placeholder redaction
+                // shown if [natal chart OR  friendship are loading]
+               // natal chart = nil ---> rejected permission OR is loading
+                // loading if : natal_chart = nil & user.AreFriends = nil
+                //
+    
                   
                 tabViewForPlacementsInChart()
-                    .redacted(reason: (user.natal_chart == nil && (user.areFriends == nil)) ? .placeholder : [])  // only if it's loading so no error, we check if it's loaded the friendship status because if it has we would rather show the blurr instead of the placeholder
-                    .Redacted(reason: (user.areFriends != nil && (user.areFriends == false) ) ? .blurredLessIntense : nil)            // If they are not friends, blurr it or if they
+                    //.redacted(reason: (user.natal_chart == nil && (user.areFriends == nil && !(user.isNotable ?? false) )) ? .placeholder : [])  // only if it's loading so no error, we check if it's loaded the friendship status because if it has we would rather show the blurr instead of the placeholder
+                    .redacted(reason: (user.natal_chart == nil && (user.areFriends == nil )) ? .placeholder : [])
+                    .Redacted(reason: (user.areFriends != nil && (user.areFriends == false) || !(user.isNotable ?? false) ) ? .blurredLessIntense : nil)            // If they are not friends, blurr it or if they
              
                 
                 

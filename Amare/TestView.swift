@@ -19,6 +19,15 @@ class TestViewModel: ObservableObject{
             if let _ = self.selectedUser {
                 errorLoadingUser = nil
             }
+            
+            if let _ = self.selectedUser?.natal_chart {
+                errorLoadingChart = nil
+            }
+            
+            if let _ = self.selectedUser?.areFriends {
+                errorLoadingFriendship = nil
+            }
+            
         }
     }
     
@@ -35,10 +44,27 @@ class TestViewModel: ObservableObject{
         }
     }
     
-    
     /// See    `AccountErrors` and `GlobalErrors`. If not authorized, usually because they are not friends
-    @Published var errorLoadingChart: Error?
+    @Published var errorLoadingChart: Error? {
+        didSet {
+            if let _ = self.errorLoadingChart {
+                selectedUser?.natal_chart = nil
+            }
+        }
+    }
     
+//TODO: Document errors here
+    /// See    `AccountErrors` and `GlobalErrors`. If not authorized, usually because they are not friends
+    /// TODO: Document errors
+    @Published var errorLoadingFriendship: Error? {
+        
+        didSet{
+            if let _ = self.errorLoadingFriendship {
+                self.selectedUser?.areFriends = nil
+            }
+        }
+        
+    }
     
     
     @Published var nearbyUsersByMultipeer =  Set<AmareUser>()
@@ -90,7 +116,7 @@ class TestViewModel: ObservableObject{
         
         self.subscribeToUserDataChanges(for: id)
         self.subscribeToNatalChart(for: id)
-      //  self.subscribeToFriendshipStatus(them: id)
+        self.subscribeToFriendshipStatus(them: id)
       //  self.subscribeToWinkStatus(them: id)
         
     }
@@ -337,7 +363,7 @@ class TestViewModel: ObservableObject{
         
     }
     
-    /*
+/*
 
     /// Unsubscribes to changes to the current signed in user's data
     func unsubscribeToUserDataChanges()  {
@@ -355,8 +381,9 @@ class TestViewModel: ObservableObject{
         }
     }
     
-    
+    */
     /// Subscribes to updates to the friendship status; i.e. this is called to see if the user  `userData.id` is friends with the current signed in user. Will also check if there is an open friend request.
+    //TODO: Error handling for subscribing to friendship status
     private func subscribeToFriendshipStatus(them: String)  {
         
         if let me = Auth.auth().currentUser?.uid {
@@ -364,33 +391,43 @@ class TestViewModel: ObservableObject{
             myFriendsListener =  db.collection("friends").document(me).collection("myFriends").document(them)
                 .addSnapshotListener({ snapshot, error in
                     
+                    print("!Subscribing to friendship : \(snapshot) with error \(error)")
+                    guard error == nil else {
+                        self.errorLoadingFriendship = error
+                        return
+                    }
+                    
                     if snapshot?.exists ?? false {
                         // friends already
-                        
-                       
-                        self.userData.areFriends = true
+                        self.selectedUser?.areFriends = true
                     
                     } else {
                         
-                     
-                        self.userData.areFriends = false
+                        self.selectedUser?.areFriends = false
                         
                        
                     }
                 })
 
            requestsListener = db.collection("friends").document(them).collection("requests").document(me).addSnapshotListener({ snapshot, error in
-                
+               
+               print("!Subscribing to requests : \(snapshot) with error \(error)")
+
+               guard error == nil else {
+                   self.errorLoadingFriendship = error
+                   return
+               }
+               
                 if snapshot?.exists ?? false {
                     // There is a friend request there that I sent to this user
                     let didAccept: Bool  = snapshot?.data()?["accepted"] as? Bool ?? false
                    
-                    self.userData.requested = !didAccept
+                    self.selectedUser?.requested = !didAccept
   
                     
                 }  else {
                     // there is most definitely no friend pending
-                    self.userData.requested = false
+                    self.selectedUser?.requested = false
 
                 }
             })
@@ -398,18 +435,20 @@ class TestViewModel: ObservableObject{
             
             openFriendRequestsListener = db.collection("friends").document(me).collection("requests").document(them).addSnapshotListener({ snapshot, error in
                     
+                print("!Subscribing to requests2 : \(snapshot) with error \(error)")
+
                     if snapshot?.exists ?? false {
                         // They sent me (current signed in user) a friend request
                        
                       
-                        self.userData.openFriendRequest = true
+                        self.selectedUser?.openFriendRequest = true
                         
                         
                         
                     }  else {
                         // They did not send me a freind request
                       
-                        self.userData.openFriendRequest = false
+                        self.selectedUser?.openFriendRequest = false
                         
                        
                     }
@@ -418,8 +457,12 @@ class TestViewModel: ObservableObject{
             
         }
         
+        else {
+            self.errorLoadingFriendship = AccountError.notSignedIn
+        }
     }
     
+    /*
     /// Subscribes to updates to whether or not we've winked at each other
     private func subscribeToWinkStatus(them: String)   {
         
