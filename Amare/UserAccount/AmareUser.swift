@@ -44,7 +44,7 @@ public struct AmareUser: Codable, Equatable, Hashable, Identifiable{
     var _loveScore: Double = 0
     
     /// Whether or not the current signed in user is friends with this user. 
-    var areFriends: Bool = false
+    var areFriends: Bool? 
     
     /// Whether or not a friend request was sent to this user or not 
     var requested: Bool?

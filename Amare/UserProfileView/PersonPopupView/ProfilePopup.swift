@@ -167,8 +167,9 @@ struct ProfilePopup: View {
                
                   
                 tabViewForPlacementsInChart()
-                    .redacted(reason: user.natal_chart == nil ? .placeholder : [])
-                                  
+                    .redacted(reason: (user.natal_chart == nil && (user.areFriends == nil)) ? .placeholder : [])  // only if it's loading so no error, we check if it's loaded the friendship status because if it has we would rather show the blurr instead of the placeholder
+                    .Redacted(reason: (user.areFriends != nil && (user.areFriends == false) ) ? .blurredLessIntense : nil)            // If they are not friends, blurr it or if they
+             
                 
                 
               
@@ -1294,6 +1295,7 @@ public enum RedactionReason {
   case placeholder
   case confidential
   case blurred
+  case blurredLessIntense
 }
 
 
@@ -1325,7 +1327,21 @@ struct Blurred: ViewModifier {
       .accessibility(label: Text("Blurred"))
       .blur(radius: 10)
   }
+    
+    
 }
+
+
+struct BlurredLessIntense: ViewModifier {
+  func body(content: Content) -> some View {
+    content
+      .accessibility(label: Text("Blurred"))
+      .blur(radius: 4)
+  }
+    
+    
+}
+
 
 struct Redactable: ViewModifier {
   let reason: RedactionReason?
@@ -1342,6 +1358,9 @@ struct Redactable: ViewModifier {
     case .blurred:
       content
         .modifier(Blurred())
+    case .blurredLessIntense:
+        content
+            .modifier(BlurredLessIntense())
     case nil:
       content
     }

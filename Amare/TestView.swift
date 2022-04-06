@@ -130,6 +130,7 @@ class TestViewModel: ObservableObject{
                     // check if the user data is complete
                     if let isComplete = success?.isComplete() {
                        // complete data
+                        self.errorLoadingUser = nil
                     }  else {
                         self.errorLoadingUser = AccountError.doesNotExist
                        // self.selectedUser = nil
@@ -154,8 +155,9 @@ class TestViewModel: ObservableObject{
                         }
                         
                         
+                    } else {
+                        self.errorLoadingUser = GlobalError.unknown
                     }
-                  //  self.selectedUser = nil
                   
                     
                 }
@@ -178,7 +180,6 @@ class TestViewModel: ObservableObject{
     private func subscribeToNatalChart(for id: String?, isOuterChart: Bool = false, completion: ( (_ err: Error?, _ natalChart: NatalChart?) -> Void)?  = nil )  {
         
         // // \\ \\ // \\ // \\ // \\ // \\ // \\
-        print("***Subscribing to user data changes \(id)")
         if let id = id{
             
             natalChartListener  =  db.collection("users").document(id).collection("public").document("natal_chart")
@@ -195,32 +196,42 @@ class TestViewModel: ObservableObject{
                                 
                                 // Handle Global Errors
                             case .networkError:
+                                self.errorLoadingChart = GlobalError.networkError
                                 completion?(GlobalError.networkError, nil )
                             case .tooManyRequests:
+                                self.errorLoadingChart = GlobalError.tooManyRequests
                                 completion?(GlobalError.tooManyRequests, nil )
                             case .captchaCheckFailed:
+                                self.errorLoadingChart = GlobalError.captchaCheckFailed
                                 completion?(GlobalError.captchaCheckFailed, nil )
                             case .quotaExceeded:
+                                self.errorLoadingChart = GlobalError.quotaExceeded
                                 completion?(GlobalError.quotaExceeded, nil )
                             case .operationNotAllowed:
+                                self.errorLoadingChart = AccountError.notAuthorized
                                 completion?(GlobalError.notAllowed, nil )
                             case .internalError:
-                                print("\n\nSome error happened, likely an unhandled error from firebase : \(error). This happened inside Account.getUserData()")
+                                self.errorLoadingChart = GlobalError.internalError
                                 completion?(GlobalError.internalError, nil )
                                 
                                 // Handle Account Errors
                             case .expiredActionCode:
+                                self.errorLoadingChart = AccountError.expiredActionCode
                                 completion?(AccountError.expiredActionCode, nil )
                             case .sessionExpired:
+                                self.errorLoadingChart = AccountError.sessionExpired
                                 completion?(AccountError.sessionExpired, nil )
                             case .userTokenExpired:
+                                self.errorLoadingChart = AccountError.userTokenExpired
                                 completion?(AccountError.userTokenExpired, nil )
                             case .userDisabled:
+                                self.errorLoadingChart = AccountError.disabledUser
                                 completion?(AccountError.disabledUser, nil )
                             case .wrongPassword:
+                                self.errorLoadingChart = AccountError.wrong
                                 completion?(AccountError.wrong, nil )
                             default:
-                                print("\n\nSome error happened, likely an unhandled error from firebase : \(error). This happened inside Account.getUserData()")
+                                self.errorLoadingChart = GlobalError.unknown
                                 completion?(GlobalError.unknown, nil )
                             }
                             
@@ -228,12 +239,13 @@ class TestViewModel: ObservableObject{
                             
                         } else{
                             
-                            print("\n\nSome error happened, likely an unhandled error from firebase : \(error). This happened inside Account.getUserData()")
-                            self.selectedUser?.natal_chart = nil
+                            self.errorLoadingChart = GlobalError.unknown
                             completion?(GlobalError.unknown, nil )
                             return
                         }
                     
+                        // some error unknown error occured
+                        self.errorLoadingChart = GlobalError.unknown
                         
                         
                     }
@@ -241,7 +253,7 @@ class TestViewModel: ObservableObject{
                     
                 // Make sure the document exists
                 guard snapshot?.exists ?? false else {
-                    
+                    self.errorLoadingChart = AccountError.doesNotExist
                     completion?(AccountError.doesNotExist, nil)
                     return
                 }
@@ -270,7 +282,7 @@ class TestViewModel: ObservableObject{
                         }
                         
                         self.selectedUser?.natal_chart = data
-                        
+                        self.errorLoadingChart = nil
                         
                         
      
@@ -287,7 +299,6 @@ class TestViewModel: ObservableObject{
                         
                         // Could not retreive the data for some reason
                         self.errorLoadingChart = AccountError.doesNotExist
-                        self.selectedUser?.natal_chart = nil
                         completion?(AccountError.doesNotExist, nil )
                     }
                     
@@ -311,8 +322,10 @@ class TestViewModel: ObservableObject{
                         
                         
                         
+                    } else {
+                        self.errorLoadingChart = GlobalError.unknown
                     }
-                    self.selectedUser?.natal_chart = nil
+                   
                     completion?(failure, nil)
                     
                 }
