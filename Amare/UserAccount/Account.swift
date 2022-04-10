@@ -2037,7 +2037,7 @@ class Account: ObservableObject {
         
         // The user data should be in the shared instance
         
-        guard let myProfilePic = Account.shared.data?.profile_image_url else {
+        guard let myProfilePic = Account.shared.data?.profile_image_url, let isNotable = Account.shared.data?.isNotable else {
             
             // if not, load it
             print("Profile picture WAS NOT in the shared instance ")
@@ -2045,7 +2045,8 @@ class Account: ObservableObject {
                 
                 print("the errr \(err) and user is \(user)")
                 let image = user?.profile_image_url ?? ""
-                self.db?.collection("friends").document(userId).collection("requests").document(id).setData(["request_by": id, "time": Date.now, "accepted": false, "profile_image_url": image], completion: { error in
+                let isNotable  = user?.isNotable ?? false
+                self.db?.collection("friends").document(userId).collection("requests").document(id).setData(["request_by": id, "time": Date.now, "accepted": false, "profile_image_url": image, "isNotable": isNotable], completion: { error in
                     
                     completion(error)
                 })
@@ -2061,7 +2062,7 @@ class Account: ObservableObject {
                 // friend_requests
                     // - amandaID
                     // - accepted: false
-        self.db?.collection("friends").document(userId).collection("requests").document(id).setData(["request_by": id, "time": Date.now, "accepted": false, "profile_image_url": myProfilePic], completion: { error in
+        self.db?.collection("friends").document(userId).collection("requests").document(id).setData(["request_by": id, "time": Date.now, "accepted": false, "profile_image_url": myProfilePic, "isNotable": isNotable], completion: { error in
             
             completion(error)
         })

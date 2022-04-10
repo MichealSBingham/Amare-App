@@ -211,7 +211,7 @@ class TestViewModel: ObservableObject{
             natalChartListener  =  db.collection("users").document(id).collection("public").document("natal_chart")
                 .addSnapshotListener {   snapshot, error in
                 
-                print("!Subscripping to natal chart.. error. \(error)")
+                    print("||Trying to get natal chart with error \(error) and data \(snapshot?.data())")
                 
                     guard error == nil else{
                         // Handle these errors....
