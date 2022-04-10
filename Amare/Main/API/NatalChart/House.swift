@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct House: Codable, Identifiable {
+struct House: Codable, Identifiable, Equatable {
     
     /// The angle in the sign the house begins in
     let angle: Double

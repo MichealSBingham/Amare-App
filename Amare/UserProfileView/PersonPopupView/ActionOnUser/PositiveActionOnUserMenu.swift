@@ -426,8 +426,7 @@ struct PositiveActionOnUserMenu: View {
     
     func rejectFriendRequest()  {
         
-        Account.shared.acceptFriendRequest(from: user.id) { error in
-            print("Accepting Friend Request with error \(error)")
+        Account.shared.rejectFriendRequest(from: user.id) { error in
         }
         
     }
@@ -436,7 +435,6 @@ struct PositiveActionOnUserMenu: View {
         
         Account.shared.removeFriend(removedUserId: user.id) { error in
             
-            print("Removing Friend  with error \(error)")
         }
     }
 }

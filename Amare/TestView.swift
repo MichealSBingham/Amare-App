@@ -12,6 +12,8 @@ import MultipeerKit
 
 class TestViewModel: ObservableObject{
     
+    
+    
     //@Published var userData: AmareUser?
     
     @Published var selectedUser: AmareUser? {
@@ -24,8 +26,14 @@ class TestViewModel: ObservableObject{
                 errorLoadingChart = nil
             }
             
-            if let _ = self.selectedUser?.areFriends {
+            if let areFriends = self.selectedUser?.areFriends {
                 errorLoadingFriendship = nil
+                
+                if oldValue?.areFriends == false && areFriends {
+                    self.unsubscribeToNatalChart()
+
+                    self.subscribeToNatalChart(for: self.selectedUser?.id)
+                }
             }
             
         }
@@ -79,6 +87,7 @@ class TestViewModel: ObservableObject{
        Array( nearbyUsersByMultipeer)
     }
 
+    
     
     /// Will be true if the user has incomplete data in the database so some error happened during account creation/signup process so sign the user out if this happens so they can resign up.
    // @Published var inCompleteData: Bool = false
@@ -203,7 +212,7 @@ class TestViewModel: ObservableObject{
     ///   - id: Id of the user
     ///   - isOuterChart: Default `false`. Set to `true` if this user should be the outer chart when doing synastry
     ///   - completion: Passing the error and the natal chart in this completion block. Will also be publisehd to the view model
-    private func subscribeToNatalChart(for id: String?, isOuterChart: Bool = false, completion: ( (_ err: Error?, _ natalChart: NatalChart?) -> Void)?  = nil )  {
+     func subscribeToNatalChart(for id: String?, isOuterChart: Bool = false, completion: ( (_ err: Error?, _ natalChart: NatalChart?) -> Void)?  = nil )  {
         
         // // \\ \\ // \\ // \\ // \\ // \\ // \\
         if let id = id{
@@ -211,7 +220,7 @@ class TestViewModel: ObservableObject{
             natalChartListener  =  db.collection("users").document(id).collection("public").document("natal_chart")
                 .addSnapshotListener {   snapshot, error in
                 
-                    print("||Trying to get natal chart with error \(error) and data \(snapshot?.data())")
+                    print("$Trying to get natal chart with error \(error) and data \(snapshot?.data())")
                 
                     guard error == nil else{
                         // Handle these errors....
@@ -292,6 +301,8 @@ class TestViewModel: ObservableObject{
                 switch result {
                 case .success(let success):
                     
+                    
+                    print("SOME SUCCESS WITH THE NATAL CHART")
                     if var data = success{
                         
                         // Data object contains all of the natal chart's data
@@ -360,6 +371,12 @@ class TestViewModel: ObservableObject{
         }
        
         
+    }
+    
+    // Unsubscribes to the natal chart listener. We unsubscribe whenever the friendship status changes because we need to reattach this listener whenever the friendship status changes otherwise it won't instantly be called when the data updates, I guess security rules don't always work in realtime. 
+    func unsubscribeToNatalChart()  {
+        print("%just unsubscribed to natal chart")
+        natalChartListener?.remove()
     }
     
 /*
@@ -726,6 +743,7 @@ struct TestView: View {
               
                 ProfilePopup(user: Binding<AmareUser>($viewModel.selectedUser) ?? .constant(AmareUser()))
                     .opacity(showProfile ? 1: 0)
+                    
                     
             
         })

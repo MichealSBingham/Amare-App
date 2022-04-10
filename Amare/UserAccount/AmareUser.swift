@@ -165,7 +165,7 @@ struct Birthday: Codable{
 
 
 
-struct Place: Codable  {
+struct Place: Codable, Equatable  {
     
     
     var latitude: Double?
@@ -176,6 +176,12 @@ struct Place: Codable  {
     var country: String?
     
     var geohash: String?
+    
+    static func == (lhs: Place, rhs: Place) -> Bool {
+            return
+                lhs.latitude == rhs.latitude &&
+                lhs.longitude == rhs.longitude
+        }
     
     
 }
