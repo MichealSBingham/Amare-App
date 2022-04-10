@@ -2155,19 +2155,18 @@ class Account: ObservableObject {
         
         guard let id = Auth.auth().currentUser?.uid, let userId = userId else {
             
-            print("Not winking... id \(self.user?.uid) , userid = \(userId)")
             return
         }
         
-        guard let myProfilePic = Account.shared.data?.profile_image_url else {
+        guard let myProfilePic = Account.shared.data?.profile_image_url, let isNotable = Account.shared.data?.isNotable else {
             
-            print("no profile image saved")
+     
             self.getUserData { err, data in
                 
                 print("Got amare user  with \(err) \(data)")
                 if let amareUser = data {
                     
-                    self.db?.collection("winks").document(userId).collection("people_who_winked").document(id).setData(["didWink": true, "time": Date.now, "profile_image_url": amareUser.profile_image_url ?? ""])
+                    self.db?.collection("winks").document(userId).collection("people_who_winked").document(id).setData(["didWink": true, "time": Date.now, "profile_image_url": amareUser.profile_image_url ?? "", "isNotable": amareUser.isNotable ?? false])
                     
                     
                 }
@@ -2178,8 +2177,8 @@ class Account: ObservableObject {
           
         }
         
-        print("bout to wink")
-        self.db?.collection("winks").document(userId).collection("people_who_winked").document(id).setData(["didWink": true, "time": Date.now, "profile_image_url": myProfilePic])
+        
+        self.db?.collection("winks").document(userId).collection("people_who_winked").document(id).setData(["didWink": true, "time": Date.now, "profile_image_url": myProfilePic, "isNotable": isNotable])
     }
     
     ///TODO: Add error handling

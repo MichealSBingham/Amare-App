@@ -75,6 +75,33 @@ class TestViewModel: ObservableObject{
     }
     
     
+    //TODO: Document errors here
+        /// See    `AccountErrors` and `GlobalErrors`. If not authorized, usually because they are not friends
+        /// TODO: Document errors
+        @Published var errorLoadingWinkedAtStatus: Error? {
+            
+            didSet{
+                if let _ = self.errorLoadingWinkedAtStatus {
+                    self.selectedUser?.winkedAtMe = nil
+                }
+            }
+            
+        }
+    
+    //TODO: Document errors here
+        /// See    `AccountErrors` and `GlobalErrors`. If not authorized, usually because they are not friends
+        /// TODO: Document errors
+        @Published var errorLoadingWinkedToStatus: Error? {
+            
+            didSet{
+                if let _ = self.errorLoadingWinkedToStatus {
+                    self.selectedUser?.winkedTo = nil
+                }
+            }
+            
+        }
+    
+    
     @Published var nearbyUsersByMultipeer =  Set<AmareUser>()
     
     
@@ -212,7 +239,7 @@ class TestViewModel: ObservableObject{
     ///   - id: Id of the user
     ///   - isOuterChart: Default `false`. Set to `true` if this user should be the outer chart when doing synastry
     ///   - completion: Passing the error and the natal chart in this completion block. Will also be publisehd to the view model
-     func subscribeToNatalChart(for id: String?, isOuterChart: Bool = false, completion: ( (_ err: Error?, _ natalChart: NatalChart?) -> Void)?  = nil )  {
+     private func subscribeToNatalChart(for id: String?, isOuterChart: Bool = false, completion: ( (_ err: Error?, _ natalChart: NatalChart?) -> Void)?  = nil )  {
         
         // // \\ \\ // \\ // \\ // \\ // \\ // \\
         if let id = id{
@@ -374,7 +401,7 @@ class TestViewModel: ObservableObject{
     }
     
     // Unsubscribes to the natal chart listener. We unsubscribe whenever the friendship status changes because we need to reattach this listener whenever the friendship status changes otherwise it won't instantly be called when the data updates, I guess security rules don't always work in realtime. 
-    func unsubscribeToNatalChart()  {
+    private func unsubscribeToNatalChart()  {
         print("%just unsubscribed to natal chart")
         natalChartListener?.remove()
     }
@@ -477,7 +504,7 @@ class TestViewModel: ObservableObject{
         }
     }
     
-    /*
+    
     /// Subscribes to updates to whether or not we've winked at each other
     private func subscribeToWinkStatus(them: String)   {
         
@@ -485,32 +512,127 @@ class TestViewModel: ObservableObject{
         
         winkStatusListener = db.collection("winks").document(them).collection("people_who_winked").document(me).addSnapshotListener({ snapshot, error in
             
-            print("*** THe snapshot is \(snapshot) with error \(error)")
+            guard error == nil else{
+                // Handle these errors....
+                
+                if let error = AuthErrorCode(rawValue: error?._code ?? 17999){
+                    
+                    switch error {
+                        
+                        // Handle Global Errors
+                    case .networkError:
+                        self.errorLoadingWinkedToStatus = GlobalError.networkError
+                    case .tooManyRequests:
+                        self.errorLoadingWinkedToStatus = GlobalError.tooManyRequests
+                    case .captchaCheckFailed:
+                        self.errorLoadingWinkedToStatus = GlobalError.captchaCheckFailed
+                    case .quotaExceeded:
+                        self.errorLoadingWinkedToStatus = GlobalError.quotaExceeded
+                    case .operationNotAllowed:
+                        self.errorLoadingWinkedToStatus = AccountError.notAuthorized
+                    case .internalError:
+                        self.errorLoadingWinkedToStatus = GlobalError.internalError
+                        
+                        // Handle Account Errors
+                    case .expiredActionCode:
+                        self.errorLoadingWinkedToStatus = AccountError.expiredActionCode
+                    case .sessionExpired:
+                        self.errorLoadingWinkedToStatus = AccountError.sessionExpired
+                    case .userTokenExpired:
+                        self.errorLoadingWinkedToStatus = AccountError.userTokenExpired
+                    case .userDisabled:
+                        self.errorLoadingWinkedToStatus = AccountError.disabledUser
+                    case .wrongPassword:
+                        self.errorLoadingWinkedToStatus = AccountError.wrong
+                    default:
+                        self.errorLoadingWinkedToStatus = GlobalError.unknown
+                    }
+                    
+                   return
+                    
+                } else{
+                    
+                    self.errorLoadingWinkedToStatus = GlobalError.unknown
+                    return
+                }
+            
+                
+                
+                
+            }
+            
+           
             
             if snapshot?.exists ?? false {
                 
                     
-                self.userData.winkedTo = true
+                self.selectedUser?.winkedTo = true
                 
                
             } else {
-                self.userData.winkedTo = false
+                self.selectedUser?.winkedTo = false
             }
         })
         
         
         winkStatusAtMeListener = db.collection("winks").document(me).collection("people_who_winked").document(them).addSnapshotListener({ snapshot, error in
             
-            print("*** THe snapshot is \(snapshot) with error \(error)")
+            guard error == nil else{
+                // Handle these errors....
+                
+                if let error = AuthErrorCode(rawValue: error?._code ?? 17999){
+                    
+                    switch error {
+                        
+                        // Handle Global Errors
+                    case .networkError:
+                        self.errorLoadingWinkedAtStatus = GlobalError.networkError
+                    case .tooManyRequests:
+                        self.errorLoadingWinkedAtStatus = GlobalError.tooManyRequests
+                    case .captchaCheckFailed:
+                        self.errorLoadingWinkedAtStatus = GlobalError.captchaCheckFailed
+                    case .quotaExceeded:
+                        self.errorLoadingWinkedAtStatus = GlobalError.quotaExceeded
+                    case .operationNotAllowed:
+                        self.errorLoadingWinkedAtStatus = AccountError.notAuthorized
+                    case .internalError:
+                        self.errorLoadingWinkedAtStatus = GlobalError.internalError
+                        
+                        // Handle Account Errors
+                    case .expiredActionCode:
+                        self.errorLoadingWinkedAtStatus = AccountError.expiredActionCode
+                    case .sessionExpired:
+                        self.errorLoadingWinkedAtStatus = AccountError.sessionExpired
+                    case .userTokenExpired:
+                        self.errorLoadingWinkedAtStatus = AccountError.userTokenExpired
+                    case .userDisabled:
+                        self.errorLoadingWinkedAtStatus = AccountError.disabledUser
+                    case .wrongPassword:
+                        self.errorLoadingWinkedAtStatus = AccountError.wrong
+                    default:
+                        self.errorLoadingWinkedAtStatus = GlobalError.unknown
+                    }
+                    
+                   return
+                    
+                } else{
+                    
+                    self.errorLoadingWinkedAtStatus = GlobalError.unknown
+                    return
+                }
             
+                
+                
+                
+            }
             if snapshot?.exists ?? false {
                 
                     
-                self.userData.winkedAtMe = true
+                self.selectedUser?.winkedAtMe = true
                 
                
             } else {
-                self.userData.winkedAtMe = false
+                self.selectedUser?.winkedAtMe = false
             }
         })
     
@@ -520,7 +642,7 @@ class TestViewModel: ObservableObject{
     
     
     
-    */
+    
 
     /// Gets the user data for the nearby peers detected, tries to get from cache first when loading user data
     /// TODO: Change to cache AND watch for  !

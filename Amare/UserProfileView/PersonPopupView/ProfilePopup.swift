@@ -178,7 +178,7 @@ struct ProfilePopup: View {
                     .redacted(reason: (user.natal_chart == nil && (user.areFriends == nil )) ? .placeholder : [])
                     .Redacted(reason: (user.areFriends != nil && (user.areFriends == false) && !(user.isNotable ?? false) ) && !(user.id == Auth.auth().currentUser?.uid ) ? .blurredLessIntense : nil)            // If they are not friends, blurr it or if they
              
-                
+                    
                 
               
                     
