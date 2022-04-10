@@ -153,7 +153,7 @@ class TestViewModel: ObservableObject{
         self.subscribeToUserDataChanges(for: id)
         self.subscribeToNatalChart(for: id)
         self.subscribeToFriendshipStatus(them: id)
-      //  self.subscribeToWinkStatus(them: id)
+        self.subscribeToWinkStatus(them: id)
         
     }
    

@@ -305,6 +305,7 @@ struct ProfilePopup: View {
             }
             */
         }
+            /*
         .onChange(of: user.winkedAtMe) { didWinkAtMe in
             
             if didWinkAtMe ?? false  { withAnimation {
@@ -334,6 +335,7 @@ struct ProfilePopup: View {
                 }
             }
         }
+             */
         .onChange(of: selectedBody) { body in
              
             print("***JUST changed selected body ... it is \(body)")
@@ -848,11 +850,13 @@ struct ProfilePopup: View {
                 
                 
                 
-            }.opacity( counterForConfetti > 0  ? 1: 0 )
+            }
+            .opacity(user.winkedAtMe ?? false  ? 1: 0)
+            .animation(.easeInOut, value: user.winkedAtMe)
             .zIndex(1)
             
           //  ConfettiCannon(counter: $counterForConfetti)
-            ConfettiCannon(counter: $counterForConfetti, num: 150, confettis: [.text("😉")], openingAngle: .degrees(0), closingAngle: .degrees(360), radius: 200)
+          //  ConfettiCannon(counter: $counterForConfetti, num: 150, confettis: [.text("😉")], openingAngle: .degrees(0), closingAngle: .degrees(360), radius: 200)
             
             
             
