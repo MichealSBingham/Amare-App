@@ -50,7 +50,7 @@ struct ProfilePopup: View {
     // Indicates whether the user has winked at the user
    // @State var hasWinked: Bool = false // set to false for prod
     
-    @State var counterForConfetti: Int = 0
+ //   @State var counterForConfetti: Int = 0
     
     
     /// The particular planet /placement the user clicks on on this profile to display
@@ -173,11 +173,20 @@ struct ProfilePopup: View {
                 //
     
                   
-                tabViewForPlacementsInChart()
-                    //.redacted(reason: (user.natal_chart == nil && (user.areFriends == nil && !(user.isNotable ?? false) )) ? .placeholder : [])  // only if it's loading so no error, we check if it's loaded the friendship status because if it has we would rather show the blurr instead of the placeholder
-                    .redacted(reason: (user.natal_chart == nil && (user.areFriends == nil )) ? .placeholder : [])
-                    .Redacted(reason: (user.areFriends != nil && (user.areFriends == false) && !(user.isNotable ?? false) ) && !(user.id == Auth.auth().currentUser?.uid ) ? .blurredLessIntense : nil)            // If they are not friends, blurr it or if they
-             
+                ZStack{
+                    
+                    tabViewForPlacementsInChart()
+                        //.redacted(reason: (user.natal_chart == nil && (user.areFriends == nil && !(user.isNotable ?? false) )) ? .placeholder : [])  // only if it's loading so no error, we check if it's loaded the friendship status because if it has we would rather show the blurr instead of the placeholder
+                        .redacted(reason: (user.natal_chart == nil && (user.areFriends == nil )) ? .placeholder : [])
+                        .Redacted(reason: (user.areFriends != nil && (user.areFriends == false) && !(user.isNotable ?? false) ) && !(user.id == Auth.auth().currentUser?.uid ) ? .blurredLessIntense : nil)            // If they are not friends, blurr it or if they
+                        .opacity((user.isNearby ?? false) ? 0: 1)
+                    
+                    tabViewForPlacementsInChart()
+                        .Redacted(reason: !(user.areFriends ?? false ) ? .blurredLessIntense :  nil )
+                        .opacity((user.isNearby ?? false  == true) ? 1: 0 )
+                    
+                }
+                
                     
                 
               
@@ -224,8 +233,8 @@ struct ProfilePopup: View {
             
           
             
-            ConfettiCannon(counter: $counterForConfetti, num: 250, confettis: [.text("😉")], rainHeight: 700/*, closingAngle: .degrees(140)*/)
-                .offset(y: 30)
+           // ConfettiCannon(counter: $counterForConfetti, num: 250, confettis: [.text("😉")], rainHeight: 700/*, closingAngle: .degrees(140)*/)
+                //   .offset(y: 30)
             
 
         }

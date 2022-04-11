@@ -155,6 +155,15 @@
         }
       },
       {
+        "package": "SPConfetti",
+        "repositoryURL": "https://github.com/ivanvorobei/SPConfetti",
+        "state": {
+          "branch": null,
+          "revision": "ebbb3f98c373d7a9981552ae31a7ac9b78680d76",
+          "version": "1.4.0"
+        }
+      },
+      {
         "package": "SwiftProtobuf",
         "repositoryURL": "https://github.com/apple/swift-protobuf.git",
         "state": {

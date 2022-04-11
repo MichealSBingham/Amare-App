@@ -52,6 +52,7 @@
 		268F26BF2680094A00FBEA7D /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268F26BE2680094A00FBEA7D /* Account.swift */; };
 		268F26C1268018EE00FBEA7D /* ForNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268F26C0268018EE00FBEA7D /* ForNavigation.swift */; };
 		268F717D2715C3F6002C3010 /* MoreInfoOnAspectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268F717C2715C3F5002C3010 /* MoreInfoOnAspectView.swift */; };
+		2691A7CA2804BF1200F8AC2D /* SPConfetti in Frameworks */ = {isa = PBXBuildFile; productRef = 2691A7C92804BF1200F8AC2D /* SPConfetti */; };
 		2694935126D1D9C400C7AD72 /* NatalChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2694935026D1D9C400C7AD72 /* NatalChart.swift */; };
 		2694935426D1DAF300C7AD72 /* Planet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2694935326D1DAF300C7AD72 /* Planet.swift */; };
 		2694935626D1DB3600C7AD72 /* Angle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2694935526D1DB3600C7AD72 /* Angle.swift */; };
@@ -245,6 +246,7 @@
 				260A111126C373DE00873FE6 /* MbSwiftUIFirstResponder in Frameworks */,
 				26D0019A2792448F005E99A1 /* FirebaseAuth in Frameworks */,
 				26D24B21270019A900A3DEE7 /* UICircularProgressRing in Frameworks */,
+				2691A7CA2804BF1200F8AC2D /* SPConfetti in Frameworks */,
 				26D001A02792448F005E99A1 /* FirebaseStorage in Frameworks */,
 				267EEBEB274076A2006909B9 /* ConfettiSwiftUI in Frameworks */,
 				2454AD7E9E67CEEAD32CCEFD /* Pods_Amare.framework in Frameworks */,
@@ -641,6 +643,7 @@
 				26D79AB9279F246900DA44CB /* VTabView */,
 				260A73DB27E102A7007C2B30 /* MultipeerKit */,
 				26EB6CE227F8D84700CEA6DC /* SkeletonUI */,
+				2691A7C92804BF1200F8AC2D /* SPConfetti */,
 			);
 			productName = Love;
 			productReference = 26B1AFD22678FFE500A170B3 /* Amare.app */;
@@ -730,6 +733,7 @@
 				26D79AB8279F246900DA44CB /* XCRemoteSwiftPackageReference "SwiftUI-VerticalTabView" */,
 				260A73DA27E102A6007C2B30 /* XCRemoteSwiftPackageReference "MultipeerKit" */,
 				26EB6CE127F8D84700CEA6DC /* XCRemoteSwiftPackageReference "SkeletonUI" */,
+				2691A7C82804BF1200F8AC2D /* XCRemoteSwiftPackageReference "SPConfetti" */,
 			);
 			productRefGroup = 26B1AFD32678FFE500A170B3 /* Products */;
 			projectDirPath = "";
@@ -1361,6 +1365,14 @@
 				minimumVersion = 3.0.0;
 			};
 		};
+		2691A7C82804BF1200F8AC2D /* XCRemoteSwiftPackageReference "SPConfetti" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ivanvorobei/SPConfetti";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.4.0;
+			};
+		};
 		26B6079926BF643100CE8491 /* XCRemoteSwiftPackageReference "swiftui-navigation-stack" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/matteopuc/swiftui-navigation-stack.git";
@@ -1452,6 +1464,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 26872882271CE0A900C2F89F /* XCRemoteSwiftPackageReference "url-image" */;
 			productName = URLImageStore;
+		};
+		2691A7C92804BF1200F8AC2D /* SPConfetti */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2691A7C82804BF1200F8AC2D /* XCRemoteSwiftPackageReference "SPConfetti" */;
+			productName = SPConfetti;
 		};
 		26B6079A26BF643100CE8491 /* NavigationStack */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -65,6 +65,9 @@ public struct AmareUser: Codable, Equatable, Hashable, Identifiable{
     var synastry_classification: String?
     var synastry_latin_phrase: String?
     
+    /// Whether or not this user is within proximity of the user via geolocation, bluetooth, or multipeer 
+    var isNearby: Bool? = false
+    
     
     enum CodingKeys: String, CodingKey {
         case name

@@ -816,7 +816,8 @@ struct TestView: View {
                         }
                         
                     }
-                
+                   
+                    
                     
                    
                    
@@ -865,7 +866,7 @@ struct TestView: View {
               
                 ProfilePopup(user: Binding<AmareUser>($viewModel.selectedUser) ?? .constant(AmareUser()))
                     .opacity(showProfile ? 1: 0)
-                    
+                  
                     
             
         })
@@ -949,6 +950,7 @@ struct TestView: View {
                 data.natal_chart = payload.chart
                 data.deviceID = payload.deviceID
                 data.image = payload.profileImage
+                data.isNearby = true 
                 
          
             
@@ -1130,7 +1132,7 @@ struct TestView: View {
 
         guard let deviceID = UIDevice.current.identifierForVendor?.uuidString else { return }
                 
-        var data = UserDataToSend(userData: mainViewModel.userData, id: mainViewModel.userData.id!, chart: mainViewModel.userData.natal_chart, deviceID: deviceID, profileImage: mainViewModel.userData.image)
+        var data = UserDataToSend(userData: mainViewModel.userData, id: mainViewModel.userData.id!, chart: mainViewModel.userData.natal_chart, deviceID: deviceID, profileImage: nil)
         
         
         
