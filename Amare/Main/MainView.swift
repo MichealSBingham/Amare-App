@@ -41,6 +41,7 @@ struct MainView: View {
                 .environmentObject(mainViewModel)
         
                 NatalChart()
+                .environmentObject(mainViewModel)
                 .tag(2)
             
                 Scanner()

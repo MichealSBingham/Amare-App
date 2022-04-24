@@ -204,7 +204,13 @@ struct ProfilePopup: View {
                         .offset(y: -25)
                     */
                 }
-                
+                .onTapGesture {
+                    
+                    if user.natal_chart == nil {
+                        attempts+=1
+                        attemptsToggle.toggle()
+                    }
+                }
                     
                 
               
