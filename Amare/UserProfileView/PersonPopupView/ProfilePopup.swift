@@ -15,6 +15,7 @@ import ConfettiSwiftUI
 import VTabView
 import SkeletonUI
 import SPConfetti
+import SPIndicator
 
 // Some random data to use as mock
 var peopleImages = ["https://lh3.googleusercontent.com/ogw/ADea4I5VDilLtQfyS7bwoGxcMqXW46dRo_ugPf4ombhR=s192-c-mo", testImages[0],
@@ -73,6 +74,11 @@ struct ProfilePopup: View {
     @State var showConfetti: Bool = false
     @State var showWinkConfetti: Bool = false
     @State var speed: Double = 0
+    
+    // to animate the lock button
+    @State var attempts: Int = 0
+    
+    @State var attemptsToggle: Bool = false
     
     var body: some View {
        
@@ -207,13 +213,26 @@ struct ProfilePopup: View {
                     tabViewForProgressCircles()
                         .Redacted(reason: user.synastry_classification == nil ? .blurred : nil)
                     
-                    Image(systemName: "lock.fill") // as long as the natal chart is nil or this is purposely locked
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
+                    
+                    Button {
+                        attempts+=1
+                        attemptsToggle.toggle()
+                    } label: {
                         
-                        .frame(width: 40, height: 40)
-                        .opacity(user.synastry_classification == nil  && (/**not loading */  user.areFriends != nil ) ? 1: 0 )
+                        Image(systemName: "lock.fill") // as long as the natal chart is nil or this is purposely locked
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 40, height: 40)
+                            .opacity(user.synastry_classification == nil  && (/**not loading */  user.areFriends != nil ) ? 1: 0 )
+                            .modifier(Shake(animatableData: CGFloat(attempts)))
+
+                    }
+                   
+                   
+                        
                 }
+                .SPIndicator(isPresent: $attemptsToggle, title: "Private", message: "You aren't friends", duration: 2.0, presentSide: .top, dismissByDrag: true, preset: .error, haptic: .error, layout: SPIndicatorLayout.init(iconSize: CGSize(width: 15, height: 15), margins: UIEdgeInsets.init(top: CGFloat(0), left: CGFloat(30), bottom: CGFloat(0), right: CGFloat(0))))
+
                     
             
                 
@@ -1481,3 +1500,17 @@ extension View {
     modifier(Redactable(reason: reason))
   }
 }
+
+
+struct Shake: GeometryEffect {
+    var amount: CGFloat = 10
+    var shakesPerUnit = 3
+    var animatableData: CGFloat
+
+    func effectValue(size: CGSize) -> ProjectionTransform {
+        ProjectionTransform(CGAffineTransform(translationX:
+            amount * sin(animatableData * .pi * CGFloat(shakesPerUnit)),
+            y: 0))
+    }
+}
+

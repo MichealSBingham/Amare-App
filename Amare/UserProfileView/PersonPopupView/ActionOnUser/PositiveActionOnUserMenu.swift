@@ -397,13 +397,17 @@ struct PositiveActionOnUserMenu: View {
             
         }
         
-        .SPIndicator(isPresent: $justSentRequest, title: "Requested",  message: "Friend Request Sent.", duration: 2.0, presentSide: .top, dismissByDrag: true, preset: .done, haptic: .success, layout: SPIndicatorLayout.init(iconSize: CGSize(width: 15, height: 15), margins: UIEdgeInsets.init(top: CGFloat(0), left: CGFloat(30), bottom: CGFloat(0), right: CGFloat(0))))
+        .SPIndicator(isPresent: $justSentRequest, title: "Requested",  message: "Friend Request Sent", duration: 2.0, presentSide: .top, dismissByDrag: true, preset: .done, haptic: .success, layout: SPIndicatorLayout.init(iconSize: CGSize(width: 15, height: 15), margins: UIEdgeInsets.init(top: CGFloat(0), left: CGFloat(30), bottom: CGFloat(0), right: CGFloat(0))))
         
-        .SPIndicator(isPresent: $justRejected, title: "Cancelled",  message: "Declined Friend.", duration: 2.0, presentSide: .top, dismissByDrag: true, preset: .error, haptic: .error, layout: SPIndicatorLayout.init(iconSize: CGSize(width: 15, height: 15), margins: UIEdgeInsets.init(top: CGFloat(0), left: CGFloat(30), bottom: CGFloat(0), right: CGFloat(0))))
+        .SPIndicator(isPresent: $justAccepeted, title: "Accepted",  message: "You're friends!", duration: 2.0, presentSide: .top, dismissByDrag: true, preset: .done, haptic: .success, layout: SPIndicatorLayout.init(iconSize: CGSize(width: 15, height: 15), margins: UIEdgeInsets.init(top: CGFloat(0), left: CGFloat(30), bottom: CGFloat(0), right: CGFloat(0))))
         
-        .SPIndicator(isPresent: $justWinked, title: "Wink",  message: "You winked at them.", duration: 2.0, presentSide: .top, dismissByDrag: true, preset:  .custom(UIImage(systemName: "heart")!.withTintColor(.systemPink)), haptic: .success, layout: SPIndicatorLayout.init(iconSize: CGSize(width: 15, height: 15), margins: UIEdgeInsets.init(top: CGFloat(0), left: CGFloat(30), bottom: CGFloat(0), right: CGFloat(0))))
+        .SPIndicator(isPresent: $justRejected, title: "Cancelled",  message: "Declined Friend", duration: 2.0, presentSide: .top, dismissByDrag: true, preset: .error, haptic: .error, layout: SPIndicatorLayout.init(iconSize: CGSize(width: 15, height: 15), margins: UIEdgeInsets.init(top: CGFloat(0), left: CGFloat(30), bottom: CGFloat(0), right: CGFloat(0))))
         
-        .SPIndicator(isPresent: $justUnwinked, title: "Oops",  message: "You unwinked at them.", duration: 2.0, presentSide: .top, dismissByDrag: true, preset: .custom(UIImage(systemName: "heart.slash.circle")!.withTintColor(.systemPink)), haptic: .warning, layout: SPIndicatorLayout.init(iconSize: CGSize(width: 15, height: 15), margins: UIEdgeInsets.init(top: CGFloat(0), left: CGFloat(30), bottom: CGFloat(0), right: CGFloat(0))))
+        .SPIndicator(isPresent: $justWinked, title: "Wink",  message: "You winked at them", duration: 2.0, presentSide: .top, dismissByDrag: true, preset:  .custom(UIImage(systemName: "heart")!.withTintColor(.systemPink)), haptic: .success, layout: SPIndicatorLayout.init(iconSize: CGSize(width: 15, height: 15), margins: UIEdgeInsets.init(top: CGFloat(0), left: CGFloat(30), bottom: CGFloat(0), right: CGFloat(0))))
+        
+        .SPIndicator(isPresent: $justUnwinked, title: "Oops",  message: "You unwinked at them", duration: 2.0, presentSide: .top, dismissByDrag: true, preset: .custom(UIImage(systemName: "heart.slash.circle")!.withTintColor(.systemPink)), haptic: .warning, layout: SPIndicatorLayout.init(iconSize: CGSize(width: 15, height: 15), margins: UIEdgeInsets.init(top: CGFloat(0), left: CGFloat(30), bottom: CGFloat(0), right: CGFloat(0))))
+        
+        
         
         
         
