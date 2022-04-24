@@ -132,7 +132,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         print("**** RECEIVED Notification **** ")
         
         // check if it is a winking notification ..
-        NotificationCenter.default.post(name: NSNotification.gotWinkedAt, object: nil)
+        //NotificationCenter.default.post(name: NSNotification.gotWinkedAt, object: nil)
         
         completionHandler([.alert, .badge, .sound])
     }

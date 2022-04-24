@@ -317,7 +317,7 @@ struct ChartView: View {
         
         return NatalChartView()
         
-            .make(with: chart/*, shownAspect: aspectToGet*/)
+            .make(with: mainViewModel.userData.natal_chart/*, shownAspect: aspectToGet*/)
             .animation(.easeIn(duration: 3))
             .onReceive(Just(account), perform: { _ in
         
@@ -326,8 +326,8 @@ struct ChartView: View {
                // AmareApp().delay(1) {
                     
                     //person1 = account.data?.name ?? ""
-                    chart = account.data?.natal_chart
-                    print("The chart after delay ... \(chart)")
+                    //chart = account.data?.natal_chart
+                    //print("The chart after delay ... \(chart)")
                  
                // }
                 

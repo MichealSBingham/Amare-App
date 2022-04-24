@@ -345,18 +345,19 @@ struct ProfilePopup: View {
                 }
             
         }
-            /*
+            
         .onChange(of: user.winkedAtMe, perform: { winkedAtMe in
             
-            if winkedAtMe ?? false  && user.winkedTo ?? false  {
-                doShowConfetti()
-            }
+           
             
-            if winkedAtMe ?? false {
-                doShowWinkConfetti()
+            if (winkedAtMe ?? false)  && (user.winkedTo ?? false)  {
+                    doShowConfetti()            }
+            
+            if winkedAtMe ?? false && (user.winkedTo ?? false) == false {
+                    doShowWinkConfetti()
             }
         })
-            */
+            
             
         .onChange(of: placementToDisplay) { newValue in
             
@@ -563,7 +564,7 @@ struct ProfilePopup: View {
         .onReceive(NotificationCenter.default.publisher(for: NSNotification.gotWinkedAt), perform: { _ in
             
             doShowWinkConfetti()
-            doShowConfetti()
+            //doShowConfetti()
         })
         
         .fullScreenCover(isPresented: $showPlacements ) {
@@ -951,6 +952,7 @@ struct ProfilePopup: View {
             .confettiParticle(\.birthRate, 150)
             
             
+           
             
 
             
@@ -1343,11 +1345,14 @@ struct ProfilePopup: View {
                
     }
     
+   
+    
     // Only show this if we've both winked at each other and check user defaults to make sure that we haven't done this recently. This does it for you.
     func doShowConfetti()  {
         
         showConfetti.toggle()
-        /*
+        
+            /*
        var didShow =  UserDefaults.standard.bool(forKey: "showConfetti-\(user.id ?? "no id")")
         
         if !didShow{
@@ -1355,7 +1360,8 @@ struct ProfilePopup: View {
             showConfetti.toggle()
             UserDefaults.standard.set(true, forKey: "showConfetti-\(user.id ?? "no id")")
         }
-        */
+             */
+        
     }
     
     func doShowWinkConfetti()  {
@@ -1371,6 +1377,7 @@ struct ProfilePopup: View {
             UserDefaults.standard.set(true, forKey: "showWinkConfetti-\(user.id ?? "no id")")
         }
         */
+        
     }
 
     func ringStyleFor(progress: String ) -> RingStyle {

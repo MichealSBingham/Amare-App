@@ -476,7 +476,10 @@ struct PositiveActionOnUserMenu: View {
         Account.shared.removeFriend(removedUserId: user.id) { error in
             
             guard error == nil else {return }
-            justRejected = true 
+            justRejected = true
+            
+            UserDefaults.standard.set(false, forKey: "showConfetti-\(user.id)")
+            UserDefaults.standard.set(false, forKey: "showWinkConfetti-\(user.id)")
             
         }
     }
