@@ -2037,7 +2037,7 @@ class Account: ObservableObject {
         
         // The user data should be in the shared instance
         
-        guard let myProfilePic = Account.shared.data?.profile_image_url, let isNotable = Account.shared.data?.isNotable else {
+        guard let myProfilePic = Account.shared.data?.profile_image_url, let isNotable = Account.shared.data?.isNotable, let name = Account.shared.data?.name else {
             
             // if not, load it
             print("Profile picture WAS NOT in the shared instance ")
@@ -2046,7 +2046,7 @@ class Account: ObservableObject {
                 print("the errr \(err) and user is \(user)")
                 let image = user?.profile_image_url ?? ""
                 let isNotable  = user?.isNotable ?? false
-                self.db?.collection("friends").document(userId).collection("requests").document(id).setData(["request_by": id, "time": Date.now, "accepted": false, "profile_image_url": image, "isNotable": isNotable], completion: { error in
+                self.db?.collection("friends").document(userId).collection("requests").document(id).setData(["request_by": id, "time": Date.now, "accepted": false, "profile_image_url": image, "isNotable": isNotable, "name": user?.name ?? ""], completion: { error in
                     
                     completion(error)
                 })
@@ -2062,7 +2062,7 @@ class Account: ObservableObject {
                 // friend_requests
                     // - amandaID
                     // - accepted: false
-        self.db?.collection("friends").document(userId).collection("requests").document(id).setData(["request_by": id, "time": Date.now, "accepted": false, "profile_image_url": myProfilePic, "isNotable": isNotable], completion: { error in
+        self.db?.collection("friends").document(userId).collection("requests").document(id).setData(["request_by": id, "time": Date.now, "accepted": false, "profile_image_url": myProfilePic, "isNotable": isNotable, "name": name], completion: { error in
             
             completion(error)
         })
@@ -2158,7 +2158,7 @@ class Account: ObservableObject {
             return
         }
         
-        guard let myProfilePic = Account.shared.data?.profile_image_url, let isNotable = Account.shared.data?.isNotable else {
+        guard let myProfilePic = Account.shared.data?.profile_image_url, let isNotable = Account.shared.data?.isNotable, let name = Account.shared.data?.name else {
             
      
             self.getUserData { err, data in
@@ -2166,7 +2166,7 @@ class Account: ObservableObject {
                 print("Got amare user  with \(err) \(data)")
                 if let amareUser = data {
                     
-                    self.db?.collection("winks").document(userId).collection("people_who_winked").document(id).setData(["didWink": true, "time": Date.now, "profile_image_url": amareUser.profile_image_url ?? "", "isNotable": amareUser.isNotable ?? false])
+                    self.db?.collection("winks").document(userId).collection("people_who_winked").document(id).setData(["didWink": true, "time": Date.now, "profile_image_url": amareUser.profile_image_url ?? "", "isNotable": amareUser.isNotable ?? false, "name": amareUser.name])
                     
                     
                 }
@@ -2178,7 +2178,7 @@ class Account: ObservableObject {
         }
         
         
-        self.db?.collection("winks").document(userId).collection("people_who_winked").document(id).setData(["didWink": true, "time": Date.now, "profile_image_url": myProfilePic, "isNotable": isNotable])
+        self.db?.collection("winks").document(userId).collection("people_who_winked").document(id).setData(["didWink": true, "time": Date.now, "profile_image_url": myProfilePic, "isNotable": isNotable, "name": name])
     }
     
     ///TODO: Add error handling
