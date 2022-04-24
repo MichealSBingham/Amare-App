@@ -14,6 +14,7 @@ import Combine
 import ConfettiSwiftUI
 import VTabView
 import SkeletonUI
+import SPConfetti
 
 // Some random data to use as mock
 var peopleImages = ["https://lh3.googleusercontent.com/ogw/ADea4I5VDilLtQfyS7bwoGxcMqXW46dRo_ugPf4ombhR=s192-c-mo", testImages[0],
@@ -69,6 +70,10 @@ struct ProfilePopup: View {
     
    //@ObservedObject var viewModelForPlanetView = MoreInfoOnPlanetViewModel()
     
+    @State var showConfetti: Bool = false
+    @State var showWinkConfetti: Bool = false
+    @State var speed: Double = 0
+    
     var body: some View {
        
         ZStack{
@@ -88,8 +93,7 @@ struct ProfilePopup: View {
                         //print("#Got image data.,,")
                         Button {
                             
-                        
-
+                       
                           
                         } label: {
                             
@@ -178,21 +182,40 @@ struct ProfilePopup: View {
                     tabViewForPlacementsInChart()
                         //.redacted(reason: (user.natal_chart == nil && (user.areFriends == nil && !(user.isNotable ?? false) )) ? .placeholder : [])  // only if it's loading so no error, we check if it's loaded the friendship status because if it has we would rather show the blurr instead of the placeholder
                         .redacted(reason: (user.natal_chart == nil && (user.areFriends == nil )) ? .placeholder : [])
-                        .Redacted(reason: (user.areFriends != nil && (user.areFriends == false) && !(user.isNotable ?? false) ) && !(user.id == Auth.auth().currentUser?.uid ) ? .blurredLessIntense : nil)            // If they are not friends, blurr it or if they
+                        .Redacted(reason: (user.areFriends != nil && (user.areFriends == false) && !(user.isNotable ?? false) ) && !(user.id == Auth.auth().currentUser?.uid )  ? .blurredLessIntense : nil)            // If they are not friends, blurr it or if they
                         .opacity((user.isNearby ?? false) ? 0: 1)
                     
                     tabViewForPlacementsInChart()
                         .Redacted(reason: !(user.areFriends ?? false ) ? .blurredLessIntense :  nil )
                         .opacity((user.isNearby ?? false  == true) ? 1: 0 )
                     
+                    /*
+                    Image(systemName: "lock.fill") // as long as the natal chart is nil or this is purposely locked
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 30, height: 30)
+                        .opacity(user.natal_chart == nil  && (/**not loading */  user.areFriends != nil ) ? 1: 0 )
+                        .offset(y: -25)
+                    */
                 }
                 
                     
                 
               
+                ZStack{
                     
-                tabViewForProgressCircles()
-                    .Redacted(reason: user.synastry_classification == nil ? .blurred : nil)
+                    tabViewForProgressCircles()
+                        .Redacted(reason: user.synastry_classification == nil ? .blurred : nil)
+                    
+                    Image(systemName: "lock.fill") // as long as the natal chart is nil or this is purposely locked
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        
+                        .frame(width: 40, height: 40)
+                        .opacity(user.synastry_classification == nil  && (/**not loading */  user.areFriends != nil ) ? 1: 0 )
+                }
+                    
+            
                 
                                     
                 
@@ -297,8 +320,18 @@ struct ProfilePopup: View {
                 }
             
         }
+            /*
+        .onChange(of: user.winkedAtMe, perform: { winkedAtMe in
             
-        
+            if winkedAtMe ?? false  && user.winkedTo ?? false  {
+                doShowConfetti()
+            }
+            
+            if winkedAtMe ?? false {
+                doShowWinkConfetti()
+            }
+        })
+            */
             
         .onChange(of: placementToDisplay) { newValue in
             
@@ -494,9 +527,20 @@ struct ProfilePopup: View {
            
     
         }
+        // Alert View / SP Indicator 
         .onReceive(NotificationCenter.default.publisher(for: NSNotification.exitPlacements), perform: { _ in
             showPlacements = false
         })
+        .onAppear(perform: {
+            
+        })
+        
+        .onReceive(NotificationCenter.default.publisher(for: NSNotification.gotWinkedAt), perform: { _ in
+            
+            doShowWinkConfetti()
+            doShowConfetti()
+        })
+        
         .fullScreenCover(isPresented: $showPlacements ) {
             
             if user.natal_chart?.planets.count ?? 0 > 0 {
@@ -602,6 +646,10 @@ struct ProfilePopup: View {
             //TODO: Show rest of images
             print("Tapped profile to view images. TODO: Show profile image ")
             // remove later
+           // SPConfetti.startAnimating(.centerWidthToDown, particles: [.heart, .triangle, .arc])
+           
+           // showConfetti.toggle()
+            
           
             
         } label: {
@@ -686,8 +734,13 @@ struct ProfilePopup: View {
                      .opacity(user.profile_image_url == nil ? 1: 0)
                      .onAppear { condition = true }
             }
-                
-            }
+            .confetti(isPresented: $showConfetti, animation: .fullWidthToDown, particles: [.arc, .heart, .star], duration: 3)
+            .confettiParticle(\.velocity, 300)
+            .confettiParticle(\.birthRate, 150)
+          //  .confettiParticle(\.velocityRange, 100)
+            //.confettiParticle(\.spin, 5)
+        }
+        
 
         
 
@@ -785,7 +838,7 @@ struct ProfilePopup: View {
             
            
         }
-        .opacity(user.isReal ?? true == true  ? 1 : 0)
+       // .opacity(user.isReal ?? true == true  ? 1 : 0)
     }
     
     func minusMenuButtonView() -> some View {
@@ -823,7 +876,9 @@ struct ProfilePopup: View {
                 
                
             }
-            .opacity(user.isReal ?? true == false  ? 1 : 0)
+            .opacity(0)
+        
+            //.opacity(user.isReal ?? true == false  ? 1 : 0)
     }
     
     /// View for the latin phrase that describes relationshio
@@ -866,7 +921,9 @@ struct ProfilePopup: View {
             
           //  ConfettiCannon(counter: $counterForConfetti)
           //  ConfettiCannon(counter: $counterForConfetti, num: 150, confettis: [.text("😉")], openingAngle: .degrees(0), closingAngle: .degrees(360), radius: 200)
-            
+            .confetti(isPresented: $showWinkConfetti, animation: .fullWidthToDown, particles: [.custom(UIImage(named: "ProfileView/wink")!)], duration: 3)
+            .confettiParticle(\.velocity, 300)
+            .confettiParticle(\.birthRate, 150)
             
             
             
@@ -1261,6 +1318,35 @@ struct ProfilePopup: View {
                
     }
     
+    // Only show this if we've both winked at each other and check user defaults to make sure that we haven't done this recently. This does it for you.
+    func doShowConfetti()  {
+        
+        showConfetti.toggle()
+        /*
+       var didShow =  UserDefaults.standard.bool(forKey: "showConfetti-\(user.id ?? "no id")")
+        
+        if !didShow{
+            
+            showConfetti.toggle()
+            UserDefaults.standard.set(true, forKey: "showConfetti-\(user.id ?? "no id")")
+        }
+        */
+    }
+    
+    func doShowWinkConfetti()  {
+        
+        showWinkConfetti.toggle()
+        
+        /*
+       var didShow =  UserDefaults.standard.bool(forKey: "showWinkConfetti-\(user.id ?? "no id")")
+        
+        if !didShow{
+            
+            showWinkConfetti.toggle()
+            UserDefaults.standard.set(true, forKey: "showWinkConfetti-\(user.id ?? "no id")")
+        }
+        */
+    }
 
     func ringStyleFor(progress: String ) -> RingStyle {
         

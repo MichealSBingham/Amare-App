@@ -101,6 +101,7 @@
 		26DE210C26C5963A0004B5CE /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DE210B26C5963A0004B5CE /* SettingsView.swift */; };
 		26DE210E26C596450004B5CE /* HomeGlobeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DE210D26C596450004B5CE /* HomeGlobeView.swift */; };
 		26DE211126C5B2E60004B5CE /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = 26DE211026C5B2E60004B5CE /* CodeScanner */; };
+		26E6593D281205150003DFC6 /* SPIndicator in Frameworks */ = {isa = PBXBuildFile; productRef = 26E6593C281205150003DFC6 /* SPIndicator */; };
 		26EB6CE327F8D84700CEA6DC /* SkeletonUI in Frameworks */ = {isa = PBXBuildFile; productRef = 26EB6CE227F8D84700CEA6DC /* SkeletonUI */; };
 		26EDBB8D26AA7CE2005C1033 /* VerificationCodeView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26EDBB8C26AA7CE2005C1033 /* VerificationCodeView2.swift */; };
 		26F9205F26A760E500A4F8C6 /* Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F9205E26A760E500A4F8C6 /* Animations.swift */; };
@@ -235,6 +236,7 @@
 				26D79ABA279F246900DA44CB /* VTabView in Frameworks */,
 				26EB6CE327F8D84700CEA6DC /* SkeletonUI in Frameworks */,
 				26872886271CE0AA00C2F89F /* URLImageStore in Frameworks */,
+				26E6593D281205150003DFC6 /* SPIndicator in Frameworks */,
 				26F9207726A8C2E200A4F8C6 /* Shimmer in Frameworks */,
 				26872884271CE0AA00C2F89F /* URLImage in Frameworks */,
 				26B66A8E26EA9E0E001EAA80 /* PopupView in Frameworks */,
@@ -644,6 +646,7 @@
 				260A73DB27E102A7007C2B30 /* MultipeerKit */,
 				26EB6CE227F8D84700CEA6DC /* SkeletonUI */,
 				2691A7C92804BF1200F8AC2D /* SPConfetti */,
+				26E6593C281205150003DFC6 /* SPIndicator */,
 			);
 			productName = Love;
 			productReference = 26B1AFD22678FFE500A170B3 /* Amare.app */;
@@ -734,6 +737,7 @@
 				260A73DA27E102A6007C2B30 /* XCRemoteSwiftPackageReference "MultipeerKit" */,
 				26EB6CE127F8D84700CEA6DC /* XCRemoteSwiftPackageReference "SkeletonUI" */,
 				2691A7C82804BF1200F8AC2D /* XCRemoteSwiftPackageReference "SPConfetti" */,
+				26E6593B281205140003DFC6 /* XCRemoteSwiftPackageReference "SPIndicator" */,
 			);
 			productRefGroup = 26B1AFD32678FFE500A170B3 /* Products */;
 			projectDirPath = "";
@@ -1421,6 +1425,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		26E6593B281205140003DFC6 /* XCRemoteSwiftPackageReference "SPIndicator" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ivanvorobei/SPIndicator";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		26EB6CE127F8D84700CEA6DC /* XCRemoteSwiftPackageReference "SkeletonUI" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/CSolanaM/SkeletonUI";
@@ -1519,6 +1531,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 26DE210F26C5B2E60004B5CE /* XCRemoteSwiftPackageReference "CodeScanner" */;
 			productName = CodeScanner;
+		};
+		26E6593C281205150003DFC6 /* SPIndicator */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 26E6593B281205140003DFC6 /* XCRemoteSwiftPackageReference "SPIndicator" */;
+			productName = SPIndicator;
 		};
 		26EB6CE227F8D84700CEA6DC /* SkeletonUI */ = {
 			isa = XCSwiftPackageProductDependency;

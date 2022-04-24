@@ -130,6 +130,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
     
         print("**** RECEIVED Notification **** ")
+        
+        // check if it is a winking notification ..
+        NotificationCenter.default.post(name: NSNotification.gotWinkedAt, object: nil)
+        
         completionHandler([.alert, .badge, .sound])
     }
     

@@ -9,7 +9,7 @@ import SwiftUI
 import Firebase
 import PushNotifications
 import MultipeerKit
-
+import SPIndicator
 class TestViewModel: ObservableObject{
     
     
@@ -46,6 +46,7 @@ class TestViewModel: ObservableObject{
         didSet {
             if let _ = self.errorLoadingUser{
                 
+                errorLoadingUserHappened = true
                 selectedUser = nil
             }
             
@@ -56,6 +57,8 @@ class TestViewModel: ObservableObject{
     @Published var errorLoadingChart: Error? {
         didSet {
             if let _ = self.errorLoadingChart {
+                
+                errorLoadingChartHappened = true
                 selectedUser?.natal_chart = nil
             }
         }
@@ -68,6 +71,7 @@ class TestViewModel: ObservableObject{
         
         didSet{
             if let _ = self.errorLoadingFriendship {
+                errorLoadingFriendshipHappened = true
                 self.selectedUser?.areFriends = nil
             }
         }
@@ -82,6 +86,7 @@ class TestViewModel: ObservableObject{
             
             didSet{
                 if let _ = self.errorLoadingWinkedAtStatus {
+                    errorLoadingWinkingHappened = true
                     self.selectedUser?.winkedAtMe = nil
                 }
             }
@@ -95,6 +100,7 @@ class TestViewModel: ObservableObject{
             
             didSet{
                 if let _ = self.errorLoadingWinkedToStatus {
+                    errorLoadingWinkingHappened = true
                     self.selectedUser?.winkedTo = nil
                 }
             }
@@ -102,7 +108,14 @@ class TestViewModel: ObservableObject{
         }
     
     
+    @Published var errorLoadingUserHappened: Bool = false
+    @Published var errorLoadingChartHappened: Bool = false
+    @Published var errorLoadingFriendshipHappened: Bool = false
+    @Published var errorLoadingWinkingHappened: Bool = false
+    @Published var errorSearchingHappened: Bool = false
+    
     @Published var nearbyUsersByMultipeer =  Set<AmareUser>()
+    @Published var searchedUsers : [AmareUser] = []
     
     
     // @Published computed variables are unreliable so we do this to so that the `allNearbyUsers` array has the proper value
@@ -137,6 +150,19 @@ class TestViewModel: ObservableObject{
     
     private var winkStatusAtMeListener: ListenerRegistration?
     
+    private var usernameQuery : ListenerRegistration?
+    
+    @Published var searchError: Error? {
+        
+        didSet{
+            
+            if let _ = searchError {
+                errorSearchingHappened = true
+            }
+            
+        }
+    }
+    
     
     /*
     init() {
@@ -145,6 +171,68 @@ class TestViewModel: ObservableObject{
     }
     */
     
+    
+    // Query users by //
+    func search(for username: String)  {
+        
+        db.collection("usernames")
+            .whereField("username", isGreaterThanOrEqualTo: username)
+            .getDocuments { snapshot, error in
+                
+                guard error == nil else {
+                    self.searchError = error!
+                    return 
+                }
+                
+               
+                var users: [AmareUser] = []
+                for document in snapshot!.documents{
+             
+                    let result = Result {
+                        try document.data(as: AmareUser.self)
+                    }
+                    
+                    switch result {
+                    
+                    
+                    case .success(let data):
+                        
+                        if var user = data{
+                            user.id = document.data()["userId"] as? String
+                            
+                            
+                            if user.id != Auth.auth().currentUser?.uid {
+                                users.append(user)
+                            }
+                            
+                            self.searchedUsers = users
+
+                            
+                            
+                        } else{
+                            
+                            // Could not retreive the data for some reason
+                            self.searchError = GlobalError.unknown
+                            return
+                        }
+                        
+                    
+                    case .failure(let error):
+                        // Handle errors
+                        self.searchError = error
+                        continue
+                      //  return
+                  
+                    }
+
+                    
+                }
+             
+                
+                
+                
+            }
+    }
     
     
     /// Subscribes to real-time data for user of this user // their natal chart, user data infromation, wink/friendship status
@@ -715,12 +803,15 @@ struct TestView: View {
     @StateObject var viewModel: TestViewModel = TestViewModel()
     
     
+    
+    
     let beamsClient = PushNotifications.shared
     
     
 
     @State var showingPopup = true
    
+    /// For detecting nearby users
     @EnvironmentObject var multipeerDataSource: MultipeerDataSource
 
     
@@ -728,6 +819,26 @@ struct TestView: View {
     // Consider Adding elsewhere
     
  
+    // For the searching other users part
+    
+    // Search string to use in the search bar
+        @State var searchString = ""
+        
+        // Search action. Called when search key pressed on keyboard
+        func search() {
+            
+            viewModel.search(for: searchString)
+        }
+        
+        // Cancel action. Called when cancel button of search bar pressed
+        func cancel() {
+        
+            AmareApp().dismissKeyboard {
+                
+            }
+        }
+    
+    
     let testUsers = ["u4uS1JxH2ZO8re6mchQUJ1q18Km2", "hcrmKaxcEcc8CqY4B6Uh5VGG7Yc2"]
   
     
@@ -748,72 +859,82 @@ struct TestView: View {
      
                 
               
-                    
+    
                     
                     VStack{
                         
+                        
+                      
               
                         // Nearby users testing out
-                        List{
+                        SearchNavigation(text: $searchString, search: search, cancel: cancel) {
                             
-                            Section(header: Text("Nearby Users")){
+                            List{
                                 
-                                ForEach(viewModel.allNearbyUsers){ person in
+                                Section(header: Text("Nearby Users")){
                                     
-                                    
-                                    
-                                    Button {
+                                    ForEach(viewModel.allNearbyUsers){ person in
                                         
                                         
-                                    withAnimation {
+                                        
+                                        Button {
+                                            
+                                            
+                                        withAnimation {
+                                                viewModel.selectedUser = person
+                                            showProfile = true
+                                            }
+                                            
+                                          
+                                            
+                                            
+                                            
+                                        } label: {
+                                            
+                                            Text(person.name ?? "No name")
+                                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                                       .contentShape(Rectangle())
+                                        }
+                                        .buttonStyle(PlainButtonStyle())
+                                        /*  .onTapGesture {
                                             viewModel.selectedUser = person
                                         showProfile = true
                                         }
-                                        
-                                      
-                                        
-                                        
-                                        
-                                    } label: {
-                                        
-                                        Text(person.name ?? "No name")
-                                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                                   .contentShape(Rectangle())
+                                        */
                                     }
-                                    .buttonStyle(PlainButtonStyle())
-                                    /*  .onTapGesture {
-                                        viewModel.selectedUser = person
-                                    showProfile = true
-                                    }
-                                    */
                                 }
-                            }
-                            
-                            
-                            
-                            Section(header: Text("Some Others Users")){
                                 
-                                ForEach(testUsers, id: \.self) {  id in
+                                
+                                
+                                Section(header: Text("Searched Users")){
                                     
-                                    Button {
+                                    ForEach(viewModel.searchedUsers, id: \.self) {  user in
                                         
-                                        withAnimation {
-                                               
-                                            viewModel.load(user: id)
-                                            showProfile = true
-                                            }
-                                        
-                                    } label: {
-                                        
-                                        Text("\(id)")
-                                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                                   .contentShape(Rectangle())
+                                        Button {
+                                            
+                                            withAnimation {
+                                                   
+                                                viewModel.load(user: user.id ?? "")
+                                                cancel()
+                                                showProfile = true
+                                                }
+                                            
+                                        } label: {
+                                            
+                                            Text("\(user.username ?? "No Name")")
+                                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                                       .contentShape(Rectangle())
+                                        }
+                                        .buttonStyle(PlainButtonStyle())
                                     }
-                                    .buttonStyle(PlainButtonStyle())
+                                    
                                 }
-                                
                             }
                         }
+                        .onChange(of: searchString) { words in
+                            viewModel.search(for: words)
+                        }
+                        
                         
                     }
                    
@@ -837,6 +958,22 @@ struct TestView: View {
             
 
         }
+        
+        
+        /*
+        .SPIndicator(isPresent: $viewModel.errorLoadingChartHappened, title: "Chart Error", message: "\(viewModel.errorLoadingChart)", duration: 2.0, presentSide: .top, dismissByDrag: true, preset: .error, haptic: .error, layout: SPIndicatorLayout.init(iconSize: CGSize(width: 15, height: 15), margins: UIEdgeInsets.init(top: CGFloat(0), left: CGFloat(30), bottom: CGFloat(0), right: CGFloat(0))))
+        
+        .SPIndicator(isPresent: $viewModel.errorLoadingUserHappened, title: "Loading User Error"/*, message: "\(viewModel.errorLoadingUser)"*/, duration: 2.0, presentSide: .top, dismissByDrag: true, preset: .error, haptic: .error, layout: .init())
+        
+        .SPIndicator(isPresent: $viewModel.errorLoadingWinkingHappened, title: "Wink Error"/*, message: "\(viewModel.errorLoadingWinkedAtStatus)"*/, duration: 2.0, presentSide: .top, dismissByDrag: true, preset: .error, haptic: .error, layout: .init())
+        
+        .SPIndicator(isPresent: $viewModel.errorLoadingFriendshipHappened, title: "Friendship Error"/*, message: "\(viewModel.errorLoadingFriendship)"*/, duration: 2.0, presentSide: .top, dismissByDrag: true, preset: .error, haptic: .error, layout: .init())
+        
+        */
+        
+        
+        
+        
         /*
         .sheet(isPresented: $showProfile, content: {
             
@@ -857,7 +994,7 @@ struct TestView: View {
         .popup(isPresented: $showProfile , closeOnTap: false, closeOnTapOutside: false, dismissCallback: {
             
             withAnimation {
-                viewModel.selectedUser = nil
+                //viewModel.selectedUser = nil
             }
             
         }, view: {
@@ -1200,4 +1337,78 @@ struct BackgroundBlurView: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: UIView, context: Context) {}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+// For Search Navigation
+
+struct SearchNavigation<Content: View>: UIViewControllerRepresentable {
+    @Binding var text: String
+    var search: () -> Void
+    var cancel: () -> Void
+    var content: () -> Content
+
+    func makeUIViewController(context: Context) -> UINavigationController {
+        let navigationController = UINavigationController(rootViewController: context.coordinator.rootViewController)
+        navigationController.navigationBar.prefersLargeTitles = true
+        
+        context.coordinator.searchController.searchBar.delegate = context.coordinator
+        
+        return navigationController
+    }
+    
+    func updateUIViewController(_ uiViewController: UINavigationController, context: Context) {
+        context.coordinator.update(content: content())
+    }
+    
+    func makeCoordinator() -> Coordinator {
+        Coordinator(content: content(), searchText: $text, searchAction: search, cancelAction: cancel)
+    }
+    
+    class Coordinator: NSObject, UISearchBarDelegate {
+        @Binding var text: String
+        let rootViewController: UIHostingController<Content>
+        let searchController = UISearchController(searchResultsController: nil)
+        var search: () -> Void
+        var cancel: () -> Void
+        
+        init(content: Content, searchText: Binding<String>, searchAction: @escaping () -> Void, cancelAction: @escaping () -> Void) {
+            rootViewController = UIHostingController(rootView: content)
+            searchController.searchBar.autocapitalizationType = .none
+            searchController.obscuresBackgroundDuringPresentation = false
+            rootViewController.navigationItem.searchController = searchController
+            
+            _text = searchText
+            search = searchAction
+            cancel = cancelAction
+        }
+        
+        func update(content: Content) {
+            rootViewController.rootView = content
+            rootViewController.view.setNeedsDisplay()
+        }
+        
+        func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+            text = searchText
+        }
+        
+        func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+            search()
+        }
+        
+        func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+            cancel()
+        }
+    }
+    
 }

@@ -2194,7 +2194,10 @@ class Account: ObservableObject {
             return
         }
         self.db?.collection("winks").document(userId).collection("people_who_winked").document(id).delete(completion: { error in
-            // 
+            //
+            
+            UserDefaults.standard.set(false, forKey: "showConfetti-\(id)")
+            UserDefaults.standard.set(false, forKey: "showWinkConfetti-\(id)")
         })
     }
     
