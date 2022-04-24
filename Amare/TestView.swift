@@ -117,6 +117,8 @@ class TestViewModel: ObservableObject{
     @Published var nearbyUsersByMultipeer =  Set<AmareUser>()
     @Published var searchedUsers : [AmareUser] = []
     
+    @Published var customUsers: [AmareUser] = []
+    
     
     // @Published computed variables are unreliable so we do this to so that the `allNearbyUsers` array has the proper value
    // private var subscriptions = Set<AnyCancellable>()
@@ -177,7 +179,7 @@ class TestViewModel: ObservableObject{
         
         db.collection("usernames")
             .whereField("username", isGreaterThanOrEqualTo: username)
-            .getDocuments { snapshot, error in
+            .addSnapshotListener { snapshot, error in
                 
                 guard error == nil else {
                     self.searchError = error!
@@ -788,6 +790,69 @@ class TestViewModel: ObservableObject{
     }
     
     
+    func getAllCustomUsers()  {
+        
+        db.collection("users")
+            .whereField("isReal", isEqualTo: false)
+            .getDocuments { snapshot, error in
+                
+                guard error == nil else {
+                    self.searchError = error!
+                    return
+                }
+                
+               
+                var users: [AmareUser] = []
+                for document in snapshot!.documents{
+             
+                    let result = Result {
+                        try document.data(as: AmareUser.self)
+                    }
+                    
+                    switch result {
+                    
+                    
+                    case .success(let data):
+                        
+                        if var user = data{
+                            user.id = document.documentID
+                            
+                      
+                            if user.id != Auth.auth().currentUser?.uid {
+                                users.append(user)
+                            }
+                            
+                            self.customUsers = users
+
+                            
+                            
+                        } else{
+                            
+                            // Could not retreive the data for some reason
+                            self.searchError = GlobalError.unknown
+                            return
+                        }
+                        
+                    
+                    case .failure(let error):
+                        // Handle errors
+                        self.searchError = error
+                        continue
+                      //  return
+                  
+                    }
+
+                    
+                }
+             
+                
+                
+                
+            }
+    }
+
+    
+    
     
 }
 
@@ -929,6 +994,31 @@ struct TestView: View {
                                     }
                                     
                                 }
+                                
+                                Section(header: Text("Custom Users")){
+                                    
+                                    ForEach(viewModel.customUsers, id: \.self) {  user in
+                                        
+                                        Button {
+                                            
+                                            withAnimation {
+                                                   
+                                                viewModel.load(user: user.id ?? "")
+                                                cancel()
+                                                showProfile = true
+                                                }
+                                            
+                                        } label: {
+                                            
+                                            Text("\(user.name ?? "No Name")")
+                                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                                       .contentShape(Rectangle())
+                                        }
+                                        .buttonStyle(PlainButtonStyle())
+                                    }
+                                    
+                                }
+
                             }
                         }
                         .onChange(of: searchString) { words in
@@ -1025,6 +1115,8 @@ struct TestView: View {
         
         
         .onAppear {
+            
+            viewModel.getAllCustomUsers()
             
             if  let me = Auth.auth().currentUser?.uid{
                try? beamsClient.addDeviceInterest(interest: me)
