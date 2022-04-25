@@ -208,9 +208,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         
+        Auth.auth().setAPNSToken(deviceToken, type: .prod)
         self.beamsClient.registerDeviceToken(deviceToken)
         
-        Auth.auth().setAPNSToken(deviceToken, type: .prod)
+       
     }
     
     
