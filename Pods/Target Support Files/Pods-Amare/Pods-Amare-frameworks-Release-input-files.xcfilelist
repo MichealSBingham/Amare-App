@@ -1,5 +1,4 @@
 ${PODS_ROOT}/Target Support Files/Pods-Amare/Pods-Amare-frameworks.sh
 ${BUILT_PRODUCTS_DIR}/GeoFire/GeoFire.framework
 ${BUILT_PRODUCTS_DIR}/IPImage/IPImage.framework
-${BUILT_PRODUCTS_DIR}/PushNotifications/PushNotifications.framework
 ${BUILT_PRODUCTS_DIR}/TimeZoneLocate/TimeZoneLocate.framework

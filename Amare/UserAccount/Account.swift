@@ -598,7 +598,7 @@ class Account: ObservableObject {
                 
                 case .success(let data):
                     
-                    if let data = data{
+                    if  data != nil{
                         
                         // Data object contains all of the user's data
                         self.data = data
@@ -721,7 +721,7 @@ class Account: ObservableObject {
                 
                 case .success(let data):
                     
-                    if let data = data{
+                    if  data != nil{
                         
                        
                         completion?(data, nil)
@@ -831,7 +831,7 @@ class Account: ObservableObject {
                 
                 case .success(let data):
                     
-                    if let data = data{
+                    if  data != nil {
                         
                         // Data object contains all of the user's data
                 
@@ -895,9 +895,9 @@ class Account: ObservableObject {
                 switch result {
                 
                 
-                case .success(let data):
+                case .success(var user):
                     
-                    if var user = data{
+                    if  user != nil {
                         user.id = document.documentID
                         //print("\n\n\n\n\n\n***The document object is .. \(document.data())")
                         // Data object contains all of the user's data
@@ -981,9 +981,9 @@ class Account: ObservableObject {
                 switch result {
                 
                 
-                case .success(let data):
+                case .success(var user):
                     
-                    if var user = data{
+                    if  user != nil {
                         user.id = document.documentID
                         
                         
@@ -1098,9 +1098,9 @@ class Account: ObservableObject {
                 switch result {
                 
                 
-                case .success(let data):
+                case .success(var data):
                     
-                    if var data = data{
+                    if  data != nil {
                         
                         // Data object contains all of the user's data
                         
@@ -1928,7 +1928,7 @@ class Account: ObservableObject {
             
             case .success(let data):
                 
-                if let data = data{
+                if  data != nil{
                     
                     // Data object contains all of the user's data
                     self.data = data
@@ -1980,9 +1980,9 @@ class Account: ObservableObject {
             switch result {
             
             
-            case .success(let data):
+            case .success(let natalChart):
                 
-                if let natalChart = data{
+                if  natalChart != nil {
                     
                     // Data object contains all of the user's data
                     self.data?.natal_chart = natalChart

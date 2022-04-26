@@ -11,7 +11,7 @@ import URLImage
 import URLImageStore
 import FirebaseAuth
 import Combine
-import ConfettiSwiftUI
+//import ConfettiSwiftUI
 import VTabView
 import SkeletonUI
 import SPConfetti

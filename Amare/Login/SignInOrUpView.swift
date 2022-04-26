@@ -128,7 +128,7 @@ struct SignInOrUpView: View {
         return Group{
             ZStack{ ringImage() ; moleculeImage()  }
             ZStack{ verticleCrossImage() ; horizontalCrossImage() }
-        }   .offset(y: beginAnimation ? -15: 0 )
+        }   .offset(y: beginAnimation ? -25: 0 )
             .animation(.easeInOut(duration: 2.25).repeatForever(autoreverses: true), value: beginAnimation)
             .onAppear(perform: {  withAnimation{beginAnimation = true}})
 

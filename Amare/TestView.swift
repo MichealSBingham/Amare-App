@@ -197,9 +197,9 @@ class TestViewModel: ObservableObject{
                     switch result {
                     
                     
-                    case .success(let data):
+                    case .success(var user):
                         
-                        if var user = data{
+                        if  user != nil{
                             user.id = document.data()["userId"] as? String
                             
                             
@@ -812,9 +812,9 @@ class TestViewModel: ObservableObject{
                     switch result {
                     
                     
-                    case .success(let data):
+                    case .success(var user):
                         
-                        if var user = data{
+                        if  user != nil {
                             user.id = document.documentID
                             
                       
