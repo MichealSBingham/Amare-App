@@ -7,8 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1B8DB20141D8A4537686E883 /* Pods_Amare_AmareUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8F3C20D02BF47BF940D0D6D /* Pods_Amare_AmareUITests.framework */; };
 		26007F032795A91F00B0E7C7 /* UserProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26007F022795A91F00B0E7C7 /* UserProfileView.swift */; };
+		2603B0BB28380141003ED2AB /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 2603B0BA28380141003ED2AB /* URLImage */; };
+		2603B0BD28380141003ED2AB /* URLImageStore in Frameworks */ = {isa = PBXBuildFile; productRef = 2603B0BC28380141003ED2AB /* URLImageStore */; };
+		2603B0C5283802A9003ED2AB /* PushNotifications in Frameworks */ = {isa = PBXBuildFile; productRef = 2603B0C4283802A9003ED2AB /* PushNotifications */; };
+		2603B0C82838033F003ED2AB /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = 2603B0C72838033F003ED2AB /* PopupView */; };
+		2603B0CB283803B2003ED2AB /* MbSwiftUIFirstResponder in Frameworks */ = {isa = PBXBuildFile; productRef = 2603B0CA283803B2003ED2AB /* MbSwiftUIFirstResponder */; };
 		2606C0C0270614E300D333B4 /* SmallNatalChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2606C0BF270614E300D333B4 /* SmallNatalChartView.swift */; };
 		2608CF44268FDE9700826FDA /* ImageUploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2608CF43268FDE9700826FDA /* ImageUploadView.swift */; };
 		2608CF46268FE27300826FDA /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2608CF45268FE27300826FDA /* ImagePickerView.swift */; };
@@ -22,23 +26,6 @@
 		261571612773B2D7001DFD18 /* NewChartMenuUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261571602773B2D7001DFD18 /* NewChartMenuUIView.swift */; };
 		261571632773C023001DFD18 /* locationsearchswiftuimenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261571622773C023001DFD18 /* locationsearchswiftuimenu.swift */; };
 		2623D7B027935E88002456DF /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2623D7AF27935E88002456DF /* HomeView.swift */; };
-		26296D5B28177CDD00C417DB /* VTabView in Frameworks */ = {isa = PBXBuildFile; productRef = 26296D5A28177CDD00C417DB /* VTabView */; };
-		26296D5E28177DF500C417DB /* SPConfetti in Frameworks */ = {isa = PBXBuildFile; productRef = 26296D5D28177DF500C417DB /* SPConfetti */; };
-		26319B79281747E3008A2B5E /* SkeletonUI in Frameworks */ = {isa = PBXBuildFile; productRef = 26319B78281747E3008A2B5E /* SkeletonUI */; };
-		26319B7C281747F6008A2B5E /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = 26319B7B281747F6008A2B5E /* PopupView */; };
-		26319B7F2817482E008A2B5E /* MbSwiftUIFirstResponder in Frameworks */ = {isa = PBXBuildFile; productRef = 26319B7E2817482E008A2B5E /* MbSwiftUIFirstResponder */; };
-		26319B82281748B9008A2B5E /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 26319B81281748B9008A2B5E /* FirebaseAuth */; };
-		26319B84281748B9008A2B5E /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 26319B83281748B9008A2B5E /* FirebaseFirestore */; };
-		26319B86281748B9008A2B5E /* FirebaseFirestoreSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 26319B85281748B9008A2B5E /* FirebaseFirestoreSwift-Beta */; };
-		26319B88281748B9008A2B5E /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 26319B87281748B9008A2B5E /* FirebaseStorage */; };
-		26319B8A281748B9008A2B5E /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 26319B89281748B9008A2B5E /* FirebaseStorageCombine-Community */; };
-		26319B8C281748B9008A2B5E /* FirebaseStorageSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 26319B8B281748B9008A2B5E /* FirebaseStorageSwift-Beta */; };
-		26319B94281751A7008A2B5E /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 26319B93281751A7008A2B5E /* URLImage */; };
-		26319B96281751A7008A2B5E /* URLImageStore in Frameworks */ = {isa = PBXBuildFile; productRef = 26319B95281751A7008A2B5E /* URLImageStore */; };
-		26319B992817548A008A2B5E /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = 26319B982817548A008A2B5E /* CodeScanner */; };
-		26319BA228175A56008A2B5E /* SPIndicator in Frameworks */ = {isa = PBXBuildFile; productRef = 26319BA128175A56008A2B5E /* SPIndicator */; };
-		26319BA528175D32008A2B5E /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = 26319BA428175D32008A2B5E /* Shimmer */; };
-		26319BA828175FE4008A2B5E /* UICircularProgressRing in Frameworks */ = {isa = PBXBuildFile; productRef = 26319BA728175FE4008A2B5E /* UICircularProgressRing */; };
 		26333AF627B97160005149C9 /* MoreInfoOnPlanetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26333AF527B97160005149C9 /* MoreInfoOnPlanetViewModel.swift */; };
 		26336035270912B500EEC1B3 /* MoreInfoScratchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26336034270912B400EEC1B3 /* MoreInfoScratchView.swift */; };
 		2633A13D279E20C300839581 /* TestView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2633A13C279E20C300839581 /* TestView2.swift */; };
@@ -70,6 +57,25 @@
 		2694935826D1DB4400C7AD72 /* Aspect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2694935726D1DB4400C7AD72 /* Aspect.swift */; };
 		2694935A26D1FD1F00C7AD72 /* Element.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2694935926D1FD1F00C7AD72 /* Element.swift */; };
 		2694935C26D1FEEF00C7AD72 /* ZodiacSign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2694935B26D1FEEF00C7AD72 /* ZodiacSign.swift */; };
+		2696FAB528380D1500584768 /* NavigationStack in Frameworks */ = {isa = PBXBuildFile; productRef = 2696FAB428380D1500584768 /* NavigationStack */; };
+		2696FAB828381B0D00584768 /* SPIndicator in Frameworks */ = {isa = PBXBuildFile; productRef = 2696FAB728381B0D00584768 /* SPIndicator */; };
+		2696FABB28381CFD00584768 /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = 2696FABA28381CFD00584768 /* Shimmer */; };
+		2696FABE28381D6F00584768 /* UICircularProgressRing in Frameworks */ = {isa = PBXBuildFile; productRef = 2696FABD28381D6F00584768 /* UICircularProgressRing */; };
+		2696FAC128381DD800584768 /* VTabView in Frameworks */ = {isa = PBXBuildFile; productRef = 2696FAC028381DD800584768 /* VTabView */; };
+		2696FAC428381EB200584768 /* SkeletonUI in Frameworks */ = {isa = PBXBuildFile; productRef = 2696FAC328381EB200584768 /* SkeletonUI */; };
+		2696FAC72838202400584768 /* SPConfetti in Frameworks */ = {isa = PBXBuildFile; productRef = 2696FAC62838202400584768 /* SPConfetti */; };
+		2696FACA2838293700584768 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 2696FAC92838293700584768 /* FirebaseAnalyticsSwift */; };
+		2696FACC2838293700584768 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 2696FACB2838293700584768 /* FirebaseAuth */; };
+		2696FACE2838293700584768 /* FirebaseAuthCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 2696FACD2838293700584768 /* FirebaseAuthCombine-Community */; };
+		2696FAD02838293700584768 /* FirebaseDatabaseSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 2696FACF2838293700584768 /* FirebaseDatabaseSwift */; };
+		2696FAD22838293700584768 /* FirebaseDynamicLinks in Frameworks */ = {isa = PBXBuildFile; productRef = 2696FAD12838293700584768 /* FirebaseDynamicLinks */; };
+		2696FAD42838293700584768 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 2696FAD32838293700584768 /* FirebaseFirestore */; };
+		2696FAD62838293700584768 /* FirebaseFirestoreCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 2696FAD52838293700584768 /* FirebaseFirestoreCombine-Community */; };
+		2696FAD82838293700584768 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 2696FAD72838293700584768 /* FirebaseFirestoreSwift */; };
+		2696FADA2838293700584768 /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = 2696FAD92838293700584768 /* FirebaseFunctions */; };
+		2696FADC2838293700584768 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 2696FADB2838293700584768 /* FirebaseStorage */; };
+		2696FADE2838293700584768 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 2696FADD2838293700584768 /* FirebaseStorageCombine-Community */; };
+		2696FAE12838327F00584768 /* MultipeerKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2696FAE02838327F00584768 /* MultipeerKit */; };
 		26970699268101B0007E7961 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26970698268101B0007E7961 /* SceneDelegate.swift */; };
 		269A1E2C270CB1FB008F4A0F /* MoreInfoOnPlanetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269A1E2B270CB1FB008F4A0F /* MoreInfoOnPlanetView.swift */; };
 		26A86D10271E324D009054B8 /* SearchOtherUsersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A86D0F271E324D009054B8 /* SearchOtherUsersView.swift */; };
@@ -103,16 +109,13 @@
 		26DE210C26C5963A0004B5CE /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DE210B26C5963A0004B5CE /* SettingsView.swift */; };
 		26DE210E26C596450004B5CE /* HomeGlobeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DE210D26C596450004B5CE /* HomeGlobeView.swift */; };
 		26EDBB8D26AA7CE2005C1033 /* VerificationCodeView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26EDBB8C26AA7CE2005C1033 /* VerificationCodeView2.swift */; };
-		26F2E09C281821D600E66B57 /* MultipeerKit in Frameworks */ = {isa = PBXBuildFile; productRef = 26F2E09B281821D600E66B57 /* MultipeerKit */; };
-		26F2E0A22818383E00E66B57 /* PushNotifications in Frameworks */ = {isa = PBXBuildFile; productRef = 26F2E0A12818383E00E66B57 /* PushNotifications */; };
-		26F2E0AC281845DC00E66B57 /* TimeZoneLocate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26F2E0AB281845DC00E66B57 /* TimeZoneLocate.framework */; };
-		26F2E0B428184CE500E66B57 /* NavigationStack in Frameworks */ = {isa = PBXBuildFile; productRef = 26F2E0B328184CE500E66B57 /* NavigationStack */; };
 		26F9205F26A760E500A4F8C6 /* Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F9205E26A760E500A4F8C6 /* Animations.swift */; };
 		26F9206B26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 26F9206A26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf */; };
 		26F9206C26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 26F9206A26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf */; };
 		26F9206D26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 26F9206A26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf */; };
-		42C2649C11ECD1F68B5FE147 /* Pods_Amare.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9379A9F9A7062F75251972D3 /* Pods_Amare.framework */; };
-		B19DE4317A95606C40F1DCD3 /* Pods_AmareTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F10CAA0B2B5E809DE2D341B /* Pods_AmareTests.framework */; };
+		6827E76988E0039868A9D4D2 /* Pods_Amare.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D748961A6D92A555E26E82DB /* Pods_Amare.framework */; };
+		BD19CD499C5973E6CC8E1C72 /* Pods_Amare_AmareUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EBF1383D3DF2833DA06467D /* Pods_Amare_AmareUITests.framework */; };
+		CCCDB83337AC2B3DE91771C2 /* Pods_AmareTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67ADF986E608D9D2D93853A4 /* Pods_AmareTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -133,8 +136,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		131D603DEB2516F8234651AB /* Pods-AmareTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AmareTests.release.xcconfig"; path = "Target Support Files/Pods-AmareTests/Pods-AmareTests.release.xcconfig"; sourceTree = "<group>"; };
-		139BE4505D91FB73393266D5 /* Pods-Amare-AmareUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Amare-AmareUITests.release.xcconfig"; path = "Target Support Files/Pods-Amare-AmareUITests/Pods-Amare-AmareUITests.release.xcconfig"; sourceTree = "<group>"; };
 		26007F022795A91F00B0E7C7 /* UserProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileView.swift; sourceTree = "<group>"; };
 		2606C0BF270614E300D333B4 /* SmallNatalChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallNatalChartView.swift; sourceTree = "<group>"; };
 		2608CF43268FDE9700826FDA /* ImageUploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUploadView.swift; sourceTree = "<group>"; };
@@ -224,13 +225,15 @@
 		26F2E0AD2818464300E66B57 /* TimeZoneLocate.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TimeZoneLocate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		26F9205E26A760E500A4F8C6 /* Animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animations.swift; sourceTree = "<group>"; };
 		26F9206A26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MontserratAlternates-SemiBold.ttf"; sourceTree = "<group>"; };
-		54422D5674CDC0B4B301DC40 /* Pods-Amare-AmareUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Amare-AmareUITests.debug.xcconfig"; path = "Target Support Files/Pods-Amare-AmareUITests/Pods-Amare-AmareUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		6CEA5729D1C40AE65326635A /* Pods-AmareTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AmareTests.debug.xcconfig"; path = "Target Support Files/Pods-AmareTests/Pods-AmareTests.debug.xcconfig"; sourceTree = "<group>"; };
-		7F10CAA0B2B5E809DE2D341B /* Pods_AmareTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AmareTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		9379A9F9A7062F75251972D3 /* Pods_Amare.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Amare.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B8F3C20D02BF47BF940D0D6D /* Pods_Amare_AmareUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Amare_AmareUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E2401A888F2FB2F44FADC5C3 /* Pods-Amare.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Amare.debug.xcconfig"; path = "Target Support Files/Pods-Amare/Pods-Amare.debug.xcconfig"; sourceTree = "<group>"; };
-		E2E1AC4667851A69BAEE1C1C /* Pods-Amare.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Amare.release.xcconfig"; path = "Target Support Files/Pods-Amare/Pods-Amare.release.xcconfig"; sourceTree = "<group>"; };
+		3DA904EE1952F28B785291CF /* Pods-AmareTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AmareTests.release.xcconfig"; path = "Target Support Files/Pods-AmareTests/Pods-AmareTests.release.xcconfig"; sourceTree = "<group>"; };
+		5010442ED2592DEDD30E3E89 /* Pods-Amare-AmareUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Amare-AmareUITests.release.xcconfig"; path = "Target Support Files/Pods-Amare-AmareUITests/Pods-Amare-AmareUITests.release.xcconfig"; sourceTree = "<group>"; };
+		67ADF986E608D9D2D93853A4 /* Pods_AmareTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AmareTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7CDCC82F279C428A6F4A299F /* Pods-Amare.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Amare.release.xcconfig"; path = "Target Support Files/Pods-Amare/Pods-Amare.release.xcconfig"; sourceTree = "<group>"; };
+		9EBF1383D3DF2833DA06467D /* Pods_Amare_AmareUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Amare_AmareUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BA60B5DC4FED6EF90B2506E2 /* Pods-Amare-AmareUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Amare-AmareUITests.debug.xcconfig"; path = "Target Support Files/Pods-Amare-AmareUITests/Pods-Amare-AmareUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		D748961A6D92A555E26E82DB /* Pods_Amare.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Amare.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D78723C89D614568A60C5A9A /* Pods-AmareTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AmareTests.debug.xcconfig"; path = "Target Support Files/Pods-AmareTests/Pods-AmareTests.debug.xcconfig"; sourceTree = "<group>"; };
+		F253D14646B2A80DDE5DEAAA /* Pods-Amare.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Amare.debug.xcconfig"; path = "Target Support Files/Pods-Amare/Pods-Amare.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -238,28 +241,31 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				26F2E0AC281845DC00E66B57 /* TimeZoneLocate.framework in Frameworks */,
-				26319B992817548A008A2B5E /* CodeScanner in Frameworks */,
-				26319B7C281747F6008A2B5E /* PopupView in Frameworks */,
-				26319BA828175FE4008A2B5E /* UICircularProgressRing in Frameworks */,
-				26319B82281748B9008A2B5E /* FirebaseAuth in Frameworks */,
-				26319B8A281748B9008A2B5E /* FirebaseStorageCombine-Community in Frameworks */,
-				26319B88281748B9008A2B5E /* FirebaseStorage in Frameworks */,
-				26319B94281751A7008A2B5E /* URLImage in Frameworks */,
-				26319B7F2817482E008A2B5E /* MbSwiftUIFirstResponder in Frameworks */,
-				26F2E0B428184CE500E66B57 /* NavigationStack in Frameworks */,
-				26319B79281747E3008A2B5E /* SkeletonUI in Frameworks */,
-				26296D5B28177CDD00C417DB /* VTabView in Frameworks */,
-				26296D5E28177DF500C417DB /* SPConfetti in Frameworks */,
-				26319B86281748B9008A2B5E /* FirebaseFirestoreSwift-Beta in Frameworks */,
-				26F2E0A22818383E00E66B57 /* PushNotifications in Frameworks */,
-				26F2E09C281821D600E66B57 /* MultipeerKit in Frameworks */,
-				26319B96281751A7008A2B5E /* URLImageStore in Frameworks */,
-				26319BA528175D32008A2B5E /* Shimmer in Frameworks */,
-				26319BA228175A56008A2B5E /* SPIndicator in Frameworks */,
-				26319B8C281748B9008A2B5E /* FirebaseStorageSwift-Beta in Frameworks */,
-				26319B84281748B9008A2B5E /* FirebaseFirestore in Frameworks */,
-				42C2649C11ECD1F68B5FE147 /* Pods_Amare.framework in Frameworks */,
+				2696FAC128381DD800584768 /* VTabView in Frameworks */,
+				2696FACE2838293700584768 /* FirebaseAuthCombine-Community in Frameworks */,
+				6827E76988E0039868A9D4D2 /* Pods_Amare.framework in Frameworks */,
+				2696FADC2838293700584768 /* FirebaseStorage in Frameworks */,
+				2696FAE12838327F00584768 /* MultipeerKit in Frameworks */,
+				2696FADA2838293700584768 /* FirebaseFunctions in Frameworks */,
+				2696FACC2838293700584768 /* FirebaseAuth in Frameworks */,
+				2696FAB528380D1500584768 /* NavigationStack in Frameworks */,
+				2696FAD62838293700584768 /* FirebaseFirestoreCombine-Community in Frameworks */,
+				2603B0C5283802A9003ED2AB /* PushNotifications in Frameworks */,
+				2696FAC72838202400584768 /* SPConfetti in Frameworks */,
+				2696FAB828381B0D00584768 /* SPIndicator in Frameworks */,
+				2603B0C82838033F003ED2AB /* PopupView in Frameworks */,
+				2603B0CB283803B2003ED2AB /* MbSwiftUIFirstResponder in Frameworks */,
+				2696FABE28381D6F00584768 /* UICircularProgressRing in Frameworks */,
+				2603B0BB28380141003ED2AB /* URLImage in Frameworks */,
+				2603B0BD28380141003ED2AB /* URLImageStore in Frameworks */,
+				2696FADE2838293700584768 /* FirebaseStorageCombine-Community in Frameworks */,
+				2696FAD82838293700584768 /* FirebaseFirestoreSwift in Frameworks */,
+				2696FAD02838293700584768 /* FirebaseDatabaseSwift in Frameworks */,
+				2696FACA2838293700584768 /* FirebaseAnalyticsSwift in Frameworks */,
+				2696FAC428381EB200584768 /* SkeletonUI in Frameworks */,
+				2696FABB28381CFD00584768 /* Shimmer in Frameworks */,
+				2696FAD22838293700584768 /* FirebaseDynamicLinks in Frameworks */,
+				2696FAD42838293700584768 /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -267,7 +273,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B19DE4317A95606C40F1DCD3 /* Pods_AmareTests.framework in Frameworks */,
+				CCCDB83337AC2B3DE91771C2 /* Pods_AmareTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -275,7 +281,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1B8DB20141D8A4537686E883 /* Pods_Amare_AmareUITests.framework in Frameworks */,
+				BD19CD499C5973E6CC8E1C72 /* Pods_Amare_AmareUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -595,12 +601,12 @@
 		805D8D6FEA81726841F9AFBC /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				E2401A888F2FB2F44FADC5C3 /* Pods-Amare.debug.xcconfig */,
-				E2E1AC4667851A69BAEE1C1C /* Pods-Amare.release.xcconfig */,
-				54422D5674CDC0B4B301DC40 /* Pods-Amare-AmareUITests.debug.xcconfig */,
-				139BE4505D91FB73393266D5 /* Pods-Amare-AmareUITests.release.xcconfig */,
-				6CEA5729D1C40AE65326635A /* Pods-AmareTests.debug.xcconfig */,
-				131D603DEB2516F8234651AB /* Pods-AmareTests.release.xcconfig */,
+				F253D14646B2A80DDE5DEAAA /* Pods-Amare.debug.xcconfig */,
+				7CDCC82F279C428A6F4A299F /* Pods-Amare.release.xcconfig */,
+				BA60B5DC4FED6EF90B2506E2 /* Pods-Amare-AmareUITests.debug.xcconfig */,
+				5010442ED2592DEDD30E3E89 /* Pods-Amare-AmareUITests.release.xcconfig */,
+				D78723C89D614568A60C5A9A /* Pods-AmareTests.debug.xcconfig */,
+				3DA904EE1952F28B785291CF /* Pods-AmareTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -611,9 +617,9 @@
 				26F2E0AD2818464300E66B57 /* TimeZoneLocate.framework */,
 				26F2E0AB281845DC00E66B57 /* TimeZoneLocate.framework */,
 				26F2E0A9281845B500E66B57 /* TimeZoneLocate.framework */,
-				9379A9F9A7062F75251972D3 /* Pods_Amare.framework */,
-				B8F3C20D02BF47BF940D0D6D /* Pods_Amare_AmareUITests.framework */,
-				7F10CAA0B2B5E809DE2D341B /* Pods_AmareTests.framework */,
+				D748961A6D92A555E26E82DB /* Pods_Amare.framework */,
+				9EBF1383D3DF2833DA06467D /* Pods_Amare_AmareUITests.framework */,
+				67ADF986E608D9D2D93853A4 /* Pods_AmareTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -625,12 +631,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 26B1AFFC2678FFE700A170B3 /* Build configuration list for PBXNativeTarget "Amare" */;
 			buildPhases = (
-				D51B48E457AADD22DC7E3CDB /* [CP] Check Pods Manifest.lock */,
+				6828C234D5D8E67081052577 /* [CP] Check Pods Manifest.lock */,
 				26B1AFCE2678FFE500A170B3 /* Sources */,
 				26B1AFCF2678FFE500A170B3 /* Frameworks */,
 				26B1AFD02678FFE500A170B3 /* Resources */,
-				5FDBB16F1A5E9894640541BA /* [CP] Embed Pods Frameworks */,
-				8501D0DA9725F97D2AEC690B /* [CP] Copy Pods Resources */,
+				4E3F33F54384EEFE8ECC0813 /* [CP] Embed Pods Frameworks */,
+				6FFAD9A1876EEFC549657429 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -638,26 +644,30 @@
 			);
 			name = Amare;
 			packageProductDependencies = (
-				26319B78281747E3008A2B5E /* SkeletonUI */,
-				26319B7B281747F6008A2B5E /* PopupView */,
-				26319B7E2817482E008A2B5E /* MbSwiftUIFirstResponder */,
-				26319B81281748B9008A2B5E /* FirebaseAuth */,
-				26319B83281748B9008A2B5E /* FirebaseFirestore */,
-				26319B85281748B9008A2B5E /* FirebaseFirestoreSwift-Beta */,
-				26319B87281748B9008A2B5E /* FirebaseStorage */,
-				26319B89281748B9008A2B5E /* FirebaseStorageCombine-Community */,
-				26319B8B281748B9008A2B5E /* FirebaseStorageSwift-Beta */,
-				26319B93281751A7008A2B5E /* URLImage */,
-				26319B95281751A7008A2B5E /* URLImageStore */,
-				26319B982817548A008A2B5E /* CodeScanner */,
-				26319BA128175A56008A2B5E /* SPIndicator */,
-				26319BA428175D32008A2B5E /* Shimmer */,
-				26319BA728175FE4008A2B5E /* UICircularProgressRing */,
-				26296D5A28177CDD00C417DB /* VTabView */,
-				26296D5D28177DF500C417DB /* SPConfetti */,
-				26F2E09B281821D600E66B57 /* MultipeerKit */,
-				26F2E0A12818383E00E66B57 /* PushNotifications */,
-				26F2E0B328184CE500E66B57 /* NavigationStack */,
+				2603B0BA28380141003ED2AB /* URLImage */,
+				2603B0BC28380141003ED2AB /* URLImageStore */,
+				2603B0C4283802A9003ED2AB /* PushNotifications */,
+				2603B0C72838033F003ED2AB /* PopupView */,
+				2603B0CA283803B2003ED2AB /* MbSwiftUIFirstResponder */,
+				2696FAB428380D1500584768 /* NavigationStack */,
+				2696FAB728381B0D00584768 /* SPIndicator */,
+				2696FABA28381CFD00584768 /* Shimmer */,
+				2696FABD28381D6F00584768 /* UICircularProgressRing */,
+				2696FAC028381DD800584768 /* VTabView */,
+				2696FAC328381EB200584768 /* SkeletonUI */,
+				2696FAC62838202400584768 /* SPConfetti */,
+				2696FAC92838293700584768 /* FirebaseAnalyticsSwift */,
+				2696FACB2838293700584768 /* FirebaseAuth */,
+				2696FACD2838293700584768 /* FirebaseAuthCombine-Community */,
+				2696FACF2838293700584768 /* FirebaseDatabaseSwift */,
+				2696FAD12838293700584768 /* FirebaseDynamicLinks */,
+				2696FAD32838293700584768 /* FirebaseFirestore */,
+				2696FAD52838293700584768 /* FirebaseFirestoreCombine-Community */,
+				2696FAD72838293700584768 /* FirebaseFirestoreSwift */,
+				2696FAD92838293700584768 /* FirebaseFunctions */,
+				2696FADB2838293700584768 /* FirebaseStorage */,
+				2696FADD2838293700584768 /* FirebaseStorageCombine-Community */,
+				2696FAE02838327F00584768 /* MultipeerKit */,
 			);
 			productName = Love;
 			productReference = 26B1AFD22678FFE500A170B3 /* Amare.app */;
@@ -667,7 +677,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 26B1AFFF2678FFE700A170B3 /* Build configuration list for PBXNativeTarget "AmareTests" */;
 			buildPhases = (
-				278271C42A484B00D4B9587A /* [CP] Check Pods Manifest.lock */,
+				B35551CF009E89AEBA39D303 /* [CP] Check Pods Manifest.lock */,
 				26B1AFE42678FFE700A170B3 /* Sources */,
 				26B1AFE52678FFE700A170B3 /* Frameworks */,
 				26B1AFE62678FFE700A170B3 /* Resources */,
@@ -686,12 +696,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 26B1B0022678FFE700A170B3 /* Build configuration list for PBXNativeTarget "AmareUITests" */;
 			buildPhases = (
-				DA19012F872C0657C646C776 /* [CP] Check Pods Manifest.lock */,
+				BDA2DAABD8AC833E6791BFE4 /* [CP] Check Pods Manifest.lock */,
 				26B1AFEF2678FFE700A170B3 /* Sources */,
 				26B1AFF02678FFE700A170B3 /* Frameworks */,
 				26B1AFF12678FFE700A170B3 /* Resources */,
-				2389F3FD7D788727F0D63E47 /* [CP] Embed Pods Frameworks */,
-				5D12E7AC2B75EE1AB8E2D8D1 /* [CP] Copy Pods Resources */,
+				918182D686B069474F7BDFE6 /* [CP] Embed Pods Frameworks */,
+				A0BEA717E66762BA898A518E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -735,21 +745,19 @@
 			);
 			mainGroup = 26B1AFC92678FFE500A170B3;
 			packageReferences = (
-				26319B77281747E3008A2B5E /* XCRemoteSwiftPackageReference "SkeletonUI" */,
-				26319B7A281747F6008A2B5E /* XCRemoteSwiftPackageReference "PopupView" */,
-				26319B7D2817482D008A2B5E /* XCRemoteSwiftPackageReference "MbSwiftUIFirstResponder" */,
-				26319B80281748B9008A2B5E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
-				26319B92281751A6008A2B5E /* XCRemoteSwiftPackageReference "url-image" */,
-				26319B9728175489008A2B5E /* XCRemoteSwiftPackageReference "CodeScanner" */,
-				26319BA028175A56008A2B5E /* XCRemoteSwiftPackageReference "SPIndicator" */,
-				26319BA328175D31008A2B5E /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
-				26319BA628175FE3008A2B5E /* XCRemoteSwiftPackageReference "UICircularProgressRing" */,
-				26319BA9281764C5008A2B5E /* XCRemoteSwiftPackageReference "UICircularProgressRing" */,
-				26296D5928177CDD00C417DB /* XCRemoteSwiftPackageReference "swiftui-vertical-tab-view" */,
-				26296D5C28177DF500C417DB /* XCRemoteSwiftPackageReference "SPConfetti" */,
-				26F2E09A281821D600E66B57 /* XCRemoteSwiftPackageReference "MultipeerKit" */,
-				26F2E0A02818383D00E66B57 /* XCRemoteSwiftPackageReference "push-notifications-swift" */,
-				26F2E0B228184CE500E66B57 /* XCRemoteSwiftPackageReference "swiftui-navigation-stack" */,
+				2603B0B928380141003ED2AB /* XCRemoteSwiftPackageReference "url-image" */,
+				2603B0C3283802A9003ED2AB /* XCRemoteSwiftPackageReference "push-notifications-swift" */,
+				2603B0C62838033F003ED2AB /* XCRemoteSwiftPackageReference "PopupView" */,
+				2603B0C9283803B1003ED2AB /* XCRemoteSwiftPackageReference "MbSwiftUIFirstResponder" */,
+				2696FAB328380D1500584768 /* XCRemoteSwiftPackageReference "swiftui-navigation-stack" */,
+				2696FAB628381B0D00584768 /* XCRemoteSwiftPackageReference "SPIndicator" */,
+				2696FAB928381CFD00584768 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
+				2696FABC28381D6F00584768 /* XCRemoteSwiftPackageReference "UICircularProgressRing" */,
+				2696FABF28381DD800584768 /* XCRemoteSwiftPackageReference "swiftui-vertical-tab-view" */,
+				2696FAC228381EB200584768 /* XCRemoteSwiftPackageReference "SkeletonUI" */,
+				2696FAC52838202400584768 /* XCRemoteSwiftPackageReference "SPConfetti" */,
+				2696FAC82838293700584768 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				2696FADF2838327F00584768 /* XCRemoteSwiftPackageReference "MultipeerKit" */,
 			);
 			productRefGroup = 26B1AFD32678FFE500A170B3 /* Products */;
 			projectDirPath = "";
@@ -795,63 +803,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2389F3FD7D788727F0D63E47 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Amare-AmareUITests/Pods-Amare-AmareUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Amare-AmareUITests/Pods-Amare-AmareUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Amare-AmareUITests/Pods-Amare-AmareUITests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		278271C42A484B00D4B9587A /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-AmareTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		5D12E7AC2B75EE1AB8E2D8D1 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Amare-AmareUITests/Pods-Amare-AmareUITests-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Amare-AmareUITests/Pods-Amare-AmareUITests-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Amare-AmareUITests/Pods-Amare-AmareUITests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		5FDBB16F1A5E9894640541BA /* [CP] Embed Pods Frameworks */ = {
+		4E3F33F54384EEFE8ECC0813 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -868,24 +820,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Amare/Pods-Amare-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		8501D0DA9725F97D2AEC690B /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Amare/Pods-Amare-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Amare/Pods-Amare-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Amare/Pods-Amare-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D51B48E457AADD22DC7E3CDB /* [CP] Check Pods Manifest.lock */ = {
+		6828C234D5D8E67081052577 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -907,7 +842,80 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		DA19012F872C0657C646C776 /* [CP] Check Pods Manifest.lock */ = {
+		6FFAD9A1876EEFC549657429 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Amare/Pods-Amare-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Amare/Pods-Amare-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Amare/Pods-Amare-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		918182D686B069474F7BDFE6 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Amare-AmareUITests/Pods-Amare-AmareUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Amare-AmareUITests/Pods-Amare-AmareUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Amare-AmareUITests/Pods-Amare-AmareUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A0BEA717E66762BA898A518E /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Amare-AmareUITests/Pods-Amare-AmareUITests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Amare-AmareUITests/Pods-Amare-AmareUITests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Amare-AmareUITests/Pods-Amare-AmareUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B35551CF009E89AEBA39D303 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AmareTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BDA2DAABD8AC833E6791BFE4 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1168,7 +1176,7 @@
 		};
 		26B1AFFD2678FFE700A170B3 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E2401A888F2FB2F44FADC5C3 /* Pods-Amare.debug.xcconfig */;
+			baseConfigurationReference = F253D14646B2A80DDE5DEAAA /* Pods-Amare.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1198,7 +1206,7 @@
 		};
 		26B1AFFE2678FFE700A170B3 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E2E1AC4667851A69BAEE1C1C /* Pods-Amare.release.xcconfig */;
+			baseConfigurationReference = 7CDCC82F279C428A6F4A299F /* Pods-Amare.release.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1229,7 +1237,7 @@
 		};
 		26B1B0002678FFE700A170B3 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6CEA5729D1C40AE65326635A /* Pods-AmareTests.debug.xcconfig */;
+			baseConfigurationReference = D78723C89D614568A60C5A9A /* Pods-AmareTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -1252,7 +1260,7 @@
 		};
 		26B1B0012678FFE700A170B3 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 131D603DEB2516F8234651AB /* Pods-AmareTests.release.xcconfig */;
+			baseConfigurationReference = 3DA904EE1952F28B785291CF /* Pods-AmareTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -1275,7 +1283,7 @@
 		};
 		26B1B0032678FFE700A170B3 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 54422D5674CDC0B4B301DC40 /* Pods-Amare-AmareUITests.debug.xcconfig */;
+			baseConfigurationReference = BA60B5DC4FED6EF90B2506E2 /* Pods-Amare-AmareUITests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HGQ8Q53DV8;
@@ -1296,7 +1304,7 @@
 		};
 		26B1B0042678FFE700A170B3 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 139BE4505D91FB73393266D5 /* Pods-Amare-AmareUITests.release.xcconfig */;
+			baseConfigurationReference = 5010442ED2592DEDD30E3E89 /* Pods-Amare-AmareUITests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HGQ8Q53DV8;
@@ -1357,55 +1365,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		26296D5928177CDD00C417DB /* XCRemoteSwiftPackageReference "swiftui-vertical-tab-view" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/lorenzofiamingo/swiftui-vertical-tab-view";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.0;
-			};
-		};
-		26296D5C28177DF500C417DB /* XCRemoteSwiftPackageReference "SPConfetti" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ivanvorobei/SPConfetti";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
-			};
-		};
-		26319B77281747E3008A2B5E /* XCRemoteSwiftPackageReference "SkeletonUI" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/CSolanaM/SkeletonUI.git";
-			requirement = {
-				branch = develop;
-				kind = branch;
-			};
-		};
-		26319B7A281747F6008A2B5E /* XCRemoteSwiftPackageReference "PopupView" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/exyte/PopupView.git";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
-		26319B7D2817482D008A2B5E /* XCRemoteSwiftPackageReference "MbSwiftUIFirstResponder" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Mobilinked/MbSwiftUIFirstResponder";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
-		26319B80281748B9008A2B5E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 8.11.0;
-			};
-		};
-		26319B92281751A6008A2B5E /* XCRemoteSwiftPackageReference "url-image" */ = {
+		2603B0B928380141003ED2AB /* XCRemoteSwiftPackageReference "url-image" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/dmytro-anokhin/url-image";
 			requirement = {
@@ -1413,63 +1373,31 @@
 				kind = branch;
 			};
 		};
-		26319B9728175489008A2B5E /* XCRemoteSwiftPackageReference "CodeScanner" */ = {
+		2603B0C3283802A9003ED2AB /* XCRemoteSwiftPackageReference "push-notifications-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/twostraws/CodeScanner.git";
+			repositoryURL = "https://github.com/pusher/push-notifications-swift.git";
 			requirement = {
-				branch = main;
+				branch = master;
 				kind = branch;
 			};
 		};
-		26319BA028175A56008A2B5E /* XCRemoteSwiftPackageReference "SPIndicator" */ = {
+		2603B0C62838033F003ED2AB /* XCRemoteSwiftPackageReference "PopupView" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ivanvorobei/SPIndicator";
+			repositoryURL = "https://github.com/Amare-Corporation/PopupView";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 1.0.0;
 			};
 		};
-		26319BA328175D31008A2B5E /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */ = {
+		2603B0C9283803B1003ED2AB /* XCRemoteSwiftPackageReference "MbSwiftUIFirstResponder" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/markiv/SwiftUI-Shimmer";
+			repositoryURL = "https://github.com/Mobilinked/MbSwiftUIFirstResponder";
 			requirement = {
 				branch = main;
 				kind = branch;
 			};
 		};
-		26319BA628175FE3008A2B5E /* XCRemoteSwiftPackageReference "UICircularProgressRing" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/luispadron/UICircularProgressRing.git";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
-		26319BA9281764C5008A2B5E /* XCRemoteSwiftPackageReference "UICircularProgressRing" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/luispadron/UICircularProgressRing.git";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
-		26F2E09A281821D600E66B57 /* XCRemoteSwiftPackageReference "MultipeerKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/insidegui/MultipeerKit.git";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
-		26F2E0A02818383D00E66B57 /* XCRemoteSwiftPackageReference "push-notifications-swift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/pusher/push-notifications-swift";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 4.0.0;
-			};
-		};
-		26F2E0B228184CE500E66B57 /* XCRemoteSwiftPackageReference "swiftui-navigation-stack" */ = {
+		2696FAB328380D1500584768 /* XCRemoteSwiftPackageReference "swiftui-navigation-stack" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/matteopuc/swiftui-navigation-stack";
 			requirement = {
@@ -1477,108 +1405,192 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		2696FAB628381B0D00584768 /* XCRemoteSwiftPackageReference "SPIndicator" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ivanvorobei/SPIndicator";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+		2696FAB928381CFD00584768 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/markiv/SwiftUI-Shimmer";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+		2696FABC28381D6F00584768 /* XCRemoteSwiftPackageReference "UICircularProgressRing" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/luispadron/UICircularProgressRing.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		2696FABF28381DD800584768 /* XCRemoteSwiftPackageReference "swiftui-vertical-tab-view" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/lorenzofiamingo/swiftui-vertical-tab-view";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+		2696FAC228381EB200584768 /* XCRemoteSwiftPackageReference "SkeletonUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/CSolanaM/SkeletonUI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+		2696FAC52838202400584768 /* XCRemoteSwiftPackageReference "SPConfetti" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ivanvorobei/SPConfetti";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+		2696FAC82838293700584768 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
+			};
+		};
+		2696FADF2838327F00584768 /* XCRemoteSwiftPackageReference "MultipeerKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/insidegui/MultipeerKit.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		26296D5A28177CDD00C417DB /* VTabView */ = {
+		2603B0BA28380141003ED2AB /* URLImage */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 26296D5928177CDD00C417DB /* XCRemoteSwiftPackageReference "swiftui-vertical-tab-view" */;
-			productName = VTabView;
-		};
-		26296D5D28177DF500C417DB /* SPConfetti */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 26296D5C28177DF500C417DB /* XCRemoteSwiftPackageReference "SPConfetti" */;
-			productName = SPConfetti;
-		};
-		26319B78281747E3008A2B5E /* SkeletonUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 26319B77281747E3008A2B5E /* XCRemoteSwiftPackageReference "SkeletonUI" */;
-			productName = SkeletonUI;
-		};
-		26319B7B281747F6008A2B5E /* PopupView */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 26319B7A281747F6008A2B5E /* XCRemoteSwiftPackageReference "PopupView" */;
-			productName = PopupView;
-		};
-		26319B7E2817482E008A2B5E /* MbSwiftUIFirstResponder */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 26319B7D2817482D008A2B5E /* XCRemoteSwiftPackageReference "MbSwiftUIFirstResponder" */;
-			productName = MbSwiftUIFirstResponder;
-		};
-		26319B81281748B9008A2B5E /* FirebaseAuth */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 26319B80281748B9008A2B5E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAuth;
-		};
-		26319B83281748B9008A2B5E /* FirebaseFirestore */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 26319B80281748B9008A2B5E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseFirestore;
-		};
-		26319B85281748B9008A2B5E /* FirebaseFirestoreSwift-Beta */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 26319B80281748B9008A2B5E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = "FirebaseFirestoreSwift-Beta";
-		};
-		26319B87281748B9008A2B5E /* FirebaseStorage */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 26319B80281748B9008A2B5E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseStorage;
-		};
-		26319B89281748B9008A2B5E /* FirebaseStorageCombine-Community */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 26319B80281748B9008A2B5E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = "FirebaseStorageCombine-Community";
-		};
-		26319B8B281748B9008A2B5E /* FirebaseStorageSwift-Beta */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 26319B80281748B9008A2B5E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = "FirebaseStorageSwift-Beta";
-		};
-		26319B93281751A7008A2B5E /* URLImage */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 26319B92281751A6008A2B5E /* XCRemoteSwiftPackageReference "url-image" */;
+			package = 2603B0B928380141003ED2AB /* XCRemoteSwiftPackageReference "url-image" */;
 			productName = URLImage;
 		};
-		26319B95281751A7008A2B5E /* URLImageStore */ = {
+		2603B0BC28380141003ED2AB /* URLImageStore */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 26319B92281751A6008A2B5E /* XCRemoteSwiftPackageReference "url-image" */;
+			package = 2603B0B928380141003ED2AB /* XCRemoteSwiftPackageReference "url-image" */;
 			productName = URLImageStore;
 		};
-		26319B982817548A008A2B5E /* CodeScanner */ = {
+		2603B0C4283802A9003ED2AB /* PushNotifications */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 26319B9728175489008A2B5E /* XCRemoteSwiftPackageReference "CodeScanner" */;
-			productName = CodeScanner;
-		};
-		26319BA128175A56008A2B5E /* SPIndicator */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 26319BA028175A56008A2B5E /* XCRemoteSwiftPackageReference "SPIndicator" */;
-			productName = SPIndicator;
-		};
-		26319BA428175D32008A2B5E /* Shimmer */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 26319BA328175D31008A2B5E /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */;
-			productName = Shimmer;
-		};
-		26319BA728175FE4008A2B5E /* UICircularProgressRing */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 26319BA628175FE3008A2B5E /* XCRemoteSwiftPackageReference "UICircularProgressRing" */;
-			productName = UICircularProgressRing;
-		};
-		26F2E09B281821D600E66B57 /* MultipeerKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 26F2E09A281821D600E66B57 /* XCRemoteSwiftPackageReference "MultipeerKit" */;
-			productName = MultipeerKit;
-		};
-		26F2E0A12818383E00E66B57 /* PushNotifications */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 26F2E0A02818383D00E66B57 /* XCRemoteSwiftPackageReference "push-notifications-swift" */;
+			package = 2603B0C3283802A9003ED2AB /* XCRemoteSwiftPackageReference "push-notifications-swift" */;
 			productName = PushNotifications;
 		};
-		26F2E0B328184CE500E66B57 /* NavigationStack */ = {
+		2603B0C72838033F003ED2AB /* PopupView */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 26F2E0B228184CE500E66B57 /* XCRemoteSwiftPackageReference "swiftui-navigation-stack" */;
+			package = 2603B0C62838033F003ED2AB /* XCRemoteSwiftPackageReference "PopupView" */;
+			productName = PopupView;
+		};
+		2603B0CA283803B2003ED2AB /* MbSwiftUIFirstResponder */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2603B0C9283803B1003ED2AB /* XCRemoteSwiftPackageReference "MbSwiftUIFirstResponder" */;
+			productName = MbSwiftUIFirstResponder;
+		};
+		2696FAB428380D1500584768 /* NavigationStack */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2696FAB328380D1500584768 /* XCRemoteSwiftPackageReference "swiftui-navigation-stack" */;
 			productName = NavigationStack;
+		};
+		2696FAB728381B0D00584768 /* SPIndicator */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2696FAB628381B0D00584768 /* XCRemoteSwiftPackageReference "SPIndicator" */;
+			productName = SPIndicator;
+		};
+		2696FABA28381CFD00584768 /* Shimmer */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2696FAB928381CFD00584768 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */;
+			productName = Shimmer;
+		};
+		2696FABD28381D6F00584768 /* UICircularProgressRing */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2696FABC28381D6F00584768 /* XCRemoteSwiftPackageReference "UICircularProgressRing" */;
+			productName = UICircularProgressRing;
+		};
+		2696FAC028381DD800584768 /* VTabView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2696FABF28381DD800584768 /* XCRemoteSwiftPackageReference "swiftui-vertical-tab-view" */;
+			productName = VTabView;
+		};
+		2696FAC328381EB200584768 /* SkeletonUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2696FAC228381EB200584768 /* XCRemoteSwiftPackageReference "SkeletonUI" */;
+			productName = SkeletonUI;
+		};
+		2696FAC62838202400584768 /* SPConfetti */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2696FAC52838202400584768 /* XCRemoteSwiftPackageReference "SPConfetti" */;
+			productName = SPConfetti;
+		};
+		2696FAC92838293700584768 /* FirebaseAnalyticsSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2696FAC82838293700584768 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalyticsSwift;
+		};
+		2696FACB2838293700584768 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2696FAC82838293700584768 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		2696FACD2838293700584768 /* FirebaseAuthCombine-Community */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2696FAC82838293700584768 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseAuthCombine-Community";
+		};
+		2696FACF2838293700584768 /* FirebaseDatabaseSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2696FAC82838293700584768 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabaseSwift;
+		};
+		2696FAD12838293700584768 /* FirebaseDynamicLinks */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2696FAC82838293700584768 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDynamicLinks;
+		};
+		2696FAD32838293700584768 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2696FAC82838293700584768 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		2696FAD52838293700584768 /* FirebaseFirestoreCombine-Community */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2696FAC82838293700584768 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseFirestoreCombine-Community";
+		};
+		2696FAD72838293700584768 /* FirebaseFirestoreSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2696FAC82838293700584768 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestoreSwift;
+		};
+		2696FAD92838293700584768 /* FirebaseFunctions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2696FAC82838293700584768 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFunctions;
+		};
+		2696FADB2838293700584768 /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2696FAC82838293700584768 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
+		2696FADD2838293700584768 /* FirebaseStorageCombine-Community */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2696FAC82838293700584768 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseStorageCombine-Community";
+		};
+		2696FAE02838327F00584768 /* MultipeerKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2696FADF2838327F00584768 /* XCRemoteSwiftPackageReference "MultipeerKit" */;
+			productName = MultipeerKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 

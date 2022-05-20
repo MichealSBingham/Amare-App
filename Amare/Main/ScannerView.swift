@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import CodeScanner
+//import CodeScanner
 import AVFoundation
 import Firebase
 import FirebaseFirestore
@@ -54,14 +54,14 @@ struct ScannerView: View {
                         
                 }
             
-            Camera()
+            //Camera()
         }
         
     
             
     }
     
-    
+    /*
     func Camera() -> some View   {
         
         return     CodeScannerView(codeTypes: [.qr], scanMode: .oncePerCode) { result in
@@ -76,7 +76,7 @@ struct ScannerView: View {
         .opacity(haveCameraAccess ? 1: 0 )
 
     }
-    
+    */
     
     func textForDeniedCameraAccess() -> some View  {
         

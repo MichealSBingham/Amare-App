@@ -19,7 +19,13 @@ target 'Amare' do
   pod 'TimeZoneLocate'
   pod 'IPImage'
   #pod 'NavigationStack'
-
+	#pod "CodeScanner"
+	
+	#pod 'FirebaseFirestore'
+	#pod 'FirebaseAuth'
+	#pod 'FirebaseStorage'
+	#pod 'Firebase'
+	#pod 'FirebaseFirestoreSwift'
 
  
 
