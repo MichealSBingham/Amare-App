@@ -1119,7 +1119,7 @@ struct TestView: View {
         
         .onAppear {
             
-            viewModel.getAllCustomUsers()
+            //viewModel.getAllCustomUsers()
             
             if  let me = Auth.auth().currentUser?.uid{
                try? beamsClient.addDeviceInterest(interest: me)
@@ -1269,90 +1269,7 @@ struct TestView: View {
 
     }
         
-    /*
-    func exampleUsageOfProfilePopup(<#parameters#>) -> <#return type#> {
-        
-        /*
-         EXAMPLE USAGE OF PROFILE POPUP
-        Button {
-            print("subscribed to : \(Auth.auth().currentUser?.uid) ")
-            
-            let me = Auth.auth().currentUser?.uid
-            
-            /*
-            viewModel.subscribeToUserDataChanges(for: Auth.auth().currentUser?.uid ?? "U214TAvtCsVUSxecjeoPl7cs8PW2")
-            
-            viewModel.subscribeToNatalChart(for: Auth.auth().currentUser?.uid ?? "U214TAvtCsVUSxecjeoPl7cs8PW2")
-            */
-            
-            let will = "hcrmKaxcEcc8CqY4B6Uh5VGG7Yc2"
-            let micheal = "u4uS1JxH2ZO8re6mchQUJ1q18Km2"
-            
-            let personWhoIsntMe = (me != will) ? will: micheal
-            
-            viewModel.load(user: personWhoIsntMe)
-           
-            
-            AmareApp().delay(5) {
-                print("Changing color..")
-                
-                viewModel.userData._synastryScore = 0.94
-                
-                
-            
-                
-                
-                
-                
-                
-                
-              
-                
-              
-                
-                withAnimation(.easeIn(duration: 3)){
-                    // change color of aspect
-                    viewModel.userData.natal_chart?.planets[0]._aspectThatExists = .trine
-                }
-                
-                
-                
-                
-            }
-            
-            
-        } label: {
-            Text("Subscribe")
-        }
-        
-        ProfilePopup(user: $viewModel.userData)
-             .opacity(viewModel.userData.isComplete() ? 1 : 0 )
-            .hoverEffect()
-        
-        
-        
-        Button {
-            
-                
-            viewModel.userData._synastryScore = Double.random(in: 0...1)
-            
-            viewModel.userData._chemistryScore = Double.random(in: 0...1)
-            
-            viewModel.userData._loveScore = Double.random(in: 0...1)
-            
-            viewModel.userData._sexScore = Double.random(in: 0...1)
-            
 
-        } label: {
-            Text("Regenerate")
-        }
-        .opacity(0)
-        .offset(x: 10, y: 20)
-        
-        */
-    }
-     
-     */
     
     /// Will broadcast our user data to nearby users by multipeer. We do this so that other nearby users know that we are around
     func broadcastToNearByUsers()  {

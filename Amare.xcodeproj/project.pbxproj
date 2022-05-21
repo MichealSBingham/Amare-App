@@ -37,6 +37,7 @@
 		263D6F962683F77C00CBBECC /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263D6F952683F77C00CBBECC /* Location.swift */; };
 		263D6F982684012000CBBECC /* AccountErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263D6F972684012000CBBECC /* AccountErrors.swift */; };
 		263D6F9A2684087300CBBECC /* AmareUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263D6F992684087300CBBECC /* AmareUser.swift */; };
+		263FBDCD28385E66008F35C5 /* FindNearbyUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263FBDCC28385E66008F35C5 /* FindNearbyUser.swift */; };
 		2655EEAA27862A7900393718 /* RootView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2655EEA927862A7800393718 /* RootView2.swift */; };
 		2669A62C2705488000B3C87C /* MainPlacementsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2669A62B2705488000B3C87C /* MainPlacementsView.swift */; };
 		266C61FB26F14A1D00A34374 /* SelectLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266C61FA26F14A1D00A34374 /* SelectLocation.swift */; };
@@ -160,6 +161,7 @@
 		263D6F952683F77C00CBBECC /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		263D6F972684012000CBBECC /* AccountErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountErrors.swift; sourceTree = "<group>"; };
 		263D6F992684087300CBBECC /* AmareUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmareUser.swift; sourceTree = "<group>"; };
+		263FBDCC28385E66008F35C5 /* FindNearbyUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindNearbyUser.swift; sourceTree = "<group>"; };
 		2655EEA927862A7800393718 /* RootView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView2.swift; sourceTree = "<group>"; };
 		2669A62B2705488000B3C87C /* MainPlacementsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPlacementsView.swift; sourceTree = "<group>"; };
 		266C61FA26F14A1D00A34374 /* SelectLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLocation.swift; sourceTree = "<group>"; };
@@ -291,6 +293,7 @@
 		26007F012795A6AE00B0E7C7 /* UserProfileView */ = {
 			isa = PBXGroup;
 			children = (
+				263FBDCB28385E3F008F35C5 /* NearbyUsers */,
 				2669A62D27054B0100B3C87C /* PersonPopupView */,
 				26007F022795A91F00B0E7C7 /* UserProfileView.swift */,
 			);
@@ -340,6 +343,14 @@
 				26333AF527B97160005149C9 /* MoreInfoOnPlanetViewModel.swift */,
 			);
 			path = ProfilePopup;
+			sourceTree = "<group>";
+		};
+		263FBDCB28385E3F008F35C5 /* NearbyUsers */ = {
+			isa = PBXGroup;
+			children = (
+				263FBDCC28385E66008F35C5 /* FindNearbyUser.swift */,
+			);
+			path = NearbyUsers;
 			sourceTree = "<group>";
 		};
 		2669A62D27054B0100B3C87C /* PersonPopupView */ = {
@@ -758,6 +769,7 @@
 				2696FAC52838202400584768 /* XCRemoteSwiftPackageReference "SPConfetti" */,
 				2696FAC82838293700584768 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				2696FADF2838327F00584768 /* XCRemoteSwiftPackageReference "MultipeerKit" */,
+				263FBDCE28387F90008F35C5 /* XCRemoteSwiftPackageReference "easy-firebase" */,
 			);
 			productRefGroup = 26B1AFD32678FFE500A170B3 /* Products */;
 			projectDirPath = "";
@@ -1015,6 +1027,7 @@
 				26BBF095267EBBEF00C84019 /* EnterNameView.swift in Sources */,
 				2633A13D279E20C300839581 /* TestView2.swift in Sources */,
 				26AF20E626CF458E00D99F36 /* EnterPhoneNumberView2.swift in Sources */,
+				263FBDCD28385E66008F35C5 /* FindNearbyUser.swift in Sources */,
 				2608CF44268FDE9700826FDA /* ImageUploadView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1111,7 +1124,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -1169,7 +1182,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -1397,6 +1410,14 @@
 				kind = branch;
 			};
 		};
+		263FBDCE28387F90008F35C5 /* XCRemoteSwiftPackageReference "easy-firebase" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Flowductive/easy-firebase";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		2696FAB328380D1500584768 /* XCRemoteSwiftPackageReference "swiftui-navigation-stack" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/matteopuc/swiftui-navigation-stack";
@@ -1457,8 +1478,9 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 9.0.0;
+				kind = versionRange;
+				maximumVersion = 9.0.0;
+				minimumVersion = 8.0.0;
 			};
 		};
 		2696FADF2838327F00584768 /* XCRemoteSwiftPackageReference "MultipeerKit" */ = {
