@@ -21,6 +21,7 @@ struct PositiveActionOnUserMenu: View {
     @State var justSentRequest: Bool = false
    
     
+	@State var showNearbyUserScreen: Bool = false
     
     var body: some View {
         
@@ -324,7 +325,8 @@ struct PositiveActionOnUserMenu: View {
                                 
                              
                              Button {
-                                 print("Approach?")
+								 showNearbyUserScreen.toggle()
+									 
                              } label: {
                                  
                                  Text("👀 Approach")
@@ -335,7 +337,13 @@ struct PositiveActionOnUserMenu: View {
                                      .foregroundColor(Color.primary.opacity(0.4))
                                      .animation(.easeInOut)
                                      
-                             }.padding()
+                             }
+							 .sheet(isPresented: $showNearbyUserScreen, content: {
+								 
+								 FindNearbyUser(user: user)
+							 })
+							 .padding()
+							
                                 
                              
                              Button {
@@ -381,7 +389,7 @@ struct PositiveActionOnUserMenu: View {
                              
                            
                          }
-                         
+						
                          }
                      
                      
@@ -393,10 +401,12 @@ struct PositiveActionOnUserMenu: View {
                 
             }
             
-            
+			
             
         }
+		
         
+		
         .SPIndicator(isPresent: $justSentRequest, title: "Requested",  message: "Friend Request Sent", duration: 2.0, presentSide: .top, dismissByDrag: true, preset: .done, haptic: .success, layout: SPIndicatorLayout.init(iconSize: CGSize(width: 15, height: 15), margins: UIEdgeInsets.init(top: CGFloat(0), left: CGFloat(30), bottom: CGFloat(0), right: CGFloat(0))))
         
         .SPIndicator(isPresent: $justAccepeted, title: "Accepted",  message: "You're friends!", duration: 2.0, presentSide: .top, dismissByDrag: true, preset: .done, haptic: .success, layout: SPIndicatorLayout.init(iconSize: CGSize(width: 15, height: 15), margins: UIEdgeInsets.init(top: CGFloat(0), left: CGFloat(30), bottom: CGFloat(0), right: CGFloat(0))))
@@ -424,7 +434,7 @@ struct PositiveActionOnUserMenu: View {
         
     }
     
-    
+		
     
     /// Sends request to database to add a friend or cancel friend request
     func addFriend()  {

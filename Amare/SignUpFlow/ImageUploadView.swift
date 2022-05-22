@@ -390,7 +390,8 @@ struct ImageUploadView: View {
                 alertMessage = "This isn't an end-user error and you honestly should not be seeing this. If you did, something is broken. Report it to us because your verification ID is not being saved."
             case .unknown:
                 alertMessage = "I'm not sure what this error is, lol."
-            }
+			
+			}
         }
         
         

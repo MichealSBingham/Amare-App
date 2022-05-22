@@ -85,7 +85,7 @@ class Account: ObservableObject {
                 
                 print("the error is .. \(error)")
                               
-                if let error = AuthErrorCode.Code(rawValue: error._code){
+                if let error = AuthErrorCode(rawValue: error._code){
                     
                     
                         
@@ -198,7 +198,7 @@ class Account: ObservableObject {
                 print("The error is ...\(error) with code .. \(error._code)")
 // ============================================  Handling Errors ==============================================================================
 
-                if let error = AuthErrorCode.Code(rawValue: error._code){
+                if let error = AuthErrorCode(rawValue: error._code){
                     
                     switch error {
                         
@@ -416,7 +416,7 @@ class Account: ObservableObject {
         
     } catch let signOutError as NSError {
     
-        let e = AuthErrorCode.Code(rawValue: signOutError.code)
+        let e = AuthErrorCode(rawValue: signOutError.code)
         
         
         switch e {
@@ -537,7 +537,7 @@ class Account: ObservableObject {
             guard error == nil else{
                 // Handle these errors....
                 
-                if let error = AuthErrorCode.Code(rawValue: error?._code ?? 17999){
+                if let error = AuthErrorCode(rawValue: error?._code ?? 17999){
                     
                     switch error {
                         
@@ -660,7 +660,7 @@ class Account: ObservableObject {
             guard error == nil else{
                 // Handle these errors....
                 
-                if let error = AuthErrorCode.Code(rawValue: error?._code ?? 17999){
+                if let error = AuthErrorCode(rawValue: error?._code ?? 17999){
                     
                     switch error {
                         
@@ -770,7 +770,7 @@ class Account: ObservableObject {
             guard error == nil else{
                 // Handle these errors....
                 
-                if let error = AuthErrorCode.Code(rawValue: error?._code ?? 17999){
+                if let error = AuthErrorCode(rawValue: error?._code ?? 17999){
                     
                     switch error {
                         
@@ -1039,7 +1039,7 @@ class Account: ObservableObject {
             guard error == nil else{
                 // Handle these errors....
                 
-                if let error = AuthErrorCode.Code(rawValue: error?._code ?? 17999){
+                if let error = AuthErrorCode(rawValue: error?._code ?? 17999){
                     
                     switch error {
                         
@@ -1175,7 +1175,7 @@ class Account: ObservableObject {
                    
                    guard error == nil else {
                    // Handling the error
-                   if let error = AuthErrorCode.Code(rawValue: error?._code ?? 17999){
+                   if let error = AuthErrorCode(rawValue: error?._code ?? 17999){
                        
                        switch error {
                            
@@ -1229,7 +1229,7 @@ class Account: ObservableObject {
                 
             } catch let error{
                 
-                if let error = AuthErrorCode.Code(rawValue: error._code ){
+                if let error = AuthErrorCode(rawValue: error._code ){
                     
                     switch error {
                         
@@ -1328,7 +1328,7 @@ class Account: ObservableObject {
             } catch let error{
                 
                 
-                if let error = AuthErrorCode.Code(rawValue: error._code ){
+                if let error = AuthErrorCode(rawValue: error._code ){
                     
                     switch error {
                         
@@ -1435,7 +1435,7 @@ class Account: ObservableObject {
             } catch let error{
 				
 				
-                if let error = AuthErrorCode.Code(rawValue: error._code ){
+                if let error = AuthErrorCode(rawValue: error._code ){
 					
 					switch error {
 						

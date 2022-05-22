@@ -170,7 +170,7 @@ class UserDataModel: ObservableObject{
                     guard error == nil else{
                         // Handle these errors....
                         
-                        if let error = AuthErrorCode.Code(rawValue: error?._code ?? 17999){
+                        if let error = AuthErrorCode(rawValue: error?._code ?? 17999){
                             
                             switch error {
                                 

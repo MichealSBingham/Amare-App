@@ -293,7 +293,7 @@ class TestViewModel: ObservableObject{
                     
                 case .failure(let failure):
 					
-					if let error = FirestoreErrorCode.Code(rawValue: failure._code){
+					if let error = FirestoreErrorCode(rawValue: failure._code){
                         
                         
                         
@@ -343,7 +343,7 @@ class TestViewModel: ObservableObject{
                     guard error == nil else{
                         // Handle these errors....
                         
-                        if let error = AuthErrorCode.Code(rawValue: error?._code ?? 17999){
+                        if let error = AuthErrorCode(rawValue: error?._code ?? 17999){
                             
                             switch error {
                                 
@@ -460,7 +460,7 @@ class TestViewModel: ObservableObject{
                     
                     
                     
-					if let error = FirestoreErrorCode.Code(rawValue: failure._code){
+					if let error = FirestoreErrorCode(rawValue: failure._code){
                         
                         
                         
@@ -606,7 +606,7 @@ class TestViewModel: ObservableObject{
             guard error == nil else{
                 // Handle these errors....
                 
-                if let error = AuthErrorCode.Code(rawValue: error?._code ?? 17999){
+                if let error = AuthErrorCode(rawValue: error?._code ?? 17999){
                     
                     switch error {
                         
@@ -673,7 +673,7 @@ class TestViewModel: ObservableObject{
 				
 				
 				
-                if let error = AuthErrorCode.Code(rawValue: error?._code ?? 17999){
+                if let error = AuthErrorCode(rawValue: error?._code ?? 17999){
                     
                     switch error {
                         

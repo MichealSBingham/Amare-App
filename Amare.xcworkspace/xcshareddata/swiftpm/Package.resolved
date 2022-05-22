@@ -56,15 +56,6 @@
         }
       },
       {
-        "package": "Firebase",
-        "repositoryURL": "https://github.com/firebase/firebase-ios-sdk.git",
-        "state": {
-          "branch": null,
-          "revision": "111d8d6ad1a1afd6c8e9561d26e55ab1e74fcb42",
-          "version": "8.15.0"
-        }
-      },
-      {
         "package": "GAppAuth",
         "repositoryURL": "https://github.com/benlmyers/GAppAuth",
         "state": {

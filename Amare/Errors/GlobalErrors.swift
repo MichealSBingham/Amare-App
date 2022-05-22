@@ -27,4 +27,5 @@ enum GlobalError: Error{
     case cantGetVerificationID
     /// The reason why this error happened it is probably due to an error of a third party framework we are using so look at console for 'Some Error Happened: ' 
     case unknown
+	
 }

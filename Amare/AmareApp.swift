@@ -12,7 +12,7 @@ import URLImage
 import URLImageStore
 import PushNotifications
 import GooglePlaces
-
+import EasyFirebase
 
 @main
 struct AmareApp: App {
@@ -103,7 +103,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 self.beamsClient.registerForRemoteNotifications()
         try? self.beamsClient.addDeviceInterest(interest: "hello")
         try? self.beamsClient.addDeviceInterest(interest: "debug-hello")
-        FirebaseApp.configure()
+     //   FirebaseApp.configure()
+		EasyFirebase.configure()
         
         //account = Account()
         
