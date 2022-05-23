@@ -67,6 +67,8 @@ public struct AmareUser: Codable, Equatable, Hashable, Identifiable{
     
     /// Whether or not this user is within proximity of the user via geolocation, bluetooth, or multipeer 
     var isNearby: Bool? = false
+	
+	var supportsNearbyInteraction: Bool? = false
     
     
     enum CodingKeys: String, CodingKey {
@@ -82,6 +84,7 @@ public struct AmareUser: Codable, Equatable, Hashable, Identifiable{
         case username
         case isReal
         case isNotable
+		case supportsNearbyInteraction
         
        
     }

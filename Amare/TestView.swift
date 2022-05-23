@@ -11,6 +11,7 @@ import FirebaseAuth
 import PushNotifications
 import MultipeerKit
 import SPIndicator
+import NearbyInteraction
 class TestViewModel: ObservableObject{
     
     
@@ -1125,6 +1126,24 @@ struct TestView: View {
                try? beamsClient.addDeviceInterest(interest: me)
                 
             }
+			
+			// See if device is compatible with nearby interaction
+			if let supportsNI = mainViewModel.userData.supportsNearbyInteraction {
+				// Check if it matches
+				if supportsNI != NISession.isSupported {
+					// set in database whether or not this is supported
+					var user = AmareUser()
+					user.supportsNearbyInteraction = supportsNI
+					Account().set(data: user, isTheSignedInUser: true)
+				}
+			} else {
+				
+				var supportsNI = NISession.isSupported
+				// set in database
+				var user = AmareUser()
+				user.supportsNearbyInteraction = supportsNI
+				Account().set(data: user, isTheSignedInUser: true)
+			}
          
             
             // Add the user to nearby whenever you receive a broadcast of a new user
