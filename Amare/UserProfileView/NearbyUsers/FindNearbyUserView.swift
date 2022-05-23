@@ -73,6 +73,7 @@ struct FindNearbyUserView: View {
 			
 			// Make sure both devices can even do nearby interaction
 			
+			
 			guard NISession.isSupported && user.supportsNearbyInteraction ?? false else {
 				
 				if !NISession.isSupported { dataModel.someErrorHappened = NIError(.unsupportedPlatform) } else {

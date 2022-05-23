@@ -872,7 +872,7 @@ struct TestView: View {
     @StateObject var viewModel: TestViewModel = TestViewModel()
     
     
-    
+	@EnvironmentObject private var account: Account
     
     let beamsClient = PushNotifications.shared
     
@@ -1122,27 +1122,59 @@ struct TestView: View {
             
             //viewModel.getAllCustomUsers()
             
+			var user = AmareUser()
+			
             if  let me = Auth.auth().currentUser?.uid{
                try? beamsClient.addDeviceInterest(interest: me)
+				
+				user.id = me
                 
             }
+			
+			
+		
+	
 			
 			// See if device is compatible with nearby interaction
 			if let supportsNI = mainViewModel.userData.supportsNearbyInteraction {
 				// Check if it matches
+				print("determining if NI is supported")
 				if supportsNI != NISession.isSupported {
 					// set in database whether or not this is supported
-					var user = AmareUser()
+					print("Different value in database : this device: \(NISession.isSupported) ")
 					user.supportsNearbyInteraction = supportsNI
-					Account().set(data: user, isTheSignedInUser: true)
+				
+					account.data = user
+					
+				
+					
+					do {
+						print("Attempting to save this data: \(user) ")
+						try account.save()
+						
+					} catch (let error) {
+						
+						print("xxxSaving user info with error \(error)")
+					}
+					
 				}
 			} else {
 				
+				print("Cannot determine if it supports nearby interaction")
 				var supportsNI = NISession.isSupported
 				// set in database
-				var user = AmareUser()
+			
+				print("Supports NI: \(NISession.isSupported)")
 				user.supportsNearbyInteraction = supportsNI
-				Account().set(data: user, isTheSignedInUser: true)
+				account.data = user
+				do {
+					print("Attempting to save this data: \(user) ")
+					try account.save()
+					
+				} catch (let error) {
+					
+					print("xxxSaving user info with error \(error)")
+				}
 			}
          
             
