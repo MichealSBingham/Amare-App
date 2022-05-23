@@ -12,7 +12,7 @@ import EasyFirebase
 
 
 
-struct FindNearbyUser: View {
+struct FindNearbyUserView: View {
 	
 	let user: AmareUser
 	
@@ -30,7 +30,7 @@ struct FindNearbyUser: View {
 		ZStack{
 			
 			Text(textToDisplay)
-				.opacity(dataModel.distanceAway == nil  ? 1: 0)
+				.opacity(!dataModel.connected ? 1: 0)
 				.alert(isPresented: $errorDetected) {
 					Alert(title: Text("Error"), message: Text(errorMessage))
 				}
@@ -40,12 +40,14 @@ struct FindNearbyUser: View {
 				
 				HStack{
 					
-					Text("Distance Away: ")
-					Text(dataModel.distanceAway?.description)
-					Text("Meters")
+					//Text("Distance Away: ")
+					Text(String(format: "%0.2f m %0.2f degrees", Double(dataModel.distanceAway ?? 0), Double(dataModel.direction ?? 0)))
+					
+					
+					//Text("Meters")
 				}
 				.padding()
-					.opacity(dataModel.distanceAway == nil  ? 0: 1)
+					
 					
 				
 				
@@ -53,14 +55,14 @@ struct FindNearbyUser: View {
 					.resizable()
 					.frame(width: 150, height: 200)
 					.aspectRatio(contentMode: .fit)
+					.rotationEffect(.radians(Double(dataModel.direction ?? 0 )))
+					.animation(.easeIn, value: dataModel.direction)
 				
 				
 				
 				
 			}
-			
-			
-		
+			.opacity(!dataModel.connected   ? 0: 1)
 		
 			
 		}
@@ -140,11 +142,11 @@ struct FindNearbyUser: View {
     }
 }
 
-struct FindNearbyUser_Previews: PreviewProvider {
+struct FindNearbyUserView_Previews: PreviewProvider {
     static var previews: some View {
 		
 		let example = AmareUser(id: "3432", name: "Micheal")
-		FindNearbyUser(user: example)
+		FindNearbyUserView(user: example)
     }
 }
 
@@ -155,8 +157,16 @@ import FirebaseAuth
 /// Class to help us interact with nearby users using the chip in iPhone to see how far they are
 class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 	
-	let sessionNI = NISession()
 
+	
+	// MARK: - Distance and direction state.
+	// A threshold, in meters, the app uses to update its display.
+	let nearbyDistanceThreshold: Float = 0.3
+	enum DistanceDirectionState {
+		case closeUpInFOV, notCloseUpInFOV, outOfFOV, unknown
+	}
+
+	// MARK: - Class variables
 	/// Current user's discovery token
 	 private var discoveryTokenData: Data? {
 		 
@@ -171,6 +181,8 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 		}
 		return data
 	  }
+	
+	let sessionNI = NISession()
 	
 	@Published var peersDiscoveryToken: DiscoveryTokenDocument? {
 		didSet{
@@ -200,12 +212,22 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 	
 	@Published var distanceAway: Float?
 	
+	/// In Radians. Azimuth angle
+	@Published var direction: Float?
+	
+	/// In Radians. Polar angle 
+	@Published var altitude: Float?
+	
 	/// Whether or not user is connected to another peer for nearby interaction
 	@Published var connected: Bool = false
 	
 	private var mytoken: DiscoveryTokenDocument?
 	
+	var currentDistanceDirectionState: DistanceDirectionState = .unknown
 	
+	
+	
+	//MARK: - Constructor
 	override init() {
 		super.init()
 
@@ -225,6 +247,8 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 		
 		
 	}
+	
+	//MARK: - Life Cycle for Nearby Interaction Session
 	
 	/// Adds the discovery token in the database so that the other use can read it
 	///   /discoveryTokens/{THEM - document containing token info with ID of `THEM`}/
@@ -310,22 +334,42 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 	}
 	
 	
-	
+	//MARK: - Listening to Nearby Object
 	func session(_ session: NISession, didUpdate nearbyObjects: [NINearbyObject]) {
-		connected = true
+		
 		self.nearbyObjects = nearbyObjects
 		distanceAway = nearbyObjects.first?.distance
 		
+		
+
+		guard let nearbyObjectUpdate = nearbyObjects.first else { return }
+		
+		connected = true
+		
+		print("The vector is : \(nearbyObjectUpdate.direction)")
+		
+		// Angle at which peer is located
+		let azimuth = nearbyObjectUpdate.direction.map(azimuth(from:))
+		self.direction = azimuth
+		 
+		 /*
+		// Update the the state and visualizations.
+		let nextState = getDistanceDirectionState(from: nearbyObjectUpdate)
+		updateVisualization(from: currentDistanceDirectionState, to: nextState, with: nearbyObjectUpdate)
+		currentDistanceDirectionState = nextState
+		*/
 	}
 	
 	func session(_ session: NISession, didRemove nearbyObjects: [NINearbyObject], reason: NINearbyObject.RemovalReason) {
 		connected = false
 		if reason ==  NINearbyObject.RemovalReason.peerEnded {
 			self.someErrorHappened = NearbyUserError.outOfRange
+			session.invalidate()
 		}
 		
 		if reason == NINearbyObject.RemovalReason.timeout{
 			self.someErrorHappened = NearbyUserError.timeout
+			session.invalidate()
 		}
 	}
 
@@ -336,9 +380,48 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 	
 	func session(_ session: NISession, didInvalidateWith error: Error) {
 		self.someErrorHappened = error
+		self.connected = false
 		removeToken()
 	}
+	
+	
+	
+	
+	
+	
+	
+	// MARK: - Visualizations
+	
+	/*
+	func isNearby(_ distance: Float) -> Bool {
+		return distance < nearbyDistanceThreshold
+	}
+	
+	func isPointingAt(_ angleRad: Float) -> Bool {
+		// Consider the range -15 to +15 to be "pointing at".
+		return abs(angleRad.radiansToDegrees) <= 15
+	}
+	*/
+	/*
+	func getDistanceDirectionState(from nearbyObject: NINearbyObject) -> DistanceDirectionState {
+		if nearbyObject.distance == nil && nearbyObject.direction == nil {
+			return .unknown
+		}
 
+		let isNearby = nearbyObject.distance.map(isNearby(_:)) ?? false
+		let directionAvailable = nearbyObject.direction != nil
+
+		if isNearby && directionAvailable {
+			return .closeUpInFOV
+		}
+
+		if !isNearby && directionAvailable {
+			return .notCloseUpInFOV
+		}
+
+		return .outOfFOV
+	}
+*/
 }
 
 

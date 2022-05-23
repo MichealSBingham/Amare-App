@@ -340,7 +340,7 @@ struct PositiveActionOnUserMenu: View {
                              }
 							 .sheet(isPresented: $showNearbyUserScreen, content: {
 								 
-								 FindNearbyUser(user: user)
+								 FindNearbyUserView(user: user)
 							 })
 							 .padding()
 							
