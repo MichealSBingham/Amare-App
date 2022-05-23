@@ -16,9 +16,12 @@ struct FindNearbyUser: View {
 	
 	let user: AmareUser
 	
-	@StateObject var dataModel: NearbyInteractionHelper = NearbyInteractionHelper()
+	@StateObject  var dataModel: NearbyInteractionHelper = NearbyInteractionHelper()
 	
 	@State var textToDisplay: String = "Waiting on their response... "
+	
+	@State var errorMessage: String = ""
+	@State var errorDetected: Bool = false
 	
 	
     var body: some View {
@@ -28,18 +31,41 @@ struct FindNearbyUser: View {
 			
 			Text(textToDisplay)
 				.opacity(dataModel.distanceAway == nil  ? 1: 0)
-			
-			HStack{
+				.alert(isPresented: $errorDetected) {
+					Alert(title: Text("Error"), message: Text(errorMessage))
+				}
 				
-				Text("Distance Away: ")
-				Text(dataModel.distanceAway?.description)
-				Text("Meters")
+			
+			VStack{
+				
+				HStack{
+					
+					Text("Distance Away: ")
+					Text(dataModel.distanceAway?.description)
+					Text("Meters")
+				}
+				.padding()
+					.opacity(dataModel.distanceAway == nil  ? 0: 1)
+					
+				
+				
+				Image(systemName: "arrow.up")
+					.resizable()
+					.frame(width: 150, height: 200)
+					.aspectRatio(contentMode: .fit)
+				
+				
+				
+				
 			}
-				.opacity(dataModel.distanceAway == nil  ? 0: 1)
-				
 			
+			
+		
+		
 			
 		}
+		
+		
 		
 		.onAppear {
 			
@@ -49,7 +75,66 @@ struct FindNearbyUser: View {
 		.onDisappear {
 			dataModel.stopListeningForPeerToken()
 		}
+		
+		
+		.onChange(of: dataModel.didAnErrorHappen) { errorHappened in
+			
+			if errorHappened{
+				
+				if let error = dataModel.someErrorHappened as? NIError {
+					switch error.code{
+						
+					case .unsupportedPlatform:
+						errorDetected = true
+						errorMessage = "Sorry, your device does not support this feature."
+					case .invalidConfiguration:
+						errorDetected = true
+						errorMessage = "Something went wrong."
+					case .sessionFailed:
+						errorDetected = true
+						errorMessage = "Something failed. Try again."
+					case .resourceUsageTimeout:
+						errorDetected = true
+						errorMessage = "Timeout. "
+					case .activeSessionsLimitExceeded:
+						errorDetected = true
+						errorMessage = "Too many devices."
+					case .userDidNotAllow:
+						errorDetected = true
+						errorMessage = "You will need to allow access to this."
+					@unknown default:
+						errorDetected = true
+						errorMessage = "Not sure what happened."
+					}
+				}
+				
+				if let error = dataModel.someErrorHappened as? NearbyUserError {
+					
+					switch error {
+					case .cantDecodeTheirDiscoveryToken:
+						errorDetected = true
+						errorMessage = "Not able to decode their discovery token."
+					case .cantDecodeMyDiscoveryToken:
+						errorDetected = true
+						errorMessage = "You don't have a token."
+					case .timeout:
+						errorDetected = true
+						errorMessage = "Timeout."
+					case .outOfRange:
+						errorDetected = true
+						errorMessage = "Out of range, please come closer."
+					case .noDiscoveryToken:
+						errorDetected = true
+						errorMessage = "We don't have their discovery token."
+					case .theirDeviceIsntSupported:
+						errorDetected = true
+						errorMessage = "Sorry, their device doesn't support this feature."
+					}
+				}
+			}
+		}
         
+	
 		
 	 
     }
@@ -57,7 +142,9 @@ struct FindNearbyUser: View {
 
 struct FindNearbyUser_Previews: PreviewProvider {
     static var previews: some View {
-		FindNearbyUser(user: AmareUser())
+		
+		let example = AmareUser(id: "3432", name: "Micheal")
+		FindNearbyUser(user: example)
     }
 }
 
@@ -72,13 +159,14 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 
 	/// Current user's discovery token
 	 private var discoveryTokenData: Data? {
+		 
+		
 		guard let token = sessionNI.discoveryToken,
 		   let data = try? NSKeyedArchiver.archivedData(withRootObject: token, requiringSecureCoding: true) else {
 			   
 
 			   removeToken()
 			
-			   self.someErrorHappened = NearbyUserError.cantDecodeDiscoveryToken
 			   return nil
 		}
 		return data
@@ -94,16 +182,43 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 	
 	/// Nearby objects connected to 
 	@Published var nearbyObjects: [NINearbyObject] = []
-	@Published var someErrorHappened: Error?
+	
+	/// Can be a `NearbyUserError` or a `NIError`or an error from Firestore
+	@Published var someErrorHappened: Error? {
+		
+		didSet{
+			if someErrorHappened == nil {
+				didAnErrorHappen = false
+			} else {
+				connected = false
+				didAnErrorHappen = true
+			}
+		}
+	}
+	
+	@Published var didAnErrorHappen: Bool = false
 	
 	@Published var distanceAway: Float?
+	
+	/// Whether or not user is connected to another peer for nearby interaction
+	@Published var connected: Bool = false
 	
 	private var mytoken: DiscoveryTokenDocument?
 	
 	
 	override init() {
 		super.init()
+
+		guard NISession.isSupported else {
+			someErrorHappened = NIError(.unsupportedPlatform)
+			
+			// Let the other user know it's unsupported
+			return
+		}
+	
 		sessionNI.delegate = self
+		
+		
 		listenForPeerToken()
 		
 		
@@ -118,13 +233,13 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 	///   - Warning: Possible security weakness since this requires any signed in user to be able to read/write to this path
 	 func sendToken(them userId: String){
 		
-		 print("#inside sendToken")
-		 guard let discoveryTokenData = discoveryTokenData else {
-			 return
-			 self.someErrorHappened = NearbyUserError.cantDecodeDiscoveryToken
-		 }
+		// guard NISession.isSupported else { self.someErrorHappened = NIError(.unsupportedPlatform); return  }
+		 
+		 // Make sure I have a token to even send
+		 
+		 
 
-		let token = DiscoveryTokenDocument(userId: userId, token: discoveryTokenData)
+		 let token = DiscoveryTokenDocument(userId: userId, token: discoveryTokenData, deviceSupport: NISession.isSupported)
 		 self.mytoken = token
 		
 		token.set { error in
@@ -136,15 +251,23 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 	/// This runs the session for nearby interaction and should run after the peer discovery token is received
 	private func run(){
 		
+		// Make sure the peer's device is supported
+		
+		guard peersDiscoveryToken?.deviceSupportsNI == true else {
+			self.someErrorHappened = NearbyUserError.theirDeviceIsntSupported
+			return
+		}
+		
 		// Ensure we have a discovery token
-		guard let theirDiscoveryToken = peersDiscoveryToken else {
+		guard let theirDiscoveryToken = peersDiscoveryToken?.token else {
+			self.someErrorHappened = NearbyUserError.noDiscoveryToken
 			return
 		}
 		
 		
 		// Ensure we can decode the token
-		guard let token = try? NSKeyedUnarchiver.unarchivedObject(ofClass: NIDiscoveryToken.self, from: theirDiscoveryToken.token) else {
-			self.someErrorHappened = NearbyUserError.cantDecodeDiscoveryToken
+		guard let token = try? NSKeyedUnarchiver.unarchivedObject(ofClass: NIDiscoveryToken.self, from: theirDiscoveryToken) else {
+			self.someErrorHappened = NearbyUserError.cantDecodeTheirDiscoveryToken
 			return
 			}
 		
@@ -162,7 +285,7 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 		
 		EasyFirestore.Listening.listen(to: me, ofType: DiscoveryTokenDocument.self, key: "discoveryToken") { token in
 			
-			print("#got token: \(token)")
+			
 			self.peersDiscoveryToken = token
 		}
 		
@@ -189,14 +312,25 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 	
 	
 	func session(_ session: NISession, didUpdate nearbyObjects: [NINearbyObject]) {
+		connected = true
 		self.nearbyObjects = nearbyObjects
 		distanceAway = nearbyObjects.first?.distance
 		
 	}
 	
+	func session(_ session: NISession, didRemove nearbyObjects: [NINearbyObject], reason: NINearbyObject.RemovalReason) {
+		connected = false
+		if reason ==  NINearbyObject.RemovalReason.peerEnded {
+			self.someErrorHappened = NearbyUserError.outOfRange
+		}
+		
+		if reason == NINearbyObject.RemovalReason.timeout{
+			self.someErrorHappened = NearbyUserError.timeout
+		}
+	}
 
 	func sessionWasSuspended(_ session: NISession) {
-		print("Session was suspended")
+		
 		//removeToken()
 	}
 	
@@ -216,16 +350,26 @@ class DiscoveryTokenDocument: Document{
 	  var id: String
 	  var dateCreated: Date = Date()
 	
-	var token: Data
+	  var token: Data?
+	  var deviceSupportsNI: Bool
 	
-	init(userId: String, token: Data) {
+	init(userId: String, token: Data?, deviceSupport: Bool ) {
 		self.id = userId
-		self.token = token 
+		self.token = token
+		self.deviceSupportsNI = deviceSupport
 	}
 }
 
 
 enum NearbyUserError: Error {
 	/// Cannot decode discovery token
-	case cantDecodeDiscoveryToken
+	case cantDecodeTheirDiscoveryToken
+	case cantDecodeMyDiscoveryToken
+	
+	case timeout
+	case outOfRange
+	/// Our peer didn't send us a discovery token
+	case noDiscoveryToken
+	case theirDeviceIsntSupported
 }
+
