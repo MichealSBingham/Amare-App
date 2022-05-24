@@ -363,9 +363,14 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 		guard let nearbyObjectUpdate = nearbyObjects.first else { return }
 		
 		self.nearbyObject = nearbyObjects.first
+		
+		self.connected = true
+		
+		
+		
 		distanceAway = nearbyObjects.first?.distance
 		
-		connected = true
+		
 		
 		print("The vector is : \(nearbyObjectUpdate.direction)")
 		
@@ -383,7 +388,7 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 	
 	func session(_ session: NISession, didRemove nearbyObjects: [NINearbyObject], reason: NINearbyObject.RemovalReason) {
 		session.invalidate()
-		connected = false
+		self.connected = false
 		
 		/*
 		if reason ==  NINearbyObject.RemovalReason.peerEnded {
