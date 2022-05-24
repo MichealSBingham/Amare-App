@@ -147,6 +147,9 @@ struct FindNearbyUserView: View {
 					case .theirDeviceIsntSupported:
 						errorDetected = true
 						errorMessage = "Sorry, their device doesn't support this feature."
+					case .disconnected:
+						errorDetected = true
+						errorMessage = "Devices disconnected, try reconnecting."
 					}
 				}
 			}
@@ -353,12 +356,14 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 	//MARK: - Listening to Nearby Object
 	func session(_ session: NISession, didUpdate nearbyObjects: [NINearbyObject]) {
 		
-		self.nearbyObject = nearbyObjects.first
-		distanceAway = nearbyObjects.first?.distance
+		
 		
 		
 
 		guard let nearbyObjectUpdate = nearbyObjects.first else { return }
+		
+		self.nearbyObject = nearbyObjects.first
+		distanceAway = nearbyObjects.first?.distance
 		
 		connected = true
 		
@@ -377,21 +382,26 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 	}
 	
 	func session(_ session: NISession, didRemove nearbyObjects: [NINearbyObject], reason: NINearbyObject.RemovalReason) {
+		session.invalidate()
 		connected = false
+		
+		/*
 		if reason ==  NINearbyObject.RemovalReason.peerEnded {
 			self.someErrorHappened = NearbyUserError.outOfRange
-			session.invalidate()
 		}
 		
 		if reason == NINearbyObject.RemovalReason.timeout{
 			self.someErrorHappened = NearbyUserError.timeout
-			session.invalidate()
 		}
+		
+		*/
 	}
 
 	func sessionWasSuspended(_ session: NISession) {
 		
-		//removeToken()
+		self.connected = false
+		self.someErrorHappened = NearbyUserError.disconnected
+	    removeToken()
 	}
 	
 	func session(_ session: NISession, didInvalidateWith error: Error) {
@@ -470,5 +480,8 @@ enum NearbyUserError: Error {
 	/// Our peer didn't send us a discovery token
 	case noDiscoveryToken
 	case theirDeviceIsntSupported
+	
+	///  The user disconnected, more likely it's the other user but it could be the current user
+	case disconnected
 }
 
