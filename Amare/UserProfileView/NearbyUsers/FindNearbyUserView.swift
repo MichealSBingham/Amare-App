@@ -53,6 +53,10 @@ struct FindNearbyUserView: View {
 					Text(String("x: \(pos.x)\ny: \(pos.y)\n z: \(pos.z)"))
 				}
 				
+				if let currentOrientation = dataModel.deviceOrientation {
+					Text(String("Orientation \(currentOrientation.rawValue)"))
+				}
+				
 				
 				Image(systemName: "arrow.up")
 					.resizable()
@@ -86,6 +90,13 @@ struct FindNearbyUserView: View {
 				
 				return
 			}
+			
+			guard dataModel.properOrientation else {
+				
+				return
+			}
+			
+
 			
 			dataModel.sendToken(them: user.id!)
 			
@@ -150,8 +161,13 @@ struct FindNearbyUserView: View {
 					case .disconnected:
 						errorDetected = true
 						errorMessage = "Devices disconnected, try reconnecting."
+					case .wrongOrientation:
+						errorDetected = true
+						errorMessage = "Please hold your phone right side up."
 					}
 				}
+			} else {
+				errorDetected = false
 			}
 		}
         
@@ -221,6 +237,12 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 			if someErrorHappened == nil {
 				didAnErrorHappen = false
 			} else {
+				// only disconnect if the error is NOT wrongOrientation
+				if let _someErrorHappened = someErrorHappened as? NearbyUserError {
+					if _someErrorHappened != NearbyUserError.wrongOrientation { connected = false  }
+					
+					
+				} else { connected = false }
 				connected = false
 				didAnErrorHappen = true
 			}
@@ -246,6 +268,30 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 	
 	
 	
+	
+	
+	//MARK: - Device Orientation
+	
+	@Published var deviceOrientation: UIDeviceOrientation = UIDevice.current.orientation {
+		didSet{
+			self.properOrientation = deviceOrientation == UIDeviceOrientation.portrait
+		}
+	}
+	
+	@Published var properOrientation: Bool = UIDevice.current.orientation == .portrait {
+		didSet{
+			if self.properOrientation == false {
+				someErrorHappened = NearbyUserError.wrongOrientation
+			} else {
+				if let someErrorHappened = someErrorHappened as? NearbyUserError {
+					
+					// Delete the error if the device is in proper orientation
+					if someErrorHappened == .wrongOrientation { self.someErrorHappened = nil }
+				
+				}
+			}
+		}
+	}
 	//MARK: - Constructor
 	override init() {
 		super.init()
@@ -259,6 +305,11 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 	
 		sessionNI.delegate = self
 		
+		
+		NotificationCenter.default.addObserver(self, selector: #selector(orientationChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
+
+		UIDevice.current.beginGeneratingDeviceOrientationNotifications()
+
 		
 		listenForPeerToken()
 		
@@ -338,6 +389,7 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 	func stopListeningForPeerToken()  {
 		EasyFirestore.Listening.stop("discoveryToken")
 		removeToken()
+		stopListeningForOrientationChange()
 	}
 	
 	/// Removes the token I sent to them (the current signed in user)
@@ -417,8 +469,20 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 	
 	
 	
+	//MARK: - Device Orientation
+	
+	/// We need to observe the device orientation to make sure it's upright for NI to work right
+	@objc private func orientationChanged()  {
+		
+		self.deviceOrientation = UIDevice.current.orientation
+		
+	}
 	
 	
+	private func stopListeningForOrientationChange(){
+		UIDevice.current.endGeneratingDeviceOrientationNotifications()
+		
+	}
 	
 	
 	// MARK: - Visualizations
@@ -488,5 +552,8 @@ enum NearbyUserError: Error {
 	
 	///  The user disconnected, more likely it's the other user but it could be the current user
 	case disconnected
+	
+	/// The user's device is in the wrong orientation, should be portrait up
+	case wrongOrientation
 }
 
