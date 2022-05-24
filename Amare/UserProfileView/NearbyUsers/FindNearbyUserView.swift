@@ -42,13 +42,16 @@ struct FindNearbyUserView: View {
 					
 					//Text("Distance Away: ")
 					Text(String(format: "%0.2f m %0.2f degrees", Double(dataModel.distanceAway ?? 0), Double(dataModel.direction ?? 0)))
+			
 					
 					
 					//Text("Meters")
 				}
 				.padding()
 					
-					
+				if let pos = dataModel.nearbyObject?.direction{
+					Text(String("x: \(pos.x)\ny: \(pos.y)\n z: \(pos.z)"))
+				}
 				
 				
 				Image(systemName: "arrow.up")
@@ -206,7 +209,7 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 	}
 	
 	/// Nearby objects connected to 
-	@Published var nearbyObjects: [NINearbyObject] = []
+	@Published var nearbyObject: NINearbyObject?
 	
 	/// Can be a `NearbyUserError` or a `NIError`or an error from Firestore
 	@Published var someErrorHappened: Error? {
@@ -350,7 +353,7 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 	//MARK: - Listening to Nearby Object
 	func session(_ session: NISession, didUpdate nearbyObjects: [NINearbyObject]) {
 		
-		self.nearbyObjects = nearbyObjects
+		self.nearbyObject = nearbyObjects.first
 		distanceAway = nearbyObjects.first?.distance
 		
 		
