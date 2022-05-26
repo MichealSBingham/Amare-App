@@ -34,48 +34,13 @@ struct FindNearbyUserView: View {
 			ZStack{
 				
 				//MARK: - Loading Screen for Connecting
-				VStack{
-					
-					Spacer()
-					
-					ZStack{
-						
-						PulsingView()
-						
-						
-						Image(systemName: "location.circle.fill")
-							.resizable()
-							.aspectRatio(contentMode: .fit)
-							.frame(width: 80, height: 80)
-							.foregroundColor(.white)
-							.opacity(!dataModel.connected ? 1: 0)
-							.alert(isPresented: $errorDetected) {
-								Alert(title: Text("Error"), message: Text(errorMessage))
-							}
-					}
-					
-					
-					
-					Spacer()
-					
-					Text("Waiting for them...")
-						.font(.largeTitle)
-						.bold()
-						.multilineTextAlignment(.center)
-						.padding()
-						.colorMultiply(.white)
-					
-					Text("We're waiting for them to connect so keep breathing. You got this.")
-						.colorMultiply(.white)
-						.font(.subheadline)
-						.multilineTextAlignment(.center)
-						.padding()
-					
-				 
-					
-				}
-					
+		
+				
+			AwaitingConnectionView(isConnected: $dataModel.connected)
 				.opacity(dataModel.connected ? 0 : 1)
+				.alert(isPresented: $errorDetected) {
+					Alert(title: Text("Error"), message: Text(errorMessage))
+				}
 				//.opacity(0)
 				
 				
@@ -251,6 +216,58 @@ struct FindNearbyUserView: View {
 	
 	
 }
+
+/// View for when user is still awaiting a connection
+struct AwaitingConnectionView: View{
+	
+	/// Binding for whether or not the user is connected to the other user via NearbyInteraction or not
+	@Binding var isConnected: Bool
+	
+	
+	var body: some View {
+		//MARK: - Loading Screen for Connecting
+		VStack{
+			
+			Spacer()
+			
+			ZStack{
+				
+				PulsingView()
+				
+				
+				Image(systemName: "location.circle.fill")
+					.resizable()
+					.aspectRatio(contentMode: .fit)
+					.frame(width: 80, height: 80)
+					.foregroundColor(.white)
+					//.opacity(isConnected ? 1: 0)
+					
+			}
+			
+			
+			
+			Spacer()
+			
+			Text("Waiting for them...")
+				.font(.largeTitle)
+				.bold()
+				.multilineTextAlignment(.center)
+				.padding()
+				.colorMultiply(.white)
+			
+			Text("We're waiting for them to connect so keep breathing. You got this.")
+				.colorMultiply(.white)
+				.font(.subheadline)
+				.multilineTextAlignment(.center)
+				.padding()
+			
+		 
+			
+		}
+	}
+}
+
+
 
 struct FindNearbyUserView_Previews: PreviewProvider {
     static var previews: some View {
