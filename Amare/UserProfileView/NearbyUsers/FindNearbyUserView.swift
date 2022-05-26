@@ -275,6 +275,8 @@ struct centerImage: View {
 	
 	 var size: CGFloat = CGFloat(80)
 	
+	var profileImageSize: CGFloat = CGFloat(150)
+	
 	@State private var condition: Bool = false
 	
 	var animation: Animation =
@@ -293,24 +295,26 @@ struct centerImage: View {
 					.frame(width: size, height: size)
 					.foregroundColor(.white)
 					.opacity(showOtherImage ? 0: 1 )
-					.scaleEffect(condition ? 0.9 : 1.0)
-					.animation(animation)
-					.onAppear {
-					   
-						DispatchQueue.main.async {
-							
-							withAnimation(.easeIn(duration: 3).repeatForever(autoreverses: true)) {
-								condition = true
-							}
-						}
-					}
-				
+					
+					//.animation(animation)
+					
 			
-			ProfileImageView(profile_image_url: $profile_image_url, size: size)
+			ProfileImageView(profile_image_url: $profile_image_url, size: profileImageSize)
 				.opacity(showOtherImage ? 1: 0 )
 			
 			
 		}
+		.scaleEffect(condition ? 0.9 : 1.0)
+		.onAppear {
+		   
+			DispatchQueue.main.async {
+				
+				withAnimation(.easeIn(duration: 1).repeatForever(autoreverses: true)) {
+					condition = true
+				}
+			}
+		}
+	
 		.onChange(of: connected) { isConnected in
 			
 			withAnimation {

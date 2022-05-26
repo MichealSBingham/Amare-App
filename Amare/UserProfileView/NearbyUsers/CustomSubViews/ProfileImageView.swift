@@ -13,7 +13,7 @@ import URLImage
 struct ProfileImageView: View {
 	
 	@Binding var profile_image_url: String?
-	var size: CGFloat = CGFloat(80)
+	var size: CGFloat = CGFloat(150)
 	
 	@State var condition: Bool = false
 	@State var condition2: Bool = false
@@ -70,6 +70,7 @@ struct ProfileImageView: View {
 					// .frame(width: 100, height: 100)
 					 .shadow(radius: 15)
 					 .frame(width: size, height: size)
+				/*
 					 .scaleEffect(condition ? 0.9 : 1.0)
 					 .animation(animation)
 					 .onAppear {
@@ -81,7 +82,7 @@ struct ProfileImageView: View {
 							 }
 						 }
 					 }
-					 
+					 */
 					 
 				
 			}
@@ -97,18 +98,7 @@ struct ProfileImageView: View {
 				// .frame(width: 100, height: 100)
 				 .shadow(radius: 15)
 				 .frame(width: size, height: size)
-				 .scaleEffect(condition2 ? 0.8 : 1.0)
-				 .animation(animation)
-				 
-				 .onAppear {
-					
-					 DispatchQueue.main.async {
-						 
-						 withAnimation(.easeIn(duration: 3).repeatForever(autoreverses: true)) {
-							 condition2 = true
-						 }
-					 }
-				 }
+				
 		}
 		
 		
@@ -128,6 +118,7 @@ struct ProfileImageView: View {
 					 .frame(width: size, height: size)
 					 .opacity(profile_image_url != nil ? 1: 0)
 				
+				/*
 				Image(systemName: "person.circle.fill")
 					.resizable()
 					.aspectRatio(contentMode: .fit)
@@ -136,21 +127,8 @@ struct ProfileImageView: View {
 					 .shadow(radius: 15)
 					 .frame(width: size, height: size)
 					 .redacted(reason: .placeholder)
-					// .blur(radius: condition ? 0.0 : 4.0)
-					 .scaleEffect(condition ? 0.9 : 1.0)
-					 .animation(animation)
-	 
-				
-					// .opacity(user.profile_image_url == nil ? 1: 0)
-					 .onAppear {
-						
-						 DispatchQueue.main.async {
-							 
-							 withAnimation(.easeIn(duration: 3).repeatForever(autoreverses: true)) {
-								 condition = true
-							 }
-						 }
-					 }
+				*/
+					
 			}
 			
 		}

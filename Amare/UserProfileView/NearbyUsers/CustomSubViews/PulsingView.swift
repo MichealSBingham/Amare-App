@@ -15,7 +15,7 @@ struct PulsingView: View {
 	@State private var pulseColors: [Color] = [ .purple, .red, .orange, .yellow, .green, .blue]
 	@State private var pulseColor: Color = .blue
 	//TODO: this is 2 s on device
-	let timer = Timer.publish(every: 1.3, on: .main, in: .common).autoconnect()
+	let timer = Timer.publish(every: 2, on: .main, in: .common).autoconnect()
 	@State private var counter = 0
 	
 	var size: CGFloat = 300
