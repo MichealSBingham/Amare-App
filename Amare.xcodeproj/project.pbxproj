@@ -47,6 +47,7 @@
 		263FBDDE28393B54008F35C5 /* FirebaseStorageSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 263FBDDD28393B54008F35C5 /* FirebaseStorageSwift-Beta */; };
 		263FBDE0283BE4B4008F35C5 /* MathUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263FBDDF283BE4B4008F35C5 /* MathUtilities.swift */; };
 		2655EEAA27862A7900393718 /* RootView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2655EEA927862A7800393718 /* RootView2.swift */; };
+		2662ED0E283FDB3F00B0EA57 /* PulsingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2662ED0D283FDB3E00B0EA57 /* PulsingView.swift */; };
 		2669A62C2705488000B3C87C /* MainPlacementsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2669A62B2705488000B3C87C /* MainPlacementsView.swift */; };
 		266C61FB26F14A1D00A34374 /* SelectLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266C61FA26F14A1D00A34374 /* SelectLocation.swift */; };
 		26744A7E26F7E679008E1733 /* SelectLocationForResidenceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26744A7D26F7E679008E1733 /* SelectLocationForResidenceView.swift */; };
@@ -161,6 +162,7 @@
 		263FBDCC28385E66008F35C5 /* FindNearbyUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindNearbyUserView.swift; sourceTree = "<group>"; };
 		263FBDDF283BE4B4008F35C5 /* MathUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathUtilities.swift; sourceTree = "<group>"; };
 		2655EEA927862A7800393718 /* RootView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView2.swift; sourceTree = "<group>"; };
+		2662ED0D283FDB3E00B0EA57 /* PulsingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PulsingView.swift; sourceTree = "<group>"; };
 		2669A62B2705488000B3C87C /* MainPlacementsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPlacementsView.swift; sourceTree = "<group>"; };
 		266C61FA26F14A1D00A34374 /* SelectLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLocation.swift; sourceTree = "<group>"; };
 		26744A7D26F7E679008E1733 /* SelectLocationForResidenceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLocationForResidenceView.swift; sourceTree = "<group>"; };
@@ -342,9 +344,18 @@
 		263FBDCB28385E3F008F35C5 /* NearbyUsers */ = {
 			isa = PBXGroup;
 			children = (
+				2662ED0C283FDB0D00B0EA57 /* CustomSubViews */,
 				263FBDCC28385E66008F35C5 /* FindNearbyUserView.swift */,
 			);
 			path = NearbyUsers;
+			sourceTree = "<group>";
+		};
+		2662ED0C283FDB0D00B0EA57 /* CustomSubViews */ = {
+			isa = PBXGroup;
+			children = (
+				2662ED0D283FDB3E00B0EA57 /* PulsingView.swift */,
+			);
+			path = CustomSubViews;
 			sourceTree = "<group>";
 		};
 		2669A62D27054B0100B3C87C /* PersonPopupView */ = {
@@ -956,6 +967,7 @@
 				2608CF512697529600826FDA /* GlobalErrors.swift in Sources */,
 				267CF36526D30C03006B73BE /* NatalChartViewAlpha.swift in Sources */,
 				268F26BF2680094A00FBEA7D /* Account.swift in Sources */,
+				2662ED0E283FDB3F00B0EA57 /* PulsingView.swift in Sources */,
 				263D6F982684012000CBBECC /* AccountErrors.swift in Sources */,
 				26B66A9026EB9476001EAA80 /* House.swift in Sources */,
 				2608CF46268FE27300826FDA /* ImagePickerView.swift in Sources */,

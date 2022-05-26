@@ -24,61 +24,126 @@ struct FindNearbyUserView: View {
 	@State var errorDetected: Bool = false
 	
 	
+	
+	
+
     var body: some View {
 		
-		
-		ZStack{
+	
 			
-			Text(textToDisplay)
-				.opacity(!dataModel.connected ? 1: 0)
-				.alert(isPresented: $errorDetected) {
-					Alert(title: Text("Error"), message: Text(errorMessage))
-				}
+			ZStack{
 				
-			
-			VStack{
-				
-				HStack{
+				//MARK: - Loading Screen for Connecting
+				VStack{
 					
-					//Text("Distance Away: ")
-					Text(String(format: "%0.2f m %0.2f degrees", Double(dataModel.distanceAway ?? 0), Double(dataModel.direction ?? 0)))
-			
+					Spacer()
+					
+					ZStack{
+						
+						PulsingView()
+						
+						
+						Image(systemName: "location.circle.fill")
+							.resizable()
+							.aspectRatio(contentMode: .fit)
+							.frame(width: 80, height: 80)
+							.foregroundColor(.white)
+							.opacity(!dataModel.connected ? 1: 0)
+							.alert(isPresented: $errorDetected) {
+								Alert(title: Text("Error"), message: Text(errorMessage))
+							}
+					}
 					
 					
-					//Text("Meters")
-				}
-				.padding()
 					
-				if let pos = dataModel.nearbyObject?.direction{
-					Text(String("x: \(pos.x)\ny: \(pos.y)\n z: \(pos.z)"))
+					Spacer()
+					
+					Text("Waiting for them...")
+						.font(.largeTitle)
+						.bold()
+						.multilineTextAlignment(.center)
+						.padding()
+						.colorMultiply(.white)
+					
+					Text("We're waiting for them to connect so keep breathing. You got this.")
+						.colorMultiply(.white)
+						.font(.subheadline)
+						.multilineTextAlignment(.center)
+						.padding()
+					
+				 
+					
 				}
+					
+				.opacity(dataModel.connected ? 0 : 1)
+				//.opacity(0)
 				
-				if let currentOrientation = dataModel.deviceOrientation {
-					Text(String("Orientation \(currentOrientation.rawValue)"))
+				
+				
+				//MARK: - Connected to another user
+				VStack{
+					
+					HStack {
+						Spacer()
+						Text("Profile Image here")
+					}
+					
+					
+					ZStack{
+						// If no direction is detected
+						
+						
+						
+						
+						// If direcgtion is detected show arrow
+					}
+					
+					/*
+					HStack{
+						
+						//Text("Distance Away: ")
+						Text(String(format: "%0.2f m %0.2f degrees", Double(dataModel.trueDistance ?? 0), Double(dataModel.direction ?? 0)))
+				
+						
+						
+						//Text("Meters")
+					}
+					.padding()
+						
+					
+				
+					
+					
+					
+					
+					
+					Image(systemName: "arrow.up")
+						.resizable()
+						.frame(width: 150, height: 200)
+						.aspectRatio(contentMode: .fit)
+						.rotationEffect(.radians(Double(dataModel.direction ?? 0 )))
+						.animation(.easeIn, value: dataModel.direction)
+						//.colorMultiply(dataModel.isMovingTowards != nil  ? (dataModel.isMovingTowards == true ? Color.green: Color.red) : Color.clear )
+						//.background(dataModel.isMovingTowards != nil  ? (dataModel.isMovingTowards == true ? Color.green: Color.red) : Color.clear )
+					
+					
+					*/
 				}
-				
-				
-				Image(systemName: "arrow.up")
-					.resizable()
-					.frame(width: 150, height: 200)
-					.aspectRatio(contentMode: .fit)
-					.rotationEffect(.radians(Double(dataModel.direction ?? 0 )))
-					.animation(.easeIn, value: dataModel.direction)
-				
-				
-				
+				.opacity(!dataModel.connected   ? 0: 1)
+			//	.opacity(1)
 				
 			}
-			.opacity(!dataModel.connected   ? 0: 1)
-		
-			
-		}
-		
+			.navigationTitle(Text(dataModel.connected ? "\(user.name ?? "")" : "DateDar®"))
+			.preferredColorScheme(.dark)
+			.foregroundColor(.gray)
 		
 		
 		.onAppear {
 			
 			// Make sure both devices can even do nearby interaction
+			
+		
+				
 			
 			
 			guard NISession.isSupported && user.supportsNearbyInteraction ?? false else {
@@ -91,11 +156,12 @@ struct FindNearbyUserView: View {
 				return
 			}
 			
+			/*
 			guard dataModel.properOrientation else {
 				
 				return
 			}
-			
+			*/
 
 			
 			dataModel.sendToken(them: user.id!)
@@ -170,11 +236,20 @@ struct FindNearbyUserView: View {
 				errorDetected = false
 			}
 		}
+		
+		
+		
+		
+		
+		
+		
         
-	
+		
 		
 	 
     }
+	
+	
 }
 
 struct FindNearbyUserView_Previews: PreviewProvider {
@@ -197,6 +272,7 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 	// MARK: - Distance and direction state.
 	// A threshold, in meters, the app uses to update its display.
 	let nearbyDistanceThreshold: Float = 0.3
+	let facingAngleThreshold: Float = 0.15
 	enum DistanceDirectionState {
 		case closeUpInFOV, notCloseUpInFOV, outOfFOV, unknown
 	}
@@ -227,7 +303,7 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 		}
 	}
 	
-	/// Nearby objects connected to 
+	/// Nearby objects connected to, will always contain most recent positional data regardless of whether or not we moved in/out threshold
 	@Published var nearbyObject: NINearbyObject?
 	
 	/// Can be a `NearbyUserError` or a `NIError`or an error from Firestore
@@ -251,25 +327,71 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 	
 	@Published var didAnErrorHappen: Bool = false
 	
-	@Published var distanceAway: Float?
+	
+	@Published var trueDistance: Float?
+	
+	/// This distance only updates when the user moves within `threshold` amount. See `trueDistanceAway` for a realtime measure
+	@Published var distanceAway: Float? {
+		
+		didSet{
+			
+			guard let previousDistanceReading = oldValue, let currentReading = distanceAway else {
+				
+				return
+				
+				
+			}
+			
+			if previousDistanceReading > currentReading {
+				// Moving towards because current reading is less
+				
+			
+				isMovingTowards = true
+			}
+			
+			else {
+				
+				// Moving away
+				isMovingTowards = false
+				
+			}
+		}
+	}
 	
 	/// In Radians. Azimuth angle
-	@Published var direction: Float?
+	@Published var direction: Float? {
+		
+		didSet{
+			
+			guard let direction = direction else { isFacing = false ; return }
+			if abs(direction).isLessThanOrEqualTo(facingAngleThreshold) {
+				isFacing = true
+			} else {
+				isFacing = false
+			}
+		}
+	}
 	
 	/// In Radians. Polar angle 
 	@Published var altitude: Float?
 	
 	/// Whether or not user is connected to another peer for nearby interaction
-	@Published var connected: Bool = false
+	@Published var connected: Bool = false//false
+	
+	
 	
 	private var mytoken: DiscoveryTokenDocument?
 	
-	var currentDistanceDirectionState: DistanceDirectionState = .unknown
+	@Published var currentDistanceDirectionState: DistanceDirectionState = .unknown
 	
 	
+	/// Whether or not user is moving towards the other use. Only updates whenever the user moves at least an amount by `threshold` otherwise this will just be nil
+	@Published var isMovingTowards: Bool?
 	
+	/// Whether or not user is facing the user. If cannot determine, this is nil.
+	@Published var isFacing: Bool?
 	
-	
+
 	//MARK: - Device Orientation
 	
 	@Published var deviceOrientation: UIDeviceOrientation = UIDevice.current.orientation {
@@ -414,28 +536,72 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 
 		guard let nearbyObjectUpdate = nearbyObjects.first else { return }
 		
-		self.nearbyObject = nearbyObjects.first
+		
 		
 		self.connected = true
+		self.trueDistance =  nearbyObjectUpdate.distance
 		
 		
+		//MARK: - Reading old positional data
 		
-		distanceAway = nearbyObjects.first?.distance
+		// Before update (old distance and old direction state)
+		let old_distance = self.distanceAway
+		let old_direction_state = getDistanceDirectionState(from: self.nearbyObject)
+		
+		//MARK: - Reading the new positional data
+		let new_distance = nearbyObjectUpdate.distance
+		let new_direction_state = getDistanceDirectionState(from: nearbyObjectUpdate)
 		
 		
-		
-		print("The vector is : \(nearbyObjectUpdate.direction)")
-		
-		// Angle at which peer is located
-		let azimuth = nearbyObjectUpdate.direction.map(azimuth(from:))
-		self.direction = azimuth
 		 
-		 /*
-		// Update the the state and visualizations.
-		let nextState = getDistanceDirectionState(from: nearbyObjectUpdate)
-		updateVisualization(from: currentDistanceDirectionState, to: nextState, with: nearbyObjectUpdate)
-		currentDistanceDirectionState = nextState
-		*/
+		
+		
+		// Check if device is moving towards or away
+		//MARK: - Check if first reading
+		
+		guard old_distance != nil && new_distance != nil else {
+			
+			//MARK: - First reading
+			print("First reading")
+			self.nearbyObject = nearbyObjects.first
+			self.currentDistanceDirectionState = getDistanceDirectionState(from: nearbyObjectUpdate)
+			self.distanceAway = nearbyObjects.first?.distance
+			
+			
+			
+			
+			// Angle at which peer is located
+			let azimuth = nearbyObjectUpdate.direction.map(azimuth(from:))
+			self.direction = azimuth
+			
+			
+			//TODO: - If trueDistance is within the threshold, we should now just check
+			return
+			
+			
+		}
+		
+		// Update nearby object regardless to get most recent reading
+		//MARK: - Detect if moving towards/backwards
+		
+		// Make sure we're at least `threshold` distance away from previous reading before updating
+		
+		let distance_moved = abs(new_distance! - old_distance!)
+		
+		guard distance_moved >= nearbyDistanceThreshold else {
+			// No need to update distance because we haven't moved but we can update the direction
+			self.direction = nearbyObjectUpdate.direction.map(azimuth(from:))
+			self.currentDistanceDirectionState = getDistanceDirectionState(from: nearbyObjectUpdate)
+			return
+		}
+		
+		
+		//MARK: - Updating distance and direction
+		self.distanceAway = new_distance
+		self.direction = nearbyObjectUpdate.direction.map(azimuth(from:))
+		self.currentDistanceDirectionState = getDistanceDirectionState(from: nearbyObjectUpdate)
+		
+		
 	}
 	
 	func session(_ session: NISession, didRemove nearbyObjects: [NINearbyObject], reason: NINearbyObject.RemovalReason) {
@@ -487,18 +653,22 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 	
 	// MARK: - Visualizations
 	
-	/*
+	
 	func isNearby(_ distance: Float) -> Bool {
 		return distance < nearbyDistanceThreshold
 	}
+	
+	/*
 	
 	func isPointingAt(_ angleRad: Float) -> Bool {
 		// Consider the range -15 to +15 to be "pointing at".
 		return abs(angleRad.radiansToDegrees) <= 15
 	}
+	
 	*/
-	/*
-	func getDistanceDirectionState(from nearbyObject: NINearbyObject) -> DistanceDirectionState {
+	func getDistanceDirectionState(from nearbyObject: NINearbyObject?) -> DistanceDirectionState {
+		
+		guard let nearbyObject = nearbyObject else { return .unknown}
 		if nearbyObject.distance == nil && nearbyObject.direction == nil {
 			return .unknown
 		}
@@ -516,7 +686,7 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 
 		return .outOfFOV
 	}
-*/
+
 }
 
 

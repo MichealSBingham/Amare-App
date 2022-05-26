@@ -334,13 +334,19 @@ struct PositiveActionOnUserMenu: View {
                                       .bold()
                                      // .frame(maxWidth : .infinity, alignment: .center)
                                      //.padding(.top)
-                                     .foregroundColor(Color.primary.opacity(0.4))
+                                    .foregroundColor(Color.primary.opacity(0.4))
                                      .animation(.easeInOut)
                                      
                              }
+							
 							 .sheet(isPresented: $showNearbyUserScreen, content: {
+								 NavigationView{
+									 FindNearbyUserView(user: user)
+//										 .navigationTitle(Text("DateDar®"))
+										 
+								 }
 								 
-								 FindNearbyUserView(user: user)
+								
 							 })
 							 .padding()
 							
