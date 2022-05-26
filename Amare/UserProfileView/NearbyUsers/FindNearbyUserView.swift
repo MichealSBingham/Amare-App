@@ -23,8 +23,11 @@ struct FindNearbyUserView: View {
 	@State var errorMessage: String = ""
 	@State var errorDetected: Bool = false
 	
+	/// If during blind date mode, we can set this to nil
+	@State var otherUsersProfileImage: String? // Reveal this when user reaches other user physically nearby
 	
-	
+	/// Whether or not this is a `blindDate`/`blindMatch` mode or not
+	var blindMode: Bool
 	
 
     var body: some View {
@@ -42,16 +45,20 @@ struct FindNearbyUserView: View {
 						
 						PulsingView()
 						
-						
-						Image(systemName: "location.circle.fill")
-							.resizable()
-							.aspectRatio(contentMode: .fit)
-							.frame(width: 80, height: 80)
-							.foregroundColor(.white)
-							.opacity(!dataModel.connected ? 1: 0)
+						centerImage(connected: $dataModel.connected, profile_image_url: $otherUsersProfileImage)
 							.alert(isPresented: $errorDetected) {
-								Alert(title: Text("Error"), message: Text(errorMessage))
+							Alert(title: Text("Error"), message: Text(errorMessage))
+						}
+							.onAppear {
+								//TODO: - Check if blind date mode
+								if !blindMode{
+									// immediately reveal profile image if it isn't blind mode
+									otherUsersProfileImage = user.profile_image_url
+								}
+								
 							}
+						
+						
 					}
 					
 					
@@ -253,6 +260,9 @@ struct FindNearbyUserView: View {
 	
 }
 
+
+
+
 //TODO: - flipping animation (card flip)
 /// If awaiting connection, this is the location icon, otherwise this should animate to the other user's profile pic
 ///  -TODO:
@@ -260,6 +270,16 @@ struct centerImage: View {
 	
 	@Binding var connected: Bool
 	@State var showOtherImage : Bool = false
+	
+	 @Binding var profile_image_url: String?
+	
+	 var size: CGFloat = CGFloat(80)
+	
+	@State private var condition: Bool = false
+	
+	var animation: Animation =
+	Animation.easeInOut(duration: 1)
+	   .repeatForever(autoreverses: true)
 	
 	var body: some View {
 		
@@ -270,11 +290,23 @@ struct centerImage: View {
 				Image(systemName: "location.circle.fill")
 					.resizable()
 					.aspectRatio(contentMode: .fit)
-					.frame(width: 80, height: 80)
+					.frame(width: size, height: size)
 					.foregroundColor(.white)
 					.opacity(showOtherImage ? 0: 1 )
+					.scaleEffect(condition ? 0.9 : 1.0)
+					.animation(animation)
+					.onAppear {
+					   
+						DispatchQueue.main.async {
+							
+							withAnimation(.easeIn(duration: 3).repeatForever(autoreverses: true)) {
+								condition = true
+							}
+						}
+					}
+				
 			
-				Image("profile")
+			ProfileImageView(profile_image_url: $profile_image_url, size: size)
 				.opacity(showOtherImage ? 1: 0 )
 			
 			
@@ -347,7 +379,7 @@ struct FindNearbyUserView_Previews: PreviewProvider {
     static var previews: some View {
 		
 		let example = AmareUser(id: "3432", name: "Micheal")
-		FindNearbyUserView(user: example)
+		FindNearbyUserView(user: example, blindMode: false)
     }
 }
 
