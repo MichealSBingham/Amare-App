@@ -48,6 +48,7 @@
 		263FBDE0283BE4B4008F35C5 /* MathUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263FBDDF283BE4B4008F35C5 /* MathUtilities.swift */; };
 		2655EEAA27862A7900393718 /* RootView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2655EEA927862A7800393718 /* RootView2.swift */; };
 		2662ED0E283FDB3F00B0EA57 /* PulsingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2662ED0D283FDB3E00B0EA57 /* PulsingView.swift */; };
+		2662ED10284007CD00B0EA57 /* ProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2662ED0F284007CD00B0EA57 /* ProfileImageView.swift */; };
 		2669A62C2705488000B3C87C /* MainPlacementsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2669A62B2705488000B3C87C /* MainPlacementsView.swift */; };
 		266C61FB26F14A1D00A34374 /* SelectLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266C61FA26F14A1D00A34374 /* SelectLocation.swift */; };
 		26744A7E26F7E679008E1733 /* SelectLocationForResidenceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26744A7D26F7E679008E1733 /* SelectLocationForResidenceView.swift */; };
@@ -163,6 +164,7 @@
 		263FBDDF283BE4B4008F35C5 /* MathUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathUtilities.swift; sourceTree = "<group>"; };
 		2655EEA927862A7800393718 /* RootView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView2.swift; sourceTree = "<group>"; };
 		2662ED0D283FDB3E00B0EA57 /* PulsingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PulsingView.swift; sourceTree = "<group>"; };
+		2662ED0F284007CD00B0EA57 /* ProfileImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageView.swift; sourceTree = "<group>"; };
 		2669A62B2705488000B3C87C /* MainPlacementsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPlacementsView.swift; sourceTree = "<group>"; };
 		266C61FA26F14A1D00A34374 /* SelectLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLocation.swift; sourceTree = "<group>"; };
 		26744A7D26F7E679008E1733 /* SelectLocationForResidenceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLocationForResidenceView.swift; sourceTree = "<group>"; };
@@ -354,6 +356,7 @@
 			isa = PBXGroup;
 			children = (
 				2662ED0D283FDB3E00B0EA57 /* PulsingView.swift */,
+				2662ED0F284007CD00B0EA57 /* ProfileImageView.swift */,
 			);
 			path = CustomSubViews;
 			sourceTree = "<group>";
@@ -1022,6 +1025,7 @@
 				2608CF482691425E00826FDA /* QR.swift in Sources */,
 				2608CF4E2695139800826FDA /* EnterOrientationView.swift in Sources */,
 				26AF20E926CF564E00D99F36 /* PhoneNumberField.swift in Sources */,
+				2662ED10284007CD00B0EA57 /* ProfileImageView.swift in Sources */,
 				26BBF08C267D7C9900C84019 /* [Deprecated]ProfileView.swift in Sources */,
 				26B1B00A2679961200A170B3 /* VerificationCodeView.swift in Sources */,
 				26DE210826C595B50004B5CE /* ChartView.swift in Sources */,

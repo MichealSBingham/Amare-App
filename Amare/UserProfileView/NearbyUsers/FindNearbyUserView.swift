@@ -34,19 +34,53 @@ struct FindNearbyUserView: View {
 			ZStack{
 				
 				//MARK: - Loading Screen for Connecting
-		
-				
-			AwaitingConnectionView(isConnected: $dataModel.connected)
-				.opacity(dataModel.connected ? 0 : 1)
-				.alert(isPresented: $errorDetected) {
-					Alert(title: Text("Error"), message: Text(errorMessage))
+				VStack{
+					
+					Spacer()
+					
+					ZStack{
+						
+						PulsingView()
+						
+						
+						Image(systemName: "location.circle.fill")
+							.resizable()
+							.aspectRatio(contentMode: .fit)
+							.frame(width: 80, height: 80)
+							.foregroundColor(.white)
+							.opacity(!dataModel.connected ? 1: 0)
+							.alert(isPresented: $errorDetected) {
+								Alert(title: Text("Error"), message: Text(errorMessage))
+							}
+					}
+					
+					
+					
+					Spacer()
+					
+					Text("Waiting for them...")
+						.font(.largeTitle)
+						.bold()
+						.multilineTextAlignment(.center)
+						.padding()
+						.colorMultiply(.white)
+					
+					Text("We're waiting for them to connect so keep breathing. You got this.")
+						.colorMultiply(.white)
+						.font(.subheadline)
+						.multilineTextAlignment(.center)
+						.padding()
+					
+				 
+					
 				}
-				//.opacity(0)
+				
+		
 				
 				
 				
 				//MARK: - Connected to another user
-				VStack{
+		/*		VStack{
 					
 					HStack {
 						Spacer()
@@ -96,6 +130,8 @@ struct FindNearbyUserView: View {
 				}
 				.opacity(!dataModel.connected   ? 0: 1)
 			//	.opacity(1)
+				
+			*/
 				
 			}
 			.navigationTitle(Text(dataModel.connected ? "\(user.name ?? "")" : "DateDar®"))
@@ -216,6 +252,44 @@ struct FindNearbyUserView: View {
 	
 	
 }
+
+//TODO: - flipping animation (card flip)
+/// If awaiting connection, this is the location icon, otherwise this should animate to the other user's profile pic
+///  -TODO:
+struct centerImage: View {
+	
+	@Binding var connected: Bool
+	@State var showOtherImage : Bool = false
+	
+	var body: some View {
+		
+		//Location image
+		
+		ZStack{
+	
+				Image(systemName: "location.circle.fill")
+					.resizable()
+					.aspectRatio(contentMode: .fit)
+					.frame(width: 80, height: 80)
+					.foregroundColor(.white)
+					.opacity(showOtherImage ? 0: 1 )
+			
+				Image("profile")
+				.opacity(showOtherImage ? 1: 0 )
+			
+			
+		}
+		.onChange(of: connected) { isConnected in
+			
+			withAnimation {
+				showOtherImage = connected
+			}
+		}
+	
+	}
+}
+
+
 
 /// View for when user is still awaiting a connection
 struct AwaitingConnectionView: View{
