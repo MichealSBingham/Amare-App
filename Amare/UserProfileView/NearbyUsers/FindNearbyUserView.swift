@@ -65,18 +65,41 @@ struct FindNearbyUserView: View {
 					
 					Spacer()
 					
-					Text("Waiting for them...")
+					
+					
+			
+
+					
+					var distance = dataModel.trueDistance ?? Float(0)
+					var distanceRounded = round(distance*10)/10.0
+					
+					var waitingForThemText = AttributedString(stringLiteral: "Waiting for them...")
+					
+					
+					//Text("Waiting for them...")
+					Text(dataModel.connected ?
+						 distanceAwayStringToAttributedText(string: "\(distanceRounded) m") :
+					waitingForThemText)
+				//Text(distanceAwayStringToAttributedText(string: "10 m"))
 						.font(.largeTitle)
 						.bold()
-						.multilineTextAlignment(.center)
+						.frame(maxWidth: .infinity, alignment: dataModel.connected ?  .leading : .center)
+						.animation(.easeOut)
 						.padding()
 						.colorMultiply(.white)
 					
-					Text("We're waiting for them to connect so keep breathing. You got this.")
+						
+					
+					
+					Text(!dataModel.connected ?
+						 AttributedString("We're waiting for them to connect so keep breathing. You got this.") :
+							navigationInstructionAttributedText(angle: dataModel.direction, isMovingTowards: dataModel.isMovingTowards, isFacing: dataModel.isFacing))
 						.colorMultiply(.white)
 						.font(.subheadline)
 						.multilineTextAlignment(.center)
+						.frame(maxWidth: .infinity, alignment: dataModel.connected ?  .leading : .center)
 						.padding()
+					
 					
 				 
 					
@@ -258,6 +281,155 @@ struct FindNearbyUserView: View {
     }
 	
 	
+	func distanceAwayStringToAttributedText(string: String) -> AttributedString {
+		
+		// s
+		//var distanceString = "\(dataModel.distanceAway ?? .constant(Float(0))) m"
+		
+		var stringWithJustNumbers = string.replacingOccurrences(of: " m", with: "")
+		
+		//var rangeOfNumbers = (string as NSString).range(of: stringWithJustNumbers)
+		
+		var distanceAttributedString = AttributedString(string)
+		
+		
+		let rangeOfJustNumbers = distanceAttributedString.range(of: stringWithJustNumbers)!
+		
+		distanceAttributedString[rangeOfJustNumbers].foregroundColor = .white
+		
+		return distanceAttributedString
+	}
+	
+	
+	
+	/// Returns navigation instructions to the user based on if we're facing them or moving away/towards etc. Returns an attributedstring
+	/// - Parameters:
+	///   - angle: The direction the other use is relative to us. Will be nil if we are out of their field of view so we don't know the angle.
+	///   - isMovingTowards: Whether or not the distance to the user is increasing or decreasing , will be nil if we haven't moved yet because we just connected
+	///   - isFacing: Whether or not we're facing the user in field of view
+	/// - Returns: The attributed string of the navigation instruction
+	func navigationInstructionAttributedText(angle: Float?, isMovingTowards: Bool?, isFacing: Bool? ) -> AttributedString {
+		
+		var isMovingAway: Bool? = nil
+		
+		if let isMovingTowards = isMovingTowards {
+			isMovingAway = !isMovingTowards
+		}
+
+	
+	
+	
+		
+		
+		if let angle = angle{
+			// We have the direction
+			
+			if let isFacing = isFacing {
+				
+				if isFacing{
+					
+					if isMovingAway ?? true {
+						var instruction = try! AttributedString(markdown: "No. Go **straight ahead**.")
+						let rangeOfDirection = instruction.range(of: "straight ahead")!
+						instruction.font = .largeTitle
+						instruction[rangeOfDirection].foregroundColor = .white
+						return instruction
+					}
+					
+					// Facing and going towards
+					var instruction = try! AttributedString(markdown: "Go **straight ahead**.")
+					let rangeOfDirection = instruction.range(of: "straight ahead")!
+					instruction.font = .largeTitle
+					instruction[rangeOfDirection].foregroundColor = .white
+					return instruction
+					
+				}
+				
+				
+				// We're not facing so see if we're left or right
+				
+				if angle > 0 {
+					
+					var instruction = try! AttributedString(markdown: "To your **right**.")
+					let rangeOfDirection = instruction.range(of: "right")!
+					instruction.font = .largeTitle
+					instruction[rangeOfDirection].foregroundColor = .white
+					return instruction
+				}
+				
+				var instruction = try! AttributedString(markdown: "To your **left**.")
+				let rangeOfDirection = instruction.range(of: "left")!
+				instruction.font = .largeTitle
+				instruction[rangeOfDirection].foregroundColor = .white
+				return instruction
+			}
+			
+			else {
+				// We're not sure if we're facing ...
+				
+				// See if go left or right
+				
+				if angle > 0 {
+					
+					var instruction = try! AttributedString(markdown: "To your **right**.")
+					let rangeOfDirection = instruction.range(of: "right")!
+					instruction.font = .largeTitle
+					instruction[rangeOfDirection].foregroundColor = .white
+					return instruction
+				}
+				
+				var instruction = try! AttributedString(markdown: "To your **left**.")
+				let rangeOfDirection = instruction.range(of: "left")!
+				instruction.font = .largeTitle
+				instruction[rangeOfDirection].foregroundColor = .white
+				return instruction
+				
+			}
+		} else {
+			
+			// We're not in the field of view so we don't have direction so only rely on distance away
+			if let isMovingAway = isMovingAway {
+				// We know if we're moving away or not
+				
+				if isMovingAway{
+					
+					
+					
+					var instruction = try! AttributedString(markdown: "You're **moving away**.")
+					let rangeOfDirection = instruction.range(of: "moving away")!
+					instruction.font = .largeTitle
+					instruction[rangeOfDirection].foregroundColor = .white
+					
+					return instruction
+					
+				}
+				
+				// Moving towards
+				
+				
+				
+				var instruction = try! AttributedString(markdown: "Keep **moving closer**.")
+				let rangeOfDirection = instruction.range(of: "moving closer")!
+				instruction.font = .largeTitle
+				instruction[rangeOfDirection].foregroundColor = .white
+				return instruction
+				
+			}
+			
+			
+			
+			// We don't know so just tell user to keep walking
+			
+			
+			var instruction = try! AttributedString(markdown: "Start **moving around**.")
+			let rangeOfDirection = instruction.range(of: "moving around")!
+			instruction.font = .largeTitle
+			instruction[rangeOfDirection].foregroundColor = .white
+			return instruction
+		}
+		
+		
+	}
 }
 
 
