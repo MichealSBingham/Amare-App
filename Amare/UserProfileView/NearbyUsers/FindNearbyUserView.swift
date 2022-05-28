@@ -29,7 +29,17 @@ struct FindNearbyUserView: View {
 	/// Whether or not this is a `blindDate`/`blindMatch` mode or not
 	var blindMode: Bool
 	
+	// This is so that we can animate the text color change when the background color changes so it can be a better color
+	@State var triggerTextColorChange: Color = .gray
+	
+	@State var triggerBackgroundColorChange: UIColor = #colorLiteral(red: 0.1140513036, green: 0.1181834653, blue: 0.1686092259, alpha: 1)
+	
+	@State var pulsingAnimationSpeed: SpeedOfAnimation = .normal
+	
+	let grayColor = #colorLiteral(red: 0.1652105868, green: 0.1652105868, blue: 0.1652105868, alpha: 1)
 
+	let defaultColor = #colorLiteral(red: 0.1140513036, green: 0.1181834653, blue: 0.1686092259, alpha: 1)
+	
     var body: some View {
 		
 	
@@ -45,7 +55,7 @@ struct FindNearbyUserView: View {
 						
 						PulsingView()
 						
-						centerImage(connected: $dataModel.connected, profile_image_url: $otherUsersProfileImage)
+						centerImage(connected: $dataModel.connected, profile_image_url: $otherUsersProfileImage, animationSpeed: $pulsingAnimationSpeed)
 							.alert(isPresented: $errorDetected) {
 							Alert(title: Text("Error"), message: Text(errorMessage))
 						}
@@ -54,6 +64,34 @@ struct FindNearbyUserView: View {
 								if !blindMode{
 									// immediately reveal profile image if it isn't blind mode
 									otherUsersProfileImage = user.profile_image_url
+								}
+								
+							}
+							.onChange(of: dataModel.distanceState) { state in
+								
+								print("Distance state is ... \(state) ")
+								withAnimation {
+									
+									if let state = state {
+										
+										switch state{
+										
+										case .farAway:
+											print("Setting slow")
+											pulsingAnimationSpeed = .slow
+										case .halfwayThere:
+											print("Setting halfway")
+											pulsingAnimationSpeed = .medium
+										case .almostThere:
+											print("Setting fast")
+											pulsingAnimationSpeed = .fast
+										
+										}
+										
+									} else {
+										print("Setting normal")
+										pulsingAnimationSpeed = .normal
+									}
 								}
 								
 							}
@@ -83,10 +121,71 @@ struct FindNearbyUserView: View {
 				//Text(distanceAwayStringToAttributedText(string: "10 m"))
 						.font(.largeTitle)
 						.bold()
+						.foregroundColor(triggerTextColorChange)
 						.frame(maxWidth: .infinity, alignment: dataModel.connected ?  .leading : .center)
-						.animation(.easeOut)
+						//.animation(.easeOut)
 						.padding()
 						.colorMultiply(.white)
+						.onChange(of: dataModel.connected) { connected in
+							if !connected{ withAnimation {
+								triggerBackgroundColorChange = defaultColor
+							}}
+						}
+						.onChange(of: dataModel.isMovingTowards) { isMovingTowards in
+							if isMovingTowards == nil {
+								
+								withAnimation {
+									triggerTextColorChange = .gray
+									triggerBackgroundColorChange = defaultColor
+								}
+								
+							} else {
+								withAnimation {
+									triggerTextColorChange = .white
+									
+									
+									if isMovingTowards! {
+										
+										if let isFacing = dataModel.isFacing {
+											
+											triggerBackgroundColorChange = isFacing ? .green : defaultColor
+										} else {
+											triggerBackgroundColorChange = defaultColor
+										}
+										
+										
+										/*
+										if let angle = dataModel.direction{
+											
+											if dataModel.isFacing ?? false  {
+												triggerBackgroundColorChange = .green
+											} else {
+												
+												triggerBackgroundColorChange = defaultColor
+											}
+											
+										} else {
+											triggerBackgroundColorChange = defaultColor
+										}
+										
+										*/
+										
+									} else{
+										//  moving away 
+										
+										if let angle = dataModel.direction{
+											// moving away, have direction
+											triggerBackgroundColorChange = defaultColor
+										} else {
+											// moving away, no direction
+											triggerBackgroundColorChange = .red
+										}
+									}
+									
+									
+								}
+							}
+						}
 					
 						
 					
@@ -96,10 +195,18 @@ struct FindNearbyUserView: View {
 							navigationInstructionAttributedText(angle: dataModel.direction, isMovingTowards: dataModel.isMovingTowards, isFacing: dataModel.isFacing))
 						.colorMultiply(.white)
 						.font(.subheadline)
+						.foregroundColor(triggerTextColorChange)
 						.multilineTextAlignment(.center)
 						.frame(maxWidth: .infinity, alignment: dataModel.connected ?  .leading : .center)
 						.padding()
-					
+						.onChange(of: triggerBackgroundColorChange) { background in
+							if background == defaultColor{
+								withAnimation {
+									triggerTextColorChange = .white
+								}
+								
+							}
+						}
 					
 				 
 					
@@ -167,6 +274,7 @@ struct FindNearbyUserView: View {
 			.navigationTitle(Text(dataModel.connected ? "\(user.name ?? "")" : "DateDar®"))
 			.preferredColorScheme(.dark)
 			.foregroundColor(.gray)
+			.background( Color(triggerBackgroundColorChange) )
 		
 		
 		.onAppear {
@@ -297,6 +405,8 @@ struct FindNearbyUserView: View {
 		
 		distanceAttributedString[rangeOfJustNumbers].foregroundColor = .white
 		
+		//if dataModel.isMovingTowards != nil { distanceAttributedString.foregroundColor = .white}
+		
 		return distanceAttributedString
 	}
 	
@@ -328,11 +438,20 @@ struct FindNearbyUserView: View {
 				
 				if isFacing{
 					
+					guard isMovingAway != nil else { // Facing and going towards
+						var instruction = try! AttributedString(markdown: "Go **straight ahead**.")
+					 let rangeOfDirection = instruction.range(of: "straight ahead")!
+					 instruction.font = .largeTitle
+					 instruction[rangeOfDirection].foregroundColor = .white
+					 //if dataModel.isMovingTowards != nil { instruction.foregroundColor = .white}
+					 return instruction }
+					
 					if isMovingAway ?? true {
 						var instruction = try! AttributedString(markdown: "No. Go **straight ahead**.")
 						let rangeOfDirection = instruction.range(of: "straight ahead")!
 						instruction.font = .largeTitle
 						instruction[rangeOfDirection].foregroundColor = .white
+					//	if dataModel.isMovingTowards != nil { instruction.foregroundColor = .white}
 						return instruction
 					}
 					
@@ -341,6 +460,7 @@ struct FindNearbyUserView: View {
 					let rangeOfDirection = instruction.range(of: "straight ahead")!
 					instruction.font = .largeTitle
 					instruction[rangeOfDirection].foregroundColor = .white
+					//if dataModel.isMovingTowards != nil { instruction.foregroundColor = .white}
 					return instruction
 					
 				}
@@ -361,6 +481,7 @@ struct FindNearbyUserView: View {
 				let rangeOfDirection = instruction.range(of: "left")!
 				instruction.font = .largeTitle
 				instruction[rangeOfDirection].foregroundColor = .white
+			//	if dataModel.isMovingTowards != nil { instruction.foregroundColor = .white}
 				return instruction
 			}
 			
@@ -375,6 +496,7 @@ struct FindNearbyUserView: View {
 					let rangeOfDirection = instruction.range(of: "right")!
 					instruction.font = .largeTitle
 					instruction[rangeOfDirection].foregroundColor = .white
+				//	if dataModel.isMovingTowards != nil { instruction.foregroundColor = .white}
 					return instruction
 				}
 				
@@ -382,6 +504,7 @@ struct FindNearbyUserView: View {
 				let rangeOfDirection = instruction.range(of: "left")!
 				instruction.font = .largeTitle
 				instruction[rangeOfDirection].foregroundColor = .white
+			//	if dataModel.isMovingTowards != nil { instruction.foregroundColor = .white}
 				return instruction
 				
 			}
@@ -399,7 +522,6 @@ struct FindNearbyUserView: View {
 					let rangeOfDirection = instruction.range(of: "moving away")!
 					instruction.font = .largeTitle
 					instruction[rangeOfDirection].foregroundColor = .white
-					
 					return instruction
 					
 				}
@@ -425,6 +547,7 @@ struct FindNearbyUserView: View {
 			let rangeOfDirection = instruction.range(of: "moving around")!
 			instruction.font = .largeTitle
 			instruction[rangeOfDirection].foregroundColor = .white
+		//	if dataModel.isMovingTowards != nil { instruction.foregroundColor = .white}
 			return instruction
 		}
 		
@@ -433,7 +556,9 @@ struct FindNearbyUserView: View {
 }
 
 
-
+enum SpeedOfAnimation {
+	case slow, normal, medium, fast
+}
 
 //TODO: - flipping animation (card flip)
 /// If awaiting connection, this is the location icon, otherwise this should animate to the other user's profile pic
@@ -454,6 +579,12 @@ struct centerImage: View {
 	var animation: Animation =
 	Animation.easeInOut(duration: 1)
 	   .repeatForever(autoreverses: true)
+	
+	
+	
+	@Binding var animationSpeed: SpeedOfAnimation
+	
+	@State var speed = 1.0
 	
 	var body: some View {
 		
@@ -477,17 +608,48 @@ struct centerImage: View {
 			
 		}
 		.scaleEffect(condition ? 0.9 : 1.0)
-		.onAppear {
-		   
+		.onChange(of: animationSpeed, perform: { newValue in
+			
+			condition = false
+			var speed = 0.0
+	
+			switch newValue {
+			case .slow:
+				speed = 2
+			case .normal:
+				speed = 1
+			case .medium:
+				speed = 0.5
+			case .fast:
+				speed = 0.1
+			}
+		
+			
 			DispatchQueue.main.async {
 				
-				withAnimation(.easeIn(duration: 1).repeatForever(autoreverses: true)) {
+				print("Setting speed to ... \(speed) ")
+				withAnimation(.easeInOut(duration: speed).repeatForever(autoreverses: true)) {
 					condition = true
 				}
 			}
+			
+		})
+		.onAppear {
+			
+			
+			
+		
+			DispatchQueue.main.async {
+				
+				withAnimation(.easeInOut(duration: 1).repeatForever(autoreverses: true)) {
+					condition = true
+				}
+			}
+			
 		}
 	
 		.onChange(of: connected) { isConnected in
+			
 			
 			withAnimation {
 				showOtherImage = connected
@@ -504,10 +666,21 @@ struct centerImage: View {
 
 
 struct FindNearbyUserView_Previews: PreviewProvider {
+	
+	 
+	
+	
     static var previews: some View {
 		
+		var helper = NearbyInteractionHelper()
+		
 		let example = AmareUser(id: "3432", name: "Micheal")
-		FindNearbyUserView(user: example, blindMode: false)
+		FindNearbyUserView(user: example, dataModel: helper, blindMode: false).onAppear {
+			helper.connected = true
+		}
+			
+		
+		
     }
 }
 
@@ -523,10 +696,33 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 	// MARK: - Distance and direction state.
 	// A threshold, in meters, the app uses to update its display.
 	let nearbyDistanceThreshold: Float = 0.3
-	let facingAngleThreshold: Float = 0.15
+	let facingAngleThreshold: Float = 15
+	var firstDistanceReading: Float?
 	enum DistanceDirectionState {
 		case closeUpInFOV, notCloseUpInFOV, outOfFOV, unknown
 	}
+	
+	/// If 70%  there --> almost there,  if 50% there - halfway there,
+	enum DistanceState{
+		case farAway, halfwayThere, almostThere
+	}
+	///  How far away user is relatively speaking.
+	 var distanceState: DistanceState? /* {
+		
+		 guard self.firstDistanceReading != nil else  { return nil }
+		 var currentDistanceAway = self.trueDistance
+		 guard currentDistanceAway != nil else { return nil }
+		 
+		 var fractionTraveled = 1 - (currentDistanceAway! / self.firstDistanceReading!)
+		 
+		 if fractionTraveled >= 0.5 && fractionTraveled < 0.7 { return DistanceState.halfwayThere}
+		 
+		 if fractionTraveled >= 0.7  && fractionTraveled < 1 { return DistanceState.almostThere}
+		 
+		 return DistanceState.farAway
+		 
+		 return nil
+	} */
 
 	// MARK: - Class variables
 	/// Current user's discovery token
@@ -606,6 +802,25 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 				isMovingTowards = false
 				
 			}
+			
+			
+			
+			guard self.firstDistanceReading != nil else  { return self.distanceState = nil/*= DistanceState.farAway */}
+			 var currentDistanceAway = self.trueDistance
+			
+			guard currentDistanceAway != nil else { return self.distanceState =  nil/*DistanceState.farAway*/ }
+			 
+			 var fractionTraveled = abs(1 - (currentDistanceAway! / self.firstDistanceReading!))
+			 
+			print("The fraction traveled ... \(fractionTraveled) ")
+			if fractionTraveled >= 0.5 && fractionTraveled < 0.7 { self.distanceState =  DistanceState.halfwayThere}
+			 
+			if fractionTraveled >= 0.7  && fractionTraveled < 1 { self.distanceState =  DistanceState.almostThere}
+			 
+			if fractionTraveled < 0.5 { self.distanceState = DistanceState.farAway }
+			
+			 
+			 
 		}
 	}
 	
@@ -797,6 +1012,8 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 		
 		
 		//MARK: - Reading old positional data
+		
+		if self.firstDistanceReading == nil  { self.firstDistanceReading = nearbyObjectUpdate.distance }
 		
 		// Before update (old distance and old direction state)
 		let old_distance = self.distanceAway
