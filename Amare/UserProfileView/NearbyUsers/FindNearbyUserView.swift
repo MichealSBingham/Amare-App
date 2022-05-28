@@ -36,6 +36,8 @@ struct FindNearbyUserView: View {
 	
 	@State var pulsingAnimationSpeed: SpeedOfAnimation = .normal
 	
+	@State var moveToUpperRightCorner: Bool = false
+	
 	let grayColor = #colorLiteral(red: 0.1652105868, green: 0.1652105868, blue: 0.1652105868, alpha: 1)
 
 	let defaultColor = #colorLiteral(red: 0.1140513036, green: 0.1181834653, blue: 0.1686092259, alpha: 1)
@@ -56,6 +58,8 @@ struct FindNearbyUserView: View {
 						PulsingView()
 						
 						centerImage(connected: $dataModel.connected, profile_image_url: $otherUsersProfileImage, animationSpeed: $pulsingAnimationSpeed)
+							.offset(x: moveToUpperRightCorner ? CGFloat(UIScreen.main.bounds.size.width/2) + CGFloat(70)  : CGFloat(0), y: moveToUpperRightCorner ? CGFloat(-425) - CGFloat(UIScreen.main.bounds.size.width/2)   : CGFloat(0))
+							.scaleEffect(moveToUpperRightCorner ? 0.5: 1)
 							.alert(isPresented: $errorDetected) {
 							Alert(title: Text("Error"), message: Text(errorMessage))
 						}
@@ -95,7 +99,19 @@ struct FindNearbyUserView: View {
 								}
 								
 							}
-						
+							.onChange(of: dataModel.direction) { direction  in
+								if direction != nil  {
+									
+									withAnimation {
+										moveToUpperRightCorner = true
+									}
+								} else {
+									
+									withAnimation {
+										moveToUpperRightCorner = false
+									}
+								}
+							}
 						
 					}
 					
@@ -604,6 +620,24 @@ struct centerImage: View {
 			
 			ProfileImageView(profile_image_url: $profile_image_url, size: profileImageSize)
 				.opacity(showOtherImage ? 1: 0 )
+			
+			//BROKENnnn
+			/*
+			VStack {
+				
+				HStack{
+					Spacer()
+					Group {
+						GeometryReader{ geo in
+							
+							ProfileImageView(profile_image_url: $profile_image_url)
+						}
+					}
+					
+					
+				}
+				Spacer()
+			} */
 			
 			
 		}
