@@ -10,8 +10,9 @@ import Firebase
 import FirebaseFirestoreSwift
 import SwiftUI
 
+
 /// Helper class we're using to store and read data from our backend. All user data properties read from database are here.
-public struct AmareUser: Codable, Equatable{
+public struct AmareUser: Codable, Equatable, Hashable, Identifiable{
     
     
     
@@ -43,7 +44,7 @@ public struct AmareUser: Codable, Equatable{
     var _loveScore: Double = 0
     
     /// Whether or not the current signed in user is friends with this user. 
-    var areFriends: Bool = false
+    var areFriends: Bool? 
     
     /// Whether or not a friend request was sent to this user or not 
     var requested: Bool?
@@ -56,6 +57,19 @@ public struct AmareUser: Codable, Equatable{
     
     /// Whether or not the user winked at me (the signed in user) 
     var winkedAtMe: Bool?
+    
+    var image: Data?
+    
+    var deviceID: String?
+    
+    var synastry_classification: String?
+    var synastry_latin_phrase: String?
+    
+    /// Whether or not this user is within proximity of the user via geolocation, bluetooth, or multipeer 
+    var isNearby: Bool? = false
+	
+	var supportsNearbyInteraction: Bool? 
+    
     
     enum CodingKeys: String, CodingKey {
         case name
@@ -70,9 +84,32 @@ public struct AmareUser: Codable, Equatable{
         case username
         case isReal
         case isNotable
-     
+		case supportsNearbyInteraction
+        
+       
     }
     
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
+    /// Returns the downloaded profile image 
+     func downloadProfileImage() -> Data? {
+
+        guard self.profile_image_url != nil else { return nil  }
+        
+        guard image == nil else {return nil }
+        
+        let url = URL(string: profile_image_url!)!
+
+        
+        if let data = try? Data(contentsOf: url) {
+                // Create Image and Update Image View
+            //imageView.image = UIImage(data: data)
+           return data
+            
+        } else { return  nil }
+    }
     
     //TODO: Should only need username or id to distinguish 
     public static func == (lhs: AmareUser, rhs: AmareUser) -> Bool {
@@ -134,7 +171,7 @@ struct Birthday: Codable{
 
 
 
-struct Place: Codable  {
+struct Place: Codable, Equatable  {
     
     
     var latitude: Double?
@@ -145,6 +182,12 @@ struct Place: Codable  {
     var country: String?
     
     var geohash: String?
+    
+    static func == (lhs: Place, rhs: Place) -> Bool {
+            return
+                lhs.latitude == rhs.latitude &&
+                lhs.longitude == rhs.longitude
+        }
     
     
 }

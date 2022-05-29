@@ -598,7 +598,7 @@ class Account: ObservableObject {
                 
                 case .success(let data):
                     
-                    if let data = data{
+                    if  data != nil{
                         
                         // Data object contains all of the user's data
                         self.data = data
@@ -721,7 +721,7 @@ class Account: ObservableObject {
                 
                 case .success(let data):
                     
-                    if let data = data{
+                    if  data != nil{
                         
                        
                         completion?(data, nil)
@@ -831,7 +831,7 @@ class Account: ObservableObject {
                 
                 case .success(let data):
                     
-                    if let data = data{
+                    if  data != nil {
                         
                         // Data object contains all of the user's data
                 
@@ -895,9 +895,9 @@ class Account: ObservableObject {
                 switch result {
                 
                 
-                case .success(let data):
+                case .success(var user):
                     
-                    if var user = data{
+                    if  user != nil {
                         user.id = document.documentID
                         //print("\n\n\n\n\n\n***The document object is .. \(document.data())")
                         // Data object contains all of the user's data
@@ -981,9 +981,9 @@ class Account: ObservableObject {
                 switch result {
                 
                 
-                case .success(let data):
+                case .success(var user):
                     
-                    if var user = data{
+                    if  user != nil {
                         user.id = document.documentID
                         
                         
@@ -1098,9 +1098,9 @@ class Account: ObservableObject {
                 switch result {
                 
                 
-                case .success(let data):
+                case .success(var data):
                     
-                    if var data = data{
+                    if  data != nil {
                         
                         // Data object contains all of the user's data
                         
@@ -1928,7 +1928,7 @@ class Account: ObservableObject {
             
             case .success(let data):
                 
-                if let data = data{
+                if  data != nil{
                     
                     // Data object contains all of the user's data
                     self.data = data
@@ -1980,9 +1980,9 @@ class Account: ObservableObject {
             switch result {
             
             
-            case .success(let data):
+            case .success(let natalChart):
                 
-                if let natalChart = data{
+                if  natalChart != nil {
                     
                     // Data object contains all of the user's data
                     self.data?.natal_chart = natalChart
@@ -2037,7 +2037,7 @@ class Account: ObservableObject {
         
         // The user data should be in the shared instance
         
-        guard let myProfilePic = Account.shared.data?.profile_image_url else {
+        guard let myProfilePic = Account.shared.data?.profile_image_url, let isNotable = Account.shared.data?.isNotable, let name = Account.shared.data?.name else {
             
             // if not, load it
             print("Profile picture WAS NOT in the shared instance ")
@@ -2045,7 +2045,8 @@ class Account: ObservableObject {
                 
                 print("the errr \(err) and user is \(user)")
                 let image = user?.profile_image_url ?? ""
-                self.db?.collection("friends").document(userId).collection("requests").document(id).setData(["request_by": id, "time": Date.now, "accepted": false, "profile_image_url": image], completion: { error in
+                let isNotable  = user?.isNotable ?? false
+                self.db?.collection("friends").document(userId).collection("requests").document(id).setData(["request_by": id, "time": Date.now, "accepted": false, "profile_image_url": image, "isNotable": isNotable, "name": user?.name ?? ""], completion: { error in
                     
                     completion(error)
                 })
@@ -2061,7 +2062,7 @@ class Account: ObservableObject {
                 // friend_requests
                     // - amandaID
                     // - accepted: false
-        self.db?.collection("friends").document(userId).collection("requests").document(id).setData(["request_by": id, "time": Date.now, "accepted": false, "profile_image_url": myProfilePic], completion: { error in
+        self.db?.collection("friends").document(userId).collection("requests").document(id).setData(["request_by": id, "time": Date.now, "accepted": false, "profile_image_url": myProfilePic, "isNotable": isNotable, "name": name], completion: { error in
             
             completion(error)
         })
@@ -2154,19 +2155,18 @@ class Account: ObservableObject {
         
         guard let id = Auth.auth().currentUser?.uid, let userId = userId else {
             
-            print("Not winking... id \(self.user?.uid) , userid = \(userId)")
             return
         }
         
-        guard let myProfilePic = Account.shared.data?.profile_image_url else {
+        guard let myProfilePic = Account.shared.data?.profile_image_url, let isNotable = Account.shared.data?.isNotable, let name = Account.shared.data?.name else {
             
-            print("no profile image saved")
+     
             self.getUserData { err, data in
                 
                 print("Got amare user  with \(err) \(data)")
                 if let amareUser = data {
                     
-                    self.db?.collection("winks").document(userId).collection("people_who_winked").document(id).setData(["didWink": true, "time": Date.now, "profile_image_url": amareUser.profile_image_url ?? ""])
+                    self.db?.collection("winks").document(userId).collection("people_who_winked").document(id).setData(["didWink": true, "time": Date.now, "profile_image_url": amareUser.profile_image_url ?? "", "isNotable": amareUser.isNotable ?? false, "name": amareUser.name])
                     
                     
                 }
@@ -2177,8 +2177,8 @@ class Account: ObservableObject {
           
         }
         
-        print("bout to wink")
-        self.db?.collection("winks").document(userId).collection("people_who_winked").document(id).setData(["didWink": true, "time": Date.now, "profile_image_url": myProfilePic])
+        
+        self.db?.collection("winks").document(userId).collection("people_who_winked").document(id).setData(["didWink": true, "time": Date.now, "profile_image_url": myProfilePic, "isNotable": isNotable, "name": name])
     }
     
     ///TODO: Add error handling
@@ -2194,7 +2194,10 @@ class Account: ObservableObject {
             return
         }
         self.db?.collection("winks").document(userId).collection("people_who_winked").document(id).delete(completion: { error in
-            // 
+            //
+            
+            UserDefaults.standard.set(false, forKey: "showConfetti-\(id)")
+            UserDefaults.standard.set(false, forKey: "showWinkConfetti-\(id)")
         })
     }
     

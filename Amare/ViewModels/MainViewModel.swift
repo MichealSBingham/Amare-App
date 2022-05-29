@@ -60,7 +60,8 @@ class UsernameAvailabilityViewModel: ObservableObject{
 /// View Model for obtaining the signed in user's data and will tell you if it's complete or not
 class HomeViewModel: ObservableObject{
     
-    @Published var userData: AmareUser?
+    /// The current signed in user
+    @Published var Me: AmareUser?
     
     /// Will be true if the user has incomplete data in the database so some error happened during account creation/signup process so sign the user out if this happens so they can resign up. 
     @Published var inCompleteData: Bool = false
@@ -105,9 +106,13 @@ class HomeViewModel: ObservableObject{
                 }
                 
                 switch result {
-                case .success(let success):
+                case .success(var success):
                     print("***There was success grabbing user \(success) is complete: \(success?.isComplete())")
-                    self.userData = success
+                    
+                    success!.id = snapshot!.documentID
+                    self.Me = success
+                    Account.shared.data = success
+                    
                     
                     // check if the user data is complete
                     if let isComplete = success?.isComplete() {
@@ -159,7 +164,7 @@ class HomeViewModel: ObservableObject{
                 switch result {
                 case .success(let success):
                     print("***There was success grabbing user \(success) is complete: \(success?.isComplete())")
-                    self.userData = success
+                    self.Me = success
                     
                     // check if the user data is complete
                     if let isComplete = success?.isComplete() {
@@ -189,3 +194,4 @@ class HomeViewModel: ObservableObject{
         }
     }
 }
+

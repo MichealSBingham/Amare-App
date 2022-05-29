@@ -13,13 +13,14 @@ var testImages = ["https://lh3.google.com/u/0/ogw/ADea4I57grRsMmsG3Wxmx_ayco7IOg
 
 struct ChartView: View {
     @EnvironmentObject private var account: Account
+    @EnvironmentObject var mainViewModel: UserDataModel
     @Binding var tabSelection: Int
     
     @State private var deg: Double = 0
     @State private var space: Double = 150
     @State private var radius: CGFloat = .infinity
     
-    @State private var chart: NatalChart?
+    //@State private var chart: NatalChart?
     @State private var selectedPlanet: Planet?
     
     @State var aspectToGet: AspectType = .all
@@ -41,7 +42,7 @@ struct ChartView: View {
     
     @State private var showImagePicker: Bool = false
     @State var image: UIImage?
-    
+        
    
     
     var defaultImage: String = testImages[0]
@@ -104,14 +105,14 @@ struct ChartView: View {
                     VStack{
                         
                         // Name and user name
-                        Text(account.data?.name ?? "Mikhael Leason")
+                        Text(mainViewModel.userData.name ?? "Mikhael Leason")
                             .foregroundColor(.white)
                             .font(.system(size: 22))
                             .bold()
                             .padding([.trailing, .leading, .top])
                             .padding(.bottom, 3)
                        
-                        Text("\(account.data?.username ?? "@mikhael") ")
+                        Text("@\(mainViewModel.userData.username ?? "@mikhael") ")
                             .foregroundColor(.white)
                             .font(.system(size: 15))
                            //.padding()
@@ -178,7 +179,7 @@ struct ChartView: View {
                 VStack{
                     
                     Spacer()
-                    MoreInfoOnPlanet(planet: selectedPlanet, chart: chart, exit: $showme)
+                    MoreInfoOnPlanet(planet: selectedPlanet, chart: mainViewModel.userData.natal_chart, exit: $showme)
                     //  .rotationEffect(.degrees(-1*alpha))
                         .opacity(  selectedPlanet != nil ? 1  : 0 )
                         .padding()
@@ -202,7 +203,7 @@ struct ChartView: View {
                 VStack{
                     Spacer()
                     
-                    MoreInfoOnAspectView(chart: chart, aspect: aspectSelected)
+                    MoreInfoOnAspectView(chart: mainViewModel.userData.natal_chart, aspect: aspectSelected)
                         .opacity(aspectSelected != nil ? 1: 0 )
                         .onAppear {
                             
@@ -316,7 +317,7 @@ struct ChartView: View {
         
         return NatalChartView()
         
-            .make(with: chart/*, shownAspect: aspectToGet*/)
+            .make(with: mainViewModel.userData.natal_chart/*, shownAspect: aspectToGet*/)
             .animation(.easeIn(duration: 3))
             .onReceive(Just(account), perform: { _ in
         
@@ -325,8 +326,8 @@ struct ChartView: View {
                // AmareApp().delay(1) {
                     
                     //person1 = account.data?.name ?? ""
-                    chart = account.data?.natal_chart
-                    print("The chart after delay ... \(chart)")
+                    //chart = account.data?.natal_chart
+                    //print("The chart after delay ... \(chart)")
                  
                // }
                 

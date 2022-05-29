@@ -6,8 +6,17 @@
         "repositoryURL": "https://github.com/firebase/abseil-cpp-SwiftPM.git",
         "state": {
           "branch": null,
-          "revision": "fffc3c2729be5747390ad02d5100291a0d9ad26a",
-          "version": "0.20200225.4"
+          "revision": "d302de612e3d57c6f4afaf087da18fba8eac72a7",
+          "version": "0.20220203.1"
+        }
+      },
+      {
+        "package": "AppAuth",
+        "repositoryURL": "https://github.com/openid/AppAuth-iOS.git",
+        "state": {
+          "branch": null,
+          "revision": "33660c271c961f8ce1084cc13f2ea8195e864f7d",
+          "version": "1.5.0"
         }
       },
       {
@@ -15,35 +24,44 @@
         "repositoryURL": "https://github.com/firebase/boringssl-SwiftPM.git",
         "state": {
           "branch": null,
-          "revision": "734a8247442fde37df4364c21f6a0085b6a36728",
-          "version": "0.7.2"
+          "revision": "79db6516894a932d0ddaff3b05b9da1e4f6c4069",
+          "version": "0.9.0"
         }
       },
       {
-        "package": "CodeScanner",
-        "repositoryURL": "https://github.com/twostraws/CodeScanner.git",
+        "package": "CwlCatchException",
+        "repositoryURL": "https://github.com/mattgallagher/CwlCatchException.git",
         "state": {
           "branch": null,
-          "revision": "a2144ddaa7c43a6ee00873edd4cc7815ad97942f",
-          "version": "1.0.7"
+          "revision": "35f9e770f54ce62dd8526470f14c6e137cef3eea",
+          "version": "2.1.1"
         }
       },
       {
-        "package": "ConfettiSwiftUI",
-        "repositoryURL": "https://github.com/simibac/ConfettiSwiftUI",
+        "package": "CwlPreconditionTesting",
+        "repositoryURL": "https://github.com/mattgallagher/CwlPreconditionTesting.git",
         "state": {
-          "branch": "master",
-          "revision": "cab01453f51c70f18727a7607e80fe90e08c4218",
-          "version": null
+          "branch": null,
+          "revision": "c21f7bab5ca8eee0a9998bbd17ca1d0eb45d4688",
+          "version": "2.1.0"
         }
       },
       {
-        "package": "Firebase",
-        "repositoryURL": "https://github.com/firebase/firebase-ios-sdk.git",
+        "package": "EasyFirebase",
+        "repositoryURL": "https://github.com/Flowductive/easy-firebase",
         "state": {
-          "branch": "master",
-          "revision": "4377c7c574d2de2dde71fe3c2dfc8c2841a6f5d7",
-          "version": null
+          "branch": null,
+          "revision": "9f3bf90805b38226aaa5c7261e6b4c0fb9b0b6e1",
+          "version": "1.2.2"
+        }
+      },
+      {
+        "package": "GAppAuth",
+        "repositoryURL": "https://github.com/benlmyers/GAppAuth",
+        "state": {
+          "branch": null,
+          "revision": "6124bcd8a5e4576a485aa70d92e50e32c587223d",
+          "version": "1.6.5"
         }
       },
       {
@@ -51,8 +69,8 @@
         "repositoryURL": "https://github.com/google/GoogleAppMeasurement.git",
         "state": {
           "branch": null,
-          "revision": "9b2f6aca5b4685c45f9f5481f19bee8e7982c538",
-          "version": "8.9.1"
+          "revision": "ef819db8c58657a6ca367322e73f3b6322afe0a2",
+          "version": "8.15.0"
         }
       },
       {
@@ -60,8 +78,8 @@
         "repositoryURL": "https://github.com/google/GoogleDataTransport.git",
         "state": {
           "branch": null,
-          "revision": "15ccdfd25ac55b9239b82809531ff26605e7556e",
-          "version": "9.1.2"
+          "revision": "b905c49326b72211531ed9d7baa02d724828a8dc",
+          "version": "9.1.4"
         }
       },
       {
@@ -69,17 +87,17 @@
         "repositoryURL": "https://github.com/google/GoogleUtilities.git",
         "state": {
           "branch": null,
-          "revision": "b3bb0c5551fb3f80ca939829639ab5b093edd14f",
-          "version": "7.7.0"
+          "revision": "f4abe56ce62a779e64b525eb133c8fc2a84bbc1f",
+          "version": "7.7.1"
         }
       },
       {
         "package": "gRPC",
-        "repositoryURL": "https://github.com/firebase/grpc-SwiftPM.git",
+        "repositoryURL": "https://github.com/grpc/grpc-ios.git",
         "state": {
           "branch": null,
-          "revision": "fb405dd2c7901485f7e158b24e3a0a47e4efd8b5",
-          "version": "1.28.4"
+          "revision": "2af4f6e9c2b18beae228f50b1198c641be859d2b",
+          "version": "1.44.2-grpc"
         }
       },
       {
@@ -87,8 +105,17 @@
         "repositoryURL": "https://github.com/google/gtm-session-fetcher.git",
         "state": {
           "branch": null,
-          "revision": "bc6a19702ac76ac4e488b68148710eb815f9bc56",
-          "version": "1.7.0"
+          "revision": "4e9bbf2808b8fee444e84a48f5f3c12641987d3e",
+          "version": "1.7.2"
+        }
+      },
+      {
+        "package": "GTMAppAuth",
+        "repositoryURL": "https://github.com/google/GTMAppAuth.git",
+        "state": {
+          "branch": null,
+          "revision": "b9d1683be336ba8c8d1c6867bafeb056a5399700",
+          "version": "1.3.0"
         }
       },
       {
@@ -110,6 +137,15 @@
         }
       },
       {
+        "package": "MultipeerKit",
+        "repositoryURL": "https://github.com/insidegui/MultipeerKit.git",
+        "state": {
+          "branch": "main",
+          "revision": "844cfdaffa18aa84fb1c6396697ebe1e68478a17",
+          "version": null
+        }
+      },
+      {
         "package": "nanopb",
         "repositoryURL": "https://github.com/firebase/nanopb.git",
         "state": {
@@ -119,8 +155,26 @@
         }
       },
       {
+        "package": "Nimble",
+        "repositoryURL": "https://github.com/Quick/Nimble",
+        "state": {
+          "branch": null,
+          "revision": "c93f16c25af5770f0d3e6af27c9634640946b068",
+          "version": "9.2.1"
+        }
+      },
+      {
+        "package": "OHHTTPStubs",
+        "repositoryURL": "https://github.com/AliSoftware/OHHTTPStubs",
+        "state": {
+          "branch": null,
+          "revision": "12f19662426d0434d6c330c6974d53e2eb10ecd9",
+          "version": "9.1.0"
+        }
+      },
+      {
         "package": "PopupView",
-        "repositoryURL": "https://github.com/exyte/PopupView.git",
+        "repositoryURL": "https://github.com/Amare-Corporation/PopupView",
         "state": {
           "branch": null,
           "revision": "b1834668b34b9ec22dfe7c462dfbb694edc7ec2d",
@@ -132,8 +186,62 @@
         "repositoryURL": "https://github.com/google/promises.git",
         "state": {
           "branch": null,
-          "revision": "611337c330350c9c1823ad6d671e7f936af5ee13",
-          "version": "2.0.0"
+          "revision": "46c1e6b5ac09d8f82c991061c659f67e573d425d",
+          "version": "2.1.0"
+        }
+      },
+      {
+        "package": "PushNotifications",
+        "repositoryURL": "https://github.com/pusher/push-notifications-swift.git",
+        "state": {
+          "branch": "master",
+          "revision": "d72041ef4566a49f9d3701ea24b6d6a46f5c55fc",
+          "version": null
+        }
+      },
+      {
+        "package": "SkeletonUI",
+        "repositoryURL": "https://github.com/CSolanaM/SkeletonUI",
+        "state": {
+          "branch": null,
+          "revision": "132f12a34b7fdab275bfc61968749b1f11c36300",
+          "version": "1.0.7"
+        }
+      },
+      {
+        "package": "SourceKitten",
+        "repositoryURL": "https://github.com/jpsim/SourceKitten.git",
+        "state": {
+          "branch": null,
+          "revision": "817dfa6f2e09b0476f3a6c9dbc035991f02f0241",
+          "version": "0.32.0"
+        }
+      },
+      {
+        "package": "SPConfetti",
+        "repositoryURL": "https://github.com/ivanvorobei/SPConfetti",
+        "state": {
+          "branch": null,
+          "revision": "ebbb3f98c373d7a9981552ae31a7ac9b78680d76",
+          "version": "1.4.0"
+        }
+      },
+      {
+        "package": "SPIndicator",
+        "repositoryURL": "https://github.com/ivanvorobei/SPIndicator",
+        "state": {
+          "branch": null,
+          "revision": "43600857729d9efff046dc6673e6f94e095882c7",
+          "version": "1.6.4"
+        }
+      },
+      {
+        "package": "swift-argument-parser",
+        "repositoryURL": "https://github.com/apple/swift-argument-parser.git",
+        "state": {
+          "branch": null,
+          "revision": "e394bf350e38cb100b6bc4172834770ede1b7232",
+          "version": "1.0.3"
         }
       },
       {
@@ -141,13 +249,40 @@
         "repositoryURL": "https://github.com/apple/swift-protobuf.git",
         "state": {
           "branch": null,
-          "revision": "7e2c5f3cbbeea68e004915e3a8961e20bd11d824",
-          "version": "1.18.0"
+          "revision": "e1499bc69b9040b29184f7f2996f7bab467c1639",
+          "version": "1.19.0"
+        }
+      },
+      {
+        "package": "SnapshotTesting",
+        "repositoryURL": "https://github.com/pointfreeco/swift-snapshot-testing",
+        "state": {
+          "branch": null,
+          "revision": "f8a9c997c3c1dab4e216a8ec9014e23144cbab37",
+          "version": "1.9.0"
+        }
+      },
+      {
+        "package": "SwiftSyntax",
+        "repositoryURL": "https://github.com/apple/swift-syntax.git",
+        "state": {
+          "branch": null,
+          "revision": "0b6c22b97f8e9320bca62e82cdbee601cf37ad3f",
+          "version": "0.50600.1"
+        }
+      },
+      {
+        "package": "SwiftLint",
+        "repositoryURL": "https://github.com/realm/SwiftLint",
+        "state": {
+          "branch": null,
+          "revision": "e497f1f5b161af96ba439049d21970c6204d06c6",
+          "version": "0.47.1"
         }
       },
       {
         "package": "NavigationStack",
-        "repositoryURL": "https://github.com/matteopuc/swiftui-navigation-stack.git",
+        "repositoryURL": "https://github.com/matteopuc/swiftui-navigation-stack",
         "state": {
           "branch": null,
           "revision": "be0db68ed0d84ed543bf8f7600a1f84de015f753",
@@ -164,30 +299,57 @@
         }
       },
       {
-        "package": "VTabView",
-        "repositoryURL": "https://github.com/lorenzofiamingo/SwiftUI-VerticalTabView",
+        "package": "swiftui-vertical-tab-view",
+        "repositoryURL": "https://github.com/lorenzofiamingo/swiftui-vertical-tab-view",
         "state": {
           "branch": null,
-          "revision": "fb6375b0c2d1b90d6849c177d442319e6f8dedf6",
-          "version": "1.0.0"
+          "revision": "e029f75f9c43e52e351528a78e293a997200b9f8",
+          "version": "2.0.0"
+        }
+      },
+      {
+        "package": "SwiftyTextTable",
+        "repositoryURL": "https://github.com/scottrhoyt/SwiftyTextTable.git",
+        "state": {
+          "branch": null,
+          "revision": "c6df6cf533d120716bff38f8ff9885e1ce2a4ac3",
+          "version": "0.9.0"
+        }
+      },
+      {
+        "package": "SWXMLHash",
+        "repositoryURL": "https://github.com/drmohundro/SWXMLHash.git",
+        "state": {
+          "branch": null,
+          "revision": "6469881a3f30417c5bb02404ea4b69207f297592",
+          "version": "6.0.0"
         }
       },
       {
         "package": "UICircularProgressRing",
         "repositoryURL": "https://github.com/luispadron/UICircularProgressRing.git",
         "state": {
-          "branch": null,
-          "revision": "e41b35ffbff734f39d6b4b2ca488a17f487e73a3",
-          "version": "8.0.0"
+          "branch": "master",
+          "revision": "5b00b9b42b0a7db6f8239d526d7251eef9a63dcd",
+          "version": null
         }
       },
       {
         "package": "URLImage",
         "repositoryURL": "https://github.com/dmytro-anokhin/url-image",
         "state": {
+          "branch": "main",
+          "revision": "20abda498bf8fe78631b1057b77078147598962b",
+          "version": null
+        }
+      },
+      {
+        "package": "Yams",
+        "repositoryURL": "https://github.com/jpsim/Yams.git",
+        "state": {
           "branch": null,
-          "revision": "4042f955f1fdff00ced85545e1eecdbf969b5cd0",
-          "version": "3.1.1"
+          "revision": "9ff1cc9327586db4e0c8f46f064b6a82ec1566fa",
+          "version": "4.0.6"
         }
       }
     ]

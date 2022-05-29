@@ -12,7 +12,7 @@ import URLImage
 import URLImageStore
 import PushNotifications
 import GooglePlaces
-
+import EasyFirebase
 
 @main
 struct AmareApp: App {
@@ -87,7 +87,7 @@ struct AmareApp: App {
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     
     var window: UIWindow?
-    var account: Account?
+   // var account: Account?
     let beamsClient = PushNotifications.shared
 
 
@@ -103,9 +103,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 self.beamsClient.registerForRemoteNotifications()
         try? self.beamsClient.addDeviceInterest(interest: "hello")
         try? self.beamsClient.addDeviceInterest(interest: "debug-hello")
-        FirebaseApp.configure()
+     //   FirebaseApp.configure()
+		EasyFirebase.configure()
         
-        account = Account()
+        //account = Account()
         
         return true
     }
@@ -130,6 +131,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
     
         print("**** RECEIVED Notification **** ")
+        
+        // check if it is a winking notification ..
+        //NotificationCenter.default.post(name: NSNotification.gotWinkedAt, object: nil)
+        
         completionHandler([.alert, .badge, .sound])
     }
     
@@ -204,9 +209,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         
+        Auth.auth().setAPNSToken(deviceToken, type: .prod)
         self.beamsClient.registerDeviceToken(deviceToken)
         
-        Auth.auth().setAPNSToken(deviceToken, type: .prod)
+       
     }
     
     

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import NavigationStack
+import MultipeerKit
 
 
 struct MainView: View {
@@ -14,12 +15,13 @@ struct MainView: View {
     /// id of view
     static let id = String(describing: Self.self)
    
-    @ObservedObject private var mainViewModel: HomeViewModel = HomeViewModel()
+    @StateObject private var mainViewModel: UserDataModel = UserDataModel()
     
     
     
     @EnvironmentObject private var account: Account
     @EnvironmentObject private var navigationStack: NavigationStack
+
     
     @State private var tabSelection = 1
 
@@ -36,8 +38,10 @@ struct MainView: View {
                 //Map()
            TestView()
                 .tag(1)
+                .environmentObject(mainViewModel)
         
                 NatalChart()
+                .environmentObject(mainViewModel)
                 .tag(2)
             
                 Scanner()
@@ -50,7 +54,7 @@ struct MainView: View {
                 
             }
             .onAppear(perform: { thingsToDoWhenMainViewLoads()})
-            .onDisappear(perform: {mainViewModel.unsubscribeToUserDataChanges()})
+            // .onDisappear(perform: {mainViewModel.unsubscribeToUserDataChanges()})
             .onReceive(NotificationCenter.default.publisher(for: NSNotification.logout), perform: { _ in
             print("Received notification to sign out...")
                 goBackToSignInRootView()
@@ -141,7 +145,7 @@ struct MainView: View {
         /// We ensure that the data has complete sign up data otherwise we sign them out. This handles the case whre they begin signing up but for some reason they never finish. We don't want to show them the main view.
      
         
-            //mainViewModel.subscribeToUserDataChanges()
+        mainViewModel.load()
         account.listenOnlyForSignOut()
       
         

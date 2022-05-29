@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 
-struct Aspect: Codable, Identifiable {
+struct Aspect: Codable, Identifiable, Equatable {
     
     /// Name of the aspect etc "Jupiter Asc"
     let name: String
@@ -37,6 +37,7 @@ struct Aspect: Codable, Identifiable {
     
     let id = UUID()
     
+
 
     
 }

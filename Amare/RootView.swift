@@ -8,10 +8,11 @@
 import SwiftUI
 import NavigationStack
 import FirebaseAuth
-
+import MultipeerKit
 typealias PerformOnce = () -> Void
 
 struct RootView: View {
+    
     
     static let id = String(describing: Self.self)
     @EnvironmentObject private var account: Account
@@ -29,6 +30,9 @@ struct RootView: View {
     
      var isSignedIn: Bool = false
      var dataIsComplete: Bool = false
+    
+   
+    
     
     var body: some View {
         
@@ -59,7 +63,7 @@ struct RootView: View {
                    MainView(isRoot: true )
                         .environmentObject(account)
                         .onAppear(perform: { account.stopListening()})
-                        
+                     //   .environmentObject(multipeerDataSource)
                         
                     
                     

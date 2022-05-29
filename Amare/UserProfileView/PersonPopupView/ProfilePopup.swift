@@ -11,8 +11,11 @@ import URLImage
 import URLImageStore
 import FirebaseAuth
 import Combine
-import ConfettiSwiftUI
+//import ConfettiSwiftUI
 import VTabView
+import SkeletonUI
+import SPConfetti
+import SPIndicator
 
 // Some random data to use as mock
 var peopleImages = ["https://lh3.googleusercontent.com/ogw/ADea4I5VDilLtQfyS7bwoGxcMqXW46dRo_ugPf4ombhR=s192-c-mo", testImages[0],
@@ -26,6 +29,7 @@ var colors: [Color] = [.gray, .green, .blue, .red, .orange]
 struct ProfilePopup: View {
     
     @Binding var user: AmareUser
+    
     
     
     @State var exitInfoOnPlacement: Bool = false
@@ -48,15 +52,33 @@ struct ProfilePopup: View {
     // Indicates whether the user has winked at the user
    // @State var hasWinked: Bool = false // set to false for prod
     
-    @State var counterForConfetti: Int = 0
+ //   @State var counterForConfetti: Int = 0
     
     
     /// The particular planet /placement the user clicks on on this profile to display
     @State var placementToDisplay: Planet?
     
+    // whether or not to show the placmenets/planets 
+    @State var showPlacements: Bool = false
+    
     @State var selectedBody: Int = 6
     
+    /// For showing redacted animation
+    @State var condition: Bool = false
+    @State var condition2: Bool = false
+    
+    @State var tagSelected: Int = 1
+    
    //@ObservedObject var viewModelForPlanetView = MoreInfoOnPlanetViewModel()
+    
+    @State var showConfetti: Bool = false
+    @State var showWinkConfetti: Bool = false
+    @State var speed: Double = 0
+    
+    // to animate the lock button
+    @State var attempts: Int = 0
+    
+    @State var attemptsToggle: Bool = false
     
     var body: some View {
        
@@ -72,7 +94,31 @@ struct ProfilePopup: View {
                 
                 ZStack{
                      
-                    profileImageView()
+                    
+                    if let imgdata = user.image {
+                        //print("#Got image data.,,")
+                        Button {
+                            
+                       
+                          
+                        } label: {
+                            
+                            
+                            Image(uiImage: UIImage(data: imgdata)!)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .clipShape(Circle())
+                                // .frame(width: 100, height: 100)
+                                 .shadow(radius: 15)
+                                 .frame(width: 150, height: 150)
+                        }
+
+                             
+                    } else {
+                       // print("no image data to reach")
+                        profileImageView()
+                        
+                    }
                     
                   
 
@@ -108,6 +154,7 @@ struct ProfilePopup: View {
                 
                 
                 classificationView()
+                    .redacted(reason: user.synastry_classification == nil ? .placeholder : [])
                 
                 
                 
@@ -115,6 +162,7 @@ struct ProfilePopup: View {
                     
                     // Latin Phrase
                     latinPhraseView()
+                        .redacted(reason: user.synastry_classification == nil ? .placeholder : [])
                     
                                         
                     
@@ -122,19 +170,78 @@ struct ProfilePopup: View {
                     
                     someoneWinkedAtYouView()
 
-                    
+    
                     
                 }
                 
-               
-                  
-                tabViewForPlacementsInChart()
-                                  
                 
+                
+                // placeholder redaction
+                // shown if [natal chart OR  friendship are loading]
+               // natal chart = nil ---> rejected permission OR is loading
+                // loading if : natal_chart = nil & user.AreFriends = nil
+                //
+    
+                  
+                ZStack{
+                    
+                    tabViewForPlacementsInChart()
+                        //.redacted(reason: (user.natal_chart == nil && (user.areFriends == nil && !(user.isNotable ?? false) )) ? .placeholder : [])  // only if it's loading so no error, we check if it's loaded the friendship status because if it has we would rather show the blurr instead of the placeholder
+                        .redacted(reason: (user.natal_chart == nil && (user.areFriends == nil )) ? .placeholder : [])
+                        .Redacted(reason: (user.areFriends != nil && (user.areFriends == false) && !(user.isNotable ?? false) ) && !(user.id == Auth.auth().currentUser?.uid )  ? .blurredLessIntense : nil)            // If they are not friends, blurr it or if they
+                        .opacity((user.isNearby ?? false) ? 0: 1)
+                    
+                    tabViewForPlacementsInChart()
+                        .Redacted(reason: !(user.areFriends ?? false ) ? .blurredLessIntense :  nil )
+                        .opacity((user.isNearby ?? false  == true) ? 1: 0 )
+                    
+                    /*
+                    Image(systemName: "lock.fill") // as long as the natal chart is nil or this is purposely locked
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 30, height: 30)
+                        .opacity(user.natal_chart == nil  && (/**not loading */  user.areFriends != nil ) ? 1: 0 )
+                        .offset(y: -25)
+                    */
+                }
+                .onTapGesture {
+                    
+                    if user.natal_chart == nil {
+                        attempts+=1
+                        attemptsToggle.toggle()
+                    }
+                }
+                    
                 
               
+                ZStack{
                     
-                tabViewForProgressCircles()
+                    tabViewForProgressCircles()
+                        .Redacted(reason: user.synastry_classification == nil ? .blurred : nil)
+                    
+                    
+                    Button {
+                        attempts+=1
+                        attemptsToggle.toggle()
+                    } label: {
+                        
+                        Image(systemName: "lock.fill") // as long as the natal chart is nil or this is purposely locked
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 40, height: 40)
+                            .opacity(user.synastry_classification == nil  && (/**not loading */  user.areFriends != nil ) ? 1: 0 )
+                            .modifier(Shake(animatableData: CGFloat(attempts)))
+
+                    }
+                   
+                   
+                        
+                }
+                .SPIndicator(isPresent: $attemptsToggle, title: "Private", message: "You aren't friends", duration: 2.0, presentSide: .top, dismissByDrag: true, preset: .error, haptic: .error, layout: SPIndicatorLayout.init(iconSize: CGSize(width: 15, height: 15), margins: UIEdgeInsets.init(top: CGFloat(0), left: CGFloat(30), bottom: CGFloat(0), right: CGFloat(0))))
+
+                    
+            
+                
                                     
                 
               
@@ -174,8 +281,8 @@ struct ProfilePopup: View {
             
           
             
-            ConfettiCannon(counter: $counterForConfetti, num: 250, confettis: [.text("😉")], rainHeight: 700/*, closingAngle: .degrees(140)*/)
-                .offset(y: 30)
+           // ConfettiCannon(counter: $counterForConfetti, num: 250, confettis: [.text("😉")], rainHeight: 700/*, closingAngle: .degrees(140)*/)
+                //   .offset(y: 30)
             
 
         }
@@ -238,10 +345,26 @@ struct ProfilePopup: View {
                 }
             
         }
+            
+        .onChange(of: user.winkedAtMe, perform: { winkedAtMe in
+            
+           
+            
+            if (winkedAtMe ?? false)  && (user.winkedTo ?? false)  {
+                    doShowConfetti()            }
+            
+            if winkedAtMe ?? false && (user.winkedTo ?? false) == false {
+                    doShowWinkConfetti()
+            }
+        })
+            
+            
         .onChange(of: placementToDisplay) { newValue in
             
+           
             // This is called when you click on a placement .. not when you scroll through them.
                 exitInfoOnPlacement = false
+            if let _ = placementToDisplay { showPlacements = true }
             
             /*
             print("***CHANGED PLACEMENT TO DISPLAY \(newValue)")
@@ -250,6 +373,7 @@ struct ProfilePopup: View {
             }
             */
         }
+            /*
         .onChange(of: user.winkedAtMe) { didWinkAtMe in
             
             if didWinkAtMe ?? false  { withAnimation {
@@ -279,6 +403,7 @@ struct ProfilePopup: View {
                 }
             }
         }
+             */
         .onChange(of: selectedBody) { body in
              
             print("***JUST changed selected body ... it is \(body)")
@@ -330,7 +455,7 @@ struct ProfilePopup: View {
          */
             
             
-        
+        /*
             
             if user.natal_chart?.planets.count ?? 0 > 0 {
                 
@@ -384,6 +509,7 @@ struct ProfilePopup: View {
                                 }
                                 .tag(planet.name.number())
                                 .tabViewStyle(.page)
+                               
                               
                              
                              
@@ -414,17 +540,126 @@ struct ProfilePopup: View {
                 .opacity(placementToDisplay == nil ? 0 : 1 )
                 .opacity(exitInfoOnPlacement ? 0: 1)
                 .animation(.easeInOut)
+              
                 .onDisappear {
                     //viewModelForPlanetView.stopLookingForPeopleWithAspect()
                 }
               
                 //.border(.orange)
             }
+            
+            */
           
            
     
         }
+        // Alert View / SP Indicator 
+        .onReceive(NotificationCenter.default.publisher(for: NSNotification.exitPlacements), perform: { _ in
+            showPlacements = false
+        })
+        .onAppear(perform: {
+            
+        })
         
+        .onReceive(NotificationCenter.default.publisher(for: NSNotification.gotWinkedAt), perform: { _ in
+            
+            doShowWinkConfetti()
+            //doShowConfetti()
+        })
+        
+        .fullScreenCover(isPresented: $showPlacements ) {
+            
+            if user.natal_chart?.planets.count ?? 0 > 0 {
+                
+                
+                
+                
+                // Showing the other user's planetary placements
+                TabView(selection: $selectedBody){
+                    
+             
+                        
+                    ForEach(user.natal_chart?.planets ?? [] ){ planet in
+                            
+                          
+                                
+                                VTabView{
+                                    
+                                  
+                                 
+                                   
+                                    MoreInfoOnPlanet(planet: planet, exit: $showPlacements)
+                                       
+                                    
+                                    
+                                        .onAppear(perform: {
+                                            
+                                            
+                                        print("***CALLED IN FOREACH ... the planet is \(planet)")
+                                            // viewModelForPlanetView.findPeople(with: planet)
+                                        })
+                                      //  .opacity(exitInfoOnPlacement ? 0: 1)
+                                        
+
+                                            .padding()
+                                            
+                                     
+                            
+                                        
+                                    MoreInfoOnPlanet(planet: Account.shared.data?.natal_chart?.planets.get(planet: planet.name), exit: $showPlacements)
+                                                                              //  .opacity(exitInfoOnPlacement ? 0: 1)
+                                           
+                                            .padding()
+                        
+                                           
+                                
+                                        
+                                    
+                                    
+                                    
+                                   
+                                }
+                                .tag(planet.name.number())
+                                .tabViewStyle(.page)
+                               
+                              
+                             
+                             
+                              
+                               
+                                
+                            
+                         
+                                
+                                
+                            
+                            
+                            
+                            
+                            
+                            
+                               
+                            
+                           
+                                
+                        }
+                        
+                   
+                    
+                }
+                //.tabViewStyle(.page(indexDisplayMode: .always))
+                .tabViewStyle(.page)
+                .opacity(placementToDisplay == nil ? 0 : 1 )
+                .opacity(exitInfoOnPlacement ? 0: 1)
+                .animation(.easeInOut)
+              
+                .onDisappear {
+                    //viewModelForPlanetView.stopLookingForPeopleWithAspect()
+                }
+              
+                //.border(.orange)
+            }
+        }
     }
     
   
@@ -436,13 +671,66 @@ struct ProfilePopup: View {
             
             //TODO: Show rest of images
             print("Tapped profile to view images. TODO: Show profile image ")
+            // remove later
+           // SPConfetti.startAnimating(.centerWidthToDown, particles: [.heart, .triangle, .arc])
+           
+           // showConfetti.toggle()
+            
           
             
         } label: {
             
-        
             
-            URLImage(URL(string: user.profile_image_url ?? peopleImages.randomElement()!)!) { image in
+            
+          
+            URLImage(URL(string: user.profile_image_url ?? "https://findamare.com")!) { progress in
+                
+                
+                Image(systemName: "person.circle.fill")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .clipShape(Circle())
+                    // .frame(width: 100, height: 100)
+                     .shadow(radius: 15)
+                     .frame(width: 150, height: 150)
+                     .redacted(reason: .placeholder)
+                     .blur(radius: condition ? 0.0 : 4.0)
+                     //.scaleEffect(condition ? 0.9 : 1.0)
+     
+                     .animation(Animation
+                                .easeInOut(duration: 3)
+                                 .repeatForever(autoreverses: true))
+                     .onAppear { condition = true }
+                
+                     
+                
+            }
+            
+        failure: {  error,retry in
+            
+            Image(systemName: "person.fill.questionmark")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .clipShape(Circle())
+                // .frame(width: 100, height: 100)
+                 .shadow(radius: 15)
+                 .frame(width: 150, height: 150)
+                 .redacted(reason: user.profile_image_url == nil ? .placeholder : [])
+                 .blur(radius: condition2 ? 4.0 : 0.0)
+                 //.scaleEffect(condition2 ? 0.8 : 1.0)
+                 //.animation(Animation
+                 //           .easeInOut(duration: 3)
+                  //           .repeatForever(autoreverses: true))
+                 .onAppear {  withAnimation(.easeIn(duration: 3).repeatForever(autoreverses: true)) {
+                     condition2 = true
+                 }  }
+        }
+        
+        
+        content: { image, info in
+                
+            
+            ZStack{
                 
                 
                 image
@@ -453,35 +741,89 @@ struct ProfilePopup: View {
                      .overlay(Circle().stroke(colors.randomElement() ?? .blue, lineWidth: 1))
                      .shadow(radius: 15)
                      .frame(width: 150, height: 150)
+                     .opacity(user.profile_image_url != nil ? 1: 0)
+                
+                Image(systemName: "person.circle.fill")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .clipShape(Circle())
+                    // .frame(width: 100, height: 100)
+                     .shadow(radius: 15)
+                     .frame(width: 150, height: 150)
+                     .redacted(reason: .placeholder)
+                     .blur(radius: condition ? 0.0 : 4.0)
+                     //.scaleEffect(condition ? 0.9 : 1.0)
+     
+                     .animation(Animation
+                                .easeInOut(duration: 1)
+                                .repeatForever(autoreverses: true))
+                     .opacity(user.profile_image_url == nil ? 1: 0)
+                     .onAppear { condition = true }
             }
-            
-            
-            
+            .confetti(isPresented: $showConfetti, animation: .fullWidthToDown, particles: [.arc, .heart, .star], duration: 3)
+            .confettiParticle(\.velocity, 300)
+            .confettiParticle(\.birthRate, 150)
+          //  .confettiParticle(\.velocityRange, 100)
+            //.confettiParticle(\.spin, 5)
         }
+        
+
+        
+
+    }
+        
     }
     
     /// Name of the user
     func nameView() -> some View {
        
-        Text("\(user.name ?? sampleNames.randomElement()!)")
-                    .font(.largeTitle)
-                     .bold()
-                     .frame(maxWidth : .infinity, alignment: .center)
-                    //.padding(.top)
-                    .foregroundColor(Color.primary.opacity(0.4))
-                    .modifier(FadeModifier(control: showProfilePopup))
+        ZStack {
+            
+            Text("\(user.name ?? "Name Not Found")")
+                        .font(.largeTitle)
+                         .bold()
+                         .frame(maxWidth : .infinity, alignment: .center)
+                        //.padding(.top)
+                        .foregroundColor(Color.primary.opacity(0.4))
+                        .modifier(FadeModifier(control: showProfilePopup))
+                        .redacted(reason: user.name == nil ? .placeholder : [])
+                        .blur(radius: condition ? 0.0 : 4.0)
+                        //.scaleEffect(condition ? 0.9 : 1.0)
+        
+                        .animation(Animation
+                                   .easeInOut(duration: 1)
+                                    .repeatForever(autoreverses: true))
+                        .onAppear { condition = true }
+                        .opacity(user.name == nil ? 1: 0)
+            
+            Text("\(user.name ?? "Name Not Found")")
+                        .font(.largeTitle)
+                         .bold()
+                         .frame(maxWidth : .infinity, alignment: .center)
+                        //.padding(.top)
+                        .foregroundColor(Color.primary.opacity(0.4))
+                        .modifier(FadeModifier(control: showProfilePopup))
+                        .opacity(user.name == nil ? 0: 1)
+                        //.scaleEffect(condition ? 0.9 : 1.0)
+        
+                       
+        }
+       
+                  
+                    
     }
     
     /// Soulmate, friend, enemy etc
     func classificationView() -> some View {
         
         // Classification
-    return Text( "\(sampleClassifications.randomElement()!)")
+        return Text( "\(user.synastry_classification ?? "Friends")")
                         .font(.callout)
                         .frame(maxWidth : .infinity, alignment: .center)
                         .foregroundColor(Color.primary.opacity(0.4))
                         .padding(.bottom)
                         .modifier(FadeModifier(control: showProfilePopup))
+                        .redacted(reason: .privacy)
                        // .shimmering(duration: 5, bounce: true)
     }
     
@@ -522,7 +864,7 @@ struct ProfilePopup: View {
             
            
         }
-        .opacity(user.isReal ?? true == true  ? 1 : 0)
+       // .opacity(user.isReal ?? true == true  ? 1 : 0)
     }
     
     func minusMenuButtonView() -> some View {
@@ -560,12 +902,14 @@ struct ProfilePopup: View {
                 
                
             }
-            .opacity(user.isReal ?? true == false  ? 1 : 0)
+            .opacity(0)
+        
+            //.opacity(user.isReal ?? true == false  ? 1 : 0)
     }
     
     /// View for the latin phrase that describes relationshio
     func latinPhraseView() -> some View {
-        Text("\(sampleLatinPhrases.randomElement()!)")
+        Text( "\(user.synastry_latin_phrase ?? "Amor Vincit Omnia")")
                             .font(.callout)
                             .frame(maxWidth : .infinity, alignment: .center)
                             .foregroundColor(Color.primary.opacity(0.4))
@@ -596,14 +940,19 @@ struct ProfilePopup: View {
                 
                 
                 
-            }.opacity( counterForConfetti > 0  ? 1: 0 )
+            }
+            .opacity(user.winkedAtMe ?? false  ? 1: 0)
+            .animation(.easeInOut, value: user.winkedAtMe)
             .zIndex(1)
             
           //  ConfettiCannon(counter: $counterForConfetti)
-            ConfettiCannon(counter: $counterForConfetti, num: 150, confettis: [.text("😉")], openingAngle: .degrees(0), closingAngle: .degrees(360), radius: 200)
+          //  ConfettiCannon(counter: $counterForConfetti, num: 150, confettis: [.text("😉")], openingAngle: .degrees(0), closingAngle: .degrees(360), radius: 200)
+            .confetti(isPresented: $showWinkConfetti, animation: .fullWidthToDown, particles: [.custom(UIImage(named: "ProfileView/wink")!)], duration: 3)
+            .confettiParticle(\.velocity, 300)
+            .confettiParticle(\.birthRate, 150)
             
             
-            
+           
             
 
             
@@ -815,6 +1164,7 @@ struct ProfilePopup: View {
         .frame(width: .infinity, height: 150)
         .tabViewStyle(.page)
         .padding(.top, -50)
+       
     }
     
     func tabViewForProgressCircles() -> some View {
@@ -829,12 +1179,13 @@ struct ProfilePopup: View {
             
         
         
-       return  TabView {
+        return  TabView(selection: $tagSelected) {
             
                 
             
                         
               // Synastry Score
+         
                         ProgressRing(progress: $synastryscore, axis: .top, clockwise: true, outerRingStyle: o_ringstyle, innerRingStyle: ringStyleFor(progress: "synastry")) { percent in
                             
                             
@@ -851,7 +1202,25 @@ struct ProfilePopup: View {
                             
                             
                         }
+                        .animation(.easeInOut(duration: 5))
                             .frame(width: 150, height: 150)
+                            //.offset(y: 35)
+                            
+                            .onAppear {
+                                
+                                AmareApp().delay(3) {
+                                    
+                                    withAnimation(.easeInOut(duration: 3)) {
+                                        synastryscore = RingProgress.percent(Double.random(in: 0...1))
+
+                                    }
+
+                                }
+                            }.tag(1)
+               
+           
+       
+                            
                           
                             
             
@@ -860,6 +1229,8 @@ struct ProfilePopup: View {
                         
          // Chemistry, Love, Sex
             HStack{
+                
+                
                         ProgressRing(progress: $chemistry, axis: .top, clockwise: true, outerRingStyle: o_ringstyle, innerRingStyle: ringStyleFor(progress: "chemistry")) { percent in
                             
                             
@@ -880,9 +1251,11 @@ struct ProfilePopup: View {
                             
                         }
                             .frame(width: 115, height: 115)
+                            .animation(.easeInOut(duration: 5))
+                           // .offset(y: 10)
                             .onAppear {
                                 
-                                withAnimation(.easeInOut(duration: 3)) {
+                                withAnimation(.easeInOut(duration: 15)) {
                                     chemistry = RingProgress.percent(Double.random(in: 0...1))
 
                                 }
@@ -909,6 +1282,8 @@ struct ProfilePopup: View {
                             
                         }
                             .frame(width: 115, height: 115)
+                            .animation(.easeInOut(duration: 5))
+                          //  .offset(y: 10)
                             .onAppear {
                                 
                                 withAnimation(.easeInOut(duration: 3)) {
@@ -937,6 +1312,8 @@ struct ProfilePopup: View {
                             
                         }
                             .frame(width: 115, height: 115)
+                            .animation(.easeInOut(duration: 5))
+                          //  .offset(y: 10)
                             .onAppear {
                                 
                                 withAnimation(.easeInOut(duration: 3)) {
@@ -945,7 +1322,7 @@ struct ProfilePopup: View {
                                 }
                             }
                             
-            }
+            }.tag(2)
                     
             Button(action: {
                 print("Tapped natal chart")
@@ -954,7 +1331,7 @@ struct ProfilePopup: View {
                 SmallNatalChartView()
                     .makeSmall(with: user.natal_chart)
                 
-            }
+            }.tag(3)
         
                
                     
@@ -963,8 +1340,45 @@ struct ProfilePopup: View {
                 .indexViewStyle(.page(backgroundDisplayMode: .interactive))
                 .frame(width: .infinity, height: 150)
                 .tabViewStyle(.page)
+            
+                
+               
     }
     
+   
+    
+    // Only show this if we've both winked at each other and check user defaults to make sure that we haven't done this recently. This does it for you.
+    func doShowConfetti()  {
+        
+        showConfetti.toggle()
+        
+            /*
+       var didShow =  UserDefaults.standard.bool(forKey: "showConfetti-\(user.id ?? "no id")")
+        
+        if !didShow{
+            
+            showConfetti.toggle()
+            UserDefaults.standard.set(true, forKey: "showConfetti-\(user.id ?? "no id")")
+        }
+             */
+        
+    }
+    
+    func doShowWinkConfetti()  {
+        
+        showWinkConfetti.toggle()
+        
+        /*
+       var didShow =  UserDefaults.standard.bool(forKey: "showWinkConfetti-\(user.id ?? "no id")")
+        
+        if !didShow{
+            
+            showWinkConfetti.toggle()
+            UserDefaults.standard.set(true, forKey: "showWinkConfetti-\(user.id ?? "no id")")
+        }
+        */
+        
+    }
 
     func ringStyleFor(progress: String ) -> RingStyle {
         
@@ -1016,4 +1430,100 @@ struct ProfilePopup_Previews: PreviewProvider {
     }
 }
 
+
+
+public enum RedactionReason {
+  case placeholder
+  case confidential
+  case blurred
+  case blurredLessIntense
+}
+
+
+struct Placeholder: ViewModifier {
+  func body(content: Content) -> some View {
+    content
+      .accessibility(label: Text("Placeholder"))
+      .opacity(0)
+      .overlay(
+        RoundedRectangle(cornerRadius: 2)
+          .fill(Color.black.opacity(0.1))
+          .padding(.vertical, 4.5)
+    )
+  }
+}
+
+struct Confidential: ViewModifier {
+  func body(content: Content) -> some View {
+    content
+      .accessibility(label: Text("Confidential"))
+      .overlay(Color.black)
+    
+  }
+}
+
+struct Blurred: ViewModifier {
+  func body(content: Content) -> some View {
+    content
+      .accessibility(label: Text("Blurred"))
+      .blur(radius: 10)
+  }
+    
+    
+}
+
+
+struct BlurredLessIntense: ViewModifier {
+  func body(content: Content) -> some View {
+    content
+      .accessibility(label: Text("Blurred"))
+      .blur(radius: 4)
+  }
+    
+    
+}
+
+
+struct Redactable: ViewModifier {
+  let reason: RedactionReason?
+
+  @ViewBuilder
+  func body(content: Content) -> some View {
+    switch reason {
+    case .placeholder:
+      content
+        .modifier(Placeholder())
+    case .confidential:
+      content
+        .modifier(Confidential())
+    case .blurred:
+      content
+        .modifier(Blurred())
+    case .blurredLessIntense:
+        content
+            .modifier(BlurredLessIntense())
+    case nil:
+      content
+    }
+  }
+}
+
+extension View {
+  func Redacted(reason: RedactionReason?) -> some View {
+    modifier(Redactable(reason: reason))
+  }
+}
+
+
+struct Shake: GeometryEffect {
+    var amount: CGFloat = 10
+    var shakesPerUnit = 3
+    var animatableData: CGFloat
+
+    func effectValue(size: CGSize) -> ProjectionTransform {
+        ProjectionTransform(CGAffineTransform(translationX:
+            amount * sin(animatableData * .pi * CGFloat(shakesPerUnit)),
+            y: 0))
+    }
+}
 

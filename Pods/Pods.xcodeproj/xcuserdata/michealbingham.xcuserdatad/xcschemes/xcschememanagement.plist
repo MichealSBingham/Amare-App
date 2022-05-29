@@ -34,11 +34,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>PushNotifications.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>TimeZoneLocate-TimeZoneLocate.xcscheme</key>
 		<dict>
 			<key>isShown</key>

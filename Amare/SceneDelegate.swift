@@ -10,17 +10,48 @@ import UIKit
 import NavigationStack
 import URLImage
 import URLImageStore
+import MultipeerKit
+import Firebase
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
     var account: Account = Account()
     
+    private lazy var transceiver: MultipeerTransceiver = {
+            var config = MultipeerConfiguration.default
+            config.serviceType = "Amare"
+
+            config.security.encryptionPreference = .required
+        
+            if let deviceID = UIDevice.current.identifierForVendor?.uuidString {
+            config.peerName = deviceID
+        }
+     
+            let t = MultipeerTransceiver(configuration: config)
+        
+            return t
+        }()
+
+    private lazy var dataSource: MultipeerDataSource = {
+        MultipeerDataSource(transceiver: transceiver)
+    }()
+    
+    
+   
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
         account.listen()
         
         let urlImageService = URLImageService(fileStore: nil, inMemoryStore: URLImageInMemoryStore())
+        
+        
+        
+       
+        transceiver.resume()
+        
+        
         
         
         if let windowScene = scene as? UIWindowScene {
@@ -30,7 +61,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let firstView = RootView()
                                     .environmentObject(self.account)
                                     .environment(\.urlImageService, urlImageService)
-                                    ////.environmentObject(NavigationModel())
+                                    .environmentObject(dataSource)
+                                    
 			///
 			window.overrideUserInterfaceStyle = .dark
                                         
@@ -43,7 +75,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
     }
     
-    
+    func sceneWillEnterForeground(_ scene: UIScene) {
+        
+        print("the account data is \(account.data)")
+        
+        if (account.data?.isComplete() ?? false) && account.isSignedIn {
+            print("!Just entered foreground ")
+        }
+
+    }
     
     
 func sceneDidEnterBackground(_ scene: UIScene) {
@@ -68,6 +108,7 @@ func sceneWillResignActive(_ scene: UIScene) {
     
 
 }
+    
     
 func sceneDidDisconnect(_ scene: UIScene) {
     /*

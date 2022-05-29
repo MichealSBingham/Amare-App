@@ -8,7 +8,17 @@
 import Foundation
 
 
-public struct NatalChart: Codable {
+public struct NatalChart: Codable, Equatable {
+    
+    
+    public static func == (lhs: NatalChart, rhs: NatalChart) -> Bool {
+        return lhs.angles == rhs.angles
+        && lhs.aspects == rhs.aspects
+        && lhs.birth_place == rhs.birth_place
+        && lhs.planets == rhs.planets
+        && lhs.houses == rhs.houses
+    }
+    
     
     /// An array of the 4 angles (Midheaven, Ascendant, Descendant, IC)
     var angles: [Angle]

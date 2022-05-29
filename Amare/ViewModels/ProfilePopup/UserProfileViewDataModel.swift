@@ -7,6 +7,7 @@
 
 import Foundation
 import Firebase
+import UIKit
 
 
 /// Class for view model of  a user shown on screen
@@ -53,6 +54,17 @@ class UserDataModel: ObservableObject{
         self.subscribeToWinkStatus(them: id)
         
     }
+    
+    /// Loads the current user // their natal chart, user data infromation, wink/friendship status
+    func load()  {
+
+        if let id = Auth.auth().currentUser?.uid {
+            self.subscribeToUserDataChanges(for: id)
+            self.subscribeToNatalChart(for: id)
+            self.subscribeToFriendshipStatus(them: id)
+            self.subscribeToWinkStatus(them: id)
+        }
+    }
    
     /// Subscribes to changes to the given user with `id`
     private func subscribeToUserDataChanges(for id: String? )  {
@@ -86,7 +98,31 @@ class UserDataModel: ObservableObject{
                     print("|***There was success grabbing user \(success) is complete: \(success?.isComplete())")
                     
                     
-                    if var data = success { data.id = id ; self.userData = data }
+                    if var data = success {
+                        
+                        data.id = id 
+                        
+                        print("!!!After setting data id is \(data.id)")
+                     
+                        // if we're loading the current user, download their profile image and save to cache
+                        if id == Auth.auth().currentUser?.uid {
+                            
+                            var image_ = data.downloadProfileImage()
+                            data.image = image_
+                            
+                            
+                            // Add device id to this
+                            if let deviceID = UIDevice.current.identifierForVendor?.uuidString {
+                                data.deviceID = deviceID
+                                print("!!! device id is \(data.deviceID)")
+                            }
+                        }
+                        self.userData = data
+                        
+                        print("!!!now, self.userdata is .. \(self.userData)")
+                        
+                        
+                    }
                     
                     
                     // check if the user data is complete
@@ -123,7 +159,7 @@ class UserDataModel: ObservableObject{
     private func subscribeToNatalChart(for id: String?, isOuterChart: Bool = false, completion: ( (_ err: Error?, _ natalChart: NatalChart?) -> Void)?  = nil )  {
         
         // // \\ \\ // \\ // \\ // \\ // \\ // \\ 
-        print("***Subscribing to user data changes \(id)")
+        print("***Subscribing to user data changes in natal \(id)")
         if let id = id{
             
             natalChartListener  =  db.collection("users").document(id).collection("public").document("natal_chart")

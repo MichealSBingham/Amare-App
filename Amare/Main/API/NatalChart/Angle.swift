@@ -9,7 +9,9 @@ import Foundation
 import SwiftUI
 
 /// One of 4 angles, Asc, Desc, Midheaven, and IC.
-struct Angle: Codable, Identifiable{
+struct Angle: Codable, Identifiable, Equatable{
+   
+    
     
     /// The name of the angle; i.e. Asc ("ascendant"),  MC ("midheaven") , etc
     let name: AngleName
@@ -34,6 +36,11 @@ struct Angle: Codable, Identifiable{
     
     var id: String { "\(name.rawValue)\(sign.rawValue)\(angle)" }
     var iconName: String { name.rawValue }
+    
+    
+    static func == (lhs: Angle, rhs: Angle) -> Bool {
+        return lhs.id == rhs.id 
+    }
     
     /// Will return the symbol of the planet
     /// The small version is just used so that it returns smaller characters if we use the smaller natal chart frame (like in the person pop up view_

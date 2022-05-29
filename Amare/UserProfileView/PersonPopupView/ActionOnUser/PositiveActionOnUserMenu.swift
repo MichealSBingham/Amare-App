@@ -7,12 +7,21 @@
 
 import SwiftUI
 import Firebase
+import SPIndicator
 /// This should be changed to a floating button soon one day this is just a rough draft of actions a user can each other
 struct PositiveActionOnUserMenu: View {
     
     @Binding var user: AmareUser
+    
+    // indicates if the user pressed wink at user so we can show the SP Indicator
+    @State var justWinked: Bool = false
+    @State var justUnwinked: Bool = false
+    @State var justAccepeted: Bool = false
+    @State var justRejected: Bool = false
+    @State var justSentRequest: Bool = false
    
     
+	@State var showNearbyUserScreen: Bool = false
     
     var body: some View {
         
@@ -268,9 +277,12 @@ struct PositiveActionOnUserMenu: View {
                                      if user.winkedTo ?? false  {
                                          // unwink
                                          Account.shared.unwink(at: id)
+                                         justUnwinked = true
                                      } else {
                                          
-                                         Account.shared.wink(at: id )
+                                         Account.shared.wink(at: id)
+                                         justWinked = true
+                                         
                                      }
                                     
                                  }
@@ -313,7 +325,8 @@ struct PositiveActionOnUserMenu: View {
                                 
                              
                              Button {
-                                 print("Approach?")
+								 showNearbyUserScreen.toggle()
+									 
                              } label: {
                                  
                                  Text("👀 Approach")
@@ -321,10 +334,22 @@ struct PositiveActionOnUserMenu: View {
                                       .bold()
                                      // .frame(maxWidth : .infinity, alignment: .center)
                                      //.padding(.top)
-                                     .foregroundColor(Color.primary.opacity(0.4))
+                                    .foregroundColor(Color.primary.opacity(0.4))
                                      .animation(.easeInOut)
                                      
-                             }.padding()
+                             }
+							
+							 .sheet(isPresented: $showNearbyUserScreen, content: {
+								 NavigationView{
+									 FindNearbyUserView(user: $user, blindMode: false)
+//										 .navigationTitle(Text("DateDar®"))
+										 
+								 }
+								 
+								
+							 })
+							 .padding()
+							
                                 
                              
                              Button {
@@ -364,13 +389,13 @@ struct PositiveActionOnUserMenu: View {
                                      .colorMultiply(.white)
                                      .animation(.easeInOut)
                                      .padding()
-                                 
+                                    
                              }
 
                              
                            
                          }
-                         
+						
                          }
                      
                      
@@ -381,10 +406,30 @@ struct PositiveActionOnUserMenu: View {
                 
                 
             }
-           
             
+			
             
         }
+		
+        
+		
+        .SPIndicator(isPresent: $justSentRequest, title: "Requested",  message: "Friend Request Sent", duration: 2.0, presentSide: .top, dismissByDrag: true, preset: .done, haptic: .success, layout: SPIndicatorLayout.init(iconSize: CGSize(width: 15, height: 15), margins: UIEdgeInsets.init(top: CGFloat(0), left: CGFloat(30), bottom: CGFloat(0), right: CGFloat(0))))
+        
+        .SPIndicator(isPresent: $justAccepeted, title: "Accepted",  message: "You're friends!", duration: 2.0, presentSide: .top, dismissByDrag: true, preset: .done, haptic: .success, layout: SPIndicatorLayout.init(iconSize: CGSize(width: 15, height: 15), margins: UIEdgeInsets.init(top: CGFloat(0), left: CGFloat(30), bottom: CGFloat(0), right: CGFloat(0))))
+        
+        .SPIndicator(isPresent: $justRejected, title: "Cancelled",  message: "Declined Friend", duration: 2.0, presentSide: .top, dismissByDrag: true, preset: .error, haptic: .error, layout: SPIndicatorLayout.init(iconSize: CGSize(width: 15, height: 15), margins: UIEdgeInsets.init(top: CGFloat(0), left: CGFloat(30), bottom: CGFloat(0), right: CGFloat(0))))
+        
+        .SPIndicator(isPresent: $justWinked, title: "Wink",  message: "You winked at them", duration: 2.0, presentSide: .top, dismissByDrag: true, preset:  .custom(UIImage(systemName: "heart")!.withTintColor(.systemPink)), haptic: .success, layout: SPIndicatorLayout.init(iconSize: CGSize(width: 15, height: 15), margins: UIEdgeInsets.init(top: CGFloat(0), left: CGFloat(30), bottom: CGFloat(0), right: CGFloat(0))))
+        
+        .SPIndicator(isPresent: $justUnwinked, title: "Oops",  message: "You unwinked at them", duration: 2.0, presentSide: .top, dismissByDrag: true, preset: .custom(UIImage(systemName: "heart.slash.circle")!.withTintColor(.systemPink)), haptic: .warning, layout: SPIndicatorLayout.init(iconSize: CGSize(width: 15, height: 15), margins: UIEdgeInsets.init(top: CGFloat(0), left: CGFloat(30), bottom: CGFloat(0), right: CGFloat(0))))
+        
+        
+        
+        
+        
+        
+        
+        
         //.padding()
         .background(.ultraThinMaterial)
         .foregroundColor(.pink)
@@ -392,9 +437,10 @@ struct PositiveActionOnUserMenu: View {
         .cornerRadius(20)
         .padding()
         
+        
     }
     
-    
+		
     
     /// Sends request to database to add a friend or cancel friend request
     func addFriend()  {
@@ -403,6 +449,8 @@ struct PositiveActionOnUserMenu: View {
             
             Account.shared.cancelFriendRequest(to: user.id) { error in
                 
+                guard error == nil else { return }
+                justRejected = true
                 print("The error after cancelling friend request is \(error)")
             }
             
@@ -411,6 +459,8 @@ struct PositiveActionOnUserMenu: View {
         
         Account.shared.sendFriendRequest(to: user.id) { error in
             
+            guard error == nil else {return }
+            justSentRequest = true
             print("The error after sending friend request is \(error)")
         }
     }
@@ -419,6 +469,10 @@ struct PositiveActionOnUserMenu: View {
     func acceptFriendRequest()  {
         
         Account.shared.acceptFriendRequest(from: user.id) { error in
+            guard error == nil else {
+                return
+            }
+            justAccepeted = true
             print("Accepting Friend Request with error \(error)")
         }
     }
@@ -426,8 +480,9 @@ struct PositiveActionOnUserMenu: View {
     
     func rejectFriendRequest()  {
         
-        Account.shared.acceptFriendRequest(from: user.id) { error in
-            print("Accepting Friend Request with error \(error)")
+        Account.shared.rejectFriendRequest(from: user.id) { error in
+            guard error == nil else {return }
+            justRejected = true
         }
         
     }
@@ -436,7 +491,12 @@ struct PositiveActionOnUserMenu: View {
         
         Account.shared.removeFriend(removedUserId: user.id) { error in
             
-            print("Removing Friend  with error \(error)")
+            guard error == nil else {return }
+            justRejected = true
+            
+            UserDefaults.standard.set(false, forKey: "showConfetti-\(user.id)")
+            UserDefaults.standard.set(false, forKey: "showWinkConfetti-\(user.id)")
+            
         }
     }
 }
