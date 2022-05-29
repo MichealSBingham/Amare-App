@@ -341,7 +341,7 @@ struct PositiveActionOnUserMenu: View {
 							
 							 .sheet(isPresented: $showNearbyUserScreen, content: {
 								 NavigationView{
-									 FindNearbyUserView(user: user, blindMode: false)
+									 FindNearbyUserView(user: $user, blindMode: false)
 //										 .navigationTitle(Text("DateDar®"))
 										 
 								 }

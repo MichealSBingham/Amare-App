@@ -14,7 +14,7 @@ import EasyFirebase
 
 struct FindNearbyUserView: View {
 	
-	let user: AmareUser
+	@Binding var user: AmareUser
 	
 	@StateObject  var dataModel: NearbyInteractionHelper = NearbyInteractionHelper()
 	
@@ -38,6 +38,7 @@ struct FindNearbyUserView: View {
 	
 	@State var moveToUpperRightCorner: Bool = false
 	
+	@State var metUser: Bool = false
 	let grayColor = #colorLiteral(red: 0.1652105868, green: 0.1652105868, blue: 0.1652105868, alpha: 1)
 
 	let defaultColor = #colorLiteral(red: 0.1140513036, green: 0.1181834653, blue: 0.1686092259, alpha: 1)
@@ -48,6 +49,9 @@ struct FindNearbyUserView: View {
 			
 			ZStack{
 				
+				Background(style: .fast)
+					.opacity(dataModel.isThere ? 1: 0)
+					.animation(.easeInOut, value: dataModel.isThere)
 				//MARK: - Loading Screen for Connecting
 				VStack{
 					
@@ -56,12 +60,16 @@ struct FindNearbyUserView: View {
 					ZStack{
 						
 						PulsingView()
+							.offset(x: moveToUpperRightCorner ? CGFloat(UIScreen.main.bounds.size.width/2) + CGFloat(70)  : CGFloat(0), y: moveToUpperRightCorner ? CGFloat(-425) - CGFloat(UIScreen.main.bounds.size.width/2)   : CGFloat(0))
+							.scaleEffect(moveToUpperRightCorner ? 0.5: 1)
 						
 						centerImage(connected: $dataModel.connected, profile_image_url: $otherUsersProfileImage, animationSpeed: $pulsingAnimationSpeed)
 							.offset(x: moveToUpperRightCorner ? CGFloat(UIScreen.main.bounds.size.width/2) + CGFloat(70)  : CGFloat(0), y: moveToUpperRightCorner ? CGFloat(-425) - CGFloat(UIScreen.main.bounds.size.width/2)   : CGFloat(0))
 							.scaleEffect(moveToUpperRightCorner ? 0.5: 1)
+							.brightness(!metUser ? 0: 1)
 							.alert(isPresented: $errorDetected) {
 							Alert(title: Text("Error"), message: Text(errorMessage))
+									
 						}
 							.onAppear {
 								//TODO: - Check if blind date mode
@@ -145,6 +153,7 @@ struct FindNearbyUserView: View {
 						.onChange(of: dataModel.connected) { connected in
 							if !connected{ withAnimation {
 								triggerBackgroundColorChange = defaultColor
+								moveToUpperRightCorner = false
 							}}
 						}
 						.onChange(of: dataModel.isMovingTowards) { isMovingTowards in
@@ -228,65 +237,40 @@ struct FindNearbyUserView: View {
 					
 				}
 				
+				Image(systemName: "arrow.up")
+					.resizable()
+					.frame(width: 150, height: 200)
+					.foregroundColor(.white)
+					.aspectRatio(contentMode: .fit)
+					.rotationEffect(.radians(Double(dataModel.direction ?? 0 )))
+					.opacity(dataModel.direction != nil && dataModel.connected && !dataModel.isThere ? 1: 0)
+					.animation(.easeIn, value: dataModel.direction)
+					.onChange(of: dataModel.isThere) { reachedOtherUser in
+						
+						if reachedOtherUser {
+							// made it to the other user
+							withAnimation{
+								
+								triggerBackgroundColorChange = .green
+								moveToUpperRightCorner = false
+								
+								// End the nearby stuff
+								//showProfile = true
+								metUser = true
+								dataModel.stopListeningForPeerToken()
+								
+								
+							}
+						}
+					}
+				
+				
+				
 		
 				
-				
-				
-				//MARK: - Connected to another user
-		/*		VStack{
-					
-					HStack {
-						Spacer()
-						Text("Profile Image here")
-					}
-					
-					
-					ZStack{
-						// If no direction is detected
-						
-						
-						
-						
-						// If direcgtion is detected show arrow
-					}
-					
-					/*
-					HStack{
-						
-						//Text("Distance Away: ")
-						Text(String(format: "%0.2f m %0.2f degrees", Double(dataModel.trueDistance ?? 0), Double(dataModel.direction ?? 0)))
-				
-						
-						
-						//Text("Meters")
-					}
-					.padding()
-						
-					
-				
-					
-					
-					
-					
-					
-					Image(systemName: "arrow.up")
-						.resizable()
-						.frame(width: 150, height: 200)
-						.aspectRatio(contentMode: .fit)
-						.rotationEffect(.radians(Double(dataModel.direction ?? 0 )))
-						.animation(.easeIn, value: dataModel.direction)
-						//.colorMultiply(dataModel.isMovingTowards != nil  ? (dataModel.isMovingTowards == true ? Color.green: Color.red) : Color.clear )
-						//.background(dataModel.isMovingTowards != nil  ? (dataModel.isMovingTowards == true ? Color.green: Color.red) : Color.clear )
-					
-					
-					*/
-				}
-				.opacity(!dataModel.connected   ? 0: 1)
-			//	.opacity(1)
-				
-			*/
-				
 			}
+		
+			.brightness(!metUser ? 0: -0.5)
 			.navigationTitle(Text(dataModel.connected ? "\(user.name ?? "")" : "DateDar®"))
 			.preferredColorScheme(.dark)
 			.foregroundColor(.gray)
@@ -621,7 +605,7 @@ struct centerImage: View {
 			ProfileImageView(profile_image_url: $profile_image_url, size: profileImageSize)
 				.opacity(showOtherImage ? 1: 0 )
 			
-			//BROKENnnn
+			//BROKEN .. Originally was going to use this to get the coordinate of the upper right corner but GeometryReader fucks things up
 			/*
 			VStack {
 				
@@ -709,8 +693,10 @@ struct FindNearbyUserView_Previews: PreviewProvider {
 		var helper = NearbyInteractionHelper()
 		
 		let example = AmareUser(id: "3432", name: "Micheal")
-		FindNearbyUserView(user: example, dataModel: helper, blindMode: false).onAppear {
+		FindNearbyUserView(user: .constant(example), dataModel: helper, blindMode: false).onAppear {
 			helper.connected = true
+			helper.isFacing = true
+			helper.direction = 0
 		}
 			
 		
@@ -729,8 +715,9 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 	
 	// MARK: - Distance and direction state.
 	// A threshold, in meters, the app uses to update its display.
-	let nearbyDistanceThreshold: Float = 0.3
-	let facingAngleThreshold: Float = 15
+	let nearbyDistanceThreshold: Float = 0.1
+	//TODO: - This threshold should depend on how far you are away; should be computed
+	let facingAngleThreshold: Float = 5
 	var firstDistanceReading: Float?
 	enum DistanceDirectionState {
 		case closeUpInFOV, notCloseUpInFOV, outOfFOV, unknown
@@ -891,6 +878,16 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 	/// Whether or not user is facing the user. If cannot determine, this is nil.
 	@Published var isFacing: Bool?
 	
+	// Whether or not the user has reached the other user
+	 var isThere: Bool {
+		
+		 if let distanceAway = self.distanceAway, let isFacing = self.isFacing {
+			
+			 return distanceAway.isLessThanOrEqualTo(1) && isFacing
+		}
+		 
+		 return false
+	}
 
 	//MARK: - Device Orientation
 	
@@ -1015,6 +1012,7 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 		EasyFirestore.Listening.stop("discoveryToken")
 		removeToken()
 		stopListeningForOrientationChange()
+		
 	}
 	
 	/// Removes the token I sent to them (the current signed in user)
