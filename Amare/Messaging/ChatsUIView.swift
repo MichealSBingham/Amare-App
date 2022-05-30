@@ -15,17 +15,41 @@ var testUser = AmareUser(id: "23", name: "Jane Smith", profile_image_url: mockPr
 /// View for the message threads
 struct ChatsUIView: View {
 	
+	@StateObject var threads =  ChatsUIMessageThreadsModel()
+	
+	
+	var test_mode: Bool = false
 	
     var body: some View {
+		
 		VStack{
-
+			
+			ChatsUIHeaderView()
+			
+			List($threads.messageThreads){ $message in
+				MessageThreadView(thread: $message, me_for_testing: message.members.first!, them_for_testing: message.members.last!, test_mode: test_mode)
+					
+				
+				
+			}
+			.listStyle(.plain)
+			.ignoresSafeArea()
+			
+			
 		}
+		
     }
 }
 
 struct ChatsUIView_Previews: PreviewProvider {
     static var previews: some View {
-        ChatsUIView()
+		var chats = ChatsUIMessageThreadsModel()
+		ChatsUIView(threads: chats, test_mode: true)
+			.preferredColorScheme(.dark)
+			.onAppear {
+				chats.loadRandomThreads()
+			}
+			
     }
 }
 
@@ -101,6 +125,15 @@ class ChatsUIMessageThreadsModel: ObservableObject{
 	
 	//TODO: - detach  listener
 	func detachSingleMessageThreadListener(id: String)   {
+		
+	}
+	
+	func loadRandomThreads() {
+		
+		for i in 0...20{
+			var randThread = MessageThread.randomThread()
+			messageThreads.append(randThread)
+		}
 		
 	}
 	

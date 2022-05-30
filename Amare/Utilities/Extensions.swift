@@ -161,6 +161,15 @@ extension Date {
         // 4) Finally, create a date using the seconds offset since 1970 for the local date.
         return Date(timeIntervalSince1970: timezoneEpochOffset)
     }
+	
+	/// Random Date in range 
+	static func random(in range: Range<Date>) -> Date {
+		Date(
+			timeIntervalSinceNow: .random(
+				in: range.lowerBound.timeIntervalSinceNow...range.upperBound.timeIntervalSinceNow
+			)
+		)
+	}
     
 }
 

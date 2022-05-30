@@ -17,8 +17,24 @@ struct MessageBubbleView: View {
 	/// Status of message: delivered, read, etc
 	@State private var showMessageStatus: Bool = false
 	
+	
+	//MARK: - ONLY for test purposees
+/// Default false. Only set to true for preview
+	 var testMode: Bool = false
+	/// Helps preview understand if this is a sent or received messsage, should be nil in production
+	 var me: AmareUser?
+	/// Helps preview understand if this is a sent or received messsage, should be nil in production
+
+	 var them: AmareUser?
+	
+	
 	/// Returns if this message was sent by the current signed in user or not
 	 var sentMessage: Bool {
+		 
+		 guard !testMode else {
+			 
+			 return message.sentBy.id == me?.id ?? "" 
+		 }
 		
 		return message.sentBy.id == Auth.auth().currentUser?.uid ?? ""
 	}
@@ -81,7 +97,7 @@ struct MessageBubbleView: View {
 					
 					.padding()
 					.background(!sentMessage ? AnyView(Background()) : AnyView(Background().colorInvert()))
-					//.grayscale(sentMessage ? 0.8 : 0 )
+					.grayscale(sentMessage ? 1 : 0 )
 					
 					.foregroundColor(.white)
 					.foregroundStyle(.ultraThinMaterial)

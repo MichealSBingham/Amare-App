@@ -110,13 +110,15 @@ struct ProfileImageView: View {
 				
 				image
 					.resizable()
+					.scaledToFit()
+					.frame(width: size, height: size)
 					.aspectRatio(contentMode: .fit)
 					.clipShape(Circle())
 					.foregroundColor(.white)
 					 .overlay(Circle().stroke(colors.randomElement() ?? .blue, lineWidth: 1))
 					 .shadow(radius: 15)
-					 .frame(width: size, height: size)
 					 .opacity(profile_image_url != nil ? 1: 0)
+					 
 				
 				/*
 				Image(systemName: "person.circle.fill")

@@ -26,10 +26,20 @@ public struct MessageThread: Codable, Equatable, Hashable, Identifiable{
 	// If a group, will be the thumbnail image group sets, otherwise should be the other url image
 	var thumbnailURL: String?
 	
-	/// Will be the group name or the other person
-	var name: String
+	/// Will be the group name.
+	var name: String?
 	
 	var lastMessage: Message?
+	
+	/// If a two-way chat, this will return the user that is *Not* the current signed in user
+	var otherUser: AmareUser? {
+		
+		guard type == .twoWay else { return nil }
+		
+		guard let me = Auth.auth().currentUser?.uid else { return nil }
+		
+		return members.first(where: {$0.id == me})
+	}
 	
 	enum CodingKeys: String, CodingKey {
 		case createdAt
@@ -48,6 +58,23 @@ public struct MessageThread: Codable, Equatable, Hashable, Identifiable{
 	
 	public func hash(into hasher: inout Hasher) {
 		hasher.combine(id)
+	}
+	
+	static func randomThread(with me: AmareUser = AmareUser.random(), and them: AmareUser = AmareUser.random()) -> MessageThread {
+		
+		
+		var createdDate = Date.random(in: Date().dateFor(years: -1) ..< Date().getDateFor(days: -3)!)
+		var members = [me, them]
+		
+		var thumbnail = them.profile_image_url
+		var name = them.name!
+		
+		var lastMessage = Message.random(with: me, and: them)
+		
+		var lastModifiedDate = Date.random(in: createdDate ..< Date())
+		
+		
+		return MessageThread(id: UUID().uuidString, createdAt: createdDate, members: members, lastModified: lastModifiedDate, type: .twoWay, thumbnailURL: thumbnail, name: name, lastMessage: lastMessage)
 	}
 	
 }

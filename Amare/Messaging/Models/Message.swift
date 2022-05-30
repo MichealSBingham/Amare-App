@@ -10,6 +10,7 @@ import Foundation
 import Firebase
 import FirebaseFirestore
 import FirebaseFirestoreSwift
+import LoremSwiftum
 
 public struct Message: Codable, Equatable, Hashable, Identifiable {
 	@DocumentID public var id: String?
@@ -45,7 +46,70 @@ public struct Message: Codable, Equatable, Hashable, Identifiable {
 	}
 	
 	
-	static func random() -> Message?{
+	/// Generates a random message. Only useful for 2-way conversations though.
+	static func random(with me: AmareUser, and them: AmareUser) -> Message?{
+	
+		
+
+	
+		
+		
+	
+		
+		let type = MessageType.twoWay
+		
+		let text = Lorem.sentences(1...10)
+		
+		let sent_by = [me, them].randomElement()!
+		
+		
+		var now = Date()
+		var past = now.getDateFor(days: -1)!
+		
+		var dateSent  = Date.random(in: past ..< now)
+		var dateRead = Date()
+		
+		var readBy: [AmareUser] = []
+		
+		
+		
+		dateRead = Date.random(in: dateSent ..< now )
+		
+		// If I sent the message
+		if sent_by.id == me.id {
+			//d
+			
+			readBy.append(me)
+			
+			
+		} else {
+			
+			readBy.append(them)
+			
+		}
+		
+		return Message(id: UUID().uuidString, text: text, sentBy: sent_by, sentAt: dateSent, readBy: readBy, ignoredBy: [], tooBusyToReply: [], readWhen: dateRead, type: type, lastMessage: false)
+		
+		
+		
+		
+
+		
+		
+		
 		return nil 
 	}
+	
+	static func randomTwoWayConservation(with me: AmareUser, and them: AmareUser, number : Int = 20 ) -> [Message]{
+	
+		
+		var messages: [Message] = []
+		
+		for _ in 1...number {
+			messages.append(Message.random(with: me, and: them)!)
+		}
+		return messages
+	}
+	
+	
 }

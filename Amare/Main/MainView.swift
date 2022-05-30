@@ -46,7 +46,7 @@ struct MainView: View {
             
                 Scanner()
                 .tag(3)
-                Chats()
+               ChatsUIView()
                 .tag(4)
                 Perferences()
                 .tag(5)

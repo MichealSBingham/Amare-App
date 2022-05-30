@@ -55,6 +55,9 @@
 		2662ED2C284424F700B0EA57 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2662ED2B284424F700B0EA57 /* Message.swift */; };
 		2662ED2E28443C9700B0EA57 /* MessageBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2662ED2D28443C9700B0EA57 /* MessageBubbleView.swift */; };
 		2662ED302844637A00B0EA57 /* ConversationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2662ED2F2844637A00B0EA57 /* ConversationView.swift */; };
+		2662ED332845161C00B0EA57 /* LoremSwiftum in Frameworks */ = {isa = PBXBuildFile; productRef = 2662ED322845161C00B0EA57 /* LoremSwiftum */; };
+		2662ED352845555F00B0EA57 /* ChatsUIHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2662ED342845555E00B0EA57 /* ChatsUIHeaderView.swift */; };
+		2662ED3728455A8800B0EA57 /* MessageThreadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2662ED3628455A8800B0EA57 /* MessageThreadView.swift */; };
 		2669A62C2705488000B3C87C /* MainPlacementsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2669A62B2705488000B3C87C /* MainPlacementsView.swift */; };
 		266C61FB26F14A1D00A34374 /* SelectLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266C61FA26F14A1D00A34374 /* SelectLocation.swift */; };
 		26744A7E26F7E679008E1733 /* SelectLocationForResidenceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26744A7D26F7E679008E1733 /* SelectLocationForResidenceView.swift */; };
@@ -177,6 +180,8 @@
 		2662ED2B284424F700B0EA57 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		2662ED2D28443C9700B0EA57 /* MessageBubbleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBubbleView.swift; sourceTree = "<group>"; };
 		2662ED2F2844637A00B0EA57 /* ConversationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationView.swift; sourceTree = "<group>"; };
+		2662ED342845555E00B0EA57 /* ChatsUIHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsUIHeaderView.swift; sourceTree = "<group>"; };
+		2662ED3628455A8800B0EA57 /* MessageThreadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageThreadView.swift; sourceTree = "<group>"; };
 		2669A62B2705488000B3C87C /* MainPlacementsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPlacementsView.swift; sourceTree = "<group>"; };
 		266C61FA26F14A1D00A34374 /* SelectLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLocation.swift; sourceTree = "<group>"; };
 		26744A7D26F7E679008E1733 /* SelectLocationForResidenceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLocationForResidenceView.swift; sourceTree = "<group>"; };
@@ -277,6 +282,7 @@
 				2603B0BD28380141003ED2AB /* URLImageStore in Frameworks */,
 				2696FAC428381EB200584768 /* SkeletonUI in Frameworks */,
 				2696FABB28381CFD00584768 /* Shimmer in Frameworks */,
+				2662ED332845161C00B0EA57 /* LoremSwiftum in Frameworks */,
 				263FBDD428393B54008F35C5 /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -388,6 +394,8 @@
 			children = (
 				2662ED1F2843E35900B0EA57 /* TitleRowForMessagingView.swift */,
 				2662ED2D28443C9700B0EA57 /* MessageBubbleView.swift */,
+				2662ED342845555E00B0EA57 /* ChatsUIHeaderView.swift */,
+				2662ED3628455A8800B0EA57 /* MessageThreadView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -726,6 +734,7 @@
 				263FBDD928393B54008F35C5 /* FirebaseFirestoreSwift-Beta */,
 				263FBDDB28393B54008F35C5 /* FirebaseStorage */,
 				263FBDDD28393B54008F35C5 /* FirebaseStorageSwift-Beta */,
+				2662ED322845161C00B0EA57 /* LoremSwiftum */,
 			);
 			productName = Love;
 			productReference = 26B1AFD22678FFE500A170B3 /* Amare.app */;
@@ -817,6 +826,7 @@
 				2696FADF2838327F00584768 /* XCRemoteSwiftPackageReference "MultipeerKit" */,
 				263FBDCF28393ACB008F35C5 /* XCRemoteSwiftPackageReference "easy-firebase" */,
 				263FBDD228393B54008F35C5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				2662ED312845161A00B0EA57 /* XCRemoteSwiftPackageReference "LoremSwiftum" */,
 			);
 			productRefGroup = 26B1AFD32678FFE500A170B3 /* Products */;
 			projectDirPath = "";
@@ -1005,6 +1015,7 @@
 			files = (
 				26DE210C26C5963A0004B5CE /* SettingsView.swift in Sources */,
 				26B1AFDF2678FFE700A170B3 /* Persistence.swift in Sources */,
+				2662ED3728455A8800B0EA57 /* MessageThreadView.swift in Sources */,
 				2694935626D1DB3600C7AD72 /* Angle.swift in Sources */,
 				26EDBB8D26AA7CE2005C1033 /* VerificationCodeView2.swift in Sources */,
 				26876A8C26E425EC00683CD6 /* NatalChartView.swift in Sources */,
@@ -1056,6 +1067,7 @@
 				26B1AFD62678FFE500A170B3 /* AmareApp.swift in Sources */,
 				266C61FB26F14A1D00A34374 /* SelectLocation.swift in Sources */,
 				26336035270912B500EEC1B3 /* MoreInfoScratchView.swift in Sources */,
+				2662ED352845555F00B0EA57 /* ChatsUIHeaderView.swift in Sources */,
 				263D6F9426829F2200CBBECC /*  [Deprecated]RV.swift in Sources */,
 				2608CF4C2695136F00826FDA /* EnterGenderView.swift in Sources */,
 				2676E004270A07E90014610B /* MoreInfoOnGenericPlanet.swift in Sources */,
@@ -1483,6 +1495,14 @@
 				minimumVersion = 8.0.0;
 			};
 		};
+		2662ED312845161A00B0EA57 /* XCRemoteSwiftPackageReference "LoremSwiftum" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/lukaskubanek/LoremSwiftum";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		2696FAB328380D1500584768 /* XCRemoteSwiftPackageReference "swiftui-navigation-stack" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/matteopuc/swiftui-navigation-stack";
@@ -1609,6 +1629,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 263FBDD228393B54008F35C5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = "FirebaseStorageSwift-Beta";
+		};
+		2662ED322845161C00B0EA57 /* LoremSwiftum */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2662ED312845161A00B0EA57 /* XCRemoteSwiftPackageReference "LoremSwiftum" */;
+			productName = LoremSwiftum;
 		};
 		2696FAB428380D1500584768 /* NavigationStack */ = {
 			isa = XCSwiftPackageProductDependency;
