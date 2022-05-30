@@ -10,7 +10,13 @@ import SwiftUI
 import Firebase
 
 
-
+extension Date {
+	func timeAgoDisplay() -> String {
+		let formatter = RelativeDateTimeFormatter()
+		formatter.unitsStyle = .full
+		return formatter.localizedString(for: self, relativeTo: Date())
+	}
+}
 
 
 /// Gets the Verification ID from signing in the phone number

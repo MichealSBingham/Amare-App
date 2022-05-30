@@ -12,7 +12,7 @@ import URLImage
 // Profile Image for NearbyUser, making this a button in case it can be useful somehow
 struct ProfileImageView: View {
 	
-	@Binding var profile_image_url: String?
+	/*@Binding*/ var profile_image_url: String?
 	var size: CGFloat = CGFloat(150)
 	
 	@State var condition: Bool = false
@@ -142,7 +142,7 @@ struct ProfileImageView: View {
 
 struct ProfileImageView_Previews: PreviewProvider {
     static var previews: some View {
-		ProfileImageView(profile_image_url: .constant(nil))
+		ProfileImageView(profile_image_url: mockProfileImageURL)
 			.preferredColorScheme(.dark)
     }
 }

@@ -602,7 +602,7 @@ struct centerImage: View {
 					//.animation(animation)
 					
 			
-			ProfileImageView(profile_image_url: $profile_image_url, size: profileImageSize)
+			ProfileImageView(profile_image_url: profile_image_url, size: profileImageSize)
 				.opacity(showOtherImage ? 1: 0 )
 			
 			//BROKEN .. Originally was going to use this to get the coordinate of the upper right corner but GeometryReader fucks things up
@@ -717,8 +717,9 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 	// A threshold, in meters, the app uses to update its display.
 	let nearbyDistanceThreshold: Float = 0.1
 	//TODO: - This threshold should depend on how far you are away; should be computed
-	let facingAngleThreshold: Float = 5
+	let facingAngleThreshold: Float =  5
 	var firstDistanceReading: Float?
+	let thresholdForNearby: Float = 1
 	enum DistanceDirectionState {
 		case closeUpInFOV, notCloseUpInFOV, outOfFOV, unknown
 	}
@@ -881,9 +882,9 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 	// Whether or not the user has reached the other user
 	 var isThere: Bool {
 		
-		 if let distanceAway = self.distanceAway, let isFacing = self.isFacing {
+		 if let distanceAway = self.trueDistance , let isFacing = self.isFacing {
 			
-			 return distanceAway.isLessThanOrEqualTo(1) && isFacing
+			 return distanceAway.isLessThanOrEqualTo(thresholdForNearby) && isFacing
 		}
 		 
 		 return false

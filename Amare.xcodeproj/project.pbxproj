@@ -49,6 +49,12 @@
 		2662ED1A2842D17600B0EA57 /* FindNearbyUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2662ED162842D17600B0EA57 /* FindNearbyUserView.swift */; };
 		2662ED1B2842D17600B0EA57 /* ProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2662ED182842D17600B0EA57 /* ProfileImageView.swift */; };
 		2662ED1C2842D17600B0EA57 /* PulsingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2662ED192842D17600B0EA57 /* PulsingView.swift */; };
+		2662ED202843E35A00B0EA57 /* TitleRowForMessagingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2662ED1F2843E35900B0EA57 /* TitleRowForMessagingView.swift */; };
+		2662ED282844012800B0EA57 /* MessageThread.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2662ED272844012800B0EA57 /* MessageThread.swift */; };
+		2662ED2A2844079900B0EA57 /* ChatsUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2662ED292844079900B0EA57 /* ChatsUIView.swift */; };
+		2662ED2C284424F700B0EA57 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2662ED2B284424F700B0EA57 /* Message.swift */; };
+		2662ED2E28443C9700B0EA57 /* MessageBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2662ED2D28443C9700B0EA57 /* MessageBubbleView.swift */; };
+		2662ED302844637A00B0EA57 /* ConversationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2662ED2F2844637A00B0EA57 /* ConversationView.swift */; };
 		2669A62C2705488000B3C87C /* MainPlacementsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2669A62B2705488000B3C87C /* MainPlacementsView.swift */; };
 		266C61FB26F14A1D00A34374 /* SelectLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266C61FA26F14A1D00A34374 /* SelectLocation.swift */; };
 		26744A7E26F7E679008E1733 /* SelectLocationForResidenceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26744A7D26F7E679008E1733 /* SelectLocationForResidenceView.swift */; };
@@ -165,6 +171,12 @@
 		2662ED162842D17600B0EA57 /* FindNearbyUserView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindNearbyUserView.swift; sourceTree = "<group>"; };
 		2662ED182842D17600B0EA57 /* ProfileImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileImageView.swift; sourceTree = "<group>"; };
 		2662ED192842D17600B0EA57 /* PulsingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PulsingView.swift; sourceTree = "<group>"; };
+		2662ED1F2843E35900B0EA57 /* TitleRowForMessagingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleRowForMessagingView.swift; sourceTree = "<group>"; };
+		2662ED272844012800B0EA57 /* MessageThread.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageThread.swift; sourceTree = "<group>"; };
+		2662ED292844079900B0EA57 /* ChatsUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsUIView.swift; sourceTree = "<group>"; };
+		2662ED2B284424F700B0EA57 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		2662ED2D28443C9700B0EA57 /* MessageBubbleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBubbleView.swift; sourceTree = "<group>"; };
+		2662ED2F2844637A00B0EA57 /* ConversationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationView.swift; sourceTree = "<group>"; };
 		2669A62B2705488000B3C87C /* MainPlacementsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPlacementsView.swift; sourceTree = "<group>"; };
 		266C61FA26F14A1D00A34374 /* SelectLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLocation.swift; sourceTree = "<group>"; };
 		26744A7D26F7E679008E1733 /* SelectLocationForResidenceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLocationForResidenceView.swift; sourceTree = "<group>"; };
@@ -360,6 +372,35 @@
 			path = CustomSubViews;
 			sourceTree = "<group>";
 		};
+		2662ED1D2843E30500B0EA57 /* Messaging */ = {
+			isa = PBXGroup;
+			children = (
+				2662ED212843FB4A00B0EA57 /* Models */,
+				2662ED1E2843E32E00B0EA57 /* Components */,
+				2662ED292844079900B0EA57 /* ChatsUIView.swift */,
+				2662ED2F2844637A00B0EA57 /* ConversationView.swift */,
+			);
+			path = Messaging;
+			sourceTree = "<group>";
+		};
+		2662ED1E2843E32E00B0EA57 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				2662ED1F2843E35900B0EA57 /* TitleRowForMessagingView.swift */,
+				2662ED2D28443C9700B0EA57 /* MessageBubbleView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		2662ED212843FB4A00B0EA57 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				2662ED272844012800B0EA57 /* MessageThread.swift */,
+				2662ED2B284424F700B0EA57 /* Message.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		2669A62D27054B0100B3C87C /* PersonPopupView */ = {
 			isa = PBXGroup;
 			children = (
@@ -473,6 +514,7 @@
 		26B1AFD42678FFE500A170B3 /* Amare */ = {
 			isa = PBXGroup;
 			children = (
+				2662ED1D2843E30500B0EA57 /* Messaging */,
 				2662ED152842D17600B0EA57 /* NearbyUsers */,
 				26007F012795A6AE00B0E7C7 /* UserProfileView */,
 				26876A8A26E425CC00683CD6 /* CustomChartViews */,
@@ -974,6 +1016,7 @@
 				26B66A9026EB9476001EAA80 /* House.swift in Sources */,
 				2608CF46268FE27300826FDA /* ImagePickerView.swift in Sources */,
 				2608CF532697C9D600826FDA /* SystemErrors.swift in Sources */,
+				2662ED302844637A00B0EA57 /* ConversationView.swift in Sources */,
 				2662ED1C2842D17600B0EA57 /* PulsingView.swift in Sources */,
 				263D6F9A2684087300CBBECC /* AmareUser.swift in Sources */,
 				26333AF627B97160005149C9 /* MoreInfoOnPlanetViewModel.swift in Sources */,
@@ -981,6 +1024,7 @@
 				26B6079D26C021C900CE8491 /* SignInOrUpView.swift in Sources */,
 				2669A62C2705488000B3C87C /* MainPlacementsView.swift in Sources */,
 				26B6079826BF60EF00CE8491 /* RootView.swift in Sources */,
+				2662ED2E28443C9700B0EA57 /* MessageBubbleView.swift in Sources */,
 				2608CF4A2695131F00826FDA /* PickAttractivePeopleView.swift in Sources */,
 				26007F032795A91F00B0E7C7 /* UserProfileView.swift in Sources */,
 				26B1B011267C28E000A170B3 /* Extensions.swift in Sources */,
@@ -1005,6 +1049,7 @@
 				26DE210626C593070004B5CE /* ScannerView.swift in Sources */,
 				26D001A5279248F5005E99A1 /* MainViewModel.swift in Sources */,
 				268F717D2715C3F6002C3010 /* MoreInfoOnAspectView.swift in Sources */,
+				2662ED202843E35A00B0EA57 /* TitleRowForMessagingView.swift in Sources */,
 				2606C0C0270614E300D333B4 /* SmallNatalChartView.swift in Sources */,
 				26F9205F26A760E500A4F8C6 /* Animations.swift in Sources */,
 				2609E3C52798A30000B4805E /* TestView.swift in Sources */,
@@ -1018,6 +1063,7 @@
 				26DE210E26C596450004B5CE /* HomeGlobeView.swift in Sources */,
 				26A86D10271E324D009054B8 /* SearchOtherUsersView.swift in Sources */,
 				269A1E2C270CB1FB008F4A0F /* MoreInfoOnPlanetView.swift in Sources */,
+				2662ED2A2844079900B0EA57 /* ChatsUIView.swift in Sources */,
 				2694935A26D1FD1F00C7AD72 /* Element.swift in Sources */,
 				26748CC22707A01500B5D338 /* ProfilePopup.swift in Sources */,
 				26B1AFE22678FFE700A170B3 /* Love.xcdatamodeld in Sources */,
@@ -1031,10 +1077,12 @@
 				26DE210826C595B50004B5CE /* ChartView.swift in Sources */,
 				26DE210326C590480004B5CE /* MainView.swift in Sources */,
 				26744A7E26F7E679008E1733 /* SelectLocationForResidenceView.swift in Sources */,
+				2662ED282844012800B0EA57 /* MessageThread.swift in Sources */,
 				263FBDE0283BE4B4008F35C5 /* MathUtilities.swift in Sources */,
 				26BBF095267EBBEF00C84019 /* EnterNameView.swift in Sources */,
 				2633A13D279E20C300839581 /* TestView2.swift in Sources */,
 				2662ED1B2842D17600B0EA57 /* ProfileImageView.swift in Sources */,
+				2662ED2C284424F700B0EA57 /* Message.swift in Sources */,
 				26AF20E626CF458E00D99F36 /* EnterPhoneNumberView2.swift in Sources */,
 				2608CF44268FDE9700826FDA /* ImageUploadView.swift in Sources */,
 			);
