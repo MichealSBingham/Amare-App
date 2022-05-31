@@ -22,22 +22,37 @@ struct ChatsUIView: View {
 	
     var body: some View {
 		
-		VStack{
-			
-			ChatsUIHeaderView()
-			
-			List($threads.messageThreads){ $message in
-				MessageThreadView(thread: $message, me_for_testing: message.members.first!, them_for_testing: message.members.last!, test_mode: test_mode)
+		NavigationView{
+			//VStack{
+				
+				//ChatsUIHeaderView()
 					
 				
+				List($threads.messageThreads){ $message in
+					MessageThreadView(thread: $message, me_for_testing: message.members.first!, them_for_testing: message.members.last!, test_mode: test_mode)
+						.onTapGesture {
+							
+							
+						}
+					
+					
+					
+					
+				}
+				.navigationTitle(Text("DMs"))
+			
+			
+				//.listStyle(.sidebar)
+				.listStyle(.plain)
+			
+				//.ignoresSafeArea()
 				
-			}
-			.listStyle(.plain)
-			.ignoresSafeArea()
-			
-			
+				
+			//}
 		}
-		
+		.onAppear {
+			threads.loadRandomThreads()
+		}
     }
 }
 
@@ -75,7 +90,8 @@ class ChatsUIMessageThreadsModel: ObservableObject{
 				
 				guard let messageThreadDocuments = snapshot?.documents else { self.error = error; return }
 				
-				for thread in messageThreadDocuments{
+				//TODO: just return them sorted in the query
+				for thread in messageThreadDocuments {
 					
 					self.listenToSingleMessageThread(id: thread.documentID)
 				
@@ -130,10 +146,16 @@ class ChatsUIMessageThreadsModel: ObservableObject{
 	
 	func loadRandomThreads() {
 		
+		var messages: [MessageThread] = []
+		
+		
 		for i in 0...20{
 			var randThread = MessageThread.randomThread()
-			messageThreads.append(randThread)
+			messages.append(randThread)
 		}
+		messages.sort()
+
+		messageThreads = messages.reversed()
 		
 	}
 	

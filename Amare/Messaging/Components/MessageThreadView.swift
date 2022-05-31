@@ -19,6 +19,9 @@ struct MessageThreadView: View {
 	var them_for_testing: AmareUser? = nil
 	var test_mode: Bool = false
 	
+	@State var beginProfilePicAnimation: Bool = false
+	
+	@State var animationSpeed: SpeedOfAnimation = .slow
 	
 	
 	//TODO: - Group messages
@@ -54,16 +57,113 @@ struct MessageThreadView: View {
 							}
 			*/
 
-					
 			
-			ProfileImageView(profile_image_url: thread.thumbnailURL, size: CGFloat(100))
+			if test_mode{
+				Background(style: .creative)
+					.clipShape(Circle())
+					.frame(width: 10, height: 10)
+					// only show if I read. or if in test mode if i read
+					.opacity(test_mode ? (thread.lastMessage!.readBy.contains(me_for_testing!) ? 0: 1): 0)
+			} else {
+				
+				var me = AmareUser(id: Auth.auth().currentUser?.uid ?? "")
+				
+				Background(style: .creative)
+					.clipShape(Circle())
+					.frame(width: 10, height: 10)
+					.opacity(thread.lastMessage?.readBy.first(where: {$0.id == me.id}) != nil ? 0: 1)
+			}
+			
+				
+			
+			ProfileImageView(profile_image_url: thread.thumbnailURL, size: CGFloat(55))
+				.scaleEffect(beginProfilePicAnimation ? 0.9 : 1)
+				.onChange(of: animationSpeed, perform: { newValue in
+					print("Animation speed did change .. \(newValue)")
+					beginProfilePicAnimation = false
+					var speed = 0.0
+			
+					switch newValue {
+					case .slow:
+						speed = 2
+					case .normal:
+						speed = 1
+					case .medium:
+						speed = 0.5
+					case .fast:
+						speed = 0.1
+					}
+				
+					
+					DispatchQueue.main.async {
+						
+						print("Setting speed to ... \(speed) ")
+						withAnimation(.easeInOut(duration: speed).repeatForever(autoreverses: true)) {
+							beginProfilePicAnimation = true
+						}
+					}
+					
+				})
+				.onChange(of: thread.lastMessage) { lastMessage in
+					print("Did change last message .. \(thread.lastMessage)")
+					guard lastMessage != nil else { return }
+					
+					guard !test_mode else {
+						
+						guard lastMessage != nil else  { return }
+						if !lastMessage!.readBy.contains(me_for_testing!){
+							animationSpeed = .fast
+						} else { animationSpeed = .slow  }
+						
+						return
+					}
+					
+					if !lastMessage!.hasRead {
+						// i haven't read the message
+						animationSpeed = .fast
+					} else {
+						animationSpeed = .slow
+					}
+				
+				}
+				.onAppear {
+					beginProfilePicAnimation = false
+					var speed = 0.0
+					var lastMessage = thread.lastMessage
+					guard !test_mode else {
+						
+						guard lastMessage != nil else  { return }
+						if !lastMessage!.readBy.contains(me_for_testing!){
+							animationSpeed = .fast
+						} else { animationSpeed = .slow  }
+						
+						return
+					}
+					
+					if !lastMessage!.hasRead {
+						// i haven't read the message
+						animationSpeed = .fast
+					} else {
+						animationSpeed = .slow
+					}
+					
+					DispatchQueue.main.async {
+						
+						
+						withAnimation(.easeInOut(duration: speed).repeatForever(autoreverses: true)) {
+							beginProfilePicAnimation = true
+						}
+					}
+				}
+					//.padding()
 				
 				//.border(.white)
+			
 		
 							VStack(alignment: .leading){
 								HStack{
 									Text("\(!test_mode ? (thread.otherUser?.name ?? "No name") : them_for_testing!.name!)")
-										.font(.title2).bold()
+										.font(.headline).bold()
 										.lineLimit(1)
 
 									Spacer()
@@ -76,12 +176,14 @@ struct MessageThreadView: View {
 										.font(.caption)
 										.foregroundColor(.secondary)
 								}
+								.padding(.bottom, 0.5)
 
 								Text("\(thread.lastMessage?.text ?? "")")
 									.font(.subheadline)
 									.lineLimit(3)
 									.foregroundColor(.secondary)
-									.padding(.top, 1)
+									//.padding([.top, .bottom], 0.5)
+									//.padding(.top, 1)
 							}
 						}
     }
@@ -99,9 +201,10 @@ struct MessageThreadView_Previews: PreviewProvider {
 				//thread.lastMessage = Message.random(with: me, and: them)
 			})
 			.onTapGesture {
-				me = AmareUser.random()
+				 /*me = AmareUser.random()
 				them = AmareUser.random()
 				thread.lastMessage = Message.random(with: me, and: them)
+				  */
 			}
 			.preferredColorScheme(.dark)
     }

@@ -16,6 +16,7 @@ struct MainView: View {
     static let id = String(describing: Self.self)
    
     @StateObject private var mainViewModel: UserDataModel = UserDataModel()
+	 
     
     
     
@@ -46,7 +47,15 @@ struct MainView: View {
             
                 Scanner()
                 .tag(3)
-               ChatsUIView()
+			
+			var chats = ChatsUIMessageThreadsModel()
+			ChatsUIView(threads: chats, test_mode: true)
+				.preferredColorScheme(.dark)
+				.onAppear(perform: {
+					chats.loadRandomThreads()
+				})
+				
+               //ChatsUIView()
                 .tag(4)
                 Perferences()
                 .tag(5)
@@ -147,6 +156,7 @@ struct MainView: View {
         
         mainViewModel.load()
         account.listenOnlyForSignOut()
+		//chats.loadRandomThreads()
       
         
 		

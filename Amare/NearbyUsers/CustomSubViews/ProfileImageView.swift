@@ -18,6 +18,9 @@ struct ProfileImageView: View {
 	@State var condition: Bool = false
 	@State var condition2: Bool = false
 
+	@State var animate: Bool = false
+	
+	var animationSpeed: SpeedOfAnimation? = nil
 	
 	var FastAnimation: Animation {
 		Animation.easeInOut
@@ -110,14 +113,19 @@ struct ProfileImageView: View {
 				
 				image
 					.resizable()
-					.scaledToFit()
-					.frame(width: size, height: size)
-					.aspectRatio(contentMode: .fit)
+					//.scaledToFit()
+					//.frame(width: size, height: size)
+					.aspectRatio(contentMode: .fill)
 					.clipShape(Circle())
+					.frame(width: size, height: size)
 					.foregroundColor(.white)
 					 .overlay(Circle().stroke(colors.randomElement() ?? .blue, lineWidth: 1))
 					 .shadow(radius: 15)
 					 .opacity(profile_image_url != nil ? 1: 0)
+					// .scaleEffect(animate ? 0.9 : 1.0)
+					 
+					 
+					// .border(.white)
 					 
 				
 				/*

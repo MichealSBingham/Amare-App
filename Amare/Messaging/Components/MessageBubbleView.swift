@@ -126,7 +126,7 @@ struct MessageBubbleView: View {
 
 struct MessageBubbleView_Previews: PreviewProvider {
     static var previews: some View {
-		MessageBubbleView(message: .constant(Message(id: "5", text: "Cups of the XO... all my people been here.. I see all of my friends are here... guess she don't have the time to kick it no more.. Flights in the morning... but what are you doing that's so important?? I've been drinking so much... I'ma call you anyway and say ...", sentBy: AmareUser(id: "3", name: "Kara Scott", profile_image_url: mockProfileImageURL), sentAt: Date(), readBy: [], type: .twoWay)))
+		MessageBubbleView(message: .constant(Message(id: "5", thread: UUID().uuidString, text: "Cups of the XO... all my people been here.. I see all of my friends are here... guess she don't have the time to kick it no more.. Flights in the morning... but what are you doing that's so important?? I've been drinking so much... I'ma call you anyway and say ...", sentBy: AmareUser(id: "3", name: "Kara Scott", profile_image_url: mockProfileImageURL), sentAt: Date(), readBy: [], type: .twoWay)))
 			.preferredColorScheme(.dark)
     }
 }

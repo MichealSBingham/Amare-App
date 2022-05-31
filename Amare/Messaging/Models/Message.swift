@@ -12,8 +12,11 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 import LoremSwiftum
 
-public struct Message: Codable, Equatable, Hashable, Identifiable {
+public struct Message: Codable, Equatable, Hashable, Identifiable, Comparable {
 	@DocumentID public var id: String?
+	
+	// The id of the thread this message belongs to
+	var thread: String
 	
 	//MARK: - Message contents
 	///Text of the message
@@ -33,6 +36,16 @@ public struct Message: Codable, Equatable, Hashable, Identifiable {
 	var readWhen: Date? 
 	var type: MessageType
 	
+	/// Whether or not  the current signed in user has read the message, but don't use this in test mode
+	var hasRead: Bool {
+		
+		return readBy.contains(where: { $0.id == Auth.auth().currentUser?.uid })
+	}
+	
+	var outgoing: Bool {
+		guard let id = Auth.auth().currentUser?.uid else { return false }
+		return sentBy.id == id
+	}
 	/// Whether or not the message is the most recent message in the thread or not 
 	var lastMessage: Bool = false
 	
@@ -46,8 +59,18 @@ public struct Message: Codable, Equatable, Hashable, Identifiable {
 	}
 	
 	
+	//TODO: function for reading message
+	public func read() {
+		
+	}
+	
+	public static func < (lhs: Message, rhs: Message) -> Bool {
+			lhs.sentAt < rhs.sentAt
+		}
+	
+	
 	/// Generates a random message. Only useful for 2-way conversations though.
-	static func random(with me: AmareUser, and them: AmareUser) -> Message?{
+	static func random(with me: AmareUser, and them: AmareUser, on thread: String) -> Message?{
 	
 		
 
@@ -88,7 +111,7 @@ public struct Message: Codable, Equatable, Hashable, Identifiable {
 			
 		}
 		
-		return Message(id: UUID().uuidString, text: text, sentBy: sent_by, sentAt: dateSent, readBy: readBy, ignoredBy: [], tooBusyToReply: [], readWhen: dateRead, type: type, lastMessage: false)
+		return Message(id: UUID().uuidString, thread: thread, text: text, sentBy: sent_by, sentAt: dateSent, readBy: readBy, ignoredBy: [], tooBusyToReply: [], readWhen: dateRead, type: type, lastMessage: false)
 		
 		
 		
@@ -97,17 +120,17 @@ public struct Message: Codable, Equatable, Hashable, Identifiable {
 		
 		
 		
-		return nil 
 	}
 	
-	static func randomTwoWayConservation(with me: AmareUser, and them: AmareUser, number : Int = 20 ) -> [Message]{
+	static func randomTwoWayConservation(with me: AmareUser, and them: AmareUser, number : Int = 20 , on thread: String) -> [Message]{
 	
 		
 		var messages: [Message] = []
 		
 		for _ in 1...number {
-			messages.append(Message.random(with: me, and: them)!)
+			messages.append(Message.random(with: me, and: them, on: thread)!)
 		}
+		messages.sort()
 		return messages
 	}
 	

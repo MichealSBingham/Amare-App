@@ -73,7 +73,7 @@ class ConversationDataStore: ObservableObject{
 	
 	func loadRandomConveration(between me: AmareUser = AmareUser(), and them: AmareUser = AmareUser())  {
 		
-		messages = Message.randomTwoWayConservation(with: me, and: them)
+		messages = Message.randomTwoWayConservation(with: me, and: them, on: UUID().uuidString)
 	}
 	
 	
