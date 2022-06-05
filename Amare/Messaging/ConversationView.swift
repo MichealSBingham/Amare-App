@@ -10,7 +10,7 @@ import SwiftUI
 struct ConversationView: View {
 	
 	@StateObject var conversation = ConversationDataStore()
-	@Binding var messageThread: MessageThread
+	@Binding var messageThread: MessageThread 
 	//@Binding var messages: [Message]
 	
 	//MARK: - Only for testing in preview
@@ -22,27 +22,44 @@ struct ConversationView: View {
 	
 	
     var body: some View {
-		ZStack{
+		//VStack {
 			
-				
 			
-			ScrollView{
-				
-				ForEach($conversation.messages){ $message in
-					
-					MessageBubbleView(message: $message, testMode: test_mode, me: me_for_testing, them: them_for_testing)
-				}
-			}
 			
+		//NavigationView {
+			//TitleRowForMessagingView(testMode: test_mode, thread: $messageThread)
+				//.ignoresSafeArea()
 			VStack{
-				TitleRowForMessagingView(thread: $messageThread)
-					.ignoresSafeArea()
-				Spacer()
+					
+					
+					
+					ScrollView{
+						
+						ForEach($conversation.messages){ $message in
+							
+							MessageBubbleView(message: $message, testMode: test_mode, me: me_for_testing, them: them_for_testing)
+						}
+					}
+					
+					
+					
+						
+					
+					MessageField()
+					
+					
+			}
+			.navigationBarTitle(Text(""))
+			.toolbar {
+			
+				TitleRowForMessagingView(testMode: true, thread: $messageThread)
 			}
 			
+		//}
 			
-		}
-		//.background(.ultraThinMaterial)
+			
+		//}
+		//		.background(.ultraThinMaterial)
 		//.foregroundColor(Color.primary.opacity(0.35))
 		//.foregroundStyle(.ultraThinMaterial)
     }
@@ -73,8 +90,11 @@ class ConversationDataStore: ObservableObject{
 	
 	func loadRandomConveration(between me: AmareUser = AmareUser(), and them: AmareUser = AmareUser())  {
 		
-		messages = Message.randomTwoWayConservation(with: me, and: them, on: UUID().uuidString)
+		messages = Message.randomTwoWayConservation(with: me, and: them, on: UUID().uuidString).sorted()
 	}
+	
+	
+	
 	
 	
 }

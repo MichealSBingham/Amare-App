@@ -12,7 +12,7 @@ let mockProfileImageURL = "https://images.unsplash.com/photo-1529626455594-4ff08
 struct TitleRowForMessagingView: View {
 	
 	
-	
+	var testMode: Bool = false
 	@Binding var thread: MessageThread
 //	@Binding var thread: MessageThread
 	
@@ -21,7 +21,8 @@ struct TitleRowForMessagingView: View {
 		guard Auth.auth().currentUser != nil else {
 			return thread.members.randomElement()!
 		}
-	
+		
+		guard !testMode else { return thread.members.last!}
 		return thread.members.first(where: {$0.id == Auth.auth().currentUser!.uid} )!
 		
 	}
@@ -32,7 +33,8 @@ struct TitleRowForMessagingView: View {
 				
 				HStack{
 					
-					ProfileImageView(profile_image_url: them.profile_image_url ?? mockProfileImageURL)
+					ProfileImageView(profile_image_url: them.profile_image_url ?? mockProfileImageURL, size: 75)
+						
 					//	.padding([.top, .bottom], -20)
 					
 					VStack{

@@ -85,6 +85,12 @@ public struct MessageThread: Codable, Equatable, Hashable, Identifiable, Compara
 		return MessageThread(id: threadID, createdAt: createdDate, members: members, lastModified: lastModifiedDate, type: .twoWay, thumbnailURL: thumbnail, name: name, lastMessage: lastMessage)
 	}
 	
+	
+	/// Creates a thread by sending first message to a user/group
+	static func create(message: Message) {
+		
+	}
+	
 }
 
 enum MessageType: String, Codable{

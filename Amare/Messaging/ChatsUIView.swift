@@ -9,6 +9,7 @@ import SwiftUI
 import FirebaseFirestoreSwift
 import FirebaseFirestore
 import FirebaseAuth
+import MapKit
 
 var testUser = AmareUser(id: "23", name: "Jane Smith", profile_image_url: mockProfileImageURL)
 
@@ -16,42 +17,66 @@ var testUser = AmareUser(id: "23", name: "Jane Smith", profile_image_url: mockPr
 struct ChatsUIView: View {
 	
 	@StateObject var threads =  ChatsUIMessageThreadsModel()
-	
+	@StateObject var conversation = ConversationDataStore()
 	
 	var test_mode: Bool = false
 	
     var body: some View {
 		
 		NavigationView{
-			//VStack{
-				
-				//ChatsUIHeaderView()
+			
 					
 				
 				List($threads.messageThreads){ $message in
-					MessageThreadView(thread: $message, me_for_testing: message.members.first!, them_for_testing: message.members.last!, test_mode: test_mode)
-						.onTapGesture {
+					
+					NavigationLink {
+						
+						ConversationView(conversation: conversation,messageThread: $message, me_for_testing: message.members.first!, them_for_testing: message.members.last!, test_mode: true)
+					
+							//.preferredColorScheme(.dark)
+							.onAppear {
+								//withAnimation {
+								conversation.loadRandomConveration(between: message.members.first!, and: message.members.last!)
+								//}
+								
+							}
+
+					} label: {
+						
+						MessageThreadView(thread: $message, me_for_testing: message.members.first!, them_for_testing: message.members.last!, test_mode: test_mode)
 							
-							
-						}
+					}
+
+			
 					
 					
 					
 					
 				}
 				.navigationTitle(Text("DMs"))
+				.toolbar(content: {
+					
+					Button {
+						
+					} label: {
+						
+						Image("square.and.pencil")
+					}
+
+					
+				})
 			
 			
-				//.listStyle(.sidebar)
+		
 				.listStyle(.plain)
 			
-				//.ignoresSafeArea()
+				
 				
 				
 			//}
 		}
 		.onAppear {
-			threads.loadRandomThreads()
+			
 		}
     }
 }
@@ -60,9 +85,9 @@ struct ChatsUIView_Previews: PreviewProvider {
     static var previews: some View {
 		var chats = ChatsUIMessageThreadsModel()
 		ChatsUIView(threads: chats, test_mode: true)
-			.preferredColorScheme(.dark)
+			//.preferredColorScheme(.dark)
 			.onAppear {
-				chats.loadRandomThreads()
+				//chats.loadRandomThreads()
 			}
 			
     }
@@ -80,8 +105,12 @@ class ChatsUIMessageThreadsModel: ObservableObject{
 	
 	private var db = Firestore.firestore()
 	
+	init(){
+		self.listenForMessageThreads()
+	}
 	
-	// Listens for all of the message threads
+	
+	/// Listens for all of the message threads
 	func listenForMessageThreads()  {
 		
 		if let signedInUserID = Auth.auth().currentUser?.uid{

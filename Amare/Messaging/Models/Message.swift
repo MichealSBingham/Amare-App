@@ -16,7 +16,7 @@ public struct Message: Codable, Equatable, Hashable, Identifiable, Comparable {
 	@DocumentID public var id: String?
 	
 	// The id of the thread this message belongs to
-	var thread: String
+	var thread: String?
 	
 	//MARK: - Message contents
 	///Text of the message
@@ -68,6 +68,10 @@ public struct Message: Codable, Equatable, Hashable, Identifiable, Comparable {
 			lhs.sentAt < rhs.sentAt
 		}
 	
+	///Adds the message to the thread, or in other words, sends a message to a particular user/group chat
+	func add()  {
+		
+	}
 	
 	/// Generates a random message. Only useful for 2-way conversations though.
 	static func random(with me: AmareUser, and them: AmareUser, on thread: String) -> Message?{

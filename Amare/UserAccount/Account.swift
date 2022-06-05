@@ -2311,6 +2311,21 @@ class Account: ObservableObject {
             }
 
     }
+	
+	
+	//MARK: - Messaging Other Users
+	
+	func message(thread: MessageThread, message: String){
+		
+		
+		// Send the message to the thread and update
+	}
+	
+	
+	//MARK: - Searching for other users
+		//TODO: Make more efficient for searching usernames
+	
+	
 }
 
 
