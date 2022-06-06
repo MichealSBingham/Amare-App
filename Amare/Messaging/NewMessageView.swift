@@ -11,9 +11,13 @@ import FirebaseAuth
 
 struct NewMessageView: View {
 	
+	@EnvironmentObject var allThreadsData: ChatsUIMessageThreadsModel
+	
 	@StateObject var usersSearchData = NewMessageViewModel()
 	
 	@State var searchString = ""
+	
+	@State var goToMessageThreadView = false
 	
 	func search() {  usersSearchData.search(for: searchString)}
 	
@@ -21,31 +25,54 @@ struct NewMessageView: View {
 	
     var body: some View {
         
-		VStack {
-			SearchNavigation(text: $searchString, search: search, cancel: cancel) {
-				List {
-					
-					ForEach(usersSearchData.searchedUsers, id: \.self){ user in
+		NavigationView {
+			VStack {
+				
+					List {
 						
-						Button {
-							// see if a thread between user exists
-							// if not, create one otherwise go to it
-							//TODO: assumg it doesn't exit for simplicity rn
+						ForEach(usersSearchData.searchedUsers, id: \.self){ user in
 							
-						
-							
-							
-						} label: {
-							
-							Text(user.name!)
-						}
+							Button {
+								// see if a thread between user exists
+								// if not, create one otherwise go to it
+								//TODO: work for group messages\
+								
+								allThreadsData.findThread(of: .twoWay, withUsers: [user])
+								
+								
+								
+							} label: {
+								
+								Text(user.username ?? "")
+							}
+							.onChange(of: allThreadsData.singleThread) { newValue in
+								if newValue != nil {
+									
+									// make sure the thread exists
+									goToMessageThreadView = true
+								}
+							}
 
+						}
 					}
-				}.navigationTitle(Text("Who do you want to message?"))
-			}
+					.searchable(text: $searchString)
+						
+				NavigationLink(isActive: $goToMessageThreadView) {
+					
+					ConversationView(messageThread: Binding($allThreadsData.singleThread) ?? .constant(MessageThread.randomThread()))
+					
+				} label: {
+					EmptyView()
+				}
+
+				
+			}.navigationTitle(Text("Who do you want to message?"))
+			.onChange(of: searchString) { words in
+				
+				guard !words.isEmpty else { usersSearchData.searchedUsers = []; return }
+				usersSearchData.search(for: words)
 		}
-		.onChange(of: searchString) { words in
-			usersSearchData.search(for: words)
+			
 		}
     }
 }
