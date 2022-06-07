@@ -77,10 +77,14 @@ public struct AmareUser: Codable, Equatable, Hashable, Identifiable{
     /// Whether or not this user is within proximity of the user via geolocation, bluetooth, or multipeer 
     var isNearby: Bool? = false
 	
-	var supportsNearbyInteraction: Bool? 
+	var supportsNearbyInteraction: Bool?
+	
+	/// this is here twice incase we want to write the user id to the database otherwise the @document tag prevents it from being stored in database since it just falls under the document id anyway 
+	var userId: String?
     
     
     enum CodingKeys: String, CodingKey {
+		case id
         case name
         case hometown
         case known_time
@@ -94,6 +98,7 @@ public struct AmareUser: Codable, Equatable, Hashable, Identifiable{
         case isReal
         case isNotable
 		case supportsNearbyInteraction
+		case userId
         
        
     }
@@ -140,7 +145,7 @@ public struct AmareUser: Codable, Equatable, Hashable, Identifiable{
     //TODO: Should only need username or id to distinguish 
     public static func == (lhs: AmareUser, rhs: AmareUser) -> Bool {
         
-        return lhs.id == rhs.id
+        return lhs.id ?? "i" == rhs.id ?? "j"
         
        // return (lhs.name == rhs.name && lhs.known_time == rhs.known_time && lhs.profile_image_url == rhs.profile_image_url && lhs.username == rhs.username )
     }

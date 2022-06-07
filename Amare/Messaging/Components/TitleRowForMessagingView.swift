@@ -17,14 +17,15 @@ struct TitleRowForMessagingView: View {
 //	@Binding var thread: MessageThread
 	
 	var them: AmareUser {
-		
+		/*
 		guard Auth.auth().currentUser != nil else {
 			return thread.members.randomElement()!
 		}
 		
 		guard !testMode else { return thread.members.last!}
 		return thread.members.first(where: {$0.id == Auth.auth().currentUser!.uid} )!
-		
+		*/
+		return thread.otherUser! 
 	}
     var body: some View {
 		VStack{

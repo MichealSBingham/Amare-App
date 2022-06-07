@@ -11,6 +11,7 @@ import FirebaseAuth
 
 struct NewMessageView: View {
 	
+	@EnvironmentObject var signedInUserData: UserDataModel
 	@EnvironmentObject var allThreadsData: ChatsUIMessageThreadsModel
 	
 	@StateObject var usersSearchData = NewMessageViewModel()
@@ -37,7 +38,9 @@ struct NewMessageView: View {
 								// if not, create one otherwise go to it
 								//TODO: work for group messages\
 								
-								allThreadsData.findThread(of: .twoWay, withUsers: [user])
+								
+								
+								allThreadsData.findThread(of: .twoWay, withUsers: [user], me: signedInUserData.userData)
 								
 								
 								
@@ -121,9 +124,10 @@ class NewMessageViewModel: ObservableObject {
 						
 						if  user != nil{
 							user.id = document.data()["userId"] as? String
-							
+							user.userId = user.id
 							
 							if user.id != Auth.auth().currentUser?.uid {
+								
 								users.append(user)
 							}
 							

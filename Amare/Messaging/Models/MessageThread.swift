@@ -34,11 +34,17 @@ public struct MessageThread: Codable, Equatable, Hashable, Identifiable, Compara
 	/// If a two-way chat, this will return the user that is *Not* the current signed in user
 	var otherUser: AmareUser? {
 		
+		/*
 		guard type == .twoWay else { return nil }
 		
 		guard let me = Auth.auth().currentUser?.uid else { return nil }
 		
-		return members.first(where: {$0.id == me})
+		return members.first(where: {$0.id! != me})
+		*/
+		
+		guard let me = Auth.auth().currentUser?.uid else { return nil }
+		
+		return members.first(where: {$0.userId! != me })
 	}
 	
 	

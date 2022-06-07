@@ -31,7 +31,7 @@ struct ChatsUIView: View {
 		
 		NavigationView{
 			
-					
+			ZStack{
 				
 				List($threads.messageThreads){ $message in
 					
@@ -42,7 +42,7 @@ struct ChatsUIView: View {
 							//.preferredColorScheme(.dark)
 							.onAppear {
 								//withAnimation {
-								conversation.loadRandomConveration(between: message.members.first!, and: message.members.last!)
+								//conversation.loadRandomConveration(between: message.members.first!, and: message.members.last!)
 								//}
 								
 							}
@@ -59,6 +59,9 @@ struct ChatsUIView: View {
 					
 					
 				}
+				.onAppear(perform: {
+					threads.listenForMessageThreads()
+				})
 				.searchable(text: $searchString)
 				.navigationTitle(Text("DMs"))
 				.toolbar(content: {
@@ -78,6 +81,13 @@ struct ChatsUIView: View {
 			
 		
 				.listStyle(.plain)
+				.opacity(threads.messageThreads.isEmpty ? 0: 1)
+				
+				Text("It's pretty dry in here")
+					.opacity(threads.messageThreads.isEmpty ? 1 : 0 )
+			}
+				
+				
 			
 				
 				
@@ -129,7 +139,8 @@ class ChatsUIMessageThreadsModel: ObservableObject{
 		if let signedInUserID = Auth.auth().currentUser?.uid{
 			
 			db.collection("users").document(signedInUserID).collection("threadIDs").addSnapshotListener { snapshot, error in
-				
+				 
+				if snapshot?.isEmpty ?? true  { self.messageThreads = [] }
 				guard let messageThreadDocuments = snapshot?.documents else { self.error = error; return }
 				
 				//TODO: just return them sorted in the query
@@ -201,10 +212,13 @@ class ChatsUIMessageThreadsModel: ObservableObject{
 	
 	
 	//TODO: Work with group messages
-	func findThread(of type: MessageType, withUsers:  [AmareUser], me: AmareUser = AmareUser(id: Auth.auth().currentUser?.uid ?? "")) {
+	func findThread(of type: MessageType, withUsers:  [AmareUser], me: AmareUser) {
 		
 		print("Looking for thread of type .. \(type)... with users \(withUsers) ")
 		var withUsers = withUsers
+		
+		var me = AmareUser(id: me.id, name: me.name, profile_image_url: me.profile_image_url,  username: me.username, isNotable: me.isNotable, userId: me.id)
+		
 		withUsers.append(me)
 		// loops through each of the threads to see if they match
 		
@@ -236,15 +250,75 @@ class ChatsUIMessageThreadsModel: ObservableObject{
 		
 	}
 	
+	//TODO: Add support for group messages
 	func createThread(thread: MessageThread, completion: @escaping ((_ err: Error?) -> Void) ){
 		print("Trying to create thread")
 		
 		do {
 			
-			try db.collection("messageThreads").addDocument(from: thread) { error in
+			
+			try db.collection("messageThreads").document(thread.id!).setData(from: thread) { error in
 				
 				print("thread created with error \(error)")
-				completion(error)
+				
+				// add to all users threads
+				guard error == nil else { completion (error) ; return }
+				
+			// Go through each user and add it
+				
+				/*   uncommment out once backend cloud fucntion completes this
+				//TODO: DO THIS IN BACKEND AUTOMATICALLY
+				guard let myId = Auth.auth().currentUser?.uid else { self.error = AccountError.notSignedIn;  completion(AccountError.notSignedIn); return }
+
+				
+				db.collection("users").document(myId).collection("threadIDs").addDocument(from: thread) { error in
+					
+					guard error == nil else { self.error = error; completion(error); return}
+					
+					
+					
+					
+				}
+				
+				*/
+				
+				var firstId = thread.members.first?.id ?? ""
+				var secondId = thread.members.last?.id ?? ""
+				
+				// TODO: REMOVE AND LET THIS RESPONSIBILITY GO TO THE  BACKEND
+				
+				do {
+					
+					try self.db.collection("users").document(firstId).collection("threadIDs").document(thread.id!).setData(from: thread) { error in
+						
+						guard error == nil else { self.error = error; completion(error); return}
+						
+						
+						// TODO: REMOVE AND LET THIS RESPONSIBILITY GO TO THE  BACKEND
+						
+						do {
+							
+							try self.db.collection("users").document(secondId).collection("threadIDs").document(thread.id!).setData(from: thread) { error in
+								
+								guard error == nil else { self.error = error; completion(error); return}
+								
+								
+								// TODO: REMOVE AND LET THIS RESPONSIBILITY GO TO THE  BACKEND
+								
+								completion(error)
+							}
+						} catch (let error) {
+							completion(error)
+						}
+						
+						
+						
+					}
+				}
+			
+				catch let(error) {
+					completion(error)
+				}
 				
 				
 			}

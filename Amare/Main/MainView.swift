@@ -51,6 +51,7 @@ struct MainView: View {
 			var chats = ChatsUIMessageThreadsModel()
 			ChatsUIView(threads: chats, test_mode: true)
 				.preferredColorScheme(.dark)
+				.environmentObject(mainViewModel)
 				.onAppear(perform: {
 					chats.loadRandomThreads()
 				})

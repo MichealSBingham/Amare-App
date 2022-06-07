@@ -52,7 +52,7 @@ struct ConversationView: View {
 			.navigationBarTitle(Text(""))
 			.toolbar {
 			
-				TitleRowForMessagingView(testMode: true, thread: $messageThread)
+				TitleRowForMessagingView(testMode: false, thread: $messageThread)
 			}
 			
 		//}
