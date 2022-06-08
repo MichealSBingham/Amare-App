@@ -26,7 +26,7 @@ struct MessageField: View {
 				
 				guard let me = Auth.auth().currentUser?.uid else { return }
 				
-				let msg = Message(id: UUID().uuidString, thread: thread.id!, text: message, sentBy: signedInUserData.userData, sentAt: Date(), readBy: [], ignoredBy: [], tooBusyToReply: [], readWhen: nil, type: thread.type)
+				let msg = Message(id: UUID().uuidString, thread: thread.id!, text: message, sentBy: signedInUserData.userData.reduced(), sentAt: Date(), readBy: [], ignoredBy: [], tooBusyToReply: [], readWhen: nil, type: thread.type)
 		
 				conversationData.send(this: msg, to: thread)
 				message = ""

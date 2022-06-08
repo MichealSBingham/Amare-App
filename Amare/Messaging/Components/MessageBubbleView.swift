@@ -36,7 +36,7 @@ struct MessageBubbleView: View {
 			 return message.sentBy.id == me?.id ?? "" 
 		 }
 		
-		return message.sentBy.id == Auth.auth().currentUser?.uid ?? ""
+		return message.sentBy.userId == Auth.auth().currentUser?.uid ?? ""
 	}
 	
 	var messageStatusString: String {

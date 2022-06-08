@@ -107,6 +107,12 @@ public struct AmareUser: Codable, Equatable, Hashable, Identifiable{
         hasher.combine(id)
     }
 	
+	/// Returns only a subset of the data in AmareUser. Useful for when you store this in subcollection fields like in the messages `sentBy` field
+	func reduced() -> AmareUser {
+		
+		return AmareUser(id: self.id, name: self.name,  profile_image_url: self.profile_image_url, username: self.username, isNotable: self.isNotable, userId: self.id)
+	}
+	
 	
 	/// Generates a random user to use for UI testing
 	static func random() -> AmareUser {
