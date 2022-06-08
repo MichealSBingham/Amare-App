@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+import FirebaseFirestore
 struct ConversationView: View {
 	
 	@StateObject var conversation = ConversationDataStore()
@@ -45,14 +45,17 @@ struct ConversationView: View {
 					
 						
 					
-					MessageField()
-					
+				MessageField(thread: messageThread)
+					.environmentObject(conversation)
 					
 			}
 			.navigationBarTitle(Text(""))
 			.toolbar {
 			
 				TitleRowForMessagingView(testMode: false, thread: $messageThread)
+			}
+			.onAppear {
+				conversation.loadConversation(from: messageThread)
 			}
 			
 		//}
@@ -87,6 +90,48 @@ struct ConversationView_Previews: PreviewProvider {
 class ConversationDataStore: ObservableObject{
 	
 	@Published var messages: [Message] = []
+	
+	@Published var someErrorHappened: Error?
+	
+	@Published var someErrorHappenedWhenTryingToSendMessage: Error?
+	private var db = Firestore.firestore()
+	
+	func loadConversation(from thread: MessageThread)  {
+		// loads converastion and publishes each message to the thread
+		
+		db.collection("messageThreads").document(thread.id!).collection("messages")
+			.addSnapshotListener{ snapshot, error in
+				
+				guard error == nil else { self.someErrorHappened = error; return }
+				
+				if snapshot?.isEmpty ?? true { self.messages = [] }
+				
+				
+				guard let messagesDocuments = snapshot?.documents else { self.someErrorHappened = error; return }
+				
+				
+				// map to a message object
+				self.messages = messagesDocuments.compactMap({ (docSnapshot) -> Message? in
+					
+					return try? docSnapshot.data(as: Message.self)
+					
+				})
+				
+				
+				
+			}
+		
+	}
+	
+	
+	func send(this message: Message, to thread: MessageThread){
+		do {
+			try? db.collection("messageThreads").document(thread.id!).collection("messages")
+				.addDocument(from: message)
+		} catch (let error) {
+			self.someErrorHappenedWhenTryingToSendMessage = error
+		}
+	}
 	
 	func loadRandomConveration(between me: AmareUser = AmareUser(), and them: AmareUser = AmareUser())  {
 		

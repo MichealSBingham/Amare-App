@@ -6,10 +6,15 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct MessageField: View {
+	
+	@EnvironmentObject var conversationData: ConversationDataStore
+	@EnvironmentObject var signedInUserData: UserDataModel
 	@State private var message = ""
 	
+	var thread: MessageThread
     var body: some View {
         
 		HStack{
@@ -18,6 +23,12 @@ struct MessageField: View {
 			Button {
 				//
 				print("Message sent")
+				
+				guard let me = Auth.auth().currentUser?.uid else { return }
+				
+				let msg = Message(id: UUID().uuidString, thread: thread.id!, text: message, sentBy: signedInUserData.userData, sentAt: Date(), readBy: [], ignoredBy: [], tooBusyToReply: [], readWhen: nil, type: thread.type)
+		
+				conversationData.send(this: msg, to: thread)
 				message = ""
 			} label: {
 				Image(systemName: "paperplane.fill")
@@ -48,7 +59,7 @@ struct MessageField: View {
 
 struct MessageField_Previews: PreviewProvider {
     static var previews: some View {
-        MessageField()
+		MessageField( thread: MessageThread.randomThread())
 			.preferredColorScheme(.dark)
 	}
 }

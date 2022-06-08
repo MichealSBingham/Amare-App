@@ -63,7 +63,7 @@ struct ChatsUIView: View {
 					
 				}
 				.onAppear(perform: {
-					threads.listenForMessageThreads()
+					//threads.listenForMessageThreads()
 				})
 				.searchable(text: $searchString)
 				.navigationTitle(Text("DMs"))
