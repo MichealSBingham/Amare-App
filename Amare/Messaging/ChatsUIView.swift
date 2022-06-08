@@ -35,22 +35,25 @@ struct ChatsUIView: View {
 				
 				List($threads.messageThreads){ $message in
 					
-					NavigationLink {
-						
-						ConversationView(conversation: conversation,messageThread: $message, me_for_testing: message.members.first!, them_for_testing: message.members.last!, test_mode: true)
 					
-							//.preferredColorScheme(.dark)
-							.onAppear {
-								//withAnimation {
-								//conversation.loadRandomConveration(between: message.members.first!, and: message.members.last!)
-								//}
-								
-							}
-
-					} label: {
-						
-						MessageThreadView(thread: $message, me_for_testing: message.members.first!, them_for_testing: message.members.last!, test_mode: test_mode)
+					if message.lastMessage != nil  {
+						NavigationLink {
 							
+							ConversationView(conversation: conversation,messageThread: $message, me_for_testing: message.members.first!, them_for_testing: message.members.last!, test_mode: true)
+						
+								//.preferredColorScheme(.dark)
+								.onAppear {
+									//withAnimation {
+									//conversation.loadRandomConveration(between: message.members.first!, and: message.members.last!)
+									//}
+									
+								}
+
+						} label: {
+							
+							MessageThreadView(thread: $message, me_for_testing: message.members.first!, them_for_testing: message.members.last!, test_mode: test_mode)
+								
+					}
 					}
 
 			
@@ -173,6 +176,8 @@ class ChatsUIMessageThreadsModel: ObservableObject{
 				
 				let thread = try document.data(as: MessageThread.self)
 				
+				
+				
 				if updateAllThreadsFromHere{
 					if let index = self.messageThreads.firstIndex(where: {$0 == thread} ){
 						
@@ -211,10 +216,47 @@ class ChatsUIMessageThreadsModel: ObservableObject{
 	}
 	
 	
+	private func getThread(of type: MessageType, withIDs: [String], from threads: [MessageThread]) -> MessageThread? {
+		
+		
+		print("&getThread: ooking for thread of type: \(type)")
+		 
+		var ids: [String] = []
+		
+		for thisThread in threads{
+			
+			print("&On thread... \(thisThread) has type \(thisThread.type) and count \(thisThread.members.count)")
+			
+			if thisThread.type == type && thisThread.members.count == withIDs.count {
+				
+				print("&have the same number of members and type ")
+				
+				
+				for user in thisThread.members{
+					ids.append(user.userId!)
+				}
+				
+				print("&the ids of this thread \(ids) \n ")
+				print("with ids: \(withIDs)")
+				
+				if  withIDs.sorted() == ids.sorted() {
+					return thisThread
+				}
+				
+		
+				
+			}
+		}
+		
+		
+		return nil
+	}
+	
+	
 	//TODO: Work with group messages
 	func findThread(of type: MessageType, withUsers:  [AmareUser], me: AmareUser) {
 		
-		print("Looking for thread of type .. \(type)... with users \(withUsers) ")
+		
 		var withUsers = withUsers
 		
 		var me = AmareUser(id: me.id, name: me.name, profile_image_url: me.profile_image_url,  username: me.username, isNotable: me.isNotable, userId: me.id)
@@ -222,8 +264,15 @@ class ChatsUIMessageThreadsModel: ObservableObject{
 		withUsers.append(me)
 		// loops through each of the threads to see if they match
 		
+		var allIds: [String] = []
+		for user in withUsers{
+			allIds.append(user.id!)
+		}
 		
-		if let  threadToReturn = messageThreads.first(where: {$0.type == type && $0.members == withUsers}) {
+		print("&findThread: Looking for thread of type .. \(type)... with ids \(allIds) ")
+		
+		
+		if let  threadToReturn = getThread(of: type, withIDs: allIds, from: messageThreads) {
 			
 			print("Thread found!")
 			self.singleThread = threadToReturn

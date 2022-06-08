@@ -52,6 +52,7 @@ public struct MessageThread: Codable, Equatable, Hashable, Identifiable, Compara
 	
 	
 	enum CodingKeys: String, CodingKey {
+		case id
 		case createdAt
 		case members
 		case lastModified

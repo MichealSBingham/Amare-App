@@ -128,6 +128,8 @@ struct MessageThreadView: View {
 				}
 				.onAppear {
 					beginProfilePicAnimation = false
+					
+					guard thread.lastMessage != nil else { return }
 					var speed = 0.0
 					var lastMessage = thread.lastMessage
 					guard !test_mode else {
