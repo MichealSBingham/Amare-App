@@ -36,7 +36,7 @@ struct ChatsUIView: View {
 				List($threads.messageThreads){ $message in
 					
 					
-					if message.lastMessage != nil  {
+					if $message.lastMessage != nil {
 						NavigationLink {
 							
 							ConversationView(conversation: conversation,messageThread: $message, me_for_testing: message.members.first!, them_for_testing: message.members.last!, test_mode: true)
@@ -176,6 +176,8 @@ class ChatsUIMessageThreadsModel: ObservableObject{
 				
 				let thread = try document.data(as: MessageThread.self)
 				
+				// breaks code, delete soon
+				//guard thread.lastMessage != nil else { return }
 				
 				
 				if updateAllThreadsFromHere{
@@ -269,7 +271,7 @@ class ChatsUIMessageThreadsModel: ObservableObject{
 			allIds.append(user.id!)
 		}
 		
-		print("&findThread: Looking for thread of type .. \(type)... with ids \(allIds) ")
+		print("&findThread: Looking for thread of type .. \(type)... with ids \(allIds) in thread ... \(messageThreads) ")
 		
 		
 		if let  threadToReturn = getThread(of: type, withIDs: allIds, from: messageThreads) {

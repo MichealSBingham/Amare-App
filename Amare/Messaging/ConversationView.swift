@@ -7,6 +7,7 @@
 
 import SwiftUI
 import FirebaseFirestore
+import PushNotifications
 struct ConversationView: View {
 	
 	@StateObject var conversation = ConversationDataStore()
@@ -32,14 +33,50 @@ struct ConversationView: View {
 			VStack{
 					
 					
+				
 					
-					ScrollView{
+				
 						
-						ForEach($conversation.messages){ $message in
+						ScrollViewReader{ proxy in
 							
-							MessageBubbleView(message: $message, testMode: test_mode, me: me_for_testing, them: them_for_testing)
+							ScrollView {
+								
+								ForEach($conversation.messages, id: \.self){ $message in
+									
+									MessageBubbleView(message: $message, testMode: test_mode, me: me_for_testing, them: them_for_testing)
+								}.onChange(of: conversation.lastMessage) { last in
+									
+									if let lastMessage = last {
+										print("should be scrolling to \(lastMessage.text)")
+										
+										DispatchQueue.main.async {
+											
+											withAnimation {
+												proxy.scrollTo(lastMessage, anchor: .bottom)
+												
+											}
+										}
+								 
+							  }
+						  }
+				
+								
+							}
+							
+						
+							
+													
+						
 						}
-					}
+						
+						
+
+						
+						
+					
+					
+				
+					
 					
 					
 					
@@ -94,6 +131,9 @@ class ConversationDataStore: ObservableObject{
 	@Published var someErrorHappened: Error?
 	
 	@Published var someErrorHappenedWhenTryingToSendMessage: Error?
+	
+	@Published private(set) var lastMessage: Message?
+	
 	private var db = Firestore.firestore()
 	
 	func loadConversation(from thread: MessageThread)  {
@@ -111,12 +151,20 @@ class ConversationDataStore: ObservableObject{
 				
 				
 				// map to a message object
-				self.messages = messagesDocuments.compactMap({ (docSnapshot) -> Message? in
-					
-					return try? docSnapshot.data(as: Message.self)
-					
-				})
 				
+				withAnimation{
+					
+					self.messages = messagesDocuments.compactMap({ (docSnapshot) -> Message? in
+						
+						return try? docSnapshot.data(as: Message.self)
+						
+					}).sorted(by: { $0.sentAt < $1.sentAt})
+				}
+				
+				if let lastMessage = self.messages.last {
+					
+					self.lastMessage = lastMessage
+				}
 				
 				
 			}
@@ -128,6 +176,20 @@ class ConversationDataStore: ObservableObject{
 		do {
 			try? db.collection("messageThreads").document(thread.id!).collection("messages")
 				.addDocument(from: message)
+			
+			
+			// Adds the messsage to the thread's most recent message
+			
+			var updatedThread = thread
+			updatedThread.lastMessage = message
+			
+			try? db.collection("messageThreads").document(thread.id!)
+				.setData(from: updatedThread, merge: true) { error in
+					guard error == nil else { return }
+					self.someErrorHappenedWhenTryingToSendMessage = error
+				}
+				
+			
 		} catch (let error) {
 			self.someErrorHappenedWhenTryingToSendMessage = error
 		}
@@ -143,3 +205,5 @@ class ConversationDataStore: ObservableObject{
 	
 	
 }
+
+

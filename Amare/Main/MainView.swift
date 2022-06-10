@@ -49,7 +49,8 @@ struct MainView: View {
                 .tag(3)
 			
 			var chats = ChatsUIMessageThreadsModel()
-			ChatsUIView(threads: chats, test_mode: true)
+			ChatsUIView(threads: chats, test_mode: false)
+				.tabItem { Label("Messages", systemImage: "message.fill") }
 				.preferredColorScheme(.dark)
 				.environmentObject(mainViewModel)
 				.onAppear(perform: {
