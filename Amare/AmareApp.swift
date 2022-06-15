@@ -331,6 +331,8 @@ class CustomViewFactory: ViewFactory {
 							 availableWidth: CGFloat) -> some View {
 		return CustomMessageTextView(message: message, isFirst: isFirst)
 	}
+	
+	
 }
 
 struct CustomMessageTextView: View {

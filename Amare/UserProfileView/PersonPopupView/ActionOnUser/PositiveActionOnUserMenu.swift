@@ -8,6 +8,8 @@
 import SwiftUI
 import Firebase
 import SPIndicator
+import StreamChat
+import StreamChatSwiftUI
 /// This should be changed to a floating button soon one day this is just a rough draft of actions a user can each other
 struct PositiveActionOnUserMenu: View {
     
@@ -238,6 +240,7 @@ struct PositiveActionOnUserMenu: View {
                 
                 Button {
                     print("Message")
+					
                 } label: {
                     
                     HStack{

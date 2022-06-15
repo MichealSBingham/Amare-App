@@ -50,7 +50,7 @@ struct MainView: View {
                 .tag(3)
 			
 			NavigationStackView{
-				ChatChannelListView(viewFactory: CustomViewFactory())
+				ChatChannelListView(viewFactory: CustomViewFactory(), title: "DMs")
 						
 						.environmentObject(account)
 						
