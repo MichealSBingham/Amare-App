@@ -13,6 +13,9 @@ import URLImageStore
 import PushNotifications
 import GooglePlaces
 import EasyFirebase
+import StreamChat
+import StreamChatSwiftUI
+import UIKit
 
 @main
 struct AmareApp: App {
@@ -30,7 +33,7 @@ struct AmareApp: App {
        
         
         WindowGroup {
-           
+			//ChatChannelListView(viewFactory: CustomViewFactory())
         }
         
         .onChange(of: scenePhase) { newScenePhase in
@@ -89,6 +92,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     var window: UIWindow?
    // var account: Account?
     let beamsClient = PushNotifications.shared
+	
+	// This is the `StreamChat` reference we need to add
+	var streamChat: StreamChat?
+
+		// This is the `chatClient`, with config we need to add
+	var chatClient: ChatClient = {
+			//For the tutorial we use a hard coded api key and application group identifier
+		var config = ChatClientConfig(apiKey: .init("8br4watad788"))
+		
+		// Real API Key
+			//var config = ChatClientConfig(apiKey: .init("6vb87hptvk7d"))
+		
+			config.applicationGroupIdentifier = "group.com.findamare"
+		//tutorial config
+		//config.applicationGroupIdentifier = "group.io.getstream.iOS.ChatDemoAppSwiftUI"
+
+			// The resulting config is passed into a new `ChatClient` instance.
+			let client = ChatClient(config: config)
+			return client
+		}()
+
 
 
     
@@ -96,22 +120,89 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         UNUserNotificationCenter.current().delegate = self
           
+		//-MARK: Configuing Google Places API
       //  GMSServices.provideAPIKey("YOUR_API_KEY")
         GMSPlacesClient.provideAPIKey("AIzaSyDezwobB5BsaO8E8RuuBA715EIc5CeZSCc")
         
+		
+		//-MARK: Configuring Beams Push Notification API
         self.beamsClient.start(instanceId: "ac1386a2-eac8-4f11-aaab-cad17174260a")
                 self.beamsClient.registerForRemoteNotifications()
         try? self.beamsClient.addDeviceInterest(interest: "hello")
         try? self.beamsClient.addDeviceInterest(interest: "debug-hello")
+		
+		
+		//-MARK: Configuring Firebase
      //   FirebaseApp.configure()
 		EasyFirebase.configure()
-        
+		
+		
+		//MARK: Customizing Stream Chat Messaging  Design
+		
+		
+		
+			var colors = ColorPalette()
+			//let streamBlue = UIColor(red: 0, green: 108.0 / 255.0, blue: 255.0 / 255.0, alpha: 1)
+			//colors.tintColor = Color(streamBlue)
+			let amarePink = UIColor(Background().colors.first!)
+			colors.tintColor = Background().colors.first!
+		var colorsToUse: [UIColor] = []
+		for color in Background().colors{
+			colorsToUse.append(color.uiColor())
+		}
+		colors.messageOtherUserBackground = colorsToUse
+
+		//	var fonts = Fonts()
+		//	fonts.footnoteBold = Font.footnote
+		//	fonts.body = Font.title
+
+			let images = Images()
+			images.reactionLoveBig = UIImage(systemName: "heart.fill")!
+
+			let appearance = Appearance(colors: colors/*, images: images, fonts: fonts*/)
+
+			let channelNamer: ChatChannelNamer = { channel, currentUserId in
+				"\(channel.name ?? "no name")"
+			}
+
+			let utils = Utils(channelNamer: channelNamer)
+		
+			
+		
+		
+		// The `StreamChat` instance we need to assign
+				streamChat = StreamChat(chatClient: chatClient, appearance: appearance, utils: utils)
+		
+		//MARK: Connecting User to Stream Chat Messaging
+		connectUser()
         //account = Account()
         
         return true
     }
     
-    
+	// The `connectUser` function we need to add.
+		private func connectUser() {
+			// This is a hardcoded token valid on Stream's tutorial environment.
+			let token = try! Token(rawValue: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoibHVrZV9za3l3YWxrZXIifQ.kFSLHRB5X62t0Zlc7nwczWUfsQMwfkpylC6jCUZ6Mc0")
+
+			// Call `connectUser` on our SDK to get started.
+			chatClient.connectUser(
+					userInfo: .init(id: "luke_skywalker",
+									name: "Luke Skywalker",
+									imageURL: URL(string: "https://vignette.wikia.nocookie.net/starwars/images/2/20/LukeTLJ.jpg")!),
+					token: token
+			) { error in
+				if let error = error {
+					// Some very basic error handling only logging the error.
+					log.error("connecting the user failed \(error)")
+					return
+				}
+			}
+		}
+	
+	
+	
+	
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         
         self.beamsClient.handleNotification(userInfo: userInfo)
@@ -227,4 +318,40 @@ extension UIApplication {
     func showKeyboard() {
         sendAction(#selector(UIResponder.becomeFirstResponder), to: nil, from: nil, for: nil)
     }
+}
+
+
+//MARK: Customizing Messaging
+
+class CustomViewFactory: ViewFactory {
+	@Injected(\.chatClient) public var chatClient
+
+	func makeMessageTextView(for message: ChatMessage,
+							 isFirst: Bool,
+							 availableWidth: CGFloat) -> some View {
+		return CustomMessageTextView(message: message, isFirst: isFirst)
+	}
+}
+
+struct CustomMessageTextView: View {
+	@Injected(\.colors) var colors
+	@Injected(\.fonts) var fonts
+
+	var message: ChatMessage
+	var isFirst: Bool
+
+	public var body: some View {
+		Text(message.text)
+			.padding()
+			.messageBubble(for: message, isFirst: isFirst)
+			.foregroundColor(Color(colors.text))
+			.font(fonts.bodyBold)
+			.overlay(
+				BottomRightView {
+					Image(systemName: "checkmark.circle.fill")
+						.foregroundColor(.green)
+						.offset(x: 1, y: -1)
+				}
+			)
+	}
 }

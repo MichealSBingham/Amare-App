@@ -108,6 +108,7 @@
 		26DE210A26C595E80004B5CE /* MessagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DE210926C595E80004B5CE /* MessagesView.swift */; };
 		26DE210C26C5963A0004B5CE /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DE210B26C5963A0004B5CE /* SettingsView.swift */; };
 		26DE210E26C596450004B5CE /* HomeGlobeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DE210D26C596450004B5CE /* HomeGlobeView.swift */; };
+		26E10BAA285A389E007666F9 /* StreamChatSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 26E10BA9285A389E007666F9 /* StreamChatSwiftUI */; };
 		26EDBB8D26AA7CE2005C1033 /* VerificationCodeView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26EDBB8C26AA7CE2005C1033 /* VerificationCodeView2.swift */; };
 		26F9205F26A760E500A4F8C6 /* Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F9205E26A760E500A4F8C6 /* Animations.swift */; };
 		26F9206B26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 26F9206A26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf */; };
@@ -259,6 +260,7 @@
 				2603B0C82838033F003ED2AB /* PopupView in Frameworks */,
 				2603B0CB283803B2003ED2AB /* MbSwiftUIFirstResponder in Frameworks */,
 				2696FABE28381D6F00584768 /* UICircularProgressRing in Frameworks */,
+				26E10BAA285A389E007666F9 /* StreamChatSwiftUI in Frameworks */,
 				263FBDDC28393B54008F35C5 /* FirebaseStorage in Frameworks */,
 				2603B0BB28380141003ED2AB /* URLImage in Frameworks */,
 				263FBDD128393ACB008F35C5 /* EasyFirebase in Frameworks */,
@@ -684,6 +686,7 @@
 				263FBDD928393B54008F35C5 /* FirebaseFirestoreSwift-Beta */,
 				263FBDDB28393B54008F35C5 /* FirebaseStorage */,
 				263FBDDD28393B54008F35C5 /* FirebaseStorageSwift-Beta */,
+				26E10BA9285A389E007666F9 /* StreamChatSwiftUI */,
 			);
 			productName = Love;
 			productReference = 26B1AFD22678FFE500A170B3 /* Amare.app */;
@@ -775,6 +778,7 @@
 				2696FADF2838327F00584768 /* XCRemoteSwiftPackageReference "MultipeerKit" */,
 				263FBDCF28393ACB008F35C5 /* XCRemoteSwiftPackageReference "easy-firebase" */,
 				263FBDD228393B54008F35C5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				26E10BA8285A389D007666F9 /* XCRemoteSwiftPackageReference "stream-chat-swiftui" */,
 			);
 			productRefGroup = 26B1AFD32678FFE500A170B3 /* Products */;
 			projectDirPath = "";
@@ -1499,6 +1503,14 @@
 				kind = branch;
 			};
 		};
+		26E10BA8285A389D007666F9 /* XCRemoteSwiftPackageReference "stream-chat-swiftui" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/getstream/stream-chat-swiftui";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1601,6 +1613,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 2696FADF2838327F00584768 /* XCRemoteSwiftPackageReference "MultipeerKit" */;
 			productName = MultipeerKit;
+		};
+		26E10BA9285A389E007666F9 /* StreamChatSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 26E10BA8285A389D007666F9 /* XCRemoteSwiftPackageReference "stream-chat-swiftui" */;
+			productName = StreamChatSwiftUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 

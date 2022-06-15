@@ -8,6 +8,8 @@
 import SwiftUI
 import NavigationStack
 import MultipeerKit
+import StreamChat
+import StreamChatSwiftUI
 
 
 struct MainView: View {
@@ -46,8 +48,18 @@ struct MainView: View {
             
                 Scanner()
                 .tag(3)
-                Chats()
-                .tag(4)
+			
+			NavigationStackView{
+				ChatChannelListView(viewFactory: CustomViewFactory())
+						
+						.environmentObject(account)
+						
+				
+			}
+			.tabItem { Label("Chats", systemImage: "message.circle") }
+			.tag(4)
+		
+			
                 Perferences()
                 .tag(5)
                 
@@ -93,7 +105,7 @@ struct MainView: View {
     
     func Chats() ->  some View  {
         
-        return MessagesView()
+        return ChatChannelListView(viewFactory: CustomViewFactory())
                 .tabItem { Label("Chats", systemImage: "message.circle") }
                 .environmentObject(account)
         

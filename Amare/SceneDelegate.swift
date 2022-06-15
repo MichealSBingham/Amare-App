@@ -12,6 +12,8 @@ import URLImage
 import URLImageStore
 import MultipeerKit
 import Firebase
+import StreamChat
+import StreamChatSwiftUI
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
@@ -62,6 +64,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                                     .environmentObject(self.account)
                                     .environment(\.urlImageService, urlImageService)
                                     .environmentObject(dataSource)
+			
+			
+			
+			//let firstView =   ChatChannelListView(viewFactory: CustomViewFactory())
                                     
 			///
 			window.overrideUserInterfaceStyle = .dark
