@@ -40,7 +40,7 @@ struct PositiveActionOnUserMenu: View {
     
     var body: some View {
         
-		ZStack {
+		
 			ZStack{
 				
 				
@@ -430,7 +430,7 @@ struct PositiveActionOnUserMenu: View {
 			}
 			
 			
-			
+		
 			.SPIndicator(isPresent: $justSentRequest, title: "Requested",  message: "Friend Request Sent", duration: 2.0, presentSide: .top, dismissByDrag: true, preset: .done, haptic: .success, layout: SPIndicatorLayout.init(iconSize: CGSize(width: 15, height: 15), margins: UIEdgeInsets.init(top: CGFloat(0), left: CGFloat(30), bottom: CGFloat(0), right: CGFloat(0))))
 			
 			.SPIndicator(isPresent: $justAccepeted, title: "Accepted",  message: "You're friends!", duration: 2.0, presentSide: .top, dismissByDrag: true, preset: .done, haptic: .success, layout: SPIndicatorLayout.init(iconSize: CGSize(width: 15, height: 15), margins: UIEdgeInsets.init(top: CGFloat(0), left: CGFloat(30), bottom: CGFloat(0), right: CGFloat(0))))
@@ -453,15 +453,17 @@ struct PositiveActionOnUserMenu: View {
 			.foregroundColor(.pink)
 			.foregroundStyle(.ultraThinMaterial)
 			.cornerRadius(20)
-			.opacity(showMessages ? 0 : 1 )
-		.padding()
 			
+		.padding()
+		.fullScreenCover(isPresented: $showMessages) {
 			ChatChannelView(
 							viewFactory: DefaultViewFactory.shared,
 							channelController: controller
 						)
-		.opacity(showMessages ? 1: 0 )
 		}
+			
+	
+		
 		
         
     }
