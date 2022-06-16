@@ -17,6 +17,7 @@ struct MainView: View {
     /// id of view
     static let id = String(describing: Self.self)
    
+	///  Contains the data model that represents all of the user data for the signed in user
     @StateObject private var mainViewModel: UserDataModel = UserDataModel()
     
     
@@ -53,6 +54,7 @@ struct MainView: View {
 				ChatChannelListView(viewFactory: CustomViewFactory(), title: "DMs")
 						
 						.environmentObject(account)
+						.navigationTitle("DMs")
 						
 				
 			}
@@ -161,11 +163,13 @@ struct MainView: View {
         account.listenOnlyForSignOut()
       
         
-		
+		print("the user is ... \(mainViewModel.userData)")
 		
 		
 		
     }
+	
+	
     
 }
 

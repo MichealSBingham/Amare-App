@@ -54,7 +54,8 @@ class Account: ObservableObject {
     
 
     init(){
-        
+		
+		
     }
 
 

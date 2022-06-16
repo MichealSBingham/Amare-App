@@ -8,12 +8,17 @@
 import Foundation
 import Firebase
 import UIKit
-
+import StreamChat
+import StreamChatSwiftUI
 
 /// Class for view model of  a user shown on screen
 class UserDataModel: ObservableObject{
     
-    @Published var userData: AmareUser = AmareUser()
+	@Published var userData: AmareUser = AmareUser() {
+		didSet {
+			connectUser()
+		}
+	}
     
 
 
@@ -406,6 +411,33 @@ class UserDataModel: ObservableObject{
     }
     
     
+	/// Connects the user to the ChatClient for messaging
+	private func connectUser() {
+		
+		
+		guard  self.userData.id == Auth.auth().currentUser?.uid else { print("This is not the signed in user, thus we are not connecting to chat client."); return }
+		
+		
+		guard userData.id != nil && userData.name != nil && userData.profile_image_url != nil else { print ("not connecting because we don't have proper data to"); return }
+	
+		
+		// This is a hardcoded token valid on Stream's tutorial environment.
+		let token = try! Token(rawValue: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoibHVrZV9za3l3YWxrZXIifQ.kFSLHRB5X62t0Zlc7nwczWUfsQMwfkpylC6jCUZ6Mc0")
+
+		// Call `connectUser` on our SDK to get started.
+		ChatClient.shared.connectUser(
+			userInfo: .init(id: userData.id!,
+							name: userData.name!,
+							imageURL: URL(string: userData.profile_image_url!)!),
+				token: token
+		) { error in
+			if let error = error {
+				// Some very basic error handling only logging the error.
+				log.error("connecting the user failed \(error)")
+				return
+			}
+		}
+	}
 
     
 }

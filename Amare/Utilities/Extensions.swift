@@ -8,7 +8,13 @@
 import Foundation
 import SwiftUI
 import Firebase
+import StreamChat
+import StreamChatSwiftUI
 
+///  We extend this so that we can use it outside of didFinishLaunching
+extension ChatClient {
+	static var shared: ChatClient!
+}
 
 extension Color {
  

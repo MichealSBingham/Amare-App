@@ -33,7 +33,7 @@ struct AmareApp: App {
        
         
         WindowGroup {
-			//ChatChannelListView(viewFactory: CustomViewFactory())
+			
         }
         
         .onChange(of: scenePhase) { newScenePhase in
@@ -97,7 +97,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 	var streamChat: StreamChat?
 
 		// This is the `chatClient`, with config we need to add
-	var chatClient: ChatClient = {
+/*	var chatClient: ChatClient = {
 			//For the tutorial we use a hard coded api key and application group identifier
 		var config = ChatClientConfig(apiKey: .init("8br4watad788"))
 		
@@ -112,7 +112,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 			let client = ChatClient(config: config)
 			return client
 		}()
-
+	*/
 
 
     
@@ -168,28 +168,45 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 			let utils = Utils(channelNamer: channelNamer)
 		
 			
+		var config = ChatClientConfig(apiKey: .init("8br4watad788"))
+		
+		ChatClient.shared = ChatClient(config: config)
 		
 		
 		// The `StreamChat` instance we need to assign
-				streamChat = StreamChat(chatClient: chatClient, appearance: appearance, utils: utils)
+		streamChat = StreamChat(chatClient: ChatClient.shared, appearance: appearance, utils: utils)
 		
 		//MARK: Connecting User to Stream Chat Messaging
-		connectUser()
+		// no  need to do this here
+		//connectUser()
         //account = Account()
         
         return true
     }
     
 	// The `connectUser` function we need to add.
-		private func connectUser() {
+		/*	private func connectUser() {
+			
+			
+			guard Account.shared.data?.isComplete() ?? false else { print("Data is not complete, thus we will not connect the user to messaging SDK. "); return }
+			
+			
+			print("Data is complete, thus we will connect to the user.")
+			
+			let name = Account.shared.data?.name ?? ""
+			let id = Account.shared.data?.id
+			let imageURL: String  = (Account.shared.data?.profile_image_url!)!
+			
+			guard let id = id else { print("We don't have the user id so we are not connecting to Messaging"); return }
+			
 			// This is a hardcoded token valid on Stream's tutorial environment.
 			let token = try! Token(rawValue: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoibHVrZV9za3l3YWxrZXIifQ.kFSLHRB5X62t0Zlc7nwczWUfsQMwfkpylC6jCUZ6Mc0")
 
 			// Call `connectUser` on our SDK to get started.
 			chatClient.connectUser(
-					userInfo: .init(id: "luke_skywalker",
-									name: "Luke Skywalker",
-									imageURL: URL(string: "https://vignette.wikia.nocookie.net/starwars/images/2/20/LukeTLJ.jpg")!),
+					userInfo: .init(id: id,
+									name: name,
+									imageURL: URL(string: imageURL)!),
 					token: token
 			) { error in
 				if let error = error {
@@ -198,7 +215,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 					return
 				}
 			}
-		}
+		}*/
 	
 	
 	
