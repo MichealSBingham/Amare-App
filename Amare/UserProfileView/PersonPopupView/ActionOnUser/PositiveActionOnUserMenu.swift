@@ -13,7 +13,7 @@ import StreamChatSwiftUI
 /// This should be changed to a floating button soon one day this is just a rough draft of actions a user can each other
 struct PositiveActionOnUserMenu: View {
     
-	@Injected(\.chatClient) var chatClient
+	//@Injected(\.chatClient) var chatClient
     @Binding var user: AmareUser
     
     // indicates if the user pressed wink at user so we can show the SP Indicator
@@ -30,10 +30,12 @@ struct PositiveActionOnUserMenu: View {
 	@State var showMessages: Bool = false
 	
 	private var controller: ChatChannelController {
-			let controller = chatClient.channelController(
-				for: try! ChannelId(cid: "messaging:0D991C91-2"),
+		/* let controller = ChatClient.shared.channelController(
+				for: try! ChannelId(cid: "messaging:0D991C91-7"),
 			   messageOrdering: .topToBottom
-			)
+			) */
+		
+		let controller = try!  ChatClient.shared.channelController(createDirectMessageChannelWith: [ChatClient.shared.currentUserId!,user.id!], extraData: [:])
 			
 			return controller
 		}

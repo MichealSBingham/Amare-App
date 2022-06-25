@@ -43,20 +43,6 @@ struct AmareApp: App {
             case .background:
                 print("\n\n Scence Phase: Background")
                 
-                /*
-                // Log out the user if they are in the sign up process
-                if !(isDoneWithSignUp()){
-                        // if not done with sign up... log user out.
-                    Account().signOut {
-                        //
-                        NavigationUtil.popToRootView()
-                    } cantSignOut: { error in
-                        //
-                    }
-
-                } */
-
-                
                 break
             case .inactive:
                 print("\n\n Scence Phase: Inactive ")
@@ -168,7 +154,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 			let utils = Utils(channelNamer: channelNamer)
 		
 			
-		var config = ChatClientConfig(apiKey: .init("8br4watad788"))
+		var config = ChatClientConfig(apiKey: .init("6vb87hptvk7d"))
+		
+		
 		
 		ChatClient.shared = ChatClient(config: config)
 		
@@ -176,10 +164,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 		// The `StreamChat` instance we need to assign
 		streamChat = StreamChat(chatClient: ChatClient.shared, appearance: appearance, utils: utils)
 		
-		//MARK: Connecting User to Stream Chat Messaging
-		// no  need to do this here
-		//connectUser()
-        //account = Account()
+		
         
         return true
     }

@@ -415,15 +415,17 @@ class UserDataModel: ObservableObject{
 	private func connectUser() {
 		
 		
+		
 		guard  self.userData.id == Auth.auth().currentUser?.uid else { print("This is not the signed in user, thus we are not connecting to chat client."); return }
 		
 		
 		guard userData.id != nil && userData.name != nil && userData.profile_image_url != nil else { print ("not connecting because we don't have proper data to"); return }
 	
-		
+				
 		// This is a hardcoded token valid on Stream's tutorial environment.
-		let token = try! Token(rawValue: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoibHVrZV9za3l3YWxrZXIifQ.kFSLHRB5X62t0Zlc7nwczWUfsQMwfkpylC6jCUZ6Mc0")
+		let token = try! Token(rawValue: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoidTR1UzFKeEgyWk84cmU2bWNoUVVKMXExOEttMiJ9.0lNOc9jdke0DQkmh5wLYlTaclVkxgD-fWdPy2jDiZ24")
 
+		
 		// Call `connectUser` on our SDK to get started.
 		ChatClient.shared.connectUser(
 			userInfo: .init(id: userData.id!,
@@ -431,6 +433,8 @@ class UserDataModel: ObservableObject{
 							imageURL: URL(string: userData.profile_image_url!)!),
 				token: token
 		) { error in
+			
+			print("Error connecting user: \(error)")
 			if let error = error {
 				// Some very basic error handling only logging the error.
 				log.error("connecting the user failed \(error)")
