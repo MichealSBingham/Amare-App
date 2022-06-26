@@ -16,7 +16,7 @@ class UserDataModel: ObservableObject{
     
 	@Published var userData: AmareUser = AmareUser() {
 		didSet {
-			connectUser()
+			connectUserToChatClient()
 		}
 	}
     
@@ -412,7 +412,7 @@ class UserDataModel: ObservableObject{
     
     
 	/// Connects the user to the ChatClient for messaging
-	private func connectUser() {
+	private func connectUserToChatClient() {
 		
 		
 		
@@ -421,10 +421,15 @@ class UserDataModel: ObservableObject{
 		
 		guard userData.id != nil && userData.name != nil && userData.profile_image_url != nil else { print ("not connecting because we don't have proper data to"); return }
 	
-				
+			
+	//MARK: Getting the token so that we can connect to the chat client
 		// This is a hardcoded token valid on Stream's tutorial environment.
 		let token = try! Token(rawValue: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoidTR1UzFKeEgyWk84cmU2bWNoUVVKMXExOEttMiJ9.0lNOc9jdke0DQkmh5wLYlTaclVkxgD-fWdPy2jDiZ24")
 
+		
+		//MARK: Ensuring that the chat client isn't already connected with the same information so that we don't unneccesarily connect
+		
+		//guard (ChatClient.shared.currentUserId ?? "" != user.id) && (ChatClient.shared.opti)
 		
 		// Call `connectUser` on our SDK to get started.
 		ChatClient.shared.connectUser(

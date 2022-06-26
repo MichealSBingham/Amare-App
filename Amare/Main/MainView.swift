@@ -55,6 +55,7 @@ struct MainView: View {
 						
 						.environmentObject(account)
 						.navigationTitle("DMs")
+						.environmentObject(mainViewModel)
 						
 				
 			}

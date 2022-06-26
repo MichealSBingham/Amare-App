@@ -155,6 +155,15 @@
         }
       },
       {
+        "package": "LoremSwiftum",
+        "repositoryURL": "https://github.com/lukaskubanek/LoremSwiftum",
+        "state": {
+          "branch": "master",
+          "revision": "8942e732e50458cde5dccf9996afa16f29372853",
+          "version": null
+        }
+      },
+      {
         "package": "MbSwiftUIFirstResponder",
         "repositoryURL": "https://github.com/Mobilinked/MbSwiftUIFirstResponder",
         "state": {

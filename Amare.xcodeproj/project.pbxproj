@@ -109,6 +109,8 @@
 		26DE210C26C5963A0004B5CE /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DE210B26C5963A0004B5CE /* SettingsView.swift */; };
 		26DE210E26C596450004B5CE /* HomeGlobeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DE210D26C596450004B5CE /* HomeGlobeView.swift */; };
 		26E10BAA285A389E007666F9 /* StreamChatSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 26E10BA9285A389E007666F9 /* StreamChatSwiftUI */; };
+		26E10BAD28679A6E007666F9 /* MessagesChannelListTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E10BAC28679A6D007666F9 /* MessagesChannelListTopView.swift */; };
+		26E10BB02867B197007666F9 /* LoremSwiftum in Frameworks */ = {isa = PBXBuildFile; productRef = 26E10BAF2867B197007666F9 /* LoremSwiftum */; };
 		26EDBB8D26AA7CE2005C1033 /* VerificationCodeView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26EDBB8C26AA7CE2005C1033 /* VerificationCodeView2.swift */; };
 		26F9205F26A760E500A4F8C6 /* Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F9205E26A760E500A4F8C6 /* Animations.swift */; };
 		26F9206B26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 26F9206A26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf */; };
@@ -224,6 +226,7 @@
 		26DE210926C595E80004B5CE /* MessagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesView.swift; sourceTree = "<group>"; };
 		26DE210B26C5963A0004B5CE /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		26DE210D26C596450004B5CE /* HomeGlobeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeGlobeView.swift; sourceTree = "<group>"; };
+		26E10BAC28679A6D007666F9 /* MessagesChannelListTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesChannelListTopView.swift; sourceTree = "<group>"; };
 		26EDBB8C26AA7CE2005C1033 /* VerificationCodeView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationCodeView2.swift; sourceTree = "<group>"; };
 		26F2E0A9281845B500E66B57 /* TimeZoneLocate.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TimeZoneLocate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		26F2E0AB281845DC00E66B57 /* TimeZoneLocate.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TimeZoneLocate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -267,6 +270,7 @@
 				2603B0BD28380141003ED2AB /* URLImageStore in Frameworks */,
 				2696FAC428381EB200584768 /* SkeletonUI in Frameworks */,
 				2696FABB28381CFD00584768 /* Shimmer in Frameworks */,
+				26E10BB02867B197007666F9 /* LoremSwiftum in Frameworks */,
 				263FBDD428393B54008F35C5 /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -475,6 +479,7 @@
 		26B1AFD42678FFE500A170B3 /* Amare */ = {
 			isa = PBXGroup;
 			children = (
+				26E10BAB28679A4E007666F9 /* Messaging */,
 				2662ED152842D17600B0EA57 /* NearbyUsers */,
 				26007F012795A6AE00B0E7C7 /* UserProfileView */,
 				26876A8A26E425CC00683CD6 /* CustomChartViews */,
@@ -612,6 +617,14 @@
 			path = Main;
 			sourceTree = "<group>";
 		};
+		26E10BAB28679A4E007666F9 /* Messaging */ = {
+			isa = PBXGroup;
+			children = (
+				26E10BAC28679A6D007666F9 /* MessagesChannelListTopView.swift */,
+			);
+			path = Messaging;
+			sourceTree = "<group>";
+		};
 		26F9206926A8752200A4F8C6 /* FontResources */ = {
 			isa = PBXGroup;
 			children = (
@@ -687,6 +700,7 @@
 				263FBDDB28393B54008F35C5 /* FirebaseStorage */,
 				263FBDDD28393B54008F35C5 /* FirebaseStorageSwift-Beta */,
 				26E10BA9285A389E007666F9 /* StreamChatSwiftUI */,
+				26E10BAF2867B197007666F9 /* LoremSwiftum */,
 			);
 			productName = Love;
 			productReference = 26B1AFD22678FFE500A170B3 /* Amare.app */;
@@ -779,6 +793,7 @@
 				263FBDCF28393ACB008F35C5 /* XCRemoteSwiftPackageReference "easy-firebase" */,
 				263FBDD228393B54008F35C5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				26E10BA8285A389D007666F9 /* XCRemoteSwiftPackageReference "stream-chat-swiftui" */,
+				26E10BAE2867B196007666F9 /* XCRemoteSwiftPackageReference "LoremSwiftum" */,
 			);
 			productRefGroup = 26B1AFD32678FFE500A170B3 /* Products */;
 			projectDirPath = "";
@@ -1026,6 +1041,7 @@
 				26748CC22707A01500B5D338 /* ProfilePopup.swift in Sources */,
 				26B1AFE22678FFE700A170B3 /* Love.xcdatamodeld in Sources */,
 				26C255B727149B420066735E /* PositiveActionOnUserMenu.swift in Sources */,
+				26E10BAD28679A6E007666F9 /* MessagesChannelListTopView.swift in Sources */,
 				268F26C1268018EE00FBEA7D /* ForNavigation.swift in Sources */,
 				2608CF482691425E00826FDA /* QR.swift in Sources */,
 				2608CF4E2695139800826FDA /* EnterOrientationView.swift in Sources */,
@@ -1511,6 +1527,14 @@
 				minimumVersion = 4.0.0;
 			};
 		};
+		26E10BAE2867B196007666F9 /* XCRemoteSwiftPackageReference "LoremSwiftum" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/lukaskubanek/LoremSwiftum";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1618,6 +1642,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 26E10BA8285A389D007666F9 /* XCRemoteSwiftPackageReference "stream-chat-swiftui" */;
 			productName = StreamChatSwiftUI;
+		};
+		26E10BAF2867B197007666F9 /* LoremSwiftum */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 26E10BAE2867B196007666F9 /* XCRemoteSwiftPackageReference "LoremSwiftum" */;
+			productName = LoremSwiftum;
 		};
 /* End XCSwiftPackageProductDependency section */
 

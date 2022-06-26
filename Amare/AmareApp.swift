@@ -323,7 +323,7 @@ extension UIApplication {
 }
 
 
-//MARK: Customizing Messaging
+//MARK: Customizing The Chat UI
 
 class CustomViewFactory: ViewFactory {
 	@Injected(\.chatClient) public var chatClient
@@ -334,9 +334,18 @@ class CustomViewFactory: ViewFactory {
 		return CustomMessageTextView(message: message, isFirst: isFirst)
 	}
 	
+	func makeChannelListHeaderViewModifier(title: String) -> some ChannelListHeaderViewModifier {
+			CustomChannelModifier(title: title)
+		}
+	
+	func makeChannelListTopView(searchText: Binding<String>) -> some View {
+		MessagesChannelListTopView(searchText: searchText)
+	}
 	
 }
 
+
+//MARK: Custom Message Text View
 struct CustomMessageTextView: View {
 	@Injected(\.colors) var colors
 	@Injected(\.fonts) var fonts
@@ -358,4 +367,58 @@ struct CustomMessageTextView: View {
 				}
 			)
 	}
+}
+
+
+//MARK: Custom Chanel Header
+public struct CustomChannelHeader: ToolbarContent {
+
+	@Injected(\.fonts) var fonts
+	@Injected(\.images) var images
+
+	public var title: String
+	public var onTapLeading: () -> ()
+
+	public var body: some ToolbarContent {
+		ToolbarItem(placement: .principal) {
+			Text(title)
+				.font(fonts.bodyBold)
+		}
+		ToolbarItem(placement: .navigationBarTrailing) {
+			NavigationLink {
+				Text("This is injected view")
+			} label: {
+				Image(uiImage: images.messageActionEdit)
+					.resizable()
+			}
+		}
+		ToolbarItem(placement: .navigationBarLeading) {
+			Button {
+				onTapLeading()
+			} label: {
+				Image(systemName: "line.3.horizontal")
+					.resizable()
+			}
+		}
+	}
+}
+
+//MARK: Custom Channel Modifier
+struct CustomChannelModifier: ChannelListHeaderViewModifier {
+
+	var title: String
+
+	@State var profileShown = false
+
+	func body(content: Content) -> some View {
+		content.toolbar {
+			CustomChannelHeader(title: title) {
+				profileShown = true
+			}
+		}
+		.sheet(isPresented: $profileShown) {
+			Text("Profile View")
+		}
+	}
+
 }

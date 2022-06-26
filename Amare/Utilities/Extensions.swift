@@ -16,6 +16,15 @@ extension ChatClient {
 	static var shared: ChatClient!
 }
 
+extension Image {
+	func customizable() -> some View {
+		renderingMode(.template)
+			.resizable()
+			.scaledToFit()
+	}
+}
+
+
 extension Color {
  
 	func uiColor() -> UIColor {
@@ -42,6 +51,21 @@ extension Color {
 			a = CGFloat(hexNumber & 0x000000ff) / 255
 		}
 		return (r, g, b, a)
+	}
+	
+	static func random() -> Color {
+		return Color(UIColor.random)
+	}
+}
+
+extension UIColor {
+	static var random: UIColor {
+		return UIColor(
+			red: .random(in: 0...1),
+			green: .random(in: 0...1),
+			blue: .random(in: 0...1),
+			alpha: 1.0
+		)
 	}
 }
 
