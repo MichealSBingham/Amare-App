@@ -424,7 +424,36 @@ class UserDataModel: ObservableObject{
 			
 	//MARK: Getting the token so that we can connect to the chat client
 		// This is a hardcoded token valid on Stream's tutorial environment.
-		let token = try! Token(rawValue: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoidTR1UzFKeEgyWk84cmU2bWNoUVVKMXExOEttMiJ9.0lNOc9jdke0DQkmh5wLYlTaclVkxgD-fWdPy2jDiZ24")
+		
+		
+		
+		MessagingAPI.getToken(userId: userData.id) { [self] error, tokenS in
+			
+			guard error == nil && tokenS != nil  else {
+				
+				//TODO: Handle error here
+				print("Some error trying to get token \(error) ")
+				return
+			}
+			
+			let token = try! Token(rawValue: tokenS!)
+			
+			ChatClient.shared.connectUser(
+				userInfo: .init(id: self.userData.id!,
+								name: self.userData.name!,
+								imageURL: URL(string: self.userData.profile_image_url!)!),
+					token: token
+			) { error in
+				
+				print("Error connecting user: \(error)")
+				if let error = error {
+					// Some very basic error handling only logging the error.
+					log.error("connecting the user failed \(error)")
+					return
+				}
+			}
+			
+		}
 
 		
 		//MARK: Ensuring that the chat client isn't already connected with the same information so that we don't unneccesarily connect
@@ -432,20 +461,7 @@ class UserDataModel: ObservableObject{
 		//guard (ChatClient.shared.currentUserId ?? "" != user.id) && (ChatClient.shared.opti)
 		
 		// Call `connectUser` on our SDK to get started.
-		ChatClient.shared.connectUser(
-			userInfo: .init(id: userData.id!,
-							name: userData.name!,
-							imageURL: URL(string: userData.profile_image_url!)!),
-				token: token
-		) { error in
-			
-			print("Error connecting user: \(error)")
-			if let error = error {
-				// Some very basic error handling only logging the error.
-				log.error("connecting the user failed \(error)")
-				return
-			}
-		}
+	
 	}
 
     

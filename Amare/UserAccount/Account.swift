@@ -13,6 +13,7 @@ import FirebaseFirestoreSwift
 import SwiftUI
 import FirebaseStorage
 import PushNotifications
+import EasyFirebase
 
 
 /// Class for handling user account related things such as signing in, signing out, listening for auth changes, adding and reading from the database, etc. An account is associated with one user.
@@ -1530,7 +1531,7 @@ class Account: ObservableObject {
         
        // Get reference to cloud storage
       //  let ref =  (self.storage == nil) ? Storage.storage().reference()   :  self.storage!
-        let ref = Storage.storage(url: "gs://loveequationapp.appspot.com").reference()
+        let ref = Storage.storage(url: "gs://findamare.appspot.com").reference()
         self.storage = ref
         
       //  Auth().currentUser?.reauthenticate(with: <#T##AuthCredential#>, completion: <#T##((AuthDataResult?, Error?) -> Void)?##((AuthDataResult?, Error?) -> Void)?##(AuthDataResult?, Error?) -> Void#>)
@@ -1547,246 +1548,24 @@ class Account: ObservableObject {
         
         let uploadMetaData = StorageMetadata.init()
         uploadMetaData.contentType = "image/jpeg"
-        
-    
-        
-        let taskReference = uploadRef.putData(imageData, metadata: uploadMetaData) { downloadMetaData, error in
-            
-            if let error = error {
-                // some error occured
-                print("***Some error uplaoding in task reference ... \(error)")
-                completion(AccountError.uploadError)
-                return
-
-            }
-            
-            //  No error, get the image URL
-        
-            uploadRef.downloadURL { url, error in
-                print("***Dowloading url with  error \(error) and url \(url)")
-                if error != nil{
-                    completion(AccountError.uploadError)
-                    return
-                }
-                
-                // No error after getting url
-                
-                let imageURL = url?.absoluteString
-                
-                print("***image url is .. \(imageURL)")
-                
-                // Set the url link in the database
-               
-                
-                if isProfileImage{
-					
-					//TODO: Rewrite image upload
-					
-					Account.shared.signUpData.profile_image_url = imageURL
-					
-					/*
-					
-					self.data?.profile_image_url = imageURL
-                    
-                    print("***It's a profile image... \(self.data?.profile_image_url)")
-                    do{
-                        print("***trying...to save profile image ")
-                        try self.save()
-                    } catch (let error){
-                        print("***could not save profile image with error .. \(error)")
-                        completion(error)
-                        return
-                    }
-                }
+		
+		EasyStorage.put(imageData, to: StorageResource(id: userid)) { url in
+			
+			guard let url = url else {
 				
-				*/
+				Account.shared.signUpData.profile_image_url = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cG9ydHJhaXR8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60"
 
-				}
-                // Now add it to the images array
-                //****************************
-               
-             
-				if isProfileImage {
-					
-					DB.collection("users").document(userid).setData(["images": FieldValue.arrayUnion([imageURL!])]) { error in
-						
-						
-						guard error == nil else {
-							// There is an error when trying to update the data
-							
-							if let error = StorageErrorCode(rawValue: error?._code ?? 17999){
-								// We try to read the error
+				completion(nil)
+				return
+			}
+			
 
-								
-								switch error {
-									
-									// Handle Global Errors
-								case .quotaExceeded:
-									completion(GlobalError.quotaExceeded)
-									return
-								case .unauthorized:
-									completion(AccountError.notAuthorized)
-									return
-								case .unauthenticated:
-									completion(AccountError.notSignedIn)
-									return
-								case .objectNotFound:
-									// There is no object located here so we need to create one and add it.
-									DB.collection("users").document(self.data?.id ?? self.user!.uid).setData(["images": []]) { error in
-										
-										print("Object Not found...")
-										
-									   guard error == nil else  {
-											print("We failed to upload it in the databases, we tried to set the images data to an empty array but it dind't work")
-										   completion(GlobalError.unknown)
-										   return
-										   
-										}
-										
-										// It worked so let's just try again
-										self.upload(image: image, isProfileImage: isProfileImage) { error in
-											
-											print("Trying again .. (upload) ")
-											
-											guard error == nil else {
-												// It didn't work so just try again
-												print("error We failed trying to recursiviely upload the image if .objectNotfound with error \(error!.localizedDescription)")
-												completion(GlobalError.unknown)
-												return
-												
-												
-											}
-											// It worked.
-											print("it worked .. self.upload")
-											completion(nil)
-											return
-									  
-											
-										}
-									}
-							   
-								default:
-									print("\n\nSome error happened, likely an unhandled error from firebase : \(error). This happened inside Account.upload()")
-									completion(GlobalError.unknown)
-									return
-								}
-								
-								
-							}
-							
-							// it's some other error , unknown to us
-							print("\n\nSome error happened, global \(error?.localizedDescription) happened at the end of upload ")
-							completion(GlobalError.unknown)
-							return
-						}
-					   
-						print("No error ..uploaded image")
-						completion(nil)
-						return
-						
-					}
-					
-					
-				} else {
-                
-                DB.collection("users").document(userid).updateData(["images": FieldValue.arrayUnion([imageURL!])]) { error in
-                    
-                    
-                    guard error == nil else {
-                        // There is an error when trying to update the data
-                        
-                        if let error = StorageErrorCode(rawValue: error?._code ?? 17999){
-                            // We try to read the error
-
-                            
-                            switch error {
-                                
-                                // Handle Global Errors
-                            case .quotaExceeded:
-                                completion(GlobalError.quotaExceeded)
-                                return
-                            case .unauthorized:
-                                completion(AccountError.notAuthorized)
-                                return
-                            case .unauthenticated:
-                                completion(AccountError.notSignedIn)
-                                return
-                            case .objectNotFound:
-                                // There is no object located here so we need to create one and add it.
-                                DB.collection("users").document(self.data?.id ?? self.user!.uid).setData(["images": []]) { error in
-                                    
-                                    print("Object Not found...")
-                                    
-                                   guard error == nil else  {
-                                        print("We failed to upload it in the databases, we tried to set the images data to an empty array but it dind't work")
-                                       completion(GlobalError.unknown)
-                                       return
-                                       
-                                    }
-                                    
-                                    // It worked so let's just try again
-                                    self.upload(image: image, isProfileImage: isProfileImage) { error in
-                                        
-                                        print("Trying again .. (upload) ")
-                                        
-                                        guard error == nil else {
-                                            // It didn't work so just try again
-                                            print("error We failed trying to recursiviely upload the image if .objectNotfound with error \(error!.localizedDescription)")
-                                            completion(GlobalError.unknown)
-                                            return
-                                            
-                                            
-                                        }
-                                        // It worked.
-                                        print("it worked .. self.upload")
-                                        completion(nil)
-                                        return
-                                  
-                                        
-                                    }
-                                }
-                           
-                            default:
-                                print("\n\nSome error happened, likely an unhandled error from firebase : \(error). This happened inside Account.upload()")
-                                completion(GlobalError.unknown)
-                                return
-                            }
-                            
-                            
-                        }
-                        
-                        // it's some other error , unknown to us
-                        print("\n\nSome error happened, global \(error?.localizedDescription) happened at the end of upload ")
-                        completion(GlobalError.unknown)
-                        return
-                    }
-                   
-                    print("No error ..uploaded image")
-                    completion(nil)
-                    return 
-                    
-                }
-                
-				}
-                
-                
-            }
-            
-           
-            
-            
-            //
-        }
+			Account.shared.signUpData.profile_image_url = url.absoluteString
+			completion(nil)
+		}
         
-        
-        // for keepign track of download progress
-        taskReference.observe(.progress) { [weak self ] snapshot in
-            
-            guard  let pctThere = snapshot.progress?.fractionCompleted else { return  }
-                
-                print("Image upload progress : \(pctThere)")
-                
-        }
+   
+	
         
         
     }
@@ -1805,7 +1584,7 @@ class Account: ObservableObject {
         
        // Get reference to cloud storage
       //  let ref =  (self.storage == nil) ? Storage.storage().reference()   :  self.storage!
-        let ref = Storage.storage(url: "gs://loveequationapp.appspot.com").reference()
+        let ref = Storage.storage(url: "gs://findamare.appspot.com").reference()
         self.storage = ref
         
       //  Auth().currentUser?.reauthenticate(with: <#T##AuthCredential#>, completion: <#T##((AuthDataResult?, Error?) -> Void)?##((AuthDataResult?, Error?) -> Void)?##(AuthDataResult?, Error?) -> Void#>)

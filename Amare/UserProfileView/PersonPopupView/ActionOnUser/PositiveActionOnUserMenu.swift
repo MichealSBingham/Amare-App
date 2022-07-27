@@ -36,6 +36,8 @@ struct PositiveActionOnUserMenu: View {
 			) */
 		
 		let controller = try!  ChatClient.shared.channelController(createDirectMessageChannelWith: [ChatClient.shared.currentUserId!,user.id!], extraData: [:])
+		
+		
 			
 			return controller
 		}

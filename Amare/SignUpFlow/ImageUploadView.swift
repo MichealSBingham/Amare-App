@@ -8,6 +8,9 @@
 import SwiftUI
 import NavigationStack
 import FirebaseStorage
+import EasyFirebase
+import Firebase
+import FirebaseAuth
 
 struct ImageUploadView: View {
     
