@@ -46,6 +46,7 @@ struct EnterNameView: View {
         
         ZStack{
             
+			
             VStack{
                     
             

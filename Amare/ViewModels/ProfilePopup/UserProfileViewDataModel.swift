@@ -14,12 +14,13 @@ import StreamChatSwiftUI
 /// Class for view model of  a user shown on screen
 class UserDataModel: ObservableObject{
     
-	@Published var userData: AmareUser = AmareUser() {
+	@Published var userData: AmareUser = AmareUser(name: "Diana Hassell") {
 		didSet {
 			connectUserToChatClient()
 		}
 	}
     
+	
 
 
     

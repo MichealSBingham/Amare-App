@@ -9,7 +9,16 @@ import SwiftUI
 import VTabView
 import UICircularProgressRing
 
+var randomPlanet: Planet = Planet(name: .Sun, angle: 17.82, element: .water, onCusp: false, retrograde: false, one_line_placement_interpretation: nil, longer_placement_interpretation: nil, sign: .Cancer, house: 7, cusp: nil, speed: 7, forSynastry: false, _aspectThatExists: nil)
+
+class UserProfileDataModel: ObservableObject{
+	
+}
+
 struct UserProfileView: View {
+	
+	@StateObject private var dataModel = UserDataModel()
+	
     var body: some View {
 		
 		
@@ -20,13 +29,13 @@ struct UserProfileView: View {
 				UserImageView()
 					.padding()
 				
-				Text("Diana 😉 at you")
+				Text((dataModel.userData.winkedAtMe ?? false) ? "\(dataModel.userData.name ?? "") 😉 at you" : "")
 					.fontWeight(.light)
 				
 				
 				HStack{
 					
-					Text("Diana Hassell")
+					Text(dataModel.userData.name ?? "")
 						.font(.largeTitle)
 						.fontWeight(.bold)
 						.padding(.horizontal)
@@ -38,7 +47,7 @@ struct UserProfileView: View {
 				}
 				.padding(.top)
 				
-				BriefAstrologyProfileTabView()
+				BriefAstrologyProfileTabView(natalChart: dataModel.userData.natal_chart)
 					
 					
 				
@@ -251,12 +260,16 @@ struct ProfileCard: View {
 
 struct BriefAstrologyProfileTabView: View {
 	
+	var natalChart: NatalChart? 
+	
 	var body: some View {
 		
 		TabView{
 			
 			HStack{
-				SunSignView()
+				
+				var sun = natalChart?.planets.get(planet: .Sun) ?? randomPlanet
+				SunSignView(planet: sun)
 					.padding(.horizontal)
 					.padding(.top, -10)
 				Spacer()
@@ -264,22 +277,58 @@ struct BriefAstrologyProfileTabView: View {
 			
 			
 			HStack{
-				PlanetView()
+				var sun = natalChart?.planets.get(planet: .Sun) ?? randomPlanet
+				PlanetView(planet: sun )
 					.padding()
-				PlanetView()
+				
+				var moon = natalChart?.planets.get(planet: .Moon) ?? randomPlanet
+				PlanetView(planet: moon)
 					.padding()
-				PlanetView()
+				
+				//TODO: Change to the ascendant
+				var rando = natalChart?.planets.get(planet: .Moon) ?? randomPlanet
+				PlanetView(planet: rando)
 					.padding()
 			}
 			
 			HStack{
+				
+				var mercury = natalChart?.planets.get(planet: .Mercury) ?? randomPlanet
+				var venus = natalChart?.planets.get(planet: .Venus) ?? randomPlanet
+				var mars = natalChart?.planets.get(planet: .Mars) ?? randomPlanet
 				 
-				PlanetView()
+				PlanetView(planet: mercury)
 					.padding()
-				PlanetView()
+				PlanetView(planet: venus)
 					.padding()
-				PlanetView()
+				PlanetView(planet: mars)
 					.padding()
+			}
+			
+			HStack{
+				
+				var jupiter = natalChart?.planets.get(planet: .Jupiter) ?? randomPlanet
+				var saturn = natalChart?.planets.get(planet: .Saturn) ?? randomPlanet
+				var uranus = natalChart?.planets.get(planet: .Uranus) ?? randomPlanet
+				 
+				PlanetView(planet: jupiter)
+					.padding()
+				PlanetView(planet: saturn)
+					.padding()
+				PlanetView(planet: uranus)
+					.padding()
+			}
+			
+			HStack{
+				
+				var neptune = natalChart?.planets.get(planet: .Neptune) ?? randomPlanet
+				var pluto = natalChart?.planets.get(planet: .Pluto) ?? randomPlanet
+				 
+				PlanetView(planet: neptune)
+					.padding()
+				PlanetView(planet: pluto)
+					.padding()
+				
 			}
 				
 				
@@ -295,6 +344,9 @@ struct BriefAstrologyProfileTabView: View {
 }
 
 struct PlanetView: View {
+	
+	var planet: Planet = Planet(name: .Mercury, angle: 17.82, element: .fire, onCusp: false, retrograde: false, one_line_placement_interpretation: nil, longer_placement_interpretation: nil, sign: .Leo, house: 7, cusp: nil, speed: 7, forSynastry: false, _aspectThatExists: nil)
+	
 	var body: some View {
 		
 		
@@ -302,11 +354,11 @@ struct PlanetView: View {
 			
 			HStack{
 				
-				Image("ZodiacIcons/Moon")
-					.resizable()
+				planet.name.image()
+					//.resizable()
 					.scaledToFit()
 					.frame(width: 25, height: 25)
-				Image("ZodiacIcons/Cancer")
+				planet.sign.image()
 					.resizable()
 					.scaledToFit()
 					.frame(width: 25, height: 25)
@@ -314,7 +366,7 @@ struct PlanetView: View {
 		
 			}
 			
-			Text("Cancer Moon")
+			Text("**\(planet.sign.rawValue)** \(planet.name.rawValue)")
 		
 		}
 		
@@ -372,32 +424,39 @@ struct TagView: View {
 	}
 }
 
+/*
 struct TagView_Previews: PreviewProvider{
 	static var previews: some View{
 		TagView(description: "Loves The Outdoors", color: .yellow)
 	}
 }
+*/
 
 struct SunSignView: View {
+	
+	var planet: Planet = Planet(name: .Sun, angle: 17.82, element: .water, onCusp: false, retrograde: false, one_line_placement_interpretation: nil, longer_placement_interpretation: nil, sign: .Scorpio, house: 7, cusp: nil, speed: 7, forSynastry: false, _aspectThatExists: nil)
+	
 	var body: some View {
 		
 		HStack{
 			
 			Group{
 				
-				Image("ZodiacIcons/Sun")
-					.resizable()
+				PlanetName.Sun.image()
+					//.resizable()
 					.scaledToFit()
 					.frame(width: 25, height: 25)
-				Image("ZodiacIcons/Scorpio")
+				planet.sign.image()
 					.resizable()
 					.scaledToFit()
 					.frame(width: 25, height: 25)
 			}
-			Text("Scorpio")
+			Text("\(planet.sign.rawValue)")
 				.bold()
-			Text("15’32°")
-			Image("ZodiacIcons/water")
+			Text("\(planet.angle.dm)")
+				
+			//Image("ZodiacIcons/water")
+			planet.element.image()
 				.resizable()
 				.scaledToFit()
 				.frame(width: 25, height: 25)
@@ -420,15 +479,18 @@ struct UserImageView: View {
 
 
 struct UserProfileView_Previews: PreviewProvider {
+	
     static var previews: some View {
-        UserProfileView()
+		UserProfileView()
+			
     }
 }
 
-
+/*
 struct UserImageView_Previews: PreviewProvider {
 	static var previews: some View {
 		UserImageView()
 	}
 }
 
+*/
