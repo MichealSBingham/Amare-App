@@ -202,10 +202,38 @@ struct ProfileCard: View {
 		ZStack{
 			
 			
-			Text(text)
-				.foregroundColor(.white)
-				.padding()
-				.frame(width: CGFloat(400), height: CGFloat(200))
+		
+				
+				
+				Text(text)
+					.foregroundColor(.white)
+					.padding()
+				
+					.frame(width: CGFloat(400), height: CGFloat(180))
+				
+				
+			//VStack{
+				
+				//Spacer()
+				
+				
+			HStack{
+				Spacer()
+				
+				ProfileImageView(profile_image_url: .constant("https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"), size: CGFloat(55))
+					.padding()
+					.offset(y: 55)
+				
+			}
+					
+			//}
+				
+			
+				
+		
+			
+			
+			
 				
 			
 				
