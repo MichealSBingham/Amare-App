@@ -23,7 +23,6 @@ struct MainView: View {
     
     
     @EnvironmentObject private var account: Account
-    @EnvironmentObject private var navigationStack: NavigationStack
 
     
     @State private var tabSelection = 1
@@ -136,11 +135,11 @@ struct MainView: View {
         if isRoot {
             // Push it back I suppose ...
 			print("***Pushing back is root")
-            navigationStack.push(SignInOrUpView( isRoot: false))
+            //navigationStack.push(SignInOrUpView( isRoot: false))
         } else{
             
 			print("***popping back instead ")
-            navigationStack.pop(to: .root)
+            //navigationStack.pop(to: .root)
         }
      
         

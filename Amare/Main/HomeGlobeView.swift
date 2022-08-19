@@ -68,7 +68,7 @@ struct MapView: View {
     
 
     
-    @State var places: [MapAnnotation] = []
+  //  @State var places: [MapAnnotation] = []
     
   
     // We only declare it as a same type as NearbyPeople purely because I'm lazy and i've already coded the UI for this.
@@ -1035,7 +1035,7 @@ struct Globe: UIViewRepresentable{
         
         let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 0, longitude: 0), latitudinalMeters: 16093400, longitudinalMeters: 16093400)
         
-        mapView.animatedZoom(to: region, for: 3)
+        //mapView.animatedZoom(to: region, for: 3)
         
         mapView.delegate = context.coordinator
         

@@ -17,7 +17,7 @@ struct VerificationCodeView2: View {
     static let id = String(describing: Self.self)
 
     /// To manage navigation
-    @EnvironmentObject private var navigationStack: NavigationStack
+  //  @EnvironmentObject private var //navigationStack: NavigationStack
 
     
     /// The current user's account
@@ -174,7 +174,7 @@ struct VerificationCodeView2: View {
     func goBack()   {
         
         AmareApp().dismissKeyboard {
-            navigationStack.pop()
+            //navigationStack.pop()
         }
         
         
@@ -376,12 +376,12 @@ struct VerificationCodeView2: View {
         
         guard screen == .done else {
            
-            navigationStack.push(EnterNameView().environmentObject(account), withId: EnterNameView.id)
+            //navigationStack.push(EnterNameView().environmentObject(account), withId: EnterNameView.id)
             return 
         }
     
             
-        navigationStack.push(MainView(isRoot: false).environmentObject(account), withId: MainView.id)
+        //navigationStack.push(MainView(isRoot: false).environmentObject(account), withId: MainView.id)
         
        
     }

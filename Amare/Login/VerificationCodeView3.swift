@@ -20,7 +20,7 @@ public struct VerificationCodeView3: View {
     static let id = String(describing: Self.self)
 
     /// To manage navigation
-    @EnvironmentObject private var navigationStack: NavigationStack
+	//@EnvironmentObject private var //navigationStack: NavigationStack.Nav
 
     
     /// The current user's account
@@ -363,7 +363,7 @@ public struct VerificationCodeView3: View {
         
         print("going back...")
             firstResponder = nil
-            navigationStack.pop()
+            //navigationStack.pop()
     
         
     
@@ -460,12 +460,12 @@ public struct VerificationCodeView3: View {
         
         guard signUpDataIsComplete else {
            
-            navigationStack.push(EnterNameView().environmentObject(account), withId: EnterNameView.id)
+            //navigationStack.push(EnterNameView().environmentObject(account), withId: EnterNameView.id)
             return
         }
     
             
-        navigationStack.push(MainView(isRoot: false).environmentObject(account), withId: MainView.id)
+        //navigationStack.push(MainView(isRoot: false).environmentObject(account), withId: MainView.id)
         
        
     }

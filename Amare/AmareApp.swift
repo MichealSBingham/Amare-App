@@ -149,9 +149,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
 			let channelNamer: ChatChannelNamer = { channel, currentUserId in
 				"\(channel.name ?? "no name")"
+				
 			}
 
-			let utils = Utils(channelNamer: channelNamer)
+			let utils = Utils(channelNamer: DefaultChatChannelNamer())
+	
 		
 			
 		var config = ChatClientConfig(apiKey: .init("6vb87hptvk7d"))
@@ -341,6 +343,8 @@ class CustomViewFactory: ViewFactory {
 	func makeChannelListTopView(searchText: Binding<String>) -> some View {
 		MessagesChannelListTopView(searchText: searchText)
 	}
+	
+	
 	
 }
 

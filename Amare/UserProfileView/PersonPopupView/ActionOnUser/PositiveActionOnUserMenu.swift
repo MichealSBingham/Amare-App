@@ -459,11 +459,14 @@ struct PositiveActionOnUserMenu: View {
 			.cornerRadius(20)
 			
 		.padding()
-		.fullScreenCover(isPresented: $showMessages) {
+		
+		.sheet(isPresented: $showMessages) {
 			ChatChannelView(
-							viewFactory: DefaultViewFactory.shared,
+				viewFactory: CustomViewFactory(),
 							channelController: controller
 						)
+			
+			
 		}
 			
 	

@@ -8,7 +8,6 @@ struct SelectLocationForResidenceView: View {
     
    
     /// To manage navigation
-    @EnvironmentObject private var navigationStack: NavigationStack
     /// id of view
     static let id = String(describing: Self.self)
     
@@ -20,7 +19,7 @@ struct SelectLocationForResidenceView: View {
     
     @State var searchedLocation: String = ""
     
-    @State var firstResponder: FirstResponders? = .city
+
     
     @State private var beginAnimation: Bool = false
     @State var isEditing: Bool = false
@@ -93,7 +92,7 @@ struct SelectLocationForResidenceView: View {
                                /*cityString ??*/ "New York, NY",
                                 text: binding
                            )
-                                .firstResponder(id: FirstResponders.city, firstResponder: $firstResponder)
+                              
                                 .onSubmit {
                                     
                                     print("Did tap submit")
@@ -151,7 +150,7 @@ struct SelectLocationForResidenceView: View {
     
     /// Goes to the next screen / view,. Verification Code Screen
     func goToNextView()  {
-        navigationStack.push(ImageUploadView().environmentObject(account))
+        //navigationStack.push(ImageUploadView().environmentObject(account))
         
     }
     
@@ -202,7 +201,7 @@ struct SelectLocationForResidenceView: View {
         
        
             
-        navigationStack.pop(to: .view(withId: SelectLocationView.id))
+        //navigationStack.pop(to: .view(withId: SelectLocationView.id))
         
         
     }
@@ -387,7 +386,7 @@ struct GlobeView2: UIViewRepresentable {
             
             let  region = MKCoordinateRegion(center: goToLoc, latitudinalMeters: 1609340, longitudinalMeters: 1609300)
             
-            view.animatedZoom(to: region, for: 3)
+           // view.animatedZoom(to: region, for: 3)
             
             // make a pins
             let pin = MKPointAnnotation()
@@ -416,7 +415,7 @@ struct GlobeView2: UIViewRepresentable {
             view.showsUserLocation = true
             let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 0, longitude: 0), latitudinalMeters: 16093400, longitudinalMeters: 16093400)
             
-            view.animatedZoom(to: region, for: 3)
+           // view.animatedZoom(to: region, for: 3)
             
            
         }

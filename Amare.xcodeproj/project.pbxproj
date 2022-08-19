@@ -96,8 +96,6 @@
 		26B66A9026EB9476001EAA80 /* House.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B66A8F26EB9476001EAA80 /* House.swift */; };
 		26BBF08C267D7C9900C84019 /* [Deprecated]ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BBF08B267D7C9900C84019 /* [Deprecated]ProfileView.swift */; };
 		26BBF08F267D80FC00C84019 /* EnterBirthdayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BBF08E267D80FC00C84019 /* EnterBirthdayView.swift */; };
-		26BBF091267EA5FF00C84019 /* [Deprecated]FromWhereView_Deprecated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BBF090267EA5FF00C84019 /* [Deprecated]FromWhereView_Deprecated.swift */; };
-		26BBF093267EBB1300C84019 /* [Deprecated]LiveWhereView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BBF092267EBB1300C84019 /* [Deprecated]LiveWhereView.swift */; };
 		26BBF095267EBBEF00C84019 /* EnterNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BBF094267EBBEF00C84019 /* EnterNameView.swift */; };
 		26BD22F42777AAD1002BC49B /* NegativeActionOnUserMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BD22F32777AAD1002BC49B /* NegativeActionOnUserMenu.swift */; };
 		26C255B727149B420066735E /* PositiveActionOnUserMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C255B627149B420066735E /* PositiveActionOnUserMenu.swift */; };
@@ -215,8 +213,6 @@
 		26BBF08A267D321F00C84019 /* Amare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Amare.entitlements; sourceTree = "<group>"; };
 		26BBF08B267D7C9900C84019 /* [Deprecated]ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "[Deprecated]ProfileView.swift"; sourceTree = "<group>"; };
 		26BBF08E267D80FC00C84019 /* EnterBirthdayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterBirthdayView.swift; sourceTree = "<group>"; };
-		26BBF090267EA5FF00C84019 /* [Deprecated]FromWhereView_Deprecated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "[Deprecated]FromWhereView_Deprecated.swift"; sourceTree = "<group>"; };
-		26BBF092267EBB1300C84019 /* [Deprecated]LiveWhereView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "[Deprecated]LiveWhereView.swift"; sourceTree = "<group>"; };
 		26BBF094267EBBEF00C84019 /* EnterNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterNameView.swift; sourceTree = "<group>"; };
 		26BD22F32777AAD1002BC49B /* NegativeActionOnUserMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NegativeActionOnUserMenu.swift; sourceTree = "<group>"; };
 		26C255B627149B420066735E /* PositiveActionOnUserMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositiveActionOnUserMenu.swift; sourceTree = "<group>"; };
@@ -576,10 +572,8 @@
 				2608CF4B2695136F00826FDA /* EnterGenderView.swift */,
 				2608CF4D2695139800826FDA /* EnterOrientationView.swift */,
 				266C61FA26F14A1D00A34374 /* SelectLocation.swift */,
-				26BBF090267EA5FF00C84019 /* [Deprecated]FromWhereView_Deprecated.swift */,
 				26BBF08E267D80FC00C84019 /* EnterBirthdayView.swift */,
 				26744A7D26F7E679008E1733 /* SelectLocationForResidenceView.swift */,
-				26BBF092267EBB1300C84019 /* [Deprecated]LiveWhereView.swift */,
 				2608CF43268FDE9700826FDA /* ImageUploadView.swift */,
 			);
 			path = SignUpFlow;
@@ -1023,7 +1017,6 @@
 				26007F032795A91F00B0E7C7 /* UserProfileView.swift in Sources */,
 				26B1B011267C28E000A170B3 /* Extensions.swift in Sources */,
 				261571632773C023001DFD18 /* locationsearchswiftuimenu.swift in Sources */,
-				26BBF093267EBB1300C84019 /* [Deprecated]LiveWhereView.swift in Sources */,
 				2694935126D1D9C400C7AD72 /* NatalChart.swift in Sources */,
 				2662ED1A2842D17600B0EA57 /* FindNearbyUserView.swift in Sources */,
 				26356C242795C9240048A72B /* UserProfileViewDataModel.swift in Sources */,
@@ -1053,7 +1046,6 @@
 				26CE3CDA2891E0AD0094C697 /* tokens.swift in Sources */,
 				2608CF4C2695136F00826FDA /* EnterGenderView.swift in Sources */,
 				2676E004270A07E90014610B /* MoreInfoOnGenericPlanet.swift in Sources */,
-				26BBF091267EA5FF00C84019 /* [Deprecated]FromWhereView_Deprecated.swift in Sources */,
 				26DE210E26C596450004B5CE /* HomeGlobeView.swift in Sources */,
 				26A86D10271E324D009054B8 /* SearchOtherUsersView.swift in Sources */,
 				269A1E2C270CB1FB008F4A0F /* MoreInfoOnPlanetView.swift in Sources */,
@@ -1250,12 +1242,14 @@
 				ENABLE_PREVIEWS = YES;
 				EXCLUDED_ARCHS = "";
 				INFOPLIST_FILE = Amare/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Amāre";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.2;
+				MARKETING_VERSION = 0.0.3;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = app.amare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1281,12 +1275,14 @@
 				ENABLE_PREVIEWS = YES;
 				EXCLUDED_ARCHS = "";
 				INFOPLIST_FILE = Amare/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Amāre";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.2;
+				MARKETING_VERSION = 0.0.3;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = app.amare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1544,7 +1540,7 @@
 			repositoryURL = "https://github.com/getstream/stream-chat-swiftui";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 4.0.0;
+				minimumVersion = 4.20.0;
 			};
 		};
 		26E10BAE2867B196007666F9 /* XCRemoteSwiftPackageReference "LoremSwiftum" */ = {

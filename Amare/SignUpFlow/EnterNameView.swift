@@ -12,7 +12,6 @@ import NavigationStack
 struct EnterNameView: View {
     
     /// To manage navigation
-    @EnvironmentObject private var navigationStack: NavigationStack
     
     /// id of view
     static let id = String(describing: Self.self)
@@ -256,7 +255,7 @@ struct EnterNameView: View {
             guard error == nil else { return }
             
                 firstResponder = nil
-                navigationStack.pop(to: .root)
+                //navigationStack.pop(to: .root)
             
            
             return
@@ -408,7 +407,7 @@ struct EnterNameView: View {
     func goToNextView()  {
         
         
-        navigationStack.push(EnterUsernameView().environmentObject(account))
+        //navigationStack.push(EnterUsernameView().environmentObject(account))
         
     }
     */

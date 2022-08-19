@@ -12,7 +12,6 @@ import Combine
 struct EnterOrientationView: View {
     
     /// To manage navigation
-    @EnvironmentObject private var navigationStack: NavigationStack
     
     /// id of view
     static let id = String(describing: Self.self)
@@ -511,7 +510,7 @@ struct EnterOrientationView: View {
     /// Goes back to the login screen
     func goBack()   {
         
-        navigationStack.pop()
+        //navigationStack.pop()
     }
     
     /// Left Back Button
@@ -555,7 +554,7 @@ struct EnterOrientationView: View {
     /// Goes to the next screen / view,.
     func goToNextView()  {
         
-        navigationStack.push(SelectLocationView().environmentObject(account), withId: SelectLocationView.id)
+        //navigationStack.push(SelectLocationView().environmentObject(account), withId: SelectLocationView.id)
         
     }
     

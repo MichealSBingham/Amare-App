@@ -13,7 +13,6 @@ struct SignInOrUpView: View {
     static let id = String(describing: Self.self)
     @EnvironmentObject private var account: Account
     
-    @EnvironmentObject private var navigationStack: NavigationStack
     
     /// Terms and conditions  **iOS 14** , automatically true because we can't include the terms and conditions statement in the ios 14 verison
     @State private var termsAreAccepted: Bool = true
@@ -66,9 +65,9 @@ struct SignInOrUpView: View {
             Spacer()
             Spacer()
             
-          //  createPolicyAndConditionsAcceptance()
+           createPolicyAndConditionsAcceptance()
             
-           // Spacer()
+            Spacer()
             
             needHelp()
             
@@ -145,14 +144,14 @@ struct SignInOrUpView: View {
         }
     }
     /// Returns the box and the policy and conditions terms the user needs to accept. It's the label at the bottom.
-    /*
+    
     func createPolicyAndConditionsAcceptance() -> some View  {
         
         return HStack{  box(); agreeToPolicyText }.modifier(ShakeEffect(shakes: attempts*2)).animation(Animation.default, value: attempts)
      
      // add font ... (.footnote)
     }
-    */
+    
     
     /// Amare text view below the logo
     func AmareText(language : Language) -> some View {
@@ -403,17 +402,17 @@ struct SignInOrUpView: View {
     }
     
     /// Text for agreeing to the policy
-    /*
+    
     private var agreeToPolicyText: some View {
         
         Text(agreeToPolicyTextAttributedString()).foregroundColor(.white).font(.system(size: 16))
-     .font(footnote)
+						//.font(footnote)
     }
- */
+ 
     
     /// Function to generate t he formatted text for the policy
 
-    /*  iOS 15+
+    //  iOS 15+
     func agreeToPolicyTextAttributedString() -> AttributedString {
     
         var attributedString = try! AttributedString(markdown:"I agree to the **9 Laws**, Privacy Policy, Terms, and Cookie Policy.")
@@ -445,12 +444,12 @@ struct SignInOrUpView: View {
 
         
 }
-    */
+    
     
     /// Goes to the next view. We are using the `NavigationStack` package from GitHub. Open source. It works better than `NavigationView`
     func goToNextView()  {
         
-        self.navigationStack.push(EnterPhoneNumberView2().environmentObject(account))
+		//self.navigationStack.push(EnterPhoneNumberView2().environmentObject(account))
         
          
     }
@@ -459,7 +458,7 @@ struct SignInOrUpView: View {
 struct SignInOrUpView_Previews: PreviewProvider {
     static var previews: some View {
         
-        ForEach([ "iPhone 8", "iPhone 12 Pro Max"], id: \.self) { deviceName in
+        ForEach([ "iPhone 8", "iPhone 13 Pro Max"], id: \.self) { deviceName in
                        RootView()
                             .previewDevice(PreviewDevice(rawValue: deviceName))
                             .previewDisplayName(deviceName)

@@ -17,7 +17,6 @@ struct RootView: View {
     static let id = String(describing: Self.self)
     @EnvironmentObject private var account: Account
     
-    @EnvironmentObject private var navigationStack: NavigationStack
 
     
      var isSignedIn: Bool = false
@@ -39,11 +38,8 @@ struct RootView: View {
              */
             Background()
             
-            NavigationStackView(transitionType: .custom(.opacity), easing: .easeInOut(duration: 0.8)){
                 
-               
-               
-                
+			
                 // If signed in and done with user sign up procress
                 if account.isSignedIn {
                     
@@ -69,24 +65,13 @@ struct RootView: View {
                     
                 }
                 
-               /*
-                    MainView()
-                        .environmentObject(account)
-                        .onAppear(perform: {  account.stopListening() })
-                        .opacity(account.isSignedIn ? 1: 0 )
-                    
-                    SignInOrUpView()
-                        .environmentObject(account)
-                        .onAppear {  account.stopListening()}
-                        .opacity(account.isSignedIn ? 0: 1)
-                */
-                    
+           
                     
                 
                 
                
                 
-            }
+            
             
             
             
@@ -105,3 +90,5 @@ struct RootView_Previews: PreviewProvider {
         RootView().environmentObject(Account())
     }
 }
+
+

@@ -12,7 +12,6 @@ import Combine
 struct EnterUsernameView: View {
     
     /// To manage navigation
-    @EnvironmentObject private var navigationStack: NavigationStack
     
     /// id of view
     static let id = String(describing: Self.self)
@@ -263,7 +262,7 @@ struct EnterUsernameView: View {
     func goToNextView()  {
         
         
-        navigationStack.push(EnterGenderView().environmentObject(account))
+        //navigationStack.push(EnterGenderView().environmentObject(account))
         
     }
 

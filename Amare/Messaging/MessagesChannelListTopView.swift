@@ -86,7 +86,7 @@ struct SearchBar: View, KeyboardReadable {
 				.overlay(
 					HStack {
 						Image(uiImage: images.searchIcon)
-							.customizable()
+						//	.customizable()
 							.foregroundColor(Color(colors.textLowEmphasis))
 							.frame(maxHeight: 18)
 							.padding(.leading, 12)
@@ -98,7 +98,7 @@ struct SearchBar: View, KeyboardReadable {
 								self.text = ""
 							}) {
 								Image(uiImage: images.searchCloseIcon)
-									.customizable()
+									//.customizable()
 									.frame(width: 18, height: 18)
 									.foregroundColor(Color(colors.textLowEmphasis))
 									.padding(.trailing, 8)

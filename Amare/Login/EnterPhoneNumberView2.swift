@@ -14,7 +14,6 @@ import Combine
 
 struct EnterPhoneNumberView2: View {
     
-    @EnvironmentObject private var navigationStack: NavigationStack
     @State private var shouldGoToNext: Bool = false
     
     @EnvironmentObject private var account: Account
@@ -225,7 +224,7 @@ struct EnterPhoneNumberView2: View {
         
        
             firstResponder = nil
-            navigationStack.pop()
+            //navigationStack.pop()
     
         
     
@@ -236,7 +235,7 @@ struct EnterPhoneNumberView2: View {
     func goToNextView()  {
       
         //guard shouldGoToNext else {return }
-        self.navigationStack.push(VerificationCodeView3())
+       // self.//navigationStack.push(VerificationCodeView3())
         
         
     }

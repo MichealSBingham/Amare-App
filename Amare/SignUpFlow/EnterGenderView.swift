@@ -14,7 +14,6 @@ import Shimmer
 struct EnterGenderView: View {
     
     /// To manage navigation
-    @EnvironmentObject private var navigationStack: NavigationStack
     
     /// id of view
     static let id = String(describing: Self.self)
@@ -502,7 +501,7 @@ struct EnterGenderView: View {
     /// Goes back to the login screen
     func goBack()   {
         
-        navigationStack.pop()
+        //navigationStack.pop()
     }
     
     /// Left Back Button
@@ -546,7 +545,7 @@ struct EnterGenderView: View {
     
     /// Goes to the next screen / view,. Verification Code Screen
     func goToNextView()  {
-        navigationStack.push(EnterOrientationView().environmentObject(account))
+        //navigationStack.push(EnterOrientationView().environmentObject(account))
     }
 
 
