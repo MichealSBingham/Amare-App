@@ -22,6 +22,8 @@ struct EnterGenderView: View {
 
     
     @EnvironmentObject private var account: Account
+	
+	@EnvironmentObject private var navigationStack: NavigationStackCompat
     @State private var goToNext: Bool = false
     
     @State private var alertMessage: String = ""
@@ -545,7 +547,7 @@ struct EnterGenderView: View {
     
     /// Goes to the next screen / view,. Verification Code Screen
     func goToNextView()  {
-        //navigationStack.push(EnterOrientationView().environmentObject(account))
+        navigationStack.push(EnterOrientationView().environmentObject(account))
     }
 
 

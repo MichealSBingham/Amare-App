@@ -19,6 +19,8 @@ struct EnterUsernameView: View {
     @EnvironmentObject private var account: Account
     
     @ObservedObject var settings = Settings.shared
+	
+	@EnvironmentObject var navigationStack: NavigationStackCompat
     
   //  @State   var username: String = ""
     @State private var goToNext: Bool = false
@@ -262,7 +264,7 @@ struct EnterUsernameView: View {
     func goToNextView()  {
         
         
-        //navigationStack.push(EnterGenderView().environmentObject(account))
+        navigationStack.push(EnterGenderView().environmentObject(account))
         
     }
 

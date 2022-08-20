@@ -180,6 +180,6 @@ struct MainView_Previews: PreviewProvider {
     static var previews: some View {
         MainView( isRoot: false)
             .environmentObject(Account())
-            .environmentObject(NavigationStack())
+            .environmentObject(NavigationStackCompat())
     }
 }

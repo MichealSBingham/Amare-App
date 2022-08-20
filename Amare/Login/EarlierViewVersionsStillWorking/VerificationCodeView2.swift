@@ -17,7 +17,7 @@ struct VerificationCodeView2: View {
     static let id = String(describing: Self.self)
 
     /// To manage navigation
-  //  @EnvironmentObject private var //navigationStack: NavigationStack
+    @EnvironmentObject private var navigationStack: NavigationStackCompat
 
     
     /// The current user's account
@@ -376,7 +376,7 @@ struct VerificationCodeView2: View {
         
         guard screen == .done else {
            
-            //navigationStack.push(EnterNameView().environmentObject(account), withId: EnterNameView.id)
+            navigationStack.push(EnterNameView().environmentObject(account), withId: EnterNameView.id)
             return 
         }
     

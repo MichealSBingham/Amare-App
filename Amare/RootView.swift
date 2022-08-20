@@ -17,6 +17,7 @@ struct RootView: View {
     static let id = String(describing: Self.self)
     @EnvironmentObject private var account: Account
     
+	//@EnvironmentObject private var navigationStack: NavigationStackCompat
 
     
      var isSignedIn: Bool = false
@@ -38,37 +39,38 @@ struct RootView: View {
              */
             Background()
             
-                
-			
-                // If signed in and done with user sign up procress
-                if account.isSignedIn {
-                    
-                    
-    
-            
-            
-                 
-                   MainView(isRoot: true )
-                        .environmentObject(account)
-                        .onAppear(perform: { account.stopListening()})
-                     //   .environmentObject(multipeerDataSource)
-                        
-                    
-                    
-                } else {
-
-                    SignInOrUpView(isRoot: true )
-                        .environmentObject(account)
-                        .onAppear { account.stopListening()}
-                        
-                        
-                    
-                }
-                
-           
-                    
-                
-                
+			NavigationStackView(transitionType: .custom(.opacity), easing: .easeInOut(duration: 0.8)){
+				
+				
+				// If signed in and done with user sign up procress
+				if account.isSignedIn {
+					
+					
+					
+					
+					
+					
+					MainView(isRoot: true )
+						.environmentObject(account)
+						.onAppear(perform: { account.stopListening()})
+					//   .environmentObject(multipeerDataSource)
+					
+					
+					
+				} else {
+					
+					SignInOrUpView(isRoot: true )
+						.environmentObject(account)
+						.onAppear { account.stopListening()}
+					
+					
+					
+				}
+				
+				
+				
+				
+			}
                
                 
             
