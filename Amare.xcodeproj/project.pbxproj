@@ -55,6 +55,7 @@
 		26748CC22707A01500B5D338 /* ProfilePopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26748CC12707A01500B5D338 /* ProfilePopup.swift */; };
 		2676E004270A07E90014610B /* MoreInfoOnGenericPlanet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2676E003270A07E90014610B /* MoreInfoOnGenericPlanet.swift */; };
 		2678DD8528B04DDF009A057C /* NavigationStack in Frameworks */ = {isa = PBXBuildFile; productRef = 2678DD8428B04DDF009A057C /* NavigationStack */; };
+		2678DD8728B14BD9009A057C /* DiscoverNearbyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678DD8628B14BD8009A057C /* DiscoverNearbyView.swift */; };
 		267CF36526D30C03006B73BE /* NatalChartViewAlpha.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267CF36426D30C03006B73BE /* NatalChartViewAlpha.swift */; };
 		2686CBBD27B41E0F00E65ED4 /* CloseButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2686CBBC27B41E0F00E65ED4 /* CloseButtonView.swift */; };
 		26872881271C668B00C2F89F /* EnterUsernameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26872880271C668B00C2F89F /* EnterUsernameView.swift */; };
@@ -172,6 +173,7 @@
 		26744A7D26F7E679008E1733 /* SelectLocationForResidenceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLocationForResidenceView.swift; sourceTree = "<group>"; };
 		26748CC12707A01500B5D338 /* ProfilePopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePopup.swift; sourceTree = "<group>"; };
 		2676E003270A07E90014610B /* MoreInfoOnGenericPlanet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreInfoOnGenericPlanet.swift; sourceTree = "<group>"; };
+		2678DD8628B14BD8009A057C /* DiscoverNearbyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverNearbyView.swift; sourceTree = "<group>"; };
 		267CF36426D30C03006B73BE /* NatalChartViewAlpha.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NatalChartViewAlpha.swift; sourceTree = "<group>"; };
 		2686CBBC27B41E0F00E65ED4 /* CloseButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseButtonView.swift; sourceTree = "<group>"; };
 		26872880271C668B00C2F89F /* EnterUsernameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterUsernameView.swift; sourceTree = "<group>"; };
@@ -626,6 +628,7 @@
 				26DE210B26C5963A0004B5CE /* SettingsView.swift */,
 				26DE210D26C596450004B5CE /* HomeGlobeView.swift */,
 				2623D7AE27935DA9002456DF /* New Group */,
+				2678DD8628B14BD8009A057C /* DiscoverNearbyView.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -1009,6 +1012,7 @@
 				2662ED1C2842D17600B0EA57 /* PulsingView.swift in Sources */,
 				263D6F9A2684087300CBBECC /* AmareUser.swift in Sources */,
 				26333AF627B97160005149C9 /* MoreInfoOnPlanetViewModel.swift in Sources */,
+				2678DD8728B14BD9009A057C /* DiscoverNearbyView.swift in Sources */,
 				2686CBBD27B41E0F00E65ED4 /* CloseButtonView.swift in Sources */,
 				26B6079D26C021C900CE8491 /* SignInOrUpView.swift in Sources */,
 				2669A62C2705488000B3C87C /* MainPlacementsView.swift in Sources */,

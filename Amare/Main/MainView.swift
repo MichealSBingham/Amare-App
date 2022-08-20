@@ -49,6 +49,9 @@ struct MainView: View {
                 Scanner()
                 .tag(3)
 			
+			DiscoverNearbyView()
+				.tag(6)
+			
 			NavigationStackView{
 				ChatChannelListView(viewFactory: CustomViewFactory(), title: "DMs")
 						

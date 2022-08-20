@@ -68,7 +68,7 @@ struct SelectLocationView: View {
                 
                 ZStack{
                 
-                GlobeView(locationToGoTo: $selectedCity, locations: $locationsForAnnotation)
+                GlobeView(/*locationToGoTo: $selectedCity, locations: $locationsForAnnotation*/)
                     .ignoresSafeArea()
                     .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
                 
@@ -352,24 +352,43 @@ struct LocationForMapView {
 
 
 struct GlobeView: UIViewRepresentable {
-    
+	func updateUIView(_ uiView: MKMapView, context: Context) {
+		
+	}
+	
+    /*
     /// Pass a state variable here and when it changes, the map will fly to this location
     @Binding var locationToGoTo: CLPlacemark?
     
     /// This will keep track of annotations to place on the map, without animations.
     @Binding var locations: [CLPlacemark]
+	
+	*/
     
     func makeUIView(context: Context) -> MKMapView {
         let mapView = MKMapView(frame: .zero)
+		
+	
+		
         // change the map type here
-        mapView.mapType = .hybridFlyover
-        mapView.tintColor = UIColor(red: 1.00, green: 0.01, blue: 0.40, alpha: 1.00)
+//		mapView.mapType = .standard
+//        mapView.tintColor = UIColor(red: 1.00, green: 0.01, blue: 0.40, alpha: 1.00)
         mapView.showsUserLocation = true
+		
+		if #available(iOS 16.0, *) {
+			mapView.preferredConfiguration = MKStandardMapConfiguration(elevationStyle: .realistic)
+		} else {
+			// Fallback on earlier versions
+			
+			print("FALLING BACK THE MAP")
+		}
+		
+		
     
         return mapView
     }
     
-    
+    /*
     func updateUIView(_ view: MKMapView, context: Context) {
         
         for location in locations {
@@ -436,6 +455,7 @@ struct GlobeView: UIViewRepresentable {
            
         }
     }
+	 */
 }
 
 struct ContentView_Previews: PreviewProvider {
