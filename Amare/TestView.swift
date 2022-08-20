@@ -870,6 +870,9 @@ struct TestView: View {
     
     /// View model for nearby users and other data that populates this view
     @StateObject var viewModel: TestViewModel = TestViewModel()
+	
+	/// Data model for a user's profile that we are viewing. Store this into environment
+	@StateObject var userViewedDataModel: UserDataModel = UserDataModel()
     
     
 	@EnvironmentObject private var account: Account
@@ -982,8 +985,8 @@ struct TestView: View {
                                         Button {
                                             
                                             withAnimation {
-                                                   
-                                                viewModel.load(user: user.id ?? "")
+										
+                                                userViewedDataModel.load(user: user.id ?? "")
                                                 cancel()
                                                 showProfile = true
                                                 }
@@ -1085,6 +1088,8 @@ struct TestView: View {
          
          I would much rather have this; however, it causes a bug in the UI when I use a popup view for Profilepopup
         */
+		
+	/*
         .popup(isPresented: $showProfile , closeOnTap: false, closeOnTapOutside: false, dismissCallback: {
             
             withAnimation {
@@ -1094,27 +1099,36 @@ struct TestView: View {
         }, view: {
             
       
-              
+              /*
                 ProfilePopup(user: Binding<AmareUser>($viewModel.selectedUser) ?? .constant(AmareUser()))
                     .opacity(showProfile ? 1: 0)
+			*/
+			
+			
+			UserProfileView()
+				.opacity(showProfile ? 1: 0)
                   
                     
             
         })
+		
+		*/
         
         
-        /*
-        .sheet(isPresented: $showProfile, content: {
+	
+        .fullScreenCover(isPresented: $showProfile, content: {
             
          
-                ProfilePopup(user: Binding<AmareUser>($viewModel.selectedUser) ?? .constant(AmareUser()))
-                    .opacity(showProfile ? 1: 0)
+			UserProfileView()
+				.colorScheme(.light)
+				.background(Color.white)
+				.opacity(showProfile ? 1: 0)
                     
             
             
             
         })
-        */
+        
         
         
         

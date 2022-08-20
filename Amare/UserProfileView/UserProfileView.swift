@@ -8,6 +8,7 @@
 import SwiftUI
 import VTabView
 import UICircularProgressRing
+import URLImage
 
 var randomPlanet: Planet = Planet(name: .Sun, angle: 17.82, element: .water, onCusp: false, retrograde: false, one_line_placement_interpretation: nil, longer_placement_interpretation: nil, sign: .Cancer, house: 7, cusp: nil, speed: 7, forSynastry: false, _aspectThatExists: nil)
 
@@ -17,7 +18,9 @@ class UserProfileDataModel: ObservableObject{
 
 struct UserProfileView: View {
 	
-	@StateObject private var dataModel = UserDataModel()
+	@EnvironmentObject  var dataModel: UserDataModel
+	
+	@Environment(\.colorScheme) var colorScheme
 	
     var body: some View {
 		
@@ -26,7 +29,7 @@ struct UserProfileView: View {
 			
 			VStack{
 				
-				UserImageView()
+				UserImageView(profile_image_url: dataModel.userData.profile_image_url)
 					.padding()
 				
 				Text((dataModel.userData.winkedAtMe ?? false) ? "\(dataModel.userData.name ?? "") 😉 at you" : "")
@@ -444,10 +447,12 @@ struct SunSignView: View {
 				
 				PlanetName.Sun.image()
 					//.resizable()
+					
 					.scaledToFit()
 					.frame(width: 25, height: 25)
 				planet.sign.image()
 					.resizable()
+					
 					.scaledToFit()
 					.frame(width: 25, height: 25)
 			}
@@ -467,13 +472,83 @@ struct SunSignView: View {
 
 struct UserImageView: View {
 	
+	var profile_image_url: String?
+	
 	var body: some View {
 		
+		/*
 		Image("branding/woman")
 			.resizable()
 			.aspectRatio(contentMode: .fill)
 			.frame(width: 400, height: 250, alignment: .center)
 			.clipShape(RoundedRectangle(cornerRadius: CGFloat(25)))
+		*/
+		
+		
+		  URLImage(URL(string: profile_image_url ?? "https://findamare.com")!) { progress in
+			  
+			  
+			  Image(systemName: "person.circle.fill")
+				  .resizable()
+				  .aspectRatio(contentMode: .fill)
+				  .frame(width: 400, height: 250, alignment: .center)
+				  .clipShape(RoundedRectangle(cornerRadius: CGFloat(25)))
+			  /*
+				   .scaleEffect(condition ? 0.9 : 1.0)
+				   .animation(animation)
+				   .onAppear {
+					  
+					   DispatchQueue.main.async {
+						   
+						   withAnimation(.easeIn(duration: 3).repeatForever(autoreverses: true)) {
+							   condition = true
+						   }
+					   }
+				   }
+				   */
+				   
+			  
+		  }
+		  
+	  failure: {  error,retry in
+		  
+		  //Image(systemName: "person.fill.questionmark")
+		  Image(systemName: "person.circle.fill")
+			  .resizable()
+			  .foregroundColor(.white)
+			  .aspectRatio(contentMode: .fill)
+			  .frame(width: 400, height: 250, alignment: .center)
+			  .clipShape(RoundedRectangle(cornerRadius: CGFloat(25)))
+			  
+	  }
+	  
+	  
+	  content: { image, info in
+			  
+		  
+		  ZStack{
+			  
+			  
+			  image
+				  .resizable()
+				  .aspectRatio(contentMode: .fill)
+				  .frame(width: 400, height: 250, alignment: .center)
+				  .clipShape(RoundedRectangle(cornerRadius: CGFloat(25)))
+			  
+			  /*
+			  Image(systemName: "person.circle.fill")
+				  .resizable()
+				  .aspectRatio(contentMode: .fit)
+				  .clipShape(Circle())
+				  // .frame(width: 100, height: 100)
+				   .shadow(radius: 15)
+				   .frame(width: size, height: size)
+				   .redacted(reason: .placeholder)
+			  */
+				  
+		  }
+		  
+	  }
 	}
 }
 
