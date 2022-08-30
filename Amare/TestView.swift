@@ -954,6 +954,7 @@ struct TestView: View {
                                             
                                         withAnimation {
                                                 viewModel.selectedUser = person
+											
                                             showProfile = true
                                             }
                                             
@@ -986,6 +987,7 @@ struct TestView: View {
                                             
                                             withAnimation {
 										
+												print("LOADING user id .. \(user.id)")
                                                 userViewedDataModel.load(user: user.id ?? "")
                                                 cancel()
                                                 showProfile = true
@@ -1116,13 +1118,14 @@ struct TestView: View {
         
         
 	
-        .fullScreenCover(isPresented: $showProfile, content: {
+        .sheet(isPresented: $showProfile, content: {
             
          
 			UserProfileView()
 				.colorScheme(.light)
 				.background(Color.white)
 				.opacity(showProfile ? 1: 0)
+				.environmentObject(userViewedDataModel)
                     
             
             

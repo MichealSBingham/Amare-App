@@ -12,6 +12,8 @@ struct SelectLocationView: View {
     static let id = String(describing: Self.self)
     
     @EnvironmentObject private var account: Account
+	
+	@EnvironmentObject private var navigationStack: NavigationStackCompat
     
     // add locations here
     @State var locationsForAnnotation: [CLPlacemark]  = []
@@ -157,7 +159,7 @@ struct SelectLocationView: View {
         }
         print("Should go to next view ...")
  
-        //navigationStack.push(EnterBirthdayView(timezone: timezone).environmentObject(account))
+        navigationStack.push(EnterBirthdayView(timezone: timezone).environmentObject(account))
        
         
     }
@@ -212,7 +214,7 @@ struct SelectLocationView: View {
     func goBack()   {
         
             
-            //navigationStack.pop()
+            navigationStack.pop()
         
         
     }

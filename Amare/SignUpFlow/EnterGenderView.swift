@@ -503,7 +503,7 @@ struct EnterGenderView: View {
     /// Goes back to the login screen
     func goBack()   {
         
-        //navigationStack.pop()
+        navigationStack.pop()
     }
     
     /// Left Back Button

@@ -6,7 +6,8 @@ import NavigationStack
 
 struct SelectLocationForResidenceView: View {
     
-   
+	@EnvironmentObject private var navigationStack: NavigationStackCompat
+	
     /// To manage navigation
     /// id of view
     static let id = String(describing: Self.self)
@@ -150,7 +151,7 @@ struct SelectLocationForResidenceView: View {
     
     /// Goes to the next screen / view,. Verification Code Screen
     func goToNextView()  {
-        //navigationStack.push(ImageUploadView().environmentObject(account))
+        navigationStack.push(ImageUploadView().environmentObject(account))
         
     }
     
@@ -201,7 +202,7 @@ struct SelectLocationForResidenceView: View {
         
        
             
-        //navigationStack.pop(to: .view(withId: SelectLocationView.id))
+        navigationStack.pop(to: .view(withId: SelectLocationView.id))
         
         
     }

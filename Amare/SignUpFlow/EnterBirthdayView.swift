@@ -15,6 +15,8 @@ struct EnterBirthdayView: View {
     
     /// id of view
     static let id = String(describing: Self.self)
+	
+	@EnvironmentObject private var navigationStack: NavigationStackCompat
     
     /// To manage navigation
     @ObservedObject var settings = Settings.shared
@@ -135,7 +137,7 @@ struct EnterBirthdayView: View {
     
     /// Goes back to the login screen
     func goBack()   {
-        //navigationStack.pop()
+        navigationStack.pop()
 
     }
     
@@ -176,7 +178,7 @@ struct EnterBirthdayView: View {
     
     /// Goes to the next screen / view,. Verification Code Screen
     func goToNextView()  {
-        //navigationStack.push(SelectLocationForResidenceView().environmentObject(account))
+        navigationStack.push(SelectLocationForResidenceView().environmentObject(account))
         
        
     }

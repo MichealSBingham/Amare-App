@@ -223,6 +223,10 @@ struct NearbyUsersMapView: UIViewRepresentable {
 		//mapView.setCamera(<#T##camera: MKMapCamera##MKMapCamera#>, animated: true)
 	
 		
+		mapView.delegate = context.coordinator
+		
+		mapView.register(UserAnnotationView.self, forAnnotationViewWithReuseIdentifier: NSStringFromClass(UserAnnotation.self))
+		
 		if #available(iOS 16.0, *) {
 			mapView.preferredConfiguration = MKStandardMapConfiguration(elevationStyle: .realistic)
 		} else {
@@ -247,7 +251,10 @@ struct NearbyUsersMapView: UIViewRepresentable {
 			let loc = location.coordinate
 				
 				// make a pins
-				let pin = MKPointAnnotation()
+				//let pin = MKPointAnnotation()
+			
+				let pin = UserAnnotation()
+			
 			
 				
 				// set the coordinates
@@ -256,6 +263,7 @@ struct NearbyUsersMapView: UIViewRepresentable {
 				// set the title
 				//pin.title = location.name
 			
+				pin.user = AmareUser.random()
 			
 			
 				//view.showsUserLocation = false
@@ -286,13 +294,15 @@ struct NearbyUsersMapView: UIViewRepresentable {
 			/// - Tag: CreateAnnotationViews
 			func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
 				
+				
 				guard annotation.isKind(of: UserAnnotation.self) else {
 					// Make a fast exit if the annotation is the `MKUserLocation`, as it's not an annotation view we wish to customize.
 					print("***Not a type of user annotation..")
 					return nil
 				}
 				
-				print("***inside mapView(_:)")
+				
+				print("***inside mapView(_:) creating annotation ")
 				var annotationView: MKAnnotationView?
 				
 				if let annotation = annotation as? UserAnnotation {
@@ -316,9 +326,12 @@ struct NearbyUsersMapView: UIViewRepresentable {
 				// Provide the annotation view's image.
 				//let image = #imageLiteral(resourceName: "flag")
 			   // flagAnnotationView.image = image
-				let image = UIImage(systemName: "lasso")!
+				
+				
+				let image = ImageFromUrl(annotation.user?.profile_image_url ?? "").image().resizeImage(50.0, opaque: false)
 				flagAnnotationView.image = image
-	   
+				flagAnnotationView.isDraggable = true
+				
 				// Provide the left image icon for the annotation.
 				flagAnnotationView.leftCalloutAccessoryView = UIImageView(image: image)
 				
@@ -331,6 +344,7 @@ struct NearbyUsersMapView: UIViewRepresentable {
 			  //  flagAnnotationView.tintColor = .green
 				
 				return flagAnnotationView
+					
 			}
 			
 			

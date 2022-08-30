@@ -16,6 +16,8 @@ struct EnterOrientationView: View {
     /// id of view
     static let id = String(describing: Self.self)
     
+	@EnvironmentObject private var navigationStack: NavigationStackCompat
+	
     @ObservedObject var settings = Settings.shared
     
     @EnvironmentObject private var account: Account
@@ -510,7 +512,7 @@ struct EnterOrientationView: View {
     /// Goes back to the login screen
     func goBack()   {
         
-        //navigationStack.pop()
+        navigationStack.pop()
     }
     
     /// Left Back Button
@@ -554,7 +556,7 @@ struct EnterOrientationView: View {
     /// Goes to the next screen / view,.
     func goToNextView()  {
         
-        //navigationStack.push(SelectLocationView().environmentObject(account), withId: SelectLocationView.id)
+        navigationStack.push(SelectLocationView().environmentObject(account), withId: SelectLocationView.id)
         
     }
     
