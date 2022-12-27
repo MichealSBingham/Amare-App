@@ -715,9 +715,10 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 	
 	// MARK: - Distance and direction state.
 	// A threshold, in meters, the app uses to update its display.
-	let nearbyDistanceThreshold: Float = 0.1
+	let nearbyDistanceThreshold: Float = 0.01 //0.1
 	//TODO: - This threshold should depend on how far you are away; should be computed
 	let facingAngleThreshold: Float = 5
+	let thresholdForIsThere: Float = 0.001
 	var firstDistanceReading: Float?
 	enum DistanceDirectionState {
 		case closeUpInFOV, notCloseUpInFOV, outOfFOV, unknown
@@ -883,7 +884,7 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 		
 		 if let distanceAway = self.distanceAway, let isFacing = self.isFacing {
 			
-			 return distanceAway.isLessThanOrEqualTo(1) && isFacing
+			 return distanceAway.isLessThanOrEqualTo(thresholdForIsThere) && isFacing
 		}
 		 
 		 return false
@@ -1037,6 +1038,7 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 
 		guard let nearbyObjectUpdate = nearbyObjects.first else { return }
 		
+		print("azimuth: \(nearbyObjectUpdate.direction) ")
 		
 		
 		self.connected = true
@@ -1071,10 +1073,11 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 			self.distanceAway = nearbyObjects.first?.distance
 			
 			
-			
+		
 			
 			// Angle at which peer is located
 			let azimuth = nearbyObjectUpdate.direction.map(azimuth(from:))
+			
 			self.direction = azimuth
 			
 			

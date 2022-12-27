@@ -12,11 +12,12 @@ import Combine
 struct EnterOrientationView: View {
     
     /// To manage navigation
-    @EnvironmentObject private var navigationStack: NavigationStack
     
     /// id of view
     static let id = String(describing: Self.self)
     
+	@EnvironmentObject private var navigationStack: NavigationStackCompat
+	
     @ObservedObject var settings = Settings.shared
     
     @EnvironmentObject private var account: Account

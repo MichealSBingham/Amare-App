@@ -68,7 +68,7 @@ struct MapView: View {
     
 
     
-    @State var places: [MapAnnotation] = []
+  //  @State var places: [MapAnnotation] = []
     
   
     // We only declare it as a same type as NearbyPeople purely because I'm lazy and i've already coded the UI for this.
@@ -1024,7 +1024,7 @@ struct Globe: UIViewRepresentable{
     func makeUIView(context: Context) -> MKMapView {
         let mapView = MKMapView(frame: .zero)
         
-       
+		
     
         
         
@@ -1035,7 +1035,7 @@ struct Globe: UIViewRepresentable{
         
         let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 0, longitude: 0), latitudinalMeters: 16093400, longitudinalMeters: 16093400)
         
-        mapView.animatedZoom(to: region, for: 3)
+        //mapView.animatedZoom(to: region, for: 3)
         
         mapView.delegate = context.coordinator
         
@@ -1188,7 +1188,7 @@ class UserAnnotation: NSObject, MKAnnotation {
 
 
 class UserAnnotationView: MKMarkerAnnotationView {
-    static let glyphImage: UIImage = {
+    /*static let glyphImage: UIImage = {
         let rect = CGRect(origin: .zero, size: CGSize(width: 40, height: 40))
         return UIGraphicsImageRenderer(bounds: rect).image { _ in
             let radius: CGFloat = 11
@@ -1202,7 +1202,7 @@ class UserAnnotationView: MKMarkerAnnotationView {
             UIColor.white.setFill()
             path.fill()
         }
-    }()
+    }() */
 
     override var annotation: MKAnnotation? {
         didSet { configure(for: annotation) }
@@ -1212,15 +1212,18 @@ class UserAnnotationView: MKMarkerAnnotationView {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
 
         if let annotation = annotation as? UserAnnotation{
+			
+			print("Trying to set glyph image with \(annotation.user?.profile_image_url)")
         
             var image = ImageFromUrl(annotation.user?.profile_image_url ?? "")
-            glyphImage =  Self.glyphImage//image.image()
+           // glyphImage =  Self.glyphImage//image.image()
         }
        
       //  markerTintColor = #colorLiteral(red: 0.005868499167, green: 0.5166643262, blue: 0.9889912009, alpha: 1)
-        
-        var colors: [UIColor] = [.blue, .red, .orange, .yellow, .green, .systemPink]
-        markerTintColor = colors.randomElement()!
+	
+		
+       // var colors: [UIColor] = [.blue, .red, .orange, .yellow, .green, .systemPink]
+        //markerTintColor = colors.randomElement()!
 
         configure(for: annotation)
     }

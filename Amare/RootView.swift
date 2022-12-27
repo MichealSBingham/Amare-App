@@ -17,16 +17,8 @@ struct RootView: View {
     static let id = String(describing: Self.self)
     @EnvironmentObject private var account: Account
     
-    @EnvironmentObject private var navigationStack: NavigationStack
-    
+	//@EnvironmentObject private var navigationStack: NavigationStackCompat
 
-    // Will only happen once in the applications entire lifecycle, really only using this for debugging and such
-    static var signOutOnlyOnce: PerformOnce = {
-        Account().signOut { error in
-            return
-        }
-            return {}
-        }()
     
      var isSignedIn: Bool = false
      var dataIsComplete: Bool = false
@@ -47,88 +39,48 @@ struct RootView: View {
              */
             Background()
             
-            NavigationStackView(transitionType: .custom(.opacity), easing: .easeInOut(duration: 0.8)){
-                
+			NavigationStackView(transitionType: .custom(.opacity), easing: .easeInOut(duration: 0.8)){
+				
+				
+				// If signed in and done with user sign up procress
+				if account.isSignedIn {
+					
+					
+					
+					
+					
+					
+					MainView(isRoot: true )
+						.environmentObject(account)
+						.onAppear(perform: { account.stopListening()})
+					//   .environmentObject(multipeerDataSource)
+					
+					
+					
+				} else {
+					
+					SignInOrUpView(isRoot: true )
+						.environmentObject(account)
+						.onAppear { account.stopListening()}
+					
+					
+					
+				}
+				
+				
+				
+				
+			}
                
-               
                 
-                // If signed in and done with user sign up procress
-                if account.isSignedIn {
-                    
-                    
-    
             
-            
-                 
-                   MainView(isRoot: true )
-                        .environmentObject(account)
-                        .onAppear(perform: { account.stopListening()})
-                     //   .environmentObject(multipeerDataSource)
-                        
-                    
-                    
-                } else {
-
-                    SignInOrUpView(isRoot: true )
-                        .environmentObject(account)
-                        .onAppear { account.stopListening()}
-                        
-                        
-                    
-                }
-                
-               /*
-                    MainView()
-                        .environmentObject(account)
-                        .onAppear(perform: {  account.stopListening() })
-                        .opacity(account.isSignedIn ? 1: 0 )
-                    
-                    SignInOrUpView()
-                        .environmentObject(account)
-                        .onAppear {  account.stopListening()}
-                        .opacity(account.isSignedIn ? 0: 1)
-                */
-                    
-                    
-                
-                
-               
-                
-            }
             
             
             
         }
         
         
-        /*
-        .onAppear {
-            
-            print("***Here is the info: am i signed in? :\(account.isSignedIn)\nis my data complete?: \(account.data?.isComplete()) ")
-        } */
-        /*.onAppear {
-            /// This will only run ONCE in a lifetime (unless the app is deleted and redownloaded, or unless it's rebuilt in dev). This will sign out the user.
-            
-            
-         //   _ =  RootView.signOutOnlyOnce//
-
-        /*
-            func doOnce() {
-                struct Resource {
-                    static var resourceInit : Void = {
-                      print("Signing out only once in lifetime for initalizatoin ")
-                        Account().signOut { error in
-                            return
-                        }
-                    }()
-                }
-
-                let _ = Resource.resourceInit
-            }
-            */
-            //doOnce()
-            
-        }*/
+      
                 
     }
     
@@ -140,3 +92,5 @@ struct RootView_Previews: PreviewProvider {
         RootView().environmentObject(Account())
     }
 }
+
+

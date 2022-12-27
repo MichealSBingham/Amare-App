@@ -11,7 +11,7 @@ import NavigationStack
 struct SettingsView: View {
     
     @EnvironmentObject private var account: Account
-    //@EnvironmentObject private var navigationStack: NavigationStack
+    //@EnvironmentObject private var //navigationStack: NavigationStack
     var defaultImage: String = testImages[0]
     
     @State private var date = Date()
@@ -168,7 +168,7 @@ struct SettingsView: View {
     
     
    /* func goBackToSignInRootView()  {
-        navigationStack.pop(to: .root)
+        //navigationStack.pop(to: .root)
     } */
 }
 

@@ -16,7 +16,7 @@ import NavigationStack
 
 struct EnterPhoneNumberView: View {
     /// Used for navigation
-    @EnvironmentObject private var navigationStack: NavigationStack
+    @EnvironmentObject private var //navigationStack: NavigationStack
     
     @State var phone_number_field_text = ""
     @State var isEditing = true
@@ -162,7 +162,7 @@ struct EnterPhoneNumberView: View {
     func goToNextView()  {
       
             shouldGoToProfile = false
-            self.navigationStack.push(VerificationCodeView2())
+            self.//navigationStack.push(VerificationCodeView2())
         
         
     }
@@ -171,7 +171,7 @@ struct EnterPhoneNumberView: View {
     func goBack()   {
         
         AmareApp().dismissKeyboard {
-            navigationStack.pop()
+            //navigationStack.pop()
         }
         
     
@@ -237,7 +237,7 @@ struct EnterPhoneNumberView: View {
         // There needs to be some delay before you execute this because otherwise an arrow will be thrown because of the keyboard
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
           
-            navigationStack.pop(to: .previous)
+            //navigationStack.pop(to: .previous)
             
             completion()
         }

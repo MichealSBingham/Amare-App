@@ -14,10 +14,11 @@ import Combine
 
 struct EnterPhoneNumberView2: View {
     
-    @EnvironmentObject private var navigationStack: NavigationStack
-    @State private var shouldGoToNext: Bool = false
+   // @State private var shouldGoToNext: Bool = false
     
     @EnvironmentObject private var account: Account
+
+	@EnvironmentObject private var navigationStack: NavigationStackCompat
 
     
     /// Without country code
@@ -223,7 +224,7 @@ struct EnterPhoneNumberView2: View {
     /// Goes back to the login screen
     func goBack()   {
         
-       
+       print("Going backwards...")
             firstResponder = nil
             navigationStack.pop()
     
@@ -235,7 +236,7 @@ struct EnterPhoneNumberView2: View {
     
     func goToNextView()  {
       
-        //guard shouldGoToNext else {return }
+       // guard shouldGoToNext else {return }
         self.navigationStack.push(VerificationCodeView3())
         
         
@@ -245,6 +246,8 @@ struct EnterPhoneNumberView2: View {
     func backButton() -> some View {
         
         return HStack{ Button {
+			
+			
             buttonDisabled = true
             goBack()
             buttonDisabled = false

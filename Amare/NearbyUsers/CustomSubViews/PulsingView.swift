@@ -18,15 +18,21 @@ struct PulsingView: View {
 	//TODO: this is 2 s on device
 	@State private var counter = 0
 	
+	var singleColor: Color?
+	
 	var size: CGFloat = 300
 	
+	/// Lower the frequency, the faster it will pulse
+	var frequency: Double = 2
+	
+	var opacity = 0.5
     var body: some View {
 		
 		
 		Circle()
 			.frame(width: size, height: size)
-			.foregroundColor(pulseColor)
-			.opacity(animatePulse ? 0: 0.5)
+			.foregroundColor(singleColor == nil ? pulseColor: singleColor)
+			.opacity(animatePulse ? 0: opacity )
 			.scaleEffect(animatePulse ? 1.4 : 0)
 			.onReceive(timer) { time in
 				
@@ -43,7 +49,7 @@ struct PulsingView: View {
 		
 				DispatchQueue.main.async {
 					
-					withAnimation(.easeOut(duration: 2).repeatForever(autoreverses: false)){
+					withAnimation(.easeOut(duration: frequency).repeatForever(autoreverses: false)){
 						
 						animatePulse.toggle()
 						
@@ -58,7 +64,7 @@ struct PulsingView: View {
 
 struct PulsingView_Previews: PreviewProvider {
     static var previews: some View {
-        PulsingView()
+		PulsingView(singleColor: .blue)
 			.preferredColorScheme(.dark)
     }
 }

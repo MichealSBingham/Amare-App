@@ -8,13 +8,19 @@
 import Foundation
 import Firebase
 import UIKit
-
+import StreamChat
+import StreamChatSwiftUI
 
 /// Class for view model of  a user shown on screen
 class UserDataModel: ObservableObject{
     
-    @Published var userData: AmareUser = AmareUser()
+	@Published var userData: AmareUser = AmareUser(name: "Diana Hassell") {
+		didSet {
+			connectUserToChatClient()
+		}
+	}
     
+	
 
 
     
@@ -406,6 +412,58 @@ class UserDataModel: ObservableObject{
     }
     
     
+	/// Connects the user to the ChatClient for messaging
+	private func connectUserToChatClient() {
+		
+		
+		
+		guard  self.userData.id == Auth.auth().currentUser?.uid else { print("This is not the signed in user, thus we are not connecting to chat client."); return }
+		
+		
+		guard userData.id != nil && userData.name != nil && userData.profile_image_url != nil else { print ("not connecting because we don't have proper data to"); return }
+	
+			
+	//MARK: Getting the token so that we can connect to the chat client
+		// This is a hardcoded token valid on Stream's tutorial environment.
+		
+		
+		
+		MessagingAPI.getToken(userId: userData.id) { [self] error, tokenS in
+			
+			guard error == nil && tokenS != nil  else {
+				
+				//TODO: Handle error here
+				print("Some error trying to get token \(error) ")
+				return
+			}
+			
+			let token = try! Token(rawValue: tokenS!)
+			
+			ChatClient.shared.connectUser(
+				userInfo: .init(id: self.userData.id!,
+								name: self.userData.name!,
+								imageURL: URL(string: self.userData.profile_image_url!)!),
+					token: token
+			) { error in
+				
+				print("Error connecting user: \(error)")
+				if let error = error {
+					// Some very basic error handling only logging the error.
+					log.error("connecting the user failed \(error)")
+					return
+				}
+			}
+			
+		}
+
+		
+		//MARK: Ensuring that the chat client isn't already connected with the same information so that we don't unneccesarily connect
+		
+		//guard (ChatClient.shared.currentUserId ?? "" != user.id) && (ChatClient.shared.opti)
+		
+		// Call `connectUser` on our SDK to get started.
+	
+	}
 
     
 }

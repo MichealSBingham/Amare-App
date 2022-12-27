@@ -12,7 +12,6 @@ import Combine
 struct EnterUsernameView: View {
     
     /// To manage navigation
-    @EnvironmentObject private var navigationStack: NavigationStack
     
     /// id of view
     static let id = String(describing: Self.self)
@@ -20,6 +19,8 @@ struct EnterUsernameView: View {
     @EnvironmentObject private var account: Account
     
     @ObservedObject var settings = Settings.shared
+	
+	@EnvironmentObject var navigationStack: NavigationStackCompat
     
   //  @State   var username: String = ""
     @State private var goToNext: Bool = false

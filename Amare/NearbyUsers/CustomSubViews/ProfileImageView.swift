@@ -8,7 +8,7 @@
 import SwiftUI
 import URLImage
 
-//TODO: - If user is a ghost/mystery person, should show a question mark as profile pic or ghost photo
+//TODO: - If user is a ghost/mystery person, should show a question mark as profile pic or ghost photo, instead use the smoke animation on it
 // Profile Image for NearbyUser, making this a button in case it can be useful somehow
 struct ProfileImageView: View {
 	
@@ -48,13 +48,7 @@ struct ProfileImageView: View {
 	
     var body: some View {
         
-		Button {
-			
-			
-			
-		  
-			
-		} label: {
+		Group{
 			
 			
 			

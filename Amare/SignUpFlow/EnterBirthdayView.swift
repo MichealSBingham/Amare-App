@@ -15,9 +15,10 @@ struct EnterBirthdayView: View {
     
     /// id of view
     static let id = String(describing: Self.self)
+	
+	@EnvironmentObject private var navigationStack: NavigationStackCompat
     
     /// To manage navigation
-    @EnvironmentObject private var navigationStack: NavigationStack
     @ObservedObject var settings = Settings.shared
 
     

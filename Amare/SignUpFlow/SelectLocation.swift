@@ -8,11 +8,12 @@ struct SelectLocationView: View {
     
    
     /// To manage navigation
-    @EnvironmentObject private var navigationStack: NavigationStack
     /// id of view
     static let id = String(describing: Self.self)
     
     @EnvironmentObject private var account: Account
+	
+	@EnvironmentObject private var navigationStack: NavigationStackCompat
     
     // add locations here
     @State var locationsForAnnotation: [CLPlacemark]  = []
@@ -20,7 +21,7 @@ struct SelectLocationView: View {
     
     @State var searchedLocation: String = ""
     
-    @State var firstResponder: FirstResponders? = .city
+   // @State var firstResponder: FirstResponders? = .city
     
     @State private var beginAnimation: Bool = false
     @State var isEditing: Bool = false
@@ -69,7 +70,7 @@ struct SelectLocationView: View {
                 
                 ZStack{
                 
-                GlobeView(locationToGoTo: $selectedCity, locations: $locationsForAnnotation)
+                GlobeView(/*locationToGoTo: $selectedCity, locations: $locationsForAnnotation*/)
                     .ignoresSafeArea()
                     .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
                 
@@ -92,7 +93,7 @@ struct SelectLocationView: View {
                                /*cityString ??*/ "New York, NY",
                                 text: binding
                            )
-                                .firstResponder(id: FirstResponders.city, firstResponder: $firstResponder)
+                              //  .firstResponder(id: FirstResponders.city, firstResponder: $firstResponder)
                                 .onSubmit {
                                     
                                     print("Did tap submit")
@@ -353,24 +354,43 @@ struct LocationForMapView {
 
 
 struct GlobeView: UIViewRepresentable {
-    
+	func updateUIView(_ uiView: MKMapView, context: Context) {
+		
+	}
+	
+    /*
     /// Pass a state variable here and when it changes, the map will fly to this location
     @Binding var locationToGoTo: CLPlacemark?
     
     /// This will keep track of annotations to place on the map, without animations.
     @Binding var locations: [CLPlacemark]
+	
+	*/
     
     func makeUIView(context: Context) -> MKMapView {
         let mapView = MKMapView(frame: .zero)
+		
+	
+		
         // change the map type here
-        mapView.mapType = .hybridFlyover
-        mapView.tintColor = UIColor(red: 1.00, green: 0.01, blue: 0.40, alpha: 1.00)
+//		mapView.mapType = .standard
+//        mapView.tintColor = UIColor(red: 1.00, green: 0.01, blue: 0.40, alpha: 1.00)
         mapView.showsUserLocation = true
+		
+		if #available(iOS 16.0, *) {
+			mapView.preferredConfiguration = MKStandardMapConfiguration(elevationStyle: .realistic)
+		} else {
+			// Fallback on earlier versions
+			
+			print("FALLING BACK THE MAP")
+		}
+		
+		
     
         return mapView
     }
     
-    
+    /*
     func updateUIView(_ view: MKMapView, context: Context) {
         
         for location in locations {
@@ -403,7 +423,7 @@ struct GlobeView: UIViewRepresentable {
             
             let  region = MKCoordinateRegion(center: goToLoc, latitudinalMeters: 1609340, longitudinalMeters: 1609300)
             
-            view.animatedZoom(to: region, for: 3)
+           // view.animatedZoom(to: region, for: 3)
             
             // make a pins
             let pin = MKPointAnnotation()
@@ -432,11 +452,12 @@ struct GlobeView: UIViewRepresentable {
             view.showsUserLocation = true 
             let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 0, longitude: 0), latitudinalMeters: 16093400, longitudinalMeters: 16093400)
             
-            view.animatedZoom(to: region, for: 3)
+         //   view.animatedZoom(to: region, for: 3)
             
            
         }
     }
+	 */
 }
 
 struct ContentView_Previews: PreviewProvider {

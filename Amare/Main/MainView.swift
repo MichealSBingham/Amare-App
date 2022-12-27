@@ -8,6 +8,8 @@
 import SwiftUI
 import NavigationStack
 import MultipeerKit
+import StreamChat
+import StreamChatSwiftUI
 
 
 struct MainView: View {
@@ -15,12 +17,12 @@ struct MainView: View {
     /// id of view
     static let id = String(describing: Self.self)
    
+	///  Contains the data model that represents all of the user data for the signed in user
     @StateObject private var mainViewModel: UserDataModel = UserDataModel()
     
     
     
     @EnvironmentObject private var account: Account
-    @EnvironmentObject private var navigationStack: NavigationStack
 
     
     @State private var tabSelection = 1
@@ -46,8 +48,23 @@ struct MainView: View {
             
                 Scanner()
                 .tag(3)
-                Chats()
-                .tag(4)
+			
+			DiscoverNearbyView()
+				.tag(6)
+			
+			NavigationStackView{
+				ChatChannelListView(viewFactory: CustomViewFactory(), title: "DMs")
+						
+						.environmentObject(account)
+						.navigationTitle("DMs")
+						.environmentObject(mainViewModel)
+						
+				
+			}
+			.tabItem { Label("Chats", systemImage: "message.circle") }
+			.tag(4)
+		
+			
                 Perferences()
                 .tag(5)
                 
@@ -93,7 +110,7 @@ struct MainView: View {
     
     func Chats() ->  some View  {
         
-        return MessagesView()
+        return ChatChannelListView(viewFactory: CustomViewFactory())
                 .tabItem { Label("Chats", systemImage: "message.circle") }
                 .environmentObject(account)
         
@@ -121,11 +138,11 @@ struct MainView: View {
         if isRoot {
             // Push it back I suppose ...
 			print("***Pushing back is root")
-            navigationStack.push(SignInOrUpView( isRoot: false))
+            //navigationStack.push(SignInOrUpView( isRoot: false))
         } else{
             
 			print("***popping back instead ")
-            navigationStack.pop(to: .root)
+            //navigationStack.pop(to: .root)
         }
      
         
@@ -149,11 +166,13 @@ struct MainView: View {
         account.listenOnlyForSignOut()
       
         
-		
+		print("the user is ... \(mainViewModel.userData)")
 		
 		
 		
     }
+	
+	
     
 }
 
@@ -164,6 +183,6 @@ struct MainView_Previews: PreviewProvider {
     static var previews: some View {
         MainView( isRoot: false)
             .environmentObject(Account())
-            .environmentObject(NavigationStack())
+            .environmentObject(NavigationStackCompat())
     }
 }

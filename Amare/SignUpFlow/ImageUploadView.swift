@@ -8,11 +8,13 @@
 import SwiftUI
 import NavigationStack
 import FirebaseStorage
+import EasyFirebase
+import Firebase
+import FirebaseAuth
 
 struct ImageUploadView: View {
     
     /// To manage navigation
-    @EnvironmentObject private var navigationStack: NavigationStack
 
     /// id of view
     static let id = String(describing: Self.self)
@@ -157,7 +159,7 @@ struct ImageUploadView: View {
     /// Goes back to the login screen
     func goBack()   {
         
-        navigationStack.pop()
+        //navigationStack.pop()
     }
     
     /// Left Back Button
@@ -211,7 +213,7 @@ struct ImageUploadView: View {
 			try account.create()
 				
 			
-			navigationStack.push(MainView( isRoot: false).environmentObject(account))
+			//navigationStack.push(MainView( isRoot: false).environmentObject(account))
 
 		} catch (let error) {
 			

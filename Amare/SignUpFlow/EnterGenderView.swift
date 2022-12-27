@@ -14,7 +14,6 @@ import Shimmer
 struct EnterGenderView: View {
     
     /// To manage navigation
-    @EnvironmentObject private var navigationStack: NavigationStack
     
     /// id of view
     static let id = String(describing: Self.self)
@@ -23,6 +22,8 @@ struct EnterGenderView: View {
 
     
     @EnvironmentObject private var account: Account
+	
+	@EnvironmentObject private var navigationStack: NavigationStackCompat
     @State private var goToNext: Bool = false
     
     @State private var alertMessage: String = ""

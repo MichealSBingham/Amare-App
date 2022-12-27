@@ -13,7 +13,7 @@ struct MoreInfoOnPlanet: View {
     
     @StateObject var viewModel: MoreInfoOnPlanetViewModel = MoreInfoOnPlanetViewModel()
     
-    @State var planet: Planet?
+    /*@State*/ var planet: Planet?
     var chart: NatalChart?
     
 
@@ -148,6 +148,7 @@ struct MoreInfoOnPlanet: View {
                 // What this planet interacts with in their charts / aspects with
                 
                 //"Aspects"
+				/*
                 HStack{
                     
                     AspectsText()
@@ -318,7 +319,7 @@ struct MoreInfoOnPlanet: View {
                     
                 }
                 .padding([.top, .bottom], -10)
-                
+                */
                 
                 //"House and degree"
                 HStack{

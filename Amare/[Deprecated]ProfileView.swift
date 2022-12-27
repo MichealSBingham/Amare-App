@@ -13,7 +13,6 @@ import NavigationStack
 struct ProfileView: View {
     
     /// To manage navigation
-    @EnvironmentObject private var navigationStack: NavigationStack
 
     /// id of view
     static let id = String(describing: Self.self)
@@ -134,7 +133,7 @@ struct ProfileView: View {
     
     func goBackToSignInRootView()  {
 
-        navigationStack.pop(to: .root)
+        //navigationStack.pop(to: .root)
     }
     
     func MakeProfileImage() -> some View {
