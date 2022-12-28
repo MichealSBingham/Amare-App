@@ -32,9 +32,44 @@ struct MainView: View {
     
     var body: some View {
         
+        ZStack{
+            
+            switch tabSelection{
+                
+            case 0:
+                TestView()
+                    .environmentObject(mainViewModel)
+            case 1:
+                DiscoverNearbyView()
+            case 2:
+                TestView2()
+            case 3:
+                NavigationStackView{
+                    ChatChannelListView(viewFactory: CustomViewFactory(), title: "DMs")
+                            
+                            .environmentObject(account)
+                            .navigationTitle("DMs")
+                            .environmentObject(mainViewModel)
+                            
+                    
+                }
+            case 4:
+                Perferences()
+            default:
+                TestView()
+               
+                
+            }
+            
+            
+            VStack{
+                Spacer()
+                FloatingTabbar(selected: $tabSelection)
+            }
+        }
        
     
-
+/*
         TabView(selection: $tabSelection) {
                 
                 //Map()
@@ -70,6 +105,11 @@ struct MainView: View {
                 
                 
             }
+        
+        
+        
+        
+        */
             .onAppear(perform: { thingsToDoWhenMainViewLoads()})
             // .onDisappear(perform: {mainViewModel.unsubscribeToUserDataChanges()})
             .onReceive(NotificationCenter.default.publisher(for: NSNotification.logout), perform: { _ in

@@ -13,7 +13,7 @@ struct TabViewUI: View {
     var body: some View {
         
         FloatingTabbar(selected: $menu)
-    
+            .preferredColorScheme(.dark)
     }
 }
 
@@ -74,7 +74,9 @@ struct FloatingTabbar : View {
                         // MAP Icon
                         Button(action: {
                             
-                            self.selected = 1
+                            withAnimation{
+                                self.selected = 1
+                            }
                             
                         }) {
                             
@@ -86,7 +88,9 @@ struct FloatingTabbar : View {
                         
                         Button(action: {
                             
-                            self.selected = 2
+                            withAnimation{
+                                self.selected = 2
+                            }
                             
                         }) {
                             
@@ -98,7 +102,9 @@ struct FloatingTabbar : View {
                         
                         Button(action: {
                             
-                            self.selected = 3
+                            withAnimation{
+                                self.selected = 3
+                            }
                             
                         }) {
                             
@@ -109,13 +115,14 @@ struct FloatingTabbar : View {
                         Spacer()
                         Button(action: {
                             
-                            self.selected = 4
+                            withAnimation{
+                                self.selected = 4
+                            }
                             
                         }) {
                             
-                            Image("TabView/maps2")
-                                .resizable()
-                                .frame(width: 25, height: 25)
+                            ProfileImageView(profile_image_url: .constant(peopleImages.first!), size: CGFloat(25))
+                            
                                 //.foregroundColor(self.selected == 2 ? .black : .gray)//.padding(.horizontal)
                         }
                         

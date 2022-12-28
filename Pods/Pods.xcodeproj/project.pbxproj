@@ -15,6 +15,7 @@
 			dependencies = (
 			);
 			name = GooglePlaces;
+			productName = GooglePlaces;
 		};
 /* End PBXAggregateTarget section */
 
@@ -50,7 +51,7 @@
 		B2928C648F43035E31034051AFAED7AB /* TimeZoneLocate-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C7ACB58BEA52AD4A6397D46403D1CCE /* TimeZoneLocate-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B7BB9FEE37026318A9EFC9FCB7675DAC /* timezones.json in Resources */ = {isa = PBXBuildFile; fileRef = D6D632B8199876556F77D3CBD776C9F5 /* timezones.json */; };
 		B7D56328F1F1B5205C8BADD4CA2C9B6E /* TimeZoneLocate-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = FB8E03BDD2248F0C2E05BB4071BBC89F /* TimeZoneLocate-dummy.m */; };
-		BB27116EC53269DA76CBE355559B37DB /* TimeZoneLocate-TimeZoneLocate in Resources */ = {isa = PBXBuildFile; fileRef = 65AAFED18F518E23E1C4FCD6B61035D3 /* TimeZoneLocate-TimeZoneLocate */; };
+		BB27116EC53269DA76CBE355559B37DB /* TimeZoneLocate.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 65AAFED18F518E23E1C4FCD6B61035D3 /* TimeZoneLocate.bundle */; };
 		BFD0D9502D8D221522269A018D0B1D12 /* Pods-AmareTests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = B8BFD8FB077340986957285589BA2315 /* Pods-AmareTests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DE7B9E00307143E2F8D21A7616F8EE03 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9B9D583B428C8D1D5637DBA7E9895BD /* Foundation.framework */; };
 		E6F2180BE521CC07E6DA4A64A56EBA34 /* GFGeoHash.h in Headers */ = {isa = PBXBuildFile; fileRef = F4AC0EB4CD69F378E09D219F3313A99B /* GFGeoHash.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -156,7 +157,7 @@
 		4B8776C286169B8E5358C43D2E5AE7A0 /* Pods-Amare-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Amare-acknowledgements.markdown"; sourceTree = "<group>"; };
 		4FF67A772BAEBFBC1C935704DF9DB637 /* TimeZoneLocate.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = TimeZoneLocate.debug.xcconfig; sourceTree = "<group>"; };
 		6303EFBB031EC4B1287569F36E789B1F /* TimeZoneLocate */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = TimeZoneLocate; path = TimeZoneLocate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		65AAFED18F518E23E1C4FCD6B61035D3 /* TimeZoneLocate-TimeZoneLocate */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "TimeZoneLocate-TimeZoneLocate"; path = TimeZoneLocate.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		65AAFED18F518E23E1C4FCD6B61035D3 /* TimeZoneLocate.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TimeZoneLocate.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		6709511D7CC492B0316C9672B289B66A /* GFGeoQueryBounds.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GFGeoQueryBounds.h; path = GeoFire/Utils/GFGeoQueryBounds.h; sourceTree = "<group>"; };
 		6808670ABD6E04278653F464D01EF812 /* GeoFire.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = GeoFire.debug.xcconfig; sourceTree = "<group>"; };
 		72358B6BC5BA0AF9528A445F1072500B /* Pods-AmareTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-AmareTests-acknowledgements.markdown"; sourceTree = "<group>"; };
@@ -171,7 +172,7 @@
 		95BF5E9EEB55FBE5657E4544CED0F777 /* IPImage-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "IPImage-umbrella.h"; sourceTree = "<group>"; };
 		98C66D32AB79CA87389A04B2D78D1A88 /* GeoFire.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = GeoFire.modulemap; sourceTree = "<group>"; };
 		9A17FD47E3A0BCA2A53F86976D222D9D /* Pods-Amare-AmareUITests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-Amare-AmareUITests.modulemap"; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		9E757201361F0EBF4078BFC35D8B5ADC /* Pods-Amare-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Amare-resources.sh"; sourceTree = "<group>"; };
 		A1301C1715733CAA455382A7E6B11700 /* Pods-Amare.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Amare.debug.xcconfig"; sourceTree = "<group>"; };
 		A1D8616FA425869AF1794524E6453FD9 /* Pods-Amare-AmareUITests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Amare-AmareUITests-acknowledgements.plist"; sourceTree = "<group>"; };
@@ -194,7 +195,7 @@
 		CC4D9B41714BC5886BA3AFBE875CA898 /* GFGeoHash.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = GFGeoHash.m; path = GeoFire/Utils/GFGeoHash.m; sourceTree = "<group>"; };
 		D449099C9456E9F8C3CDC1324C09DF0B /* GeoFire */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = GeoFire; path = GeoFire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4F9BE4275E5E72BEB18AEB572589188 /* GeoFire-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "GeoFire-Info.plist"; sourceTree = "<group>"; };
-		D6D632B8199876556F77D3CBD776C9F5 /* timezones.json */ = {isa = PBXFileReference; includeInIndex = 1; name = timezones.json; path = Pod/Assets/timezones.json; sourceTree = "<group>"; };
+		D6D632B8199876556F77D3CBD776C9F5 /* timezones.json */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.json; name = timezones.json; path = Pod/Assets/timezones.json; sourceTree = "<group>"; };
 		D7A8F70F36788D30F41B6C4967DD2662 /* Pods-Amare-AmareUITests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Amare-AmareUITests-frameworks.sh"; sourceTree = "<group>"; };
 		E3E06AB1BCBE8BDDFB4EBDC35ACF695B /* GooglePlaces.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; name = GooglePlaces.bundle; path = Frameworks/GooglePlaces.framework/Resources/GooglePlaces.bundle; sourceTree = "<group>"; };
 		E4ACB12450012C62ECDFA7A798F67BED /* Pods-AmareTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-AmareTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -347,7 +348,7 @@
 				4B74CD22F656E781E9D55A80D223416F /* Pods-Amare-AmareUITests */,
 				933AC30A190B2F139D02EC2AAA01B1F3 /* Pods-AmareTests */,
 				6303EFBB031EC4B1287569F36E789B1F /* TimeZoneLocate */,
-				65AAFED18F518E23E1C4FCD6B61035D3 /* TimeZoneLocate-TimeZoneLocate */,
+				65AAFED18F518E23E1C4FCD6B61035D3 /* TimeZoneLocate.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -369,7 +370,6 @@
 				2F2F052AD4E4F92A2309CC861653D333 /* Support Files */,
 				30BE0CE54F73D87A023306412955B756 /* Utils */,
 			);
-			name = GeoFire;
 			path = GeoFire;
 			sourceTree = "<group>";
 		};
@@ -421,7 +421,6 @@
 				33CC72B3468A140F28EE686DA0BE044D /* IPImage.swift */,
 				FBFCA098F466AA7A552C826070F133E0 /* Support Files */,
 			);
-			name = IPImage;
 			path = IPImage;
 			sourceTree = "<group>";
 		};
@@ -458,7 +457,6 @@
 				29B801E296C045CB547E0580FD9B8456 /* Resources */,
 				6ECB61A00165C7B924C4DD2E15C652FF /* Support Files */,
 			);
-			name = TimeZoneLocate;
 			path = TimeZoneLocate;
 			sourceTree = "<group>";
 		};
@@ -508,7 +506,6 @@
 				5B62800CD0EA25D275BCAAB27C9F39E3 /* Resources */,
 				F5BAC16F0A21343F8078FF9800D3D16D /* Support Files */,
 			);
-			name = GooglePlaces;
 			path = GooglePlaces;
 			sourceTree = "<group>";
 		};
@@ -600,7 +597,7 @@
 			);
 			name = "TimeZoneLocate-TimeZoneLocate";
 			productName = TimeZoneLocate;
-			productReference = 65AAFED18F518E23E1C4FCD6B61035D3 /* TimeZoneLocate-TimeZoneLocate */;
+			productReference = 65AAFED18F518E23E1C4FCD6B61035D3 /* TimeZoneLocate.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
 		5544292C90F6A5BB6F4C81DF25BEB04A /* IPImage */ = {
@@ -781,7 +778,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BB27116EC53269DA76CBE355559B37DB /* TimeZoneLocate-TimeZoneLocate in Resources */,
+				BB27116EC53269DA76CBE355559B37DB /* TimeZoneLocate.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1388,6 +1385,7 @@
 			baseConfigurationReference = C9416C3EDF0CEE23CF8CDDBC31B07BE2 /* TimeZoneLocate.release.xcconfig */;
 			buildSettings = {
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/TimeZoneLocate";
+				DEVELOPMENT_TEAM = HGQ8Q53DV8;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				IBSC_MODULE = TimeZoneLocate;
 				INFOPLIST_FILE = "Target Support Files/TimeZoneLocate/ResourceBundle-TimeZoneLocate-TimeZoneLocate-Info.plist";
@@ -1531,6 +1529,7 @@
 			baseConfigurationReference = 4FF67A772BAEBFBC1C935704DF9DB637 /* TimeZoneLocate.debug.xcconfig */;
 			buildSettings = {
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/TimeZoneLocate";
+				DEVELOPMENT_TEAM = HGQ8Q53DV8;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				IBSC_MODULE = TimeZoneLocate;
 				INFOPLIST_FILE = "Target Support Files/TimeZoneLocate/ResourceBundle-TimeZoneLocate-TimeZoneLocate-Info.plist";
