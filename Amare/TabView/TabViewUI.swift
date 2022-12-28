@@ -111,7 +111,9 @@ struct FloatingTabbar : View {
                             Image(self.selected == 3 ? "TabView/messagesIcon2" : "TabView/messagesIcon")
                                 .resizable()
                                 .frame(width: 25, height: 25)
+                                
                         }
+                        
                         Spacer()
                         Button(action: {
                             
@@ -123,7 +125,7 @@ struct FloatingTabbar : View {
                             
                             ProfileImageView(profile_image_url: .constant(peopleImages.first!), size: CGFloat(25))
                             
-                                //.foregroundColor(self.selected == 2 ? .black : .gray)//.padding(.horizontal)
+                                
                         }
                         
                         
