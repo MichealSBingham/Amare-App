@@ -28,6 +28,15 @@
       }
     },
     {
+      "identity" : "bottomsheet",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/danielsaidi/BottomSheet.git",
+      "state" : {
+        "revision" : "5a5aa250483690820feb016b7760539938d4fbb6",
+        "version" : "0.3.0"
+      }
+    },
+    {
       "identity" : "cwlcatchexception",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/mattgallagher/CwlCatchException.git",

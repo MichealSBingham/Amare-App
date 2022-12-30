@@ -20,17 +20,28 @@ struct MainView: View {
 	///  Contains the data model that represents all of the user data for the signed in user
     @StateObject private var mainViewModel: UserDataModel = UserDataModel()
     
+    /// Contains data model for obtaining nearby users
+    /// TODO:  seperate this from `testViewModel` to make more light weight
+    @StateObject private var nearbyUsersModel: TestViewModel = TestViewModel()
+    
     
     
     @EnvironmentObject private var account: Account
 
     
     @State private var tabSelection = 1
+    
 
     /// Whether or not this view became the root view when it was instantiated 
      var isRoot: Bool
     
+    @State private var isSheetExpanded = false
+
+        
+    
     var body: some View {
+        
+       
         
         ZStack{
             
@@ -41,6 +52,9 @@ struct MainView: View {
                     .environmentObject(mainViewModel)
             case 1:
                 DiscoverNearbyView()
+                    
+                   
+                    
             case 2:
                 TestView2()
             case 3:

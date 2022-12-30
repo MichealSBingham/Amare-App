@@ -22,6 +22,10 @@ struct DiscoverNearbyView: View {
 	
 	
 	@State private var discoverIsOn: Bool = false
+    
+    
+    /// TODO: clean up 'test view model' change
+    //@EnvironmentObject var NIusersDataModel = TestViewModel()
 	
 	var body: some View {
 		
@@ -40,105 +44,93 @@ struct DiscoverNearbyView: View {
 						
 						ZStack{
 							
-							//Mark: Title Bar
-							Rectangle()
-								.frame(width: .infinity, height: 110.0)
-								.background(.ultraThinMaterial)
-								.foregroundColor(discoverIsOn ? .green : .pink)
-								.foregroundStyle(.ultraThinMaterial)
-								.colorScheme(.dark)
-								.opacity(0.5)
-							//.cornerRadius(20)
-								.ignoresSafeArea()
+    
 							
 							
 							HStack{
 								
-								if #available(iOS 16.0, *) {
-									Text("Discover")
-									//.foregroundStyle(.ultraThinMaterial)
-										.foregroundColor(.white)
-										.font(.largeTitle)
-										.fontWeight(.bold)
-										.minimumScaleFactor(0.01)
-										.lineLimit(1)
-										.padding()
-								} else {
-									// Fallback on earlier versions
-									Text("Discover")
-									//.foregroundStyle(.ultraThinMaterial)
-										.foregroundColor(.white)
-										.font(.largeTitle)
-										//.fontWeight(.bold)
-										.minimumScaleFactor(0.01)
-										.lineLimit(1)
-										.padding()
-								}
-								
+							
 							
 								Spacer()
 								
-								Menu {
-									
-									if discoverIsOn{
-										
-										Button {
-											print("Allow anyone to discover me")
-										} label: {
-											Text("Allow anyone to discover me")
-										}
-										
-										Button {
-											print("Allow anyone to discover me")
-										} label: {
-											Text("Allow only those matching my dating profile to discover me")
-										}
-										
-										Button {
-											print("Allow anyone to discover me")
-										} label: {
-											Text("Show me to people I've crossed paths with")
-										}
-										
-									} else {
-										
-										
-										
-										Button {
-											print("Allow anyone to discover me")
-										} label: {
-											Text("Show me to people I've crossed paths with")
-										}
-										
-										Button {
-											print("Allow anyone to discover me")
-										} label: {
-											Text("Don't show me to people I've crossed paths with")
-										}
-										
-										
-									}
-									
+                                VStack{
+                                    
+                                    Menu {
+                                        
+                                        if discoverIsOn{
+                                            
+                                            Button {
+                                                print("Allow anyone to discover me")
+                                            } label: {
+                                                Text("Allow anyone to discover me")
+                                            }
+                                            
+                                            Button {
+                                                print("Allow anyone to discover me")
+                                            } label: {
+                                                Text("Allow only those matching my dating profile to discover me")
+                                            }
+                                            
+                                            Button {
+                                                print("Allow anyone to discover me")
+                                            } label: {
+                                                Text("Show me to people I've crossed paths with")
+                                            }
+                                            
+                                        } else {
+                                            
+                                            
+                                            
+                                            Button {
+                                                print("Allow anyone to discover me")
+                                            } label: {
+                                                Text("Show me to people I've crossed paths with")
+                                            }
+                                            
+                                            Button {
+                                                print("Allow anyone to discover me")
+                                            } label: {
+                                                Text("Don't show me to people I've crossed paths with")
+                                            }
+                                            
+                                            
+                                        }
+                                        
 
-								} label: {
-									Image(systemName: "gear")
-										.resizable()
-										.colorScheme(.dark)
-										.offset(x: 20)
-										.frame(width: 25.0, height: 25.0)
-										.padding()
-									
-								}
-								.foregroundColor(.white)
+                                    } label: {
+                                        Image(systemName: "gear")
+                                            .resizable()
+                                            .foregroundColor(.amare)
+                                          
+                                            //.colorScheme(.dark)
+                                           // .offset(x: 20)
+                                            .frame(width: 25.0, height: 25.0)
+                                            .background(Circle()
+                                                .fill(Color.white)
+                                                .opacity(0.50)
+                                                .frame(width: 40, height: 40))
+                                            .padding()
+                                        
+                                        
+                                    }
+                                    .foregroundColor(.white)
 
+                                    
+                                    Toggle("", isOn: $discoverIsOn)
+                                        .padding()
+                                        .colorScheme(.dark)
+                                        .background(Circle()
+                                            .fill(Color.white)
+                                            .opacity(0.50)
+                                            .frame(width: 50, height: 50))
+                                        .frame(width: 200)
+                                        .toggleStyle(MapToggleStyle())
+                                    
+                                }
 								
-								Toggle("", isOn: $discoverIsOn)
-									.padding()
-									.colorScheme(.dark)
-									.frame(width: 80.0)
 									
 							}
-							.offset(y: -30.0)
+                            //.offset(y: -30.0)
 							
 							
 						}
@@ -156,6 +148,48 @@ struct DiscoverNearbyView: View {
 					
 					print("The locations... \(locations)")
 				}
+                .sheet(isPresented: .constant(true)) {
+                    if #available(iOS 16.1, *) {
+                        /*
+                         NavigationView {
+                            Text("People Nearby")
+                                .navigationTitle(Text("Discover")
+                                    .padding(.vertical, -10))
+                        }*/
+                        VStack{
+                            
+                            HStack{
+                                
+                                Text("People")
+                                    .font(.largeTitle)
+                                   // .fontDesign(.rounded)
+                                    .padding()
+                                Spacer()
+                            }
+                        
+                            Spacer()
+                        }
+                        
+                        
+                            .presentationDetents([.fraction(CGFloat(0.10)), .medium])
+                        
+                    } else {
+                        // Fallback on earlier versions
+                    }
+                        
+                }
+                .onAppear{
+                    
+                    guard let windows = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
+                    
+                    if let controller = windows.windows.first?.rootViewController?.presentedViewController, let sheet = controller.presentationController as? UISheetPresentationController{
+                        
+                    } else {
+                        print("CONTROLLER NOT FOUND")
+                    }
+                    
+                                        
+                }
 				
 				
 			
