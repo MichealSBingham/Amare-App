@@ -52,6 +52,7 @@ struct MainView: View {
                     .environmentObject(mainViewModel)
             case 1:
                 DiscoverNearbyView()
+                    .environmentObject(mainViewModel)
                     
                    
                     
@@ -60,7 +61,7 @@ struct MainView: View {
             case 3:
                 NavigationStackView{
                     ChatChannelListView(viewFactory: CustomViewFactory(), title: "DMs")
-                            
+                             
                             .environmentObject(account)
                             .navigationTitle("DMs")
                             .environmentObject(mainViewModel)
@@ -79,6 +80,36 @@ struct MainView: View {
             VStack{
                 Spacer()
                 FloatingTabbar(selected: $tabSelection)
+                    .sheet(isPresented: .constant(true)) {
+                        if #available(iOS 16.1, *) {
+                            /*
+                             NavigationView {
+                                Text("People Nearby")
+                                    .navigationTitle(Text("Discover")
+                                        .padding(.vertical, -10))
+                            }*/
+                            VStack{
+                                
+                                HStack{
+                                    
+                                    Text("People")
+                                        .font(.largeTitle)
+                                       // .fontDesign(.rounded)
+                                        .padding()
+                                    Spacer()
+                                }
+                            
+                                Spacer()
+                            }
+                            
+                            
+                                .presentationDetents([.fraction(CGFloat(0.10)), .medium])
+                            
+                        } else {
+                            // Fallback on earlier versions
+                        }
+                            
+                    }
             }
         }
        

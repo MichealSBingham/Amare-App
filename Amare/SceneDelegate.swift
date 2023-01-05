@@ -53,7 +53,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
        
         transceiver.resume()
         
-        
+       
         
         
         if let windowScene = scene as? UIWindowScene {

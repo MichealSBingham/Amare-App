@@ -340,13 +340,6 @@
 			path = EarlierViewVersionsStillWorking;
 			sourceTree = "<group>";
 		};
-		2623D7AE27935DA9002456DF /* New Group */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "New Group";
-			sourceTree = "<group>";
-		};
 		26333AF427B9713B005149C9 /* ProfilePopup */ = {
 			isa = PBXGroup;
 			children = (
@@ -654,7 +647,6 @@
 				26DE210926C595E80004B5CE /* MessagesView.swift */,
 				26DE210B26C5963A0004B5CE /* SettingsView.swift */,
 				26DE210D26C596450004B5CE /* HomeGlobeView.swift */,
-				2623D7AE27935DA9002456DF /* New Group */,
 				26CB7A42295FA112008324BB /* Discover Nearby  */,
 			);
 			path = Main;
