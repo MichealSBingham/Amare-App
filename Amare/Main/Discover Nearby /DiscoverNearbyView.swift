@@ -219,8 +219,8 @@ struct DiscoverNearbyView: View {
                 
                 }
                 
-                .sheet(isPresented: .constant(true)) {
-                if #available(iOS 16.1, *) {
+                .sheet(isPresented: $discoverIsOn) {
+                if true /*#available(iOS 16.1, *)*/ {
                     ZStack{
                         VStack{
                             
@@ -270,9 +270,10 @@ struct DiscoverNearbyView: View {
                         FindNearbyUserView(user: $otherUser, blindMode: false)
                             .opacity(showFindNearbyUserView ? 1 : 0)
                         */
+                        
                     }
                     
-                    .presentationDetents([.fraction(CGFloat(0.10)), .medium, .large])
+                   // .presentationDetents([.fraction(CGFloat(0.10)), .medium, .large])
                     
                 } else {
                     // Fallback on earlier versions
@@ -296,7 +297,7 @@ struct DiscoverNearbyView: View {
            
             
             Text(person.name)
-                .fontWeight(.heavy)
+                //.fontWeight(.heavy)
                 //.font(Font.title2)
                 .padding()
             
@@ -332,7 +333,7 @@ struct DiscoverNearbyView: View {
         print("broadcasting to nearby users")
         guard mainViewModel.userData.isComplete() else { print("!No need to broadcast to all ... incomplete data"); return }
     
-        //print("!!! Broadcasting this data .. \(mainViewModel.userData)")
+   
 
         guard let deviceID = UIDevice.current.identifierForVendor?.uuidString else { return }
                 

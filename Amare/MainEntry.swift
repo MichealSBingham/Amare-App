@@ -17,36 +17,7 @@ struct MainEntry: View {
                 FloatingTabbar(selected: $menuSelection)
                    
             }
-            .sheet(isPresented: .constant(true)) {
-                if #available(iOS 16.1, *) {
-                    /*
-                     NavigationView {
-                        Text("People Nearby")
-                            .navigationTitle(Text("Discover")
-                                .padding(.vertical, -10))
-                    }*/
-                    VStack{
-                        
-                        HStack{
-                            
-                            Text("People")
-                                .font(.largeTitle)
-                               // .fontDesign(.rounded)
-                                .padding()
-                            Spacer()
-                        }
-                    
-                        Spacer()
-                    }
-                    
-                    
-                        .presentationDetents([.fraction(CGFloat(0.10)), .medium])
-                    
-                } else {
-                    // Fallback on earlier versions
-                }
-                    
-            }
+        
         }
     }
 }

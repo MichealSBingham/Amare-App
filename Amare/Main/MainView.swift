@@ -80,94 +80,83 @@ struct MainView: View {
             VStack{
                 Spacer()
                 FloatingTabbar(selected: $tabSelection)
-                    .sheet(isPresented: .constant(true)) {
-                        if #available(iOS 16.1, *) {
-                            /*
-                             NavigationView {
-                                Text("People Nearby")
-                                    .navigationTitle(Text("Discover")
-                                        .padding(.vertical, -10))
-                            }*/
-                            VStack{
-                                
-                                HStack{
-                                    
-                                    Text("People")
-                                        .font(.largeTitle)
-                                       // .fontDesign(.rounded)
-                                        .padding()
-                                    Spacer()
-                                }
-                            
-                                Spacer()
-                            }
-                            
-                            
-                                .presentationDetents([.fraction(CGFloat(0.10)), .medium])
-                            
-                        } else {
-                            // Fallback on earlier versions
-                        }
-                            
-                    }
+                
             }
         }
+        
+        
        
     
-/*
-        TabView(selection: $tabSelection) {
-                
-                //Map()
-           TestView()
-                .tag(1)
-                .environmentObject(mainViewModel)
+
         
-                NatalChart()
-                .environmentObject(mainViewModel)
-                .tag(2)
+            /*
+            TabView(selection: $tabSelection) {
+                
+                
+                    
+                Group{
+                    //Map()
+                    TestView()
+                        .tag(0)
+                        .environmentObject(mainViewModel)
+                        .tabItem { Label("Chats", systemImage: "message.circle") }
+                    
+                    
+                    DiscoverNearbyView()
+                      //  .tag(1)
+                        .environmentObject(mainViewModel)
+                        .tabItem { Label("Chats", systemImage: "message.circle") }
+                    
+                    
+                    TestView2()
+                       // .tag(2)
+                        .tabItem { Label("Chats", systemImage: "message.circle") }
+                    
+                    
+                    
+                    NavigationStackView{
+                        ChatChannelListView(viewFactory: CustomViewFactory(), title: "DMs")
+                        
+                            .environmentObject(account)
+                            .navigationTitle("DMs")
+                            .environmentObject(mainViewModel)
+                        
+                        
+                    }
+                    .tabItem { Label("Chats", systemImage: "message.circle") }
+                    //.tag(3)
+                    
+                    
+                    Perferences()
+                        //.tag(4)
+                        .tabItem { Label("Chats", systemImage: "message.circle") }
+                    
+                }
+                .toolbarColorScheme(.light, for: .tabBar)
+                
             
-                Scanner()
-                .tag(3)
-			
-			DiscoverNearbyView()
-				.tag(6)
-			
-			NavigationStackView{
-				ChatChannelListView(viewFactory: CustomViewFactory(), title: "DMs")
-						
-						.environmentObject(account)
-						.navigationTitle("DMs")
-						.environmentObject(mainViewModel)
-						
-				
-			}
-			.tabItem { Label("Chats", systemImage: "message.circle") }
-			.tag(4)
-		
-			
-                Perferences()
-                .tag(5)
-                
-                
+            
             }
-        
-        
-        
-        
-        */
+            */
+            
+            
+            
+            
+            
             .onAppear(perform: { thingsToDoWhenMainViewLoads()})
             // .onDisappear(perform: {mainViewModel.unsubscribeToUserDataChanges()})
             .onReceive(NotificationCenter.default.publisher(for: NSNotification.logout), perform: { _ in
-            print("Received notification to sign out...")
+                print("Received notification to sign out...")
                 goBackToSignInRootView()
-        
-        })
+                
+            })
             .onChange(of: mainViewModel.inCompleteData) { isIncomplete in
                 
                 print("*****Incomplete data variable changed in mainview : \(isIncomplete) ")
                 
                 if isIncomplete { account.signOut() }
             }
+        
                         
             
             
