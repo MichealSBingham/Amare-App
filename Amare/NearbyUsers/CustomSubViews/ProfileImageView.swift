@@ -14,6 +14,8 @@ struct ProfileImageView: View {
 	
 	@Binding var profile_image_url: String?
 	var size: CGFloat = CGFloat(150)
+    
+    var colorOverlay: Color = .blue
 	
 	@State var condition: Bool = false
 	@State var condition2: Bool = false
@@ -107,7 +109,7 @@ struct ProfileImageView: View {
 					.aspectRatio(contentMode: .fit)
 					.clipShape(Circle())
 					.foregroundColor(.white)
-					 .overlay(Circle().stroke(colors.randomElement() ?? .blue, lineWidth: 1))
+					 .overlay(Circle().stroke(colorOverlay, lineWidth: 1))
 					 .shadow(radius: 15)
 					 .frame(width: size, height: size)
 					 .opacity(profile_image_url != nil ? 1: 0)

@@ -1384,7 +1384,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C9416C3EDF0CEE23CF8CDDBC31B07BE2 /* TimeZoneLocate.release.xcconfig */;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/TimeZoneLocate";
 				DEVELOPMENT_TEAM = HGQ8Q53DV8;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -1529,7 +1528,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4FF67A772BAEBFBC1C935704DF9DB637 /* TimeZoneLocate.debug.xcconfig */;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/TimeZoneLocate";
 				DEVELOPMENT_TEAM = HGQ8Q53DV8;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;

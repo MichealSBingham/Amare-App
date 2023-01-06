@@ -12,6 +12,7 @@ import PushNotifications
 import MultipeerKit
 import SPIndicator
 import NearbyInteraction
+
 class TestViewModel: ObservableObject{
     
     
@@ -863,6 +864,8 @@ class TestViewModel: ObservableObject{
 
 
 struct TestView: View {
+    
+    
     
 
     /// View model for the current signed in user's realtime data.

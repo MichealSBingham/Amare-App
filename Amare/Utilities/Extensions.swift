@@ -54,8 +54,22 @@ extension Color {
 	}
 	
 	static func random() -> Color {
+        
+        
 		return Color(UIColor.random)
 	}
+    
+    static var amare: Color{
+        return Color(UIColor.amare)
+    }
+    
+    static var ourGray: Color{
+        return Color(UIColor.ourGray)
+    }
+    
+   
+    
+   
 }
 
 extension UIColor {
@@ -67,6 +81,17 @@ extension UIColor {
 			alpha: 1.0
 		)
 	}
+    
+    static var amare: UIColor{
+        return UIColor(red: 0.99, green: 0.20, blue: 0.74, alpha: 1.00)
+        
+    }
+    
+    static var ourGray: UIColor{
+        return UIColor(red: 0.31, green: 0.31, blue: 0.31, alpha: 1.00)
+    }
+
+    
 }
 
 

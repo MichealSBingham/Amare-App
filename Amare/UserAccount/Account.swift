@@ -53,6 +53,9 @@ class Account: ObservableObject {
     
     public var signUpData: AmareUser = AmareUser()
     
+    /// Nearby Users that are detected by Nearby Interaction. This is updated in `DiscoverNearbyView` 
+    @Published var nearbyUsersByMultipeer =  Set<AmareUser>()
+    
 
     init(){
 		
@@ -2092,6 +2095,7 @@ class Account: ObservableObject {
 
     }
 }
+
 
 
 

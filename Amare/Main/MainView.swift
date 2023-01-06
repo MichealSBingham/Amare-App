@@ -20,69 +20,143 @@ struct MainView: View {
 	///  Contains the data model that represents all of the user data for the signed in user
     @StateObject private var mainViewModel: UserDataModel = UserDataModel()
     
+    /// Contains data model for obtaining nearby users
+    /// TODO:  seperate this from `testViewModel` to make more light weight
+    @StateObject private var nearbyUsersModel: TestViewModel = TestViewModel()
+    
     
     
     @EnvironmentObject private var account: Account
 
     
     @State private var tabSelection = 1
+    
 
     /// Whether or not this view became the root view when it was instantiated 
      var isRoot: Bool
     
+    @State private var isSheetExpanded = false
+
+        
+    
     var body: some View {
+        
+       
+        
+        ZStack{
+            
+            switch tabSelection{
+                
+            case 0:
+                TestView()
+                    .environmentObject(mainViewModel)
+            case 1:
+                DiscoverNearbyView()
+                    .environmentObject(mainViewModel)
+                    
+                   
+                    
+            case 2:
+                TestView2()
+            case 3:
+                NavigationStackView{
+                    ChatChannelListView(viewFactory: CustomViewFactory(), title: "DMs")
+                             
+                            .environmentObject(account)
+                            .navigationTitle("DMs")
+                            .environmentObject(mainViewModel)
+                            
+                    
+                }
+            case 4:
+                Perferences()
+            default:
+                TestView()
+               
+                
+            }
+            
+            
+            VStack{
+                Spacer()
+                FloatingTabbar(selected: $tabSelection)
+                
+            }
+        }
+        
         
        
     
 
-        TabView(selection: $tabSelection) {
-                
-                //Map()
-           TestView()
-                .tag(1)
-                .environmentObject(mainViewModel)
         
-                NatalChart()
-                .environmentObject(mainViewModel)
-                .tag(2)
+            /*
+            TabView(selection: $tabSelection) {
+                
+                
+                    
+                Group{
+                    //Map()
+                    TestView()
+                        .tag(0)
+                        .environmentObject(mainViewModel)
+                        .tabItem { Label("Chats", systemImage: "message.circle") }
+                    
+                    
+                    DiscoverNearbyView()
+                      //  .tag(1)
+                        .environmentObject(mainViewModel)
+                        .tabItem { Label("Chats", systemImage: "message.circle") }
+                    
+                    
+                    TestView2()
+                       // .tag(2)
+                        .tabItem { Label("Chats", systemImage: "message.circle") }
+                    
+                    
+                    
+                    NavigationStackView{
+                        ChatChannelListView(viewFactory: CustomViewFactory(), title: "DMs")
+                        
+                            .environmentObject(account)
+                            .navigationTitle("DMs")
+                            .environmentObject(mainViewModel)
+                        
+                        
+                    }
+                    .tabItem { Label("Chats", systemImage: "message.circle") }
+                    //.tag(3)
+                    
+                    
+                    Perferences()
+                        //.tag(4)
+                        .tabItem { Label("Chats", systemImage: "message.circle") }
+                    
+                }
+                .toolbarColorScheme(.light, for: .tabBar)
+                
             
-                Scanner()
-                .tag(3)
-			
-			DiscoverNearbyView()
-				.tag(6)
-			
-			NavigationStackView{
-				ChatChannelListView(viewFactory: CustomViewFactory(), title: "DMs")
-						
-						.environmentObject(account)
-						.navigationTitle("DMs")
-						.environmentObject(mainViewModel)
-						
-				
-			}
-			.tabItem { Label("Chats", systemImage: "message.circle") }
-			.tag(4)
-		
-			
-                Perferences()
-                .tag(5)
-                
-                
+            
             }
+            */
+            
+            
+            
+            
+            
             .onAppear(perform: { thingsToDoWhenMainViewLoads()})
             // .onDisappear(perform: {mainViewModel.unsubscribeToUserDataChanges()})
             .onReceive(NotificationCenter.default.publisher(for: NSNotification.logout), perform: { _ in
-            print("Received notification to sign out...")
+                print("Received notification to sign out...")
                 goBackToSignInRootView()
-        
-        })
+                
+            })
             .onChange(of: mainViewModel.inCompleteData) { isIncomplete in
                 
                 print("*****Incomplete data variable changed in mainview : \(isIncomplete) ")
                 
                 if isIncomplete { account.signOut() }
             }
+        
                         
             
             
