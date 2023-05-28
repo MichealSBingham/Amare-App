@@ -75,6 +75,10 @@ struct SignInOrUpView: View {
             
             
         }
+        
+        .fullScreenCover(isPresented: $needsHelp) {
+            QuizView()
+        }
     }
     
     
@@ -388,7 +392,10 @@ struct SignInOrUpView: View {
             
             needHelpText()
         }
+        /*
         .alert(isPresented: $needsHelp) { Alert(title: Text("ToDo: Password Reset"), message: Text("This is not finished yet. Contact me (Micheal) if you need assistance. (917).699.0590 or micheal@findamare.com")) }
+         */
+        
 
     }
     

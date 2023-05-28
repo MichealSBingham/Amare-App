@@ -26,6 +26,7 @@
 		261571612773B2D7001DFD18 /* NewChartMenuUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261571602773B2D7001DFD18 /* NewChartMenuUIView.swift */; };
 		261571632773C023001DFD18 /* locationsearchswiftuimenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261571622773C023001DFD18 /* locationsearchswiftuimenu.swift */; };
 		2623D7B027935E88002456DF /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2623D7AF27935E88002456DF /* HomeView.swift */; };
+		2626D2E72A2107BD007F5C77 /* QuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2626D2E62A2107BD007F5C77 /* QuizView.swift */; };
 		26333AF627B97160005149C9 /* MoreInfoOnPlanetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26333AF527B97160005149C9 /* MoreInfoOnPlanetViewModel.swift */; };
 		26336035270912B500EEC1B3 /* MoreInfoScratchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26336034270912B400EEC1B3 /* MoreInfoScratchView.swift */; };
 		2633A13D279E20C300839581 /* TestView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2633A13C279E20C300839581 /* TestView2.swift */; };
@@ -79,6 +80,9 @@
 		2696FAE12838327F00584768 /* MultipeerKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2696FAE02838327F00584768 /* MultipeerKit */; };
 		26970699268101B0007E7961 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26970698268101B0007E7961 /* SceneDelegate.swift */; };
 		269A1E2C270CB1FB008F4A0F /* MoreInfoOnPlanetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269A1E2B270CB1FB008F4A0F /* MoreInfoOnPlanetView.swift */; };
+		26A0B9D02A212B3E00DCAB5F /* SwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A0B9CF2A212B3E00DCAB5F /* SwiftUIView.swift */; };
+		26A0B9D32A21339C00DCAB5F /* QuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A0B9D22A21339C00DCAB5F /* QuestionView.swift */; };
+		26A0B9D52A2142E400DCAB5F /* RGQuizQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A0B9D42A2142E400DCAB5F /* RGQuizQuestion.swift */; };
 		26A86D10271E324D009054B8 /* SearchOtherUsersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A86D0F271E324D009054B8 /* SearchOtherUsersView.swift */; };
 		26AF20E626CF458E00D99F36 /* EnterPhoneNumberView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26AF20E526CF458E00D99F36 /* EnterPhoneNumberView2.swift */; };
 		26AF20E926CF564E00D99F36 /* PhoneNumberField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26AF20E826CF564E00D99F36 /* PhoneNumberField.swift */; };
@@ -157,6 +161,7 @@
 		261571602773B2D7001DFD18 /* NewChartMenuUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewChartMenuUIView.swift; sourceTree = "<group>"; };
 		261571622773C023001DFD18 /* locationsearchswiftuimenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = locationsearchswiftuimenu.swift; sourceTree = "<group>"; };
 		2623D7AF27935E88002456DF /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HomeView.swift; path = Amare/Main/HomeView.swift; sourceTree = SOURCE_ROOT; };
+		2626D2E62A2107BD007F5C77 /* QuizView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizView.swift; sourceTree = "<group>"; };
 		26333AF527B97160005149C9 /* MoreInfoOnPlanetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreInfoOnPlanetViewModel.swift; sourceTree = "<group>"; };
 		26336034270912B400EEC1B3 /* MoreInfoScratchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreInfoScratchView.swift; sourceTree = "<group>"; };
 		2633A13C279E20C300839581 /* TestView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView2.swift; sourceTree = "<group>"; };
@@ -194,6 +199,9 @@
 		2694935B26D1FEEF00C7AD72 /* ZodiacSign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZodiacSign.swift; sourceTree = "<group>"; };
 		26970698268101B0007E7961 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		269A1E2B270CB1FB008F4A0F /* MoreInfoOnPlanetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreInfoOnPlanetView.swift; sourceTree = "<group>"; };
+		26A0B9CF2A212B3E00DCAB5F /* SwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIView.swift; sourceTree = "<group>"; };
+		26A0B9D22A21339C00DCAB5F /* QuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionView.swift; sourceTree = "<group>"; };
+		26A0B9D42A2142E400DCAB5F /* RGQuizQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RGQuizQuestion.swift; sourceTree = "<group>"; };
 		26A86D0F271E324D009054B8 /* SearchOtherUsersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchOtherUsersView.swift; sourceTree = "<group>"; };
 		26AF20E526CF458E00D99F36 /* EnterPhoneNumberView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterPhoneNumberView2.swift; sourceTree = "<group>"; };
 		26AF20E826CF564E00D99F36 /* PhoneNumberField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberField.swift; sourceTree = "<group>"; };
@@ -340,6 +348,30 @@
 			path = EarlierViewVersionsStillWorking;
 			sourceTree = "<group>";
 		};
+		2626D2E42A21078F007F5C77 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				26A0B9D62A21433200DCAB5F /* Quizzes */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		2626D2E52A210799007F5C77 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				26A0B9D12A21318800DCAB5F /* RelationshipGoalsQuiz */,
+				26A0B9CF2A212B3E00DCAB5F /* SwiftUIView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		2626D2E92A210817007F5C77 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "New Group";
+			sourceTree = "<group>";
+		};
 		26333AF427B9713B005149C9 /* ProfilePopup */ = {
 			isa = PBXGroup;
 			children = (
@@ -432,6 +464,23 @@
 			path = NatalChart;
 			sourceTree = "<group>";
 		};
+		26A0B9D12A21318800DCAB5F /* RelationshipGoalsQuiz */ = {
+			isa = PBXGroup;
+			children = (
+				2626D2E62A2107BD007F5C77 /* QuizView.swift */,
+				26A0B9D22A21339C00DCAB5F /* QuestionView.swift */,
+			);
+			path = RelationshipGoalsQuiz;
+			sourceTree = "<group>";
+		};
+		26A0B9D62A21433200DCAB5F /* Quizzes */ = {
+			isa = PBXGroup;
+			children = (
+				26A0B9D42A2142E400DCAB5F /* RGQuizQuestion.swift */,
+			);
+			path = Quizzes;
+			sourceTree = "<group>";
+		};
 		26AB593526BDE44E00170192 /* ProbablyNotNeededButDeleteWithCaution */ = {
 			isa = PBXGroup;
 			children = (
@@ -481,6 +530,9 @@
 		26B1AFD42678FFE500A170B3 /* Amare */ = {
 			isa = PBXGroup;
 			children = (
+				2626D2E92A210817007F5C77 /* New Group */,
+				2626D2E52A210799007F5C77 /* Views */,
+				2626D2E42A21078F007F5C77 /* Models */,
 				26B598D0295CC854009DEA22 /* TabView */,
 				26E10BAB28679A4E007666F9 /* Messaging */,
 				2662ED152842D17600B0EA57 /* NearbyUsers */,
@@ -789,7 +841,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1250;
-				LastUpgradeCheck = 1330;
+				LastUpgradeCheck = 1420;
 				TargetAttributes = {
 					26B1AFD12678FFE500A170B3 = {
 						CreatedOnToolsVersion = 12.5;
@@ -1022,6 +1074,7 @@
 				2694935626D1DB3600C7AD72 /* Angle.swift in Sources */,
 				26EDBB8D26AA7CE2005C1033 /* VerificationCodeView2.swift in Sources */,
 				26876A8C26E425EC00683CD6 /* NatalChartView.swift in Sources */,
+				26A0B9D32A21339C00DCAB5F /* QuestionView.swift in Sources */,
 				26DE210A26C595E80004B5CE /* MessagesView.swift in Sources */,
 				2608CF512697529600826FDA /* GlobalErrors.swift in Sources */,
 				267CF36526D30C03006B73BE /* NatalChartViewAlpha.swift in Sources */,
@@ -1032,6 +1085,7 @@
 				2608CF532697C9D600826FDA /* SystemErrors.swift in Sources */,
 				2662ED1C2842D17600B0EA57 /* PulsingView.swift in Sources */,
 				263D6F9A2684087300CBBECC /* AmareUser.swift in Sources */,
+				26A0B9D52A2142E400DCAB5F /* RGQuizQuestion.swift in Sources */,
 				26333AF627B97160005149C9 /* MoreInfoOnPlanetViewModel.swift in Sources */,
 				2678DD8728B14BD9009A057C /* DiscoverNearbyView.swift in Sources */,
 				2686CBBD27B41E0F00E65ED4 /* CloseButtonView.swift in Sources */,
@@ -1046,6 +1100,7 @@
 				2662ED1A2842D17600B0EA57 /* FindNearbyUserView.swift in Sources */,
 				26356C242795C9240048A72B /* UserProfileViewDataModel.swift in Sources */,
 				26BD22F42777AAD1002BC49B /* NegativeActionOnUserMenu.swift in Sources */,
+				2626D2E72A2107BD007F5C77 /* QuizView.swift in Sources */,
 				26872881271C668B00C2F89F /* EnterUsernameView.swift in Sources */,
 				261571612773B2D7001DFD18 /* NewChartMenuUIView.swift in Sources */,
 				26BBF08F267D80FC00C84019 /* EnterBirthdayView.swift in Sources */,
@@ -1074,6 +1129,7 @@
 				2676E004270A07E90014610B /* MoreInfoOnGenericPlanet.swift in Sources */,
 				26DE210E26C596450004B5CE /* HomeGlobeView.swift in Sources */,
 				26A86D10271E324D009054B8 /* SearchOtherUsersView.swift in Sources */,
+				26A0B9D02A212B3E00DCAB5F /* SwiftUIView.swift in Sources */,
 				269A1E2C270CB1FB008F4A0F /* MoreInfoOnPlanetView.swift in Sources */,
 				26CB7A44295FA13B008324BB /* MapCustomToggleView.swift in Sources */,
 				2694935A26D1FD1F00C7AD72 /* Element.swift in Sources */,
@@ -1249,7 +1305,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
-				SWIFT_COMPILATION_MODE = singlefile;
+				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				VALIDATE_PRODUCT = YES;
 			};
