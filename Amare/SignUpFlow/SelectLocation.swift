@@ -181,7 +181,7 @@ struct SelectLocationView: View {
             
   
                 
-			Account.shared.signUpData.hometown = Place(latitude: city.location?.coordinate.latitude, longitude: city.location?.coordinate.longitude, city: city.city, state: city.state, country: city.country, geohash: city.geohash)
+			Account.shared.signUpData.hometown = Place(latitude: city.location?.coordinate.latitude ?? 0, longitude: city.location?.coordinate.longitude ?? 0, city: city.city, state: city.state, country: city.country, geohash: city.geohash)
             
 			goToNextView()
             
@@ -460,6 +460,7 @@ struct GlobeView: UIViewRepresentable {
 	 */
 }
 
+/*
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         
@@ -469,7 +470,7 @@ struct ContentView_Previews: PreviewProvider {
        
     }
 }
-
+*/
 
 class MyPointAnnotation : MKPointAnnotation {
     var pinTintColor: UIColor?

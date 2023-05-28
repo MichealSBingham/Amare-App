@@ -459,7 +459,7 @@ struct SignInOrUpView: View {
 struct SignInOrUpView_Previews: PreviewProvider {
     static var previews: some View {
         
-        ForEach([ "iPhone 8", "iPhone 13 Pro Max"], id: \.self) { deviceName in
+        ForEach([ "iPhone 8", "iPhone 14 Pro Max"], id: \.self) { deviceName in
                        RootView()
                             .previewDevice(PreviewDevice(rawValue: deviceName))
                             .previewDisplayName(deviceName)

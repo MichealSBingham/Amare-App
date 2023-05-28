@@ -184,37 +184,11 @@ public struct AmareUser: Codable, Equatable, Hashable, Identifiable{
 }
 
 
-struct Birthday: Codable{
-    
-    var timestamp: Timestamp?
-    var month: String?
-    var day: Int?
-    var year: Int?
-    
-}
 
 
 
-struct Place: Codable, Equatable  {
-    
-    
-    var latitude: Double?
-    var longitude: Double?
-    
-    var city: String?
-    var state: String?
-    var country: String?
-    
-    var geohash: String?
-    
-    static func == (lhs: Place, rhs: Place) -> Bool {
-            return
-                lhs.latitude == rhs.latitude &&
-                lhs.longitude == rhs.longitude
-        }
-    
-    
-}
+
+
 
 
 /// Part of sign up flow  user did not complete

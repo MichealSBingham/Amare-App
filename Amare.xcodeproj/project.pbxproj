@@ -60,6 +60,11 @@
 		2686CBBD27B41E0F00E65ED4 /* CloseButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2686CBBC27B41E0F00E65ED4 /* CloseButtonView.swift */; };
 		26872881271C668B00C2F89F /* EnterUsernameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26872880271C668B00C2F89F /* EnterUsernameView.swift */; };
 		26876A8C26E425EC00683CD6 /* NatalChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26876A8B26E425EC00683CD6 /* NatalChartView.swift */; };
+		268D1EE42A1A407D00B07A9D /* AppUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268D1EE32A1A407D00B07A9D /* AppUser.swift */; };
+		268D1EE62A1A69BF00B07A9D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268D1EE52A1A69BF00B07A9D /* ContentView.swift */; };
+		268D1EE82A1A6BE500B07A9D /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268D1EE72A1A6BE500B07A9D /* AuthenticationViewModel.swift */; };
+		268D1EEB2A1A7A3100B07A9D /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268D1EEA2A1A7A3100B07A9D /* SignInView.swift */; };
+		268D1EED2A1AA9D700B07A9D /* EnterPhoneNumberScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268D1EEC2A1AA9D700B07A9D /* EnterPhoneNumberScreenView.swift */; };
 		268E542826DCEC6400E61F40 /* VerificationCodeView3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268E542726DCEC6400E61F40 /* VerificationCodeView3.swift */; };
 		268F26BF2680094A00FBEA7D /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268F26BE2680094A00FBEA7D /* Account.swift */; };
 		268F26C1268018EE00FBEA7D /* ForNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268F26C0268018EE00FBEA7D /* ForNavigation.swift */; };
@@ -182,6 +187,11 @@
 		2686CBBC27B41E0F00E65ED4 /* CloseButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseButtonView.swift; sourceTree = "<group>"; };
 		26872880271C668B00C2F89F /* EnterUsernameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterUsernameView.swift; sourceTree = "<group>"; };
 		26876A8B26E425EC00683CD6 /* NatalChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NatalChartView.swift; sourceTree = "<group>"; };
+		268D1EE32A1A407D00B07A9D /* AppUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUser.swift; sourceTree = "<group>"; };
+		268D1EE52A1A69BF00B07A9D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		268D1EE72A1A6BE500B07A9D /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
+		268D1EEA2A1A7A3100B07A9D /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
+		268D1EEC2A1AA9D700B07A9D /* EnterPhoneNumberScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterPhoneNumberScreenView.swift; sourceTree = "<group>"; };
 		268E542726DCEC6400E61F40 /* VerificationCodeView3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationCodeView3.swift; sourceTree = "<group>"; };
 		268F26BE2680094A00FBEA7D /* Account.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		268F26C0268018EE00FBEA7D /* ForNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForNavigation.swift; sourceTree = "<group>"; };
@@ -400,6 +410,46 @@
 			path = CustomChartViews;
 			sourceTree = "<group>";
 		};
+		268D1EDE2A191DEF00B07A9D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				268D1EE92A1A7A1B00B07A9D /* Authentication */,
+				268D1EE52A1A69BF00B07A9D /* ContentView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		268D1EDF2A19301100B07A9D /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				268D1EE32A1A407D00B07A9D /* AppUser.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		268D1EE12A19305300B07A9D /* Services */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		268D1EE22A1A3FBA00B07A9D /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		268D1EE92A1A7A1B00B07A9D /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				268D1EEA2A1A7A3100B07A9D /* SignInView.swift */,
+				268D1EEC2A1AA9D700B07A9D /* EnterPhoneNumberScreenView.swift */,
+			);
+			path = Authentication;
+			sourceTree = "<group>";
+		};
 		268F26BD2680080F00FBEA7D /* UserAccount */ = {
 			isa = PBXGroup;
 			children = (
@@ -481,19 +531,25 @@
 		26B1AFD42678FFE500A170B3 /* Amare */ = {
 			isa = PBXGroup;
 			children = (
+				268D1EDF2A19301100B07A9D /* Models */,
+				268D1EDE2A191DEF00B07A9D /* Views */,
+				26D001A327924860005E99A1 /* ViewModels */,
+				268D1EE12A19305300B07A9D /* Services */,
+				268D1EE22A1A3FBA00B07A9D /* Helpers */,
 				26B598D0295CC854009DEA22 /* TabView */,
 				26E10BAB28679A4E007666F9 /* Messaging */,
 				2662ED152842D17600B0EA57 /* NearbyUsers */,
 				26007F012795A6AE00B0E7C7 /* UserProfileView */,
 				26876A8A26E425CC00683CD6 /* CustomChartViews */,
 				26F9206926A8752200A4F8C6 /* FontResources */,
+				26333AF427B9713B005149C9 /* ProfilePopup */,
+				26D001A4279248F4005E99A1 /* MainViewModel.swift */,
 				26BBF08A267D321F00C84019 /* Amare.entitlements */,
 				26B1AFD52678FFE500A170B3 /* AmareApp.swift */,
 				26970698268101B0007E7961 /* SceneDelegate.swift */,
 				263D6F9326829F2200CBBECC /*  [Deprecated]RV.swift */,
 				26B6079726BF60EF00CE8491 /* RootView.swift */,
 				2655EEA927862A7800393718 /* RootView2.swift */,
-				26D001A327924860005E99A1 /* ViewModels */,
 				2608CF4F2697522300826FDA /* Errors */,
 				268F26BD2680080F00FBEA7D /* UserAccount */,
 				26B1B0082679956200A170B3 /* Login */,
@@ -629,8 +685,7 @@
 		26D001A327924860005E99A1 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				26333AF427B9713B005149C9 /* ProfilePopup */,
-				26D001A4279248F4005E99A1 /* MainViewModel.swift */,
+				268D1EE72A1A6BE500B07A9D /* AuthenticationViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -1061,6 +1116,7 @@
 				26DE210626C593070004B5CE /* ScannerView.swift in Sources */,
 				26D001A5279248F5005E99A1 /* MainViewModel.swift in Sources */,
 				268F717D2715C3F6002C3010 /* MoreInfoOnAspectView.swift in Sources */,
+				268D1EE82A1A6BE500B07A9D /* AuthenticationViewModel.swift in Sources */,
 				2606C0C0270614E300D333B4 /* SmallNatalChartView.swift in Sources */,
 				26F9205F26A760E500A4F8C6 /* Animations.swift in Sources */,
 				2609E3C52798A30000B4805E /* TestView.swift in Sources */,
@@ -1076,6 +1132,7 @@
 				26A86D10271E324D009054B8 /* SearchOtherUsersView.swift in Sources */,
 				269A1E2C270CB1FB008F4A0F /* MoreInfoOnPlanetView.swift in Sources */,
 				26CB7A44295FA13B008324BB /* MapCustomToggleView.swift in Sources */,
+				268D1EE42A1A407D00B07A9D /* AppUser.swift in Sources */,
 				2694935A26D1FD1F00C7AD72 /* Element.swift in Sources */,
 				26748CC22707A01500B5D338 /* ProfilePopup.swift in Sources */,
 				26B1AFE22678FFE700A170B3 /* Love.xcdatamodeld in Sources */,
@@ -1084,14 +1141,17 @@
 				268F26C1268018EE00FBEA7D /* ForNavigation.swift in Sources */,
 				2608CF482691425E00826FDA /* QR.swift in Sources */,
 				2608CF4E2695139800826FDA /* EnterOrientationView.swift in Sources */,
+				268D1EE62A1A69BF00B07A9D /* ContentView.swift in Sources */,
 				26AF20E926CF564E00D99F36 /* PhoneNumberField.swift in Sources */,
 				26BBF08C267D7C9900C84019 /* [Deprecated]ProfileView.swift in Sources */,
 				26B1B00A2679961200A170B3 /* VerificationCodeView.swift in Sources */,
 				26DE210826C595B50004B5CE /* ChartView.swift in Sources */,
 				26DE210326C590480004B5CE /* MainView.swift in Sources */,
+				268D1EED2A1AA9D700B07A9D /* EnterPhoneNumberScreenView.swift in Sources */,
 				26744A7E26F7E679008E1733 /* SelectLocationForResidenceView.swift in Sources */,
 				263FBDE0283BE4B4008F35C5 /* MathUtilities.swift in Sources */,
 				26BBF095267EBBEF00C84019 /* EnterNameView.swift in Sources */,
+				268D1EEB2A1A7A3100B07A9D /* SignInView.swift in Sources */,
 				2633A13D279E20C300839581 /* TestView2.swift in Sources */,
 				2662ED1B2842D17600B0EA57 /* ProfileImageView.swift in Sources */,
 				26AF20E626CF458E00D99F36 /* EnterPhoneNumberView2.swift in Sources */,

@@ -19,6 +19,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
     var account: Account = Account()
+	
+	var authViewModel: AuthenticationViewModel = AuthenticationViewModel()
     
     private lazy var transceiver: MultipeerTransceiver = {
             var config = MultipeerConfiguration.default
@@ -60,8 +62,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let window = UIWindow(windowScene: windowScene)
             
           
-            let firstView = RootView()
-                                    .environmentObject(self.account)
+            let firstView = ContentView()//RootView()
+                                    //.environmentObject(self.account)
+				                    .environmentObject(authViewModel)
                                     .environment(\.urlImageService, urlImageService)
                                     .environmentObject(dataSource)
 			
