@@ -22,12 +22,14 @@ struct AnswerView: View {
     
                 Button {
                     
+                    
                     guard let q = quizModel.currentQuestion else{
                         //TODO: error handle this
                         return
                     }
                     
                     quizModel.submitAnswer(question: q, response: response)
+                    
                     
                 } label: {
                     
@@ -63,7 +65,7 @@ struct AnswerView: View {
                             .strokeBorder(Color.primary, lineWidth: 2)
                     )
                     .multilineTextAlignment(.center)
-                    .lineLimit(1)
+                    .lineLimit(2)
                     .minimumScaleFactor(0.1) // Adjust the value as needed
                     .padding(.horizontal, 20)
                    
@@ -81,6 +83,6 @@ struct AnswerView_Previews: PreviewProvider {
     static var previews: some View {
         
       
-        AnswerView(responses: [.o1, .o2, .o3, .o4])
+        AnswerView(responses: [.o9, .o10, .o11, .o12])
     }
 }
