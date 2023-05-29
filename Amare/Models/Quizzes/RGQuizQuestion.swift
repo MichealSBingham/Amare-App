@@ -24,6 +24,7 @@ enum RGQuizQuestion: Hashable, CaseIterable, Identifiable{
     case conflictResolution(ConflictResolution)
 	case communicationStyle(CommunicationStyle)
 	case loveLanguages(LoveLanguages)
+    case sharedMeaning(SharedMeaning)
 	case trustAndCommitment(TrustAndCommitment)
 	case emotionalConnection(EmotionalConnection)
 	case handlingStress(HandlingStress)
@@ -94,11 +95,18 @@ enum RGQuizQuestion: Hashable, CaseIterable, Identifiable{
 		var id: String { rawValue }
 	}
     
-	
+    enum SharedMeaning: String, CaseIterable, Hashable{
+        
+        case question1 = "You and Blake are planning your future *together*.\n\nSo naturally, you have a lot on your mind."
+        case question2 = "You and Blake want to be *more connected* with each other.\n\nThink of a time you felt **connected** with them or another person."
+        case question3 = "While planning for your future you find out...\n\nBlake's dreams do **not** align with your current plans."
+        
+        var id: String {rawValue}
+    }
 	/// Sub-enum for Trust & Commitment category for a `RGQuizQuestion`
 	enum TrustAndCommitment: String, CaseIterable, Hashable{
 		
-		case question1 = "What makes you *feel* most **secure** in your relationship with Alex?\n\nYou can also reflect on a previous relationship."
+		case question1 = "What makes you *feel* most **secure** in your relationship with Blake?\n\nYou can also reflect on a previous relationship."
 		
 		case question2 = "There are some changes to your relationship\n\nBlake needs to move away for a few months."
 		
@@ -189,7 +197,9 @@ enum RGQuizQuestion: Hashable, CaseIterable, Identifiable{
 			return question.rawValue
 		case .attitudeTowardsChange(let question):
 			return question.rawValue
-		}
+        case .sharedMeaning(let question):
+            return question.rawValue
+        }
 		
 	
 	}
