@@ -14,7 +14,7 @@ struct QuestionView: View {
     var body: some View {
         
         VStack{
-            
+			
             Text(.init(question.rawValue))
                 .font(.title)
                 .multilineTextAlignment(.center)
