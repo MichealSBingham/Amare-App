@@ -6,11 +6,13 @@
 //
 
 
+
+
 import SwiftUI
 /// Relationship Goals Quiz View.  This is the main view that shows the relationship goals questions 
-struct QuizView: View {
+struct RGQuizView: View {
 	
-	
+	@ObservedObject var quizViewModel = RGQuizViewModel()
 	
 	@State var startDate = Date.now
 	@State var timeElapsed: Int = 0
@@ -71,9 +73,10 @@ struct QuizView: View {
 							QuestionView(question: question)
 								.tag(index + 2 )
 						}
-						
+                        
 						
 					}
+                    .environmentObject(quizViewModel)
 					.rotationEffect(.degrees(-90)) // We rotate the content in the tab view so that it's vertical
 									.frame(
 										width: proxy.size.width,
@@ -119,58 +122,10 @@ struct QuizView: View {
 
 struct QuizView_Previews: PreviewProvider {
     static var previews: some View {
-        QuizView(/*viewModel: QuizViewModel()*/)
+        RGQuizView(/*viewModel: QuizViewModel()*/)
     }
 }
 
 
-// QuizViewModel.swift
-
-import Foundation
-/*
-class QuizViewModel: ObservableObject {
-    @Published var currentQuestionIndex = 0
-    @Published var userAnswers = [String?]()
-    
-    
-    let q1 = "You and your partner can't agree on which Netflix series to binge next. Your partner is really into a crime thriller, but you're in the mood for a comedy. What's your move?"
-    
-    let quizQuestions: [QuizQuestion] = [
-        QuizQuestion(id: UUID(), question: QuizData.question1, choices: QuizData.question1Choices, correctAnswer: "Choice 1"),
-        QuizQuestion(id: UUID(), question: "Question 2", choices: ["Choice 1", "Choice 2", "Choice 3"], correctAnswer: "Choice 2"),
-        // Add more questions as needed
-    ]
-    
-    var currentQuestion: QuizQuestion {
-        quizQuestions[currentQuestionIndex]
-    }
-    
-    var isLastQuestion: Bool {
-        currentQuestionIndex == quizQuestions.count - 1
-    }
-    
-    func selectAnswer(_ answer: String) {
-        userAnswers.append(answer)
-    }
-    
-    func checkAnswer() -> Bool {
-        let userAnswer = userAnswers[currentQuestionIndex] ?? ""
-        return userAnswer == currentQuestion.correctAnswer
-    }
-    
-    func nextQuestion() {
-        currentQuestionIndex += 1
-    }
-}
-*/
-
-// QuizQuestion.swift
-
-struct QuizQuestion: Identifiable {
-    let id: UUID
-    let question: String
-    let choices: [String]
-    let correctAnswer: String
-}
 
 

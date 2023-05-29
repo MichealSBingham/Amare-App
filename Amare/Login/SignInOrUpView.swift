@@ -77,7 +77,7 @@ struct SignInOrUpView: View {
         }
         
         .fullScreenCover(isPresented: $needsHelp) {
-            QuizView()
+            RGQuizView()
         }
     }
     
