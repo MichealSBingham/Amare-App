@@ -7,6 +7,15 @@
 
 import Foundation
 
+
+
+	
+	
+	
+	
+
+
+/// Enum representing the Relationship Goals Quiz questions.
 enum RGQuizQuestion: Hashable, CaseIterable, Identifiable{
 	
 	
@@ -21,8 +30,10 @@ enum RGQuizQuestion: Hashable, CaseIterable, Identifiable{
 	case attitudeTowardsChange(AttitudeTowardsChange)
 	
 	
+	/// Sub-enum for Conflict Resolution category for a `RGQuizQuestion`
 	enum ConflictResolution: String, CaseIterable, Hashable {
-		
+	
+		/// "You and Blake are binge watching a series tonight, but you can't agree on a show. \n \nBlake wants to watch *The Last of Us*—— a **thriller**, but you're in the mood for a **comedy** like *Family
 		case question1 = "You and Blake are binge watching a series tonight, but you can't agree on a show. \n \nBlake wants to watch *The Last of Us*—— a **thriller**, but you're in the mood for a **comedy** like *Family Guy*."
 		
 		
@@ -32,9 +43,32 @@ enum RGQuizQuestion: Hashable, CaseIterable, Identifiable{
 		case question3 = "Blake wants to go to a **party** tonight.\n\n You're *not in the mood* for it—— *you want* to **stay in**."
 		
 		var id: String { rawValue }
+		
+		/// Response choices for each question in the Conflict Resolution category.
+			/*   var responses: [RGResponse] {
+				   switch self {
+				   case .question1:
+					   return [
+						.conflictResolution(<#T##RGResponse.ConflictResolution#>)
+						   .option2,
+						   .option3,
+						   .option4
+					   ]
+				   case .question2:
+					   return [
+						   .option1,
+						   .option2,
+						   .option3,
+						   .option4
+					   ]
+				   // Add more cases with their corresponding response choices
+				   case .question3:
+					   <#code#>
+				   }
+			   } */
 	}
    
-    
+	/// Sub-enum for Communication category for a `RGQuizQuestion`
 	enum CommunicationStyle: String, CaseIterable, Hashable {
 		case question1 = "Blake has **pissed you off**.\n\nThey *forgot* something that's important to you, or *did something* to upset you––like forgot your birthday or missed your date."
 		
@@ -45,6 +79,7 @@ enum RGQuizQuestion: Hashable, CaseIterable, Identifiable{
 		var id: String { rawValue }
 	}
 	
+	/// Sub-enum for Love Languages category for a `RGQuizQuestion`
 	enum LoveLanguages: String, CaseIterable, Hashable {
 		
 		case question1 = "You want Blake to *show you* some **love**."
@@ -60,7 +95,7 @@ enum RGQuizQuestion: Hashable, CaseIterable, Identifiable{
 	}
     
 	
-	
+	/// Sub-enum for Trust & Commitment category for a `RGQuizQuestion`
 	enum TrustAndCommitment: String, CaseIterable, Hashable{
 		
 		case question1 = "What makes you *feel* most **secure** in your relationship with Alex?\n\nYou can also reflect on a previous relationship."
@@ -75,7 +110,7 @@ enum RGQuizQuestion: Hashable, CaseIterable, Identifiable{
 	
 
 		
-		
+	/// Sub-enum for Emotional Connection category for a `RGQuizQuestion`
 	enum EmotionalConnection: String, CaseIterable, Hashable{
 		
 		case question1 = "You are starting to feel *distant* from Blake.\n\nSo, you desire to **reconnect** with them."
@@ -89,7 +124,7 @@ enum RGQuizQuestion: Hashable, CaseIterable, Identifiable{
 		
 	
 
-    
+	/// Sub-enum for Handling Stress category for a `RGQuizQuestion`
 	enum HandlingStress: String, CaseIterable, Hashable{
 		
 		case question1 = "You're having a **stressful** day."
@@ -102,7 +137,7 @@ enum RGQuizQuestion: Hashable, CaseIterable, Identifiable{
 	}
     
     
-	
+	/// Sub-enum for Attitude Towards Change category for a `RGQuizQuestion`
 	enum AttitudeTowardsChange: String, CaseIterable, Hashable{
 		
 		case question1 = "There are more **changes**.\n\nBlake got a job offer in a new city."
@@ -159,6 +194,8 @@ enum RGQuizQuestion: Hashable, CaseIterable, Identifiable{
 	
 	}
     
+	/// Unique identifier for the question.
+
 	var id: String { rawValue }
     
 }
