@@ -10,8 +10,12 @@ import SwiftUI
 struct AnswerView: View {
     
     @EnvironmentObject private var quizModel: RGQuizViewModel
+    
+    var nextPage: (() -> Void)?
 
     var responses: [RGResponse]
+    
+    var question: RGQuizQuestion
     
     var body: some View {
         
@@ -23,17 +27,18 @@ struct AnswerView: View {
                 Button {
                     
                     
-                    guard let q = quizModel.currentQuestion else{
-                        //TODO: error handle this
-                        return
+                    
+                    quizModel.submitAnswer(question: question, response: response)
+                    
+                    AmareApp().delay(0.5) {
+                        nextPage?()
                     }
                     
-                    quizModel.submitAnswer(question: q, response: response)
                     
                     
                 } label: {
                     
-                    AnswerChoiceButtonView(response: response)
+                    AnswerChoiceButtonView(response: response, question: question)
                 }
                 .buttonStyle(.plain)
 
@@ -50,7 +55,12 @@ struct AnswerView: View {
     
     struct AnswerChoiceButtonView: View{
         
+        @EnvironmentObject private var quizModel: RGQuizViewModel
+
+        
         var response: RGResponse
+        
+        var question: RGQuizQuestion
         
         var body: some View{
             
@@ -61,9 +71,15 @@ struct AnswerView: View {
                     .padding()
                     .frame(maxWidth: .infinity)
                     .background(
-                        Capsule()
-                            .strokeBorder(Color.primary, lineWidth: 2)
-                    )
+                            Capsule()
+                                .fill(quizModel.userResponses[question] == response ? Color.green : Color.clear)
+                                            )
+                        
+                        .overlay(
+                            Capsule()
+                                .stroke(Color.primary, lineWidth: 2)
+                        )
+                    
                     .multilineTextAlignment(.center)
                     .lineLimit(2)
                     .minimumScaleFactor(0.1) // Adjust the value as needed
@@ -83,6 +99,6 @@ struct AnswerView_Previews: PreviewProvider {
     static var previews: some View {
         
       
-        AnswerView(responses: [.o9, .o10, .o11, .o12])
+        AnswerView(responses: RGQuizQuestion.allCases.randomElement()!.responses, question: RGQuizQuestion.allCases.randomElement()!)
     }
 }

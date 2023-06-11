@@ -65,7 +65,7 @@ enum RGResponse: String, Identifiable  {
     
     
     // For question 8
-    case o30 = "A heartfelt **letter** from Blake."
+    case o30 = "A heartfelt **text** (paragraph) from Blake."
     case o31 = "A surprise **party** with all my friends organized by Blake."
     case o32 = "A day of **pampering** and relaxation planned by Blake."
     case o33 = "A thoughtful **gift** from Blake that shows they really know me."

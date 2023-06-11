@@ -44,29 +44,34 @@ enum RGQuizQuestion: Hashable, CaseIterable, Identifiable{
 		case question3 = "Blake wants to go to a **party** tonight.\n\n You're *not in the mood* for it—— *you want* to **stay in**."
 		
 		var id: String { rawValue }
+        
+        
 		
 		/// Response choices for each question in the Conflict Resolution category.
-			/*   var responses: [RGResponse] {
+			   var responses: [RGResponse] {
 				   switch self {
 				   case .question1:
 					   return [
-						.conflictResolution(<#T##RGResponse.ConflictResolution#>)
-						   .option2,
-						   .option3,
-						   .option4
+                        .o1,
+                        .o2,
+                        .o3,
+                        .o4
 					   ]
 				   case .question2:
 					   return [
-						   .option1,
-						   .option2,
-						   .option3,
-						   .option4
+                        .o5,
+                        .o6,
+                        .o7,
+                        .o8
 					   ]
-				   // Add more cases with their corresponding response choices
 				   case .question3:
-					   <#code#>
+                       return  [.o9,
+                           .o10,
+                           .o11,
+                           .o12
+                                ]
 				   }
-			   } */
+			   }
 	}
    
 	/// Sub-enum for Communication category for a `RGQuizQuestion`
@@ -78,6 +83,31 @@ enum RGQuizQuestion: Hashable, CaseIterable, Identifiable{
 		case question3 = "You're **concerned** about your relationship with Blake.\n\nYou're not seeing each other enough or you just feel something is off in general."
 		
 		var id: String { rawValue }
+        
+        var responses: [RGResponse] {
+            switch self {
+            case .question1:
+                return [
+                 .o13,
+                 .o14,
+                 .o15,
+                 .o16
+                ]
+            case .question2:
+                return [
+                 .o17,
+                 .o18,
+                 .o19,
+                 .o20
+                ]
+            case .question3:
+                return  [.o21,
+                    .o22,
+                    .o23,
+                    .o24
+                         ]
+            }
+        }
 	}
 	
 	/// Sub-enum for Love Languages category for a `RGQuizQuestion`
@@ -93,6 +123,33 @@ enum RGQuizQuestion: Hashable, CaseIterable, Identifiable{
 		//Aside from some space*, what can Blake **do** to help you feel better?
 		
 		var id: String { rawValue }
+        
+        var responses: [RGResponse] {
+            switch self {
+            case .question1:
+                return [
+                 .o25,
+                 .o26,
+                 .o27,
+                 .o28,
+                 .o29
+                ]
+            case .question2:
+                return [
+                 .o30,
+                 .o31,
+                 .o32,
+                 .o33
+                ]
+            case .question3:
+                return  [.o34,
+                    .o35,
+                    .o36,
+                    .o37
+                         ]
+            }
+        }
+
 	}
     
     enum SharedMeaning: String, CaseIterable, Hashable{
@@ -102,6 +159,32 @@ enum RGQuizQuestion: Hashable, CaseIterable, Identifiable{
         case question3 = "While planning for your future you find out...\n\nBlake's dreams do **not** align with your current plans."
         
         var id: String {rawValue}
+        
+        var responses: [RGResponse] {
+            switch self {
+            case .question1:
+                return [
+                 .o38,
+                 .o39,
+                 .o40,
+                 .o41
+                ]
+            case .question2:
+                return [
+                 .o42,
+                 .o43,
+                 .o44,
+                 .o45
+                ]
+            case .question3:
+                return  [.o46,
+                    .o47,
+                    .o48,
+                    .o49
+                         ]
+            }
+        }
+
     }
 	/// Sub-enum for Trust & Commitment category for a `RGQuizQuestion`
 	enum TrustAndCommitment: String, CaseIterable, Hashable{
@@ -114,6 +197,32 @@ enum RGQuizQuestion: Hashable, CaseIterable, Identifiable{
 	
 		var id: String { rawValue }
 		
+        var responses: [RGResponse] {
+            switch self {
+            case .question1:
+                return [
+                 .o50,
+                 .o51,
+                 .o52,
+                 .o53
+                ]
+            case .question2:
+                return [
+                 .o54,
+                 .o55,
+                 .o56,
+                 .o57
+                ]
+            case .question3:
+                return  [.o58,
+                    .o59,
+                    .o60,
+                    .o61
+                         ]
+            }
+        }
+
+
 	}
 	
 
@@ -128,6 +237,33 @@ enum RGQuizQuestion: Hashable, CaseIterable, Identifiable{
 		case question3 = "Blake is being **distant** with you.\n\nYou're starting to *wonder* what's going on."
 		
 		var id: String { rawValue }
+        
+        var responses: [RGResponse] {
+            switch self {
+            case .question1:
+                return [
+                 .o62,
+                 .o63,
+                 .o64,
+                 .o65
+                ]
+            case .question2:
+                return [
+                 .o66,
+                 .o67,
+                 .o68,
+                 .o69
+                ]
+            case .question3:
+                return  [.o70,
+                    .o71,
+                    .o72,
+                    .o73
+                         ]
+            }
+        }
+
+
 	}
 		
 	
@@ -142,6 +278,33 @@ enum RGQuizQuestion: Hashable, CaseIterable, Identifiable{
 		case question3 = "Blake is *trying* to help you through a **stressful** time.\n\nThink of a time a partner helped you through stress or imagine Blake helping you."
 		
 		var id: String { rawValue }
+        
+        var responses: [RGResponse] {
+            switch self {
+            case .question1:
+                return [
+                 .o74,
+                 .o75,
+                 .o76,
+                 .o77
+                ]
+            case .question2:
+                return [
+                 .o78,
+                 .o79,
+                 .o80,
+                 .o81
+                ]
+            case .question3:
+                return  [.o82,
+                    .o83,
+                    .o84,
+                    .o85
+                         ]
+            }
+        }
+
+
 	}
     
     
@@ -155,9 +318,59 @@ enum RGQuizQuestion: Hashable, CaseIterable, Identifiable{
 		case question3 = "How do you *normally* react to **changes** in your relationships––with Blake or with previous partners?"
 		
 		var id: String { rawValue }
+        
+        var responses: [RGResponse] {
+            switch self {
+            case .question1:
+                return [
+                 .o74,
+                 .o75,
+                 .o76,
+                 .o77
+                ]
+            case .question2:
+                return [
+                 .o78,
+                 .o79,
+                 .o80,
+                 .o81
+                ]
+            case .question3:
+                return  [.o82,
+                    .o83,
+                    .o84,
+                    .o85
+                         ]
+            }
+        }
+
+
 	}
     
     
+    
+    var responses: [RGResponse]{
+        switch self {
+        case .conflictResolution(let q):
+            return q.responses
+        
+        case .communicationStyle(let q):
+            return q.responses
+        case .loveLanguages(let q):
+            return q.responses
+        case .sharedMeaning(let q):
+            return q.responses
+        case .trustAndCommitment(let q):
+            return q.responses
+        case .emotionalConnection(let q):
+            return q.responses
+        case .handlingStress(let q):
+            return q.responses
+        case .attitudeTowardsChange(let q):
+            return q.responses
+        }
+        
+    }
     
     
 	static var allCases: [RGQuizQuestion] {
@@ -167,6 +380,7 @@ enum RGQuizQuestion: Hashable, CaseIterable, Identifiable{
 		allCases += ConflictResolution.allCases.map { .conflictResolution($0) }
 		allCases += CommunicationStyle.allCases.map { .communicationStyle($0) }
 		allCases += LoveLanguages.allCases.map { .loveLanguages($0) }
+        allCases += SharedMeaning.allCases.map { .sharedMeaning($0) }
 		allCases += TrustAndCommitment.allCases.map { .trustAndCommitment($0) }
 		allCases += EmotionalConnection.allCases.map { .emotionalConnection($0) }
 		allCases += HandlingStress.allCases.map { .handlingStress($0) }

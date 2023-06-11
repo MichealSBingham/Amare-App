@@ -38,6 +38,7 @@ struct RGQuizView: View {
 					Group{
 						
 						BeginQuizView()
+                           
 							.tag(0)
 							.onReceive(timer) { firedDate in
 								// This is executed every second
@@ -55,6 +56,7 @@ struct RGQuizView: View {
 						
 						BeginQuizBodyView(disablePaging: $disablePaging, nextPage: nextPage)
 							.tag(1)
+                            
 							.onAppear{
 								if neverDisablePagingAgain == false {
 									disablePaging = true
@@ -67,15 +69,15 @@ struct RGQuizView: View {
 							
 						
 						
-						
-						ForEach(Array(RGQuizQuestion.allCases.enumerated()), id: \.1){ index, question in
-							
-							QuestionView(question: question)
-								.tag(index + 2 )
-						}
                         
 						
+                        // Use the function inside ForEach
+                        ForEach(Array(RGQuizQuestion.allCases.enumerated()), id: \.1) { index, question in
+                            questionAndAnswerViews(index: index, question: question)
+                        }
+						
 					}
+                    
                     .environmentObject(quizViewModel)
 					.rotationEffect(.degrees(-90)) // We rotate the content in the tab view so that it's vertical
 									.frame(
@@ -87,8 +89,8 @@ struct RGQuizView: View {
 				}
 				.disabled(disablePaging)
 				.animation(.easeInOut)
-				.navigationTitle(Text("Unlock Your Relationship Potential"))
-				.navigationBarTitleDisplayMode(.large)
+                //.navigationTitle(Text("Unlock Your Relationship Potential"))
+				//.navigationBarTitleDisplayMode(.large)
 				// We need to rotate the tab view itself to enable vertical pagging
 			   
 				.frame(
@@ -113,8 +115,31 @@ struct RGQuizView: View {
 	
 	
 	func nextPage() {
+        
 		  currentPage += 1
 	  }
+    
+    
+    func questionAndAnswerViews(index: Int, question: RGQuizQuestion) -> some View {
+        let tag = index*2 + 2
+        let tag2 = tag + 1
+        return Group {
+            QuestionView(question: question)
+                .onAppear{
+                    quizViewModel.currentQuestion = question
+                }
+                .tag(tag)
+            
+            AnswerView(nextPage: nextPage, responses: question.responses, question: question)
+                .onAppear{
+                    quizViewModel.currentQuestion = question
+                }
+                .tag(tag2)
+        }
+    }
+
+   
+
 }
 
 
