@@ -13,7 +13,7 @@ struct InputNameView: View {
 
     
     @State   var name: String = ""
-    @State private var goToNext: Bool = false
+    
     
    
     @State private var someErrorOccured: Bool = false
@@ -61,7 +61,7 @@ struct InputNameView: View {
            
                 
                 enterNameField().padding()
-                nextButton()
+                
                 
                 Spacer()
              
@@ -156,15 +156,14 @@ struct InputNameView: View {
         
         return    TextField("Micheal S. Bingham", text: $name, onCommit:  {
             
-            guard !buttonIsDisabled else {
-                return
-            }
+            //TODO: Make sure the user can ONLY tap this once so we need to do something about this, ensure a unique tap for pressing 'return' so that this code is only executed once. 
+          
             
-            buttonIsDisabled = true
+         
             guard !(name.isEmpty) else{
                 
                 // User entered an empty name
-               buttonIsDisabled = false
+              /// - TODO: Do something to tell the user to enter a name
                 return
             }
             
@@ -172,16 +171,14 @@ struct InputNameView: View {
           
             name = name.trimmingCharacters(in: .whitespacesAndNewlines)
             
-    
-              
-          // Add to shared instance that stores account data
-         // Account.shared.signUpData.id = account.user?.uid ?? ""
-         // Account.shared.signUpData.name = name
-          
-          buttonIsDisabled = false
+                
+            // Set the name in the OnboardingModel
+            model.name = name
+            
+         
           
           withAnimation {
-              goToNext = true
+              model.currentPage = .username
           }
             
           
@@ -204,155 +201,11 @@ struct InputNameView: View {
             //.foregroundColor(.white)
     }
     
-    /// Goes back to the login screen
-    func goBack()   {
-        
+ 
+    }
     
-        // Just toggles to different page/question/signupstuff
-        guard goToNext == false else {
-            print("Go to next is not == false so we are setting it to false")
-            withAnimation {
-                goToNext = false
-            }
-            return
-        }
-        
-        print("Go to next is not == false so we are signing out")
 
-        
-         
-        
-     
-    }
-    
-    /// Left Back Button
-    func backButton() -> some View {
-        
-        return HStack { Button {
-            //buttonIsDisabled = true
-            /*
-            if goToNext {
-                goToNext = false
-            } else {
-                goBack()
-            }
-            */
-            
-            goBack()
-            
-        } label: {
-            
-             Image("RootView/right-arrow")
-                .resizable()
-                .scaledToFit()
-                .rotationEffect(.degrees(180))
-                .frame(width: 33, height: 66)
-                .offset(x: beginAnimation ? 7: 0, y: -10)
-                .animation(.easeInOut(duration: 1.3).repeatForever(autoreverses: true), value: beginAnimation)
-                .onAppear { withAnimation { beginAnimation = true } }
-            
-              
-        }.disabled(buttonIsDisabled)
-            Spacer()
-            
-        }
-
-       
-            
-            
-            
-    }
-    
-    
-    /// Right Back Button
-    func nextButton() -> some View {
-        
-        return Button {
-            
-            
-            if goToNext == false {
-                
-                buttonIsDisabled = true
-                    
-                    guard !(name.isEmpty) else{
-                        
-                        // User entered an empty name
-                       buttonIsDisabled = false
-                        return
-                    }
-                    
-                 
-                  
-                    name = name.trimmingCharacters(in: .whitespacesAndNewlines)
-                    
-                // Add to shared instance that stores account data
-                //Account.shared.signUpData.id = account.user?.uid ?? ""
-               // Account.shared.signUpData.name = name
-                
-                buttonIsDisabled = false
-                
-                withAnimation {
-                    goToNext = true
-                }
-            
-            } else {
-                // Save it as a username instead
-                
-                
-            }
-            
-           
-            
-            
-        
-                
-               
-                
-            
-            
-        } label: {
-            
-             Image("RootView/right-arrow")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 33, height: 66)
-                .offset(x: beginAnimation2 ? 10: 0)
-                .animation(.easeInOut(duration: 1.3).repeatForever(autoreverses: true), value: beginAnimation2).onAppear {
-                    AmareApp().delay(0.5) {
-                        withAnimation {
-                            beginAnimation2 = true
-                        }
-                    }
-                }
-               
-                
-            
-              
-        }.disabled(buttonIsDisabled)
-
-       
-            
-            
-            
-    }
-    
-    /// Comes back to this view since an error occured.
-    /// - Deprecated
-    func comeBackToView()  {
-        
-        
-    }
-    
-    /// Goes to the next screen / view,. Verification Code Screen
-/*
-    func goToNextView()  {
-        
-        
-        //navigationStack.push(EnterUsernameView().environmentObject(account))
-        
-    }
-    */
-    
+    /*
     func handle(_ error: Error)  {
         
         // Handle Error
@@ -410,13 +263,13 @@ struct InputNameView: View {
         // Handle Error
         someErrorOccured = true
     }
+    */
+    
+
     
     
 
-    
-    
 
-}
 
 struct InputNameView_Previews: PreviewProvider {
     static var previews: some View {

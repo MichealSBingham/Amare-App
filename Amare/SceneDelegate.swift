@@ -60,21 +60,33 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let window = UIWindow(windowScene: windowScene)
             
           
-            let firstView = RootView()
+            var firstView = RootView()
                                     .environmentObject(self.account)
                                     .environment(\.urlImageService, urlImageService)
                                     .environmentObject(dataSource)
+            
+            
+            let testView = OnboardingSignUpView()
 			
 			
+            
+            
 			
 			//let firstView =   ChatChannelListView(viewFactory: CustomViewFactory())
                                     
 			///
 			window.overrideUserInterfaceStyle = .dark
                                         
-            window.rootViewController = UIHostingController(rootView: firstView)
             
-           
+            
+            switch AppConfig.environment{
+            case .development:
+                window.rootViewController = UIHostingController(rootView: testView)
+            case .testing:
+                window.rootViewController = UIHostingController(rootView: firstView)
+            case .production:
+                window.rootViewController = UIHostingController(rootView: firstView)
+            }
             
             self.window = window
             window.makeKeyAndVisible()

@@ -18,8 +18,7 @@ struct OnboardingSignUpView: View {
         
         ZStack{
             
-            //Background()
-            
+                        
             VStack{
                 
                 ProgressBarView(progress: $viewModel.progress)
@@ -42,8 +41,15 @@ struct OnboardingSignUpView: View {
                     
                     InputNameView()
                         .tag(OnboardingScreen.name)
+                    /*
+                        .onAppear{ withAnimation{viewModel.progress = onboardingProgress(on: page)}}
+                     */
+                    
                     UsernameInputView()
                         .tag(OnboardingScreen.username)
+                    
+                    Text("Will Be Birthday Screen")
+                        .tag(OnboardingScreen.birthday)
                     
                 }
                 .environmentObject(viewModel)

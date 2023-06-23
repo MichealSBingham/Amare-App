@@ -18,10 +18,30 @@ class OnboardingViewModel: ObservableObject{
     @Published var currentPage: OnboardingScreen = .name
     
     @Published var name: String?
+    @Published var username: String = ""
+    @Published var isUsernameAvailable: Bool?
     
     
+    @Published  var progress: Double = Double(OnboardingScreen.allCases.firstIndex(of: .name) ?? 0) / Double(OnboardingScreen.allCases.count - 2)
     
-    @Published  var progress: Double = 0.0
+    //TODO: Handle error handling for `checkUsername` 
+    func checkUsername() {
+        
+        guard  !(username.isEmpty) else { return }
+        let database = FirestoreService.shared
+        
+            database.doesUsernameExist(username) { [weak self] result in
+                switch result {
+                case .success(let isAvailable):
+                    DispatchQueue.main.async {
+                        self?.isUsernameAvailable = isAvailable
+                    }
+                case .failure(let error):
+                    // Handle error here
+                    print(error)
+                }
+            }
+        }
         
     
     

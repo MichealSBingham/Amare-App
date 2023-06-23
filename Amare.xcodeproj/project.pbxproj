@@ -104,6 +104,8 @@
 		26BBF095267EBBEF00C84019 /* EnterNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BBF094267EBBEF00C84019 /* EnterNameView.swift */; };
 		26BD22F42777AAD1002BC49B /* NegativeActionOnUserMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BD22F32777AAD1002BC49B /* NegativeActionOnUserMenu.swift */; };
 		26C255B727149B420066735E /* PositiveActionOnUserMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C255B627149B420066735E /* PositiveActionOnUserMenu.swift */; };
+		26C3EE162A45010300CCA9E0 /* FirestoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C3EE152A45010300CCA9E0 /* FirestoreService.swift */; };
+		26C3EE192A4510D900CCA9E0 /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C3EE182A4510D900CCA9E0 /* AppConfig.swift */; };
 		26C4663F2A34FE96000EC8BC /* RGResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C4663D2A34FE96000EC8BC /* RGResponse.swift */; };
 		26C466402A34FE96000EC8BC /* RGQuizQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C4663E2A34FE96000EC8BC /* RGQuizQuestion.swift */; };
 		26C4664C2A34FEC0000EC8BC /* QuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C466432A34FEBE000EC8BC /* QuestionView.swift */; };
@@ -241,6 +243,8 @@
 		26BBF094267EBBEF00C84019 /* EnterNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterNameView.swift; sourceTree = "<group>"; };
 		26BD22F32777AAD1002BC49B /* NegativeActionOnUserMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NegativeActionOnUserMenu.swift; sourceTree = "<group>"; };
 		26C255B627149B420066735E /* PositiveActionOnUserMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositiveActionOnUserMenu.swift; sourceTree = "<group>"; };
+		26C3EE152A45010300CCA9E0 /* FirestoreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreService.swift; sourceTree = "<group>"; };
+		26C3EE182A4510D900CCA9E0 /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
 		26C4663D2A34FE96000EC8BC /* RGResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGResponse.swift; sourceTree = "<group>"; };
 		26C4663E2A34FE96000EC8BC /* RGQuizQuestion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGQuizQuestion.swift; sourceTree = "<group>"; };
 		26C466432A34FEBE000EC8BC /* QuestionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionView.swift; sourceTree = "<group>"; };
@@ -530,6 +534,8 @@
 		26B1AFD42678FFE500A170B3 /* Amare */ = {
 			isa = PBXGroup;
 			children = (
+				26C3EE172A4510C600CCA9E0 /* Configuration */,
+				26C3EE142A44FDB700CCA9E0 /* Services */,
 				26D001A327924860005E99A1 /* ViewModels */,
 				2626D2E52A210799007F5C77 /* Views */,
 				2626D2E42A21078F007F5C77 /* Models */,
@@ -653,6 +659,22 @@
 			path = ActionOnUser;
 			sourceTree = "<group>";
 		};
+		26C3EE142A44FDB700CCA9E0 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				26C3EE152A45010300CCA9E0 /* FirestoreService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		26C3EE172A4510C600CCA9E0 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				26C3EE182A4510D900CCA9E0 /* AppConfig.swift */,
+			);
+			path = Configuration;
+			sourceTree = "<group>";
+		};
 		26C4663C2A34FE96000EC8BC /* Quizzes */ = {
 			isa = PBXGroup;
 			children = (
@@ -686,8 +708,8 @@
 			isa = PBXGroup;
 			children = (
 				26C4664B2A34FEC0000EC8BC /* OnboardingSignUpView.swift */,
-				26C466492A34FEC0000EC8BC /* UsernameInputView.swift */,
 				26C4664A2A34FEC0000EC8BC /* InputNameView.swift */,
+				26C466492A34FEC0000EC8BC /* UsernameInputView.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -1151,6 +1173,7 @@
 				26B6079826BF60EF00CE8491 /* RootView.swift in Sources */,
 				2608CF4A2695131F00826FDA /* PickAttractivePeopleView.swift in Sources */,
 				26007F032795A91F00B0E7C7 /* UserProfileView.swift in Sources */,
+				26C3EE192A4510D900CCA9E0 /* AppConfig.swift in Sources */,
 				26C4664D2A34FEC0000EC8BC /* BeginQuizBodyView.swift in Sources */,
 				26B1B011267C28E000A170B3 /* Extensions.swift in Sources */,
 				261571632773C023001DFD18 /* locationsearchswiftuimenu.swift in Sources */,
@@ -1211,6 +1234,7 @@
 				26B1B00A2679961200A170B3 /* VerificationCodeView.swift in Sources */,
 				26DE210826C595B50004B5CE /* ChartView.swift in Sources */,
 				26DE210326C590480004B5CE /* MainView.swift in Sources */,
+				26C3EE162A45010300CCA9E0 /* FirestoreService.swift in Sources */,
 				26744A7E26F7E679008E1733 /* SelectLocationForResidenceView.swift in Sources */,
 				263FBDE0283BE4B4008F35C5 /* MathUtilities.swift in Sources */,
 				26C466502A34FEC0000EC8BC /* RGQuizView.swift in Sources */,
