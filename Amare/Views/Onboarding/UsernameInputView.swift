@@ -35,9 +35,9 @@ struct UsernameInputView: View {
            
             Text("Choose Your Stardust Alias")
                 .bold()
-                .font(.system(size: 50))
-                .lineLimit(1)
-                .minimumScaleFactor(0.01)
+                .font(.system(size: 40))  // was 50 
+                //.lineLimit(1)
+                //.minimumScaleFactor(0.01)
                 .padding()
             
        

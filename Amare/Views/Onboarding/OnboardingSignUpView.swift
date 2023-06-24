@@ -46,7 +46,7 @@ struct OnboardingSignUpView: View {
                     UsernameInputView()
                         .tag(OnboardingScreen.username)
                     
-                    Text("Will Be Birthday Screen")
+                    BirthdayInputView()
                         .tag(OnboardingScreen.birthday)
                     
                 }

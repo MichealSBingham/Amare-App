@@ -45,6 +45,7 @@
 		263FBDDC28393B54008F35C5 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 263FBDDB28393B54008F35C5 /* FirebaseStorage */; };
 		263FBDDE28393B54008F35C5 /* FirebaseStorageSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 263FBDDD28393B54008F35C5 /* FirebaseStorageSwift-Beta */; };
 		263FBDE0283BE4B4008F35C5 /* MathUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263FBDDF283BE4B4008F35C5 /* MathUtilities.swift */; };
+		2642B7732A467F3F009DD789 /* BirthdayInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2642B7722A467F3F009DD789 /* BirthdayInputView.swift */; };
 		2655EEAA27862A7900393718 /* RootView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2655EEA927862A7800393718 /* RootView2.swift */; };
 		2662ED1A2842D17600B0EA57 /* FindNearbyUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2662ED162842D17600B0EA57 /* FindNearbyUserView.swift */; };
 		2662ED1B2842D17600B0EA57 /* ProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2662ED182842D17600B0EA57 /* ProfileImageView.swift */; };
@@ -186,6 +187,7 @@
 		263D6F972684012000CBBECC /* AccountErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountErrors.swift; sourceTree = "<group>"; };
 		263D6F992684087300CBBECC /* AmareUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmareUser.swift; sourceTree = "<group>"; };
 		263FBDDF283BE4B4008F35C5 /* MathUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathUtilities.swift; sourceTree = "<group>"; };
+		2642B7722A467F3F009DD789 /* BirthdayInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirthdayInputView.swift; sourceTree = "<group>"; };
 		2655EEA927862A7800393718 /* RootView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView2.swift; sourceTree = "<group>"; };
 		2662ED162842D17600B0EA57 /* FindNearbyUserView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindNearbyUserView.swift; sourceTree = "<group>"; };
 		2662ED182842D17600B0EA57 /* ProfileImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileImageView.swift; sourceTree = "<group>"; };
@@ -710,6 +712,7 @@
 				26C4664B2A34FEC0000EC8BC /* OnboardingSignUpView.swift */,
 				26C4664A2A34FEC0000EC8BC /* InputNameView.swift */,
 				26C466492A34FEC0000EC8BC /* UsernameInputView.swift */,
+				2642B7722A467F3F009DD789 /* BirthdayInputView.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -1192,6 +1195,7 @@
 				26970699268101B0007E7961 /* SceneDelegate.swift in Sources */,
 				2694935426D1DAF300C7AD72 /* Planet.swift in Sources */,
 				26C466402A34FE96000EC8BC /* RGQuizQuestion.swift in Sources */,
+				2642B7732A467F3F009DD789 /* BirthdayInputView.swift in Sources */,
 				268E542826DCEC6400E61F40 /* VerificationCodeView3.swift in Sources */,
 				26A0B9DB2A24F88A00DCAB5F /* RGQuizViewModel.swift in Sources */,
 				2694935826D1DB4400C7AD72 /* Aspect.swift in Sources */,
