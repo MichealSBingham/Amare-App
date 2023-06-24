@@ -41,9 +41,7 @@ struct OnboardingSignUpView: View {
                     
                     InputNameView()
                         .tag(OnboardingScreen.name)
-                    /*
-                        .onAppear{ withAnimation{viewModel.progress = onboardingProgress(on: page)}}
-                     */
+                    
                     
                     UsernameInputView()
                         .tag(OnboardingScreen.username)

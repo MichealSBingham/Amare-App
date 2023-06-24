@@ -48,9 +48,35 @@ struct UsernameInputView: View {
                 .padding()
             
        
+            ZStack{
+                
+                enterUsernameField().padding()
+                    .onChange(of: model.username) { newValue in
+                        
+                        model.isUsernameAvailable = nil
+                        //TODO: complete the function for checking username availability
+                        
+                        guard !(model.username.isEmpty) else {
+                            //TODO: Tell the user to enter a username
+                            return
+                        }
+                        
+                        model.checkUsername()
+                    }
+                
+                HStack{
+                    
+                    Spacer()
+                    
+                    if !(model.username.isEmpty){
+                        UsernameAvailabilityView(isUsernameAvailable: $model.isUsernameAvailable)
+                    }
+                    
+                }
+                
+            }
             
-            enterUsernameField().padding()
-            
+            Text("")
             
             Spacer()
          
@@ -69,23 +95,7 @@ struct UsernameInputView: View {
         //TODO: Make sure there is an '@' in front of it.
         return    TextField("@starsystem2", text: $model.username,
                             
-             onEditingChanged: { textDidChange in
-                                
-                    if textDidChange{
-                        
-                        model.isUsernameAvailable = nil
-                        //TODO: complete the function for checking username availability
-                        
-                        guard !(model.username.isEmpty) else {
-                            //TODO: Tell the user to enter a username
-                            return
-                        }
-                        
-                        model.checkUsername()
-                                    
-                                }
-            
-                            }, onCommit:  {
+              onCommit:  {
             
             //TODO: Ensure that this code can only be executed once when they press return
                             
@@ -114,6 +124,9 @@ struct UsernameInputView: View {
       
 
     }
+    
+    
+    
 }
 
 struct UsernameInputView_Previews: PreviewProvider {
@@ -123,5 +136,30 @@ struct UsernameInputView_Previews: PreviewProvider {
             UsernameInputView()
         
        
+    }
+}
+
+
+
+
+
+
+struct UsernameAvailabilityView: View {
+    @Binding var isUsernameAvailable: Bool?
+    
+    var body: some View {
+        Group {
+            if isUsernameAvailable == nil {
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle())
+                    .foregroundColor(.blue)
+            } else if isUsernameAvailable == true {
+                Image(systemName: "checkmark.circle")
+                    .foregroundColor(.green)
+            } else {
+                Image(systemName: "xmark.circle")
+                    .foregroundColor(.red)
+            }
+        }
     }
 }

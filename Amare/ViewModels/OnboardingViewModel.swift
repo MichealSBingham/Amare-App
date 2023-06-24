@@ -27,6 +27,8 @@ class OnboardingViewModel: ObservableObject{
     //TODO: Handle error handling for `checkUsername` 
     func checkUsername() {
         
+    
+        
         guard  !(username.isEmpty) else { return }
         let database = FirestoreService.shared
         
@@ -34,11 +36,12 @@ class OnboardingViewModel: ObservableObject{
                 switch result {
                 case .success(let isAvailable):
                     DispatchQueue.main.async {
+                        
                         self?.isUsernameAvailable = isAvailable
                     }
                 case .failure(let error):
                     // Handle error here
-                    print(error)
+                    print("Could not check if username exists \(error)")
                 }
             }
         }
