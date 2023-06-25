@@ -38,16 +38,25 @@ struct OnboardingSignUpView: View {
             TabView(selection: $viewModel.currentPage) {
                 
                 Group{
-                    
+                     
                     InputNameView()
                         .tag(OnboardingScreen.name)
+					
+					InputHomeCityView()
+						.tag(OnboardingScreen.hometown)
                     
-                    
-                    UsernameInputView()
-                        .tag(OnboardingScreen.username)
                     
                     BirthdayInputView()
                         .tag(OnboardingScreen.birthday)
+					
+					BirthtimeInputView()
+						.tag(OnboardingScreen.birthtime)
+					
+					Text("Enter Gender View")
+						.tag(OnboardingScreen.genderSelection)
+					
+					UsernameInputView()
+						.tag(OnboardingScreen.username)
                     
                 }
                 .environmentObject(viewModel)
@@ -56,6 +65,7 @@ struct OnboardingSignUpView: View {
                 
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
+			
             
         }
         
@@ -69,6 +79,7 @@ struct OnboardingSignUpView: View {
     /// Returns a double to represent the progress the user has completed onboarding , calculated dynamically
     func onboardingProgress(on screen: OnboardingScreen) -> Double {
         
+		
         return Double(OnboardingScreen.allCases.firstIndex(of: screen) ?? 0) / Double(OnboardingScreen.allCases.count - 2)
     }
 }

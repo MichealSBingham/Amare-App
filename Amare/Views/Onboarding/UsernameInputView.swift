@@ -134,6 +134,7 @@ struct UsernameInputView_Previews: PreviewProvider {
         
         
             UsernameInputView()
+			.environmentObject(OnboardingViewModel())
         
        
     }
@@ -144,22 +145,3 @@ struct UsernameInputView_Previews: PreviewProvider {
 
 
 
-struct UsernameAvailabilityView: View {
-    @Binding var isUsernameAvailable: Bool?
-    
-    var body: some View {
-        Group {
-            if isUsernameAvailable == nil {
-                ProgressView()
-                    .progressViewStyle(CircularProgressViewStyle())
-                    .foregroundColor(.blue)
-            } else if isUsernameAvailable == true {
-                Image(systemName: "checkmark.circle")
-                    .foregroundColor(.green)
-            } else {
-                Image(systemName: "xmark.circle")
-                    .foregroundColor(.red)
-            }
-        }
-    }
-}

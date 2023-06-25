@@ -9,7 +9,7 @@ import SwiftUI
 
 struct BirthdayInputView: View {
     
-    @State private var selectedDate = Date()
+	@EnvironmentObject var model: OnboardingViewModel
     
     var body: some View {
         
@@ -27,17 +27,25 @@ struct BirthdayInputView: View {
                 //.lineLimit(1)
                // .minimumScaleFactor(0.01)
                 .padding()
+			
+			
+		   Text("Enter your birthday")
+				.font(.system(size: 20))
+				//.foregroundColor(.white)
+				.padding()
+			
             
-            DatePicker("", selection: $selectedDate, displayedComponents: .date)
+			DatePicker("", selection: $model.birthday, in: ...Date().dateFor(years: -13),  displayedComponents: .date)
                 .datePickerStyle(.wheel)
                             .padding()
+							.labelsHidden()
+							.environment(\.timeZone, model.homeCityTimeZone!)
        
-            /*
-           Text("Enter a username")
-                .font(.system(size: 20))
-                //.foregroundColor(.white)
-                .padding()
-            */
+			NextButtonView {
+				withAnimation {
+					model.currentPage = .birthtime
+				}
+			}
        
             
             
@@ -51,6 +59,13 @@ struct BirthdayInputView: View {
  
                 
             }
+		.onAppear{
+			
+			// Dismiss the keyboard
+			UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+
+		}
+		
 
     }
 }
@@ -58,5 +73,6 @@ struct BirthdayInputView: View {
 struct BirthdayInputView_Previews: PreviewProvider {
     static var previews: some View {
         BirthdayInputView()
+			.environmentObject(OnboardingViewModel())
     }
 }

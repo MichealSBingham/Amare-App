@@ -24,7 +24,7 @@ struct InputNameView: View {
     
     @State private var buttonIsDisabled: Bool = false
 
-    
+	@FocusState private var isFieldFocused: Bool
    
     enum FirstResponders: Int {
             case name
@@ -51,7 +51,7 @@ struct InputNameView: View {
                
                 title().padding()
                 
-           
+          
                 
                Text("Enter your name below")
                     .font(.system(size: 20))
@@ -61,13 +61,38 @@ struct InputNameView: View {
            
                 
                 enterNameField().padding()
-                
-                
+					.padding(.bottom)
+					.onAppear{
+						firstResponder = .name
+					}
+				
+				NextButtonView {
+					guard !(name.isEmpty) else{
+						// User entered an empty name
+					  /// - TODO: Do something to tell the user to enter a name
+						return
+					}
+					
+					name = name.trimmingCharacters(in: .whitespacesAndNewlines)
+						
+					// Set the name in the OnboardingModel
+					model.name = name
+				  
+				  withAnimation {
+					  model.currentPage = .hometown
+				  }
+					
+				}
+				.padding(.vertical)
+				.disabled(name.isEmpty)
+				.opacity(name.isEmpty ? 0.5: 1.0)
+				
+				   
                 Spacer()
-             
-                    
-                Spacer()
-                   
+				Spacer()
+				
+				
+				
      
                     
                 }
@@ -159,7 +184,9 @@ struct InputNameView: View {
             //TODO: Make sure the user can ONLY tap this once so we need to do something about this, ensure a unique tap for pressing 'return' so that this code is only executed once. 
           
             
-         
+			
+		
+			
             guard !(name.isEmpty) else{
                 
                 // User entered an empty name
@@ -178,13 +205,14 @@ struct InputNameView: View {
          
           
           withAnimation {
-              model.currentPage = .username
+              model.currentPage = .hometown
           }
             
           
             
         })
-            .firstResponder(id: FirstResponders.name, firstResponder: $firstResponder, resignableUserOperations: .none)
+		
+		.firstResponder(id: FirstResponders.name, firstResponder: $firstResponder, resignableUserOperations: .none)
         .font(.largeTitle)
       
 
@@ -195,9 +223,9 @@ struct InputNameView: View {
         
         return Text("Your Cosmic Identity")
             .bold()
-            .font(.system(size: 50))
-            .lineLimit(1)
-            .minimumScaleFactor(0.01)
+            .font(.system(size: 40)) // was 50
+          //  .lineLimit(1)
+            //.minimumScaleFactor(0.01)
             //.foregroundColor(.white)
     }
     

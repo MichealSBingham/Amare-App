@@ -11,15 +11,25 @@ import Foundation
 import Foundation
 import SwiftUI
 import Combine
-
+import MapKit
 
 class OnboardingViewModel: ObservableObject{
     
     @Published var currentPage: OnboardingScreen = .name
     
     @Published var name: String?
+	
     @Published var username: String = ""
+	
     @Published var isUsernameAvailable: Bool?
+	
+	@Published var birthday: Date = Date()
+	@Published var birthtime: Date = Date()
+	@Published var knowsBirthTime: Bool?
+	
+	@Published var homeCityTimeZone: TimeZone?
+	
+	@Published var homeCity: MKPlacemark?
     
     
     @Published  var progress: Double = Double(OnboardingScreen.allCases.firstIndex(of: .name) ?? 0) / Double(OnboardingScreen.allCases.count - 2)
