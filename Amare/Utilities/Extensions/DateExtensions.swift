@@ -27,16 +27,33 @@ extension Date {
 	 This will return a new `Date` object that has the date from `bday` and the time from `selectedTime`.
 	 */
 	func combineWithTime(time: Date, in timeZone: TimeZone = .current) -> Date? {
-			let calendar = Calendar.current
-			let dateComponents = calendar.dateComponents(in: timeZone, from: self)
-			var timeComponents = calendar.dateComponents(in: timeZone, from: time)
+			var calendar = Calendar.current
+			calendar.timeZone = timeZone
 			
-			timeComponents.year = dateComponents.year
-			timeComponents.month = dateComponents.month
-			timeComponents.day = dateComponents.day
+			var dateComponents = calendar.dateComponents(in: timeZone, from: self)
+			print("Date components: \(dateComponents)")
 			
-			return calendar.date(from: timeComponents)
+			let timeComponents = calendar.dateComponents([.hour, .minute, .second], from: time)
+			print("Time components before modification: \(timeComponents)")
+			
+			dateComponents.hour = timeComponents.hour
+			dateComponents.minute = timeComponents.minute
+			dateComponents.second = timeComponents.second
+			
+			print("Date components after modification: \(dateComponents)")
+			
+			let combinedDate = calendar.date(from: dateComponents)
+			
+			let dateFormatter = DateFormatter()
+			dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+			dateFormatter.timeZone = timeZone
+			print("Combined date in given timezone: \(String(describing: dateFormatter.string(from: combinedDate!)))")
+			
+			return combinedDate
 		}
+	
+
+
 	
 	
 	/**

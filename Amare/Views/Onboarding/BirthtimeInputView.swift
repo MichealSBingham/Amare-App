@@ -45,13 +45,14 @@ struct BirthtimeInputView: View {
 				.datePickerStyle(.wheel)
 							.padding()
 							.labelsHidden()
-							.onChange(of: model.birthtime) { time in
+							/*.onChange(of: model.birthtime) { time in
 								guard let _ = model.homeCityTimeZone else { return }
 								if let correctedDateWithTZ = model.birthday.combineWithTime(time: time, in: model.homeCityTimeZone!){
 									model.birthday = correctedDateWithTZ
 								}
 								
 							}
+			*/
 			
 			
 	   
@@ -63,7 +64,11 @@ struct BirthtimeInputView: View {
 			
 			NextButtonView {
 				
-				showBDayConfirmationAlert = true
+				if let correctedDateWithTZ = model.birthday.combineWithTime(time: model.birthtime, in: model.homeCityTimeZone!){
+					model.birthday = correctedDateWithTZ
+					showBDayConfirmationAlert = true
+				}
+				
 				
 				
 			}
