@@ -208,7 +208,7 @@ struct CitySearchView: View {
 			for item in response.mapItems {
 				
 				if let timeZone = item.timeZone, let _ = item.placemark.city {
-					
+					print("the selected time zone is ... \(timeZone)")
 					model.homeCity = item.placemark
 					model.homeCityTimeZone = timeZone
 				} else{

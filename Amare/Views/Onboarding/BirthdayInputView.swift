@@ -39,7 +39,8 @@ struct BirthdayInputView: View {
                 .datePickerStyle(.wheel)
                             .padding()
 							.labelsHidden()
-							.environment(\.timeZone, model.homeCityTimeZone!)
+							.environment(\.timeZone, model.homeCityTimeZone ?? .current)
+			
        
 			NextButtonView {
 				withAnimation {

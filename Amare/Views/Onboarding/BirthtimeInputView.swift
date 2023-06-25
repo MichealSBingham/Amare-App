@@ -46,7 +46,8 @@ struct BirthtimeInputView: View {
 							.padding()
 							.labelsHidden()
 							.onChange(of: model.birthtime) { time in
-								if let correctedDateWithTZ = model.birthday.combineWithTime(time: time){
+								guard let _ = model.homeCityTimeZone else { return }
+								if let correctedDateWithTZ = model.birthday.combineWithTime(time: time, in: model.homeCityTimeZone!){
 									model.birthday = correctedDateWithTZ
 								}
 								

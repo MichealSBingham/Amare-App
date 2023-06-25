@@ -26,24 +26,17 @@ extension Date {
 	 ```
 	 This will return a new `Date` object that has the date from `bday` and the time from `selectedTime`.
 	 */
-	func combineWithTime(time: Date, timeZone: TimeZone = .current) -> Date? {
-		var calendar = Calendar.current
-		calendar.timeZone = timeZone
-
-		let dateComponents = calendar.dateComponents([.year, .month, .day], from: self)
-		let timeComponents = calendar.dateComponents([.hour, .minute], from: time)
-
-		var combinedComponents = DateComponents()
-		combinedComponents.year = dateComponents.year
-		combinedComponents.month = dateComponents.month
-		combinedComponents.day = dateComponents.day
-		combinedComponents.hour = timeComponents.hour
-		combinedComponents.minute = timeComponents.minute
-		combinedComponents.timeZone = timeZone
-
-		return calendar.date(from: combinedComponents)
-	}
-	
+	func combineWithTime(time: Date, in timeZone: TimeZone = .current) -> Date? {
+			let calendar = Calendar.current
+			let dateComponents = calendar.dateComponents(in: timeZone, from: self)
+			var timeComponents = calendar.dateComponents(in: timeZone, from: time)
+			
+			timeComponents.year = dateComponents.year
+			timeComponents.month = dateComponents.month
+			timeComponents.day = dateComponents.day
+			
+			return calendar.date(from: timeComponents)
+		}
 	
 	
 	/**
