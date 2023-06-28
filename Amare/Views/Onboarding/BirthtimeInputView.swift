@@ -41,7 +41,7 @@ struct BirthtimeInputView: View {
 			
 			
 			DatePicker("", selection: $model.birthtime,  displayedComponents: .hourAndMinute)
-				.environment(\.timeZone, model.homeCityTimeZone!)
+				.environment(\.timeZone, model.homeCityTimeZone ?? .current)
 				.datePickerStyle(.wheel)
 							.padding()
 							.labelsHidden()
@@ -144,7 +144,7 @@ struct BirthtimeInputView: View {
 				model.knowsBirthTime = false
 				model.birthday = model.birthday.setToNoon()!
 				withAnimation {
-					model.currentPage = .genderSelection
+					model.currentPage = .intention
 				}
 
 			})
@@ -163,7 +163,7 @@ struct BirthtimeInputView: View {
 				
 				if model.knowsBirthTime == nil { model.knowsBirthTime = true }
 				withAnimation {
-					model.currentPage = .genderSelection
+					model.currentPage = .intention
 				}
 				
 			}),

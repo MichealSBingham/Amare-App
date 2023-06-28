@@ -52,9 +52,11 @@ struct OnboardingSignUpView: View {
 					BirthtimeInputView()
 						.tag(OnboardingScreen.birthtime)
 					
-					Text("Enter Gender View")
-						.tag(OnboardingScreen.genderSelection)
+					IntentionInputView()
+						.tag(OnboardingScreen.intention)
 					
+					Text("Gender Seletion")
+						.tag(OnboardingScreen.genderSelection)
 					UsernameInputView()
 						.tag(OnboardingScreen.username)
                     
@@ -87,5 +89,6 @@ struct OnboardingSignUpView: View {
 struct OnboardingSignUpView_Previews: PreviewProvider {
     static var previews: some View {
         OnboardingSignUpView()
+			
     }
 }

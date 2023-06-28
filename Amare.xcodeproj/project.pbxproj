@@ -34,6 +34,11 @@
 		261571612773B2D7001DFD18 /* NewChartMenuUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261571602773B2D7001DFD18 /* NewChartMenuUIView.swift */; };
 		261571632773C023001DFD18 /* locationsearchswiftuimenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261571622773C023001DFD18 /* locationsearchswiftuimenu.swift */; };
 		2623D7B027935E88002456DF /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2623D7AF27935E88002456DF /* HomeView.swift */; };
+		262F2A4B2A491AC100C980D3 /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260135992A477354007878BD /* DateExtensions.swift */; };
+		262F2A4C2A491B4E00C980D3 /* DateExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262F2A492A49077400C980D3 /* DateExtensionsTests.swift */; };
+		262F2A4E2A4A38D400C980D3 /* TileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262F2A4D2A4A38D400C980D3 /* TileView.swift */; };
+		262F2A502A4BB9C600C980D3 /* IntentionInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262F2A4F2A4BB9C600C980D3 /* IntentionInputView.swift */; };
+		262F2A522A4BBB2200C980D3 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262F2A512A4BBB2200C980D3 /* String+Extensions.swift */; };
 		26333AF627B97160005149C9 /* MoreInfoOnPlanetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26333AF527B97160005149C9 /* MoreInfoOnPlanetViewModel.swift */; };
 		26336035270912B500EEC1B3 /* MoreInfoScratchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26336034270912B400EEC1B3 /* MoreInfoScratchView.swift */; };
 		2633A13D279E20C300839581 /* TestView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2633A13C279E20C300839581 /* TestView2.swift */; };
@@ -152,6 +157,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		262F2A442A4906EF00C980D3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 26B1AFCA2678FFE500A170B3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 26B1AFD12678FFE500A170B3;
+			remoteInfo = Amare;
+		};
 		26B1AFE92678FFE700A170B3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 26B1AFCA2678FFE500A170B3 /* Project object */;
@@ -192,6 +204,11 @@
 		261571602773B2D7001DFD18 /* NewChartMenuUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewChartMenuUIView.swift; sourceTree = "<group>"; };
 		261571622773C023001DFD18 /* locationsearchswiftuimenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = locationsearchswiftuimenu.swift; sourceTree = "<group>"; };
 		2623D7AF27935E88002456DF /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HomeView.swift; path = Amare/Main/HomeView.swift; sourceTree = SOURCE_ROOT; };
+		262F2A402A4906EF00C980D3 /* OnboardingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OnboardingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		262F2A492A49077400C980D3 /* DateExtensionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensionsTests.swift; sourceTree = "<group>"; };
+		262F2A4D2A4A38D400C980D3 /* TileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileView.swift; sourceTree = "<group>"; };
+		262F2A4F2A4BB9C600C980D3 /* IntentionInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentionInputView.swift; sourceTree = "<group>"; };
+		262F2A512A4BBB2200C980D3 /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		26333AF527B97160005149C9 /* MoreInfoOnPlanetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreInfoOnPlanetViewModel.swift; sourceTree = "<group>"; };
 		26336034270912B400EEC1B3 /* MoreInfoScratchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreInfoScratchView.swift; sourceTree = "<group>"; };
 		2633A13C279E20C300839581 /* TestView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView2.swift; sourceTree = "<group>"; };
@@ -304,6 +321,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		262F2A3D2A4906EF00C980D3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		26B1AFCF2678FFE500A170B3 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -375,6 +399,7 @@
 			isa = PBXGroup;
 			children = (
 				260135992A477354007878BD /* DateExtensions.swift */,
+				262F2A512A4BBB2200C980D3 /* String+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -564,6 +589,7 @@
 				26B1AFD22678FFE500A170B3 /* Amare.app */,
 				26B1AFE82678FFE700A170B3 /* AmareTests.xctest */,
 				26B1AFF32678FFE700A170B3 /* AmareUITests.xctest */,
+				262F2A402A4906EF00C980D3 /* OnboardingTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -620,6 +646,7 @@
 		26B1AFEB2678FFE700A170B3 /* AmareTests */ = {
 			isa = PBXGroup;
 			children = (
+				262F2A492A49077400C980D3 /* DateExtensionsTests.swift */,
 				26B1AFEC2678FFE700A170B3 /* LoveTests.swift */,
 				26B1AFEE2678FFE700A170B3 /* Info.plist */,
 			);
@@ -750,6 +777,7 @@
 				2601359B2A485A7F007878BD /* InputHomeCityView.swift */,
 				2642B7722A467F3F009DD789 /* BirthdayInputView.swift */,
 				260135962A476191007878BD /* BirthtimeInputView.swift */,
+				262F2A4F2A4BB9C600C980D3 /* IntentionInputView.swift */,
 				26C466492A34FEC0000EC8BC /* UsernameInputView.swift */,
 			);
 			path = Onboarding;
@@ -769,6 +797,7 @@
 				26C4665A2A35276A000EC8BC /* ProgressBarView.swift */,
 				2601358F2A475979007878BD /* UsernameAvailabilityView.swift */,
 				260135912A475B4A007878BD /* NextButtonView.swift */,
+				262F2A4D2A4A38D400C980D3 /* TileView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -871,6 +900,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		262F2A3F2A4906EF00C980D3 /* OnboardingTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 262F2A482A4906EF00C980D3 /* Build configuration list for PBXNativeTarget "OnboardingTests" */;
+			buildPhases = (
+				262F2A3C2A4906EF00C980D3 /* Sources */,
+				262F2A3D2A4906EF00C980D3 /* Frameworks */,
+				262F2A3E2A4906EF00C980D3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				262F2A452A4906EF00C980D3 /* PBXTargetDependency */,
+			);
+			name = OnboardingTests;
+			productName = OnboardingTests;
+			productReference = 262F2A402A4906EF00C980D3 /* OnboardingTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		26B1AFD12678FFE500A170B3 /* Amare */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 26B1AFFC2678FFE700A170B3 /* Build configuration list for PBXNativeTarget "Amare" */;
@@ -962,9 +1009,13 @@
 		26B1AFCA2678FFE500A170B3 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1250;
+				LastSwiftUpdateCheck = 1420;
 				LastUpgradeCheck = 1420;
 				TargetAttributes = {
+					262F2A3F2A4906EF00C980D3 = {
+						CreatedOnToolsVersion = 14.2;
+						TestTargetID = 26B1AFD12678FFE500A170B3;
+					};
 					26B1AFD12678FFE500A170B3 = {
 						CreatedOnToolsVersion = 12.5;
 					};
@@ -1013,11 +1064,19 @@
 				26B1AFD12678FFE500A170B3 /* Amare */,
 				26B1AFE72678FFE700A170B3 /* AmareTests */,
 				26B1AFF22678FFE700A170B3 /* AmareUITests */,
+				262F2A3F2A4906EF00C980D3 /* OnboardingTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		262F2A3E2A4906EF00C980D3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		26B1AFD02678FFE500A170B3 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1187,6 +1246,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		262F2A3C2A4906EF00C980D3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				262F2A4B2A491AC100C980D3 /* DateExtensions.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		26B1AFCE2678FFE500A170B3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1239,7 +1306,9 @@
 				26C466402A34FE96000EC8BC /* RGQuizQuestion.swift in Sources */,
 				2642B7732A467F3F009DD789 /* BirthdayInputView.swift in Sources */,
 				268E542826DCEC6400E61F40 /* VerificationCodeView3.swift in Sources */,
+				262F2A4E2A4A38D400C980D3 /* TileView.swift in Sources */,
 				26A0B9DB2A24F88A00DCAB5F /* RGQuizViewModel.swift in Sources */,
+				262F2A502A4BB9C600C980D3 /* IntentionInputView.swift in Sources */,
 				2694935826D1DB4400C7AD72 /* Aspect.swift in Sources */,
 				2694935C26D1FEEF00C7AD72 /* ZodiacSign.swift in Sources */,
 				260135922A475B4A007878BD /* NextButtonView.swift in Sources */,
@@ -1254,6 +1323,7 @@
 				26F9205F26A760E500A4F8C6 /* Animations.swift in Sources */,
 				2609E3C52798A30000B4805E /* TestView.swift in Sources */,
 				26B1AFD62678FFE500A170B3 /* AmareApp.swift in Sources */,
+				262F2A522A4BBB2200C980D3 /* String+Extensions.swift in Sources */,
 				266C61FB26F14A1D00A34374 /* SelectLocation.swift in Sources */,
 				26336035270912B500EEC1B3 /* MoreInfoScratchView.swift in Sources */,
 				26B598D2295CC8A8009DEA22 /* TabViewUI.swift in Sources */,
@@ -1305,6 +1375,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				26B1AFED2678FFE700A170B3 /* LoveTests.swift in Sources */,
+				262F2A4C2A491B4E00C980D3 /* DateExtensionsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1319,6 +1390,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		262F2A452A4906EF00C980D3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 26B1AFD12678FFE500A170B3 /* Amare */;
+			targetProxy = 262F2A442A4906EF00C980D3 /* PBXContainerItemProxy */;
+		};
 		26B1AFEA2678FFE700A170B3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 26B1AFD12678FFE500A170B3 /* Amare */;
@@ -1332,6 +1408,48 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		262F2A462A4906EF00C980D3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HGQ8Q53DV8;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = findamare.com.OnboardingTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Amare.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Amare";
+			};
+			name = Debug;
+		};
+		262F2A472A4906EF00C980D3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HGQ8Q53DV8;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = findamare.com.OnboardingTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Amare.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Amare";
+			};
+			name = Release;
+		};
 		26B1AFFA2678FFE700A170B3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1611,6 +1729,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		262F2A482A4906EF00C980D3 /* Build configuration list for PBXNativeTarget "OnboardingTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				262F2A462A4906EF00C980D3 /* Debug */,
+				262F2A472A4906EF00C980D3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		26B1AFCD2678FFE500A170B3 /* Build configuration list for PBXProject "Amare" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
