@@ -144,7 +144,7 @@ struct BirthtimeInputView: View {
 				model.knowsBirthTime = false
 				model.birthday = model.birthday.setToNoon()!
 				withAnimation {
-					model.currentPage = .intention
+					model.currentPage = .genderSelection
 				}
 
 			})
@@ -163,7 +163,7 @@ struct BirthtimeInputView: View {
 				
 				if model.knowsBirthTime == nil { model.knowsBirthTime = true }
 				withAnimation {
-					model.currentPage = .intention
+					model.currentPage = .genderSelection
 				}
 				
 			}),

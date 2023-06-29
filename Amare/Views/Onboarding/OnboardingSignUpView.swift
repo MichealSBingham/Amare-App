@@ -52,11 +52,14 @@ struct OnboardingSignUpView: View {
 					BirthtimeInputView()
 						.tag(OnboardingScreen.birthtime)
 					
+					GenderInputView()
+						.tag(OnboardingScreen.genderSelection)
+					
 					IntentionInputView()
 						.tag(OnboardingScreen.intention)
 					
-					Text("Gender Seletion")
-						.tag(OnboardingScreen.genderSelection)
+					
+					
 					UsernameInputView()
 						.tag(OnboardingScreen.username)
                     

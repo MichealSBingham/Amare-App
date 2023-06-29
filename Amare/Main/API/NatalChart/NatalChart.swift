@@ -181,30 +181,7 @@ extension Array where Element == Angle {
     }
 }
 
-enum Sex: String, Codable  {
-    case male
-    case female
-    case transfemale
-    case transmale
-    case non_binary
-    
-    func string() -> String {
-        
-        switch self {
-        case .male:
-            return "male"
-        case .female:
-            return "female"
-        case .transfemale:
-            return "transfemale"
-        case .transmale:
-            return  "transmale"
-        case .non_binary:
-            return "non binary"
-        }
-    }
 
-}
 
 
 

@@ -69,10 +69,13 @@ struct TileView_Previews: PreviewProvider {
 						print("nothing")
 				})
 				
-				TileView(icon: Image("Onboarding/dating"), label: "Dating", isSelected: .constant(false), action: {
+				TileView(icon: Image("Onboarding/friendship"), label: "Friendship", isSelected: .constant(false), action: {
 						print("nothing")
 				})
 				
+				TileView(icon: Image("Onboarding/self_discovery"), label: "Discovery", isSelected: .constant(false), action: {
+						print("nothing")
+				})
 					
 					
 				//TileView(icon: Image(systemName: "figure.dress.line.vertical.figure"), label: "Dating")

@@ -7,11 +7,6 @@
 
 import SwiftUI
 
-class IntentionInputViewModel: ObservableObject{
-	@Published var friendshipSelected: Bool = false
-	@Published var datingSelected: Bool = false
-	@Published var selfDiscoverySelected: Bool = false 
-}
 
 struct IntentionInputView: View {
 	
@@ -39,14 +34,22 @@ struct IntentionInputView: View {
 			
 			HStack{
 				
+				TileView(icon: Image("Onboarding/dating"), label: "Dating", isSelected: $model.datingSelected)
 				
+				TileView(icon: Image("Onboarding/friendship"), label: "Friendship", isSelected: $model.friendshipSelected)
+				
+				TileView(icon: Image("Onboarding/self_discovery"), label: "Discovery", isSelected: $model.selfDiscoverySelected)
 					
 			}
 			.padding()
 			
 			NextButtonView {
-				
+				withAnimation {
+					model.currentPage = .genderSelection
+				}
 			}
+			.disabled(!(model.friendshipSelected && model.datingSelected && model.selfDiscoverySelected))
+			.opacity(!(model.friendshipSelected || model.datingSelected || model.selfDiscoverySelected) ? 0.5 : 1.0)
 			
 			Spacer()
 			Spacer()

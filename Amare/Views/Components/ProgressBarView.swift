@@ -13,7 +13,8 @@ struct ProgressBarView: View {
     var body: some View {
         VStack {
             ProgressView(value: progress)
-                .progressViewStyle(DefaultProgressViewStyle()) // Apply the default progress view style
+				.progressViewStyle(LinearProgressViewStyle(tint: Color.amare)) // Apply the default progress view style
+				
         }
     }
 }

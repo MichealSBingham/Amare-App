@@ -39,6 +39,9 @@
 		262F2A4E2A4A38D400C980D3 /* TileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262F2A4D2A4A38D400C980D3 /* TileView.swift */; };
 		262F2A502A4BB9C600C980D3 /* IntentionInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262F2A4F2A4BB9C600C980D3 /* IntentionInputView.swift */; };
 		262F2A522A4BBB2200C980D3 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262F2A512A4BBB2200C980D3 /* String+Extensions.swift */; };
+		262F2A542A4D05B700C980D3 /* GenderInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262F2A532A4D05B700C980D3 /* GenderInputView.swift */; };
+		262F2A562A4D0F3300C980D3 /* Sex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262F2A552A4D0F3300C980D3 /* Sex.swift */; };
+		262F2A582A4D111B00C980D3 /* Sex+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262F2A572A4D111B00C980D3 /* Sex+Extensions.swift */; };
 		26333AF627B97160005149C9 /* MoreInfoOnPlanetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26333AF527B97160005149C9 /* MoreInfoOnPlanetViewModel.swift */; };
 		26336035270912B500EEC1B3 /* MoreInfoScratchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26336034270912B400EEC1B3 /* MoreInfoScratchView.swift */; };
 		2633A13D279E20C300839581 /* TestView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2633A13C279E20C300839581 /* TestView2.swift */; };
@@ -209,6 +212,9 @@
 		262F2A4D2A4A38D400C980D3 /* TileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileView.swift; sourceTree = "<group>"; };
 		262F2A4F2A4BB9C600C980D3 /* IntentionInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentionInputView.swift; sourceTree = "<group>"; };
 		262F2A512A4BBB2200C980D3 /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
+		262F2A532A4D05B700C980D3 /* GenderInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderInputView.swift; sourceTree = "<group>"; };
+		262F2A552A4D0F3300C980D3 /* Sex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sex.swift; sourceTree = "<group>"; };
+		262F2A572A4D111B00C980D3 /* Sex+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sex+Extensions.swift"; sourceTree = "<group>"; };
 		26333AF527B97160005149C9 /* MoreInfoOnPlanetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreInfoOnPlanetViewModel.swift; sourceTree = "<group>"; };
 		26336034270912B400EEC1B3 /* MoreInfoScratchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreInfoScratchView.swift; sourceTree = "<group>"; };
 		2633A13C279E20C300839581 /* TestView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView2.swift; sourceTree = "<group>"; };
@@ -400,6 +406,7 @@
 			children = (
 				260135992A477354007878BD /* DateExtensions.swift */,
 				262F2A512A4BBB2200C980D3 /* String+Extensions.swift */,
+				262F2A572A4D111B00C980D3 /* Sex+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -440,6 +447,7 @@
 				26C4663C2A34FE96000EC8BC /* Quizzes */,
 				2601359D2A488496007878BD /* Birthday.swift */,
 				2601359F2A4884A6007878BD /* Place.swift */,
+				262F2A552A4D0F3300C980D3 /* Sex.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -777,6 +785,7 @@
 				2601359B2A485A7F007878BD /* InputHomeCityView.swift */,
 				2642B7722A467F3F009DD789 /* BirthdayInputView.swift */,
 				260135962A476191007878BD /* BirthtimeInputView.swift */,
+				262F2A532A4D05B700C980D3 /* GenderInputView.swift */,
 				262F2A4F2A4BB9C600C980D3 /* IntentionInputView.swift */,
 				26C466492A34FEC0000EC8BC /* UsernameInputView.swift */,
 			);
@@ -1269,6 +1278,7 @@
 				268F26BF2680094A00FBEA7D /* Account.swift in Sources */,
 				263D6F982684012000CBBECC /* AccountErrors.swift in Sources */,
 				26B66A9026EB9476001EAA80 /* House.swift in Sources */,
+				262F2A562A4D0F3300C980D3 /* Sex.swift in Sources */,
 				2608CF46268FE27300826FDA /* ImagePickerView.swift in Sources */,
 				2608CF532697C9D600826FDA /* SystemErrors.swift in Sources */,
 				26C4665B2A35276A000EC8BC /* ProgressBarView.swift in Sources */,
@@ -1331,6 +1341,7 @@
 				263D6F9426829F2200CBBECC /*  [Deprecated]RV.swift in Sources */,
 				26CE3CDA2891E0AD0094C697 /* tokens.swift in Sources */,
 				26C466522A34FEC0000EC8BC /* InputNameView.swift in Sources */,
+				262F2A582A4D111B00C980D3 /* Sex+Extensions.swift in Sources */,
 				2608CF4C2695136F00826FDA /* EnterGenderView.swift in Sources */,
 				2676E004270A07E90014610B /* MoreInfoOnGenericPlanet.swift in Sources */,
 				26DE210E26C596450004B5CE /* HomeGlobeView.swift in Sources */,
@@ -1364,6 +1375,7 @@
 				2633A13D279E20C300839581 /* TestView2.swift in Sources */,
 				26C466552A34FEE0000EC8BC /* OnboardingViewModel.swift in Sources */,
 				2662ED1B2842D17600B0EA57 /* ProfileImageView.swift in Sources */,
+				262F2A542A4D05B700C980D3 /* GenderInputView.swift in Sources */,
 				26AF20E626CF458E00D99F36 /* EnterPhoneNumberView2.swift in Sources */,
 				26B598D4295CD795009DEA22 /* MainEntry.swift in Sources */,
 				2608CF44268FDE9700826FDA /* ImageUploadView.swift in Sources */,

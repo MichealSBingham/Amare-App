@@ -30,10 +30,18 @@ class OnboardingViewModel: ObservableObject{
 	@Published var homeCityTimeZone: TimeZone?
 	
 	@Published var homeCity: MKPlacemark?
+	
+	@Published var gender: Sex = .none
+	
+	
+	@Published var friendshipSelected: Bool = false
+	@Published var datingSelected: Bool = false
+	@Published var selfDiscoverySelected: Bool = false 
     
     
     @Published  var progress: Double = Double(OnboardingScreen.allCases.firstIndex(of: .name) ?? 0) / Double(OnboardingScreen.allCases.count - 2)
     
+	
     //TODO: Handle error handling for `checkUsername` 
     func checkUsername() {
         
