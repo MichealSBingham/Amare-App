@@ -76,7 +76,11 @@ struct UsernameInputView: View {
                 
             }
             
-            Text("")
+			NextButtonView {
+				
+			}
+			.opacity(model.isUsernameAvailable ?? false ? 1: 0.5)
+			.disabled(!(model.isUsernameAvailable ?? false))
             
             Spacer()
          
@@ -91,9 +95,21 @@ struct UsernameInputView: View {
     
     //TODO: Adjust this so that it only accepts valid usernames (no punctuation/no spaces/ etc)
     func enterUsernameField() -> some View {
+		
+		let binding = Binding<String>(
+			get: { self.model.username },
+			set: {
+				if let firstCharacter = $0.first, firstCharacter.isNumber {
+					// Don't update the username if the first character is a number
+					return
+				}
+				self.model.username = $0.filter { $0.isLetter || $0.isNumber }
+			}
+		)
+
         
         //TODO: Make sure there is an '@' in front of it.
-        return    TextField("@starsystem2", text: $model.username,
+        return    TextField("@starsystem2", text: binding,
                             
               onCommit:  {
             
@@ -107,7 +123,7 @@ struct UsernameInputView: View {
                                 }
                                 
                                 
-                                model.currentPage = .birthday
+                                
             
            
     

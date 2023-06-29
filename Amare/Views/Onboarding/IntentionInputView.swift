@@ -45,7 +45,7 @@ struct IntentionInputView: View {
 			
 			NextButtonView {
 				withAnimation {
-					model.currentPage = .genderSelection
+					model.currentPage = .username
 				}
 			}
 			.disabled(!(model.friendshipSelected && model.datingSelected && model.selfDiscoverySelected))

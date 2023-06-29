@@ -19,6 +19,4 @@ enum OnboardingScreen: CaseIterable{
 	case intention
     case username
     
-    
-    
 }

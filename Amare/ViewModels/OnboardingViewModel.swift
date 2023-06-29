@@ -39,7 +39,7 @@ class OnboardingViewModel: ObservableObject{
 	@Published var selfDiscoverySelected: Bool = false 
     
     
-    @Published  var progress: Double = Double(OnboardingScreen.allCases.firstIndex(of: .name) ?? 0) / Double(OnboardingScreen.allCases.count - 2)
+    @Published  var progress: Double = Double(OnboardingScreen.allCases.firstIndex(of: .name) ?? 0) / Double(OnboardingScreen.allCases.count - 1)
     
 	
     //TODO: Handle error handling for `checkUsername` 

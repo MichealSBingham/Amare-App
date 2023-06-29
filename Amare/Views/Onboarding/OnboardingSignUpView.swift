@@ -9,7 +9,7 @@ import SwiftUI
 
 struct OnboardingSignUpView: View {
     
-    @StateObject var viewModel = OnboardingViewModel()
+    @ObservedObject var viewModel = OnboardingViewModel()
     
     @State var page: OnboardingScreen = .name
     
@@ -59,7 +59,6 @@ struct OnboardingSignUpView: View {
 						.tag(OnboardingScreen.intention)
 					
 					
-					
 					UsernameInputView()
 						.tag(OnboardingScreen.username)
                     
@@ -84,8 +83,9 @@ struct OnboardingSignUpView: View {
     /// Returns a double to represent the progress the user has completed onboarding , calculated dynamically
     func onboardingProgress(on screen: OnboardingScreen) -> Double {
         
+		//print("Screen \(screen) : num \(Double(OnboardingScreen.allCases.firstIndex(of: screen) ?? 0) ) and dem: \(Double(OnboardingScreen.allCases.count - 2))\n\n")
 		
-        return Double(OnboardingScreen.allCases.firstIndex(of: screen) ?? 0) / Double(OnboardingScreen.allCases.count - 2)
+        return Double(OnboardingScreen.allCases.firstIndex(of: screen) ?? 0) / Double(OnboardingScreen.allCases.count - 1)
     }
 }
 
