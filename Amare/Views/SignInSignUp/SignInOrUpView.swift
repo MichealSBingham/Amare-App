@@ -6,14 +6,15 @@
 //
 
 import SwiftUI
-import NavigationStack
+
 
 struct SignInOrUpView: View {
+	
+	@EnvironmentObject var background: BackgroundViewModel
+	
     
     static let id = String(describing: Self.self)
-    @EnvironmentObject private var account: Account
-    
-	@EnvironmentObject private var navigationStack: NavigationStackCompat
+  
     
     /// Terms and conditions  **iOS 14** , automatically true because we can't include the terms and conditions statement in the ios 14 verison
     @State private var termsAreAccepted: Bool = true
@@ -37,48 +38,49 @@ struct SignInOrUpView: View {
     
     @State private var buttonDisabled: Bool = false
     
-    /// Whether or not this view became the root view when it was instantiated 
-     var isRoot: Bool
+	@Binding var beginOnboardingFlow: Bool
     
-    var body: some View {
+	@ViewBuilder  var body: some View {
+		
+	
+			VStack{
+				
+				Spacer()
+				
+				createLogo()
+				
+				createTextAndTaglineForLogo()
+				
+				Spacer()
+				
+				Group{
+					
+					createSignInButton()
+					createSignUpButton()
+						
+					
+					
+				}
+				
+				
+				
+				Spacer()
+				Spacer()
+				
+			   createPolicyAndConditionsAcceptance()
+				
+				Spacer()
+				
+				needHelp()
+				
+				
+				
+			}
+		
         
-        VStack{
-            
-            Spacer()
-            
-            createLogo()
-            
-            createTextAndTaglineForLogo()
-            
-            Spacer()
-            
-            Group{
-                
-                createSignInButton()
-                createSignUpButton()
-                    
-                
-                
-            }
-            
-            
-            
-            Spacer()
-            Spacer()
-            
-           createPolicyAndConditionsAcceptance()
-            
-            Spacer()
-            
-            needHelp()
-            
-            
-            
-        }
+       
         
-        .fullScreenCover(isPresented: $needsHelp) {
-            RGQuizView()
-        }
+       
     }
     
     
@@ -454,10 +456,13 @@ struct SignInOrUpView: View {
 }
     
     
-    /// Goes to the next view. We are using the `NavigationStack` package from GitHub. Open source. It works better than `NavigationView`
+    
     func goToNextView()  {
         
-		self.navigationStack.push(EnterPhoneNumberView2().environmentObject(account))
+		withAnimation{
+			
+			beginOnboardingFlow = true
+		}
         
          
     }
@@ -466,12 +471,21 @@ struct SignInOrUpView: View {
 struct SignInOrUpView_Previews: PreviewProvider {
     static var previews: some View {
         
-        ForEach([ "iPhone 8", "iPhone 13 Pro Max"], id: \.self) { deviceName in
-                       RootView()
-                            .previewDevice(PreviewDevice(rawValue: deviceName))
-                            .previewDisplayName(deviceName)
-                            .environmentObject(Account())
-                  }
+      //  ForEach([ "iPhone 8", "iPhone 13 Pro Max"], id: \.self) { deviceName in
+                      // RootView()
+		
+		ZStack{
+			Background()
+				.environmentObject(BackgroundViewModel())
+			SignInOrUpView( beginOnboardingFlow: .constant(false))
+				.environmentObject(BackgroundViewModel())
+		}
+		
+		
+                            //.previewDevice(PreviewDevice(rawValue: deviceName))
+                          //  .previewDisplayName(deviceName)
+                         
+                 // }/
     }
 }
 

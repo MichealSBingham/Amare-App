@@ -8,19 +8,21 @@
 
 
 import SwiftUI
-import NavigationStack
 import MbSwiftUIFirstResponder
 import Combine
 
 
-public struct VerificationCodeView3: View {
+public struct InputVerificationCode: View {
     
     
     /// id of view
     static let id = String(describing: Self.self)
 
-    /// To manage navigation
-	@EnvironmentObject private var navigationStack: NavigationStackCompat
+	@EnvironmentObject var background: BackgroundViewModel
+	
+	@EnvironmentObject var model: OnboardingViewModel
+	
+	@EnvironmentObject var authService: AuthService
 
     
     /// The current user's account
@@ -65,14 +67,20 @@ public struct VerificationCodeView3: View {
     public var body: some View {
         ZStack {
             
+			/*
             Background()
+				.ignoresSafeArea()
+				.environmentObject(background)
                 .opacity(isLoading ? 1: 0)
                 .animation(.linear, value: phonenumber)
                 .onAppear(perform: {buttonDisabled = false})
+			 */
+			
             
             ProgressView("Please wait...")
                 .progressViewStyle(CircularProgressViewStyle(tint: .white))
                 .opacity(isLoading ? 1: 0)
+				.onAppear(perform: {buttonDisabled = false})
                 .foregroundColor(.white)
                 .onReceive(Just(phonenumber)) { _ in
                     
@@ -213,26 +221,25 @@ public struct VerificationCodeView3: View {
             guard alreadyRan == false else {return}
             
             alreadyRan = true
-                
-            account.login(with: pin) { error, user, signUpState in
-                
-                guard error == nil else {
-                    
-                    alreadyRan = false
-                    pin = ""
-                    handle(error!)
-                    
-                    
-                    return
-                }
-                  goToNext(signUpDataIsComplete: account.data?.isComplete() ?? false)
-                
-                
-                return
-                
-                
-            }
-            
+			
+			
+			authService.login(with: pin) { result in
+							switch result {
+							case .success(let user):
+								print("Logged in user: \(user.uid)")
+								withAnimation{
+									model.currentPage = .name
+								}
+							case .failure(let error):
+								print("Error logging in: \(error.localizedDescription)")
+								alreadyRan = false
+								pin = ""
+								handle(error)
+								
+							}
+						}
+			
+		
             
             
         }
@@ -301,12 +308,23 @@ public struct VerificationCodeView3: View {
                 return
             }
             
-            Account().sendVerificationCode(to: phonenumber) { error in
-                guard error == nil else {
-                    handle(error!)
-                    return
-                }
-            }
+            
+			
+			authService.sendVerificationCode(to: phonenumber) {  result in
+				
+			
+				
+				switch result {
+				case .success(let success):
+					print("Resent code to \(phonenumber)")
+					
+				case .failure(let failure):
+					
+					handle(failure)
+					
+				}
+				
+			}
             
         } label: {
             
@@ -361,13 +379,12 @@ public struct VerificationCodeView3: View {
     /// Goes back to the login screen
     func goBack()   {
         
-        print("going back...")
-            firstResponder = nil
-            navigationStack.pop()
+     
+		withAnimation{
+			model.currentPage = .phoneNumber
+		}
+		
     
-        
-    
-        
     }
     
     func handle(_ error: Error)  {
@@ -457,7 +474,7 @@ public struct VerificationCodeView3: View {
     
     func goToNext(signUpDataIsComplete: Bool = false)  {
         
-        
+        /*
         guard signUpDataIsComplete else {
            
             navigationStack.push(EnterNameView().environmentObject(account), withId: EnterNameView.id)
@@ -467,7 +484,7 @@ public struct VerificationCodeView3: View {
             
         navigationStack.push(MainView(isRoot: false).environmentObject(account), withId: MainView.id)
         
-       
+       */
     }
     
     /// Starts the countdown from 10 seconds before user can resend code again
@@ -482,21 +499,7 @@ public struct VerificationCodeView3: View {
 }
 
 
-extension String {
-    
-    var Digits: [Int] {
-        var result = [Int]()
-        
-        for char in self {
-            if let number = Int(String(char)) {
-                result.append(number)
-            }
-        }
-        
-        return result
-    }
-    
-}
+
 
 extension Int {
     
@@ -511,14 +514,18 @@ extension Int {
 
 
 
-struct VerificationCodeView3_Previews: PreviewProvider {
+struct InputVerificationCode_Previews: PreviewProvider {
     static var previews: some View {
         
         ZStack{
             let timer = Timer.publish(every: 0.5, on: .main, in: .default).autoconnect()
             Background(timer: timer)//.opacity(0.80)
-            VerificationCodeView3()
+				.environmentObject(BackgroundViewModel())
+            InputVerificationCode()
                 .environmentObject(Account())
+				.environmentObject(BackgroundViewModel())
+				.environmentObject(AuthService.shared)
+				.environmentObject(OnboardingViewModel())
         }
         
         

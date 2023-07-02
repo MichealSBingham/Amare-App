@@ -59,7 +59,7 @@ struct RootView: View {
 					
 				} else {
 					
-					SignInOrUpView(isRoot: true )
+					SignInOrUpView( beginOnboardingFlow: .constant(false))
 						.environmentObject(account)
 						.onAppear { account.stopListening()}
 					

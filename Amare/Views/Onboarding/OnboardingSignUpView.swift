@@ -9,10 +9,15 @@ import SwiftUI
 
 struct OnboardingSignUpView: View {
     
-    @ObservedObject var viewModel = OnboardingViewModel()
+	@EnvironmentObject var background: BackgroundViewModel
+	
+	@EnvironmentObject var viewModel: OnboardingViewModel
+	
+	@EnvironmentObject var authService: AuthService
     
-    @State var page: OnboardingScreen = .name
+    @State var page: OnboardingScreen = .phoneNumber
     
+	@State var showProgressBar: Bool = false
   
     var body: some View {
         
@@ -22,12 +27,24 @@ struct OnboardingSignUpView: View {
             VStack{
                 
                 ProgressBarView(progress: $viewModel.progress)
+					.opacity(showProgressBar ? 1 : 0 )
                     .onChange(of: viewModel.currentPage, perform: { page in
                         
                         withAnimation{
                             
                             viewModel.progress = onboardingProgress(on: page)
                         }
+						
+						if page == .name {
+							withAnimation {
+								
+								background.solidColor = .black
+								background.isSolidColor = true 
+								showProgressBar = true
+								
+								
+							}
+						}
                        
                     })
                     .padding()
@@ -38,9 +55,16 @@ struct OnboardingSignUpView: View {
             TabView(selection: $viewModel.currentPage) {
                 
                 Group{
+					
+					InputPhoneNumber()
+						.tag(OnboardingScreen.phoneNumber)
+					
+					InputVerificationCode()
+						.tag(OnboardingScreen.authCode)
                      
                     InputNameView()
                         .tag(OnboardingScreen.name)
+						
 					
 					InputHomeCityView()
 						.tag(OnboardingScreen.hometown)
@@ -64,6 +88,8 @@ struct OnboardingSignUpView: View {
                     
                 }
                 .environmentObject(viewModel)
+				.environmentObject(background)
+				.environmentObject(authService)
                
                 
                 
@@ -91,7 +117,17 @@ struct OnboardingSignUpView: View {
 
 struct OnboardingSignUpView_Previews: PreviewProvider {
     static var previews: some View {
-        OnboardingSignUpView()
+		
+		ZStack{
+			
+			Background()
+				.environmentObject(BackgroundViewModel())
+			OnboardingSignUpView()
+				.environmentObject(BackgroundViewModel())
+				.environmentObject(OnboardingViewModel())
+				.environmentObject(AuthService.shared)
+		}
+        
 			
     }
 }

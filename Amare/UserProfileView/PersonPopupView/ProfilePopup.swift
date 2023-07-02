@@ -12,7 +12,7 @@ import URLImageStore
 import FirebaseAuth
 import Combine
 //import ConfettiSwiftUI
-import VTabView
+//import VTabView
 import SkeletonUI
 import SPConfetti
 import SPIndicator
@@ -583,7 +583,7 @@ struct ProfilePopup: View {
                             
                           
                                 
-                                VTabView{
+                                VStack{
                                     
                                   
                                  

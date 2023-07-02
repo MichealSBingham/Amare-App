@@ -460,6 +460,7 @@ struct GlobeView: UIViewRepresentable {
 	 */
 }
 
+/*
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         
@@ -469,6 +470,7 @@ struct ContentView_Previews: PreviewProvider {
        
     }
 }
+*/
 
 
 class MyPointAnnotation : MKPointAnnotation {

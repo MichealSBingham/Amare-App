@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import VTabView
+//import VTabView
 import UICircularProgressRing
 import URLImage
 
@@ -67,7 +67,7 @@ struct UserProfileView: View {
 					
 					
 					
-					VTabView{
+					VStack{
 						AboutThemView()
 						AboutYouAndThemView()
 					}.tabViewStyle(.page(indexDisplayMode: .always))

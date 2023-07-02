@@ -48,7 +48,7 @@ struct IntentionInputView: View {
 					model.currentPage = .username
 				}
 			}
-			.disabled(!(model.friendshipSelected && model.datingSelected && model.selfDiscoverySelected))
+			.disabled(!(model.friendshipSelected || model.datingSelected || model.selfDiscoverySelected))
 			.opacity(!(model.friendshipSelected || model.datingSelected || model.selfDiscoverySelected) ? 0.5 : 1.0)
 			
 			Spacer()

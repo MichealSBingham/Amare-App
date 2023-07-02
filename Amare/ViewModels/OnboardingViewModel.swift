@@ -15,7 +15,9 @@ import MapKit
 
 class OnboardingViewModel: ObservableObject{
     
-    @Published var currentPage: OnboardingScreen = .name
+    @Published var currentPage: OnboardingScreen = .phoneNumber
+	
+	@Published var phoneNumber: String?
     
     @Published var name: String?
 	
@@ -39,27 +41,32 @@ class OnboardingViewModel: ObservableObject{
 	@Published var selfDiscoverySelected: Bool = false 
     
     
-    @Published  var progress: Double = Double(OnboardingScreen.allCases.firstIndex(of: .name) ?? 0) / Double(OnboardingScreen.allCases.count - 1)
+    @Published  var progress: Double = Double(OnboardingScreen.allCases.firstIndex(of: .phoneNumber) ?? 0) / Double(OnboardingScreen.allCases.count - 1)
+	
+	@Published var error: Error?
     
 	
     //TODO: Handle error handling for `checkUsername` 
     func checkUsername() {
         
     
-        
+        print("checking username (onboarding view model)")
         guard  !(username.isEmpty) else { return }
         let database = FirestoreService.shared
         
             database.doesUsernameExist(username) { [weak self] result in
+				
+				print("The result is \(result)")
                 switch result {
-                case .success(let isAvailable):
+                case .success(let exists):
                     DispatchQueue.main.async {
                         
-                        self?.isUsernameAvailable = isAvailable
+                        self?.isUsernameAvailable = !exists
                     }
                 case .failure(let error):
                     // Handle error here
                     print("Could not check if username exists \(error)")
+					self?.error = error
                 }
             }
         }

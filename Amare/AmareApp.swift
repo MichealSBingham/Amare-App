@@ -126,14 +126,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 		//MARK: Customizing Stream Chat Messaging  Design
 		
 		
-		
+		var mycolors = [
+			Color(UIColor(red: 1.00, green: 0.01, blue: 0.40, alpha: 1.00)),
+			Color(UIColor(red: 0.94, green: 0.16, blue: 0.77, alpha: 1.00))
+		]
 			var colors = ColorPalette()
 			//let streamBlue = UIColor(red: 0, green: 108.0 / 255.0, blue: 255.0 / 255.0, alpha: 1)
 			//colors.tintColor = Color(streamBlue)
-			let amarePink = UIColor(Background().colors.first!)
-			colors.tintColor = Background().colors.first!
+			let amarePink = UIColor(mycolors.first!)
+			colors.tintColor = mycolors.first!
 		var colorsToUse: [UIColor] = []
-		for color in Background().colors{
+		for color in mycolors{
 			colorsToUse.append(color.uiColor())
 		}
 		colors.messageOtherUserBackground = colorsToUse

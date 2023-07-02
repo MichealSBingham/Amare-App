@@ -6,19 +6,23 @@
 //
 
 import SwiftUI
-//import PhoneNumberKit
+
 import UIKit
 import MbSwiftUIFirstResponder
-import NavigationStack
 import Combine
 
-struct EnterPhoneNumberView2: View {
+struct InputPhoneNumber: View {
     
-   // @State private var shouldGoToNext: Bool = false
+	@EnvironmentObject var background: BackgroundViewModel
+	
+	@EnvironmentObject var model: OnboardingViewModel
+	
+	@EnvironmentObject var authService: AuthService
+	
     
-    @EnvironmentObject private var account: Account
+  
 
-	@EnvironmentObject private var navigationStack: NavigationStackCompat
+
 
     
     /// Without country code
@@ -59,9 +63,9 @@ struct EnterPhoneNumberView2: View {
                 
                 
                     
-                    backButton()
+                   
                                
-                
+                Spacer()
                                 
                 EnterYour()
                 PhoneNumber()
@@ -74,6 +78,9 @@ struct EnterPhoneNumberView2: View {
                 }
                 
                 phoneNumberField()
+					.onAppear{
+						//firstResponder = .phonenumberfield
+					}
                     
                 Spacer()
                 Spacer()
@@ -85,6 +92,17 @@ struct EnterPhoneNumberView2: View {
                     
                 
             }.alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })
+			/*
+			 New Error Method ... might noe need to implement this.
+				.alert("Error", isPresented: Binding<Bool>(
+							get: { model.error != nil },
+							set: { _ in model.error = nil }
+						)) {
+							Button("OK", role: .cancel) { model.error = nil; }
+						} message: {
+							Text(model.error?.localizedDescription ?? "")
+						}
+			 */
         }
         
     }
@@ -119,6 +137,9 @@ struct EnterPhoneNumberView2: View {
         return Button {
             
             didTapChangeCountry = true
+			
+			//TODO: REMOVE THIS FROM PRODUCTINO
+			//authService.signOut()
            // goBack()
             
         } label: {
@@ -174,34 +195,44 @@ struct EnterPhoneNumberView2: View {
 
                         
                         if number_to_check.isValidPhoneNumber(){
-                            phonenumberFieldIsActive = false
+                           // phonenumberFieldIsActive = false
                             
+							//model.phoneNumber = number_to_check
                             
                             guard timesExecuted == 0 else {return}
                             
                             timesExecuted+=1
                             
-                            goToNextView()
                             
-                            account.sendVerificationCode(to: number_to_check) { error in
-
-                                guard error == nil else {
-                                    
-                                    phonenumber = ""
-                                    phonenumberFieldIsActive = true
-                                    firstResponder = .phonenumberfield
-                                    timesExecuted = 0
-                                    // TODO: Post the error message here 
-                                    NotificationCenter.default.post(name: NSNotification.goBack, object: nil )
-                                    
-                                    handle(error: error!)
-                                    
-                                    return
-                                }
-                                
-                             
-                            }
+							
+							authService.sendVerificationCode(to: number_to_check) {  result in
+								
+								model.phoneNumber = number_to_check
+								
+								switch result {
+								case .success(let success):
+									print("Send verification code to \(number_to_check)")
+									goToNextView()
+								case .failure(let failure):
+									
+									DispatchQueue.main.async {
+										phonenumber = ""
+										phonenumberFieldIsActive = true
+										firstResponder = .phonenumberfield
+										timesExecuted = 0
+										
+				
+											handle(error: failure)
+									
+										
+										
+									}
+									
+								}
+								
+							}
                             
+						
                             
                         } else { print("\(number_to_check) is NOT valid number") }
                         
@@ -226,7 +257,7 @@ struct EnterPhoneNumberView2: View {
         
        print("Going backwards...")
             firstResponder = nil
-            navigationStack.pop()
+           // navigationStack.pop()
     
         
     
@@ -236,9 +267,10 @@ struct EnterPhoneNumberView2: View {
     
     func goToNextView()  {
       
-       // guard shouldGoToNext else {return }
-        self.navigationStack.push(VerificationCodeView3())
-        
+		withAnimation {
+			model.currentPage = .authCode
+		}
+      
         
     }
     
@@ -395,16 +427,19 @@ struct EnterPhoneNumberView2: View {
     
 }
 
-struct SignInOrUpView2_Previews: PreviewProvider {
+struct InputPhoneNumber_Previews: PreviewProvider {
     static var previews: some View {
         ZStack{
             
             let timer = Timer.publish(every: 0.5, on: .main, in: .default).autoconnect()
             Background(timer: timer)//.opacity(0.80)
-            
-            EnterPhoneNumberView2().onAppear(perform: {
+				.environmentObject(BackgroundViewModel())
+            InputPhoneNumber().onAppear(perform: {
                 
             })
+			.environmentObject(AuthService.shared)
+			.environmentObject(OnboardingViewModel())
+			.environmentObject(BackgroundViewModel())
         }
        
     }
@@ -433,45 +468,5 @@ extension Binding {
 }
 
 
-extension String {
-    
-    /// -  WARNING: Does not work for international numbers , need a better phone number validator
-    func isValidPhoneNumber() -> Bool {
-        if self.count < 12 { return false }
-        let regEx = "^\\+(?:[0-9]?){6,14}[0-9]$"
 
-        let phoneCheck = NSPredicate(format: "SELF MATCHES[c] %@", regEx)
-        return phoneCheck.evaluate(with: self)
-    }
-    
-    
-    /// Converts a formatted number to a number computer can read (917) 699 0590  ~> +19176990590. The country code is selected from the View and not included in 'self'
-    func computerReadable(countryCode: String) -> String {
-        
-        var number_to_check = (countryCode+self)
-        number_to_check =  String(number_to_check.filter { !" \n\t\r".contains($0) })
-         number_to_check = number_to_check.replacingOccurrences(of: ")", with: "")
-        number_to_check = number_to_check.replacingOccurrences(of: "(", with: "")
-        
-        return number_to_check
-
-        
-    }
-    
-    /// Formats phone number and returns string of formatted number
-    func applyPatternOnNumbers(pattern: String, replacementCharacter: Character) -> String {
-        var pureNumber = self.replacingOccurrences( of: "[^0-9]", with: "", options: .regularExpression)
-        for index in 0 ..< pattern.count {
-            guard index < pureNumber.count else { return pureNumber }
-            let stringIndex = String.Index(utf16Offset: index, in: pattern)
-            let patternCharacter = pattern[stringIndex]
-            guard patternCharacter != replacementCharacter else { continue }
-            pureNumber.insert(patternCharacter, at: stringIndex)
-        }
-        return pureNumber
-    }
-
-    
-    
-}
 
