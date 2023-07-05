@@ -33,7 +33,6 @@
 		2609E3C52798A30000B4805E /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2609E3C42798A30000B4805E /* TestView.swift */; };
 		261571612773B2D7001DFD18 /* NewChartMenuUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261571602773B2D7001DFD18 /* NewChartMenuUIView.swift */; };
 		261571632773C023001DFD18 /* locationsearchswiftuimenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261571622773C023001DFD18 /* locationsearchswiftuimenu.swift */; };
-		2623D7B027935E88002456DF /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2623D7AF27935E88002456DF /* HomeView.swift */; };
 		262F2A4B2A491AC100C980D3 /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260135992A477354007878BD /* DateExtensions.swift */; };
 		262F2A4C2A491B4E00C980D3 /* DateExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262F2A492A49077400C980D3 /* DateExtensionsTests.swift */; };
 		262F2A4E2A4A38D400C980D3 /* TileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262F2A4D2A4A38D400C980D3 /* TileView.swift */; };
@@ -46,6 +45,8 @@
 		262F2A5D2A50895100C980D3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262F2A5C2A50895100C980D3 /* ContentView.swift */; };
 		262F2A612A50A8C000C980D3 /* Background.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262F2A602A50A8C000C980D3 /* Background.swift */; };
 		262F2A632A50A98B00C980D3 /* BackgroundViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262F2A622A50A98B00C980D3 /* BackgroundViewModel.swift */; };
+		262F2A652A51C3CE00C980D3 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262F2A642A51C3CE00C980D3 /* HomeView.swift */; };
+		262F2A682A521C0400C980D3 /* AppUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262F2A672A521C0400C980D3 /* AppUser.swift */; };
 		26333AF627B97160005149C9 /* MoreInfoOnPlanetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26333AF527B97160005149C9 /* MoreInfoOnPlanetViewModel.swift */; };
 		26336035270912B500EEC1B3 /* MoreInfoScratchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26336034270912B400EEC1B3 /* MoreInfoScratchView.swift */; };
 		2633A13D279E20C300839581 /* TestView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2633A13C279E20C300839581 /* TestView2.swift */; };
@@ -210,7 +211,6 @@
 		2609E3C42798A30000B4805E /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		261571602773B2D7001DFD18 /* NewChartMenuUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewChartMenuUIView.swift; sourceTree = "<group>"; };
 		261571622773C023001DFD18 /* locationsearchswiftuimenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = locationsearchswiftuimenu.swift; sourceTree = "<group>"; };
-		2623D7AF27935E88002456DF /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HomeView.swift; path = Amare/Main/HomeView.swift; sourceTree = SOURCE_ROOT; };
 		262F2A402A4906EF00C980D3 /* OnboardingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OnboardingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		262F2A492A49077400C980D3 /* DateExtensionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensionsTests.swift; sourceTree = "<group>"; };
 		262F2A4D2A4A38D400C980D3 /* TileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileView.swift; sourceTree = "<group>"; };
@@ -223,6 +223,8 @@
 		262F2A5C2A50895100C980D3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		262F2A602A50A8C000C980D3 /* Background.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Background.swift; sourceTree = "<group>"; };
 		262F2A622A50A98B00C980D3 /* BackgroundViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundViewModel.swift; sourceTree = "<group>"; };
+		262F2A642A51C3CE00C980D3 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		262F2A672A521C0400C980D3 /* AppUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUser.swift; sourceTree = "<group>"; };
 		26333AF527B97160005149C9 /* MoreInfoOnPlanetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreInfoOnPlanetViewModel.swift; sourceTree = "<group>"; };
 		26336034270912B400EEC1B3 /* MoreInfoScratchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreInfoScratchView.swift; sourceTree = "<group>"; };
 		2633A13C279E20C300839581 /* TestView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView2.swift; sourceTree = "<group>"; };
@@ -451,12 +453,10 @@
 		2626D2E42A21078F007F5C77 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				262F2A662A520ADE00C980D3 /* AppUser */,
 				262F2A622A50A98B00C980D3 /* BackgroundViewModel.swift */,
 				26C466562A350D35000EC8BC /* Onboarding Models */,
 				26C4663C2A34FE96000EC8BC /* Quizzes */,
-				2601359D2A488496007878BD /* Birthday.swift */,
-				2601359F2A4884A6007878BD /* Place.swift */,
-				262F2A552A4D0F3300C980D3 /* Sex.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -479,6 +479,17 @@
 				26B6079C26C021C900CE8491 /* SignInOrUpView.swift */,
 			);
 			path = SignInSignUp;
+			sourceTree = "<group>";
+		};
+		262F2A662A520ADE00C980D3 /* AppUser */ = {
+			isa = PBXGroup;
+			children = (
+				262F2A552A4D0F3300C980D3 /* Sex.swift */,
+				2601359F2A4884A6007878BD /* Place.swift */,
+				2601359D2A488496007878BD /* Birthday.swift */,
+				262F2A672A521C0400C980D3 /* AppUser.swift */,
+			);
+			path = AppUser;
 			sourceTree = "<group>";
 		};
 		26333AF427B9713B005149C9 /* ProfilePopup */ = {
@@ -626,6 +637,7 @@
 				26970698268101B0007E7961 /* SceneDelegate.swift */,
 				26B1AFD52678FFE500A170B3 /* AmareApp.swift */,
 				262F2A5C2A50895100C980D3 /* ContentView.swift */,
+				262F2A642A51C3CE00C980D3 /* HomeView.swift */,
 				26C3EE172A4510C600CCA9E0 /* Configuration */,
 				26C3EE142A44FDB700CCA9E0 /* Services */,
 				26D001A327924860005E99A1 /* ViewModels */,
@@ -873,7 +885,6 @@
 				2615715F2773B267001DFD18 /* NatalChartScreens */,
 				267CF36126D30BC4006B73BE /* Custom */,
 				26DE210226C590480004B5CE /* MainView.swift */,
-				2623D7AF27935E88002456DF /* HomeView.swift */,
 				2694934F26D1D9B700C7AD72 /* API */,
 				26DE210526C593070004B5CE /* ScannerView.swift */,
 				26DE210926C595E80004B5CE /* MessagesView.swift */,
@@ -1288,6 +1299,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				262F2A632A50A98B00C980D3 /* BackgroundViewModel.swift in Sources */,
+				262F2A682A521C0400C980D3 /* AppUser.swift in Sources */,
 				26DE210C26C5963A0004B5CE /* SettingsView.swift in Sources */,
 				26B1AFDF2678FFE700A170B3 /* Persistence.swift in Sources */,
 				2694935626D1DB3600C7AD72 /* Angle.swift in Sources */,
@@ -1332,7 +1344,6 @@
 				261571612773B2D7001DFD18 /* NewChartMenuUIView.swift in Sources */,
 				26BBF08F267D80FC00C84019 /* EnterBirthdayView.swift in Sources */,
 				263D6F962683F77C00CBBECC /* Location.swift in Sources */,
-				2623D7B027935E88002456DF /* HomeView.swift in Sources */,
 				2655EEAA27862A7900393718 /* RootView2.swift in Sources */,
 				26970699268101B0007E7961 /* SceneDelegate.swift in Sources */,
 				2694935426D1DAF300C7AD72 /* Planet.swift in Sources */,
@@ -1341,6 +1352,7 @@
 				268E542826DCEC6400E61F40 /* InputVerificationCode.swift in Sources */,
 				262F2A4E2A4A38D400C980D3 /* TileView.swift in Sources */,
 				26A0B9DB2A24F88A00DCAB5F /* RGQuizViewModel.swift in Sources */,
+				262F2A652A51C3CE00C980D3 /* HomeView.swift in Sources */,
 				262F2A502A4BB9C600C980D3 /* IntentionInputView.swift in Sources */,
 				2694935826D1DB4400C7AD72 /* Aspect.swift in Sources */,
 				2694935C26D1FEEF00C7AD72 /* ZodiacSign.swift in Sources */,

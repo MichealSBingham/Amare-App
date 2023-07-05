@@ -56,11 +56,13 @@ struct OnboardingSignUpView: View {
                 
                 Group{
 					
+					
 					InputPhoneNumber()
 						.tag(OnboardingScreen.phoneNumber)
 					
 					InputVerificationCode()
 						.tag(OnboardingScreen.authCode)
+					 
                      
                     InputNameView()
                         .tag(OnboardingScreen.name)
@@ -95,11 +97,23 @@ struct OnboardingSignUpView: View {
                 
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
+			.onAppear{
+				if viewModel.currentPage == .name{
+					withAnimation {
+						
+						background.solidColor = .black
+						background.isSolidColor = true
+						showProgressBar = true
+						
+						
+					}
+				}
+			}
 			
             
         }
-        
-        
+		
+		.preferredColorScheme(.dark)
             
             
         
@@ -120,8 +134,8 @@ struct OnboardingSignUpView_Previews: PreviewProvider {
 		
 		ZStack{
 			
-			Background()
-				.environmentObject(BackgroundViewModel())
+			//Background()
+				//.environmentObject(BackgroundViewModel())
 			OnboardingSignUpView()
 				.environmentObject(BackgroundViewModel())
 				.environmentObject(OnboardingViewModel())

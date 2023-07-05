@@ -461,6 +461,8 @@ struct DiscoverNearbyView_Previews: PreviewProvider {
     static var previews: some View {
         DiscoverNearbyView()
             .environmentObject(account)
+			.environmentObject(UserDataModel())
+			.environmentObject(MultipeerDataSource(transceiver: MultipeerTransceiver()))
             .onAppear{
                 //account.nearbyUsersByMultipeer.append(<#T##Combine.Publishers.Sequence<Elements, Failure>...#>)
                 

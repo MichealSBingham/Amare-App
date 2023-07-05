@@ -210,6 +210,8 @@ public struct InputVerificationCode: View {
     }
     
     private func submitPin() {
+		
+		//print("Submitting pin.. \(pin) .. \(pin.count) .. isEMpty: \(pin.isEmpty) max : \(maxDigits)")
         guard !pin.isEmpty else {
             showPin = false
             return
@@ -217,6 +219,7 @@ public struct InputVerificationCode: View {
         
         if pin.count == maxDigits {
            // isDisabled = true
+			//print("\(maxDigits) reached count, already ran: \(alreadyRan)")
             
             guard alreadyRan == false else {return}
             
