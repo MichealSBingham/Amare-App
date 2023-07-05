@@ -16,7 +16,7 @@ struct FindNearbyUserView: View {
 	
 	@Binding var user: AmareUser
 	
-	@StateObject  var dataModel: NearbyInteractionHelper = NearbyInteractionHelper()
+	@EnvironmentObject var dataModel: NearbyInteractionHelper// = NearbyInteractionHelper()
 	
 	@State var textToDisplay: String = "Waiting on their response... "
 	
@@ -692,13 +692,13 @@ struct FindNearbyUserView_Previews: PreviewProvider {
 		
 		var helper = NearbyInteractionHelper()
 		
-		let example = AmareUser(id: "3432", name: "Micheal")
-		FindNearbyUserView(user: .constant(example), dataModel: helper, blindMode: false).onAppear {
+		let example = AmareUser.random() //AmareUser(id: "3432", name: "Micheal")
+		FindNearbyUserView(user: .constant(example), blindMode: false).onAppear {
 			helper.connected = true
 			helper.isFacing = true
 			helper.direction = 0
 		}
-			
+		.environmentObject(helper)
 		
 		
     }
@@ -711,7 +711,7 @@ import FirebaseAuth
 /// Class to help us interact with nearby users using the chip in iPhone to see how far they are
 class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 	
-
+	var testing: Bool = true
 	
 	// MARK: - Distance and direction state.
 	// A threshold, in meters, the app uses to update its display.
@@ -751,7 +751,7 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 	 private var discoveryTokenData: Data? {
 		 
 		
-		guard let token = sessionNI.discoveryToken,
+		guard let token = sessionNI?.discoveryToken,
 		   let data = try? NSKeyedArchiver.archivedData(withRootObject: token, requiringSecureCoding: true) else {
 			   
 
@@ -762,7 +762,13 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 		return data
 	  }
 	
-	let sessionNI = NISession()
+	var sessionNI: NISession? {
+		if testing {
+			return nil
+		} else {
+			return NISession()
+		}
+	}
 	
 	@Published var peersDiscoveryToken: DiscoveryTokenDocument? {
 		didSet{
@@ -922,6 +928,8 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 			// Let the other user know it's unsupported
 			return
 		}
+		
+		guard let sessionNI = sessionNI else { return }
 	
 		sessionNI.delegate = self
 		
@@ -986,7 +994,7 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 			}
 		
 		let config = NINearbyPeerConfiguration(peerToken: token)
-		sessionNI.run(config)
+		sessionNI?.run(config)
 		
 		
 	}
@@ -1009,7 +1017,7 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 	}
 	
 	func stopListeningForPeerToken()  {
-		sessionNI.invalidate()
+		sessionNI?.invalidate()
 		EasyFirestore.Listening.stop("discoveryToken")
 		removeToken()
 		stopListeningForOrientationChange()

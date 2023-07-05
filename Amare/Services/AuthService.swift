@@ -14,6 +14,12 @@ class AuthService: ObservableObject {
 
 	@Published var user: User?
 	
+	@Published var isOnboardingComplete: Bool = false
+	
+	
+/// We this variable because our ContentView needs to check `once` if the user is signed in / completed onboarding
+	@Published var AUTH_STATUS_CHECKED_ALREADY: Bool = false
+	
 	static let shared = AuthService()
 	
 	private init() {
@@ -32,7 +38,10 @@ class AuthService: ObservableObject {
 	}
 	
 	func signOut(completion: ((Result<Void, Error>) -> Void)? = nil) {
+		print("Signing the user out")
+		AUTH_STATUS_CHECKED_ALREADY = false
 		do {
+			
 			try Auth.auth().signOut()
 			completion?(.success(()))
 		} catch {
@@ -43,10 +52,13 @@ class AuthService: ObservableObject {
 
 
 	func login(with verificationCode: String, completion: @escaping (Result<User, Error>) -> Void) {
+		
+		
 		guard let verificationID = getVerificationID() else {
 			completion(.failure(GlobalError.cantGetVerificationID))
 			return
 		}
+		
 		
 		let credential = PhoneAuthProvider.provider().credential(
 			withVerificationID: verificationID,
@@ -54,12 +66,14 @@ class AuthService: ObservableObject {
 		)
 		
 		Auth.auth().signIn(with: credential) { authData, error in
+			
 			if let error = error, let authError = AuthErrorCode(rawValue: error._code) {
 				let mappedError = self.mapAuthErrorToAppError(authError)
 				completion(.failure(mappedError))
 			} else if let user = authData?.user {
+			
 				self.user = user
-				
+				completion(.success(user))
 				
 				
 			} else {

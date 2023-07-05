@@ -38,10 +38,12 @@ struct SignInOrUpView: View {
     
     @State private var buttonDisabled: Bool = false
     
-	@Binding var beginOnboardingFlow: Bool
+	@State var beginOnboardingFlow: Bool = false
     
-	@ViewBuilder  var body: some View {
+	  var body: some View {
 		
+		
+
 	
 			VStack{
 				
@@ -76,7 +78,13 @@ struct SignInOrUpView: View {
 				
 				
 			}
-		
+			.fullScreenCover(isPresented: $beginOnboardingFlow) {
+				ZStack{
+					Background()
+					OnboardingSignUpView()
+				}
+				
+			}
         
        
         
@@ -477,7 +485,7 @@ struct SignInOrUpView_Previews: PreviewProvider {
 		ZStack{
 			Background()
 				.environmentObject(BackgroundViewModel())
-			SignInOrUpView( beginOnboardingFlow: .constant(false))
+			SignInOrUpView( )
 				.environmentObject(BackgroundViewModel())
 		}
 		
