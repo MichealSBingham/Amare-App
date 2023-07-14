@@ -12,9 +12,9 @@ import FirebaseAuth
 struct ContentView: View {
 	@EnvironmentObject var authService: AuthService
 	
-	@ObservedObject var bgModel = BackgroundViewModel()
+	@StateObject var bgModel = BackgroundViewModel()
 	
-	@ObservedObject var onboardingModel: OnboardingViewModel = OnboardingViewModel()
+	@StateObject var onboardingModel: OnboardingViewModel = OnboardingViewModel()
 
 	// Flag to limit unnecessary updates
 	@State var initialCheckDone: Bool = false
@@ -27,11 +27,22 @@ struct ContentView: View {
 						.transition(.move(edge: .trailing))
 				} else {
 					OnboardingSignUpView()
+                        .onAppear{
+                            withAnimation{
+                                onboardingModel.currentPage = .name
+                            }
+                            
+                        }
 						.transition(.move(edge: .trailing))
 				}
 			} else {
 				SignInOrUpView()
 					.transition(.move(edge: .trailing))
+                    .onAppear{
+                        
+                        initialCheckDone = false
+                    }
+                
 			}
 		}
 		.environmentObject(bgModel)
@@ -222,10 +233,15 @@ struct ContentView2: View {
 
 
 struct ContentView_Previews: PreviewProvider {
+    
+    static var bgmodel = BackgroundViewModel()
     static var previews: some View {
         ContentView()
+            .onAppear{
+                bgmodel.isSolidColor = false
+            }
 			.environmentObject(AuthService.shared)
-			.environmentObject(BackgroundViewModel())
+			.environmentObject(bgmodel)
 	
 			.environmentObject(OnboardingViewModel())
     }

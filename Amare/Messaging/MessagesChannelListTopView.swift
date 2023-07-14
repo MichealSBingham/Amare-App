@@ -78,6 +78,7 @@ struct SearchBar: View, KeyboardReadable {
 	var body: some View {
 		HStack {
 			TextField("Search", text: $text)
+                
 				.padding(8)
 				.padding(.leading, 8)
 				.padding(.horizontal, 24)

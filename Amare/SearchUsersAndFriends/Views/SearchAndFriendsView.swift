@@ -10,129 +10,86 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 import Firebase
 
-class SearchAndFriendsViewModel: ObservableObject {
-    
-    
-    
-    @Published var friendRequests: [FriendRequest] =  []
-    @Published var error: Error?
-    
-    
-    // Whether we are displaying this data in preview or not
-    var inPreview: Bool = false
-    
-    
-    private var friendRequestsListener: ListenerRegistration?
-    
-    
-    init(inPreview: Bool = false) {
-            // Retrieve the current signed-in user's ID from Firebase Authentication
-            
-        if let id = Auth.auth().currentUser?.uid {
-            self.error = nil
-            fetchFriendRequests(for: id, inPreview: inPreview)
-        } else {
-            self.error = AccountError.notSignedIn
-        }
-       
-        
-        }
-    
-    
-    deinit {
-            friendRequestsListener?.remove()
-        }
-    
-    
-    func fetchFriendRequests(for userId: String, inPreview: Bool = false) {
-         FirestoreService.shared.getAllFriendRequests(for: userId, inPreview: inPreview) {  result in
-                switch result {
-                case .success(let friendRequests):
-                    self.error = nil
-                    DispatchQueue.main.async {
-                        self.friendRequests = friendRequests
-                    }
-                case .failure(let error):
-                    self.error = error
-                    print("Failed to fetch friend requests: \(error)")
-                }
-            }
-        }
-    
-    
-    
-    
-   
-    
-  /*  func searchUsers(matching prefix: String) {
-        FirestoreService.shared.searchUsers(matching: prefix) { result in
-            switch result {
-            case .success(let (users, notables)):
-                self.error = nil
-                DispatchQueue.main.async {
-                                withAnimation {
-                                    self.users = users
-                                    self.notables = notables
-                                }
-                            }
-            case .failure(let error):
-                print("Failed to search users: \(error.localizedDescription)")
-                self.error = error
-                DispatchQueue.main.async {
-                                withAnimation {
-                                    self.users = []
-                                    self.notables = []
-                                }
-                            }
-            }
-        }
-    } */
-}
+
 
 /// View that displays `FriendRequest`s, `Friend`s, `Suggestions`
 struct SearchAndFriendsView: View {
-    @State private var searchText = ""
+    
     @StateObject var dataModel = SearchAndFriendsViewModel(inPreview: true)
     
+    @State private var searchText = ""
     
-    var req = FriendRequest.randomList(count: 59)
+    @State var segmentationSelection : UserTypeSection = .all
+    
+    
+    
+    
     var body: some View {
         
         NavigationView{
             
-            
-            
-            ScrollView{
+            VStack{
                 
-                ForEach(dataModel.friendRequests) { request in
-                    /*@START_MENU_TOKEN@*/Text(request.name)/*@END_MENU_TOKEN@*/
-                }
-            }
+                SegmentedMenuView(segmentationSelection: $segmentationSelection)
+                
+                if segmentationSelection == .all{
+                    
+                    List(dataModel.friendRequests) { request in
                         
-            /*
-            List {
-                
-                Section("Friend Requests", content: {
-                    ForEach(req, id: \.id) { user in
-                        Text("\(user.name)")
+                        HStack{
+                            
+                            ProfileImageView(profile_image_url: .constant(request.profileImageURL), size: 100)
+                                
+                                
+                            VStack{
+                                Text(request.name)
+                                    .font(.headline.bold())
+                                    .padding()
+                             
+                            }
+                            
+                            
+                            Spacer()
+                            
+                            
+                        }
+                        
                     }
-                })
+                    .listSectionSeparator(.hidden)
+                   
+                }
                 
-                /*
-                Section("Usernames", content: {
-                    ForEach(searchViewModel.users, id: \.documentID) { user in
-                        Text(user.get("username") as? String ?? "")
+                if segmentationSelection == .friends{
+                    
+                    List(dataModel.friendRequests) { request in
+                        Text(request.name)
                     }
-                })
-                Section("Notables", content: {
-                    ForEach(searchViewModel.notables, id: \.documentID) { notable in
-                        Text(notable.get("username") as? String ?? "")
-                    }
-                })
+                    .listSectionSeparator(.hidden)
+                }
                 
-                */
+                if segmentationSelection == .requests{
+                    
+                    List(dataModel.friendRequests) { request in
+                        Text(request.name)
+                    }
+                    .listSectionSeparator(.hidden)
+                }
+                
+                if segmentationSelection == .custom{
+                    
+                    List(dataModel.friendRequests) { request in
+                        Text(request.name)
+                    }
+                    .listSectionSeparator(.hidden)
+                }
+                
+                
             }
-             */
+            
+        
+            
+                        
+           
             .padding()
             .searchable(text: $searchText) {
                 // If you want to provide suggestions as user types in the search bar, you can add them here.
@@ -152,6 +109,10 @@ struct SearchAndFriendsView_Previews: PreviewProvider {
             
     }
 }
+
+
+
+
 
 
 import SwiftUI
@@ -216,3 +177,4 @@ struct ContentView4_Previews: PreviewProvider {
         ContentView()
     }
 }
+

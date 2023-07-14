@@ -12,8 +12,13 @@ import Foundation
 import SwiftUI
 import Combine
 import MapKit
+import FirebaseFirestore
+import Firebase
+
 
 class OnboardingViewModel: ObservableObject{
+    
+    
     
     @Published var currentPage: OnboardingScreen = .phoneNumber
 	
@@ -34,6 +39,10 @@ class OnboardingViewModel: ObservableObject{
 	@Published var homeCity: MKPlacemark?
 	
 	@Published var gender: Sex = .none
+    
+    @Published var residence: MKPlacemark?
+    
+    @Published var profileImageUrl: String = URL.randomProfileImageURL(isMale: Bool.random())!.absoluteString
 	
 	
 	@Published var friendshipSelected: Bool = false
@@ -71,7 +80,63 @@ class OnboardingViewModel: ObservableObject{
             }
         }
         
-    
+    func createUser(forUser userID: String, completion: @escaping (Result<Void, Error>) -> Void)  {
+        
+        // just making sure we have the user data saved otherwise the user needs to be taking back to the sign up onboarding ..
+        guard let name = name,
+                let knowsBirthTime = knowsBirthTime,
+                let tz = homeCityTimeZone,
+              let homeCity = homeCity else  {
+            
+            completion(.failure(OnboardingError.incompleteData))
+            return
+        }
+        
+        guard !username.isEmpty &&  gender != .none else {
+            completion(.failure(OnboardingError.incompleteData))
+            return
+        }
+        
+        let ht = Place(latitude: homeCity.coordinate.latitude, longitude: homeCity.coordinate.longitude, city: homeCity.city, state: homeCity.state, country: homeCity.country, geohash: homeCity.geohash)
+        
+        let  bd = (knowsBirthTime ?  birthday.combineWithTime(time: birthtime, in: tz) :  birthday.setToNoon(timeZone: tz) )
+        
+        if bd == nil { completion(.failure(OnboardingError.dateError))}
+        
+      
+        
+        let bday = Birthday(timestamp: Timestamp(date: bd!), month: bd!.month(), day: bd!.day(), year: bd!.year())
+        
+       
+        let rs = Place(latitude: homeCity.coordinate.latitude, longitude: homeCity.coordinate.longitude, city: homeCity.city, state: homeCity.state, country: homeCity.country, geohash: homeCity.geohash)
+        
+        
+        
+        
+        
+        
+        
+        
+    // Now create the new user
+        
+        
+        var newUser = AppUser(id: userID, name: name, hometown: ht, birthday: bday, knownBirthTime: knowsBirthTime, residence: rs, profileImageUrl: profileImageUrl, images: [], sex: gender, orientation: [], username: username, phoneNumber: phoneNumber ?? "", reasonsForUse: [])
+        
+        
+        FirestoreService.shared.setOnboardingData(forUser: newUser) { result in
+            
+            switch result {
+            case .success(let success):
+                completion(.success(()))
+            case .failure(let err):
+                self.error = err
+                completion(.failure(err))
+            }
+        }
+        
+                
+                
+    }
     
       
     

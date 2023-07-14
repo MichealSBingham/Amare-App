@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+
+enum OnboardingError: Error{
+    case incompleteData
+    case dateError
+}

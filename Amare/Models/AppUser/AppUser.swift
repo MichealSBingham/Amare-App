@@ -6,13 +6,13 @@
 //
 
 import Foundation
-import FirebaseFirestore
+import FirebaseFirestoreSwift
 import Firebase
 import SwiftUI
 
-/*
-struct AppUser: Codable/*, Identifiable*/ {
-	//@DocumentID public var id: String?
+
+struct AppUser: Codable, Identifiable {
+	@DocumentID public var id: String?
 	
 	var name: String
 	var hometown: Place
@@ -53,4 +53,4 @@ struct AppUser: Codable/*, Identifiable*/ {
 		case friendship, dating, selfDiscovery
 	}
 }
-*/
+

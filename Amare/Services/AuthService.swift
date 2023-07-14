@@ -8,6 +8,7 @@
 import Foundation
 import Firebase
 import Combine
+import FirebaseFirestore
 
 class AuthService: ObservableObject {
 	private var authStateDidChangeListenerHandle: AuthStateDidChangeListenerHandle?
@@ -33,6 +34,12 @@ class AuthService: ObservableObject {
 		
 		authStateDidChangeListenerHandle = Auth.auth().addStateDidChangeListener({ (auth, user) in
 			self.user = user
+            if let user = user {
+                // check if onboarding complete
+                self.checkOnboardingStatus(for: user.uid)
+            } else {
+                self.isOnboardingComplete = false
+            }
 			
 		})
 	}
@@ -114,7 +121,17 @@ class AuthService: ObservableObject {
 	}
 
 	
-	
+    func checkOnboardingStatus(for userID: String) {
+            let docRef = Firestore.firestore().collection("users").document(userID)
+            
+            docRef.getDocument { (document, error) in
+                if let document = document, document.exists {
+                    self.isOnboardingComplete = true
+                } else {
+                    self.isOnboardingComplete = false
+                }
+            }
+        }
 	
 	
 	func mapAuthErrorToAppError(_ error: AuthErrorCode) -> Error {

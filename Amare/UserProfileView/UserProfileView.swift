@@ -557,7 +557,8 @@ struct UserProfileView_Previews: PreviewProvider {
 	
     static var previews: some View {
 		UserProfileView()
-			
+            .environmentObject(UserDataModel())
+            .previewDevice(PreviewDevice(rawValue: "iPhone 14 Pro Max"))
     }
 }
 

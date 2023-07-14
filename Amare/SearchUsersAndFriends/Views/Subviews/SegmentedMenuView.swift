@@ -8,13 +8,28 @@
 import SwiftUI
 
 struct SegmentedMenuView: View {
+    @Binding var segmentationSelection: UserTypeSection
+    
+    let choices: [UserTypeSection] = [.all, .friends, .requests, .custom]
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        
+        
+      
+            Picker("", selection: $segmentationSelection) {
+                ForEach(choices, id: \.self) { option in
+                    Text(option.rawValue)
+                }
+            }.pickerStyle(.segmented)
+            
+        
+        
     }
 }
 
+
 struct SegmentedMenuView_Previews: PreviewProvider {
     static var previews: some View {
-        SegmentedMenuView()
+        SegmentedMenuView(segmentationSelection: .constant(.all))
     }
 }

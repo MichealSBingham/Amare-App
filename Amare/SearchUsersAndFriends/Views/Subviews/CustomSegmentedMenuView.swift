@@ -8,13 +8,43 @@
 import SwiftUI
 
 struct CustomSegmentedMenuView: View {
+    @Binding var segmentationSelection: UserTypeSection
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ScrollView(.horizontal, showsIndicators: false) {
+            LazyHStack(spacing: 10) {
+                ForEach(UserTypeSection.allCases, id: \.self) { option in
+                    Button(action: {
+                        segmentationSelection = option
+                    }) {
+                        Text(option.rawValue)
+                            .foregroundColor(option == segmentationSelection ? .white : .primary)
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 8)
+                            .background(option == segmentationSelection ? Color.blue : Color.gray)
+                            .cornerRadius(10)
+                    }
+                }
+            }
+        }
+        .padding(.horizontal)
     }
 }
 
+
+
+
+
+
+
 struct CustomSegmentedMenuView_Previews: PreviewProvider {
+    @State static  var selection: UserTypeSection = .all
+
+    
     static var previews: some View {
-        CustomSegmentedMenuView()
+            
+            CustomSegmentedMenuView(segmentationSelection: $selection)
+            
+        
     }
 }

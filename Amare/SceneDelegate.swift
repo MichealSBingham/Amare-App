@@ -55,17 +55,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
        
         
-	
+        // TESTING //
+        //var helper = NearbyInteractionHelper()
 		
 	
-		//let contentView = ContentView().environmentObject(authService) // Pass authService as environment object
+		let contentView = ContentView().environmentObject(authService) // Pass authService as environment object
 		
-		// TESTING //
-		var helper = NearbyInteractionHelper()
 		
-		let example = AmareUser.random() //AmareUser(id: "3432", name: "Micheal")
-		let contentView = FindNearbyUserView(user: .constant(example), blindMode: false)
-		.environmentObject(helper)
+		
+		//let example = AmareUser.random() //AmareUser(id: "3432", name: "Micheal")
+	//	let contentView = FindNearbyUserView(user: .constant(example), blindMode: false)
+		//.environmentObject(helper)
 		.environmentObject(authService)
 		.environmentObject(BackgroundViewModel())
 		

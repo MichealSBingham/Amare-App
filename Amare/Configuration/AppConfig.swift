@@ -12,6 +12,7 @@ enum AppEnvironment {
     case production
     case development
     case testing
+    case preview 
 }
 
 struct AppConfig {

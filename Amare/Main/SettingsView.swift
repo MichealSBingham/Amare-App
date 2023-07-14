@@ -10,7 +10,7 @@ import NavigationStack
 
 struct SettingsView: View {
     
-    @EnvironmentObject private var account: Account
+    //@EnvironmentObject private var account: Account
     //@EnvironmentObject private var //navigationStack: NavigationStack
     var defaultImage: String = testImages[0]
     
@@ -46,7 +46,7 @@ struct SettingsView: View {
                                             
                                             Spacer()
                                             
-                                            ImageFromUrl(account.data?.profile_image_url ?? defaultImage)
+                                            ImageFromUrl( defaultImage)
                                                 .frame(width: 100, height: 100)
                                                 .clipShape(Circle())
                                                 .shadow(radius: 10)
@@ -55,7 +55,7 @@ struct SettingsView: View {
                                             Spacer()
                                         }
                                         
-                                        Text("\(account.data?.name ?? "Micheal S. Bingham")")
+                                        Text("Micheal S. Bingham")
                                             .lineLimit(1)
                                             .font(.title)
                                             .minimumScaleFactor(0.01)
@@ -130,7 +130,7 @@ struct SettingsView: View {
         }
                 
                 Button("Sign Out") {
-                    account.signOut { error in /* goBackToSignInRootView()*/ }
+                  //  account.signOut { error in /* goBackToSignInRootView()*/ }
                 }.onReceive(NotificationCenter.default.publisher(for: NSNotification.logout)) { _ in
                 
                   //  goBackToSignInRootView()

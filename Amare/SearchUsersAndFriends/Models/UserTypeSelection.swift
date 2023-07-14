@@ -6,3 +6,11 @@
 //
 
 import Foundation
+
+enum UserTypeSection : String, CaseIterable {
+    case all = "All"
+    case friends = "Friends"
+    case requests = "Requests"
+    case suggestions = "Suggestions" // perhaps show this up top like you do for 'nearby' users instead of a segment control
+    case custom = "Custom"
+}

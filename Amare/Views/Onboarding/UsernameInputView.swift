@@ -12,11 +12,14 @@ struct UsernameInputView: View {
     
     @EnvironmentObject var model: OnboardingViewModel
     
+    @EnvironmentObject var authService: AuthService
+
+    
     //@State var username: String = ""
 	
 	
-	//@State var showErrorPopup: Bool = false
-	@State var errorMesssage: String = ""
+    @State var someErrorOccured: Bool = false
+	@State var errorMessage: String = ""
     
     enum FirstResponders: Int {
             case username
@@ -44,6 +47,7 @@ struct UsernameInputView: View {
                 //.lineLimit(1)
                 //.minimumScaleFactor(0.01)
                 .padding()
+                .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(errorMessage)) })
             
        
             
@@ -83,6 +87,28 @@ struct UsernameInputView: View {
             
 			NextButtonView {
 				
+                
+                guard let id = authService.user?.uid else {
+                    
+                    self.errorMessage = "You are not signed in. Quit the app."
+                    self.someErrorOccured = true
+                    return
+                }
+                model.createUser(forUser: id) { result in
+                    
+                    switch result{
+                    case .success():
+                        withAnimation{
+                            authService.isOnboardingComplete = true
+                            print("Onboarding is finished should go to home screen now.")
+                        }
+                        //model.error = err
+                    case .failure(let error):
+                        self.errorMessage = error.localizedDescription
+                        self.someErrorOccured = true
+
+                    }
+                }
 			}
 			.opacity(model.isUsernameAvailable ?? false ? 1: 0.5)
 			.disabled(!(model.isUsernameAvailable ?? false))
@@ -126,6 +152,31 @@ struct UsernameInputView: View {
                                     // Username is not available so show a message saying so
                                     return
                                 }
+            
+            
+            guard let id = authService.user?.uid else {
+                
+                self.errorMessage = "You are not signed in. Quit the app."
+                self.someErrorOccured = true
+                return
+            }
+            
+            
+            model.createUser(forUser: id) { result in
+                
+                switch result{
+                case .success():
+                    withAnimation{
+                        authService.isOnboardingComplete = true
+                        print("Onboarding is finished should go to home screen now.")
+                    }
+                    //model.error = err
+                case .failure(let error):
+                    self.errorMessage = error.localizedDescription
+                    self.someErrorOccured = true
+
+                }
+            }
                                 
                                 
                                 
