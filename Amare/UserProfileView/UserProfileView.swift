@@ -15,7 +15,7 @@ var randomPlanet: Planet = Planet(name: .Sun, angle: 17.82, element: .water, onC
 class UserProfileDataModel: ObservableObject{
 	
 }
-
+//burning cash like it's lit on fire
 struct UserProfileView: View {
 	
 	@EnvironmentObject  var dataModel: UserDataModel
