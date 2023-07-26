@@ -15,8 +15,8 @@ enum OnboardingScreen: CaseIterable{
 	case hometown
 	case birthday
 	case birthtime
+	case genderSelection
+	case intention
     case username
-    case intention
-    case genderSelection
     
 }

@@ -11,6 +11,8 @@ import Firebase
 import StreamChat
 import StreamChatSwiftUI
 
+var peopleImages: [String] = ["https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cG9ydHJhaXR8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60", "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTF8fHBvcnRyYWl0fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60", "https://images.unsplash.com/photo-1504257432389-52343af06ae3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fHBvcnRyYWl0fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60", "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTR8fHBvcnRyYWl0fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60", "https://images.unsplash.com/photo-1528892952291-009c663ce843?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjZ8fHBvcnRyYWl0fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60", "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mzd8fHBvcnRyYWl0fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60"]
+
 ///  We extend this so that we can use it outside of didFinishLaunching
 extension ChatClient {
 	static var shared: ChatClient!
@@ -154,92 +156,7 @@ extension NSNotification {
 }
 
 
-extension Date {
-    func get(_ components: Calendar.Component..., calendar: Calendar = Calendar.current) -> DateComponents {
-        return calendar.dateComponents(Set(components), from: self)
-    }
 
-    func get(_ component: Calendar.Component, calendar: Calendar = Calendar.current) -> Int {
-        return calendar.component(component, from: self)
-    }
-    
-    /// Returns the day of the date
-    func day() -> Int {
-        return self.get(.day, .month, .year).day ?? 0
-    }
-    
-    /// Returns the year of the date
-    func year() -> Int {
-        return self.get(.day, .month, .year).year ?? 0
-    }
-    
-    /// Returns the month of a date object. Or an empty string if something's wrong or no date given.
-    func month() -> String {
-        
-        
-        switch self.get(.day, .month, .year).month {
-            
-        case 1:
-            return "January"
-        case 2:
-            return "February"
-        case 3:
-            return "March"
-        case 4:
-            return "April"
-        case 5:
-            return "May"
-        case 6:
-            return "June"
-        case 7:
-            return "July"
-        case 8:
-            return "August"
-        case 9:
-            return "September"
-        case 10:
-            return "October"
-        case 11:
-            return "November"
-        case 12:
-            return "December"
-        default:
-            return ""
-            
-        }
-    }
-    
-    /// Returns proper date to ensure the time zone is correct. Pass in a time zone and it'll return the proper UTC time
-    /// - Warning: This is Broken! Do not use this..
-    func toUTC(from localTimeZone: TimeZone) -> Date {
-        
-        
-                let timezone = localTimeZone
-               let seconds = -TimeInterval(timezone.secondsFromGMT(for: self))
-               return Date(timeInterval: seconds, since: self)
-    }
-    
-    
-    /// Returns the proper Date object in consideration of its time zone
-    func corrected(by localTimeZone: TimeZone) -> Date {
-        
-        // 1) Get the current TimeZone's seconds from GMT. Since I am in Chicago this will be: 60*60*5 (18000)
-        let timezoneOffset =  localTimeZone.secondsFromGMT()
-         
-        // 2) Get the current date (GMT) in seconds since 1970. Epoch datetime.
-        let epochDate = self.timeIntervalSince1970
-         
-        // 3) Perform a calculation with timezoneOffset + epochDate to get the total seconds for the
-        //    local date since 1970.
-        //    This may look a bit strange, but since timezoneOffset is given as -18000.0, adding epochDate and timezoneOffset
-        //    calculates correctly.
-        let timezoneEpochOffset = (epochDate + Double(timezoneOffset))
-         
-        // 4) Finally, create a date using the seconds offset since 1970 for the local date.
-        return Date(timeIntervalSince1970: timezoneEpochOffset)
-    }
-    
-}
 
 
 extension Timestamp{

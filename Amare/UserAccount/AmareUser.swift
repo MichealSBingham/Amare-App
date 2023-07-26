@@ -28,7 +28,7 @@ public struct AmareUser: Codable, Equatable, Hashable, Identifiable{
     private(set) var images: [String]? = nil
     var sex: Sex? = nil  // male , female, non-binary, transfemale, transmale || or something else the user enters as a custom gender
     var orientation: [Sex]? = nil // M, F, MF (male and female), or A (everything)
-    var natal_chart: NatalChart? = nil
+  //  var natal_chart: NatalChart? = nil
     var username: String? = nil
     /// Default true, is only false if this isn't a real user that has downloaded the app. i.e., custom user profile that a user has added or mock data. 
     var isReal: Bool? = true

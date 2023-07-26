@@ -66,7 +66,7 @@ struct ProfileImageView: View {
 					// .frame(width: 100, height: 100)
 					 .shadow(radius: 15)
 					 .frame(width: size, height: size)
-				/*
+				
 					 .scaleEffect(condition ? 0.9 : 1.0)
 					 .animation(animation)
 					 .onAppear {
@@ -78,7 +78,8 @@ struct ProfileImageView: View {
 							 }
 						 }
 					 }
-					 */
+                
+					 
 					 
 				
 			}

@@ -15,7 +15,7 @@ struct MessagesChannelListTopView: View {
 	
 	@Binding var searchText: String
 	
-	@EnvironmentObject var userData: UserDataModel
+//	@EnvironmentObject var userData: UserDataModel
 	
     var body: some View {
 		VStack{
@@ -52,15 +52,15 @@ struct MessagesChannelListTopView: View {
 
 struct MessagesChannelListTopView_Previews: PreviewProvider {
 	
-	static var userData = UserDataModel()
+	//static var userData = UserDataModel()
     static var previews: some View {
 		
 		MessagesChannelListTopView(searchText: .constant("@hello"))
 			.onAppear(perform: {
-				userData.userData = AmareUser.random()
+			//	userData.userData = AmareUser.random()
 			})
 			
-			.environmentObject(userData)
+			//.environmentObject(userData)
 		
     }
 }
@@ -78,6 +78,7 @@ struct SearchBar: View, KeyboardReadable {
 	var body: some View {
 		HStack {
 			TextField("Search", text: $text)
+                
 				.padding(8)
 				.padding(.leading, 8)
 				.padding(.horizontal, 24)

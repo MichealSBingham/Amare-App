@@ -11,8 +11,7 @@ import FirebaseAuth
 import URLImage
 import URLImageStore
 import PushNotifications
-import GooglePlaces
-import EasyFirebase
+
 import StreamChat
 import StreamChatSwiftUI
 import UIKit
@@ -108,32 +107,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
           
 		//-MARK: Configuing Google Places API
       //  GMSServices.provideAPIKey("YOUR_API_KEY")
-        GMSPlacesClient.provideAPIKey("AIzaSyDezwobB5BsaO8E8RuuBA715EIc5CeZSCc")
+            // GMSPlacesClient.provideAPIKey("AIzaSyDezwobB5BsaO8E8RuuBA715EIc5CeZSCc")
         
 		
 		//-MARK: Configuring Beams Push Notification API
+        
         self.beamsClient.start(instanceId: "ac1386a2-eac8-4f11-aaab-cad17174260a")
                 self.beamsClient.registerForRemoteNotifications()
         try? self.beamsClient.addDeviceInterest(interest: "hello")
         try? self.beamsClient.addDeviceInterest(interest: "debug-hello")
+         
 		
 		
 		//-MARK: Configuring Firebase
-     //   FirebaseApp.configure()
-		EasyFirebase.configure()
+       FirebaseApp.configure()
+		
 		
 		
 		//MARK: Customizing Stream Chat Messaging  Design
 		
 		
-		
+		var mycolors = [
+			Color(UIColor(red: 1.00, green: 0.01, blue: 0.40, alpha: 1.00)),
+			Color(UIColor(red: 0.94, green: 0.16, blue: 0.77, alpha: 1.00))
+		]
 			var colors = ColorPalette()
 			//let streamBlue = UIColor(red: 0, green: 108.0 / 255.0, blue: 255.0 / 255.0, alpha: 1)
 			//colors.tintColor = Color(streamBlue)
-			let amarePink = UIColor(Background().colors.first!)
-			colors.tintColor = Background().colors.first!
+			let amarePink = UIColor(mycolors.first!)
+			colors.tintColor = mycolors.first!
 		var colorsToUse: [UIColor] = []
-		for color in Background().colors{
+		for color in mycolors{
 			colorsToUse.append(color.uiColor())
 		}
 		colors.messageOtherUserBackground = colorsToUse

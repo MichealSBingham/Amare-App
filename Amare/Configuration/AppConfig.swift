@@ -12,10 +12,11 @@ enum AppEnvironment {
     case production
     case development
     case testing
+    case preview 
 }
 
 struct AppConfig {
-    static var environment: AppEnvironment = .development // default to production
+    static var environment: AppEnvironment = .testing // default to production
     // You can add more properties as per your need
 }
 

@@ -9,7 +9,7 @@ import Foundation
 import CoreLocation
 import MapKit
 import Contacts
-import GeoFire
+//import GeoFire
 import Combine
 
 
@@ -75,7 +75,9 @@ extension CLPlacemark {
     }
     
     /// Returns the Geohash string of the location
-    var geohash: String? { return GFUtils.geoHash(forLocation: CLLocationCoordinate2D(latitude: self.location?.coordinate.latitude ?? 0, longitude: self.location?.coordinate.longitude ?? 0) ) }
+    var geohash: String  { return "FIX THIS"
+        
+    }/* { return GFUtils.geoHash(forLocation: CLLocationCoordinate2D(latitude: self.location?.coordinate.latitude ?? 0, longitude: self.location?.coordinate.longitude ?? 0) ) } */
 }
 
 extension CLLocation {

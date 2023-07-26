@@ -41,7 +41,7 @@ struct BirthtimeInputView: View {
 			
 			
 			DatePicker("", selection: $model.birthtime,  displayedComponents: .hourAndMinute)
-				.environment(\.timeZone, model.homeCityTimeZone!)
+				.environment(\.timeZone, model.homeCityTimeZone ?? .current)
 				.datePickerStyle(.wheel)
 							.padding()
 							.labelsHidden()
