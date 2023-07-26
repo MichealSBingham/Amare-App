@@ -25,8 +25,7 @@ public struct InputVerificationCode: View {
 	@EnvironmentObject var authService: AuthService
 
     
-    /// The current user's account
-    @State private var account: Account = Account()
+    
     
     
     var maxDigits: Int = 6
@@ -525,7 +524,7 @@ struct InputVerificationCode_Previews: PreviewProvider {
             Background(timer: timer)//.opacity(0.80)
 				.environmentObject(BackgroundViewModel())
             InputVerificationCode()
-                .environmentObject(Account())
+                
 				.environmentObject(BackgroundViewModel())
 				.environmentObject(AuthService.shared)
 				.environmentObject(OnboardingViewModel())

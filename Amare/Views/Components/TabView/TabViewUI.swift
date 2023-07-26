@@ -125,7 +125,7 @@ struct FloatingTabbar : View {
                             
                             ProfileImageView(profile_image_url: .constant(peopleImages.first!), size: CGFloat(25))
                             
-                                
+                        
                         }
                         
                         

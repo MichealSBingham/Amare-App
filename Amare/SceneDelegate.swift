@@ -7,10 +7,10 @@
 
 import SwiftUI
 import UIKit
-import NavigationStack
+//import NavigationStack
 import URLImage
 import URLImageStore
-import MultipeerKit
+//import MultipeerKit
 import Firebase
 import StreamChat
 import StreamChatSwiftUI
@@ -22,7 +22,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 	
 	
     //var account: Account = Account()
-    
+    /*
     private lazy var transceiver: MultipeerTransceiver = {
             var config = MultipeerConfiguration.default
             config.serviceType = "Amare"
@@ -41,7 +41,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private lazy var dataSource: MultipeerDataSource = {
         MultipeerDataSource(transceiver: transceiver)
     }()
-    
+    */
     
    
     
@@ -51,7 +51,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let urlImageService = URLImageService(fileStore: nil, inMemoryStore: URLImageInMemoryStore())
         
-        transceiver.resume()
+      //  transceiver.resume()
         
        
         

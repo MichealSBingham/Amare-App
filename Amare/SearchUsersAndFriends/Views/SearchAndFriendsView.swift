@@ -15,7 +15,7 @@ import Firebase
 /// View that displays `FriendRequest`s, `Friend`s, `Suggestions`
 struct SearchAndFriendsView: View {
     
-    @StateObject var dataModel = SearchAndFriendsViewModel(inPreview: true)
+    @StateObject var dataModel = SearchAndFriendsViewModel(inPreview: false)
     
     @State private var searchText = ""
     
@@ -34,37 +34,23 @@ struct SearchAndFriendsView: View {
                 
                 if segmentationSelection == .all{
                     
-                    List(dataModel.friendRequests) { request in
+                    List(dataModel.all) { user in
                         
-                        HStack{
-                            
-                            ProfileImageView(profile_image_url: .constant(request.profileImageURL), size: 100)
-                                
-                                
-                            VStack{
-                                Text(request.name)
-                                    .font(.headline.bold())
-                                    .padding()
-                             
-                            }
-                            
-                            
-                            Spacer()
-                            
-                            
-                        }
+                        Text(user.username)
+                        
                         
                     }
-                    .listSectionSeparator(.hidden)
+                    
+                    
                    
                 }
                 
                 if segmentationSelection == .friends{
                     
-                    List(dataModel.friendRequests) { request in
-                        Text(request.name)
+                    List(dataModel.friends) { friends in
+                        Text(friends.name)
                     }
-                    .listSectionSeparator(.hidden)
+                    
                 }
                 
                 if segmentationSelection == .requests{
@@ -72,7 +58,7 @@ struct SearchAndFriendsView: View {
                     List(dataModel.friendRequests) { request in
                         Text(request.name)
                     }
-                    .listSectionSeparator(.hidden)
+                    
                 }
                 
                 if segmentationSelection == .custom{
@@ -80,11 +66,14 @@ struct SearchAndFriendsView: View {
                     List(dataModel.friendRequests) { request in
                         Text(request.name)
                     }
-                    .listSectionSeparator(.hidden)
+                    
                 }
                 
                 
             }
+            .scrollContentBackground(.hidden)
+            
+
             
         
             
@@ -93,8 +82,26 @@ struct SearchAndFriendsView: View {
             .padding()
             .searchable(text: $searchText) {
                 // If you want to provide suggestions as user types in the search bar, you can add them here.
+                
             }
-            
+            .onChange(of: searchText){ text in
+                
+                switch segmentationSelection {
+                case .all:
+                    dataModel.searchUsers(matching: text)
+                case .friends:
+                    if let id = Auth.auth().currentUser?.uid{
+                        dataModel.fetchFriendRequests(for: id)
+                    }
+                    
+                case .requests:
+                    break
+                case .suggestions:
+                    break
+                case .custom:
+                    break
+                }
+            }
             
             .navigationTitle(Text("Friends"))
         }
@@ -104,8 +111,11 @@ struct SearchAndFriendsView: View {
 
 struct SearchAndFriendsView_Previews: PreviewProvider {
     static var previews: some View {
+        
+        
         SearchAndFriendsView()
-            .environmentObject(SearchAndFriendsViewModel(inPreview: true))
+            .environmentObject(SearchAndFriendsViewModel(inPreview: true, req: FriendRequest.randomList(count: 10)))
+            .environmentObject(AuthService.shared)
             
     }
 }
@@ -172,9 +182,4 @@ struct ContentView4: View {
     }
 }
 
-struct ContentView4_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-}
 

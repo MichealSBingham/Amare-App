@@ -17,19 +17,15 @@ struct HomeView: View {
 	@EnvironmentObject var viewModel: OnboardingViewModel
 	
     
-    @State var tabSelection: Int = 2
+    @State var tabSelection: Int = 3
 	
 	
     
-    ///  Contains the data model that represents all of the user data for the signed in user
-    @StateObject private var mainViewModel: UserDataModel = UserDataModel()
     
-    /// Contains data model for obtaining nearby users
-    /// TODO:  seperate this from `testViewModel` to make more light weight
-    @StateObject private var nearbyUsersModel: TestViewModel = TestViewModel()
     
-    @ObservedObject private var account: Account = Account()
+   
     
+
 	
 	
     var body: some View {
@@ -59,6 +55,70 @@ struct HomeView: View {
 			
 		} */
         
+        
+        TabView(selection: $tabSelection){
+            
+            SearchAndFriendsView()
+                .tag(0)
+                .tabItem {
+                    
+                    VStack{
+                        
+                        Image(self.tabSelection == 0 ? "TabView/search2" : "TabView/search")
+                            .resizable()
+                            .frame(width: 25, height: 25)
+                          //  .preferredColorScheme(.dark)
+                    }
+                    
+                }
+            
+            
+            ChatChannelListView(viewFactory: CustomViewFactory(), title: "DMs")
+                    .navigationTitle("DMs")
+                    .tag(1)
+                    .tabItem {
+                        
+                        VStack{
+                            
+                            Image(self.tabSelection == 1 ? "TabView/messagesIcon2" : "TabView/messagesIcon")
+                                .resizable()
+                                .frame(width: 25, height: 25)
+                              //  .preferredColorScheme(.dark)
+                        }
+                        
+                    }
+                
+            
+            
+        
+            Text("Sign out")
+                .onTapGesture {
+                    authService.signOut()
+                    withAnimation{
+                        background.isSolidColor = false
+                    }
+                   
+                }
+                .tag(3)
+                .tabItem {
+                    
+                    VStack{
+                        
+                        Image(self.tabSelection == 2 ? "TabView/HomeIcon2" : "TabView/HomeIcon")
+                            .resizable()
+                            .frame(width: 25, height: 25)
+                          //  .preferredColorScheme(.dark)
+                    }
+                    
+                }
+            
+                
+            
+            
+        }
+        
+        
+        /*
         ZStack{
             
             switch tabSelection {
@@ -68,7 +128,14 @@ struct HomeView: View {
                     
                    
             case 1:
-                DiscoverNearbyView()
+                Text("Sign out")
+                    .onTapGesture {
+                        authService.signOut()
+                        withAnimation{
+                            background.isSolidColor = false
+                        }
+                       
+                    }
                     .ignoresSafeArea()
                     
                    
@@ -86,7 +153,7 @@ struct HomeView: View {
                     
                // }
             case 4:
-                SettingsView()
+               EmptyView()
                     .ignoresSafeArea()
             default:
                Background()
@@ -103,10 +170,10 @@ struct HomeView: View {
                 
             }
         }
+        */
 		.environmentObject(authService)
 		.environmentObject(background)
 		.environmentObject(viewModel)
-        .environmentObject(mainViewModel)
 		
 		
 	
@@ -121,6 +188,5 @@ struct HomeView_Previews: PreviewProvider {
 			.environmentObject(AuthService.shared)
 			.environmentObject(BackgroundViewModel())
 			.environmentObject(OnboardingViewModel())
-            .environmentObject(Account())
     }
 }

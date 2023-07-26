@@ -14,8 +14,9 @@ import Firebase
 class SearchAndFriendsViewModel: ObservableObject {
     
     
-    
+    @Published var all: [SearchedUser] =  []
     @Published var friendRequests: [FriendRequest] =  []
+    @Published var friends: [FriendRequest] =  []
     @Published var error: Error?
     
     
@@ -26,9 +27,11 @@ class SearchAndFriendsViewModel: ObservableObject {
     private var friendRequestsListener: ListenerRegistration?
     
     
-    init(inPreview: Bool = false) {
+    init(inPreview: Bool = false, req: [FriendRequest] = []) {
             // Retrieve the current signed-in user's ID from Firebase Authentication
             
+        self.friendRequests = req
+        
         if let id = Auth.auth().currentUser?.uid {
             self.error = nil
             fetchFriendRequests(for: id, inPreview: inPreview)
@@ -64,16 +67,16 @@ class SearchAndFriendsViewModel: ObservableObject {
     
     
    
-    /*
+    
     func searchUsers(matching prefix: String) {
+        guard !prefix.isEmpty else { self.all = []; return }
         FirestoreService.shared.searchUsers(matching: prefix) { result in
             switch result {
             case .success(let (users, notables)):
                 self.error = nil
                 DispatchQueue.main.async {
                                 withAnimation {
-                                    self.users = users
-                                    self.notables = notables
+                                    self.all = users + notables
                                 }
                             }
             case .failure(let error):
@@ -81,12 +84,11 @@ class SearchAndFriendsViewModel: ObservableObject {
                 self.error = error
                 DispatchQueue.main.async {
                                 withAnimation {
-                                    self.users = []
-                                    self.notables = []
+                                    self.all = []
                                 }
                             }
             }
         }
     }
-     */
+     
 }

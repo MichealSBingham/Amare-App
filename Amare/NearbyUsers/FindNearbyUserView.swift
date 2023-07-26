@@ -7,7 +7,8 @@
 
 import SwiftUI
 import NearbyInteraction
-import MultipeerKit
+//import MultipeerKit
+/*
 import EasyFirebase
 
 
@@ -1241,3 +1242,4 @@ enum NearbyUserError: Error {
 	case wrongOrientation
 }
 
+*/

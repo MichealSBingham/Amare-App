@@ -11,8 +11,7 @@ import FirebaseAuth
 import URLImage
 import URLImageStore
 import PushNotifications
-import GooglePlaces
-import EasyFirebase
+
 import StreamChat
 import StreamChatSwiftUI
 import UIKit
@@ -108,19 +107,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
           
 		//-MARK: Configuing Google Places API
       //  GMSServices.provideAPIKey("YOUR_API_KEY")
-        GMSPlacesClient.provideAPIKey("AIzaSyDezwobB5BsaO8E8RuuBA715EIc5CeZSCc")
+            // GMSPlacesClient.provideAPIKey("AIzaSyDezwobB5BsaO8E8RuuBA715EIc5CeZSCc")
         
 		
 		//-MARK: Configuring Beams Push Notification API
+        
         self.beamsClient.start(instanceId: "ac1386a2-eac8-4f11-aaab-cad17174260a")
                 self.beamsClient.registerForRemoteNotifications()
         try? self.beamsClient.addDeviceInterest(interest: "hello")
         try? self.beamsClient.addDeviceInterest(interest: "debug-hello")
+         
 		
 		
 		//-MARK: Configuring Firebase
-     //   FirebaseApp.configure()
-		EasyFirebase.configure()
+       FirebaseApp.configure()
+		
 		
 		
 		//MARK: Customizing Stream Chat Messaging  Design

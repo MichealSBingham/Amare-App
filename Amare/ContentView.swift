@@ -24,7 +24,7 @@ struct ContentView: View {
 			if authService.user != nil {
 				if authService.isOnboardingComplete {
 					HomeView()
-						.transition(.move(edge: .trailing))
+						.transition(.opacity)
 				} else {
 					OnboardingSignUpView()
                         .onAppear{
@@ -33,13 +33,16 @@ struct ContentView: View {
                             }
                             
                         }
-						.transition(.move(edge: .trailing))
+						.transition(.opacity)
 				}
 			} else {
 				SignInOrUpView()
-					.transition(.move(edge: .trailing))
+					.transition(.opacity)
                     .onAppear{
-                        
+                        withAnimation{
+                            bgModel.isSolidColor = false
+                        }
+                       
                         initialCheckDone = false
                     }
                 

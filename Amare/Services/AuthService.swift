@@ -74,9 +74,9 @@ class AuthService: ObservableObject {
 		
 		Auth.auth().signIn(with: credential) { authData, error in
 			
-			if let error = error, let authError = AuthErrorCode(rawValue: error._code) {
-				let mappedError = self.mapAuthErrorToAppError(authError)
-				completion(.failure(mappedError))
+            if let error = error/*, let authError = AuthErrorCode(error._code) */{
+				//let mappedError = self.mapAuthErrorToAppError(authError)
+				completion(.failure(error))
 			} else if let user = authData?.user {
 			
 				self.user = user
@@ -96,14 +96,9 @@ class AuthService: ObservableObject {
 			if let error = error {
 				
 				
-				//print("the error is .. \(error)")
-				if let error = AuthErrorCode(rawValue: error._code) {
-					let mappedError = self.mapAuthErrorToAppError(error)
-					completion(.failure(mappedError))
-				} else {
-					print("\n\nSome error happened, likely an unhandled error from firebase : \(error). This happened inside AuthService.sendVerificationCode()")
-					completion(.failure(GlobalError.unknown))
-				}
+			
+					completion(.failure(error))
+				
 				return
 				
 			}
@@ -133,7 +128,7 @@ class AuthService: ObservableObject {
             }
         }
 	
-	
+	/*
 	func mapAuthErrorToAppError(_ error: AuthErrorCode) -> Error {
 		switch error {
 		case .networkError:
@@ -166,7 +161,7 @@ class AuthService: ObservableObject {
 			return GlobalError.unknown
 		}
 	}
-
+*/
 	
 	deinit {
 		if let listener = authStateDidChangeListenerHandle {

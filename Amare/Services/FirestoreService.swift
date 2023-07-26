@@ -148,38 +148,43 @@ class FirestoreService {
 
     - Important: This method performs two asynchronous operations. The completion handler may not be called on the main queue. Make sure to dispatch back to the main queue if you're planning to perform UI operations inside the completion handler.
     */
-    func searchUsers(matching prefix: String, completion: @escaping (Result<([QueryDocumentSnapshot], [QueryDocumentSnapshot]), Error>) -> Void) {
-        
-        
+    func searchUsers(matching prefix: String, completion: @escaping (Result<([SearchedUser], [SearchedUser]), Error>) -> Void) {
+
         let usersQuery = db.collection("usernames").whereField("username", isGreaterThanOrEqualTo: prefix.lowercased()).whereField("username", isLessThanOrEqualTo: prefix.lowercased() + "\u{f8ff}").limit(to: 10)
-        
+
         let notablesQuery = db.collection("notable_usernames_not_on_here").whereField("username", isGreaterThanOrEqualTo: prefix.lowercased()).whereField("username", isLessThanOrEqualTo: prefix.lowercased() + "\u{f8ff}").limit(to: 10)
-        
+
         let dispatchGroup = DispatchGroup()
-        
-        var usersResult: Result<[QueryDocumentSnapshot], Error>!
-        var notablesResult: Result<[QueryDocumentSnapshot], Error>!
-        
+
+        var usersResult: Result<[SearchedUser], Error>!
+        var notablesResult: Result<[SearchedUser], Error>!
+
         dispatchGroup.enter()
         usersQuery.getDocuments { querySnapshot, error in
             if let querySnapshot = querySnapshot {
-                usersResult = .success(querySnapshot.documents)
+                let users = querySnapshot.documents.compactMap { document -> SearchedUser? in
+                    try? document.data(as: SearchedUser.self)
+                }
+                usersResult = .success(users)
             } else if let error = error {
                 usersResult = .failure(error)
             }
             dispatchGroup.leave()
         }
-        
+
         dispatchGroup.enter()
         notablesQuery.getDocuments { querySnapshot, error in
             if let querySnapshot = querySnapshot {
-                notablesResult = .success(querySnapshot.documents)
+                let notables = querySnapshot.documents.compactMap { document -> SearchedUser? in
+                    try? document.data(as: SearchedUser.self)
+                }
+                notablesResult = .success(notables)
             } else if let error = error {
                 notablesResult = .failure(error)
             }
             dispatchGroup.leave()
         }
-        
+
         dispatchGroup.notify(queue: .main) {
             switch (usersResult, notablesResult) {
             case (.success(let users), .success(let notables)):

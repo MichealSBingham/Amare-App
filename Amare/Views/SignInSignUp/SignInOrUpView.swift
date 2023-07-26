@@ -44,47 +44,50 @@ struct SignInOrUpView: View {
 		
 		
 
-	
-			VStack{
-				
-				Spacer()
-				
-				createLogo()
-				
-				createTextAndTaglineForLogo()
-				
-				Spacer()
-				
-				Group{
-					
-					createSignInButton()
-					createSignUpButton()
-						
-					
-					
-				}
-				
-				
-				
-				Spacer()
-				Spacer()
-				
-			   createPolicyAndConditionsAcceptance()
-				
-				Spacer()
-				
-				needHelp()
-				
-				
-				
-			}
-			.fullScreenCover(isPresented: $beginOnboardingFlow) {
-				ZStack{
-					Background()
-					OnboardingSignUpView()
-				}
-				
-			}
+          
+          ZStack {
+              Background()
+              VStack{
+                    
+                    Spacer()
+                    
+                    createLogo()
+                    
+                    createTextAndTaglineForLogo()
+                    
+                    Spacer()
+                    
+                    Group{
+                        
+                        createSignInButton()
+                        createSignUpButton()
+                            
+                        
+                        
+                    }
+                    
+                    
+                    
+                    Spacer()
+                    Spacer()
+                    
+                   createPolicyAndConditionsAcceptance()
+                    
+                    Spacer()
+                    
+                    needHelp()
+                    
+                    
+                    
+                }
+                .fullScreenCover(isPresented: $beginOnboardingFlow) {
+                    ZStack{
+                        Background()
+                        OnboardingSignUpView()
+                    }
+                    
+            }
+          }
         
        
         
@@ -196,7 +199,7 @@ struct SignInOrUpView: View {
         return Text(language == .Latin ? "Amor Vincit Omnia.": "Love Conquers All.")
            .foregroundColor(.white)
            .font((Font.custom("MontserratAlternates-SemiBold", size: 17)))
-           .shimmering(duration: 3)
+      //     .shimmering(duration: 3)
            .modifier(FadeModifier(control: (language == .Latin)))
            .animation(.easeInOut(duration: 2.5)) // Duration of the fade animation
     
