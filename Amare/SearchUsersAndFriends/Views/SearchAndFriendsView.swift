@@ -23,7 +23,7 @@ struct SearchAndFriendsView: View {
     
 	@StateObject var tappedUser: UserProfileModel = UserProfileModel()
     
-    
+	@State var selectedUser: Bool = false
     
     var body: some View {
         
@@ -36,17 +36,27 @@ struct SearchAndFriendsView: View {
                 if segmentationSelection == .all{
                     
                     List(dataModel.all) { user in
+						
                         
-						NavigationLink {
-							UserProfileView(model: tappedUser)
-							
+						Button {
+						print("Tapped userId \(user.userId) and id: \(user.id)")
+						tappedUser.startListeningForUserDataChanges(userId: user.userId)
+							selectedUser = true
 						} label: {
 							
 							UserListRowView(imageUrl: user.profile_image_url ?? "", text: user.username, isNotable: user.isNotable)
 								
 						}
+						.buttonStyle(.plain)
 						.listRowInsets(EdgeInsets())
 						.listRowSeparator(.hidden)
+					
+
+							
+								
+						
+						
+						
 
 						
 						
@@ -103,7 +113,10 @@ struct SearchAndFriendsView: View {
                 
             }
             .scrollContentBackground(.hidden)
-            
+			.background(
+						NavigationLink(destination: UserProfileView(model: tappedUser),
+									   isActive: $selectedUser) { EmptyView() }
+					)
 
             
         

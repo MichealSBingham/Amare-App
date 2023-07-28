@@ -261,6 +261,32 @@ class FirestoreService {
             completion(.success(friendRequests))
         }
     }
+	
+	
+	/// Function to listen for user data changes
+		func listenForUserDataChanges(userId: String, completion: @escaping (Result<AppUser, Error>) -> Void) -> ListenerRegistration {
+			let listener = db.collection("users").document(userId).addSnapshotListener { documentSnapshot, error in
+				if let error = error {
+					completion(.failure(error))
+					return
+				}
+				
+				guard let document = documentSnapshot, let data = document.data() else {
+					completion(.failure(NSError(domain: "Cannot load data", code: 0, userInfo: nil))) // Or handle the error as needed
+					return
+				}
+				
+				if let user = try? document.data(as: AppUser.self){
+					completion(.success(user))
+				} else{
+					completion(.failure(NSError(domain: "Cannot load data", code: 0, userInfo: nil))) // Or handle the error as needed
+
+					
+				}
+				
+			}
+		return listener
+		}
 
 	
 }

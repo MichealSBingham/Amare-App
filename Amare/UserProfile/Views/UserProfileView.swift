@@ -49,6 +49,10 @@ struct UserProfileView: View {
 			NatalChartTabView()
 			
 		}
+		.onDisappear{
+			print("on disappear user profile view")
+			model.stopListeningForUserDataChanges()
+		}
     }
 }
 

@@ -30,6 +30,11 @@ struct AppUser: Codable, Identifiable {
 	var isReal: Bool = true
 	var isNotable: Bool = false
 	var reasonsForUse: [ReasonsForUse]
+	
+	// For Celebrites Only
+	var bio: String?
+	var notes: [String]?
+	var wikipedia_link: String?
 
 	enum CodingKeys: String, CodingKey {
 		case id
@@ -48,6 +53,10 @@ struct AppUser: Codable, Identifiable {
 		case isReal
 		case isNotable
 		case reasonsForUse
+		
+		case notes
+		case wikipedia_link
+		case bio
 	}
 
 	enum ReasonsForUse: String, Codable {

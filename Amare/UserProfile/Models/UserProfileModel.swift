@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import Firebase
 
 class UserProfileModel: ObservableObject{
 	
@@ -17,8 +18,29 @@ class UserProfileModel: ObservableObject{
 	///Bool to indicate whether the user winked `at` the current `signed in user`
 	@Published var winkedAtMe: Bool?
 	
+	///Firestore listener for the profile that the user is currently looking at , must detach the listener when it is done
+	private var userListener: ListenerRegistration?
 	
 	
+	func startListeningForUserDataChanges(userId: String) {
+		   userListener = FirestoreService.shared.listenForUserDataChanges(userId: userId) { result in
+			   switch result {
+			   case .success(let user):
+				   DispatchQueue.main.async {
+					   withAnimation {
+						   self.user = user
+					   }
+					  
+				   }
+			   case .failure(let error):
+				   print("Error fetching user data: \(error)")
+			   }
+		   }
+	   }
+	
+	func stopListeningForUserDataChanges() {
+			userListener?.remove() // Call this function when you want to detach the listener
+		}
 
 	/// Convenience initializer for preview with mock data
 	#if DEBUG
