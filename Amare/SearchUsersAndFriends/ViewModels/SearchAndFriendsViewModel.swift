@@ -13,28 +13,36 @@ import Firebase
 
 class SearchAndFriendsViewModel: ObservableObject {
     
+	#if DEBUG
     
     @Published var all: [SearchedUser] =  []
-    @Published var friendRequests: [FriendRequest] =  []
-    @Published var friends: [FriendRequest] =  []
+	@Published var friendRequests: [FriendRequest] = (0..<50).map { _ in FriendRequest.random() }// []
+	@Published var friends: [FriendRequest] =  (0..<50).map { _ in FriendRequest.random() }
     @Published var error: Error?
+	
+	#else
+	
+	@Published var all: [SearchedUser] =  []
+	@Published var friendRequests: [FriendRequest] =  []
+	@Published var friends: [FriendRequest] =  []
+	@Published var error: Error?
+	
+	#endif
     
-    
-    // Whether we are displaying this data in preview or not
-    var inPreview: Bool = false
+ 
     
     
     private var friendRequestsListener: ListenerRegistration?
     
     
-    init(inPreview: Bool = false, req: [FriendRequest] = []) {
+    init() {
             // Retrieve the current signed-in user's ID from Firebase Authentication
             
-        self.friendRequests = req
+
         
         if let id = Auth.auth().currentUser?.uid {
             self.error = nil
-            fetchFriendRequests(for: id, inPreview: inPreview)
+            fetchFriendRequests(for: id)
         } else {
             self.error = AccountError.notSignedIn
         }
@@ -46,10 +54,34 @@ class SearchAndFriendsViewModel: ObservableObject {
     deinit {
             friendRequestsListener?.remove()
         }
+	
+	
+	
+	/*
+	#if DEBUG
+	/// doesn't work
+	static func previewInstance() -> SearchAndFriendsViewModel{
+		let model = SearchAndFriendsViewModel()
+		model.friends = (0..<20).map { _ in FriendRequest.random() }
+		//model.simulateLoadingData()
+		return model
+		
+	}
+	
+	func simulateLoadingData()  {
+		
+			withAnimation {
+				self.friendRequests =  (0..<20).map { _ in FriendRequest.random() }
+				self.friends = [FriendRequest.random()]
+			}
+		
+	}
+	#endif
+	*/
     
     
-    func fetchFriendRequests(for userId: String, inPreview: Bool = false) {
-         FirestoreService.shared.getAllFriendRequests(for: userId, inPreview: inPreview) {  result in
+    func fetchFriendRequests(for userId: String) {
+         FirestoreService.shared.getAllFriendRequests(for: userId) {  result in
                 switch result {
                 case .success(let friendRequests):
                     self.error = nil

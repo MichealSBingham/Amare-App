@@ -36,16 +36,30 @@ struct CircularProfileImageView: View {
 }
 
 
-/*
+
 struct CircularProfileImageView_Previews: PreviewProvider {
     static var previews: some View {
-        CircularProfileImageView(profileImageUrl: "")
-            .frame(width: 150, height: 150) // Use frame modifier for size
-            .preferredColorScheme(.dark)
+		HStack{
+			CircularProfileImageView(profileImageUrl: FriendRequest.random().profileImageURL)
+				.frame(width: 75, height: 75)
+				.padding()
+			
+			Text(FriendRequest.random().name)
+				.lineLimit(1)
+				.font(.title)
+				.padding()
+				
+			
+			Spacer()
+		}
+		.background(.ultraThinMaterial)
+						.cornerRadius(14)
+		
+		.preferredColorScheme(.dark)
     }
 }
-*/
 
+/*
 #Preview {
     
     HStack{
@@ -67,3 +81,4 @@ struct CircularProfileImageView_Previews: PreviewProvider {
     .preferredColorScheme(.dark)
     
 }
+*/

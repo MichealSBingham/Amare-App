@@ -15,12 +15,13 @@ import Firebase
 /// View that displays `FriendRequest`s, `Friend`s, `Suggestions`
 struct SearchAndFriendsView: View {
     
-    @StateObject var dataModel = SearchAndFriendsViewModel(inPreview: false)
+    @StateObject var dataModel = SearchAndFriendsViewModel()
     
     @State private var searchText = ""
     
     @State var segmentationSelection : UserTypeSection = .all
     
+	@StateObject var tappedUser: UserProfileModel = UserProfileModel()
     
     
     
@@ -36,11 +37,24 @@ struct SearchAndFriendsView: View {
                     
                     List(dataModel.all) { user in
                         
-                        Text(user.username)
+						NavigationLink {
+							UserProfileView(model: tappedUser)
+							
+						} label: {
+							
+							UserListRowView(imageUrl: user.profile_image_url ?? "", text: user.username, isNotable: user.isNotable)
+								
+						}
+						.listRowInsets(EdgeInsets())
+						.listRowSeparator(.hidden)
+
+						
+						
                         
                         
                     }
-                    
+					.listStyle(.plain)
+					.padding(0)
                     
                    
                 }
@@ -50,14 +64,29 @@ struct SearchAndFriendsView: View {
                     List(dataModel.friends) { friends in
                         Text(friends.name)
                     }
+					.listStyle(.plain)
+					.padding(0)
                     
                 }
                 
                 if segmentationSelection == .requests{
                     
                     List(dataModel.friendRequests) { request in
-                        Text(request.name)
+						
+			
+						
+						
+						UserListRowView(imageUrl: request.profileImageURL, text: request.name, isNotable: request.isNotable)
+							.listRowInsets(EdgeInsets())
+							.listRowSeparator(.hidden)
+							
+							
+						
                     }
+					.listStyle(.plain)
+					.padding(0)
+					
+
                     
                 }
                 
@@ -66,6 +95,8 @@ struct SearchAndFriendsView: View {
                     List(dataModel.friendRequests) { request in
                         Text(request.name)
                     }
+					.listStyle(.plain)
+					.padding(0)
                     
                 }
                 
@@ -114,7 +145,7 @@ struct SearchAndFriendsView_Previews: PreviewProvider {
         
         
         SearchAndFriendsView()
-            .environmentObject(SearchAndFriendsViewModel(inPreview: true, req: FriendRequest.randomList(count: 10)))
+			.environmentObject(SearchAndFriendsViewModel())
             .environmentObject(AuthService.shared)
             
     }
