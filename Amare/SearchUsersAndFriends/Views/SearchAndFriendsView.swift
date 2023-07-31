@@ -40,7 +40,7 @@ struct SearchAndFriendsView: View {
                         
 						Button {
 						print("Tapped userId \(user.userId) and id: \(user.id)")
-						tappedUser.startListeningForUserDataChanges(userId: user.userId)
+						tappedUser.loadUser(userId: user.userId)
 							selectedUser = true
 						} label: {
 							

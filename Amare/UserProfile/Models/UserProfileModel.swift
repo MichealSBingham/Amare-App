@@ -18,27 +18,76 @@ class UserProfileModel: ObservableObject{
 	///Bool to indicate whether the user winked `at` the current `signed in user`
 	@Published var winkedAtMe: Bool?
 	
+	@Published var error: Error?
+	
 	///Firestore listener for the profile that the user is currently looking at , must detach the listener when it is done
 	private var userListener: ListenerRegistration?
 	
 	
-	func startListeningForUserDataChanges(userId: String) {
-		   userListener = FirestoreService.shared.listenForUserDataChanges(userId: userId) { result in
+	
+	
+	func loadUser(userId: String){
+		
+		
+		self.startListeningForUserDataChanges(userId: userId)
+		self.getNatalChart(userId: userId)
+	}
+	
+	//TODO: Reconsider this !
+	func unloadUser()  {
+		/*
+		self.stopListeningForUserDataChanges()
+		self.user = nil
+		self.natalChart = nil
+		self.winkedAtMe = nil
+		 */
+	}
+	
+	
+	private func getNatalChart(userId: String){
+		
+		FirestoreService.shared.fetchNatalChart(userId: userId) { result in
+			
+			switch result {
+			case .success(let chart):
+				withAnimation{
+					print("got the natal chart")
+					self.error = nil
+					self.natalChart = chart
+				}
+			case .failure(let failure):
+				withAnimation{
+					print("can't get chart .\(failure)")
+
+					self.error = failure
+				}
+			}
+		}
+		
+	}
+	
+	private func startListeningForUserDataChanges(userId: String) {
+		   userListener = FirestoreService.shared.listenForUser(userId: userId) { result in
 			   switch result {
 			   case .success(let user):
 				   DispatchQueue.main.async {
 					   withAnimation {
+						   self.error = nil
 						   self.user = user
 					   }
 					  
 				   }
 			   case .failure(let error):
 				   print("Error fetching user data: \(error)")
+				   withAnimation{
+					   self.error = error
+				   }
+				  
 			   }
 		   }
 	   }
 	
-	func stopListeningForUserDataChanges() {
+	private func stopListeningForUserDataChanges() {
 			userListener?.remove() // Call this function when you want to detach the listener
 		}
 

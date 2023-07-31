@@ -11,7 +11,7 @@ struct NatalChartTabView: View {
 	
 	var natalChart: NatalChart?
 	
-	private var randomPlanet = Planet(name: .Sun, angle: 17.82, element: .water, onCusp: false, retrograde: false, one_line_placement_interpretation: nil, longer_placement_interpretation: nil, sign: .Cancer, house: 7, cusp: nil, speed: 7, forSynastry: false, _aspectThatExists: nil)
+	private let randomPlanet = Planet(name: .Sun, angle: 17.82, element: .water, onCusp: false, retrograde: false, one_line_placement_interpretation: nil, longer_placement_interpretation: nil, sign: .Cancer, house: 7, cusp: nil, speed: 7, forSynastry: false, _aspectThatExists: nil)
 	
 	var body: some View {
 		

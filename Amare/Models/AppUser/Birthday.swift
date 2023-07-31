@@ -12,9 +12,13 @@ import Firebase
 struct Birthday: Codable{
 	
 	var timestamp: Timestamp?
-	var month: String?
+var month: String?
 	var day: Int?
 	var year: Int?
+	
+	
+
+	
 	
 	// Function to generate a random Birthday
 		static func generateRandomBirthday() -> Birthday {
@@ -41,7 +45,7 @@ struct Birthday: Codable{
 			let components = calendar.dateComponents([.year, .month, .day], from: randomDate)
 			
 			// Create Birthday instance
-			return Birthday(timestamp: Timestamp(date: randomDate), month: calendar.monthSymbols[components.month! - 1], day: components.day, year: components.year)
+			return Birthday(timestamp: Timestamp(date: randomDate)/*, month: calendar.monthSymbols[components.month! - 1], day: components.day, year: components.year*/)
 		}
 	
 	

@@ -105,7 +105,7 @@ class OnboardingViewModel: ObservableObject{
         
       
         
-        let bday = Birthday(timestamp: Timestamp(date: bd!), month: bd!.month(), day: bd!.day(), year: bd!.year())
+        let bday = Birthday(timestamp: Timestamp(date: bd!)/*, month: bd!.month(), day: bd!.day(), year: bd!.year()*/)
         
        
         let rs = Place(latitude: homeCity.coordinate.latitude, longitude: homeCity.coordinate.longitude, city: homeCity.city, state: homeCity.state, country: homeCity.country, geohash: homeCity.geohash)

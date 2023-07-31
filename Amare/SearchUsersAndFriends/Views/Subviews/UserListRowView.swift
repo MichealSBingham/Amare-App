@@ -34,7 +34,7 @@ struct UserListRowView: View {
 
 struct UserListRowView_Previews: PreviewProvider {
     static var previews: some View {
-		UserListRowView(imageUrl: AppUser.generateMockData().profileImageUrl, text: AppUser.generateMockData().username, isNotable: AppUser.generateMockData().isNotable)
+		UserListRowView(imageUrl: AppUser.generateMockData().profileImageUrl!, text: AppUser.generateMockData().username, isNotable: AppUser.generateMockData().isNotable)
     }
 }
 

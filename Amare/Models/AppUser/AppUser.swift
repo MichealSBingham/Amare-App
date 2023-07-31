@@ -19,17 +19,17 @@ struct AppUser: Codable, Identifiable {
 	var hometown: Place
 	var birthday: Birthday
 	var knownBirthTime: Bool
-	var residence: Place
-	var profileImageUrl: String
-	var images: [String]
+	var residence: Place?
+	var profileImageUrl: String?
+	var images: [String] = []
 	var sex: Sex
-	var orientation: [Sex]
+	var orientation: [Sex] = []
 	//var natalChart: NatalChart
 	var username: String
-	var phoneNumber: String
+	var phoneNumber: String?
 	var isReal: Bool = true
 	var isNotable: Bool = false
-	var reasonsForUse: [ReasonsForUse]
+	var reasonsForUse: [ReasonsForUse] = []
 	
 	// For Celebrites Only
 	var bio: String?
@@ -119,4 +119,7 @@ struct AppUser: Codable, Identifiable {
 			)
 		}
 }
+
+
+
 

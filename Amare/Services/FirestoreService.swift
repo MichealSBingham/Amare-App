@@ -262,31 +262,91 @@ class FirestoreService {
         }
     }
 	
-	
-	/// Function to listen for user data changes
-		func listenForUserDataChanges(userId: String, completion: @escaping (Result<AppUser, Error>) -> Void) -> ListenerRegistration {
-			let listener = db.collection("users").document(userId).addSnapshotListener { documentSnapshot, error in
-				if let error = error {
-					completion(.failure(error))
-					return
-				}
-				
-				guard let document = documentSnapshot, let data = document.data() else {
-					completion(.failure(NSError(domain: "Cannot load data", code: 0, userInfo: nil))) // Or handle the error as needed
-					return
-				}
-				
-				if let user = try? document.data(as: AppUser.self){
-					completion(.success(user))
-				} else{
-					completion(.failure(NSError(domain: "Cannot load data", code: 0, userInfo: nil))) // Or handle the error as needed
-
-					
-				}
-				
+	/// Helper function for listening to user data on a collection. Use `listenForUserDataChanges(userID; String, completion: )`
+	private func listenForUserDataChanges(in collection: String, userId: String, completion: @escaping (Result<AppUser, Error>) -> Void) -> ListenerRegistration {
+		let listener = db.collection(collection).document(userId).addSnapshotListener { documentSnapshot, error in
+			if let error = error {
+				print("The error happened from grabbing the data from the listener")
+				completion(.failure(error))
+				return
 			}
-		return listener
+
+			guard let document = documentSnapshot, let data = document.data() else {
+				completion(.failure(NSError(domain: "Cannot load data", code: 0, userInfo: nil))) // Or handle the error as needed
+				return
+			}
+			
+		
+			
+
+			
+			if let user = document.toAppUser() {
+				completion(.success(user))
+			} else {
+				completion(.failure(NSError(domain: "Cannot convert to app user", code: 1, userInfo: nil)))
+			}
+
+		
 		}
+		return listener
+	}
+
+	
+	
+	func listenForUser(userId: String, completion: @escaping (Result<AppUser, Error>) -> Void) -> ListenerRegistration? {
+		let usersListener = listenForUserDataChanges(in: "users", userId: userId) { [self] result in
+			switch result {
+			case .success(let user):
+				completion(.success(user))
+			case .failure(let error):
+				print("Error from 'users' collection: \(error)")
+				let notablesListener = listenForUserDataChanges(in: "notables_not_on_here", userId: userId) { result in
+					switch result {
+					case .success(let user):
+						completion(.success(user))
+					case .failure(let error):
+						print("Error from 'notables_not_on_here' collection: \(error)")
+					}
+				}
+				completion(.failure(error))
+			}
+		}
+		return usersListener
+	}
+
+	
+	
+	func fetchNatalChart(userId: String, completion: @escaping (Result<NatalChart, Error>) -> Void) {
+		let db = Firestore.firestore()
+		
+		db.collection("users").document(userId).collection("public").document("natal_chart").getDocument { (document, error) in
+			
+			
+			
+			if let document = document, document.exists, let natalChart = try? document.data(as: NatalChart.self) {
+				completion(.success(natalChart))
+				return
+			} else {
+				// if not found in 'users', search in 'notables_not_on_here'
+				db.collection("notables_not_on_here").document(userId).collection("public").document("natal_chart").getDocument { (document, error) in
+					if let error = error {
+						completion(.failure(error))
+						return
+					}
+					
+					guard let document = document, document.exists, let natalChart = try? document.data(as: NatalChart.self) else {
+						completion(.failure(NSError(domain: "Cannot convert to NatalChart", code: 1, userInfo: nil)))
+						return
+					}
+					
+					completion(.success(natalChart))
+				}
+			}
+		}
+	}
+
+	
+
 
 	
 }

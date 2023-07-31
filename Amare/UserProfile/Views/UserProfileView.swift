@@ -46,12 +46,12 @@ struct UserProfileView: View {
 			nameAndAgeLabel()
 			.padding(.top)
 			
-			NatalChartTabView()
+			NatalChartTabView(natalChart: model.natalChart)
 			
 		}
 		.onDisappear{
 			print("on disappear user profile view")
-			model.stopListeningForUserDataChanges()
+			model.unloadUser()
 		}
     }
 }

@@ -10,9 +10,11 @@ import Foundation
 struct Place: Codable, Equatable  {
 	
 	
+	
 	var latitude: Double?
 	var longitude: Double?
 	
+	var address: String?
 	var city: String?
 	var state: String?
 	var country: String?
