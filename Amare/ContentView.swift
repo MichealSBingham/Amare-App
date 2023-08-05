@@ -15,6 +15,8 @@ struct ContentView: View {
 	@StateObject var bgModel = BackgroundViewModel()
 	
 	@StateObject var onboardingModel: OnboardingViewModel = OnboardingViewModel()
+	
+	@StateObject var dataModel: UserProfileModel = UserProfileModel()
 
 	// Flag to limit unnecessary updates
 	@State var initialCheckDone: Bool = false
@@ -24,6 +26,9 @@ struct ContentView: View {
 			if authService.user != nil {
 				if authService.isOnboardingComplete {
 					HomeView()
+						.onAppear{
+							dataModel.startListeningForUserDataChanges()
+						}
 						.transition(.opacity)
 				} else {
 					OnboardingSignUpView()
@@ -51,6 +56,7 @@ struct ContentView: View {
 		.environmentObject(bgModel)
 		.environmentObject(authService)
 		.environmentObject(onboardingModel)
+		.environmentObject(dataModel)
 		.animation(.default, value: authService.user)
 		.animation(.default, value: authService.isOnboardingComplete)
 		.onAppear {

@@ -49,6 +49,9 @@
 		262F2A652A51C3CE00C980D3 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262F2A642A51C3CE00C980D3 /* HomeView.swift */; };
 		262F2A682A521C0400C980D3 /* AppUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262F2A672A521C0400C980D3 /* AppUser.swift */; };
 		262F8F942A7719E200EE709E /* DocumentSnapshot+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262F8F932A7719E200EE709E /* DocumentSnapshot+Extensions.swift */; };
+		262F8F982A773A3300EE709E /* FriendshipStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262F8F972A773A3300EE709E /* FriendshipStatus.swift */; };
+		262F8F9A2A7B3E6300EE709E /* IncomingFriendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262F8F992A7B3E6300EE709E /* IncomingFriendRequest.swift */; };
+		262F8F9C2A7B42E100EE709E /* OutgoingFriendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262F8F9B2A7B42E100EE709E /* OutgoingFriendRequest.swift */; };
 		263695ED269B7872006EEA79 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 263695EC269B7872006EEA79 /* GoogleService-Info.plist */; };
 		263695EE269B7872006EEA79 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 263695EC269B7872006EEA79 /* GoogleService-Info.plist */; };
 		263695EF269B7872006EEA79 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 263695EC269B7872006EEA79 /* GoogleService-Info.plist */; };
@@ -176,6 +179,9 @@
 		262F2A642A51C3CE00C980D3 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		262F2A672A521C0400C980D3 /* AppUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUser.swift; sourceTree = "<group>"; };
 		262F8F932A7719E200EE709E /* DocumentSnapshot+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DocumentSnapshot+Extensions.swift"; sourceTree = "<group>"; };
+		262F8F972A773A3300EE709E /* FriendshipStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendshipStatus.swift; sourceTree = "<group>"; };
+		262F8F992A7B3E6300EE709E /* IncomingFriendRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomingFriendRequest.swift; sourceTree = "<group>"; };
+		262F8F9B2A7B42E100EE709E /* OutgoingFriendRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutgoingFriendRequest.swift; sourceTree = "<group>"; };
 		263695E9269B495F006EEA79 /* GoogleService-Info .plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info .plist"; sourceTree = "<group>"; };
 		263695EC269B7872006EEA79 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		263D6F952683F77C00CBBECC /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
@@ -328,7 +334,6 @@
 		260954B82A60AD4700114C56 /* SearchUsersAndFriends */ = {
 			isa = PBXGroup;
 			children = (
-				260954B92A60AD6200114C56 /* Models */,
 				260954BB2A60AD7200114C56 /* ViewModels */,
 				260954BA2A60AD6700114C56 /* Views */,
 			);
@@ -341,6 +346,8 @@
 				26A137CD2A5F4466003C6657 /* FriendRequest.swift */,
 				260954C32A60BE6700114C56 /* UserTypeSelection.swift */,
 				26D685912A6A001E0070CE79 /* SearchedUser.swift */,
+				262F8F992A7B3E6300EE709E /* IncomingFriendRequest.swift */,
+				262F8F9B2A7B42E100EE709E /* OutgoingFriendRequest.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -398,6 +405,7 @@
 		2627C5412A71EE3E008ED5DB /* UserProfile */ = {
 			isa = PBXGroup;
 			children = (
+				262F8F952A7739FC00EE709E /* ViewModels */,
 				26A5FBCC2A73220700D94476 /* Models */,
 				26A5FBCB2A7320EA00D94476 /* Views */,
 			);
@@ -429,6 +437,14 @@
 				262F8F932A7719E200EE709E /* DocumentSnapshot+Extensions.swift */,
 			);
 			path = Firestore;
+			sourceTree = "<group>";
+		};
+		262F8F952A7739FC00EE709E /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				26A5FBCD2A73221400D94476 /* UserProfileModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		2662ED152842D17600B0EA57 /* NearbyUsers */ = {
@@ -486,7 +502,7 @@
 		26A5FBCC2A73220700D94476 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				26A5FBCD2A73221400D94476 /* UserProfileModel.swift */,
+				262F8F972A773A3300EE709E /* FriendshipStatus.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -675,6 +691,7 @@
 		26C4663C2A34FE96000EC8BC /* Quizzes */ = {
 			isa = PBXGroup;
 			children = (
+				260954B92A60AD6200114C56 /* Models */,
 				26C4663D2A34FE96000EC8BC /* RGResponse.swift */,
 				26C4663E2A34FE96000EC8BC /* RGQuizQuestion.swift */,
 			);
@@ -996,6 +1013,7 @@
 				26A5FBDC2A732E4C00D94476 /* ZodiacSign.swift in Sources */,
 				262F2A682A521C0400C980D3 /* AppUser.swift in Sources */,
 				26B1AFDF2678FFE700A170B3 /* Persistence.swift in Sources */,
+				262F8F9C2A7B42E100EE709E /* OutgoingFriendRequest.swift in Sources */,
 				2608CF512697529600826FDA /* GlobalErrors.swift in Sources */,
 				262F2A5D2A50895100C980D3 /* ContentView.swift in Sources */,
 				263D6F982684012000CBBECC /* AccountErrors.swift in Sources */,
@@ -1027,6 +1045,7 @@
 				26970699268101B0007E7961 /* SceneDelegate.swift in Sources */,
 				26A5FBE82A7334F100D94476 /* PlanetView.swift in Sources */,
 				26C466402A34FE96000EC8BC /* RGQuizQuestion.swift in Sources */,
+				262F8F9A2A7B3E6300EE709E /* IncomingFriendRequest.swift in Sources */,
 				2642B7732A467F3F009DD789 /* BirthdayInputView.swift in Sources */,
 				268E542826DCEC6400E61F40 /* InputVerificationCode.swift in Sources */,
 				262F2A4E2A4A38D400C980D3 /* TileView.swift in Sources */,
@@ -1064,6 +1083,7 @@
 				268F26C1268018EE00FBEA7D /* ForNavigation.swift in Sources */,
 				2608CF482691425E00826FDA /* QR.swift in Sources */,
 				260135972A476191007878BD /* BirthtimeInputView.swift in Sources */,
+				262F8F982A773A3300EE709E /* FriendshipStatus.swift in Sources */,
 				26C399CB2A5E23350061F9B8 /* SearchAndFriendsView.swift in Sources */,
 				262F2A5B2A5086CC00C980D3 /* AuthService.swift in Sources */,
 				26A5FBDB2A732E4C00D94476 /* Element.swift in Sources */,

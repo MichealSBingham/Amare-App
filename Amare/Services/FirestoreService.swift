@@ -344,8 +344,112 @@ class FirestoreService {
 			}
 		}
 	}
+	
+	
+
+	/// TODO: maybe make a cloud function to validatie this to make sure the friend request indeed does NOT send if the sending user already has an open friend request FROM them
+	/// check if user has open friend request FROM the user they are sending it TO first before allow ing this process
+	///    e.g. Micheal sends a friend request to Elizabeth
+	func sendFriendRequest(from micheal: AppUser, to elizabeth: String, completion: @escaping (Result<Void, Error>) -> Void) {
+		
+		guard let micheal_id = micheal.id else { completion(.failure(NSError.init(domain: "Not Signed In", code: 1))); return }
+		let now = Timestamp(date: Date())
+			
+		let outgoingFriendRequest = OutgoingFriendRequest(id: elizabeth, status: .pending, from: micheal_id, to: elizabeth, time: now)
+		
+		let incomingFriendRequestForOtherUser = IncomingFriendRequest(id: micheal_id, status: .pending, isNotable: micheal.isNotable, name: micheal.name, profileImageURL: micheal.profileImageUrl ?? "", from: micheal_id, time: now)
+			
+		// Create an outgoing request document.
+		db.collection("users").document(micheal_id).collection("outgoingRequests").document(elizabeth)
+			.setData(outgoingFriendRequest.asDictionary()) { err in
+				if let err = err {
+					completion(.failure(err))
+				} else {
+					// Create an incoming request document for the other user.
+					self.db.collection("users").document(elizabeth).collection("incomingRequests").document(micheal_id)
+						.setData(incomingFriendRequestForOtherUser.asDictionary()) { err in
+							if let err = err {
+								completion(.failure(err))
+							} else {
+								completion(.success(()))
+							}
+						}
+				}
+			}
+	}
 
 	
+	func listenForFriendshipStatus(currentUserID: String, otherUserID: String, completion: @escaping (Result<UserFriendshipStatus, Error>) -> Void) -> [ListenerRegistration] {
+		var listeners: [ListenerRegistration] = []
+
+		let outgoingRequestListener = db.collection("users").document(currentUserID).collection("outgoingRequests").document(otherUserID).addSnapshotListener { snapshot, error in
+			if let error = error {
+				completion(.failure(error))
+			} else if let snapshot = snapshot, let data = snapshot.data() {
+				let outgoingRequest = try? snapshot.data(as: OutgoingFriendRequest.self)
+				completion(.success(outgoingRequest?.status == .friends ? .friends : .requested))
+			} else {
+				// If there's no outgoing request, check for incoming request
+				let incomingRequestListener = self.db.collection("users").document(currentUserID).collection("incomingRequests").document(otherUserID).addSnapshotListener { snapshot, error in
+					if let error = error {
+						completion(.failure(error))
+					} else if let snapshot = snapshot, let data = snapshot.data() {
+						let incomingRequest = try? snapshot.data(as: IncomingFriendRequest.self)
+						completion(.success(incomingRequest?.status == .friends ? .friends : .awaiting))
+					} else {
+						completion(.success(.notFriends))
+					}
+				}
+				listeners.append(incomingRequestListener)
+			}
+		}
+
+		listeners.append(outgoingRequestListener)
+		return listeners
+	}
+
+	
+	func listenForOutgoingRequest(currentUserID: String, otherUserID: String, completion: @escaping (Result<UserFriendshipStatus, Error>) -> Void) -> ListenerRegistration {
+		let outgoingRequestListener = db.collection("users").document(currentUserID).collection("outgoingRequests").document(otherUserID).addSnapshotListener { snapshot, error in
+			if let error = error {
+				completion(.failure(error))
+				return
+			}
+			guard let snapshot = snapshot, let data = snapshot.data() else {
+				completion(.success(.notFriends))
+				return
+			}
+			let outgoingRequest = try? snapshot.data(as: OutgoingFriendRequest.self)
+			if outgoingRequest?.status == .friends {
+				completion(.success(.friends))
+			} else {
+				completion(.success(.requested))
+			}
+		}
+		return outgoingRequestListener
+	}
+
+	func listenForIncomingRequest(currentUserID: String, otherUserID: String, completion: @escaping (Result<UserFriendshipStatus, Error>) -> Void) -> ListenerRegistration {
+		let incomingRequestListener = db.collection("users").document(currentUserID).collection("incomingRequests").document(otherUserID).addSnapshotListener { snapshot, error in
+			if let error = error {
+				completion(.failure(error))
+				return
+			}
+			guard let snapshot = snapshot, let data = snapshot.data() else {
+				completion(.success(.notFriends))
+				return
+			}
+			let incomingRequest = try? snapshot.data(as: IncomingFriendRequest.self)
+			if incomingRequest?.status == .friends {
+				completion(.success(.friends))
+			} else {
+				completion(.success(.awaiting))
+			}
+		}
+		return incomingRequestListener
+	}
+
+		
 
 
 	

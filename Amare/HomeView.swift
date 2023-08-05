@@ -16,6 +16,8 @@ struct HomeView: View {
 	
 	@EnvironmentObject var viewModel: OnboardingViewModel
 	
+	@EnvironmentObject var currentUserDataModel: UserProfileModel
+	
     
     @State var tabSelection: Int = 3
 	
@@ -91,7 +93,7 @@ struct HomeView: View {
             
             
         
-            Text("Sign out")
+			Text("Sign out \(authService.user?.uid ?? "") and name: \(currentUserDataModel.user?.name ?? "")")
                 .onTapGesture {
                     authService.signOut()
                     withAnimation{

@@ -9,19 +9,30 @@ import Foundation
 import SwiftUI
 import Firebase
 
+//TODO: Consider the error handling
 class UserProfileModel: ObservableObject{
 	
 	@Published var user: AppUser?
 	
 	@Published var natalChart: NatalChart?
 	
+	@Published var friendshipStatus: UserFriendshipStatus = .unknown
+	
 	///Bool to indicate whether the user winked `at` the current `signed in user`
 	@Published var winkedAtMe: Bool?
+	
+	/// TODO: make sure this data is updated n the initial LoadUser() function, right now, only changes if the user sends the friend request .. perhaps update the `friendshipStatus` variable here.
+	@Published var didSendFriendRequest: Bool?
+	
+	
 	
 	@Published var error: Error?
 	
 	///Firestore listener for the profile that the user is currently looking at , must detach the listener when it is done
 	private var userListener: ListenerRegistration?
+	
+	
+	var friendshipStatusListeners: [ListenerRegistration] = []
 	
 	
 	
@@ -30,17 +41,46 @@ class UserProfileModel: ObservableObject{
 		
 		
 		self.startListeningForUserDataChanges(userId: userId)
+		self.getFriendshipStatus(with: userId)
 		self.getNatalChart(userId: userId)
+
+		
 	}
 	
 	//TODO: Reconsider this !
 	func unloadUser()  {
 		/*
 		self.stopListeningForUserDataChanges()
+		self.stopListeningForFriendshipStatus()
 		self.user = nil
 		self.natalChart = nil
 		self.winkedAtMe = nil
 		 */
+	}
+	
+
+	func addFriend(currentSignedInUser: AppUser){
+		
+		guard let userToAddID = self.user?.id else {
+			self.error = NSError(domain: "Cannot load data", code: 0, userInfo: nil)
+			return
+		
+		}
+		
+		guard userToAddID != Auth.auth().currentUser?.uid else { print("can't add yourself as a friend"); return }
+		
+		
+		FirestoreService.shared.sendFriendRequest(from: currentSignedInUser, to: userToAddID) { result in
+			switch result {
+			case .success(let success):
+				DispatchQueue.main.async {
+					self.didSendFriendRequest = true
+				}
+			case .failure(let failure):
+				self.error = NSError(domain: "Something went wrong", code: 0)
+				print("Couldn't send friend request with error \(failure)")
+			}
+		}
 	}
 	
 	
@@ -66,13 +106,14 @@ class UserProfileModel: ObservableObject{
 		
 	}
 	
-	private func startListeningForUserDataChanges(userId: String) {
+	 func startListeningForUserDataChanges(userId: String = Auth.auth().currentUser?.uid ?? "") {
+		guard !userId.isEmpty else { self.error = AccountError.notSignedIn; return }
 		   userListener = FirestoreService.shared.listenForUser(userId: userId) { result in
 			   switch result {
 			   case .success(let user):
 				   DispatchQueue.main.async {
 					   withAnimation {
-						   self.error = nil
+						   //self.error = nil
 						   self.user = user
 					   }
 					  
@@ -89,6 +130,31 @@ class UserProfileModel: ObservableObject{
 	
 	private func stopListeningForUserDataChanges() {
 			userListener?.remove() // Call this function when you want to detach the listener
+		}
+	
+	
+	/// Checks if the current user is friends with `userId` the loaded user for `UserProfileModel`
+	private func getFriendshipStatus(with otherUserID: String) {
+		guard let currentUserId = Auth.auth().currentUser?.uid else { self.error = AccountError.notSignedIn; return }
+			
+		friendshipStatusListeners = FirestoreService.shared.listenForFriendshipStatus(currentUserID: currentUserId, otherUserID: otherUserID) { [weak self] result in
+				switch result {
+				case .success(let status):
+					DispatchQueue.main.async {
+						withAnimation{
+							self?.friendshipStatus = status
+						}
+						
+					}
+				case .failure(let error):
+					print("Error checking friendship status: \(error)")
+				}
+			}
+		}
+		
+		func stopListeningForFriendshipStatus() {
+			friendshipStatusListeners.forEach { $0.remove() }
+			friendshipStatusListeners.removeAll()
 		}
 
 	/// Convenience initializer for preview with mock data

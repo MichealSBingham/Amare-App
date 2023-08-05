@@ -11,6 +11,7 @@ import SwiftUI
 
 struct UserProfileView: View {
 	
+	@EnvironmentObject var currentUserDataModel: UserProfileModel
 	@StateObject  var model: UserProfileModel
 	
 	fileprivate func winkStatusLabel() -> some View {
@@ -34,6 +35,84 @@ struct UserProfileView: View {
 		}
 	}
 	
+	fileprivate func messageButton() -> some View {
+		return Button {
+			
+		} label: {
+			
+			Image(systemName: "message.fill")
+				.resizable()
+				.frame(width: 25, height: 25)
+				.foregroundColor(.amare)
+		}
+		.buttonStyle(.plain)
+	}
+	
+	@ViewBuilder
+	fileprivate func friendshipStatus() -> some View {
+		Image(systemName: model.friendshipStatus.imageName)
+			.resizable()
+			.frame(width: 35, height: 25)
+			.foregroundColor(Color.amare)
+			.transition(.scale)
+			
+	}
+	
+	@ViewBuilder
+	fileprivate func addFriend() -> some View {
+		
+	
+			
+			Button {
+				
+				if model.friendshipStatus == .notFriends {
+					guard let current = currentUserDataModel.user else { print("Can't add friend, no signed in user"); return }
+					model.addFriend(currentSignedInUser: current)
+				}
+				
+			} label: {
+				
+				ZStack{
+					
+				
+						
+						Image(systemName: "person.fill.badge.plus")
+							.resizable()
+							.frame(width: 35, height: 35)
+							.foregroundColor(Color.amare)
+							.transition(.scale)
+							.opacity(model.friendshipStatus == .friends ? 0: 1)
+						
+					
+						
+						ZStack{
+							Text("Accept Friend Request")
+								.opacity(model.friendshipStatus  == .awaiting ? 1 : 0 )
+							
+							Text("Sent Friend Request")
+								.opacity(model.friendshipStatus  == .requested ? 1 : 0 )
+						}.offset(y: 30)
+						
+						
+					
+					
+						
+					
+					
+				}
+				
+				
+				
+			}
+			.frame(width: 20, height: 50)
+		
+
+		
+			
+	}
+
+
+	
 	var body: some View {
 		VStack{
 			
@@ -47,6 +126,25 @@ struct UserProfileView: View {
 			.padding(.top)
 			
 			NatalChartTabView(natalChart: model.natalChart)
+			
+			HStack{
+				
+				messageButton()
+					.padding()
+					 
+				
+				friendshipStatus()
+					.padding()
+					  
+				
+				addFriend()
+					.padding()
+					 
+				
+				
+
+			}
+			
 			
 		}
 		.onDisappear{
