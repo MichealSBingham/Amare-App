@@ -18,6 +18,8 @@ class UserProfileModel: ObservableObject{
 	
 	@Published var friendshipStatus: UserFriendshipStatus = .unknown
 	
+	@Published var friendRequests: [IncomingFriendRequest] = []
+	
 	///Bool to indicate whether the user winked `at` the current `signed in user`
 	@Published var winkedAtMe: Bool?
 	
@@ -34,15 +36,21 @@ class UserProfileModel: ObservableObject{
 	
 	var friendshipStatusListeners: [ListenerRegistration] = []
 	
+	private var friendRequestsListener: ListenerRegistration?
 	
 	
 	
-	func loadUser(userId: String){
+	
+	func loadUser(userId: String = Auth.auth().currentUser?.uid ?? "" ){
 		
 		
 		self.startListeningForUserDataChanges(userId: userId)
-		self.getFriendshipStatus(with: userId)
+		
+		if Auth.auth().currentUser?.uid != userId { self.getFriendshipStatus(with: userId)}
+		
 		self.getNatalChart(userId: userId)
+		
+		if Auth.auth().currentUser?.uid == userId { self.listenForAllFriendRequests()}
 
 		
 	}
@@ -147,10 +155,30 @@ class UserProfileModel: ObservableObject{
 						
 					}
 				case .failure(let error):
+					withAnimation{
+						self?.error = error
+					}
+					
 					print("Error checking friendship status: \(error)")
 				}
 			}
 		}
+	
+	
+	 private func listenForAllFriendRequests(){
+		guard let currentUserId = Auth.auth().currentUser?.uid else { self.error = AccountError.notSignedIn; return }
+		 
+		 friendRequestsListener = FirestoreService.shared.listenForAllIncomingRequests(userId: currentUserId, completion: { result in
+			 
+			 switch result {
+			 case .success(let req):
+				 withAnimation { self.friendRequests = req }
+			 case .failure(let failure):
+				 withAnimation { self.friendRequests = [] ; self.error = failure }
+			 }
+		 })
+		
+	}
 		
 		func stopListeningForFriendshipStatus() {
 			friendshipStatusListeners.forEach { $0.remove() }

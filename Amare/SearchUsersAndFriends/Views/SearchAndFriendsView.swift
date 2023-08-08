@@ -15,6 +15,8 @@ import Firebase
 /// View that displays `FriendRequest`s, `Friend`s, `Suggestions`
 struct SearchAndFriendsView: View {
     
+	@EnvironmentObject var myData: UserProfileModel
+	
     @StateObject var dataModel = SearchAndFriendsViewModel()
     
     @State private var searchText = ""
@@ -81,7 +83,7 @@ struct SearchAndFriendsView: View {
                 
                 if segmentationSelection == .requests{
                     
-                    List(dataModel.friendRequests) { request in
+                    List(myData.friendRequests) { request in
 						
 			
 						

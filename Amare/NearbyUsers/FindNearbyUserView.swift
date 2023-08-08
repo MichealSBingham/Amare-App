@@ -8,8 +8,7 @@
 import SwiftUI
 import NearbyInteraction
 //import MultipeerKit
-/*
-import EasyFirebase
+
 
 
 
@@ -606,23 +605,7 @@ struct centerImage: View {
 			ProfileImageView(profile_image_url: $profile_image_url, size: profileImageSize)
 				.opacity(showOtherImage ? 1: 0 )
 			
-			//BROKEN .. Originally was going to use this to get the coordinate of the upper right corner but GeometryReader fucks things up
-			/*
-			VStack {
-				
-				HStack{
-					Spacer()
-					Group {
-						GeometryReader{ geo in
-							
-							ProfileImageView(profile_image_url: $profile_image_url)
-						}
-					}
-					
-					
-				}
-				Spacer()
-			} */
+			
 			
 			
 		}
@@ -700,6 +683,7 @@ struct FindNearbyUserView_Previews: PreviewProvider {
 			helper.direction = 0
 		}
 		.environmentObject(helper)
+		.environmentObject(BackgroundViewModel())
 		
 		
     }
@@ -964,10 +948,11 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 
 		 let token = DiscoveryTokenDocument(userId: userId, token: discoveryTokenData, deviceSupport: NISession.isSupported)
 		 self.mytoken = token
-		
+		/*
 		token.set { error in
 			self.someErrorHappened = error
 		}
+		 */
 	}
 	
 	
@@ -1006,11 +991,13 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 		
 		guard let me = Auth.auth().currentUser?.uid else { self.someErrorHappened = AccountError.notSignedIn; return  }
 		
+		/*
 		EasyFirestore.Listening.listen(to: me, ofType: DiscoveryTokenDocument.self, key: "discoveryToken") { token in
 			
 			
 			self.peersDiscoveryToken = token
 		}
+		*/
 		
 		
 		
@@ -1019,7 +1006,7 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 	
 	func stopListeningForPeerToken()  {
 		sessionNI?.invalidate()
-		EasyFirestore.Listening.stop("discoveryToken")
+		//EasyFirestore.Listening.stop("discoveryToken")
 		removeToken()
 		stopListeningForOrientationChange()
 		
@@ -1031,9 +1018,9 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 		guard let doc = mytoken else { return }
 		
 		
-		EasyFirestore.Removal.remove(doc) { error in
+		/* EasyFirestore.Removal.remove(doc) { error in
 			self.someErrorHappened = error
-		}
+		} */
 		mytoken = nil
 	}
 	
@@ -1206,7 +1193,7 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 
 
 
-class DiscoveryTokenDocument: Document{
+class DiscoveryTokenDocument{
 	
 	// These properties are inherited from Document
 	/// The user id of the user that this token is being sent TO
@@ -1242,4 +1229,4 @@ enum NearbyUserError: Error {
 	case wrongOrientation
 }
 
-*/
+

@@ -35,25 +35,7 @@ struct AmareApp: App {
 			
         }
         
-        .onChange(of: scenePhase) { newScenePhase in
-            
-            switch scenePhase{
-                
-            case .background:
-                print("\n\n Scence Phase: Background")
-                
-                break
-            case .inactive:
-                print("\n\n Scence Phase: Inactive ")
-                break
-            case .active:
-                print("\n\n Scence Phase: Active ")
-                break
-            @unknown default:
-                print("\n\n Scence Phase: Unknown ")
-                break
-            }
-        }
+       
     }
     
     /// Dismisses the keyboard

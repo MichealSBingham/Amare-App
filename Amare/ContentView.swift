@@ -27,7 +27,7 @@ struct ContentView: View {
 				if authService.isOnboardingComplete {
 					HomeView()
 						.onAppear{
-							dataModel.startListeningForUserDataChanges()
+							dataModel.loadUser()
 						}
 						.transition(.opacity)
 				} else {

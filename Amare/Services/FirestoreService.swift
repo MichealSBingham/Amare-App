@@ -449,6 +449,33 @@ class FirestoreService {
 		return incomingRequestListener
 	}
 
+	
+	func listenForAllIncomingRequests(userId: String, completion: @escaping (Result<[IncomingFriendRequest], Error>) -> Void) -> ListenerRegistration {
+		
+		let incomingRequestsReference = db.collection("users").document(userId).collection("incomingRequests")
+
+		let listener = incomingRequestsReference.addSnapshotListener { (snapshot, error) in
+			if let error = error {
+				completion(.failure(error))
+				return
+			}
+
+			guard let snapshot = snapshot else {
+				completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Snapshot is nil"])))
+				return
+			}
+
+			let incomingFriendRequests: [IncomingFriendRequest] = snapshot.documents.compactMap { document in
+				try? document.data(as: IncomingFriendRequest.self)
+			}
+
+			completion(.success(incomingFriendRequests))
+		}
+
+		return listener
+	}
+
+
 		
 
 

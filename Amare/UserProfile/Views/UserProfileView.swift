@@ -72,7 +72,7 @@ struct UserProfileView: View {
 				
 			} label: {
 				
-				ZStack{
+				
 					
 				
 						
@@ -81,17 +81,11 @@ struct UserProfileView: View {
 							.frame(width: 35, height: 35)
 							.foregroundColor(Color.amare)
 							.transition(.scale)
-							.opacity(model.friendshipStatus == .friends ? 0: 1)
+							.opacity(model.friendshipStatus == .friends || model.friendshipStatus == .requested ? 0: 1)
+							.foregroundColor(model.friendshipStatus == .awaiting ? .green : .amare)
 						
 					
 						
-						ZStack{
-							Text("Accept Friend Request")
-								.opacity(model.friendshipStatus  == .awaiting ? 1 : 0 )
-							
-							Text("Sent Friend Request")
-								.opacity(model.friendshipStatus  == .requested ? 1 : 0 )
-						}.offset(y: 30)
 						
 						
 					
@@ -99,7 +93,7 @@ struct UserProfileView: View {
 						
 					
 					
-				}
+				
 				
 				
 				
