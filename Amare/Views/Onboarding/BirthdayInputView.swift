@@ -10,6 +10,9 @@ import SwiftUI
 struct BirthdayInputView: View {
     
 	@EnvironmentObject var model: OnboardingViewModel
+	
+	/// If this is true, it will adjust the content of the view so that it's for creating another custom profile instead of onboarding the sign up user. i.e. instead of `Enter your name` it'll say `Enter their name`
+	var customAccount: Bool = false
     
     var body: some View {
         
@@ -21,7 +24,7 @@ struct BirthdayInputView: View {
             
             Spacer()
            
-            Text("When Did Your Cosmic Journey Begin?")
+			Text(!customAccount ? "When Did Your Cosmic Journey Begin?" : "When Did Their Cosmic Journey Begin?" )
                 .bold()
                 .font(.system(size: 40))
                 //.lineLimit(1)
@@ -29,7 +32,7 @@ struct BirthdayInputView: View {
                 .padding()
 			
 			
-		   Text("Enter your birthday")
+			Text(!customAccount ? "Enter your birthday"  : "Enter their birthday" )
 				.font(.system(size: 20))
 				//.foregroundColor(.white)
 				.padding()

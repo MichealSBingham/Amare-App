@@ -15,14 +15,15 @@ struct InputHomeCityView: View {
 	
 	@State var cityLabel: String = "Enter your place of birth, **not** your current city."
 	
-	
+	/// If this is true, it will adjust the content of the view so that it's for creating another custom profile instead of onboarding the sign up user. i.e. instead of `Enter your name` it'll say `Enter their name`
+	var customAccount: Bool = false
 	
     var body: some View {
 		VStack{
 			
 			//Spacer()
 		   
-			Text("Where Did You Spawn on Earth?")
+			Text(!customAccount ? "Where Did You Spawn on Earth?" : "Where Did They Spawn on Earth?")
 				.bold()
 				.font(.system(size: 40))  // was 50
 				.lineLimit(2)
@@ -36,6 +37,9 @@ struct InputHomeCityView: View {
 				.font(.system(size: 20))
 				.lineLimit(1)
 				.minimumScaleFactor(0.01)
+				.onAppear{
+					if customAccount { self.cityLabel = "Enter their place of birth, **not** their current city."}
+				}
 				//.foregroundColor(.white)
 				.padding()
 				.onChange(of: model.homeCity) { city in
@@ -82,6 +86,7 @@ struct InputHomeCityView: View {
 struct InputHomeCityView_Previews: PreviewProvider {
     static var previews: some View {
        InputHomeCityView()
+			.environmentObject(OnboardingViewModel())
     }
 }
 

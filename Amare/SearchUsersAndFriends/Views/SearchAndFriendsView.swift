@@ -26,6 +26,8 @@ struct SearchAndFriendsView: View {
 	@StateObject var tappedUser: UserProfileModel = UserProfileModel()
     
 	@State var selectedUser: Bool = false
+	
+	@State var showCustomProfileCreation = false
     
     var body: some View {
         
@@ -47,7 +49,8 @@ struct SearchAndFriendsView: View {
 						} label: {
 							
 							UserListRowView(imageUrl: user.profile_image_url ?? "", text: user.username, isNotable: user.isNotable)
-								
+							
+						
 						}
 						.buttonStyle(.plain)
 						.listRowInsets(EdgeInsets())
@@ -88,9 +91,14 @@ struct SearchAndFriendsView: View {
 			
 						
 						
-						UserListRowView(imageUrl: request.profileImageURL, text: request.name, isNotable: request.isNotable)
+						UserListRowView(imageUrl: request.profileImageURL, text: request.name, isNotable: request.isNotable, greenAction: {
+							// accepted friend request
+						}, redAction: {
+							// rejected friend request
+						})
 							.listRowInsets(EdgeInsets())
 							.listRowSeparator(.hidden)
+							.buttonStyle(PlainButtonStyle())
 							
 							
 						
@@ -103,9 +111,45 @@ struct SearchAndFriendsView: View {
                 }
                 
                 if segmentationSelection == .custom{
+					
                     
-                    List(dataModel.friendRequests) { request in
-                        Text(request.name)
+                    List {
+						
+						
+						Section(header: Text("Create A Custom Profile")) {
+							
+							Button {
+								withAnimation{ showCustomProfileCreation = true }
+								
+							} label: {
+								
+								HStack{
+									
+									
+									Image(systemName: "person.fill.badge.plus")
+										.resizable()
+										.frame(width: 50, height: 50)
+										.padding()
+									
+									Text("Create a custom profile")
+										.lineLimit(1)
+										.font(.subheadline)
+										//.padding()
+									
+									
+									
+									Spacer()
+								}
+							}
+							
+
+								
+							
+						}
+						
+						
+						
+						
                     }
 					.listStyle(.plain)
 					.padding(0)
@@ -119,6 +163,9 @@ struct SearchAndFriendsView: View {
 						NavigationLink(destination: UserProfileView(model: tappedUser),
 									   isActive: $selectedUser) { EmptyView() }
 					)
+			.sheet(isPresented: $showCustomProfileCreation, content: {
+				CustomProfileCreationView()
+			})
 
             
         

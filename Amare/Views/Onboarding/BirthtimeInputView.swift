@@ -13,11 +13,16 @@ struct BirthtimeInputView: View {
 	
 	@EnvironmentObject var model: OnboardingViewModel
 	
+	@Environment(\.dismiss) var dismiss
+	
 	
 	@State var showBDayConfirmationAlert: Bool = false
 
 	///This is for the alert that shows if the user does not know his birth time.
 	@State var showAlertForNoTimeSelection: Bool = false
+	
+	/// If this is true, it will adjust the content of the view so that it's for creating another custom profile instead of onboarding the sign up user. i.e. instead of `Enter your name` it'll say `Enter their name`
+	var customAccount: Bool = false
 	
 	var body: some View {
 		
@@ -29,7 +34,7 @@ struct BirthtimeInputView: View {
 			
 			Spacer()
 		   
-			Text("What Time Were You Born?")
+			Text(!customAccount ? "What Time Were You Born?" : "What Time Were They Born?" )
 				.bold()
 				.font(.system(size: 40))
 				//.lineLimit(1)
@@ -102,7 +107,7 @@ struct BirthtimeInputView: View {
 		Button {
 			showAlertForNoTimeSelection = true
 		} label: {
-			Text("I'm not sure when I was born.")
+			Text(!customAccount ? "I'm not sure when I was born." : "I'm not sure when they were born." )
 				 .font(.system(size: 20))
 				 //.foregroundColor(.white)
 				 .padding()
@@ -114,8 +119,8 @@ struct BirthtimeInputView: View {
 	
 	func alertMessageForNoTimeZone() -> Alert {
 		Alert(
-			title: Text("What is your timezone?"),
-			message: Text("Please go back and select your hometown. We don't know your timezone."),
+			title: Text(!customAccount ? "What is your timezone?" : "What is their timezone?"),
+			message: Text(!customAccount ? "Please go back and select your hometown. We don't know your timezone." : "Please go back and select their hometown. We don't know their timezone." ),
 			
 			
 			dismissButton: .default(Text("Ok"), action: {
@@ -130,8 +135,8 @@ struct BirthtimeInputView: View {
 	
 	func alertMessageForBirthtime() -> Alert {
 		Alert(
-			title: Text("Call Your Mom"),
-			message: Text("We need your birth time for accuracy. \nIt's likely your mother knows it. \n\nWithout it, crucial compatibility details will be missing, but we can still proceed. \n\nNote: You can't add it later. You can also check your birth certificate."),
+			title: Text(!customAccount ? "Call Your Mom" : "Ask Them"),
+			message: Text(!customAccount ? "We need your birth time for accuracy. \nIt's likely your mother knows it. \n\nWithout it, crucial compatibility details will be missing, but we can still proceed. \n\nNote: You can't add it later. You can also check your birth certificate." : "We need their birth time for accuracy. Without it, crucial compatibility details will be missing, but we can still proceed."),
 			
 			
 			primaryButton: .default(Text("I'll find it"), action: {
@@ -155,7 +160,7 @@ struct BirthtimeInputView: View {
 		
 		
 		Alert(
-			title: Text("Is this when you were born?"),
+			title: Text(!customAccount ? "Is this when you were born?" : "Is this when they were born?"),
 			message: Text("\(model.birthday.string(from: model.homeCityTimeZone))"),
 			
 			

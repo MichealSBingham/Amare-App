@@ -93,7 +93,17 @@ class SearchAndFriendsViewModel: ObservableObject {
                     print("Failed to fetch friend requests: \(error)")
                 }
             }
+		
         }
+	
+	
+	func declineFriendRequest(for userId: String){
+		
+	}
+	
+	func acceptFriendRequest(for userId: String){
+		
+	}
     
     
     
