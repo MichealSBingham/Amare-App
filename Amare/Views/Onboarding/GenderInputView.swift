@@ -68,6 +68,9 @@ struct GenderInputView: View {
 			
 			NextButtonView {
 				withAnimation {
+					model.generateTraits { result in
+						
+					}
 					model.currentPage = .intention
 				}
 			}

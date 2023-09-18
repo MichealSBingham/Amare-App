@@ -108,7 +108,7 @@ class OnboardingViewModel: ObservableObject{
       
         
         let bday = Birthday(timestamp: Timestamp(date: bd!)/*, month: bd!.month(), day: bd!.day(), year: bd!.year()*/)
-        
+		
        
         let rs = Place(latitude: homeCity.coordinate.latitude, longitude: homeCity.coordinate.longitude, city: homeCity.city, state: homeCity.state, country: homeCity.country, geohash: homeCity.geohash)
         
@@ -141,13 +141,13 @@ class OnboardingViewModel: ObservableObject{
     }
 	
 	
-	func createCustomProfile(forUser userID: String, completion: @escaping (Result<Void, Error>) -> Void)  {
+	func createCustomProfile(forUser userID: String? = Auth.auth().currentUser?.uid, completion: @escaping (Result<Void, Error>) -> Void)  {
 		
 		// just making sure we have the user data saved otherwise the user needs to be taking back to the sign up onboarding ..
 		guard let name = name,
 				let knowsBirthTime = knowsBirthTime,
 				let tz = homeCityTimeZone,
-			  let homeCity = homeCity else  {
+			  let homeCity = homeCity, let id = userID else  {
 			
 			completion(.failure(OnboardingError.incompleteData))
 			return
@@ -181,7 +181,7 @@ class OnboardingViewModel: ObservableObject{
 		var customUser = AppUser( name: name, hometown: ht, birthday: bday, knownBirthTime: knowsBirthTime, residence: rs, profileImageUrl: profileImageUrl, images: [], sex: .none, orientation: [], username: "none", phoneNumber: "", reasonsForUse: [])
 		
 		
-		FirestoreService.shared.setOnboardingData(forUser: customUser) { result in
+		FirestoreService.shared.createCustomUser(forUser: id, with: customUser) { result in
 			
 			switch result {
 			case .success(let success):
@@ -196,8 +196,56 @@ class OnboardingViewModel: ObservableObject{
 				
 	}
 	
-
-    
+/// Generates traits that might describe the user based on their astrological profile+basic info using large language model
+	func generateTraits(completion: @escaping (Result<Void, Error>) -> Void){
+		// just making sure we have the user data saved otherwise the user needs to be taking back to the sign up onboarding ..
+		print("Generating Traits")
+		guard let name = name,
+				let knowsBirthTime = knowsBirthTime,
+				let tz = homeCityTimeZone,
+			  let homeCity = homeCity else  {
+			completion(.failure(OnboardingError.incompleteData))
+			return
+		}
+		
+		
+		guard  gender != .none else {
+			completion(.failure(OnboardingError.incompleteData))
+			return
+		}
+		
+		let ht = Place(latitude: homeCity.coordinate.latitude, longitude: homeCity.coordinate.longitude, city: homeCity.city, state: homeCity.state, country: homeCity.country, geohash: homeCity.geohash)
+		
+		let  bd = (knowsBirthTime ?  birthday.combineWithTime(time: birthtime, in: tz) :  birthday.setToNoon(timeZone: tz) )
+		
+		if bd == nil { completion(.failure(OnboardingError.dateError))}
+		
+		
+		
+		// Now send the gender, name, birthday utc timestamp seconds, and lat/long to api.
+		print("\n\n\n================Sending the data to api to generate traits: ")
+		print(name)
+		print(gender.rawValue)
+		print("time interval: \(bd!.timeIntervalSince1970)")
+		print("timestamp: \(Timestamp(date: bd!).seconds)")
+		print("lat: \(homeCity.coordinate.latitude)")
+		print("long: \(homeCity.coordinate.longitude)")
+		
+		let data = UserTraitsData(name: name, gender: gender.rawValue, latitude:homeCity.coordinate.latitude, longitude: homeCity.coordinate.longitude, birthdayInSecondsSince1970: bd!.timeIntervalSince1970, knowsBirthtime: knowsBirthTime)
+		APIService.shared.predictTraitsFrom(data: data) { result in
+			switch result {
+			case .success(let success):
+				print("DID WIN WITH PREDIT TRAITS")
+				completion(.success(()))
+			case .failure(let failure):
+				print("FAILED predicting traits \(failure)")
+				completion(.failure(failure))
+			}
+		}
+		
+	
+		
+	}
       
     
     

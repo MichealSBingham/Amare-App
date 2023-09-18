@@ -96,6 +96,7 @@
 		26B1B011267C28E000A170B3 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B1B010267C28E000A170B3 /* Extensions.swift */; };
 		26B598D2295CC8A8009DEA22 /* TabViewUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B598D1295CC8A8009DEA22 /* TabViewUI.swift */; };
 		26B6079D26C021C900CE8491 /* SignInOrUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B6079C26C021C900CE8491 /* SignInOrUpView.swift */; };
+		26BD69412AB759BC0062B18B /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BD69402AB759BC0062B18B /* APIService.swift */; };
 		26C399C92A5DCFA90061F9B8 /* URL+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C399C82A5DCFA90061F9B8 /* URL+Extensions.swift */; };
 		26C399CB2A5E23350061F9B8 /* SearchAndFriendsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C399CA2A5E23340061F9B8 /* SearchAndFriendsView.swift */; };
 		26C3EE162A45010300CCA9E0 /* FirestoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C3EE152A45010300CCA9E0 /* FirestoreService.swift */; };
@@ -232,6 +233,7 @@
 		26B598D1295CC8A8009DEA22 /* TabViewUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewUI.swift; sourceTree = "<group>"; };
 		26B6079C26C021C900CE8491 /* SignInOrUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInOrUpView.swift; sourceTree = "<group>"; };
 		26BBF08A267D321F00C84019 /* Amare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Amare.entitlements; sourceTree = "<group>"; };
+		26BD69402AB759BC0062B18B /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		26C399C82A5DCFA90061F9B8 /* URL+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extensions.swift"; sourceTree = "<group>"; };
 		26C399CA2A5E23340061F9B8 /* SearchAndFriendsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAndFriendsView.swift; sourceTree = "<group>"; };
 		26C3EE152A45010300CCA9E0 /* FirestoreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreService.swift; sourceTree = "<group>"; };
@@ -592,6 +594,9 @@
 		26B1AFD42678FFE500A170B3 /* Amare */ = {
 			isa = PBXGroup;
 			children = (
+				26C3EE142A44FDB700CCA9E0 /* Services */,
+				2626D2E52A210799007F5C77 /* Views */,
+				26D001A327924860005E99A1 /* ViewModels */,
 				26A5FBE12A73326500D94476 /* NatalChart */,
 				2684C6612A65F5590048BB4E /* CustomViews */,
 				2627C5412A71EE3E008ED5DB /* UserProfile */,
@@ -601,9 +606,6 @@
 				262F2A5C2A50895100C980D3 /* ContentView.swift */,
 				262F2A642A51C3CE00C980D3 /* HomeView.swift */,
 				26C3EE172A4510C600CCA9E0 /* Configuration */,
-				26C3EE142A44FDB700CCA9E0 /* Services */,
-				26D001A327924860005E99A1 /* ViewModels */,
-				2626D2E52A210799007F5C77 /* Views */,
 				2626D2E42A21078F007F5C77 /* Models */,
 				26B1B00F267C28CB00A170B3 /* Utilities */,
 				26E10BAB28679A4E007666F9 /* Messaging */,
@@ -687,6 +689,7 @@
 				2608CF4F2697522300826FDA /* Errors */,
 				26C3EE152A45010300CCA9E0 /* FirestoreService.swift */,
 				262F2A5A2A5086CC00C980D3 /* AuthService.swift */,
+				26BD69402AB759BC0062B18B /* APIService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1037,6 +1040,7 @@
 				26C466512A34FEC0000EC8BC /* UsernameInputView.swift in Sources */,
 				2601359C2A485A7F007878BD /* InputHomeCityView.swift in Sources */,
 				26A5FBDA2A732E4C00D94476 /* Aspect.swift in Sources */,
+				26BD69412AB759BC0062B18B /* APIService.swift in Sources */,
 				2662ED1C2842D17600B0EA57 /* PulsingView.swift in Sources */,
 				263D6F9A2684087300CBBECC /* AmareUser.swift in Sources */,
 				260954BD2A60ADB400114C56 /* SearchAndFriendsViewModel.swift in Sources */,

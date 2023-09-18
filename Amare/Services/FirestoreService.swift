@@ -475,41 +475,54 @@ class FirestoreService {
 		return listener
 	}
 
+	
+	
+	func listenForAllCustomProfiles(for userId: String, completion: @escaping (Result<[AppUser], Error>) -> Void) -> ListenerRegistration {
+		
+		let customProfilesRef = db.collection("users").document(userId).collection("customProfiles")
 
-	func createCustomUser(forUser appUser: AppUser, with data: AppUser, completion: @escaping (Result<Void, Error>) -> Void) {
-		
-	/// \\\\,
-		
-		do {
-			try self.db.collection("")
-		}
-		
-		// Writing to "usernames" collection first
-		db.collection("usernames").document(appUser.username).setData(usernameData) { error in
+		let listener = customProfilesRef.addSnapshotListener { (snapshot, error) in
 			if let error = error {
 				completion(.failure(error))
-			} else {
-				// If "usernames" write operation is successful, then proceed to write to "users" collection
-				do {
-					try self.db.collection("users").document(appUser.id!).setData(from: appUser) { error in
-						if let error = error {
-							// If "users" write operation fails, then delete the data from "usernames" collection
-							self.db.collection("usernames").document(appUser.username).delete() { error in
-								if let error = error {
-									print("Error removing document: \(error)")
-								}
-							}
-							completion(.failure(error))
-						} else {
-							completion(.success(()))
-						}
-					}
-				} catch {
-					print("Error: \(error)")
+				return
+			}
+
+			guard let snapshot = snapshot else {
+				completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Snapshot is nil"])))
+				return
+			}
+
+			let customProfiles: [AppUser] = snapshot.documents.compactMap { document in
+				try? document.data(as: AppUser.self)
+			}
+
+			completion(.success(customProfiles))
+		}
+
+		return listener
+	}
+
+	func createCustomUser(forUser userID: String, with data: AppUser, completion: @escaping (Result<Void, Error>) -> Void) {
+		
+		let uniqueID = UUID().uuidString
+		
+
+		
+		do {
+			try self.db.collection("users").document(userID).collection("customProfiles").document(uniqueID).setData(from: data) { error in
+				if let error = error {
+					
 					completion(.failure(error))
+				} else {
+					completion(.success(()))
 				}
 			}
+		} catch {
+			print("Error: \(error)")
+			completion(.failure(error))
 		}
+		
+
 	}
 
 

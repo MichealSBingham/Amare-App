@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Firebase
 
 struct CustomProfileCreationView: View {
 	
@@ -32,6 +33,15 @@ struct CustomProfileCreationView: View {
 				.tag(OnboardingScreen.birthtime)
 				.onChange(of: newProfileViewModel.currentPage) { page in
 					if page == .genderSelection{
+						
+						newProfileViewModel.createCustomProfile { result in
+							switch result {
+							case .success(let success):
+								print("Suceeded in making a custom profile ")
+							case .failure(let failure):
+								print("Failed to make a custom profile \(failure)")
+							}
+						}
 						dismiss()
 					}
 				}
