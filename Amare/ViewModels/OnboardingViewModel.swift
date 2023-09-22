@@ -49,6 +49,7 @@ class OnboardingViewModel: ObservableObject{
 	@Published var datingSelected: Bool = false
 	@Published var selfDiscoverySelected: Bool = false 
     
+	@Published var predictedTraits: [String: String]  = [:]
     
     @Published  var progress: Double = Double(OnboardingScreen.allCases.firstIndex(of: .phoneNumber) ?? 0) / Double(OnboardingScreen.allCases.count - 1)
 	
@@ -197,7 +198,7 @@ class OnboardingViewModel: ObservableObject{
 	}
 	
 /// Generates traits that might describe the user based on their astrological profile+basic info using large language model
-	func generateTraits(completion: @escaping (Result<Void, Error>) -> Void){
+	func generateTraits(completion: @escaping (Result<Any, Error>) -> Void){
 		// just making sure we have the user data saved otherwise the user needs to be taking back to the sign up onboarding ..
 		print("Generating Traits")
 		guard let name = name,
@@ -234,9 +235,10 @@ class OnboardingViewModel: ObservableObject{
 		let data = UserTraitsData(name: name, gender: gender.rawValue, latitude:homeCity.coordinate.latitude, longitude: homeCity.coordinate.longitude, birthdayInSecondsSince1970: bd!.timeIntervalSince1970, knowsBirthtime: knowsBirthTime)
 		APIService.shared.predictTraitsFrom(data: data) { result in
 			switch result {
-			case .success(let success):
-				print("DID WIN WITH PREDIT TRAITS")
-				completion(.success(()))
+			case .success(let traits):
+				print("predicted traits: \(traits)")
+				self.predictedTraits = traits as! [String : String]
+				completion(.success(traits))
 			case .failure(let failure):
 				print("FAILED predicting traits \(failure)")
 				completion(.failure(failure))

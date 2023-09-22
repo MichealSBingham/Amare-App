@@ -50,12 +50,23 @@ struct UserProfileView: View {
 	
 	@ViewBuilder
 	fileprivate func friendshipStatus() -> some View {
-		Image(systemName: model.friendshipStatus.imageName)
+		Button{
+			
+		
+			if model.friendshipStatus == .requested{
+				guard let current = currentUserDataModel.user else { print("Can't add friend, no signed in user"); return }
+				model.cancelFriendRequest(currentSignedInUser: current)
+			}
+			
+		}
+	label: {
+			Image(systemName: model.friendshipStatus.imageName)
 			.resizable()
 			.frame(width: 35, height: 25)
 			.foregroundColor(Color.amare)
 			.transition(.scale)
-			
+	}
+	.disabled(model.friendshipStatus == .notFriends)
 	}
 	
 	@ViewBuilder
@@ -69,6 +80,8 @@ struct UserProfileView: View {
 					guard let current = currentUserDataModel.user else { print("Can't add friend, no signed in user"); return }
 					model.addFriend(currentSignedInUser: current)
 				}
+				
+				
 				
 			} label: {
 				

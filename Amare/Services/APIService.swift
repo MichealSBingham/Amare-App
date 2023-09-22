@@ -45,11 +45,17 @@ class APIService{
 				guard let data = data else { return }
 				do {
 					// Decode the response if you have a proper model
-					let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
-					print("@#$#@$%#====\n\n\n\n\(jsonResponse)")
-					print("\n\n\n\n\n\n\n\n")
-					//print(jsonResponse["traits"])
-					completion(.success(jsonResponse))
+					let jsonResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+					
+					
+					if let traitsDictionary = jsonResponse!["traits"] as? [String: String] {
+						completion(.success(traitsDictionary))
+					} else {
+						completion(.failure(GlobalError.unknown))
+					}
+					
+					
+					
 				} catch {
 					completion(.failure(error))
 				}

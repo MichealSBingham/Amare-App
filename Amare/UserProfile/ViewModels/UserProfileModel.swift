@@ -82,7 +82,37 @@ class UserProfileModel: ObservableObject{
 			switch result {
 			case .success(let success):
 				DispatchQueue.main.async {
-					self.didSendFriendRequest = true
+					withAnimation{
+						self.didSendFriendRequest = true
+					}
+					
+				}
+			case .failure(let failure):
+				self.error = NSError(domain: "Something went wrong", code: 0)
+				print("Couldn't send friend request with error \(failure)")
+			}
+		}
+	}
+	
+	func cancelFriendRequest(currentSignedInUser: AppUser){
+		
+		guard let userToAddID = self.user?.id else {
+			self.error = NSError(domain: "Cannot load data", code: 0, userInfo: nil)
+			return
+		
+		}
+		
+		guard userToAddID != Auth.auth().currentUser?.uid else { print("can't add yourself as a friend"); return }
+		
+		
+		FirestoreService.shared.cancelFriendRequest(from: currentSignedInUser, to: userToAddID) { result in
+			switch result {
+			case .success(let success):
+				DispatchQueue.main.async {
+					withAnimation{
+						self.didSendFriendRequest = false
+					}
+					
 				}
 			case .failure(let failure):
 				self.error = NSError(domain: "Something went wrong", code: 0)

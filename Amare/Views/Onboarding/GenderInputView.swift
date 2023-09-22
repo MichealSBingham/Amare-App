@@ -68,6 +68,7 @@ struct GenderInputView: View {
 			
 			NextButtonView {
 				withAnimation {
+					print("about to generate traits")
 					model.generateTraits { result in
 						
 					}

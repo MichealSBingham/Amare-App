@@ -347,9 +347,7 @@ class FirestoreService {
 	
 	
 
-	/// TODO: maybe make a cloud function to validatie this to make sure the friend request indeed does NOT send if the sending user already has an open friend request FROM them
-	/// check if user has open friend request FROM the user they are sending it TO first before allow ing this process
-	///    e.g. Micheal sends a friend request to Elizabeth
+	
 	func sendFriendRequest(from micheal: AppUser, to elizabeth: String, completion: @escaping (Result<Void, Error>) -> Void) {
 		
 		guard let micheal_id = micheal.id else { completion(.failure(NSError.init(domain: "Not Signed In", code: 1))); return }
@@ -365,6 +363,7 @@ class FirestoreService {
 				if let err = err {
 					completion(.failure(err))
 				} else {
+					
 					// Create an incoming request document for the other user.
 					self.db.collection("users").document(elizabeth).collection("incomingRequests").document(micheal_id)
 						.setData(incomingFriendRequestForOtherUser.asDictionary()) { err in
@@ -374,9 +373,31 @@ class FirestoreService {
 								completion(.success(()))
 							}
 						}
+					
 				}
 			}
 	}
+	
+	func cancelFriendRequest(from micheal: AppUser, to elizabeth: String, completion: @escaping (Result<Void, Error>) -> Void) {
+		
+		guard let micheal_id = micheal.id else {
+			completion(.failure(NSError.init(domain: "Not Signed In", code: 1)))
+			return
+		}
+		
+		// Reference to the outgoing request document.
+		let outgoingRequestRef = db.collection("users").document(micheal_id).collection("outgoingRequests").document(elizabeth)
+		
+		// Delete the outgoing request document.
+		outgoingRequestRef.delete() { err in
+			if let err = err {
+				completion(.failure(err))
+			} else {
+				completion(.success(()))
+			}
+		}
+	}
+
 
 	
 	func listenForFriendshipStatus(currentUserID: String, otherUserID: String, completion: @escaping (Result<UserFriendshipStatus, Error>) -> Void) -> [ListenerRegistration] {
