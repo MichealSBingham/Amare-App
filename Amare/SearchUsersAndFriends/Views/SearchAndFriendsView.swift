@@ -93,8 +93,11 @@ struct SearchAndFriendsView: View {
 						
 						UserListRowView(imageUrl: request.profileImageURL, text: request.name, isNotable: request.isNotable, greenAction: {
 							// accepted friend request
+                            dataModel.acceptFriendRequest(from: request.id)
+                        
 						}, redAction: {
 							// rejected friend request
+                            dataModel.rejectFriendRequest(from: request.id)
 						})
 							.listRowInsets(EdgeInsets())
 							.listRowSeparator(.hidden)
@@ -184,7 +187,7 @@ struct SearchAndFriendsView: View {
                     dataModel.searchUsers(matching: text)
                 case .friends:
                     if let id = Auth.auth().currentUser?.uid{
-                        dataModel.fetchFriendRequests(for: id)
+                        dataModel.listenForAllFriendRequests()
                     }
                     
                 case .requests:

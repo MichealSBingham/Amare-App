@@ -353,7 +353,7 @@ class FirestoreService {
 		guard let micheal_id = micheal.id else { completion(.failure(NSError.init(domain: "Not Signed In", code: 1))); return }
 		let now = Timestamp(date: Date())
 			
-		let outgoingFriendRequest = OutgoingFriendRequest(id: elizabeth, status: .pending, from: micheal_id, to: elizabeth, time: now)
+		let outgoingFriendRequest = OutgoingFriendRequest(id: elizabeth, status: .pending, from: micheal_id, /*to: elizabeth,*/ time: now)
 		
 		let incomingFriendRequestForOtherUser = IncomingFriendRequest(id: micheal_id, status: .pending, isNotable: micheal.isNotable, name: micheal.name, profileImageURL: micheal.profileImageUrl ?? "", from: micheal_id, time: now)
 			
@@ -378,13 +378,14 @@ class FirestoreService {
 			}
 	}
 	
-	func cancelFriendRequest(from micheal: AppUser, to elizabeth: String, completion: @escaping (Result<Void, Error>) -> Void) {
+	func cancelFriendRequest(to elizabeth: String, completion: @escaping (Result<Void, Error>) -> Void) {
 		
-		guard let micheal_id = micheal.id else {
+		
+		
+		guard let micheal_id = Auth.auth().currentUser?.uid else {
 			completion(.failure(NSError.init(domain: "Not Signed In", code: 1)))
 			return
 		}
-		
 		// Reference to the outgoing request document.
 		let outgoingRequestRef = db.collection("users").document(micheal_id).collection("outgoingRequests").document(elizabeth)
 		
@@ -398,6 +399,50 @@ class FirestoreService {
 		}
 	}
 
+	func declineFriendRequest(from senderID: String, completion: @escaping (Result<Void, Error>) -> Void) {
+		
+		// Ensure the current user isn't trying to decline a request from themselves
+		guard let currentSignedInUserID = Auth.auth().currentUser?.uid, senderID != currentSignedInUserID else {
+			completion(.failure(NSError.init(domain: "Cannot decline a friend request from yourself", code: 1)))
+			
+			return
+		}
+		
+		// Reference to the incoming request document.
+		let incomingRequestRef = db.collection("users").document(currentSignedInUserID).collection("incomingRequests").document(senderID)
+		
+		// Delete the incoming request document.
+		incomingRequestRef.delete() { err in
+			if let err = err {
+				completion(.failure(err))
+			} else {
+				completion(.success(()))
+			}
+		}
+	}
+    
+    func acceptFriendRequest(from senderID: String, completion: @escaping (Result<Void, Error>) -> Void) {
+       
+       // Ensure the current user isn't trying to accept a request from themselves
+       guard let currentSignedInUserID = Auth.auth().currentUser?.uid, senderID != currentSignedInUserID else {
+           print("Cannot accept a friend request from yourself")
+           completion(.failure(NSError.init(domain: "Cannot accept a friend request from yourself", code: 3)))
+           return
+       }
+       
+       // Reference to the incoming request document.
+       let incomingRequestRef = db.collection("users").document(currentSignedInUserID).collection("incomingRequests").document(senderID)
+       
+       // Update the status of the incoming request to "friends".
+       incomingRequestRef.updateData(["status": "friends"]) { err in
+           if let err = err {
+               completion(.failure(err))
+           } else {
+               completion(.success(()))
+           }
+       }
+   }
+
 
 	
 	func listenForFriendshipStatus(currentUserID: String, otherUserID: String, completion: @escaping (Result<UserFriendshipStatus, Error>) -> Void) -> [ListenerRegistration] {
@@ -407,7 +452,9 @@ class FirestoreService {
 			if let error = error {
 				completion(.failure(error))
 			} else if let snapshot = snapshot, let data = snapshot.data() {
+                
 				let outgoingRequest = try? snapshot.data(as: OutgoingFriendRequest.self)
+                print("completion listenForFriendshipStatus: data: \(data)\n and status: \(outgoingRequest)")
 				completion(.success(outgoingRequest?.status == .friends ? .friends : .requested))
 			} else {
 				// If there's no outgoing request, check for incoming request
@@ -416,6 +463,7 @@ class FirestoreService {
 						completion(.failure(error))
 					} else if let snapshot = snapshot, let data = snapshot.data() {
 						let incomingRequest = try? snapshot.data(as: IncomingFriendRequest.self)
+                        print("completion listenForFriendshipStatus: data: \(data)\n and status: \(incomingRequest)")
 						completion(.success(incomingRequest?.status == .friends ? .friends : .awaiting))
 					} else {
 						completion(.success(.notFriends))
@@ -488,7 +536,9 @@ class FirestoreService {
 
 			let incomingFriendRequests: [IncomingFriendRequest] = snapshot.documents.compactMap { document in
 				try? document.data(as: IncomingFriendRequest.self)
-			}
+            }.filter { $0.status != .friends }
+            
+           
 
 			completion(.success(incomingFriendRequests))
 		}

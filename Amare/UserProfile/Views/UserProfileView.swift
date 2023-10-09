@@ -55,7 +55,7 @@ struct UserProfileView: View {
 		
 			if model.friendshipStatus == .requested{
 				guard let current = currentUserDataModel.user else { print("Can't add friend, no signed in user"); return }
-				model.cancelFriendRequest(currentSignedInUser: current)
+				model.cancelFriendRequest()
 			}
 			
 		}
@@ -66,48 +66,41 @@ struct UserProfileView: View {
 			.foregroundColor(Color.amare)
 			.transition(.scale)
 	}
-	.disabled(model.friendshipStatus == .notFriends)
+    .disabled(model.friendshipStatus == .notFriends || model.friendshipStatus == .friends)
 	}
 	
 	@ViewBuilder
 	fileprivate func addFriend() -> some View {
 		
 	
-			
 			Button {
 				
 				if model.friendshipStatus == .notFriends {
 					guard let current = currentUserDataModel.user else { print("Can't add friend, no signed in user"); return }
 					model.addFriend(currentSignedInUser: current)
 				}
+                
+                if model.friendshipStatus == .awaiting{
+                    guard let current = currentUserDataModel.user else { print("Can't add friend, no signed in user"); return }
+                    model.acceptFriendRequest()
+            
+                }
 				
 				
 				
 			} label: {
 				
-				
-					
-				
+
 						
 						Image(systemName: "person.fill.badge.plus")
 							.resizable()
 							.frame(width: 35, height: 35)
-							.foregroundColor(Color.amare)
+							.foregroundColor(model.friendshipStatus == .awaiting ? .green : .amare)
 							.transition(.scale)
 							.opacity(model.friendshipStatus == .friends || model.friendshipStatus == .requested ? 0: 1)
-							.foregroundColor(model.friendshipStatus == .awaiting ? .green : .amare)
+							
 						
-					
-						
-						
-						
-					
-					
-						
-					
-					
-				
-				
+
 				
 				
 			}
@@ -118,7 +111,26 @@ struct UserProfileView: View {
 			
 	}
 
+    @ViewBuilder
+    fileprivate func rejectFriend() -> some View {
+        
+        Button {
+            
+            if model.friendshipStatus == .awaiting{
+                guard let current = currentUserDataModel.user else { print("Can't add friend, no signed in user"); return }
+                model.rejectFriendRequest()
+            }
+            
+        } label: {
+            Image(systemName: UserFriendshipStatus.notFriends.imageName)
+            .resizable()
+            .frame(width: 35, height: 25)
+            .foregroundColor(.red)
+            .transition(.scale)
+        }
+        .opacity(model.friendshipStatus == .awaiting ? 1 : 0 )
 
+    }
 	
 	var body: some View {
 		VStack{
@@ -146,6 +158,9 @@ struct UserProfileView: View {
 				
 				addFriend()
 					.padding()
+                
+                rejectFriend()
+                    .padding()
 					 
 				
 				

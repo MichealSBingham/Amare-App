@@ -13,21 +13,16 @@ import Firebase
 
 class SearchAndFriendsViewModel: ObservableObject {
     
-	#if DEBUG
-    
-    @Published var all: [SearchedUser] =  []
-	@Published var friendRequests: [FriendRequest] = (0..<50).map { _ in FriendRequest.random() }// []
-	@Published var friends: [FriendRequest] =  (0..<50).map { _ in FriendRequest.random() }
-    @Published var error: Error?
 	
-	#else
+	
+	
 	
 	@Published var all: [SearchedUser] =  []
-	@Published var friendRequests: [FriendRequest] =  []
+	@Published var friendRequests: [IncomingFriendRequest] =  []
 	@Published var friends: [FriendRequest] =  []
 	@Published var error: Error?
 	
-	#endif
+
     
  
     
@@ -42,7 +37,7 @@ class SearchAndFriendsViewModel: ObservableObject {
         
         if let id = Auth.auth().currentUser?.uid {
             self.error = nil
-            fetchFriendRequests(for: id)
+            listenForAllFriendRequests()
         } else {
             self.error = AccountError.notSignedIn
         }
@@ -80,32 +75,59 @@ class SearchAndFriendsViewModel: ObservableObject {
 	*/
     
     
-    func fetchFriendRequests(for userId: String) {
-         FirestoreService.shared.getAllFriendRequests(for: userId) {  result in
-                switch result {
-                case .success(let friendRequests):
-                    self.error = nil
-                    DispatchQueue.main.async {
-                        self.friendRequests = friendRequests
-                    }
-                case .failure(let error):
-                    self.error = error
-                    print("Failed to fetch friend requests: \(error)")
-                }
+  
+	
+	
+    func rejectFriendRequest(from userID: String?){
+        
+         
+        
+        guard let userID = userID, userID != Auth.auth().currentUser?.uid else { print("can't reject yourself as a friend"); return }
+        
+        FirestoreService.shared.declineFriendRequest(from: userID) { result in
+            
+            switch result {
+            case .success(let success):
+                break
+            case .failure(let failure):
+                self.error = NSError(domain: "Something went wrong", code: 0)
+                print("Couldn't send friend request with error \(failure)")
             }
-		
         }
-	
-	
-	func declineFriendRequest(for userId: String){
-		
-	}
-	
-	func acceptFriendRequest(for userId: String){
-		
-	}
+        
+    }
     
+    func acceptFriendRequest(from userID: String?){
+         
+        
+        guard let userID = userID, userID != Auth.auth().currentUser?.uid else { print("can't accept yourself as a friend"); return }
+        
+        FirestoreService.shared.acceptFriendRequest(from: userID) { result in
+            
+            switch result {
+            case .success(let success):
+                break
+            case .failure(let failure):
+                self.error = NSError(domain: "Something went wrong", code: 0)
+                print("Couldn't send friend request with error \(failure)")
+            }
+        }
+    }
     
+     func listenForAllFriendRequests(){
+       guard let currentUserId = Auth.auth().currentUser?.uid else { self.error = AccountError.notSignedIn; return }
+        
+        friendRequestsListener = FirestoreService.shared.listenForAllIncomingRequests(userId: currentUserId, completion: { result in
+            
+            switch result {
+            case .success(let req):
+                withAnimation { self.friendRequests = req }
+            case .failure(let failure):
+                withAnimation { self.friendRequests = [] ; self.error = failure }
+            }
+        })
+       
+   }
     
     
    

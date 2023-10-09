@@ -18,7 +18,7 @@ struct OutgoingFriendRequest: Codable, Identifiable, Hashable {
 
 
 	var from: String
-	var to: String
+	//var to: String
 	var time: Timestamp
 	
 	var formattedTime: String {
@@ -33,7 +33,7 @@ struct OutgoingFriendRequest: Codable, Identifiable, Hashable {
 			hasher.combine(status)
 			hasher.combine(from)
 			hasher.combine(time)
-			hasher.combine(to)
+			//hasher.combine(to)
 		}
 		
 		static func == (lhs: OutgoingFriendRequest, rhs: OutgoingFriendRequest) -> Bool {
@@ -41,7 +41,7 @@ struct OutgoingFriendRequest: Codable, Identifiable, Hashable {
 				lhs.status == rhs.status &&
 				lhs.from == rhs.from &&
 				lhs.time == rhs.time
-				lhs.to == rhs.to
+			//	lhs.to == rhs.to
 		}
 }
 
@@ -64,7 +64,7 @@ extension OutgoingFriendRequest {
 
 		return OutgoingFriendRequest(id: UUID().uuidString ,
 							 status: FriendshipStatus.pending,
-									 from: requestedBy, to: UUID().uuidString,
+									 from: requestedBy, //to: UUID().uuidString,
 								 time: time)
 		}
 	

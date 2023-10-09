@@ -94,7 +94,7 @@ class UserProfileModel: ObservableObject{
 		}
 	}
 	
-	func cancelFriendRequest(currentSignedInUser: AppUser){
+	func cancelFriendRequest(){
 		
 		guard let userToAddID = self.user?.id else {
 			self.error = NSError(domain: "Cannot load data", code: 0, userInfo: nil)
@@ -105,7 +105,7 @@ class UserProfileModel: ObservableObject{
 		guard userToAddID != Auth.auth().currentUser?.uid else { print("can't add yourself as a friend"); return }
 		
 		
-		FirestoreService.shared.cancelFriendRequest(from: currentSignedInUser, to: userToAddID) { result in
+		FirestoreService.shared.cancelFriendRequest( to: userToAddID) { result in
 			switch result {
 			case .success(let success):
 				DispatchQueue.main.async {
@@ -120,6 +120,58 @@ class UserProfileModel: ObservableObject{
 			}
 		}
 	}
+    
+    func rejectFriendRequest(){
+        
+        guard let from = self.user?.id else {
+            self.error = NSError(domain: "Cannot load data", code: 0, userInfo: nil)
+            return
+            
+        }
+        
+        guard from != Auth.auth().currentUser?.uid else { print("can't reject yourself as a friend"); return }
+        
+        FirestoreService.shared.declineFriendRequest(from: from) { result in
+            
+            switch result {
+            case .success(let success):
+                DispatchQueue.main.async {
+                    withAnimation{
+                        self.didSendFriendRequest = false
+                    }
+                }
+            case .failure(let failure):
+                self.error = NSError(domain: "Something went wrong", code: 0)
+                print("Couldn't send friend request with error \(failure)")
+            }
+        }
+        
+    }
+    
+    func acceptFriendRequest(){
+        guard let from = self.user?.id else {
+            self.error = NSError(domain: "Cannot load data", code: 0, userInfo: nil)
+            return
+            
+        }
+        
+        guard from != Auth.auth().currentUser?.uid else { print("can't accept yourself as a friend"); return }
+        
+        FirestoreService.shared.acceptFriendRequest(from: from) { result in
+            
+            switch result {
+            case .success(let success):
+                DispatchQueue.main.async {
+                    withAnimation{
+                        self.didSendFriendRequest = false
+                    }
+                }
+            case .failure(let failure):
+                self.error = NSError(domain: "Something went wrong", code: 0)
+                print("Couldn't send friend request with error \(failure)")
+            }
+        }
+    }
 	
 	
 	private func getNatalChart(userId: String){
@@ -180,6 +232,7 @@ class UserProfileModel: ObservableObject{
 				case .success(let status):
 					DispatchQueue.main.async {
 						withAnimation{
+                            print("after completion friendship status did change... \(status)")
 							self?.friendshipStatus = status
 						}
 						
