@@ -19,7 +19,7 @@ class SearchAndFriendsViewModel: ObservableObject {
 	
 	@Published var all: [SearchedUser] =  []
 	@Published var friendRequests: [IncomingFriendRequest] =  []
-	@Published var friends: [FriendRequest] =  []
+	@Published var friends: [Friend] =  []
 	@Published var error: Error?
 	
 
@@ -28,6 +28,7 @@ class SearchAndFriendsViewModel: ObservableObject {
     
     
     private var friendRequestsListener: ListenerRegistration?
+    private var friendsListener: ListenerRegistration?
     
     
     init() {
@@ -38,6 +39,7 @@ class SearchAndFriendsViewModel: ObservableObject {
         if let id = Auth.auth().currentUser?.uid {
             self.error = nil
             listenForAllFriendRequests()
+            listenForAllFriends()
         } else {
             self.error = AccountError.notSignedIn
         }
@@ -129,6 +131,20 @@ class SearchAndFriendsViewModel: ObservableObject {
        
    }
     
+    func listenForAllFriends(){
+        guard let currentUserID = Auth.auth().currentUser?.uid else { self.error = AccountError.notSignedIn; return }
+        
+        friendsListener = FirestoreService.shared.listenForAllFriends(for: currentUserID, completion: { result in
+            switch result {
+            case .success(let success):
+                withAnimation{
+                    self.friends = success 
+                }
+            case .failure(let failure):
+                self.error = failure
+            }
+        })
+    }
     
    
     

@@ -14,7 +14,7 @@ class FirestoreService {
 	
 	static let shared = FirestoreService()
 	
-	private let db = Firestore.firestore()
+	public let db = Firestore.firestore()
 	
 	private init() {}
 	
@@ -572,6 +572,31 @@ class FirestoreService {
 
 		return listener
 	}
+    
+    func listenForAllFriends(for userId: String, completion: @escaping (Result<[Friend], Error>) -> Void) -> ListenerRegistration {
+        
+        let friends = db.collection("friends").document(userId).collection("myFriends")
+
+        let listener = friends.addSnapshotListener { (snapshot, error) in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+
+            guard let snapshot = snapshot else {
+                completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Snapshot is nil"])))
+                return
+            }
+
+            let friends: [Friend] = snapshot.documents.compactMap { document in
+                try? document.data(as: Friend.self)
+            }
+
+            completion(.success(friends))
+        }
+
+        return listener
+    }
 
 	func createCustomUser(forUser userID: String, with data: AppUser, completion: @escaping (Result<Void, Error>) -> Void) {
 		

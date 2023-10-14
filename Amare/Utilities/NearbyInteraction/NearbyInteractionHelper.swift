@@ -17,7 +17,7 @@ struct NearbyInteractionConfig {
 
 class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
     
-    var testing: Bool = true
+    var testing: Bool = false
     
     // MARK: - @Published variables
     @Published var peersDiscoveryToken: DiscoveryTokenDocument? {
@@ -269,7 +269,7 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
             self.someErrorHappened = NIError(.unsupportedPlatform)
             return
         }
-        
+       
         // Create the token document
         let token = DiscoveryTokenDocument(id: userId, dateCreated: Timestamp(date: Date()), token: discoveryTokenData, deviceSupportsNI: NISession.isSupported)
         self.mytoken = token
@@ -283,10 +283,10 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
             try docRef.setData(from: token) { [weak self] error in
                 guard let self = self else { return }
                 if let error = error {
-                    print("Error writing document: \(error)")
+                    print("NI Token Error writing document: \(error)")
                     self.someErrorHappened = error
                 } else {
-                    print("Document successfully written!")
+                    print("NI Token Document successfully written!")
                 }
             }
         } catch {
@@ -328,6 +328,7 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
     
     /// Listen for tokens that peers sent to me. This document id should equal the id of the current signed in user.
     private func listenForPeerToken() {
+        print("listen for peer token")
         guard let me = Auth.auth().currentUser?.uid else {
             self.someErrorHappened = AccountError.notSignedIn
             return
@@ -335,25 +336,35 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 
         let db = FirestoreService.shared.db
         let docRef = db.collection("discoveryTokens").document(me)
-
+        print("listening at ... discoveryTokens/\(me)")
         // Listen for changes
         tokenListener = docRef.addSnapshotListener { [weak self] documentSnapshot, error in
             guard let self = self else { return }
-            guard let document = documentSnapshot else {
-                print("Error fetching document: \(error!)")
+            
+            // Check for network errors
+            if let error = error {
+                print("Error fetching document: \(error)")
                 self.someErrorHappened = NearbyUserError.noDiscoveryToken
+                return
+            }
+            
+            // Check if document actually exists
+            if !documentSnapshot!.exists {
+                print("Document does not exist") // can still be waiting for token... listening
+                //self.someErrorHappened = NearbyUserError.noDiscoveryToken
                 return
             }
 
             do {
-                 let tokenDoc = try document.data(as: DiscoveryTokenDocument.self)
-                    self.peersDiscoveryToken = tokenDoc
-                
+                let tokenDoc = try documentSnapshot!.data(as: DiscoveryTokenDocument.self)
+                print("Listening for peer token.. got \(String(describing: tokenDoc))")
+                self.peersDiscoveryToken = tokenDoc
             } catch {
                 print("Error decoding token: \(error)")
                 self.someErrorHappened = NearbyUserError.cantDecodeTheirDiscoveryToken
             }
         }
+
     }
     
     func stopListeningForPeerToken()  {

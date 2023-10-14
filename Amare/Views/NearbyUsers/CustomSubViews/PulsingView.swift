@@ -36,8 +36,8 @@ struct PulsingView: View {
 			.scaleEffect(animatePulse ? 1.4 : 0)
 			.onReceive(timer) { time in
 				
-				print("The time is ... \(time) ")
-				if counter >= pulseColors.count {
+               
+                if counter >= pulseColors.count {
 					counter = 0
 				}
 				

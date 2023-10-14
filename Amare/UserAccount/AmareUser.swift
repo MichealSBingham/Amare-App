@@ -177,7 +177,7 @@ public struct AmareUser: Codable, Equatable, Hashable, Identifiable{
 
 			let id = UUID().uuidString
 
-			return AmareUser(id: id, name: name, profile_image_url: profile_image, sex: sex , username: username)
+			return AmareUser(id: id, name: name, profile_image_url: profile_image, sex: sex , username: username, supportsNearbyInteraction: true)
 		}
     
     

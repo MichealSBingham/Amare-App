@@ -76,8 +76,8 @@ struct SearchAndFriendsView: View {
                 
                 if segmentationSelection == .friends{
                     
-                    List(dataModel.friends) { friends in
-                        Text(friends.name)
+                    List(dataModel.friends) { friend in
+                        UserListRowView(imageUrl: friend.profileImageURL , text: friend.name, isNotable: friend.isNotable)
                     }
 					.listStyle(.plain)
 					.padding(0)
@@ -187,11 +187,13 @@ struct SearchAndFriendsView: View {
                     dataModel.searchUsers(matching: text)
                 case .friends:
                     if let id = Auth.auth().currentUser?.uid{
-                        dataModel.listenForAllFriendRequests()
+                        dataModel.listenForAllFriends()
                     }
                     
                 case .requests:
-                    break
+                    if let id = Auth.auth().currentUser?.uid{
+                        dataModel.listenForAllFriendRequests()
+                    }
                 case .suggestions:
                     break
                 case .custom:
@@ -223,59 +225,7 @@ struct SearchAndFriendsView_Previews: PreviewProvider {
 
 import SwiftUI
 
-struct Friend: Identifiable {
-    let id = UUID()
-    let name: String
-    let category: String
-}
 
-struct ContentView4: View {
-    @State private var searchText = ""
 
-    let friends: [Friend] = [
-        Friend(name: "John", category: "Friends"),
-        Friend(name: "Emma", category: "Friends"),
-        Friend(name: "Sarah", category: "Friends"),
-        Friend(name: "Brad", category: "Celebrities"),
-        Friend(name: "Jennifer", category: "Celebrities"),
-        Friend(name: "Chris", category: "Colleagues")
-    ]
-
-    var filteredFriends: [Friend] {
-        if searchText.isEmpty {
-            return friends
-        } else {
-            return friends.filter { friend in
-                friend.name.localizedCaseInsensitiveContains(searchText)
-            }
-        }
-    }
-
-    var body: some View {
-        NavigationView {
-            List {
-                Section(header: Text("Friends")) {
-                    ForEach(filteredFriends.filter { $0.category == "Friends" }) { friend in
-                        Text(friend.name)
-                    }
-                }
-
-                Section(header: Text("Celebrities")) {
-                    ForEach(filteredFriends.filter { $0.category == "Celebrities" }) { friend in
-                        Text(friend.name)
-                    }
-                }
-
-                Section(header: Text("Colleagues")) {
-                    ForEach(filteredFriends.filter { $0.category == "Colleagues" }) { friend in
-                        Text(friend.name)
-                    }
-                }
-            }
-            .navigationTitle("Friends")
-            .searchable(text: $searchText)
-        }
-    }
-}
 
 

@@ -12,7 +12,9 @@ import SwiftUI
 struct UserProfileView: View {
 	
 	@EnvironmentObject var currentUserDataModel: UserProfileModel
-	@StateObject  var model: UserProfileModel
+	@StateObject  var model: UserProfileModel // was @ObservedObject but it makes it lag changes .. TODO: optimize this because theoretically  we need to be using @ObservedObject but it makes it lag when you switch between profile changes because it show sold data, maybe we can change to environment object or something
+    
+    @State var showNearbyInteraction: Bool = false
 	
 	fileprivate func winkStatusLabel() -> some View {
 		return Text((model.winkedAtMe ?? false) ? "\(model.user?.name ?? "") 😉 at you" : "")
@@ -47,6 +49,22 @@ struct UserProfileView: View {
 		}
 		.buttonStyle(.plain)
 	}
+    
+    @ViewBuilder
+    fileprivate func nearbyConnectionButton() -> some View {
+        Button {
+            withAnimation{ showNearbyInteraction.toggle() }
+        } label: {
+            
+            Image(systemName: "person.line.dotted.person.fill")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 50)
+                .foregroundColor(.green)
+        }
+        .buttonStyle(.plain)
+    }
+    
 	
 	@ViewBuilder
 	fileprivate func friendshipStatus() -> some View {
@@ -144,8 +162,10 @@ struct UserProfileView: View {
 			nameAndAgeLabel()
 			.padding(.top)
 			
-			NatalChartTabView(natalChart: model.natalChart)
-			
+            
+            NatalChartTabView(natalChart: model.natalChart)
+            
+            
 			HStack{
 				
 				messageButton()
@@ -161,6 +181,12 @@ struct UserProfileView: View {
                 
                 rejectFriend()
                     .padding()
+                
+                nearbyConnectionButton()
+                    .padding()
+                    .sheet(isPresented: $showNearbyInteraction,  content: {
+                        FindNearbyUserView( blindMode: false)
+                    })
 					 
 				
 				
@@ -177,8 +203,12 @@ struct UserProfileView: View {
 }
 
 struct UserProfileView_Previews: PreviewProvider {
+    
     static var previews: some View {
+        var helper = NearbyInteractionHelper()
 		UserProfileView(model: UserProfileModel.previewInstance())
-			//.environmentObject(UserProfileModel.previewInstance())
+			.environmentObject(UserProfileModel.previewInstance())
+            .environmentObject(helper)
+            .environmentObject(BackgroundViewModel())
     }
 }
