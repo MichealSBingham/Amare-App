@@ -50,5 +50,5 @@ struct UPSectionView: View {
 }
 
 #Preview {
-    UPSectionView(profileImageURL: AppUser.generateMockData().profileImageUrl, isNotable: true, winked: true, name: AppUser.generateMockData().name, username: AppUser.generateMockData().username, compatibility_score: 0.4)
+    UPSectionView(profileImageURL: AppUser.generateMockData().profileImageUrl, isNotable: true, winked: true, name: AppUser.generateMockData().name, username: AppUser.generateMockData().username, compatibility_score: 0.80)
 }

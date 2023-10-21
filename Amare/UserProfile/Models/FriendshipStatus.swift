@@ -43,7 +43,7 @@ extension UserFriendshipStatus {
 		case .friends:
 			return "person.fill.checkmark"
 		case .notFriends:
-			return "person.fill.xmark"
+			return "person.fill.badge.plus" // this is so th
 		case .requested:
 			return "rectangle.portrait.and.arrow.forward.fill"
 		case .awaiting:
