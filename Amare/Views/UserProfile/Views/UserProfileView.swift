@@ -185,7 +185,7 @@ struct UserProfileView: View {
                 nearbyConnectionButton()
                     .padding()
                     .sheet(isPresented: $showNearbyInteraction,  content: {
-                        FindNearbyUserView( blindMode: false)
+                        FindNearbyUserView( user: .constant(AmareUser.random()), blindMode: false)
                     })
 					 
 				
