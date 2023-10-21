@@ -7,12 +7,36 @@
 
 import SwiftUI
 
+
+
 struct NameLabelView: View {
+    var name: String?
+    var username: String?
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            Text(name ?? "Micheal Bingham")
+                .fontWeight(.medium)
+                .font(.headline)
+            
+            /*
+              .font(
+                Font.custom("SF Pro", size: 16)
+                  .weight(.medium)
+              )
+              .foregroundColor(.white)
+             */
+            
+            Text("@\(username ?? "micheal")")
+                .fontWeight(.ultraLight)
+                .font(.subheadline)
+        }
+        .redacted(reason: name == nil ? .placeholder : [])
     }
 }
 
+
 #Preview {
-    NameLabelView()
+    
+    NameLabelView(name: "Micheal Bingham", username: "micheal")
 }

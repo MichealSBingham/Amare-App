@@ -300,6 +300,7 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
     /// This runs the session for nearby interaction and should run after the peer discovery token is received
     private func run(){
         
+        
         // Make sure the peer's device is supported
         
         guard peersDiscoveryToken?.deviceSupportsNI == true else {
@@ -321,6 +322,7 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
             }
         
         let config = NINearbyPeerConfiguration(peerToken: token)
+        print("making config for it with token \(token)")
         sessionNI?.run(config)
         
         
@@ -396,9 +398,11 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 
     
     //MARK: - Listening to Nearby Object
+  
+    
     func session(_ session: NISession, didUpdate nearbyObjects: [NINearbyObject]) {
         
-        
+        print("calling session (_ session: ")
         
         
 
@@ -475,6 +479,7 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
         
         
     }
+    
     
     func session(_ session: NISession, didRemove nearbyObjects: [NINearbyObject], reason: NINearbyObject.RemovalReason) {
         session.invalidate()

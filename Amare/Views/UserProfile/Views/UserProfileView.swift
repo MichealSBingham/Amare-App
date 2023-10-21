@@ -12,7 +12,7 @@ import SwiftUI
 struct UserProfileView: View {
 	
 	@EnvironmentObject var currentUserDataModel: UserProfileModel
-	@StateObject  var model: UserProfileModel // was @ObservedObject but it makes it lag changes .. TODO: optimize this because theoretically  we need to be using @ObservedObject but it makes it lag when you switch between profile changes because it show sold data, maybe we can change to environment object or something
+	@ObservedObject  var model: UserProfileModel // was @ObservedObject but it makes it lag changes .. TODO: optimize this because theoretically  we need to be using @ObservedObject but it makes it lag when you switch between profile changes because it show sold data, maybe we can change to environment object or something
     
     @State var showNearbyInteraction: Bool = false
 	
@@ -185,7 +185,7 @@ struct UserProfileView: View {
                 nearbyConnectionButton()
                     .padding()
                     .sheet(isPresented: $showNearbyInteraction,  content: {
-                        FindNearbyUserView( user: .constant(AmareUser.random()), blindMode: false)
+                        FindNearbyUserView( user: model.user!, dataModel: NearbyInteractionHelper() , blindMode: false)
                     })
 					 
 				

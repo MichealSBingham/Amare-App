@@ -8,11 +8,19 @@
 import SwiftUI
 
 struct FriendshipStatusView: View {
+    var friendshipStatus: UserFriendshipStatus = .unknown
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Image(systemName: friendshipStatus.imageName)
+        .resizable()
+        .aspectRatio(contentMode: .fit)
+        .foregroundColor(Color.green)
+        .transition(.scale)
     }
 }
 
 #Preview {
     FriendshipStatusView()
+        .frame(width: 50)
+
 }

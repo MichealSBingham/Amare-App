@@ -14,9 +14,9 @@ import NearbyInteraction
 
 struct FindNearbyUserView: View {
 	
-	@Binding var user: AmareUser
+	/*@Binding*/ var user: AppUser /// was @Binding
 	
-	@EnvironmentObject var dataModel: NearbyInteractionHelper// = NearbyInteractionHelper()
+	@ObservedObject var dataModel: NearbyInteractionHelper //= NearbyInteractionHelper()
 	
 	@State var textToDisplay: String = "Waiting on their response... "
 	
@@ -75,7 +75,7 @@ struct FindNearbyUserView: View {
 								//TODO: - Check if blind date mode
 								if !blindMode{
 									// immediately reveal profile image if it isn't blind mode
-									otherUsersProfileImage = user.profile_image_url
+									otherUsersProfileImage = user.profileImageUrl
 								}
 								
 							}
@@ -283,9 +283,9 @@ struct FindNearbyUserView: View {
 			
 		
 				
+        //TODO: Fix this because we  have user.supportsNearbyInteraction property
 			
-			
-			guard NISession.isSupported && user.supportsNearbyInteraction ?? false else {
+			guard NISession.isSupported && true ?? false else {
 				
 				if !NISession.isSupported { dataModel.someErrorHappened = NIError(.unsupportedPlatform) } else {
 					
@@ -560,106 +560,7 @@ enum SpeedOfAnimation {
 	case slow, normal, medium, fast
 }
 
-//TODO: - flipping animation (card flip)
-/// If awaiting connection, this is the location icon, otherwise this should animate to the other user's profile pic
-///  -TODO:
-struct centerImage: View {
-	
-	@Binding var connected: Bool
-	@State var showOtherImage : Bool = false
-	
-	 @Binding var profile_image_url: String?
-	
-	 var size: CGFloat = CGFloat(80)
-	
-	var profileImageSize: CGFloat = CGFloat(150)
-	
-	@State private var condition: Bool = false
-	
-	var animation: Animation =
-	Animation.easeInOut(duration: 1)
-	   .repeatForever(autoreverses: true)
-	
-	
-	
-	@Binding var animationSpeed: SpeedOfAnimation
-	
-	@State var speed = 1.0
-	
-	var body: some View {
-		
-		//Location image
-		
-		ZStack{
-	
-				Image(systemName: "location.circle.fill")
-					.resizable()
-					.aspectRatio(contentMode: .fit)
-					.frame(width: size, height: size)
-					.foregroundColor(.white)
-					.opacity(showOtherImage ? 0: 1 )
-					
-					//.animation(animation)
-					
-			
-			ProfileImageView(profile_image_url: $profile_image_url, size: profileImageSize)
-				.opacity(showOtherImage ? 1: 0 )
-			
-			
-			
-			
-		}
-		.scaleEffect(condition ? 0.9 : 1.0)
-		.onChange(of: animationSpeed, perform: { newValue in
-			
-			condition = false
-			var speed = 0.0
-	
-			switch newValue {
-			case .slow:
-				speed = 2
-			case .normal:
-				speed = 1
-			case .medium:
-				speed = 0.5
-			case .fast:
-				speed = 0.1
-			}
-		
-			
-			DispatchQueue.main.async {
-				
-				print("Setting speed to ... \(speed) ")
-				withAnimation(.easeInOut(duration: speed).repeatForever(autoreverses: true)) {
-					condition = true
-				}
-			}
-			
-		})
-		.onAppear {
-			
-			
-			
-		
-			DispatchQueue.main.async {
-				
-				withAnimation(.easeInOut(duration: 1).repeatForever(autoreverses: true)) {
-					condition = true
-				}
-			}
-			
-		}
-	
-		.onChange(of: connected) { isConnected in
-			
-			
-			withAnimation {
-				showOtherImage = connected
-			}
-		}
-	
-	}
-}
+
 
 
 
@@ -676,8 +577,8 @@ struct FindNearbyUserView_Previews: PreviewProvider {
 		
 		var helper = NearbyInteractionHelper()
 		
-		let example = AmareUser.random() //AmareUser(id: "3432", name: "Micheal")
-		FindNearbyUserView(user: .constant(example), blindMode: false).onAppear {
+        let example = AppUser.generateMockData()//AmareUser(id: "3432", name: "Micheal")
+        FindNearbyUserView(user: AppUser.generateMockData(), dataModel: helper, blindMode: false).onAppear {
 			helper.connected = true
 			helper.isFacing = true
 			helper.direction = 0
