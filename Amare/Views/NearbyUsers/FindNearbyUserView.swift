@@ -16,7 +16,7 @@ struct FindNearbyUserView: View {
 	
 	/*@Binding*/ var user: AppUser /// was @Binding
 	
-	@ObservedObject var dataModel: NearbyInteractionHelper //= NearbyInteractionHelper()
+	@StateObject var dataModel: NearbyInteractionHelper = NearbyInteractionHelper()
 	
 	@State var textToDisplay: String = "Waiting on their response... "
 	
@@ -578,7 +578,7 @@ struct FindNearbyUserView_Previews: PreviewProvider {
 		var helper = NearbyInteractionHelper()
 		
         let example = AppUser.generateMockData()//AmareUser(id: "3432", name: "Micheal")
-        FindNearbyUserView(user: AppUser.generateMockData(), dataModel: helper, blindMode: false).onAppear {
+        FindNearbyUserView(user: AppUser.generateMockData(), blindMode: false).onAppear {
 			helper.connected = true
 			helper.isFacing = true
 			helper.direction = 0

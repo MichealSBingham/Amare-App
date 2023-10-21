@@ -18,7 +18,7 @@ struct UPSectionView: View {
     
     var friendshipStatus: UserFriendshipStatus = .unknown
     
-    var compatibility_score: Double? 
+    var compatibility_score: Double?
     
     var body: some View {
         VStack{
@@ -42,11 +42,13 @@ struct UPSectionView: View {
                 
             NatalChartTabView()
             
+            RadialChart(progress: compatibility_score)
+            
            
         }
     }
 }
 
 #Preview {
-    UPSectionView(profileImageURL: AppUser.generateMockData().profileImageUrl, isNotable: true, winked: true, name: AppUser.generateMockData().name, username: AppUser.generateMockData().username)
+    UPSectionView(profileImageURL: AppUser.generateMockData().profileImageUrl, isNotable: true, winked: true, name: AppUser.generateMockData().name, username: AppUser.generateMockData().username, compatibility_score: 0.4)
 }

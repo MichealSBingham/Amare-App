@@ -15,8 +15,8 @@ struct RadialChart: View {
     @State private var displayedNumber: Int = 0
     @State private var displayedProgress: CGFloat = 0
 
-    var gcolor1: Color = Color(red: 240 / 255, green: 41 / 255, blue: 196 / 255)
-    var gcolor2: Color = Color(red: 255 / 255, green: 2 / 255, blue: 201 / 255)
+     var gcolor1: Color = Color(red: 240 / 255, green: 41 / 255, blue: 196 / 255)
+     var gcolor2: Color = Color(red: 255 / 255, green: 2 / 255, blue: 201 / 255)
 
     var body: some View {
         ZStack {
@@ -39,9 +39,13 @@ struct RadialChart: View {
                 }
         }
         .onAppear {
-            withAnimation(.spring(response: 0.7, dampingFraction: 0.5, blendDuration: 2.5)) {
-                displayedProgress = CGFloat(progress ?? 0)
-            }
+            //AmareApp().delay(1) {
+                
+                withAnimation(.spring(response: 0.7, dampingFraction: 0.5, blendDuration: 2.5)) {
+                    displayedProgress = CGFloat(progress ?? 0)
+                }
+           // }
+            
         }
         .onChange(of: progress) { newValue in
             withAnimation(.spring(response: 0.7, dampingFraction: 0.5, blendDuration: 2.5)) {

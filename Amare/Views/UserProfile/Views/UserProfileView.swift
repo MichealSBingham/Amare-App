@@ -185,7 +185,7 @@ struct UserProfileView: View {
                 nearbyConnectionButton()
                     .padding()
                     .sheet(isPresented: $showNearbyInteraction,  content: {
-                        FindNearbyUserView( user: model.user!, dataModel: NearbyInteractionHelper() , blindMode: false)
+                        FindNearbyUserView( user: model.user! , blindMode: false)
                     })
 					 
 				

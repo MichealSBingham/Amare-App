@@ -6,7 +6,7 @@ import Firebase
 import FirebaseFirestore
 
 struct NearbyInteractionConfig {
-    static let nearbyDistanceThreshold: Float = 0.01
+    static let nearbyDistanceThreshold: Float = 0.1
     static let facingAngleThreshold: Float = 5
     static let thresholdForIsThere: Float = 0.001
 }
@@ -108,7 +108,7 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
         didSet{
             
             guard let direction = direction else { isFacing = false ; return }
-            if abs(direction).isLessThanOrEqualTo(facingAngleThreshold) {
+            if abs(direction).isLessThanOrEqualTo(NearbyInteractionConfig.facingAngleThreshold) {
                 isFacing = true
             } else {
                 isFacing = false
@@ -156,10 +156,13 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
     
     // MARK: - Distance and direction state.
     // A threshold, in meters, the app uses to update its display.
+    /*
     private let nearbyDistanceThreshold: Float = 0.01 //0.1
     //TODO: - This threshold should depend on how far you are away; should be computed
     private let facingAngleThreshold: Float = 5
     private let thresholdForIsThere: Float = 0.001
+    */
+    
     private var firstDistanceReading: Float?
     
     ///  How far away user is relatively speaking.
@@ -187,7 +190,7 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
     private var discoveryTokenData: Data? {
         
     
-    guard let token = sessionNI?.discoveryToken,
+    guard let token = sessionNI.discoveryToken,
         let data = try? NSKeyedArchiver.archivedData(withRootObject: token, requiringSecureCoding: true) else {
             
 
@@ -198,13 +201,7 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
     return data
     }
     
-    private var sessionNI: NISession? {
-        if testing {
-            return nil
-        } else {
-            return NISession()
-        }
-    }
+    let  sessionNI: NISession = NISession()
     
     
     
@@ -218,7 +215,7 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
         
          if let distanceAway = self.distanceAway, let isFacing = self.isFacing {
             
-             return distanceAway.isLessThanOrEqualTo(thresholdForIsThere) && isFacing
+             return distanceAway.isLessThanOrEqualTo(NearbyInteractionConfig.thresholdForIsThere) && isFacing
         }
          
          return false
@@ -241,7 +238,7 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
         }
         
         // TODO: You might need to add an error to `someErrorHappened` here. Not sure yet.
-        guard let sessionNI = sessionNI else { return }
+       // guard let sessionNI = sessionNI else { return }
     
         sessionNI.delegate = self
         
@@ -322,9 +319,12 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
             }
         
         let config = NINearbyPeerConfiguration(peerToken: token)
-        print("making config for it with token \(token)")
-        sessionNI?.run(config)
         
+       
+        
+        sessionNI.run(config)
+
+        print("making config \(config) with token: \(token) for it with token \(token) and session \(sessionNI)")
         
     }
     
@@ -370,7 +370,7 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
     }
     
     func stopListeningForPeerToken()  {
-        sessionNI?.invalidate()
+        sessionNI.invalidate()
         tokenListener?.remove()
         removeToken()
         stopListeningForOrientationChange()
@@ -398,6 +398,10 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
 
     
     //MARK: - Listening to Nearby Object
+    
+    func sessionDidStartRunning(_ session: NISession) {
+        print("the session began runnins \(session)")
+    }
   
     
     func session(_ session: NISession, didUpdate nearbyObjects: [NINearbyObject]) {
@@ -464,7 +468,7 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
         
         let distance_moved = abs(new_distance! - old_distance!)
         
-        guard distance_moved >= nearbyDistanceThreshold else {
+        guard distance_moved >= NearbyInteractionConfig.nearbyDistanceThreshold else {
             // No need to update distance because we haven't moved but we can update the direction
             self.direction = nearbyObjectUpdate.direction.map(azimuth(from:))
             self.currentDistanceDirectionState = getDistanceDirectionState(from: nearbyObjectUpdate)
@@ -532,7 +536,7 @@ class NearbyInteractionHelper: NSObject, ObservableObject, NISessionDelegate{
     
     
     func isNearby(_ distance: Float) -> Bool {
-        return distance < nearbyDistanceThreshold
+        return distance < NearbyInteractionConfig.nearbyDistanceThreshold
     }
     
     /*
