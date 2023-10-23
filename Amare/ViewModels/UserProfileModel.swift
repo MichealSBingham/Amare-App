@@ -20,13 +20,15 @@ class UserProfileModel: ObservableObject{
 	
 	@Published var friendRequests: [IncomingFriendRequest] = []
 	
-	///Bool to indicate whether the user winked `at` the current `signed in user`
+    //TODO:
+	///Bool to indicate whether the user winked `at` the current `signed in user` /
 	@Published var winkedAtMe: Bool?
 	
 	/// TODO: make sure this data is updated n the initial LoadUser() function, right now, only changes if the user sends the friend request .. perhaps update the `friendshipStatus` variable here.
 	@Published var didSendFriendRequest: Bool?
 	
-	
+	//TODO: compatibility score
+    @Published var score: Double?
 	
 	@Published var error: Error?
 	
@@ -51,9 +53,18 @@ class UserProfileModel: ObservableObject{
 		self.getNatalChart(userId: userId)
 		
 		if Auth.auth().currentUser?.uid == userId { self.listenForAllFriendRequests()}
+        
+        self.getCompatibilityScore(for: userId)
 
 		
 	}
+    
+    func getCompatibilityScore(for userID: String) {
+        // get's the compatibility score
+        AmareApp().delay(2) {
+            self.score = Double.random(in: 0...1)
+        }
+    }
 	
 	//TODO: Reconsider this !
 	func unloadUser()  {
