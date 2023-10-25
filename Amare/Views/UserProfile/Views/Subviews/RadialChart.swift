@@ -33,6 +33,8 @@ struct RadialChart: View {
 
             Text("\(progress != nil ? String(Int(displayedNumber)) : "?")")
                 .font(.largeTitle)
+                .multilineTextAlignment(.center)
+                .lineLimit(1)
                 .fontWeight(.black)
                 .onReceive(Timer.publish(every: 0.01, on: .main, in: .common).autoconnect()) { _ in
                     animateNumberChange(target: Int((progress ?? 0) * 100))

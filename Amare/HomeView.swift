@@ -60,29 +60,56 @@ struct HomeView: View {
         
         TabView(selection: $tabSelection){
             
-            SearchAndFriendsView()
-                .tag(0)
-                .tabItem {
-                    
-                    VStack{
-                        
-                        Image(self.tabSelection == 0 ? "TabView/search2" : "TabView/search")
-                            .resizable()
-                            .frame(width: 25, height: 25)
-                          //  .preferredColorScheme(.dark)
-                    }
-                    
-                }
-            
-            
-            ChatChannelListView(viewFactory: CustomViewFactory(), title: "DMs")
-                    .navigationTitle("DMs")
-                    .tag(1)
+           
+                SearchAndFriendsView()
+                    .tag(0)
                     .tabItem {
                         
                         VStack{
                             
-                            Image(self.tabSelection == 1 ? "TabView/messagesIcon2" : "TabView/messagesIcon")
+                            Image(self.tabSelection == 0 ? "TabView/search2" : "TabView/search")
+                                .resizable()
+                                .frame(width: 25, height: 25)
+                              //  .preferredColorScheme(.dark)
+                        }
+                        
+                    }
+            
+           
+            
+          
+            ChatChannelListView(/*viewFactory: CustomViewFactory(), title: "Messages"*/)
+                        .tag(1)
+                        .tabItem {
+                            
+                            VStack{
+                                
+                                Image(self.tabSelection == 1 ? "TabView/messagesIcon2" : "TabView/messagesIcon")
+                                    .resizable()
+                                    .frame(width: 25, height: 25)
+                                  //  .preferredColorScheme(.dark)
+                            }
+                            
+                        }
+            
+          
+                
+            
+            
+                Text("Sign out \(authService.user?.uid ?? "") and name: \(currentUserDataModel.user?.name ?? "")")
+                    .onTapGesture {
+                        authService.signOut()
+                        withAnimation{
+                            background.isSolidColor = false
+                        }
+                       
+                    }
+                    .tag(3)
+                    .tabItem {
+                        
+                        VStack{
+                            
+                            Image(self.tabSelection == 2 ? "TabView/HomeIcon2" : "TabView/HomeIcon")
                                 .resizable()
                                 .frame(width: 25, height: 25)
                               //  .preferredColorScheme(.dark)
@@ -91,29 +118,8 @@ struct HomeView: View {
                     }
                 
             
-            
         
-			Text("Sign out \(authService.user?.uid ?? "") and name: \(currentUserDataModel.user?.name ?? "")")
-                .onTapGesture {
-                    authService.signOut()
-                    withAnimation{
-                        background.isSolidColor = false
-                    }
-                   
-                }
-                .tag(3)
-                .tabItem {
-                    
-                    VStack{
-                        
-                        Image(self.tabSelection == 2 ? "TabView/HomeIcon2" : "TabView/HomeIcon")
-                            .resizable()
-                            .frame(width: 25, height: 25)
-                          //  .preferredColorScheme(.dark)
-                    }
-                    
-                }
-            
+			
                 
             
             
@@ -190,5 +196,6 @@ struct HomeView_Previews: PreviewProvider {
 			.environmentObject(AuthService.shared)
 			.environmentObject(BackgroundViewModel())
 			.environmentObject(OnboardingViewModel())
+            .environmentObject(UserProfileModel())
     }
 }

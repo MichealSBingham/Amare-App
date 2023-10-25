@@ -9,10 +9,21 @@ import SwiftUI
 
 struct MenuOptionsView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Image(systemName: "ellipsis")
+            
+            .resizable()
+            .foregroundColor(Color.primary)
+            .rotationEffect(.degrees(90))
+            .aspectRatio(contentMode: .fit)
+            
+            
+            
     }
 }
 
+
+
 #Preview {
     MenuOptionsView()
+        .frame(width: 25)
 }

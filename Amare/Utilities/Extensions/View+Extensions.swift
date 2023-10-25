@@ -6,3 +6,13 @@
 //
 
 import Foundation
+import SwiftUI
+
+extension View {
+    func tabBar(hidden: Bool) -> some View {
+        self
+            .background(TabBarAccessor { tabBar in
+                tabBar.isHidden = hidden
+            })
+    }
+}

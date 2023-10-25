@@ -26,6 +26,8 @@ class UserProfileModel: ObservableObject{
 	
 	/// TODO: make sure this data is updated n the initial LoadUser() function, right now, only changes if the user sends the friend request .. perhaps update the `friendshipStatus` variable here.
 	@Published var didSendFriendRequest: Bool?
+    
+    @Published var oneLiner: String?
 	
 	//TODO: compatibility score
     @Published var score: Double?
@@ -59,12 +61,21 @@ class UserProfileModel: ObservableObject{
 		
 	}
     
+        //TODO: get the compatibility score
     func getCompatibilityScore(for userID: String) {
         // get's the compatibility score
         AmareApp().delay(2) {
             self.score = Double.random(in: 0...1)
         }
+        
+   
     }
+    
+    func getOneLiner(for userID: String){
+        AmareApp().delay(2) {
+            self.oneLiner = "Enjoy this while you can because days of length you shall not have..="
+        }
+        }
 	
 	//TODO: Reconsider this !
 	func unloadUser()  {

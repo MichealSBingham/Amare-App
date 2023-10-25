@@ -87,26 +87,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         UNUserNotificationCenter.current().delegate = self
           
-		//-MARK: Configuing Google Places API
+		// MARK: - Configuing Google Places API
       //  GMSServices.provideAPIKey("YOUR_API_KEY")
             // GMSPlacesClient.provideAPIKey("AIzaSyDezwobB5BsaO8E8RuuBA715EIc5CeZSCc")
         
 		
-		//-MARK: Configuring Beams Push Notification API
+		// MARK: - Configuring Beams Push Notification API
         
-        self.beamsClient.start(instanceId: "ac1386a2-eac8-4f11-aaab-cad17174260a")
-                self.beamsClient.registerForRemoteNotifications()
-        try? self.beamsClient.addDeviceInterest(interest: "hello")
-        try? self.beamsClient.addDeviceInterest(interest: "debug-hello")
-         
+       configureBeamsPushNotifications()
 		
 		
-		//-MARK: Configuring Firebase
+		// MARK: -  Configuring Firebase
        FirebaseApp.configure()
 		
 		
 		
-		//MARK: Customizing Stream Chat Messaging  Design
+		//MARK: - Customizing Stream Chat Messaging  Design
 		
 		
 		var mycolors = [
@@ -139,16 +135,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 			}
 
 			let utils = Utils(channelNamer: DefaultChatChannelNamer())
-	
+        let messageListConfig = MessageListConfig(
+            becomesFirstResponderOnOpen: false
+        )
+        
+        utils.messageListConfig = messageListConfig
+      
+    
 		
-			
-		var config = ChatClientConfig(apiKey: .init("6vb87hptvk7d"))
-		
-		
-		
+        var config = ChatClientConfig(apiKey: .init("92jyyxebed2m"))
+       
 		ChatClient.shared = ChatClient(config: config)
 		
-		
+		connectUser()
 		// The `StreamChat` instance we need to assign
 		streamChat = StreamChat(chatClient: ChatClient.shared, appearance: appearance, utils: utils)
 		
@@ -158,37 +157,41 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
 	// The `connectUser` function we need to add.
-		/*	private func connectUser() {
-			
-			
-			guard Account.shared.data?.isComplete() ?? false else { print("Data is not complete, thus we will not connect the user to messaging SDK. "); return }
-			
-			
-			print("Data is complete, thus we will connect to the user.")
-			
-			let name = Account.shared.data?.name ?? ""
-			let id = Account.shared.data?.id
-			let imageURL: String  = (Account.shared.data?.profile_image_url!)!
-			
-			guard let id = id else { print("We don't have the user id so we are not connecting to Messaging"); return }
-			
-			// This is a hardcoded token valid on Stream's tutorial environment.
-			let token = try! Token(rawValue: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoibHVrZV9za3l3YWxrZXIifQ.kFSLHRB5X62t0Zlc7nwczWUfsQMwfkpylC6jCUZ6Mc0")
-
-			// Call `connectUser` on our SDK to get started.
-			chatClient.connectUser(
-					userInfo: .init(id: id,
-									name: name,
-									imageURL: URL(string: imageURL)!),
-					token: token
-			) { error in
-				if let error = error {
-					// Some very basic error handling only logging the error.
-					log.error("connecting the user failed \(error)")
-					return
-				}
-			}
-		}*/
+    private func connectUser() {
+        
+        
+    //	guard Account.shared.data?.isComplete() ?? false else { print("Data is not complete, thus we will not connect the user to messaging SDK. "); return }
+        
+        
+    //	print("Data is complete, thus we will connect to the user.")
+        
+    //	let name = Account.shared.data?.name ?? ""
+    //	let id = Account.shared.data?.id
+    //	let imageURL: String  = (Account.shared.data?.profile_image_url!)!
+        
+        //guard let id = id else { print("We don't have the user id so we are not connecting to Messaging"); return }
+        
+            let id: String = "micheal"
+            let name: String = "Micheal Bingham"
+            let imageURL: String = AppUser.generateMockData().profileImageUrl!
+        // This is a hardcoded token valid on Stream's tutorial environment.
+        //let token = try! Token(rawValue: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoibHVrZV9za3l3YWxrZXIifQ.kFSLHRB5X62t0Zlc7nwczWUfsQMwfkpylC6jCUZ6Mc0")
+            
+            let token = try! Token(rawValue: "eeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoibWljaGVhbCJ9.FFwAA6_jdJgAkWYBAb_jKorjOTpfhZkTg7zdsE1GiNI")
+        // Call `connectUser` on our SDK to get started.
+            ChatClient.shared.connectUser(
+                userInfo: .init(id: id,
+                                name: name,
+                                imageURL: URL(string: imageURL)!),
+                token: .development(userId: id)
+        ) { error in
+            if let error = error {
+                // Some very basic error handling only logging the error.
+                log.error("connecting the user failed \(error)")
+                return
+            }
+        }
+    }
 	
 	
 	
@@ -225,68 +228,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     }
     
-    /*
-    func applicationWillResignActive(_ application: UIApplication) {
-        
-        if !(isDoneWithSignUp()){
-                // if not done with sign up... log user out.
-            print("not done with sign up ... signing out..")
-            account.signOut { error in
-                
-                guard error == nil else{
-                    return
-                }
-                
-            }
-            
-          
-        }
-    }
-    */
     
     
-    func applicationWillTerminate(_ application: UIApplication) {
-        
-        /* Alternative Solution is to just sign them out if the data isn't complete on the homepage
-        print("application WILL terminate ")
-        if !(isDoneWithSignUp()){
-                // if not done with sign up... log user out.
-            print("not done with sign up ... signing out..")
-            account.signOut { error in
-                
-                guard error == nil else{
-                    return
-                }
-                
-            }
-            
-          
-        }
-        
-        */
-        
-        
-        
-        
-    }
     
-    func applicationDidEnterBackground(_ application: UIApplication) {
-        
-        /*
-        if !(isDoneWithSignUp()){
-                // if not done with sign up... log user out.
-            account.signOut { error in
-                //
-                guard error == nil else { return }
-                //NavigationUtil.popToRootView()
-            }
-
-        }
-        
-        */
+    
+    
     
 
-    }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         
@@ -294,6 +242,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         self.beamsClient.registerDeviceToken(deviceToken)
         
        
+    }
+    
+    // MARK: - Configuring Beams Push Notification API
+    func configureBeamsPushNotifications() {
+        self.beamsClient.start(instanceId: "ac1386a2-eac8-4f11-aaab-cad17174260a")
+        self.beamsClient.registerForRemoteNotifications()
+        try? self.beamsClient.addDeviceInterest(interest: "hello")
+        try? self.beamsClient.addDeviceInterest(interest: "debug-hello")
     }
     
     
@@ -312,6 +268,18 @@ extension UIApplication {
 
 
 //MARK: Customizing The Chat UI
+class DemoAppFactory: ViewFactory {
+
+    @Injected(\.chatClient) public var chatClient
+
+     init() {}
+
+    public static let shared = DemoAppFactory()
+
+    func makeChannelListHeaderViewModifier(title: String) -> some ChannelListHeaderViewModifier {
+        CustomChannelModifier(title: title)
+    }
+}
 
 class CustomViewFactory: ViewFactory {
 	@Injected(\.chatClient) public var chatClient

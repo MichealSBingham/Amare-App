@@ -7,12 +7,27 @@
 
 import SwiftUI
 
+
+
 struct BackButton: View {
+    @Environment(\.presentationMode) var presentationMode
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Button(action: {
+            self.presentationMode.wrappedValue.dismiss()
+        }) {
+            Image(systemName: "arrow.left")
+                .renderingMode(.template)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+               
+        }
+        .buttonStyle(PlainButtonStyle())
     }
 }
 
+
 #Preview {
     BackButton()
+        .frame(width: 25)
 }

@@ -18,7 +18,47 @@ struct UPSectionView: View {
     
     var friendshipStatus: UserFriendshipStatus = .unknown
     
+    var oneLinerSummary: String?
+    
     var compatibility_score: Double?
+    
+    var natalChart: NatalChart?
+    
+    var cancelFriendRequestAction: (() -> Void)? = nil
+    var addFriendAction: (() -> Void)? = nil
+    var acceptFriendAction: (() -> Void)? = nil
+    
+    
+    fileprivate func friendshipStatusButton() -> some View {
+        Button{
+            
+        print("did tap friendship status")
+            if friendshipStatus == .requested{
+                cancelFriendRequestAction?()
+            }
+            
+            if friendshipStatus == .notFriends {
+                addFriendAction?()
+                
+            }
+            
+            if friendshipStatus == .awaiting{
+                acceptFriendAction?()
+         
+            }
+            
+            
+        }
+    label: {
+        
+        
+        FriendshipStatusView(friendshipStatus: friendshipStatus)
+            .frame(width: 35)
+            .transition(.scale)
+    }
+    .disabled( friendshipStatus == .friends)
+    }
+    
     
     var body: some View {
         VStack{
@@ -34,15 +74,24 @@ struct UPSectionView: View {
                 
                 HStack{
                     Spacer()
-                    FriendshipStatusView(friendshipStatus: friendshipStatus)
+                    friendshipStatusButton()
                         .frame(width: 35)
                         .padding()
                 }
             }
+            
+            Text(oneLinerSummary ?? "" )
+                .multilineTextAlignment(.center)
+                .font(.caption)
                 
-            NatalChartTabView()
+                .padding()
+            
+            
+            NatalChartTabView(natalChart: natalChart)
+            
             
             RadialChart(progress: compatibility_score)
+                .padding()
             
            
         }
@@ -50,5 +99,5 @@ struct UPSectionView: View {
 }
 
 #Preview {
-    UPSectionView(profileImageURL: AppUser.generateMockData().profileImageUrl, isNotable: true, winked: true, name: AppUser.generateMockData().name, username: AppUser.generateMockData().username, compatibility_score: 0.80)
+    UPSectionView(profileImageURL: AppUser.generateMockData().profileImageUrl, isNotable: true, winked: true, name: AppUser.generateMockData().name, username: AppUser.generateMockData().username, oneLinerSummary: "Enjoy this while it lasts because days of length you shall not have.", compatibility_score: 0.80)
 }

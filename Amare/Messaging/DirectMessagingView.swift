@@ -6,13 +6,45 @@
 //
 
 import SwiftUI
+import StreamChat
+import StreamChatSwiftUI
 
-struct DirectMessagingView: View {
+struct DirectMessageView: View {
+    // Assume chatClient is already initialized and connected
+    @Injected(\.chatClient) var chatClient
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+    
+            ChatChannelView(
+                viewFactory: CustomViewFactory(),
+                channelController: try! chatClient.channelController(createDirectMessageChannelWith: ["micheal", "elizabeth"], extraData: [:])
+            )
+      
     }
+    
+    /*
+    func getDirectMessageController() -> ChatChannelController {
+        let currentUserId = chatClient.currentUserId!
+        let otherUserId = "<Other User ID>"
+        
+        let channelId = ChannelId(type: .messaging, id: "\(currentUserId)-\(otherUserId)")
+        let controller = try! chatClient.channelController(
+            createDirectMessageChannelWith: [otherUserId],
+            name: nil,
+            imageURL: nil,
+            options: [],
+            id: channelId
+        )
+        
+        return controller
+    }
+     */
 }
 
 #Preview {
-    DirectMessagingView()
+    DirectMessageView()
 }
+
+
+
+
