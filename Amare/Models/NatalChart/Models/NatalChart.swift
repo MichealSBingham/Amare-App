@@ -35,6 +35,10 @@ public struct NatalChart: Codable, Equatable {
     
     /// The other person's (outer chart) angles (asc, mc, ic, etc)  if a synastry chart was added to this
     var synastryAngles: [Angle]?
+    
+    
+    /// Placement interpretations
+    var interpretations: [String: String]?
    
     
     func aspectsInvolving(some planet: Planet) -> [Aspect] {

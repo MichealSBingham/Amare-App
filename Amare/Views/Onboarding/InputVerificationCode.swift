@@ -511,6 +511,18 @@ extension Int {
         
         return String(self)
     }
+    
+    
+}
+
+extension Int?{
+    var number: String?{
+        if let num = self{
+            return "\(num)"
+        } else {
+            return nil
+        }
+    }
 }
 
 

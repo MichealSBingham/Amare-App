@@ -12,6 +12,14 @@
 		26006E802ADA21330063802E /* NearbyInteractionError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26006E7F2ADA21330063802E /* NearbyInteractionError.swift */; };
 		26006E822ADA21620063802E /* DirectionStatesEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26006E812ADA21620063802E /* DirectionStatesEnum.swift */; };
 		26006E852ADA26F30063802E /* centerImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26006E842ADA26F30063802E /* centerImage.swift */; };
+		26011FF32AEC748E004C4D77 /* CustomSegmentedMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26011FF22AEC748E004C4D77 /* CustomSegmentedMenu.swift */; };
+		26011FF52AEC7CE5004C4D77 /* MiniPlacementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26011FF42AEC7CE5004C4D77 /* MiniPlacementView.swift */; };
+		26011FF82AED9A29004C4D77 /* MainPlacementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26011FF72AED9A28004C4D77 /* MainPlacementView.swift */; };
+		26011FFA2AEE904F004C4D77 /* MoreInfoOnPlanetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26011FF92AEE904F004C4D77 /* MoreInfoOnPlanetView.swift */; };
+		26011FFC2AEE9094004C4D77 /* MoreInfoOnPlanetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26011FFB2AEE9094004C4D77 /* MoreInfoOnPlanetViewModel.swift */; };
+		26011FFE2AEE93CC004C4D77 /* DetailedPlacementInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26011FFD2AEE93CC004C4D77 /* DetailedPlacementInfoView.swift */; };
+		260120012AEE9717004C4D77 /* PlanetImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260120002AEE9717004C4D77 /* PlanetImageView.swift */; };
+		260120032AEEBA9A004C4D77 /* ProfileImagesStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260120022AEEBA9A004C4D77 /* ProfileImagesStack.swift */; };
 		260135902A47597A007878BD /* UsernameAvailabilityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2601358F2A475979007878BD /* UsernameAvailabilityView.swift */; };
 		260135922A475B4A007878BD /* NextButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260135912A475B4A007878BD /* NextButtonView.swift */; };
 		260135952A475BBB007878BD /* PulsingModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260135942A475BBB007878BD /* PulsingModifier.swift */; };
@@ -133,6 +141,8 @@
 		26D229ED2A5CDFC500BFA3BB /* OnboardingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D229EC2A5CDFC400BFA3BB /* OnboardingError.swift */; };
 		26D685922A6A001E0070CE79 /* SearchedUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D685912A6A001E0070CE79 /* SearchedUser.swift */; };
 		26E10BAD28679A6E007666F9 /* MessagesChannelListTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E10BAC28679A6D007666F9 /* MessagesChannelListTopView.swift */; };
+		26E264532AE9F2D3004DEB11 /* OutgoingWink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E264522AE9F2D3004DEB11 /* OutgoingWink.swift */; };
+		26E264552AE9F2DD004DEB11 /* IncomingWink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E264542AE9F2DD004DEB11 /* IncomingWink.swift */; };
 		26F9205F26A760E500A4F8C6 /* Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F9205E26A760E500A4F8C6 /* Animations.swift */; };
 		26F9206B26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 26F9206A26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf */; };
 		26F9206C26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 26F9206A26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf */; };
@@ -170,6 +180,14 @@
 		26006E7F2ADA21330063802E /* NearbyInteractionError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyInteractionError.swift; sourceTree = "<group>"; };
 		26006E812ADA21620063802E /* DirectionStatesEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionStatesEnum.swift; sourceTree = "<group>"; };
 		26006E842ADA26F30063802E /* centerImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = centerImage.swift; sourceTree = "<group>"; };
+		26011FF22AEC748E004C4D77 /* CustomSegmentedMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSegmentedMenu.swift; sourceTree = "<group>"; };
+		26011FF42AEC7CE5004C4D77 /* MiniPlacementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniPlacementView.swift; sourceTree = "<group>"; };
+		26011FF72AED9A28004C4D77 /* MainPlacementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPlacementView.swift; sourceTree = "<group>"; };
+		26011FF92AEE904F004C4D77 /* MoreInfoOnPlanetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreInfoOnPlanetView.swift; sourceTree = "<group>"; };
+		26011FFB2AEE9094004C4D77 /* MoreInfoOnPlanetViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreInfoOnPlanetViewModel.swift; sourceTree = "<group>"; };
+		26011FFD2AEE93CC004C4D77 /* DetailedPlacementInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedPlacementInfoView.swift; sourceTree = "<group>"; };
+		260120002AEE9717004C4D77 /* PlanetImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetImageView.swift; sourceTree = "<group>"; };
+		260120022AEEBA9A004C4D77 /* ProfileImagesStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImagesStack.swift; sourceTree = "<group>"; };
 		2601358F2A475979007878BD /* UsernameAvailabilityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsernameAvailabilityView.swift; sourceTree = "<group>"; };
 		260135912A475B4A007878BD /* NextButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextButtonView.swift; sourceTree = "<group>"; };
 		260135942A475BBB007878BD /* PulsingModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PulsingModifier.swift; sourceTree = "<group>"; };
@@ -286,6 +304,8 @@
 		26D229EC2A5CDFC400BFA3BB /* OnboardingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingError.swift; sourceTree = "<group>"; };
 		26D685912A6A001E0070CE79 /* SearchedUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchedUser.swift; sourceTree = "<group>"; };
 		26E10BAC28679A6D007666F9 /* MessagesChannelListTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesChannelListTopView.swift; sourceTree = "<group>"; };
+		26E264522AE9F2D3004DEB11 /* OutgoingWink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutgoingWink.swift; sourceTree = "<group>"; };
+		26E264542AE9F2DD004DEB11 /* IncomingWink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomingWink.swift; sourceTree = "<group>"; };
 		26F2E0A9281845B500E66B57 /* TimeZoneLocate.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TimeZoneLocate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		26F9205E26A760E500A4F8C6 /* Animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animations.swift; sourceTree = "<group>"; };
 		26F9206A26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MontserratAlternates-SemiBold.ttf"; sourceTree = "<group>"; };
@@ -353,6 +373,26 @@
 			path = NearbyInteraction;
 			sourceTree = "<group>";
 		};
+		26011FF62AED9A1B004C4D77 /* Natal */ = {
+			isa = PBXGroup;
+			children = (
+				26011FFF2AEE96CA004C4D77 /* DetailedPlacements */,
+				26011FFB2AEE9094004C4D77 /* MoreInfoOnPlanetViewModel.swift */,
+				26011FF92AEE904F004C4D77 /* MoreInfoOnPlanetView.swift */,
+				26011FF72AED9A28004C4D77 /* MainPlacementView.swift */,
+			);
+			path = Natal;
+			sourceTree = "<group>";
+		};
+		26011FFF2AEE96CA004C4D77 /* DetailedPlacements */ = {
+			isa = PBXGroup;
+			children = (
+				26011FFD2AEE93CC004C4D77 /* DetailedPlacementInfoView.swift */,
+				260120002AEE9717004C4D77 /* PlanetImageView.swift */,
+			);
+			path = DetailedPlacements;
+			sourceTree = "<group>";
+		};
 		260135932A475B99007878BD /* ViewModifiers */ = {
 			isa = PBXGroup;
 			children = (
@@ -387,18 +427,6 @@
 			path = Errors;
 			sourceTree = "<group>";
 		};
-		260954B92A60AD6200114C56 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				26A137CD2A5F4466003C6657 /* FriendRequest.swift */,
-				260954C32A60BE6700114C56 /* UserTypeSelection.swift */,
-				26D685912A6A001E0070CE79 /* SearchedUser.swift */,
-				262F8F992A7B3E6300EE709E /* IncomingFriendRequest.swift */,
-				262F8F9B2A7B42E100EE709E /* OutgoingFriendRequest.swift */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
 		260954BA2A60AD6700114C56 /* SearchUsersAndFriends */ = {
 			isa = PBXGroup;
 			children = (
@@ -430,6 +458,8 @@
 			isa = PBXGroup;
 			children = (
 				262F2A622A50A98B00C980D3 /* BackgroundViewModel.swift */,
+				26E264562AE9F354004DEB11 /* SearchedUsersAndFriends */,
+				26E264512AE9F2BF004DEB11 /* Wink */,
 				26006E7A2AD9F8C80063802E /* NearbyInteraction */,
 				26A5FBE12A73326500D94476 /* NatalChart */,
 				26B9AA5A2AD4BF4C00896713 /* Friend */,
@@ -443,9 +473,9 @@
 		2626D2E52A210799007F5C77 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				26011FF62AED9A1B004C4D77 /* Natal */,
 				260954BA2A60AD6700114C56 /* SearchUsersAndFriends */,
 				269013A52AE335FE00397075 /* UserProfile */,
-				2662ED152842D17600B0EA57 /* NearbyUsers */,
 				26C466592A352748000EC8BC /* Components */,
 				265117872A82F39300B15CDF /* CreatingCustomProfile */,
 				260135932A475B99007878BD /* ViewModifiers */,
@@ -467,6 +497,7 @@
 		262F2A662A520ADE00C980D3 /* AppUser */ = {
 			isa = PBXGroup;
 			children = (
+				260954C32A60BE6700114C56 /* UserTypeSelection.swift */,
 				262F2A552A4D0F3300C980D3 /* Sex.swift */,
 				2601359F2A4884A6007878BD /* Place.swift */,
 				2601359D2A488496007878BD /* Birthday.swift */,
@@ -533,8 +564,11 @@
 				269013A82AE3468800397075 /* NameLabelView.swift */,
 				269013AA2AE34AC100397075 /* FriendshipStatusView.swift */,
 				269013AC2AE43B5C00397075 /* RadialChart.swift */,
+				2662ED152842D17600B0EA57 /* NearbyUsers */,
+				26011FF22AEC748E004C4D77 /* CustomSegmentedMenu.swift */,
 				26A5FBE92A73395A00D94476 /* NatalChartTabView */,
 				26A5FBC82A7320DC00D94476 /* ImageForUserProfileView.swift */,
+				26011FF42AEC7CE5004C4D77 /* MiniPlacementView.swift */,
 			);
 			path = Subviews;
 			sourceTree = "<group>";
@@ -565,25 +599,9 @@
 		26A5FBE12A73326500D94476 /* NatalChart */ = {
 			isa = PBXGroup;
 			children = (
-				26A5FBE22A73328400D94476 /* Views */,
 				26A5FBD02A732E4B00D94476 /* Models */,
 			);
 			path = NatalChart;
-			sourceTree = "<group>";
-		};
-		26A5FBE22A73328400D94476 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				26A5FBE32A73329200D94476 /* Subviews */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		26A5FBE32A73329200D94476 /* Subviews */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Subviews;
 			sourceTree = "<group>";
 		};
 		26A5FBE92A73395A00D94476 /* NatalChartTabView */ = {
@@ -703,6 +721,9 @@
 		26B9AA5A2AD4BF4C00896713 /* Friend */ = {
 			isa = PBXGroup;
 			children = (
+				262F8F9B2A7B42E100EE709E /* OutgoingFriendRequest.swift */,
+				262F8F992A7B3E6300EE709E /* IncomingFriendRequest.swift */,
+				26A137CD2A5F4466003C6657 /* FriendRequest.swift */,
 				262F8F972A773A3300EE709E /* FriendshipStatus.swift */,
 				26B9AA5B2AD4BF6F00896713 /* Friend.swift */,
 			);
@@ -738,7 +759,6 @@
 		26C4663C2A34FE96000EC8BC /* Quizzes */ = {
 			isa = PBXGroup;
 			children = (
-				260954B92A60AD6200114C56 /* Models */,
 				26C4663D2A34FE96000EC8BC /* RGResponse.swift */,
 				26C4663E2A34FE96000EC8BC /* RGQuizQuestion.swift */,
 			);
@@ -795,6 +815,7 @@
 			isa = PBXGroup;
 			children = (
 				2684C6622A65F8110048BB4E /* CircularProfileImageView.swift */,
+				260120022AEEBA9A004C4D77 /* ProfileImagesStack.swift */,
 				26B598D0295CC854009DEA22 /* TabView */,
 				262F2A602A50A8C000C980D3 /* Background.swift */,
 				26C4665A2A35276A000EC8BC /* ProgressBarView.swift */,
@@ -825,6 +846,23 @@
 				269013B22AE5FB2000397075 /* DirectMessagingView.swift */,
 			);
 			path = Messaging;
+			sourceTree = "<group>";
+		};
+		26E264512AE9F2BF004DEB11 /* Wink */ = {
+			isa = PBXGroup;
+			children = (
+				26E264522AE9F2D3004DEB11 /* OutgoingWink.swift */,
+				26E264542AE9F2DD004DEB11 /* IncomingWink.swift */,
+			);
+			path = Wink;
+			sourceTree = "<group>";
+		};
+		26E264562AE9F354004DEB11 /* SearchedUsersAndFriends */ = {
+			isa = PBXGroup;
+			children = (
+				26D685912A6A001E0070CE79 /* SearchedUser.swift */,
+			);
+			path = SearchedUsersAndFriends;
 			sourceTree = "<group>";
 		};
 		26F9206926A8752200A4F8C6 /* FontResources */ = {
@@ -1070,6 +1108,7 @@
 				26B1AFDF2678FFE700A170B3 /* Persistence.swift in Sources */,
 				262F8F9C2A7B42E100EE709E /* OutgoingFriendRequest.swift in Sources */,
 				2608CF512697529600826FDA /* GlobalErrors.swift in Sources */,
+				26E264532AE9F2D3004DEB11 /* OutgoingWink.swift in Sources */,
 				262F2A5D2A50895100C980D3 /* ContentView.swift in Sources */,
 				263D6F982684012000CBBECC /* AccountErrors.swift in Sources */,
 				262F2A562A4D0F3300C980D3 /* Sex.swift in Sources */,
@@ -1096,11 +1135,14 @@
 				269013A72AE339C000397075 /* UPSectionView.swift in Sources */,
 				26A5FBC92A7320DC00D94476 /* ImageForUserProfileView.swift in Sources */,
 				26C4664E2A34FEC0000EC8BC /* BeginQuizView.swift in Sources */,
+				26011FF52AEC7CE5004C4D77 /* MiniPlacementView.swift in Sources */,
 				26B9AA5C2AD4BF7000896713 /* Friend.swift in Sources */,
 				26A5FBD82A732E4C00D94476 /* NatalChart.swift in Sources */,
+				26011FF32AEC748E004C4D77 /* CustomSegmentedMenu.swift in Sources */,
 				2662ED1A2842D17600B0EA57 /* FindNearbyUserView.swift in Sources */,
 				260135A02A4884A6007878BD /* Place.swift in Sources */,
 				26C466582A350D4B000EC8BC /* OnboardingScreen.swift in Sources */,
+				260120012AEE9717004C4D77 /* PlanetImageView.swift in Sources */,
 				26006E802ADA21330063802E /* NearbyInteractionError.swift in Sources */,
 				26D229ED2A5CDFC500BFA3BB /* OnboardingError.swift in Sources */,
 				263D6F962683F77C00CBBECC /* Location.swift in Sources */,
@@ -1129,6 +1171,7 @@
 				26B1AFD62678FFE500A170B3 /* AmareApp.swift in Sources */,
 				26006E852ADA26F30063802E /* centerImage.swift in Sources */,
 				262F2A522A4BBB2200C980D3 /* String+Extensions.swift in Sources */,
+				26011FFE2AEE93CC004C4D77 /* DetailedPlacementInfoView.swift in Sources */,
 				260954C22A60B84000114C56 /* CustomSegmentedMenuView.swift in Sources */,
 				26B598D2295CC8A8009DEA22 /* TabViewUI.swift in Sources */,
 				26A5FBEB2A73399100D94476 /* SunSignView.swift in Sources */,
@@ -1153,22 +1196,27 @@
 				260135972A476191007878BD /* BirthtimeInputView.swift in Sources */,
 				262F8F982A773A3300EE709E /* FriendshipStatus.swift in Sources */,
 				26006E7E2ADA20DC0063802E /* DiscoveryTokenDocument.swift in Sources */,
+				26011FFA2AEE904F004C4D77 /* MoreInfoOnPlanetView.swift in Sources */,
 				26C399CB2A5E23350061F9B8 /* SearchAndFriendsView.swift in Sources */,
 				262F2A5B2A5086CC00C980D3 /* AuthService.swift in Sources */,
 				26A5FBDB2A732E4C00D94476 /* Element.swift in Sources */,
 				26C3EE162A45010300CCA9E0 /* FirestoreService.swift in Sources */,
 				2601359E2A488496007878BD /* Birthday.swift in Sources */,
+				260120032AEEBA9A004C4D77 /* ProfileImagesStack.swift in Sources */,
 				263FBDE0283BE4B4008F35C5 /* MathUtilities.swift in Sources */,
+				26011FF82AED9A29004C4D77 /* MainPlacementView.swift in Sources */,
 				26C466502A34FEC0000EC8BC /* RGQuizView.swift in Sources */,
 				26A5FBF12A73444D00D94476 /* UserListRowView.swift in Sources */,
 				26A5FBED2A733A0100D94476 /* Numbers+Extensions.swift in Sources */,
 				265117892A82F42500B15CDF /* CustomProfileCreationView.swift in Sources */,
 				269013AD2AE43B5C00397075 /* RadialChart.swift in Sources */,
 				26BD69432AB7DFF30062B18B /* PredictedTraitsView.swift in Sources */,
+				26E264552AE9F2DD004DEB11 /* IncomingWink.swift in Sources */,
 				26C466552A34FEE0000EC8BC /* OnboardingViewModel.swift in Sources */,
 				2662ED1B2842D17600B0EA57 /* ProfileImageView.swift in Sources */,
 				26A5FBD92A732E4C00D94476 /* Angle.swift in Sources */,
 				262F2A542A4D05B700C980D3 /* GenderInputView.swift in Sources */,
+				26011FFC2AEE9094004C4D77 /* MoreInfoOnPlanetViewModel.swift in Sources */,
 				26AF20E626CF458E00D99F36 /* InputPhoneNumber.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

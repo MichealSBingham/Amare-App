@@ -18,6 +18,8 @@ struct UserProfileView: View {
 	@ObservedObject  var model: UserProfileModel // was @ObservedObject but it makes it lag changes .. TODO: optimize this because theoretically  we need to be using @ObservedObject but it makes it lag when you switch between profile changes because it show sold data, maybe we can change to environment object or something
     
     @State var showNearbyInteraction: Bool = false
+    
+    
 	
     @available(*, deprecated, message: "Will be removed soon. We won't need it.")
     fileprivate func winkStatusLabel() -> some View {
@@ -74,7 +76,17 @@ struct UserProfileView: View {
     
     fileprivate func winkButton() -> some View {
         return Button {
+            guard let me = currentUserDataModel.user else {
+                return
+            }
             
+            model.sendWink(from: me) { error in
+                guard error == nil else {
+                    print("could not send wink : error \(error)")
+                    return
+                }
+                print("did send wink")
+            }
         } label: {
             
             
@@ -87,6 +99,7 @@ struct UserProfileView: View {
                 .frame(width: 30)
         }
         .buttonStyle(.plain)
+      //  .opacity(model.winkStatus != nil ? 0.5 : 1 ) TODO: This is WRONG! we need to check instead if we send
     }
     
     @ViewBuilder
@@ -261,7 +274,7 @@ struct UserProfileView: View {
 	var body: some View {
 		VStack{
 			
-            UPSectionView(profileImageURL: model.user?.profileImageUrl, isNotable: model.user?.isNotable, winked: model.winkedAtMe, name: model.user?.name, username: model.user?.username, friendshipStatus: model.friendshipStatus,
+            UPSectionView(profileImageURL: model.user?.profileImageUrl, isNotable: model.user?.isNotable, winkStatus: model.winkStatus, name: model.user?.name, username: model.user?.username, friendshipStatus: model.friendshipStatus,
                 oneLinerSummary: model.oneLiner, compatibility_score: model.score, natalChart: model.natalChart, cancelFriendRequestAction: cancelFriendRequestAction, addFriendAction: addFriendAction, acceptFriendAction: acceptFriendAction)
             
         
@@ -305,7 +318,7 @@ struct UserProfileView: View {
 
 			}
 			
-			
+            CustomSegmentedMenu(selectedSegment: .constant(1))
 		}
         .navigationBarBackButtonHidden(true)
         .toolbar {

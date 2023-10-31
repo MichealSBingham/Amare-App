@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 import Firebase
-
+import FirebaseFirestore
 //TODO: Consider the error handling
 class UserProfileModel: ObservableObject{
 	
@@ -23,11 +23,14 @@ class UserProfileModel: ObservableObject{
     //TODO:
 	///Bool to indicate whether the user winked `at` the current `signed in user` /
 	@Published var winkedAtMe: Bool?
+    @Published var winkStatus: IncomingWink?
 	
 	/// TODO: make sure this data is updated n the initial LoadUser() function, right now, only changes if the user sends the friend request .. perhaps update the `friendshipStatus` variable here.
 	@Published var didSendFriendRequest: Bool?
     
     @Published var oneLiner: String?
+    
+    @Published var interpretations: [String: String]?
 	
 	//TODO: compatibility score
     @Published var score: Double?
@@ -42,6 +45,9 @@ class UserProfileModel: ObservableObject{
 	
 	private var friendRequestsListener: ListenerRegistration?
 	
+    private var winkStatusListener: ListenerRegistration?
+    
+    var interpretationsListener: ListenerRegistration?
 	
 	
 	
@@ -53,10 +59,16 @@ class UserProfileModel: ObservableObject{
 		if Auth.auth().currentUser?.uid != userId { self.getFriendshipStatus(with: userId)}
 		
 		self.getNatalChart(userId: userId)
+        
+        if Auth.auth().currentUser?.uid != userId { self.getWinkStatus(with: userId) }
 		
 		if Auth.auth().currentUser?.uid == userId { self.listenForAllFriendRequests()}
         
         self.getCompatibilityScore(for: userId)
+        
+        self.getInterpretations(for: userId)
+        
+        
 
 		
 	}
@@ -194,6 +206,31 @@ class UserProfileModel: ObservableObject{
             }
         }
     }
+    
+    func sendWink(from: AppUser, completion: @escaping (Error?) -> Void) {
+        guard let to = self.user?.id else {
+            completion(NSError(domain: "Cannot load data", code: 0, userInfo: nil))
+            return
+        }
+        
+        guard to != Auth.auth().currentUser?.uid else {
+            print("can't wink yourself as a friend")
+            completion(nil)
+            return
+        }
+        
+        FirestoreService.shared.sendWink(from: from, to: to) { result in
+            switch result {
+            case .success(let success):
+                print(success)
+                completion(nil)
+            case .failure(let failure):
+                print(failure)
+                completion(failure)
+            }
+        }
+    }
+
 	
 	
 	private func getNatalChart(userId: String){
@@ -243,6 +280,31 @@ class UserProfileModel: ObservableObject{
 	private func stopListeningForUserDataChanges() {
 			userListener?.remove() // Call this function when you want to detach the listener
 		}
+    
+    
+    
+    private func getWinkStatus(with otherUserID: String){
+        guard let currentUserId = Auth.auth().currentUser?.uid else { self.error = AccountError.notSignedIn; return }
+        
+        winkStatusListener = FirestoreService.shared.listenForIncomingWink(to: currentUserId, from: otherUserID, completion: { [weak self] result in
+            
+            switch result {
+            case .success(let wink):
+                DispatchQueue.main.async{
+                    withAnimation{
+                        print("did receive a wink: ... \(wink)")
+                        self?.winkStatus = wink
+                    }
+                }
+            case .failure(let failure):
+                withAnimation{
+                    self?.error = failure
+                    
+                }
+                print("Error trying to obtain wink status: \(failure)")
+            }
+        })
+    }
 	
 	
 	/// Checks if the current user is friends with `userId` the loaded user for `UserProfileModel`
@@ -284,6 +346,30 @@ class UserProfileModel: ObservableObject{
 		 })
 		
 	}
+    
+    private func getInterpretations(for userId: String) {
+      
+        
+        interpretationsListener = FirestoreService.shared.listenForInterpretations(for: userId) { [weak self] result in
+            switch result {
+            case .success(let interpretationsMap):
+                DispatchQueue.main.async {
+                    withAnimation {
+                        print("Interpretations did change... \(interpretationsMap)")
+                        self?.interpretations = interpretationsMap
+                    }
+                }
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    withAnimation {
+                        self?.error = error
+                    }
+                    print("Error fetching interpretations: \(error)")
+                }
+            }
+        }
+    }
+
 		
 		func stopListeningForFriendshipStatus() {
 			friendshipStatusListeners.forEach { $0.remove() }

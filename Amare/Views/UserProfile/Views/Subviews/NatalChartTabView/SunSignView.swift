@@ -9,54 +9,57 @@ import SwiftUI
 
 struct SunSignView: View {
 	
-	var planet: Planet
+	var planet: Planet?
 	
 	@Environment(\.colorScheme) var colorScheme
 	
 	var body: some View {
-		
-		HStack{
-			
-			Group{
-				
-				if colorScheme == .dark {
-					
-					PlanetName.Sun.image()
-						//.resizable()
-						.colorInvert()
-						.scaledToFit()
-						.frame(width: 25, height: 25)
-					planet.sign.image()
-						.resizable()
-						.colorInvert()
-						.scaledToFit()
-						.frame(width: 25, height: 25)
-				}
-				else {
-					PlanetName.Sun.image()
-						//.resizable()
-			
-						.scaledToFit()
-						.frame(width: 25, height: 25)
-					planet.sign.image()
-						.resizable()
-						
-						.scaledToFit()
-						.frame(width: 25, height: 25)
-				}
-				
-			}
-			Text("\(planet.sign.rawValue)")
-				.bold()
-			Text("\(planet.angle.dm)")
-				
-			//Image("ZodiacIcons/water")
-			planet.element.image()
-				.resizable()
-				.scaledToFit()
-				.frame(width: 25, height: 25)
-		}
-		
+        if let planet = planet {
+            HStack{
+                
+                Group{
+                    
+                    if colorScheme == .dark {
+                        
+                        PlanetName.Sun.image()
+                        //.resizable()
+                            .colorInvert()
+                            .scaledToFit()
+                            .frame(width: 25, height: 25)
+                        planet.sign.image()
+                            .resizable()
+                            .colorInvert()
+                            .scaledToFit()
+                            .frame(width: 25, height: 25)
+                    }
+                    else {
+                        PlanetName.Sun.image()
+                        //.resizable()
+                        
+                            .scaledToFit()
+                            .frame(width: 25, height: 25)
+                        planet.sign.image()
+                            .resizable()
+                        
+                            .scaledToFit()
+                            .frame(width: 25, height: 25)
+                    }
+                    
+                }
+                Text("\(planet.sign.rawValue)")
+                    .bold()
+                Text("\(planet.angle.dm)")
+                
+                //Image("ZodiacIcons/water")
+                planet.element.image()
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 25, height: 25)
+            }
+        }
+        else {
+            EmptyView()
+        }
 	}
 }
 

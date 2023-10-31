@@ -89,16 +89,8 @@ struct MoreInfoOnPlanet: View {
                       
                         
                         alternatingTextOfWhatItRules()
-                           /* .onReceive(Just(otherNotableUsersWithAspect)) { output in
-                                
-                                print("Just changed notable users.. it is \(output)")
-                            }
-                        */
                         
-                        
-                        
-                      
-                        
+
                     }
                    
                 }
@@ -107,12 +99,7 @@ struct MoreInfoOnPlanet: View {
              
                 //TODO: One line interpretation
                InterpretationOneLiner()
-                   /* .onReceive(Just(planet), perform: { output in
-                        
-                        getAndLoadNotableUsersWithSamePlacement()
-                    })
-                */
-                   
+                  
             
                 //TODO: longer planet description
              //   LongerPlanetDescription().padding(.bottom)
@@ -676,7 +663,7 @@ struct MoreInfoOnPlanet: View {
     ///  The symbol of the planet
     func planetImage() -> some View {
         
-        return  MainPlacementView( planet: planet, size: 40, colorless: true)
+        return  MainPlacementView()
            // .padding()
         
             /*
@@ -818,7 +805,7 @@ struct MoreInfoOnPlanet: View {
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 50, height: 50)
                             .clipShape(Circle())
-                            .overlay(Circle().stroke(colors.randomElement() ?? .blue, lineWidth: 1))
+                            .overlay(Circle().stroke([.white, .red, .orange, .blue, .green, .yellow].randomElement() ?? .blue, lineWidth: 1))
                             .shadow(radius: 15)
                             .padding([.leading, .trailing])
                             .offset(x: index == 0 ? 0: offset)
@@ -868,7 +855,7 @@ struct MoreInfoOnPlanet: View {
                              .aspectRatio(contentMode: .fit)
                              .frame(width: 50, height: 50)
                              .clipShape(Circle())
-                             .overlay(Circle().stroke(colors.randomElement() ?? .blue, lineWidth: 1))
+                             .overlay(Circle().stroke([.white, .red, .orange, .blue, .green, .yellow].randomElement() ?? .blue, lineWidth: 1))
                              .shadow(radius: 15)
                              .padding([.leading, .trailing])
                              .offset(x: index == 0 ? 0: offset)

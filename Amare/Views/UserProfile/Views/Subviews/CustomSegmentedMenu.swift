@@ -7,12 +7,24 @@
 
 import SwiftUI
 
+
 struct CustomSegmentedMenu: View {
+    @Binding var selectedSegment: Int
+    let menuOptions = ["Synastry Charts", "Natal Chart", "Media"]
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Picker("", selection: $selectedSegment) {
+            ForEach(0..<menuOptions.count) { index in
+                Text(self.menuOptions[index])
+            }
+        }
+        .pickerStyle(SegmentedPickerStyle())
     }
 }
 
-#Preview {
-    CustomSegmentedMenu()
+
+struct CustomSegmentedMenu_Previews: PreviewProvider {
+    static var previews: some View {
+        CustomSegmentedMenu(selectedSegment: .constant(1))
+    }
 }

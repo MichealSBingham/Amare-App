@@ -7,6 +7,7 @@
 
 import Foundation
 
+
 extension String {
 	var firstName: String {
 		return self.components(separatedBy: " ").first ?? ""
@@ -20,7 +21,7 @@ extension String {
 	func isValidPhoneNumber() -> Bool {
 		if self.count < 12 { return false }
 		let regEx = "^\\+(?:[0-9]?){6,14}[0-9]$"
-
+        
 		let phoneCheck = NSPredicate(format: "SELF MATCHES[c] %@", regEx)
 		return phoneCheck.evaluate(with: self)
 	}

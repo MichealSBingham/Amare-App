@@ -443,6 +443,78 @@ class FirestoreService {
        }
    }
 
+    
+    func sendWink(from micheal: AppUser, to elizabeth: String, completion: @escaping (Result<Void, Error>) -> Void) {
+        
+        guard let micheal_id = micheal.id else { completion(.failure(NSError.init(domain: "Not Signed In", code: 1))); return }
+        let now = Timestamp(date: Date())
+            
+        let outgoingWink = OutgoingWink(id: elizabeth,  from: micheal_id, time: now)
+        
+        let incomingWink = IncomingWink(id: micheal_id,  isNotable: micheal.isNotable, name: micheal.name, profileImageURL: micheal.profileImageUrl ?? "", from: micheal_id, time: now)
+            
+        // Create an outgoing request document.
+        db.collection("users").document(micheal_id).collection("outgoingWinks").document(elizabeth)
+            .setData(outgoingWink.asDictionary()) { err in
+                if let err = err {
+                    completion(.failure(err))
+                } else {
+                    
+                    // Create an incoming request document for the other user.
+                    self.db.collection("users").document(elizabeth).collection("incomingWinks").document(micheal_id)
+                        .setData(incomingWink.asDictionary()) { err in
+                            if let err = err {
+                                completion(.failure(err))
+                            } else {
+                                completion(.success(()))
+                            }
+                        }
+                    
+                }
+            }
+    }
+    
+    func cancelWink(to elizabeth: String, completion: @escaping (Result<Void, Error>) -> Void) {
+        
+        
+        
+        guard let micheal_id = Auth.auth().currentUser?.uid else {
+            completion(.failure(NSError.init(domain: "Not Signed In", code: 1)))
+            return
+        }
+        // Reference to the outgoing request document.
+        let outgoingWinkRef = db.collection("users").document(micheal_id).collection("outgoingWinks").document(elizabeth)
+        
+        // Delete the outgoing request document.
+        outgoingWinkRef.delete() { err in
+            if let err = err {
+                completion(.failure(err))
+            } else {
+                completion(.success(()))
+            }
+        }
+    }
+
+    func listenForIncomingWink(to currentUserID: String, from otherUserID: String, completion: @escaping (Result<IncomingWink?, Error>) -> Void) -> ListenerRegistration {
+        let incomingWinksListener = db.collection("users").document(currentUserID).collection("incomingWinks").document(otherUserID).addSnapshotListener { snapshot, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            guard let snapshot = snapshot, let data = snapshot.data() else {
+                completion(.success(nil))
+                return
+            }
+            let incomingWink = try? snapshot.data(as: IncomingWink.self)
+        
+            completion(.success(incomingWink))
+        }
+        return incomingWinksListener
+    }
+
+   
+    
+    
 
 	
 	func listenForFriendshipStatus(currentUserID: String, otherUserID: String, completion: @escaping (Result<UserFriendshipStatus, Error>) -> Void) -> [ListenerRegistration] {
@@ -598,6 +670,38 @@ class FirestoreService {
         return listener
     }
 
+    
+    func listenForInterpretations(for userId: String, completion: @escaping (Result<[String: String], Error>) -> Void) -> ListenerRegistration {
+        
+        let natalChartRef = db.collection("users").document(userId).collection("public").document("natal_chart")
+        
+        let listener = natalChartRef.addSnapshotListener { (snapshot, error) in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            guard let snapshot = snapshot else {
+                completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Snapshot is nil"])))
+                return
+            }
+            
+            guard let data = snapshot.data() else {
+                completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Data is nil"])))
+                return
+            }
+            
+            if let interpretations = data["interpretations"] as? [String: String] {
+                completion(.success(interpretations))
+            } else {
+                completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Interpretations not found"])))
+            }
+        }
+        
+        return listener
+    }
+
+    
 	func createCustomUser(forUser userID: String, with data: AppUser, completion: @escaping (Result<Void, Error>) -> Void) {
 		
 		let uniqueID = UUID().uuidString

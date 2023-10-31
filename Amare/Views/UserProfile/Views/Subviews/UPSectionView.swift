@@ -11,7 +11,7 @@ struct UPSectionView: View {
     
     var profileImageURL: String?
     var isNotable: Bool?
-    var winked: Bool?
+    var winkStatus: IncomingWink?
     
     var name: String?
     var username: String?
@@ -27,6 +27,7 @@ struct UPSectionView: View {
     var cancelFriendRequestAction: (() -> Void)? = nil
     var addFriendAction: (() -> Void)? = nil
     var acceptFriendAction: (() -> Void)? = nil
+    
     
     
     fileprivate func friendshipStatusButton() -> some View {
@@ -62,7 +63,7 @@ struct UPSectionView: View {
     
     var body: some View {
         VStack{
-            CircularProfileImageView(profileImageUrl: profileImageURL, isNotable: isNotable, winked: winked)
+            CircularProfileImageView(profileImageUrl: profileImageURL, isNotable: isNotable, winked: winkStatus != nil)
                 .frame(width: 100, height: 100)
                // .padding()
             
@@ -99,5 +100,5 @@ struct UPSectionView: View {
 }
 
 #Preview {
-    UPSectionView(profileImageURL: AppUser.generateMockData().profileImageUrl, isNotable: true, winked: true, name: AppUser.generateMockData().name, username: AppUser.generateMockData().username, oneLinerSummary: "Enjoy this while it lasts because days of length you shall not have.", compatibility_score: 0.80)
+    UPSectionView(profileImageURL: AppUser.generateMockData().profileImageUrl, isNotable: true, winkStatus: nil, name: AppUser.generateMockData().name, username: AppUser.generateMockData().username, oneLinerSummary: "Enjoy this while it lasts because days of length you shall not have.", compatibility_score: 0.80)
 }

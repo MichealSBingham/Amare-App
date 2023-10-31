@@ -7,12 +7,39 @@
 
 import SwiftUI
 
-struct _DPlanetImageView: View {
+struct PlanetImageView: View {
+    var planetName: PlanetName
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+         planetName.image_3D()
+                    
     }
 }
 
 #Preview {
-    _DPlanetImageView()
+    //PlanetImageView(planetName: PlanetName.allCases.randomElement()!)
+    PlanetImageView_For_Preview()
+}
+
+
+// Making sure we have planet images for all
+struct PlanetImageView_For_Preview: View {
+    let allPlanets = PlanetName.allCases
+    
+    var body: some View {
+        let columns = [
+            GridItem(.adaptive(minimum: 100))
+        ]
+        
+        ScrollView {
+            LazyVGrid(columns: columns, spacing: 20) {
+                ForEach(allPlanets, id: \.self) { planet in
+                    VStack {
+                        PlanetImageView(planetName: planet)
+                        Text(planet.rawValue)
+                            .font(.caption)
+                    }
+                }
+            }
+        }
+    }
 }

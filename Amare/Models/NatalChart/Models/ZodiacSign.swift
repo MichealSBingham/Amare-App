@@ -32,6 +32,7 @@ enum ZodiacSign: String, Codable, CaseIterable{
     func image() ->  Image {
         
         return Image("ZodiacIcons/\(self)")
+            
                 
     }
     
