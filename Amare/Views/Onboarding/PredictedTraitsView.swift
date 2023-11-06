@@ -48,10 +48,6 @@ struct PredictedTraitsView: View {
                 }
                 
                 
-                print(model.predictedTraits)
-                print("\n")
-                print(model.traitFeedback)
-                print("\n\n\n\n")
             }
             
             
