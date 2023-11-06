@@ -33,8 +33,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 		
 	
 	//	let contentView = ContentView().environmentObject(authService) // Pass authService as environment object
-        let contentView = PredictedTraitsView().environmentObject(OnboardingViewModel())
-        
+        let contentView = OnboardingSignUpView(skipLogin: true).environmentObject(OnboardingViewModel())
+     
 		.environmentObject(authService)
 		.environmentObject(BackgroundViewModel())
 		

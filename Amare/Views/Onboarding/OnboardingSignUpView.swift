@@ -88,12 +88,15 @@ struct OnboardingSignUpView: View {
 					IntentionInputView()
 						.tag(OnboardingScreen.intention)
 					
+					OrientationInputView()
+                        .tag(OnboardingScreen.orientation)
 					
-					UsernameInputView()
-						.tag(OnboardingScreen.username)
                     
                     PredictedTraitsView()
                         .tag(OnboardingScreen.traitPredictor)
+                    
+                    UsernameInputView()
+                        .tag(OnboardingScreen.username)
                     
                 }
                 .environmentObject(viewModel)

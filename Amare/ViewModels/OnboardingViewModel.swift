@@ -66,7 +66,7 @@ class OnboardingViewModel: ObservableObject{
     //MARK: - Properties for Trait Prediction
     
     
-    @Published var predictedTraits: [PredictedTrait]  =   PredictedTrait.uniqueTraits // []
+    @Published var predictedTraits: [PredictedTrait]  =   [] // PredictedTrait.uniqueTraits // []
     
     // Tracking user feedback
     @Published var traitFeedback: [String: Bool] = [:] // Trait name as key, and feedback as Bool

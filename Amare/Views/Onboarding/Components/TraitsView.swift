@@ -288,6 +288,8 @@ struct TraitsFeedbackView2: View {
                 }
             }
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+            .redacted(reason: viewModel.predictedTraits.isEmpty ? .placeholder : [])
+
         }
         .onAppear {
             activeTabIndex = 0
