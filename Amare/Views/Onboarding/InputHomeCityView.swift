@@ -23,13 +23,18 @@ struct InputHomeCityView: View {
 			
 			//Spacer()
 		   
-			Text(!customAccount ? "Where Did You Spawn on Earth?" : "Where Did They Spawn on Earth?")
-				.bold()
-				.font(.system(size: 40))  // was 50
-				.lineLimit(2)
-				.minimumScaleFactor(0.1)
-				.padding()
-				.padding(.top, 20)
+            HStack{
+                
+                Text(!customAccount ? "Where Did You Spawn on Earth?" : "Where Did They Spawn on Earth?")
+                    .multilineTextAlignment(.leading)
+                    .bold()
+                    .font(.system(size: 40))  // was 50
+                    .lineLimit(2)
+                    .minimumScaleFactor(0.1)
+                    .padding()
+                    .padding(.top, 20)
+                Spacer()
+            }
 			
 	   
 			
@@ -60,7 +65,7 @@ struct InputHomeCityView: View {
 				
 			
 			
-			CitySearchView(/*timezone: $model.homeCityTimeZone*/)
+           // CitySearchView(/*timezone: $model.homeCityTimeZone*/, firstResponder: <#Binding<FirstResponders?>#>)
 			
 			//Spacer()
 			
@@ -79,6 +84,7 @@ struct InputHomeCityView: View {
 			.opacity(model.homeCity == nil  ? 0.5: 1.0)
 			
 		//Spacer()
+            KeyboardPlaceholder()
 		}
     }
 }
@@ -116,112 +122,3 @@ class SearchCompleter: NSObject, MKLocalSearchCompleterDelegate, ObservableObjec
 
 
 
-struct CitySearchView: View {
-	
-	@EnvironmentObject var model: OnboardingViewModel
-	
-	
-	@State private var searchText = ""
-	@State private var selectedCity: String?
-	@StateObject private var searchCompleter = SearchCompleter(completer: MKLocalSearchCompleter(), maxResults: 5)
-	
-	@State var showTimeZoneErrorAlert: Bool = false
-	
-	//@Binding var timezone: TimeZone?
-	
-	
-	enum FirstResponders: Int {
-			case city
-		}
-	@State var firstResponder: FirstResponders? = .city
-	
-	
-	@FocusState private var isFieldFocused: Bool
-	
-	var body: some View {
-		VStack {
-			TextField("Search", text: $searchText, onCommit: {
-				
-				guard model.homeCity != nil else { return }
-				
-				
-				firstResponder = .none
-				withAnimation{
-					model.currentPage = .birthday
-				}
-				
-				
-				
-			})
-				.firstResponder(id: FirstResponders.city, firstResponder: $firstResponder, resignableUserOperations: .none)
-			
-				.padding()
-				.onChange(of: searchText) { newValue in
-					searchCompleter.completer.queryFragment = newValue
-				}
-				.alert(isPresented: $showTimeZoneErrorAlert) {
-								Alert(
-									title: Text("Can't Quite Find Your City"),
-									message: Text("There was an error finding the timezone. Please try the closest city nearby."),
-									dismissButton: .default(Text("OK"))
-								) 
-							}
-			
-			ScrollView {
-				LazyVStack {
-					ForEach(searchCompleter.results, id: \.title) { result in
-						HStack {
-							Text(result.title)
-							
-							Spacer()
-							
-							if selectedCity == result.title {
-								Image(systemName: "checkmark")
-									.foregroundColor(.green)
-							}
-						}
-						.contentShape(Rectangle())
-						.onTapGesture {
-							selectedCity = result.title
-							setTimezoneFromCity(city: result.title)
-						}
-						.padding()
-						.background(Color(.gray))
-						.cornerRadius(8)
-						.shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 5)
-					}
-				}
-			}
-			.frame(height: 150)
-			.padding()
-		}.onAppear{
-			firstResponder = .city
-		}
-		
-		
-	}
-	func setTimezoneFromCity(city: String) {
-		let searchRequest = MKLocalSearch.Request()
-		searchRequest.naturalLanguageQuery = city
-		let search = MKLocalSearch(request: searchRequest)
-		search.start { response, error in
-			guard let response = response else {
-				print("Error: \(error?.localizedDescription ?? "Unknown error")")
-				return
-			}
-			
-			for item in response.mapItems {
-				
-				if let timeZone = item.timeZone, let _ = item.placemark.city {
-					print("the selected time zone is ... \(timeZone)")
-					model.homeCity = item.placemark
-					model.homeCityTimeZone = timeZone
-				} else{
-					// something went wrong selecting the timezone
-					selectedCity = nil
-					showTimeZoneErrorAlert = true
-				}
-			}
-		}
-	}
-}

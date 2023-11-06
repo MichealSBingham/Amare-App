@@ -18,6 +18,8 @@ struct OnboardingSignUpView: View {
     @State var page: OnboardingScreen = .phoneNumber
     
 	@State var showProgressBar: Bool = false
+    
+    var skipLogin: Bool = false
   
     var body: some View {
         
@@ -56,21 +58,23 @@ struct OnboardingSignUpView: View {
                 
                 Group{
 					
+                    if !skipLogin {
+                        InputPhoneNumber()
+                            .tag(OnboardingScreen.phoneNumber)
+                        
+                        InputVerificationCode()
+                            .tag(OnboardingScreen.authCode)
+                    }
 					
-					InputPhoneNumber()
-						.tag(OnboardingScreen.phoneNumber)
-					
-					InputVerificationCode()
-						.tag(OnboardingScreen.authCode)
 					 
                      
                     InputNameView()
                         .tag(OnboardingScreen.name)
 						
-					
+					/*
 					InputHomeCityView()
 						.tag(OnboardingScreen.hometown)
-                    
+                    */
                     
                     BirthdayInputView()
                         .tag(OnboardingScreen.birthday)
@@ -87,6 +91,9 @@ struct OnboardingSignUpView: View {
 					
 					UsernameInputView()
 						.tag(OnboardingScreen.username)
+                    
+                    PredictedTraitsView()
+                        .tag(OnboardingScreen.traitPredictor)
                     
                 }
                 .environmentObject(viewModel)
@@ -112,7 +119,7 @@ struct OnboardingSignUpView: View {
 			
             
         }
-		
+        .ignoresSafeArea(.keyboard)
 		.preferredColorScheme(.dark)
             
             

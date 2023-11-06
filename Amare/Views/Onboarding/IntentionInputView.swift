@@ -18,12 +18,16 @@ struct IntentionInputView: View {
 			
 			Spacer()
 			
-			Text("So \(model.name?.firstName ?? "Micheal"), why are you here? ")
-				.bold()
-				.font(.system(size: 40))  // was 50
-				//.lineLimit(1)
-				//.minimumScaleFactor(0.01)
-				.padding()
+         
+                Text("So \(model.name?.firstName ?? "Micheal"), why are you here? ")
+                    .multilineTextAlignment(.center)
+                    .bold()
+                    .font(.system(size: 50))  // was 50
+                //.lineLimit(1)
+                //.minimumScaleFactor(0.01)
+                    .padding()
+               
+            
 			
 	   
 			
@@ -45,7 +49,7 @@ struct IntentionInputView: View {
 			
 			NextButtonView {
 				withAnimation {
-					model.currentPage = .username
+                    model.currentPage = .orientation
 				}
 			}
 			.disabled(!(model.friendshipSelected || model.datingSelected || model.selfDiscoverySelected))

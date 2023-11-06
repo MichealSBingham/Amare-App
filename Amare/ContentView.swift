@@ -29,16 +29,16 @@ struct ContentView: View {
 						.onAppear{
 							dataModel.loadUser()
 						}
-						.transition(.opacity)
+						//.transition(.opacity)
 				} else {
-					OnboardingSignUpView()
+                    OnboardingSignUpView(skipLogin: true)
                         .onAppear{
                             withAnimation{
                                 onboardingModel.currentPage = .name
                             }
                             
                         }
-						.transition(.opacity)
+						
 				}
 			} else {
 				SignInOrUpView()

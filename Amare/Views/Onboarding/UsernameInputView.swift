@@ -41,14 +41,16 @@ struct UsernameInputView: View {
             
             Spacer()
            
-            Text("Choose Your Stardust Alias")
-                .bold()
-                .font(.system(size: 40))  // was 50 
+        
+                Text("Choose Your Stardust Alias")
+                    .multilineTextAlignment(.center)
+                    .bold()
+                    .font(.system(size: 50))  // was 50
                 //.lineLimit(1)
                 //.minimumScaleFactor(0.01)
-                .padding()
-                .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(errorMessage)) })
-            
+                    .padding()
+                    .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(errorMessage)) })
+           
        
             
            Text("Enter a username")
@@ -86,8 +88,11 @@ struct UsernameInputView: View {
             }
             
 			NextButtonView {
+                withAnimation{
+                    model.currentPage = .traitPredictor
+                }
 				
-                
+     
                 guard let id = authService.user?.uid else {
                     
                     self.errorMessage = "You are not signed in. Quit the app."
@@ -109,6 +114,8 @@ struct UsernameInputView: View {
 
                     }
                 }
+                
+                
 			}
 			.opacity(model.isUsernameAvailable ?? false ? 1: 0.5)
 			.disabled(!(model.isUsernameAvailable ?? false))
@@ -117,7 +124,8 @@ struct UsernameInputView: View {
          
                 
             Spacer()
-               
+            
+            KeyboardPlaceholder()
  
                 
             }
@@ -189,7 +197,7 @@ struct UsernameInputView: View {
             
           
             
-        })
+        } )
             .firstResponder(id: FirstResponders.username, firstResponder: $firstResponder, resignableUserOperations: .none)
         .font(.largeTitle)
 		.alert("Error", isPresented: Binding<Bool>(

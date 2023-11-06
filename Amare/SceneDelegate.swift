@@ -32,8 +32,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let urlImageService = URLImageService(fileStore: nil, inMemoryStore: URLImageInMemoryStore())
 		
 	
-		let contentView = ContentView().environmentObject(authService) // Pass authService as environment object
-	
+	//	let contentView = ContentView().environmentObject(authService) // Pass authService as environment object
+        let contentView = PredictedTraitsView().environmentObject(OnboardingViewModel())
+        
 		.environmentObject(authService)
 		.environmentObject(BackgroundViewModel())
 		

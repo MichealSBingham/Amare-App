@@ -9,13 +9,14 @@ import SwiftUI
 
 struct NextButtonView: View {
 	var action: () -> Void
+    var text: String = "Next"
 	
 	
 	var body: some View {
 		Button(action: {
 			self.action()
 		}) {
-			Text("Next")
+			Text(text)
 					   .font(.headline)
 					   .foregroundColor(.white)
 					   .padding()

@@ -49,11 +49,46 @@ class OnboardingViewModel: ObservableObject{
 	@Published var datingSelected: Bool = false
 	@Published var selfDiscoverySelected: Bool = false 
     
-	@Published var predictedTraits: [String: String]  = [:]
+    @Published var womenSelected: Bool = false
+    @Published var menSelected: Bool = false
+    @Published var TmenSelected: Bool = false
+    @Published var TwomenSelected: Bool = false
+    @Published var nonBinarySelected: Bool = false
+    
+    
+	
     
     @Published  var progress: Double = Double(OnboardingScreen.allCases.firstIndex(of: .phoneNumber) ?? 0) / Double(OnboardingScreen.allCases.count - 1)
 	
 	@Published var error: Error?
+    
+    
+    //MARK: - Properties for Trait Prediction
+    
+    
+    @Published var predictedTraits: [PredictedTrait]  =   PredictedTrait.uniqueTraits // []
+    
+    // Tracking user feedback
+    @Published var traitFeedback: [String: Bool] = [:] // Trait name as key, and feedback as Bool
+    
+    var correctTraitGuesses: Int {
+        traitFeedback.filter { (trait, userFeedback) -> Bool in
+            guard let traitDetails = predictedTraits.first(where: {$0.name == trait}) else { return false }
+            switch traitDetails.category {
+                case .likely, .unlikely:
+                    return userFeedback // true if user agrees with AI's 'likely' or 'unlikely'
+                case .neutral:
+                    return !userFeedback // true if user disagrees with AI's 'neutral' (since neutral is unsure)
+            }
+        }.count
+    }
+    
+    var correctnessPercentage: Double {
+        let total = traitFeedback.count
+        return total > 0 ? (Double(correctTraitGuesses) / Double(total))  : 0
+    }
+    
+    //MARK: - Functions
     
 	
     //TODO: Handle error handling for `checkUsername` 
@@ -236,9 +271,30 @@ class OnboardingViewModel: ObservableObject{
 		APIService.shared.predictTraitsFrom(data: data) { result in
 			switch result {
 			case .success(let traits):
-				print("predicted traits: \(traits)")
-				self.predictedTraits = traits as! [String : String]
-				completion(.success(traits))
+				
+                DispatchQueue.main.async {
+                    // TODO: check if this is proper because publishing changing from background threads is not allowed. 
+                    let traitsDictionary = traits as? [String : String] ?? [:]
+                    
+                    // Convert to an array of 'Trait'
+                    let traits = traitsDictionary.map { (key, value) -> PredictedTrait in
+                        // Here, 'key' is the trait name, and 'value' is the category as a string
+                        if let category = TraitCategory(rawValue: value) {
+                            return PredictedTrait(name: key, category: category)
+                        } else {
+                            // Handle the case where the category does not match any case of the enum
+                            // This should not happen if your API guarantees only those three values
+                            // Here, we default to 'neutral' for safety, or you could throw an error
+                            return PredictedTrait(name: key, category: .neutral)
+                        }
+                    }
+                    
+                    self.predictedTraits = traits
+                    print("traits are ... \(self.predictedTraits)")
+                    
+                    completion(.success(traits))
+                }
+				
 			case .failure(let failure):
 				print("FAILED predicting traits \(failure)")
 				completion(.failure(failure))

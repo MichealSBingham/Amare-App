@@ -20,6 +20,7 @@
 		26011FFE2AEE93CC004C4D77 /* DetailedPlacementInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26011FFD2AEE93CC004C4D77 /* DetailedPlacementInfoView.swift */; };
 		260120012AEE9717004C4D77 /* PlanetImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260120002AEE9717004C4D77 /* PlanetImageView.swift */; };
 		260120032AEEBA9A004C4D77 /* ProfileImagesStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260120022AEEBA9A004C4D77 /* ProfileImagesStack.swift */; };
+		260120052AF685F6004C4D77 /* KeyboardPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260120042AF685F6004C4D77 /* KeyboardPlaceholder.swift */; };
 		260135902A47597A007878BD /* UsernameAvailabilityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2601358F2A475979007878BD /* UsernameAvailabilityView.swift */; };
 		260135922A475B4A007878BD /* NextButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260135912A475B4A007878BD /* NextButtonView.swift */; };
 		260135952A475BBB007878BD /* PulsingModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260135942A475BBB007878BD /* PulsingModifier.swift */; };
@@ -74,6 +75,9 @@
 		263FBDE0283BE4B4008F35C5 /* MathUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263FBDDF283BE4B4008F35C5 /* MathUtilities.swift */; };
 		2642B7732A467F3F009DD789 /* BirthdayInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2642B7722A467F3F009DD789 /* BirthdayInputView.swift */; };
 		265117892A82F42500B15CDF /* CustomProfileCreationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265117882A82F42500B15CDF /* CustomProfileCreationView.swift */; };
+		2656D1012AF6E4B6000A13B2 /* OrientationInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2656D1002AF6E4B6000A13B2 /* OrientationInputView.swift */; };
+		2656D1042AF80860000A13B2 /* TraitsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2656D1032AF80860000A13B2 /* TraitsView.swift */; };
+		2656D1072AF828D9000A13B2 /* PredictedTrait.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2656D1062AF828D9000A13B2 /* PredictedTrait.swift */; };
 		2662ED1A2842D17600B0EA57 /* FindNearbyUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2662ED162842D17600B0EA57 /* FindNearbyUserView.swift */; };
 		2662ED1B2842D17600B0EA57 /* ProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2662ED182842D17600B0EA57 /* ProfileImageView.swift */; };
 		2662ED1C2842D17600B0EA57 /* PulsingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2662ED192842D17600B0EA57 /* PulsingView.swift */; };
@@ -188,6 +192,7 @@
 		26011FFD2AEE93CC004C4D77 /* DetailedPlacementInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedPlacementInfoView.swift; sourceTree = "<group>"; };
 		260120002AEE9717004C4D77 /* PlanetImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetImageView.swift; sourceTree = "<group>"; };
 		260120022AEEBA9A004C4D77 /* ProfileImagesStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImagesStack.swift; sourceTree = "<group>"; };
+		260120042AF685F6004C4D77 /* KeyboardPlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardPlaceholder.swift; sourceTree = "<group>"; };
 		2601358F2A475979007878BD /* UsernameAvailabilityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsernameAvailabilityView.swift; sourceTree = "<group>"; };
 		260135912A475B4A007878BD /* NextButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextButtonView.swift; sourceTree = "<group>"; };
 		260135942A475BBB007878BD /* PulsingModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PulsingModifier.swift; sourceTree = "<group>"; };
@@ -231,6 +236,9 @@
 		263FBDDF283BE4B4008F35C5 /* MathUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathUtilities.swift; sourceTree = "<group>"; };
 		2642B7722A467F3F009DD789 /* BirthdayInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirthdayInputView.swift; sourceTree = "<group>"; };
 		265117882A82F42500B15CDF /* CustomProfileCreationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomProfileCreationView.swift; sourceTree = "<group>"; };
+		2656D1002AF6E4B6000A13B2 /* OrientationInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrientationInputView.swift; sourceTree = "<group>"; };
+		2656D1032AF80860000A13B2 /* TraitsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraitsView.swift; sourceTree = "<group>"; };
+		2656D1062AF828D9000A13B2 /* PredictedTrait.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictedTrait.swift; sourceTree = "<group>"; };
 		2662ED162842D17600B0EA57 /* FindNearbyUserView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindNearbyUserView.swift; sourceTree = "<group>"; };
 		2662ED182842D17600B0EA57 /* ProfileImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileImageView.swift; sourceTree = "<group>"; };
 		2662ED192842D17600B0EA57 /* PulsingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PulsingView.swift; sourceTree = "<group>"; };
@@ -458,6 +466,7 @@
 			isa = PBXGroup;
 			children = (
 				262F2A622A50A98B00C980D3 /* BackgroundViewModel.swift */,
+				2656D1052AF828BD000A13B2 /* Traits */,
 				26E264562AE9F354004DEB11 /* SearchedUsersAndFriends */,
 				26E264512AE9F2BF004DEB11 /* Wink */,
 				26006E7A2AD9F8C80063802E /* NearbyInteraction */,
@@ -520,6 +529,22 @@
 				265117882A82F42500B15CDF /* CustomProfileCreationView.swift */,
 			);
 			path = CreatingCustomProfile;
+			sourceTree = "<group>";
+		};
+		2656D1022AF80840000A13B2 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				2656D1032AF80860000A13B2 /* TraitsView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		2656D1052AF828BD000A13B2 /* Traits */ = {
+			isa = PBXGroup;
+			children = (
+				2656D1062AF828D9000A13B2 /* PredictedTrait.swift */,
+			);
+			path = Traits;
 			sourceTree = "<group>";
 		};
 		2662ED152842D17600B0EA57 /* NearbyUsers */ = {
@@ -706,6 +731,7 @@
 				26F9205E26A760E500A4F8C6 /* Animations.swift */,
 				263FBDDF283BE4B4008F35C5 /* MathUtilities.swift */,
 				26FCD2572A23D2ED00A09569 /* AppEnvironment.swift */,
+				260120042AF685F6004C4D77 /* KeyboardPlaceholder.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -788,6 +814,7 @@
 		26C466482A34FEC0000EC8BC /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
+				2656D1022AF80840000A13B2 /* Components */,
 				26C4664B2A34FEC0000EC8BC /* OnboardingSignUpView.swift */,
 				26AF20E526CF458E00D99F36 /* InputPhoneNumber.swift */,
 				268E542726DCEC6400E61F40 /* InputVerificationCode.swift */,
@@ -797,8 +824,9 @@
 				260135962A476191007878BD /* BirthtimeInputView.swift */,
 				262F2A532A4D05B700C980D3 /* GenderInputView.swift */,
 				262F2A4F2A4BB9C600C980D3 /* IntentionInputView.swift */,
-				26C466492A34FEC0000EC8BC /* UsernameInputView.swift */,
+				2656D1002AF6E4B6000A13B2 /* OrientationInputView.swift */,
 				26BD69422AB7DFF30062B18B /* PredictedTraitsView.swift */,
+				26C466492A34FEC0000EC8BC /* UsernameInputView.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -1130,6 +1158,7 @@
 				26C3EE192A4510D900CCA9E0 /* AppConfig.swift in Sources */,
 				2627C5432A71EF43008ED5DB /* UserProfileView.swift in Sources */,
 				26C4664D2A34FEC0000EC8BC /* BeginQuizBodyView.swift in Sources */,
+				260120052AF685F6004C4D77 /* KeyboardPlaceholder.swift in Sources */,
 				269013B32AE5FB2000397075 /* DirectMessagingView.swift in Sources */,
 				26B1B011267C28E000A170B3 /* Extensions.swift in Sources */,
 				269013A72AE339C000397075 /* UPSectionView.swift in Sources */,
@@ -1190,13 +1219,16 @@
 				26C4663F2A34FE96000EC8BC /* RGResponse.swift in Sources */,
 				26B1AFE22678FFE700A170B3 /* Love.xcdatamodeld in Sources */,
 				26E10BAD28679A6E007666F9 /* MessagesChannelListTopView.swift in Sources */,
+				2656D1072AF828D9000A13B2 /* PredictedTrait.swift in Sources */,
 				26A5FBCE2A73221400D94476 /* UserProfileModel.swift in Sources */,
+				2656D1012AF6E4B6000A13B2 /* OrientationInputView.swift in Sources */,
 				268F26C1268018EE00FBEA7D /* ForNavigation.swift in Sources */,
 				2608CF482691425E00826FDA /* QR.swift in Sources */,
 				260135972A476191007878BD /* BirthtimeInputView.swift in Sources */,
 				262F8F982A773A3300EE709E /* FriendshipStatus.swift in Sources */,
 				26006E7E2ADA20DC0063802E /* DiscoveryTokenDocument.swift in Sources */,
 				26011FFA2AEE904F004C4D77 /* MoreInfoOnPlanetView.swift in Sources */,
+				2656D1042AF80860000A13B2 /* TraitsView.swift in Sources */,
 				26C399CB2A5E23350061F9B8 /* SearchAndFriendsView.swift in Sources */,
 				262F2A5B2A5086CC00C980D3 /* AuthService.swift in Sources */,
 				26A5FBDB2A732E4C00D94476 /* Element.swift in Sources */,
@@ -1432,6 +1464,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = Amare/Amare.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 26;
 				DEVELOPMENT_ASSET_PATHS = "\"Amare/Preview Content\"";
@@ -1451,6 +1484,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = app.amare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "$(ARCHS_STANDARD) x86_64 i386";
@@ -1465,6 +1499,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = Amare/Amare.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 26;
 				DEVELOPMENT_ASSET_PATHS = "\"Amare/Preview Content\"";
@@ -1484,6 +1519,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = app.amare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "$(ARCHS_STANDARD) x86_64 i386";

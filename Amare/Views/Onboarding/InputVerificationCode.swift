@@ -130,6 +130,7 @@ public struct InputVerificationCode: View {
                 
                 
                 Spacer()
+                KeyboardPlaceholder()
             }
         
             .alert(isPresented: $someErrorOccured, content: {  Alert(title: Text(alertMessage)) })

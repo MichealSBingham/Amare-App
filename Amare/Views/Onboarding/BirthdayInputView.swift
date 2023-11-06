@@ -24,12 +24,16 @@ struct BirthdayInputView: View {
             
             Spacer()
            
-			Text(!customAccount ? "When Did Your Cosmic Journey Begin?" : "When Did Their Cosmic Journey Begin?" )
-                .bold()
-                .font(.system(size: 40))
-                //.lineLimit(1)
-               // .minimumScaleFactor(0.01)
-                .padding()
+           
+                Text(!customAccount ? "When Did Your Cosmic Journey Begin?" : "When Did Their Cosmic Journey Begin?" )
+                    .multilineTextAlignment(.center)
+                    .bold()
+                    .font(.system(size: 50))
+                    .lineLimit(3)
+                    .minimumScaleFactor(0.7)
+                    .padding()
+              
+            
 			
 			
 			Text(!customAccount ? "Enter your birthday"  : "Enter their birthday" )

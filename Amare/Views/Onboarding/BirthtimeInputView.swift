@@ -34,12 +34,16 @@ struct BirthtimeInputView: View {
 			
 			Spacer()
 		   
-			Text(!customAccount ? "What Time Were You Born?" : "What Time Were They Born?" )
-				.bold()
-				.font(.system(size: 40))
-				//.lineLimit(1)
-			   // .minimumScaleFactor(0.01)
-				.padding()
+        
+                Text(!customAccount ? "What Time Were You Born?" : "What Time Were They Born?" )
+                    .multilineTextAlignment(.center)
+                    .bold()
+                    .font(.system(size: 50))
+                    .lineLimit(3)
+                    .minimumScaleFactor(0.7)
+                    .padding()
+            
+				
 			
 			
 		   

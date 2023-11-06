@@ -21,12 +21,16 @@ struct GenderInputView: View {
 			
 			Spacer()
 			
-			Text("What's your gender?")
-				.bold()
-				.font(.system(size: 40))  // was 50
-				//.lineLimit(1)
-				//.minimumScaleFactor(0.01)
-				.padding()
+           
+                Text("What's your gender?")
+                    .multilineTextAlignment(.center)
+                    .bold()
+                    .font(.system(size: 50))
+                    .lineLimit(3)
+                    .minimumScaleFactor(0.7)
+                    .padding()
+              
+               
 			
 	   
 			Button {

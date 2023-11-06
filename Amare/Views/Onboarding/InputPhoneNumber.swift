@@ -84,6 +84,8 @@ struct InputPhoneNumber: View {
                     
                 Spacer()
                 Spacer()
+                
+                KeyboardPlaceholder()
               
                 
                 
