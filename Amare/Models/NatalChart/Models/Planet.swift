@@ -310,3 +310,38 @@ enum PlanetName: String, Codable, CaseIterable {
           
     }
 }
+
+extension Planet {
+    
+    static func random() -> Planet {
+        let allPlanetNames = PlanetName.allCases
+        let allElements = Element.allCases
+        let allZodiacSigns = ZodiacSign.allCases
+        
+        let randomPlanetName = allPlanetNames.randomElement()!
+        let randomAngle = Double.random(in: 0...30)
+        let randomElement = allElements.randomElement()!
+        let randomOnCusp = Bool.random()
+        let randomRetrograde = Bool.random()
+        let randomSign = allZodiacSigns.randomElement()!
+        let randomSpeed = Double.random(in: 0.1...1.5)
+        let randomHouse = Int.random(in: 1...12)
+        
+        let randomCusp: CuspObject? = /*Bool.random() ? CuspObject(element: randomElement, sign: randomSign) : */ nil
+        
+        return Planet(
+            name: randomPlanetName,
+            angle: randomAngle,
+            element: randomElement,
+            onCusp: randomOnCusp,
+            retrograde: randomRetrograde,
+            sign: randomSign,
+            house: randomHouse, cusp: randomCusp,
+            speed: randomSpeed
+        )
+    }
+    
+    static func randomArray(ofLength length: Int) -> [Planet] {
+           return (0..<length).map { _ in random() }
+       }
+}

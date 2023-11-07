@@ -157,12 +157,15 @@ struct TraitsFeedbackView: View {
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             .opacity(!showIntroText && !finished ? 1: 0 )
             
+            ProgressView()
+                .opacity(viewModel.predictedTraits.isEmpty && !showIntroText ? 1: 0 )
+            
             //This *was* in trait feedback card but we want to move it out of the page view
             VStack {
                 Spacer()
                 HStack{
                     Button(action: {
-                        guard let thisTrait = currentTrait else { return }
+                       
                         
                         viewModel.traitFeedback[viewModel.predictedTraits[activeTabIndex].name] = false
                         
@@ -188,7 +191,7 @@ struct TraitsFeedbackView: View {
                     
                     
                     Button(action: {
-                        guard let thisTrait = currentTrait else { return }
+                        
                         viewModel.traitFeedback[viewModel.predictedTraits[activeTabIndex].name] = true
                         
                         withAnimation { animateThumbsUp.toggle();
@@ -263,6 +266,10 @@ struct TraitsFeedbackView2: View {
                     .offset(y: -120)
             }
             
+            
+                
+               
+            
             TabView(selection: $activeTabIndex) {
                 Text(.init(introText))
                     .multilineTextAlignment(.center)
@@ -290,6 +297,9 @@ struct TraitsFeedbackView2: View {
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             .redacted(reason: viewModel.predictedTraits.isEmpty ? .placeholder : [])
 
+            ProgressView()
+                .opacity(viewModel.predictedTraits.isEmpty && (activeTabIndex != 0) ? 1: 0 )
+                
         }
         .onAppear {
             activeTabIndex = 0

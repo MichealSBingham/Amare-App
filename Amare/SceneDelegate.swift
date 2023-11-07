@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
 	var authService: AuthService = AuthService.shared
 	
-	
+    
     
 
     
@@ -33,8 +33,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 		
 	
 	//	let contentView = ContentView().environmentObject(authService) // Pass authService as environment object
-        let contentView = OnboardingSignUpView(skipLogin: true).environmentObject(OnboardingViewModel())
-     
+      //  let contentView = OnboardingSignUpView(skipLogin: true).environmentObject(OnboardingViewModel())
+      
+        let contentView = HomeView().environmentObject(authService).environmentObject(UserProfileModel()).environmentObject(OnboardingViewModel())
 		.environmentObject(authService)
 		.environmentObject(BackgroundViewModel())
 		

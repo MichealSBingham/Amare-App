@@ -19,7 +19,9 @@ struct UserProfileView: View {
     
     @State var showNearbyInteraction: Bool = false
     
+   
     
+    @State var menuSelection: MenuOptions = .synastryChart
 	
     @available(*, deprecated, message: "Will be removed soon. We won't need it.")
     fileprivate func winkStatusLabel() -> some View {
@@ -271,155 +273,169 @@ struct UserProfileView: View {
         
     }
 	
-	var body: some View {
-		VStack{
-			
-            UPSectionView(profileImageURL: model.user?.profileImageUrl, isNotable: model.user?.isNotable, winkStatus: model.winkStatus, name: model.user?.name, username: model.user?.username, friendshipStatus: model.friendshipStatus,
-                oneLinerSummary: model.oneLiner, compatibility_score: model.score, natalChart: model.natalChart, cancelFriendRequestAction: cancelFriendRequestAction, addFriendAction: addFriendAction, acceptFriendAction: acceptFriendAction)
-            
-        
-				
-			
-		//	winkStatusLabel()
-			
-			
-            
-            
-            
-            
-			HStack{
-				
-            
-				messageButton()
-					.padding()
-					 
-				Spacer()
+    var body: some View {
+        ScrollView{
+            VStack{
                 
-                nearbyConnectionButton()
-                    .padding()
-                    .sheet(isPresented: $showNearbyInteraction,  content: {
-                        FindNearbyUserView( user: model.user! , blindMode: false)
-                    })
-				
-					  
-                Spacer()
-                
-				winkButton()
-                    .padding()
+                UPSectionView(profileImageURL: model.user?.profileImageUrl, isNotable: model.user?.isNotable, winkStatus: model.winkStatus, name: model.user?.name, username: model.user?.username, friendshipStatus: model.friendshipStatus,
+                              oneLinerSummary: model.oneLiner, compatibility_score: model.score, natalChart: model.natalChart, cancelFriendRequestAction: cancelFriendRequestAction, addFriendAction: addFriendAction, acceptFriendAction: acceptFriendAction)
                 
                 
                 
-               
                 
-            
-					 
-				
-				
-
-			}
-			
-            CustomSegmentedMenu(selectedSegment: .constant(1))
-		}
-        .navigationBarBackButtonHidden(true)
-        .toolbar {
-            ToolbarItemGroup(placement: .topBarLeading) {
-                            BackButton()
-                    .padding()
-                  
+                
+                //	winkStatusLabel()
+                
+                
+                
+                
+                
+                
+                HStack{
+                    
+                    
+                    messageButton()
+                        .padding()
+                    
+                    Spacer()
+                    
+                    nearbyConnectionButton()
+                        .padding()
+                        .sheet(isPresented: $showNearbyInteraction,  content: {
+                            FindNearbyUserView( user: model.user! , blindMode: false)
+                        })
+                    
+                    
+                    Spacer()
+                    
+                    winkButton()
+                        .padding()
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
                 }
-            ToolbarItemGroup(placement: .topBarTrailing) {
-                Menu {
-                    //MARK: - Button for removing friend
-                    if model.friendshipStatus == .friends {
+                
+                
+                CustomSegmentedMenu(selectedSegment: $menuSelection)
+                   
+                
+                
+                MiniPlacementsTabView(interpretations: model.natalChart?.interpretations ?? [:], planets: model.natalChart?.planets ?? [])
+                    .frame(width: .infinity, height: 350)
+                   // .padding(.vertical, -10)
+                
+                
+                
+            }
+            .preferredColorScheme(.dark)
+            .navigationBarBackButtonHidden(true)
+            .toolbar {
+                ToolbarItemGroup(placement: .topBarLeading) {
+                    BackButton()
+                        .padding()
+                    
+                }
+                ToolbarItemGroup(placement: .topBarTrailing) {
+                    Menu {
+                        //MARK: - Button for removing friend
+                        if model.friendshipStatus == .friends {
+                            Button(action: {
+                                cancelFriendRequestAction()
+                            }) {
+                                HStack {
+                                    Text("Remove as Friend")
+                                    Image(systemName: "person.fill.xmark")
+                                }
+                            }
+                            .foregroundColor(.red)
+                        }
+                        
+                        //MARK: - Button for cancelling SENT friend request
+                        if model.friendshipStatus == .requested {
+                            Button(action: {
+                                cancelFriendRequestAction()
+                            }) {
+                                HStack {
+                                    Text("Cancel Friend Request")
+                                    Image(systemName: "person.fill.xmark")
+                                }
+                            }
+                            .foregroundColor(.red)
+                        }
+                        
+                        //MARK: - Button fors for accepting and rejecting friend requests
+                        
+                        if model.friendshipStatus == .awaiting{
+                            Button(action: {
+                                acceptFriendAction()
+                            }) {
+                                HStack {
+                                    Text("Accept Friend Request")
+                                    Image(systemName: "person.fill.checkmark")
+                                }
+                            }
+                            
+                            
+                            Button(action: {
+                                model.rejectFriendRequest()
+                            }) {
+                                HStack {
+                                    Text("Reject Friend Request")
+                                    Image(systemName: "person.fill.xmark")
+                                }
+                            }
+                            .foregroundColor(.red)
+                        }
+                        
+                        
+                        
+                        
+                        //MARK: - Button for Blocking
                         Button(action: {
-                            cancelFriendRequestAction()
+                            // Your block action here
                         }) {
                             HStack {
-                                Text("Remove as Friend")
-                                Image(systemName: "person.fill.xmark")
+                                Text("Block @\(model.user?.username ?? "")")
+                                    .foregroundColor(.red)
+                                Image(systemName: "hand.raised.fill")
+                                    .foregroundColor(.red)
                             }
                         }
-                        .foregroundColor(.red)
-                    }
-                    
-                    //MARK: - Button for cancelling SENT friend request
-                    if model.friendshipStatus == .requested {
-                        Button(action: {
-                            cancelFriendRequestAction()
-                        }) {
-                            HStack {
-                                Text("Cancel Friend Request")
-                                Image(systemName: "person.fill.xmark")
-                            }
-                        }
-                        .foregroundColor(.red)
-                    }
-                    
-                    //MARK: - Button fors for accepting and rejecting friend requests
-                    
-                    if model.friendshipStatus == .awaiting{
-                        Button(action: {
-                            acceptFriendAction()
-                        }) {
-                            HStack {
-                                Text("Accept Friend Request")
-                                Image(systemName: "person.fill.checkmark")
-                            }
-                        }
-                       
+                        
+                        //MARK: - Button for Reporting
                         
                         Button(action: {
-                            model.rejectFriendRequest()
+                            // Your report action here
                         }) {
                             HStack {
-                                Text("Reject Friend Request")
-                                Image(systemName: "person.fill.xmark")
+                                Text("Report @\(model.user?.username ?? "" )")
+                                Image(systemName: "flag.fill")
                             }
                         }
-                        .foregroundColor(.red)
+                    } label: {
+                        MenuOptionsView()
+                            .padding()
+                            .buttonStyle(PlainButtonStyle())
+                        
                     }
-                    
-                       
-                    
-                    
-                    //MARK: - Button for Blocking
-                    Button(action: {
-                        // Your block action here
-                    }) {
-                        HStack {
-                            Text("Block @\(model.user?.username ?? "")")
-                                .foregroundColor(.red)
-                            Image(systemName: "hand.raised.fill")
-                                .foregroundColor(.red)
-                        }
-                    }
-                    
-                    //MARK: - Button for Reporting
-                    
-                    Button(action: {
-                        // Your report action here
-                    }) {
-                        HStack {
-                            Text("Report @\(model.user?.username ?? "" )")
-                            Image(systemName: "flag.fill")
-                        }
-                    }
-                        } label: {
-                            MenuOptionsView()
-                                .padding()
-                                .buttonStyle(PlainButtonStyle())
-                                
-                        }
-                        .buttonStyle(PlainButtonStyle())
+                    .buttonStyle(PlainButtonStyle())
                 }
+                
+                
+            }
+            .onDisappear{
+                print("on disappear user profile view")
+                model.unloadUser()
+            }
             
-                            
-                        }
-		.onDisappear{
-			print("on disappear user profile view")
-			model.unloadUser()
-		}
-        
+        }
     }
 }
 

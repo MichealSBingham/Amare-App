@@ -92,6 +92,7 @@ struct CircularProfileImageView_Previews: PreviewProvider {
     static var previews: some View {
         CircularProfileImageView(profileImageUrl: AppUser.generateMockData().profileImageUrl, isNotable: true, winked: true)
             .frame(width: 100, height: 100)
+            .border(.white)
         /*
 		HStack{
 			CircularProfileImageView(profileImageUrl: FriendRequest.random().profileImageURL)

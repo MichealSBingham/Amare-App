@@ -15,6 +15,7 @@ struct FriendshipStatusView: View {
         .resizable()
         .aspectRatio(contentMode: .fit)
         .foregroundColor(Color.green)
+        .frame(width: 35, height: 35) // did not have this at first
         .transition(.scale)
     }
 }

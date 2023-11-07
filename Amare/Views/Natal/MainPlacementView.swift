@@ -139,9 +139,4 @@ struct ConditionalColorInvert: ViewModifier {
     }
 }
 
-extension View {
-    func conditionalColorInvert() -> some View {
-        self.modifier(ConditionalColorInvert())
-    }
-}
 

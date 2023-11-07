@@ -15,4 +15,8 @@ extension View {
                 tabBar.isHidden = hidden
             })
     }
+    
+    func conditionalColorInvert() -> some View {
+        self.modifier(ConditionalColorInvert())
+    }
 }

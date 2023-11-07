@@ -81,14 +81,20 @@ struct UPSectionView: View {
                 }
             }
             
+            /*
             Text(oneLinerSummary ?? "" )
                 .multilineTextAlignment(.center)
+               // .frame(height: 38)
                 .font(.caption)
-                
-                .padding()
-            
+                .padding(.horizontal)
+              //  .border(.white)
+            */
             
             NatalChartTabView(natalChart: natalChart)
+                .frame(height: 45)
+                .padding()
+                
+               // .border(.white)
             
             
             RadialChart(progress: compatibility_score)

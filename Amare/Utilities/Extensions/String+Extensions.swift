@@ -53,7 +53,11 @@ extension String {
 		return pureNumber
 	}
 
-	
+    func firstNSentences(_ n: Int) -> String {
+            let sentences = self.components(separatedBy: ". ")
+            let firstNSentences = sentences.prefix(n).joined(separator: ". ")
+            return firstNSentences + (sentences.count > n ? "." : "")
+        }
 	
 }
 

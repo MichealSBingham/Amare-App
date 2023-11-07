@@ -142,6 +142,8 @@
 		26C466552A34FEE0000EC8BC /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C466542A34FEDF000EC8BC /* OnboardingViewModel.swift */; };
 		26C466582A350D4B000EC8BC /* OnboardingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C466572A350D4B000EC8BC /* OnboardingScreen.swift */; };
 		26C4665B2A35276A000EC8BC /* ProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C4665A2A35276A000EC8BC /* ProgressBarView.swift */; };
+		26D1A7F72AF88C6800C290D4 /* CometView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D1A7F62AF88C6800C290D4 /* CometView.swift */; };
+		26D1A7FA2AF9AAE900C290D4 /* MiniPlacementsTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D1A7F92AF9AAE900C290D4 /* MiniPlacementsTabView.swift */; };
 		26D229ED2A5CDFC500BFA3BB /* OnboardingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D229EC2A5CDFC400BFA3BB /* OnboardingError.swift */; };
 		26D685922A6A001E0070CE79 /* SearchedUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D685912A6A001E0070CE79 /* SearchedUser.swift */; };
 		26E10BAD28679A6E007666F9 /* MessagesChannelListTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E10BAC28679A6D007666F9 /* MessagesChannelListTopView.swift */; };
@@ -309,6 +311,8 @@
 		26C466542A34FEDF000EC8BC /* OnboardingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
 		26C466572A350D4B000EC8BC /* OnboardingScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingScreen.swift; sourceTree = "<group>"; };
 		26C4665A2A35276A000EC8BC /* ProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBarView.swift; sourceTree = "<group>"; };
+		26D1A7F62AF88C6800C290D4 /* CometView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CometView.swift; sourceTree = "<group>"; };
+		26D1A7F92AF9AAE900C290D4 /* MiniPlacementsTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniPlacementsTabView.swift; sourceTree = "<group>"; };
 		26D229EC2A5CDFC400BFA3BB /* OnboardingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingError.swift; sourceTree = "<group>"; };
 		26D685912A6A001E0070CE79 /* SearchedUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchedUser.swift; sourceTree = "<group>"; };
 		26E10BAC28679A6D007666F9 /* MessagesChannelListTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesChannelListTopView.swift; sourceTree = "<group>"; };
@@ -491,6 +495,7 @@
 				262F2A592A50833000C980D3 /* SignInSignUp */,
 				26C466482A34FEC0000EC8BC /* Onboarding */,
 				26C466412A34FEBE000EC8BC /* RelationshipGoalsQuiz */,
+				26D1A7F62AF88C6800C290D4 /* CometView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -585,15 +590,14 @@
 		26A5FBCA2A7320E000D94476 /* Subviews */ = {
 			isa = PBXGroup;
 			children = (
+				26D1A7F82AF9AAAF00C290D4 /* Menu */,
 				269013A62AE339C000397075 /* UPSectionView.swift */,
 				269013A82AE3468800397075 /* NameLabelView.swift */,
 				269013AA2AE34AC100397075 /* FriendshipStatusView.swift */,
 				269013AC2AE43B5C00397075 /* RadialChart.swift */,
 				2662ED152842D17600B0EA57 /* NearbyUsers */,
-				26011FF22AEC748E004C4D77 /* CustomSegmentedMenu.swift */,
 				26A5FBE92A73395A00D94476 /* NatalChartTabView */,
 				26A5FBC82A7320DC00D94476 /* ImageForUserProfileView.swift */,
-				26011FF42AEC7CE5004C4D77 /* MiniPlacementView.swift */,
 			);
 			path = Subviews;
 			sourceTree = "<group>";
@@ -865,6 +869,16 @@
 				26C466542A34FEDF000EC8BC /* OnboardingViewModel.swift */,
 			);
 			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		26D1A7F82AF9AAAF00C290D4 /* Menu */ = {
+			isa = PBXGroup;
+			children = (
+				26D1A7F92AF9AAE900C290D4 /* MiniPlacementsTabView.swift */,
+				26011FF42AEC7CE5004C4D77 /* MiniPlacementView.swift */,
+				26011FF22AEC748E004C4D77 /* CustomSegmentedMenu.swift */,
+			);
+			path = Menu;
 			sourceTree = "<group>";
 		};
 		26E10BAB28679A4E007666F9 /* Messaging */ = {
@@ -1189,6 +1203,7 @@
 				262F2A502A4BB9C600C980D3 /* IntentionInputView.swift in Sources */,
 				269013AB2AE34AC100397075 /* FriendshipStatusView.swift in Sources */,
 				260135922A475B4A007878BD /* NextButtonView.swift in Sources */,
+				26D1A7F72AF88C6800C290D4 /* CometView.swift in Sources */,
 				2601359A2A477354007878BD /* Date+Extensions.swift in Sources */,
 				26FCD2582A23D2ED00A09569 /* AppEnvironment.swift in Sources */,
 				260135902A47597A007878BD /* UsernameAvailabilityView.swift in Sources */,
@@ -1248,6 +1263,7 @@
 				2662ED1B2842D17600B0EA57 /* ProfileImageView.swift in Sources */,
 				26A5FBD92A732E4C00D94476 /* Angle.swift in Sources */,
 				262F2A542A4D05B700C980D3 /* GenderInputView.swift in Sources */,
+				26D1A7FA2AF9AAE900C290D4 /* MiniPlacementsTabView.swift in Sources */,
 				26011FFC2AEE9094004C4D77 /* MoreInfoOnPlanetViewModel.swift in Sources */,
 				26AF20E626CF458E00D99F36 /* InputPhoneNumber.swift in Sources */,
 			);
