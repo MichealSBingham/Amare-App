@@ -63,5 +63,6 @@ struct PredictedTraitsView: View {
 struct PredictedTraitsView_Previews: PreviewProvider {
     static var previews: some View {
         PredictedTraitsView()
+            .environmentObject(OnboardingViewModel())
     }
 }

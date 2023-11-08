@@ -1,85 +1,29 @@
 //
-//  TraitsView.swift
+//  PersonalityGuesserView.swift
 //  Amare
 //
-//  Created by Micheal Bingham on 11/5/23.
+//  Created by Micheal Bingham on 11/8/23.
 //
 
 import SwiftUI
 
-
-
-
-// View for a single trait card
-struct TraitFeedbackCardView: View {
-    let trait: String
-    let category: TraitCategory
-    
-
-    var body: some View {
-        ZStack {
-            if category == .likely || category == .neutral{
-                Text("You are **\(trait)**.")
-                    .font(.title)
-                    .multilineTextAlignment(.center)
-                    .padding()
-            }
-            
-            if category == .unlikely{
-                Text("Do you agree that you are **not \(trait)**?")
-                    .font(.title)
-                    .multilineTextAlignment(.center)
-                    .padding()
-            }
-            
-            
-            
-           
-        }
-        
-      //  .background(Color.white)
-        .cornerRadius(20)
-        .shadow(radius: 5)
-    }
-}
-
-
-struct TraitsView_Previews: PreviewProvider {
-    static var previews: some View {
-        TraitsFeedbackView( /*finished: .constant(false)*/)
-            .environmentObject(OnboardingViewModel())
-    }
-}
-
-
-
-import Combine
-
-
-
-struct TraitsFeedbackView: View {
+struct PersonalityGuesserView: View {
     @EnvironmentObject  var viewModel: OnboardingViewModel
     @State private var activeTabIndex = 0
-    @State private var introText = "Take a peek at what our AI thinks about **you**."
+    @State private var introText = "Let's explore your personality in **deeper** detail."
+   
     let introMessages = [
-        "Take a peek at what our AI thinks about **you**.",
-        "Your feedback sharpens its **intuition** about you.",
-        "If you **agree** with the statement, say so.",
-        "If you **disagree** with the statement, say so.",
-        "Pay attention to negative statements like:\nYou are **not a horse**.",
-        "You would agree to this because it is **true** (hopefully)."
-    ]
-    let introMessagesForPersonality = [
         "Let's explore your personality in **deeper** detail.",
         "We'll tell you what our **AI** thinks about you thus far.",
         "Your feedback sharpens its **intuition** about you.",
         "Again, if you **agree** with the statement, say so.",
         "If you **disagree** with the statement, say so.",
+        "Let's begin!"
     ]
     
     @State private var showIntroText: Bool = true
     
-    @State var currentTrait: PredictedTrait?
+    @State var currentStatement: PersonalityStatement?
     
     @State var animateThumbsUp: Bool = false
     @State var animateThumbsDown: Bool = false
@@ -94,11 +38,11 @@ struct TraitsFeedbackView: View {
             VStack {
                 
                 ZStack{
-                    RadialChart(progress: viewModel.correctnessPercentage)
+                    RadialChart(progress: viewModel.correctnessPercentageForPersonality)
                         .offset(y: !finished ? -130 : 0 )
                         .opacity(!finished2 ? 1: 0 )
                     
-                    Text(viewModel.correctnessPercentage < 0.55 ? "The more you **use Amare**.\nThe more we **understand you**." : "We were **\(Int((viewModel.correctnessPercentage * 100).rounded()))% correct**.\nThat's better than guessing!🔥")
+                    Text(viewModel.correctnessPercentageForPersonality < 0.55 ? "The more you **use Amare**.\nThe more we **understand you**." : "We were **\(Int((viewModel.correctnessPercentageForPersonality * 100).rounded()))% correct**.\nThat's better than guessing!🔥")
                         .font(.title)
                         .multilineTextAlignment(.center)
                         .opacity(finished2 ? 1: 0 )
@@ -106,9 +50,9 @@ struct TraitsFeedbackView: View {
                 
             }
             .onChange(of: activeTabIndex) {  tab in
-                if tab == viewModel.predictedTraits.count   {
+                if tab == viewModel.predictedPersonalityStatements.count   {
                     withAnimation {
-                        finished = true 
+                        finished = true
                         
                         AmareApp().delay(1) {
                             withAnimation{
@@ -155,17 +99,21 @@ struct TraitsFeedbackView: View {
             TabView(selection: $activeTabIndex) {
                 
                 
-                ForEach(Array(viewModel.predictedTraits.enumerated()), id: \.element.name) { (index, trait) in
-                    TraitFeedbackCardView(trait: trait.name, category: trait.category)
-                    .onAppear { self.currentTrait  = trait }
+                ForEach(Array(viewModel.predictedPersonalityStatements.enumerated()), id: \.element.description) { (index, statement) in
+                    PersonalityFeedbackCardView(statement: statement.description)
+                    .onAppear { self.currentStatement  = statement }
                     .tag(index)
+                    
+                
                 }
+                
+                
             }
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             .opacity(!showIntroText && !finished ? 1: 0 )
             
             ProgressView()
-                .opacity(viewModel.predictedTraits.isEmpty && !showIntroText ? 1: 0 )
+                .opacity(viewModel.predictedPersonalityStatements.isEmpty && !showIntroText ? 1: 0 )
             
             //This *was* in trait feedback card but we want to move it out of the page view
             VStack {
@@ -174,7 +122,7 @@ struct TraitsFeedbackView: View {
                     Button(action: {
                        
                         
-                        viewModel.traitFeedback[viewModel.predictedTraits[activeTabIndex].name] = false
+                        viewModel.personalityStatementsFeedback[viewModel.predictedPersonalityStatements[activeTabIndex].description] = false
                         
                         withAnimation { animateThumbsDown.toggle();
                             AmareApp().delay(0.3) {
@@ -199,7 +147,7 @@ struct TraitsFeedbackView: View {
                     
                     Button(action: {
                         
-                        viewModel.traitFeedback[viewModel.predictedTraits[activeTabIndex].name] = true
+                        viewModel.personalityStatementsFeedback[viewModel.predictedPersonalityStatements[activeTabIndex].description] = true
                         
                         withAnimation { animateThumbsUp.toggle();
                             AmareApp().delay(0.3) {
@@ -249,70 +197,35 @@ struct TraitsFeedbackView: View {
     }
 }
 
-
-
-
-
-
-struct TraitsFeedbackView2: View {
-    @EnvironmentObject  var viewModel: OnboardingViewModel
-    @State private var activeTabIndex = 0
-    @State private var introText = "Take a peek at what our AI thinks about **you**."
-    let introMessages = [
-        "Take a peek at what our AI thinks about **you**.",
-        "Your feedback sharpens its **intuition** about you.",
-        "*Agree* or *disagree* with the following:"
-    ]
+struct PersonalityFeedbackCardView: View {
+    let statement: String
+   
     
-    let timer = Timer.publish(every: 2, on: .main, in: .common).autoconnect()
-    
+
     var body: some View {
         ZStack {
-            VStack {
-                RadialChart(progress: viewModel.correctnessPercentage)
-                    .offset(y: -120)
-            }
-            
-            
-                
-               
-            
-            TabView(selection: $activeTabIndex) {
-                Text(.init(introText))
-                    .multilineTextAlignment(.center)
+    
+                Text(statement)
                     .font(.title)
-                    .shadow(radius: 5)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(4)
+                    .minimumScaleFactor(0.1)
                     .padding()
-                    .tag(0)
-                    .onReceive(timer) { _ in
-                        let nextIndex = introMessages.firstIndex(of: introText)! + 1
-                        if nextIndex < introMessages.count {
-                            withAnimation {
-                                introText = introMessages[nextIndex]
-                            }
-                        } else {
-                            activeTabIndex = 1
-                            timer.upstream.connect().cancel() // Stop the timer
-                        }
-                    }
-                
-                ForEach(Array(viewModel.predictedTraits.enumerated()), id: \.element.name) { (index, trait) in
-                    TraitFeedbackCardView(trait: trait.name, category: trait.category)
-                    .tag(index + 1)
-                }
-            }
-            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-            .redacted(reason: viewModel.predictedTraits.isEmpty ? .placeholder : [])
-
-            ProgressView()
-                .opacity(viewModel.predictedTraits.isEmpty && (activeTabIndex != 0) ? 1: 0 )
-                
+            
+            
+            
+            
+           
         }
-        .onAppear {
-            activeTabIndex = 0
-        }
+        
+      //  .background(Color.white)
+        .cornerRadius(20)
+        .shadow(radius: 5)
     }
 }
 
 
-
+#Preview {
+    PersonalityGuesserView()
+        .environmentObject(OnboardingViewModel())
+}

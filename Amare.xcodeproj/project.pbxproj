@@ -78,6 +78,9 @@
 		2656D1012AF6E4B6000A13B2 /* OrientationInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2656D1002AF6E4B6000A13B2 /* OrientationInputView.swift */; };
 		2656D1042AF80860000A13B2 /* TraitsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2656D1032AF80860000A13B2 /* TraitsView.swift */; };
 		2656D1072AF828D9000A13B2 /* PredictedTrait.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2656D1062AF828D9000A13B2 /* PredictedTrait.swift */; };
+		265C4BD02AFC1EE0007D0925 /* PredictedPersonalityStatementsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265C4BCF2AFC1EE0007D0925 /* PredictedPersonalityStatementsView.swift */; };
+		265C4BD22AFC25DA007D0925 /* PersonalityGuesserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265C4BD12AFC25DA007D0925 /* PersonalityGuesserView.swift */; };
+		265C4BD52AFC2665007D0925 /* PersonalityStatement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265C4BD42AFC2665007D0925 /* PersonalityStatement.swift */; };
 		2662ED1A2842D17600B0EA57 /* FindNearbyUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2662ED162842D17600B0EA57 /* FindNearbyUserView.swift */; };
 		2662ED1B2842D17600B0EA57 /* ProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2662ED182842D17600B0EA57 /* ProfileImageView.swift */; };
 		2662ED1C2842D17600B0EA57 /* PulsingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2662ED192842D17600B0EA57 /* PulsingView.swift */; };
@@ -241,6 +244,9 @@
 		2656D1002AF6E4B6000A13B2 /* OrientationInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrientationInputView.swift; sourceTree = "<group>"; };
 		2656D1032AF80860000A13B2 /* TraitsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraitsView.swift; sourceTree = "<group>"; };
 		2656D1062AF828D9000A13B2 /* PredictedTrait.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictedTrait.swift; sourceTree = "<group>"; };
+		265C4BCF2AFC1EE0007D0925 /* PredictedPersonalityStatementsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictedPersonalityStatementsView.swift; sourceTree = "<group>"; };
+		265C4BD12AFC25DA007D0925 /* PersonalityGuesserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalityGuesserView.swift; sourceTree = "<group>"; };
+		265C4BD42AFC2665007D0925 /* PersonalityStatement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalityStatement.swift; sourceTree = "<group>"; };
 		2662ED162842D17600B0EA57 /* FindNearbyUserView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindNearbyUserView.swift; sourceTree = "<group>"; };
 		2662ED182842D17600B0EA57 /* ProfileImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileImageView.swift; sourceTree = "<group>"; };
 		2662ED192842D17600B0EA57 /* PulsingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PulsingView.swift; sourceTree = "<group>"; };
@@ -470,6 +476,7 @@
 			isa = PBXGroup;
 			children = (
 				262F2A622A50A98B00C980D3 /* BackgroundViewModel.swift */,
+				265C4BD32AFC2625007D0925 /* PersonalityPredicting */,
 				2656D1052AF828BD000A13B2 /* Traits */,
 				26E264562AE9F354004DEB11 /* SearchedUsersAndFriends */,
 				26E264512AE9F2BF004DEB11 /* Wink */,
@@ -540,6 +547,7 @@
 			isa = PBXGroup;
 			children = (
 				2656D1032AF80860000A13B2 /* TraitsView.swift */,
+				265C4BD12AFC25DA007D0925 /* PersonalityGuesserView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -550,6 +558,14 @@
 				2656D1062AF828D9000A13B2 /* PredictedTrait.swift */,
 			);
 			path = Traits;
+			sourceTree = "<group>";
+		};
+		265C4BD32AFC2625007D0925 /* PersonalityPredicting */ = {
+			isa = PBXGroup;
+			children = (
+				265C4BD42AFC2665007D0925 /* PersonalityStatement.swift */,
+			);
+			path = PersonalityPredicting;
 			sourceTree = "<group>";
 		};
 		2662ED152842D17600B0EA57 /* NearbyUsers */ = {
@@ -830,6 +846,7 @@
 				262F2A4F2A4BB9C600C980D3 /* IntentionInputView.swift */,
 				2656D1002AF6E4B6000A13B2 /* OrientationInputView.swift */,
 				26BD69422AB7DFF30062B18B /* PredictedTraitsView.swift */,
+				265C4BCF2AFC1EE0007D0925 /* PredictedPersonalityStatementsView.swift */,
 				26C466492A34FEC0000EC8BC /* UsernameInputView.swift */,
 			);
 			path = Onboarding;
@@ -1232,8 +1249,10 @@
 				26A5FBDD2A732E4C00D94476 /* Planet.swift in Sources */,
 				26C4664C2A34FEC0000EC8BC /* QuestionView.swift in Sources */,
 				26C4663F2A34FE96000EC8BC /* RGResponse.swift in Sources */,
+				265C4BD22AFC25DA007D0925 /* PersonalityGuesserView.swift in Sources */,
 				26B1AFE22678FFE700A170B3 /* Love.xcdatamodeld in Sources */,
 				26E10BAD28679A6E007666F9 /* MessagesChannelListTopView.swift in Sources */,
+				265C4BD52AFC2665007D0925 /* PersonalityStatement.swift in Sources */,
 				2656D1072AF828D9000A13B2 /* PredictedTrait.swift in Sources */,
 				26A5FBCE2A73221400D94476 /* UserProfileModel.swift in Sources */,
 				2656D1012AF6E4B6000A13B2 /* OrientationInputView.swift in Sources */,
@@ -1250,6 +1269,7 @@
 				26C3EE162A45010300CCA9E0 /* FirestoreService.swift in Sources */,
 				2601359E2A488496007878BD /* Birthday.swift in Sources */,
 				260120032AEEBA9A004C4D77 /* ProfileImagesStack.swift in Sources */,
+				265C4BD02AFC1EE0007D0925 /* PredictedPersonalityStatementsView.swift in Sources */,
 				263FBDE0283BE4B4008F35C5 /* MathUtilities.swift in Sources */,
 				26011FF82AED9A29004C4D77 /* MainPlacementView.swift in Sources */,
 				26C466502A34FEC0000EC8BC /* RGQuizView.swift in Sources */,

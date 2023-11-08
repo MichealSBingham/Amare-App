@@ -88,6 +88,25 @@ class OnboardingViewModel: ObservableObject{
         return total > 0 ? (Double(correctTraitGuesses) / Double(total))  : 0
     }
     
+   //MARK: - Properties for Personality Prediction
+    
+    @Published var predictedPersonalityStatements: [PersonalityStatement]  =  PersonalityStatement.random(n: 10)// []
+    
+    // Tracking user feedback
+    @Published var personalityStatementsFeedback: [String: Bool] = [:]
+    
+    var correctPersonalityGuesses: Int {
+        personalityStatementsFeedback.filter { (statement, userFeedback) -> Bool in
+            guard let traitDetails = predictedPersonalityStatements.first(where: {$0.description == statement}) else { return false }
+            return userFeedback
+        }.count
+    }
+    
+    var correctnessPercentageForPersonality: Double {
+        let total = personalityStatementsFeedback.count
+        return total > 0 ? (Double(correctPersonalityGuesses) / Double(total))  : 0
+    }
+    
     //MARK: - Functions
     
 	
@@ -305,6 +324,9 @@ class OnboardingViewModel: ObservableObject{
 		
 	}
       
+    func generatePersonality(){
+        self.predictedPersonalityStatements = PersonalityStatement.random(n: 10)
+    }
     
     
 }
