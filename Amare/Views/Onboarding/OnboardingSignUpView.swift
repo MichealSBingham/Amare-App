@@ -71,10 +71,9 @@ struct OnboardingSignUpView: View {
                     InputNameView()
                         .tag(OnboardingScreen.name)
 						
-					/*
-					InputHomeCityView()
-						.tag(OnboardingScreen.hometown)
-                    */
+					
+					
+                    
                     
                     BirthdayInputView()
                         .tag(OnboardingScreen.birthday)
@@ -94,6 +93,9 @@ struct OnboardingSignUpView: View {
                     
                     PredictedTraitsView()
                         .tag(OnboardingScreen.traitPredictor)
+                    
+                    PredictedPersonalityStatementsView()
+                        .tag(OnboardingScreen.personality)
                     
                     UsernameInputView()
                         .tag(OnboardingScreen.username)

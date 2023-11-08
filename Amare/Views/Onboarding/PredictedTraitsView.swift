@@ -38,7 +38,9 @@ struct PredictedTraitsView: View {
             
             
             NextButtonView(text: !didFinishTraitSelection ? "Do this later" : "Next"){
-                
+                withAnimation {
+                    model.currentPage = .personality
+                }
             }
             .padding()
             .onChange(of: model.traitFeedback) { num in

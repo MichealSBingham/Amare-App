@@ -43,7 +43,9 @@ struct PredictedPersonalityStatementsView: View {
             
             
             NextButtonView(text: !didFinish ? "Do this later" : "Next"){
-                
+                withAnimation{
+                    model.currentPage = .username
+                }
             }
             .padding()
             .onChange(of: model.personalityStatementsFeedback) { num in
