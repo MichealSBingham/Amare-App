@@ -29,7 +29,7 @@ struct OnboardingSignUpView: View {
             VStack{
                 
                 ProgressBarView(progress: $viewModel.progress)
-					.opacity(showProgressBar ? 1 : 0 )
+					.opacity(showProgressBar || skipLogin ? 1 : 0 )
                     .onChange(of: viewModel.currentPage, perform: { page in
                         
                         withAnimation{

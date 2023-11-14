@@ -8,58 +8,66 @@
 import SwiftUI
 
 
+import EffectsLibrary
 
+ 
 
-
-
-import SwiftUI
-
-struct CometView: View {
-    @State private var cometPosition = CGPoint(x: -100, y: -100)
-    @State private var isAnimating = false
+struct MovingImageView: View {
+  //  let imageName: String
+    let speed: Double
     
-    let trailLength: CGFloat = 600
-    let cometSize: CGFloat = 20
+    @State private var startPosition: CGPoint = .zero
+    @State private var endPosition: CGPoint = .zero
+    @State private var isAnimating: Bool = false
+    @State private var rotationAngle: SwiftUI.Angle = .zero
 
-    // Randomize the starting and ending positions of the comet
-    private func randomizeCometPosition(in size: CGSize) -> (start: CGPoint, end: CGPoint) {
-        let startX = CGFloat.random(in: -cometSize...size.width + cometSize)
-        let startY = CGFloat.random(in: -cometSize...size.height + cometSize)
-        let endX = CGFloat.random(in: -cometSize...size.width + cometSize)
-        let endY = CGFloat.random(in: -cometSize...size.height + cometSize)
-        
-        return (start: CGPoint(x: startX, y: startY), end: CGPoint(x: endX, y: endY))
-    }
-    
     var body: some View {
         GeometryReader { geometry in
-            ZStack {
-                // Trail
-                Capsule()
-                    .fill(LinearGradient(gradient: Gradient(colors: [.red, .orange, .yellow, .white]), startPoint: .leading, endPoint: .trailing))
-                    .frame(width: trailLength, height: cometSize / 2)
-                    .offset(x: cometPosition.x - trailLength / 2 + cometSize / 2, y: cometPosition.y)
-                    .opacity(isAnimating ? 1 : 0) // Appear and disappear with the comet
-
-                // Comet
-                Circle()
-                    .fill(Color.white)
-                    .frame(width: cometSize, height: cometSize)
-                    .offset(x: cometPosition.x, y: cometPosition.y)
-            }
-            .onAppear {
-                let positions = randomizeCometPosition(in: geometry.size)
-                cometPosition = positions.start
-                
-                withAnimation(Animation.linear(duration: 3).repeatForever(autoreverses: false)) {
-                    cometPosition = positions.end
-                    isAnimating = true
+           // Image(systemName: imageName) // Replace with your image name
+           comet()
+             //   .resizable()
+              //  .scaledToFit()
+             //   .frame(width: 50, height: 50) // Adjust the size as needed
+                .rotationEffect(rotationAngle)
+                .position(isAnimating ? endPosition : startPosition)
+                .onAppear {
+                    // Define the off-screen start and end positions
+                    startPosition = CGPoint(x: -100, y: Double.random(in: 0...geometry.size.height))
+                    endPosition = CGPoint(x: geometry.size.width + 300, y: Double.random(in: 0...geometry.size.height))
+                    
+                    // Calculate the rotation angle
+                    rotationAngle = SwiftUI.Angle(radians: atan2(endPosition.y - startPosition.y, endPosition.x - startPosition.x) - .pi / 2)
+                    
+                    // Start the animation
+                    withAnimation(.linear(duration: speed)) {
+                        isAnimating = true
+                    }
                 }
-            }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity) // Make GeometryReader fill the space
+    }
+    
+    func comet() -> some View {
+        
+        ZStack{
+            FireView()
+                .colorInvert()
+            Text("🪨") // Your emoji here
+                        .font(.system(size: 100))
+                        .rotation3DEffect(
+                                        .degrees(180),
+                                        axis: (x: 1.0, y: 0.0, z: 0.0)
+                                    )
+            
+        }
+        
     }
 }
 
+ 
+ 
+
+ 
 
 
 
@@ -67,9 +75,8 @@ struct CometView: View {
 
 #Preview {
     ZStack{
-        CometView().background(Color.black.edgesIgnoringSafeArea(.all))
-        CometView().background(Color.black.edgesIgnoringSafeArea(.all))
-        CometView().background(Color.black.edgesIgnoringSafeArea(.all))
+        MovingImageView(speed: 1.5)
+            
     }
     
 }

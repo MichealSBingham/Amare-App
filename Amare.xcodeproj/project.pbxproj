@@ -84,6 +84,7 @@
 		2662ED1A2842D17600B0EA57 /* FindNearbyUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2662ED162842D17600B0EA57 /* FindNearbyUserView.swift */; };
 		2662ED1B2842D17600B0EA57 /* ProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2662ED182842D17600B0EA57 /* ProfileImageView.swift */; };
 		2662ED1C2842D17600B0EA57 /* PulsingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2662ED192842D17600B0EA57 /* PulsingView.swift */; };
+		267ABC482AFC574A008BFA60 /* EffectsLibrary in Frameworks */ = {isa = PBXBuildFile; productRef = 267ABC472AFC574A008BFA60 /* EffectsLibrary */; };
 		2684C6632A65F8110048BB4E /* CircularProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2684C6622A65F8110048BB4E /* CircularProfileImageView.swift */; };
 		2684C6662A65F9800048BB4E /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 2684C6652A65F9800048BB4E /* SDWebImageSwiftUI */; };
 		268E542826DCEC6400E61F40 /* InputVerificationCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268E542726DCEC6400E61F40 /* InputVerificationCode.swift */; };
@@ -353,6 +354,7 @@
 				2684C6662A65F9800048BB4E /* SDWebImageSwiftUI in Frameworks */,
 				262712E52A61D50200E36906 /* FirebaseFirestore in Frameworks */,
 				262712E72A61D50200E36906 /* FirebaseFirestoreSwift in Frameworks */,
+				267ABC482AFC574A008BFA60 /* EffectsLibrary in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -993,6 +995,7 @@
 				262712F62A61D6E600E36906 /* MbSwiftUIFirstResponder */,
 				262712F92A61D76B00E36906 /* PushNotifications */,
 				2684C6652A65F9800048BB4E /* SDWebImageSwiftUI */,
+				267ABC472AFC574A008BFA60 /* EffectsLibrary */,
 			);
 			productName = Love;
 			productReference = 26B1AFD22678FFE500A170B3 /* Amare.app */;
@@ -1094,6 +1097,7 @@
 				262712F52A61D6E500E36906 /* XCRemoteSwiftPackageReference "MbSwiftUIFirstResponder" */,
 				262712F82A61D76B00E36906 /* XCRemoteSwiftPackageReference "push-notifications-swift" */,
 				2684C6642A65F97F0048BB4E /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
+				267ABC462AFC574A008BFA60 /* XCRemoteSwiftPackageReference "effects-library" */,
 			);
 			productRefGroup = 26B1AFD32678FFE500A170B3 /* Products */;
 			projectDirPath = "";
@@ -1793,6 +1797,14 @@
 				kind = branch;
 			};
 		};
+		267ABC462AFC574A008BFA60 /* XCRemoteSwiftPackageReference "effects-library" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/GetStream/effects-library";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		2684C6642A65F97F0048BB4E /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI";
@@ -1933,6 +1945,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 262712F82A61D76B00E36906 /* XCRemoteSwiftPackageReference "push-notifications-swift" */;
 			productName = PushNotifications;
+		};
+		267ABC472AFC574A008BFA60 /* EffectsLibrary */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 267ABC462AFC574A008BFA60 /* XCRemoteSwiftPackageReference "effects-library" */;
+			productName = EffectsLibrary;
 		};
 		2684C6652A65F9800048BB4E /* SDWebImageSwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+
 struct Background: View {
 	@EnvironmentObject var viewModel: BackgroundViewModel
 	

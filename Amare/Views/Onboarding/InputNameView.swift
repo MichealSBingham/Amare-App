@@ -7,6 +7,7 @@
 
 import SwiftUI
 import MapKit
+import EffectsLibrary
 enum FirstResponders: Int {
         case name
         case city
@@ -44,13 +45,20 @@ struct InputNameView: View {
     
     @State var changeText: Bool = false
     
+    var config = SnowConfig( intensity: Intensity.low, lifetime: Lifetime.long, initialVelocity: InitialVelocity.fast, spreadRadius: SpreadRadius.high)
+    
+    
+    
     var body: some View {
        
 
         
         ZStack{
-            
-            
+            MovingImageView(speed: 1.5)
+            SnowView(config: config)
+                .colorMultiply(.pink)
+                //.opacity(0.5)
+                .offset(y: -100)
             
            
             VStack{
@@ -479,9 +487,14 @@ struct CitySearchView: View {
 
 struct InputNameView_Previews: PreviewProvider {
     static var previews: some View {
-        
+        ZStack{
+            
             InputNameView()
+            .offset(y: 100)
                 .environmentObject(OnboardingViewModel())
+            
+        }
+           
         
        
     }
