@@ -44,7 +44,7 @@ struct PredictedPersonalityStatementsView: View {
             
             NextButtonView(text: !didFinish ? "Do this later" : "Next"){
                 withAnimation{
-                    model.currentPage = .username
+                    model.currentPage = .mediaUpload
                 }
             }
             .padding()

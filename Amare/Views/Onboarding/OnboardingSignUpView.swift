@@ -97,6 +97,9 @@ struct OnboardingSignUpView: View {
                     PredictedPersonalityStatementsView()
                         .tag(OnboardingScreen.personality)
                     
+                    MediaUploadView()
+                        .tag(OnboardingScreen.mediaUpload)
+                    
                     UsernameInputView()
                         .tag(OnboardingScreen.username)
                     

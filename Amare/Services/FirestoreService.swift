@@ -9,6 +9,7 @@ import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 import Firebase
+import FirebaseStorage
 
 class FirestoreService {
 	
@@ -726,5 +727,40 @@ class FirestoreService {
 	}
 
 
-	
+   
+    
+    func uploadImageToFirebaseStorage(imageData: Data, completion: @escaping (Result<URL, Error>) -> Void) {
+        
+        guard let userID = Auth.auth().currentUser?.uid else {
+            // user is not signed in
+            completion(.failure(AccountError.notSignedIn))
+            return
+        }
+        
+        let storageRef = Storage.storage().reference().child("users/\(userID)/pictures/profileImage.jpg")
+        
+        // Set the content type to image/jpeg
+        let metadata = StorageMetadata()
+        metadata.contentType = "image/jpeg"
+
+        // Upload the file to the path "/users/{userID}/pictures/profileImage.jpg"
+        storageRef.putData(imageData, metadata: metadata) { (metadata, error) in
+            guard metadata != nil else {
+                // Handle error
+                completion(.failure(error!))
+                return
+            }
+
+            // Get the download URL
+            storageRef.downloadURL { (url, error) in
+                guard let downloadURL = url else {
+                    // Handle error
+                    completion(.failure(error!))
+                    return
+                }
+                completion(.success(downloadURL))
+            }
+        }
+    }
+
 }

@@ -69,6 +69,10 @@
 		263695ED269B7872006EEA79 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 263695EC269B7872006EEA79 /* GoogleService-Info.plist */; };
 		263695EE269B7872006EEA79 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 263695EC269B7872006EEA79 /* GoogleService-Info.plist */; };
 		263695EF269B7872006EEA79 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 263695EC269B7872006EEA79 /* GoogleService-Info.plist */; };
+		263C9CB92B04F21E009C1626 /* MediaUploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263C9CB82B04F21D009C1626 /* MediaUploadView.swift */; };
+		263C9CBB2B04F67C009C1626 /* MediaUploadModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263C9CBA2B04F67C009C1626 /* MediaUploadModel.swift */; };
+		263C9CBD2B04F729009C1626 /* EditibleProfileImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263C9CBC2B04F729009C1626 /* EditibleProfileImage.swift */; };
+		263C9CBF2B0505C4009C1626 /* Images+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263C9CBE2B0505C4009C1626 /* Images+Extensions.swift */; };
 		263D6F962683F77C00CBBECC /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263D6F952683F77C00CBBECC /* Location.swift */; };
 		263D6F982684012000CBBECC /* AccountErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263D6F972684012000CBBECC /* AccountErrors.swift */; };
 		263D6F9A2684087300CBBECC /* AmareUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263D6F992684087300CBBECC /* AmareUser.swift */; };
@@ -236,6 +240,10 @@
 		262F8F9B2A7B42E100EE709E /* OutgoingFriendRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutgoingFriendRequest.swift; sourceTree = "<group>"; };
 		263695E9269B495F006EEA79 /* GoogleService-Info .plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info .plist"; sourceTree = "<group>"; };
 		263695EC269B7872006EEA79 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		263C9CB82B04F21D009C1626 /* MediaUploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaUploadView.swift; sourceTree = "<group>"; };
+		263C9CBA2B04F67C009C1626 /* MediaUploadModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaUploadModel.swift; sourceTree = "<group>"; };
+		263C9CBC2B04F729009C1626 /* EditibleProfileImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditibleProfileImage.swift; sourceTree = "<group>"; };
+		263C9CBE2B0505C4009C1626 /* Images+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Images+Extensions.swift"; sourceTree = "<group>"; };
 		263D6F952683F77C00CBBECC /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		263D6F972684012000CBBECC /* AccountErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountErrors.swift; sourceTree = "<group>"; };
 		263D6F992684087300CBBECC /* AmareUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmareUser.swift; sourceTree = "<group>"; };
@@ -432,6 +440,7 @@
 				26A5FBEC2A733A0100D94476 /* Numbers+Extensions.swift */,
 				269013B42AE603B700397075 /* View+Extensions.swift */,
 				269013B62AE603E700397075 /* Tabbar+Extensions.swift */,
+				263C9CBE2B0505C4009C1626 /* Images+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -550,6 +559,7 @@
 			children = (
 				2656D1032AF80860000A13B2 /* TraitsView.swift */,
 				265C4BD12AFC25DA007D0925 /* PersonalityGuesserView.swift */,
+				263C9CBC2B04F729009C1626 /* EditibleProfileImage.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -849,6 +859,7 @@
 				2656D1002AF6E4B6000A13B2 /* OrientationInputView.swift */,
 				26BD69422AB7DFF30062B18B /* PredictedTraitsView.swift */,
 				265C4BCF2AFC1EE0007D0925 /* PredictedPersonalityStatementsView.swift */,
+				263C9CB82B04F21D009C1626 /* MediaUploadView.swift */,
 				26C466492A34FEC0000EC8BC /* UsernameInputView.swift */,
 			);
 			path = Onboarding;
@@ -886,6 +897,7 @@
 				260954BB2A60AD7200114C56 /* SearchUsersAndFriends */,
 				26A0B9DA2A24F88A00DCAB5F /* RGQuizViewModel.swift */,
 				26C466542A34FEDF000EC8BC /* OnboardingViewModel.swift */,
+				263C9CBA2B04F67C009C1626 /* MediaUploadModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -1190,6 +1202,7 @@
 				260954BD2A60ADB400114C56 /* SearchAndFriendsViewModel.swift in Sources */,
 				26B6079D26C021C900CE8491 /* SignInOrUpView.swift in Sources */,
 				269013B72AE603E700397075 /* Tabbar+Extensions.swift in Sources */,
+				263C9CBF2B0505C4009C1626 /* Images+Extensions.swift in Sources */,
 				26C3EE192A4510D900CCA9E0 /* AppConfig.swift in Sources */,
 				2627C5432A71EF43008ED5DB /* UserProfileView.swift in Sources */,
 				26C4664D2A34FEC0000EC8BC /* BeginQuizBodyView.swift in Sources */,
@@ -1243,6 +1256,7 @@
 				269013B52AE603B700397075 /* View+Extensions.swift in Sources */,
 				260135952A475BBB007878BD /* PulsingModifier.swift in Sources */,
 				26C466522A34FEC0000EC8BC /* InputNameView.swift in Sources */,
+				263C9CB92B04F21E009C1626 /* MediaUploadView.swift in Sources */,
 				262F2A582A4D111B00C980D3 /* Sex+Extensions.swift in Sources */,
 				2684C6632A65F8110048BB4E /* CircularProfileImageView.swift in Sources */,
 				26D685922A6A001E0070CE79 /* SearchedUser.swift in Sources */,
@@ -1266,6 +1280,8 @@
 				262F8F982A773A3300EE709E /* FriendshipStatus.swift in Sources */,
 				26006E7E2ADA20DC0063802E /* DiscoveryTokenDocument.swift in Sources */,
 				26011FFA2AEE904F004C4D77 /* MoreInfoOnPlanetView.swift in Sources */,
+				263C9CBB2B04F67C009C1626 /* MediaUploadModel.swift in Sources */,
+				263C9CBD2B04F729009C1626 /* EditibleProfileImage.swift in Sources */,
 				2656D1042AF80860000A13B2 /* TraitsView.swift in Sources */,
 				26C399CB2A5E23350061F9B8 /* SearchAndFriendsView.swift in Sources */,
 				262F2A5B2A5086CC00C980D3 /* AuthService.swift in Sources */,
