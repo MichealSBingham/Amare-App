@@ -32,30 +32,7 @@ struct HomeView: View {
 	
     var body: some View {
 		
-	/*	ZStack{
-			
-			Group{
-				Text("This is what the user will see when they sign in.\nTap to Sign out")
-					.foregroundColor(.amare)
-					.onTapGesture{
-						authService.signOut{_ in
-							withAnimation{
-								//dismissView = false
-								//authService.AUTH_STATUS_CHECKED_ALREADY = false
-                                background.isSolidColor = false
-								viewModel.currentPage = .phoneNumber
-							}
-							
-						}
-					}
-			}
-			
-			
-		
-			
-				
-			
-		} */
+	
         
         
         TabView(selection: $tabSelection){
@@ -92,10 +69,7 @@ struct HomeView: View {
                             
                         }
             
-          
-                
-            
-            
+ 
                 Text("Sign out \(authService.user?.uid ?? "") and name: \(currentUserDataModel.user?.name ?? "")")
                     .onTapGesture {
                         authService.signOut()
@@ -104,7 +78,7 @@ struct HomeView: View {
                         }
                        
                     }
-                    .tag(3)
+                    .tag(2)
                     .tabItem {
                         
                         VStack{
@@ -118,7 +92,15 @@ struct HomeView: View {
                     }
                 
             
-        
+        MainProfileView()
+                .preferredColorScheme(.dark)
+                .tag(3)
+                .tabItem{
+                    
+                    CircularProfileImageView(profileImageUrl: currentUserDataModel.user?.profileImageUrl)
+                        .preferredColorScheme(.dark)
+                }
+            
 			
                 
             
@@ -126,59 +108,7 @@ struct HomeView: View {
         }
         
         
-        /*
-        ZStack{
-            
-            switch tabSelection {
-                
-            case 0:
-                SearchAndFriendsView()
-                    
-                   
-            case 1:
-                Text("Sign out")
-                    .onTapGesture {
-                        authService.signOut()
-                        withAnimation{
-                            background.isSolidColor = false
-                        }
-                       
-                    }
-                    .ignoresSafeArea()
-                    
-                   
-                    
-            case 2:
-                Background()
-                    
-            case 3:
-               // NavigationStackView{
-                    ChatChannelListView(viewFactory: CustomViewFactory(), title: "DMs")
-                            .navigationTitle("DMs")
-                            .ignoresSafeArea()
-                            
-                            
-                    
-               // }
-            case 4:
-               EmptyView()
-                    .ignoresSafeArea()
-            default:
-               Background()
-                    //.ignoresSafeArea()
-                    
-               
-                
-            }
-            
-            
-            VStack{
-                Spacer()
-                FloatingTabbar(selected: $tabSelection)
-                
-            }
-        }
-        */
+        
 		.environmentObject(authService)
 		.environmentObject(background)
 		.environmentObject(viewModel)

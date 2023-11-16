@@ -167,5 +167,6 @@ struct NatalChartTabView: View {
 struct NatalChartTabView_Previews: PreviewProvider {
     static var previews: some View {
         NatalChartTabView()
+            .preferredColorScheme(.dark)
     }
 }

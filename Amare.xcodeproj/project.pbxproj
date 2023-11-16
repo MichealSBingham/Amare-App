@@ -73,6 +73,8 @@
 		263C9CBB2B04F67C009C1626 /* MediaUploadModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263C9CBA2B04F67C009C1626 /* MediaUploadModel.swift */; };
 		263C9CBD2B04F729009C1626 /* EditibleProfileImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263C9CBC2B04F729009C1626 /* EditibleProfileImage.swift */; };
 		263C9CBF2B0505C4009C1626 /* Images+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263C9CBE2B0505C4009C1626 /* Images+Extensions.swift */; };
+		263C9CC22B065FE3009C1626 /* MainProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263C9CC12B065FE3009C1626 /* MainProfileView.swift */; };
+		263C9CC42B068AB5009C1626 /* UserProfileView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263C9CC32B068AB5009C1626 /* UserProfileView2.swift */; };
 		263D6F962683F77C00CBBECC /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263D6F952683F77C00CBBECC /* Location.swift */; };
 		263D6F982684012000CBBECC /* AccountErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263D6F972684012000CBBECC /* AccountErrors.swift */; };
 		263D6F9A2684087300CBBECC /* AmareUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263D6F992684087300CBBECC /* AmareUser.swift */; };
@@ -244,6 +246,8 @@
 		263C9CBA2B04F67C009C1626 /* MediaUploadModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaUploadModel.swift; sourceTree = "<group>"; };
 		263C9CBC2B04F729009C1626 /* EditibleProfileImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditibleProfileImage.swift; sourceTree = "<group>"; };
 		263C9CBE2B0505C4009C1626 /* Images+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Images+Extensions.swift"; sourceTree = "<group>"; };
+		263C9CC12B065FE3009C1626 /* MainProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainProfileView.swift; sourceTree = "<group>"; };
+		263C9CC32B068AB5009C1626 /* UserProfileView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileView2.swift; sourceTree = "<group>"; };
 		263D6F952683F77C00CBBECC /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		263D6F972684012000CBBECC /* AccountErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountErrors.swift; sourceTree = "<group>"; };
 		263D6F992684087300CBBECC /* AmareUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmareUser.swift; sourceTree = "<group>"; };
@@ -504,6 +508,7 @@
 		2626D2E52A210799007F5C77 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				263C9CC02B065F5A009C1626 /* MainProfile */,
 				26011FF62AED9A1B004C4D77 /* Natal */,
 				260954BA2A60AD6700114C56 /* SearchUsersAndFriends */,
 				269013A52AE335FE00397075 /* UserProfile */,
@@ -544,6 +549,15 @@
 				262F8F932A7719E200EE709E /* DocumentSnapshot+Extensions.swift */,
 			);
 			path = Firestore;
+			sourceTree = "<group>";
+		};
+		263C9CC02B065F5A009C1626 /* MainProfile */ = {
+			isa = PBXGroup;
+			children = (
+				263C9CC12B065FE3009C1626 /* MainProfileView.swift */,
+				263C9CC32B068AB5009C1626 /* UserProfileView2.swift */,
+			);
+			path = MainProfile;
 			sourceTree = "<group>";
 		};
 		265117872A82F39300B15CDF /* CreatingCustomProfile */ = {
@@ -1228,6 +1242,7 @@
 				269013A92AE3468800397075 /* NameLabelView.swift in Sources */,
 				26C466402A34FE96000EC8BC /* RGQuizQuestion.swift in Sources */,
 				262F8F9A2A7B3E6300EE709E /* IncomingFriendRequest.swift in Sources */,
+				263C9CC22B065FE3009C1626 /* MainProfileView.swift in Sources */,
 				2642B7732A467F3F009DD789 /* BirthdayInputView.swift in Sources */,
 				268E542826DCEC6400E61F40 /* InputVerificationCode.swift in Sources */,
 				262F2A4E2A4A38D400C980D3 /* TileView.swift in Sources */,
@@ -1293,6 +1308,7 @@
 				263FBDE0283BE4B4008F35C5 /* MathUtilities.swift in Sources */,
 				26011FF82AED9A29004C4D77 /* MainPlacementView.swift in Sources */,
 				26C466502A34FEC0000EC8BC /* RGQuizView.swift in Sources */,
+				263C9CC42B068AB5009C1626 /* UserProfileView2.swift in Sources */,
 				26A5FBF12A73444D00D94476 /* UserListRowView.swift in Sources */,
 				26A5FBED2A733A0100D94476 /* Numbers+Extensions.swift in Sources */,
 				265117892A82F42500B15CDF /* CustomProfileCreationView.swift in Sources */,

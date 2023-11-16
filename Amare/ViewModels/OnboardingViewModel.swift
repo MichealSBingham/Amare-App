@@ -49,11 +49,17 @@ class OnboardingViewModel: ObservableObject{
 	@Published var datingSelected: Bool = false
 	@Published var selfDiscoverySelected: Bool = false 
     
+   
+    
+    var reasonsForUse: [AppUser.ReasonsForUse] = []
+    
     @Published var womenSelected: Bool = false
     @Published var menSelected: Bool = false
     @Published var TmenSelected: Bool = false
     @Published var TwomenSelected: Bool = false
     @Published var nonBinarySelected: Bool = false
+    
+    var orientation: [Sex] = []
     
     
 	
@@ -114,13 +120,11 @@ class OnboardingViewModel: ObservableObject{
     func checkUsername() {
         
     
-        print("checking username (onboarding view model)")
         guard  !(username.isEmpty) else { return }
         let database = FirestoreService.shared
         
             database.doesUsernameExist(username) { [weak self] result in
 				
-				print("The result is \(result)")
                 switch result {
                 case .success(let exists):
                     DispatchQueue.main.async {
@@ -129,7 +133,6 @@ class OnboardingViewModel: ObservableObject{
                     }
                 case .failure(let error):
                     // Handle error here
-                    print("Could not check if username exists \(error)")
 					self?.error = error
                 }
             }
@@ -142,7 +145,9 @@ class OnboardingViewModel: ObservableObject{
         guard let name = name,
                 let knowsBirthTime = knowsBirthTime,
                 let tz = homeCityTimeZone,
-              let homeCity = homeCity else  {
+              let homeCity = homeCity
+             
+                else  {
             
             completion(.failure(OnboardingError.incompleteData))
             return
@@ -162,28 +167,60 @@ class OnboardingViewModel: ObservableObject{
         
       
         
+        
         let bday = Birthday(timestamp: Timestamp(date: bd!)/*, month: bd!.month(), day: bd!.day(), year: bd!.year()*/)
 		
        
         let rs = Place(latitude: homeCity.coordinate.latitude, longitude: homeCity.coordinate.longitude, city: homeCity.city, state: homeCity.state, country: homeCity.country, geohash: homeCity.geohash)
         
+        // MARK: - adding reasons for use and the user's sexual orientation
+        
+        reasonsForUse.removeAll()
+
+                // Check each selection and append to the array if true
+                if friendshipSelected {
+                    reasonsForUse.append(.friendship)
+                }
+                if datingSelected {
+                    reasonsForUse.append(.dating)
+                }
+                if selfDiscoverySelected {
+                    reasonsForUse.append(.selfDiscovery)
+                }
+        
+        orientation.removeAll()
+
+                // Check each selection and append to the array if true
+                if womenSelected {
+                    orientation.append(.female)
+                }
+                if menSelected {
+                    orientation.append(.male)
+                }
+                if TmenSelected {
+                    orientation.append(.transmale)
+                }
+                if TwomenSelected {
+                    orientation.append(.transfemale)
+                }
+                if nonBinarySelected {
+                    orientation.append(.non_binary)
+                }
         
         
         
         
         
+    // MARK: - Now create the new user
         
         
-    // Now create the new user
-        
-        
-        var newUser = AppUser(id: userID, name: name, hometown: ht, birthday: bday, knownBirthTime: knowsBirthTime, residence: rs, profileImageUrl: profileImageUrl, images: [], sex: gender, orientation: [], username: username, phoneNumber: phoneNumber ?? "", reasonsForUse: [])
+        var newUser = AppUser(id: userID, name: name, hometown: ht, birthday: bday, knownBirthTime: knowsBirthTime, residence: rs, profileImageUrl: profileImageUrl, images: [], sex: gender, orientation: orientation, username: username, phoneNumber: phoneNumber ?? "", reasonsForUse: reasonsForUse)
         
         
         FirestoreService.shared.setOnboardingData(forUser: newUser) { result in
             
             switch result {
-            case .success(let success):
+            case .success(_):
                 completion(.success(()))
             case .failure(let err):
                 self.error = err
@@ -226,6 +263,7 @@ class OnboardingViewModel: ObservableObject{
 		
 		
 		
+        
 		
 		
 		
@@ -239,7 +277,7 @@ class OnboardingViewModel: ObservableObject{
 		FirestoreService.shared.createCustomUser(forUser: id, with: customUser) { result in
 			
 			switch result {
-			case .success(let success):
+            case .success(_):
 				completion(.success(()))
 			case .failure(let err):
 				self.error = err

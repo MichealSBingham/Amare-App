@@ -88,10 +88,7 @@ struct UsernameInputView: View {
             }
             
 			NextButtonView {
-                withAnimation{
-                    model.currentPage = .traitPredictor
-                }
-				
+                
      
                 guard let id = authService.user?.uid else {
                     
