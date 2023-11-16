@@ -88,9 +88,7 @@ struct UsernameInputView: View {
             }
             
 			NextButtonView {
-                withAnimation{
-                    model.currentPage = .traitPredictor
-                }
+               
 				
      
                 guard let id = authService.user?.uid else {
@@ -125,8 +123,9 @@ struct UsernameInputView: View {
                 
             Spacer()
             
+            #if !DEBUG
             KeyboardPlaceholder()
- 
+            #endif
                 
             }
         
@@ -255,6 +254,7 @@ struct UsernameInputView_Previews: PreviewProvider {
         
             UsernameInputView()
 			.environmentObject(OnboardingViewModel())
+            .environmentObject(AuthService.shared)
         
        
     }

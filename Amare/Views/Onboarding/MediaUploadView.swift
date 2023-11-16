@@ -40,18 +40,16 @@ struct MediaUploadView: View {
             }
             .padding()
             
-            NextButtonView {
+            NextButtonView(text: viewModel.urlToProfileImage.isEmpty ? "Skip" : "Next") {
                 withAnimation {
-                   
+                    
+                    model.profileImageUrl = viewModel.urlToProfileImage
+                    model.currentPage = .username
                 }
             }
             
             
-            /*
-               
-            .disabled(!(model.friendshipSelected || model.datingSelected || model.selfDiscoverySelected))
-            .opacity(!(model.friendshipSelected || model.datingSelected || model.selfDiscoverySelected) ? 0.5 : 1.0)
-            */
+            
             Spacer()
             Spacer()
             
