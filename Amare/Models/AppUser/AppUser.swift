@@ -30,6 +30,8 @@ struct AppUser: Codable, Identifiable {
 	var isReal: Bool = true
 	var isNotable: Bool = false
 	var reasonsForUse: [ReasonsForUse] = []
+    
+    var numberOfFriends: Double?
 	
 	// For Celebrites Only
 	var bio: String?
@@ -53,6 +55,7 @@ struct AppUser: Codable, Identifiable {
 		case isReal
 		case isNotable
 		case reasonsForUse
+        case numberOfFriends
 		
 		case notes
 		case wikipedia_link
@@ -115,7 +118,8 @@ struct AppUser: Codable, Identifiable {
 				phoneNumber: randomNumber,
 				isReal: randomIsReal,
 				isNotable: randomIsNotable,
-				reasonsForUse: randomReasonsForUse
+				reasonsForUse: randomReasonsForUse,
+                numberOfFriends: Double.random(in: 0..<7000000000)
 			)
 		}
 }
