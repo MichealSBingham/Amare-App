@@ -105,6 +105,7 @@
 		269013B52AE603B700397075 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269013B42AE603B700397075 /* View+Extensions.swift */; };
 		269013B72AE603E700397075 /* Tabbar+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269013B62AE603E700397075 /* Tabbar+Extensions.swift */; };
 		2693C51B2B07946400D26640 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2693C51A2B07946400D26640 /* TabBarView.swift */; };
+		2693C51D2B07EAC900D26640 /* PicturesCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2693C51C2B07EAC900D26640 /* PicturesCollectionView.swift */; };
 		26970699268101B0007E7961 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26970698268101B0007E7961 /* SceneDelegate.swift */; };
 		26A0B9DB2A24F88A00DCAB5F /* RGQuizViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A0B9DA2A24F88A00DCAB5F /* RGQuizViewModel.swift */; };
 		26A137CE2A5F4466003C6657 /* FriendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A137CD2A5F4466003C6657 /* FriendRequest.swift */; };
@@ -277,6 +278,7 @@
 		269013B42AE603B700397075 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
 		269013B62AE603E700397075 /* Tabbar+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tabbar+Extensions.swift"; sourceTree = "<group>"; };
 		2693C51A2B07946400D26640 /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
+		2693C51C2B07EAC900D26640 /* PicturesCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PicturesCollectionView.swift; sourceTree = "<group>"; };
 		26970698268101B0007E7961 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		26A0B9DA2A24F88A00DCAB5F /* RGQuizViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RGQuizViewModel.swift; sourceTree = "<group>"; };
 		26A137CD2A5F4466003C6657 /* FriendRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendRequest.swift; sourceTree = "<group>"; };
@@ -911,6 +913,7 @@
 				262F2A4D2A4A38D400C980D3 /* TileView.swift */,
 				269013AE2AE470A600397075 /* BackButton.swift */,
 				269013B02AE474A000397075 /* MenuOptionsView.swift */,
+				2693C51C2B07EAC900D26640 /* PicturesCollectionView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -1272,6 +1275,7 @@
 				262F8F942A7719E200EE709E /* DocumentSnapshot+Extensions.swift in Sources */,
 				26A137CE2A5F4466003C6657 /* FriendRequest.swift in Sources */,
 				26F9205F26A760E500A4F8C6 /* Animations.swift in Sources */,
+				2693C51D2B07EAC900D26640 /* PicturesCollectionView.swift in Sources */,
 				26B1AFD62678FFE500A170B3 /* AmareApp.swift in Sources */,
 				26006E852ADA26F30063802E /* centerImage.swift in Sources */,
 				262F2A522A4BBB2200C980D3 /* String+Extensions.swift in Sources */,
