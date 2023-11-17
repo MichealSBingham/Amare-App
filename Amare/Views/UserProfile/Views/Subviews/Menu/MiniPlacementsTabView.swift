@@ -24,6 +24,22 @@ struct MiniPlacementsTabView: View {
     }
 }
 
+struct MiniPlacementsScrollView: View {
+    var interpretations: [String:String] = [:]
+    var planets: [Planet] = []
+    
+    var body: some View {
+    
+        ScrollView{
+            ForEach(planets) { planet in
+                MiniPlacementView(interpretation: interpretations[planet.name.rawValue], planetBody: planet.name, sign: planet.sign)
+            }
+        }
+        
+        
+    }
+}
+
 #Preview {
     MiniPlacementsTabView(interpretations: generateRandomPlanetInfoDictionary(), planets: Planet.randomArray(ofLength: 5))
         

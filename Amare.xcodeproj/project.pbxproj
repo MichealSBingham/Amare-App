@@ -104,6 +104,7 @@
 		269013B32AE5FB2000397075 /* DirectMessagingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269013B22AE5FB2000397075 /* DirectMessagingView.swift */; };
 		269013B52AE603B700397075 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269013B42AE603B700397075 /* View+Extensions.swift */; };
 		269013B72AE603E700397075 /* Tabbar+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269013B62AE603E700397075 /* Tabbar+Extensions.swift */; };
+		2693C51B2B07946400D26640 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2693C51A2B07946400D26640 /* TabBarView.swift */; };
 		26970699268101B0007E7961 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26970698268101B0007E7961 /* SceneDelegate.swift */; };
 		26A0B9DB2A24F88A00DCAB5F /* RGQuizViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A0B9DA2A24F88A00DCAB5F /* RGQuizViewModel.swift */; };
 		26A137CE2A5F4466003C6657 /* FriendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A137CD2A5F4466003C6657 /* FriendRequest.swift */; };
@@ -275,6 +276,7 @@
 		269013B22AE5FB2000397075 /* DirectMessagingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectMessagingView.swift; sourceTree = "<group>"; };
 		269013B42AE603B700397075 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
 		269013B62AE603E700397075 /* Tabbar+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tabbar+Extensions.swift"; sourceTree = "<group>"; };
+		2693C51A2B07946400D26640 /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 		26970698268101B0007E7961 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		26A0B9DA2A24F88A00DCAB5F /* RGQuizViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RGQuizViewModel.swift; sourceTree = "<group>"; };
 		26A137CD2A5F4466003C6657 /* FriendRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendRequest.swift; sourceTree = "<group>"; };
@@ -629,6 +631,14 @@
 			path = UserProfile;
 			sourceTree = "<group>";
 		};
+		2693C5192B07944900D26640 /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				2693C51A2B07946400D26640 /* TabBarView.swift */,
+			);
+			path = TabBar;
+			sourceTree = "<group>";
+		};
 		26A5FBCA2A7320E000D94476 /* Subviews */ = {
 			isa = PBXGroup;
 			children = (
@@ -890,6 +900,7 @@
 		26C466592A352748000EC8BC /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				2693C5192B07944900D26640 /* TabBar */,
 				2684C6622A65F8110048BB4E /* CircularProfileImageView.swift */,
 				260120022AEEBA9A004C4D77 /* ProfileImagesStack.swift */,
 				26B598D0295CC854009DEA22 /* TabView */,
@@ -1285,6 +1296,7 @@
 				265C4BD22AFC25DA007D0925 /* PersonalityGuesserView.swift in Sources */,
 				26B1AFE22678FFE700A170B3 /* Love.xcdatamodeld in Sources */,
 				26E10BAD28679A6E007666F9 /* MessagesChannelListTopView.swift in Sources */,
+				2693C51B2B07946400D26640 /* TabBarView.swift in Sources */,
 				265C4BD52AFC2665007D0925 /* PersonalityStatement.swift in Sources */,
 				2656D1072AF828D9000A13B2 /* PredictedTrait.swift in Sources */,
 				26A5FBCE2A73221400D94476 /* UserProfileModel.swift in Sources */,
