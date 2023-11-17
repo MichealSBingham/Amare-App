@@ -15,7 +15,7 @@ struct UserProfileView: View {
     @Injected(\.chatClient) var chatClient
     
 	@EnvironmentObject var currentUserDataModel: UserProfileModel
-	@ObservedObject  var model: UserProfileModel // was @ObservedObject but it makes it lag changes .. TODO: optimize this because theoretically  we need to be using @ObservedObject but it makes it lag when you switch between profile changes because it show sold data, maybe we can change to environment object or something
+    @ObservedObject  var model: UserProfileModel // was @ObservedObject but it makes it lag changes .. TODO: optimize this because theoretically  we need to be using @ObservedObject but it makes it lag when you switch between profile changes because it show sold data, maybe we can change to environment object or something
     
     @State var showNearbyInteraction: Bool = false
     
@@ -23,27 +23,7 @@ struct UserProfileView: View {
     
     @State var menuSelection: MenuOptions = .synastryChart
 	
-    @available(*, deprecated, message: "Will be removed soon. We won't need it.")
-    fileprivate func winkStatusLabel() -> some View {
-    return Text((model.winkedAtMe ?? false) ? "\(model.user?.name ?? "") 😉 at you" : "")
-        .fontWeight(.light)
-}
-	
-    @available(*, deprecated, message: "This function will be removed soon. Use newFunction() instead.")
-	fileprivate func nameAndAgeLabel() -> some View {
-		return HStack{
-			
-			Text(model.user?.name ?? "")
-				.font(.largeTitle)
-				.fontWeight(.bold)
-				.padding(.horizontal)
-			Spacer()
-			Text(model.user?.birthday.approximateAgeText() ?? "")
-				.font(.title)
-				.fontWeight(.light)
-				.padding(.horizontal)
-		}
-	}
+  
 	
     //TODO: maybe the user ids won't always be loaded ?? do something here maybe
     /* fileprivate func messageButton() -> some View {
@@ -135,104 +115,8 @@ struct UserProfileView: View {
         model.acceptFriendRequest()
     }
     
-	@ViewBuilder
-    @available(*, deprecated, message: "This function will be removed soon. ")
-	fileprivate func friendshipStatus() -> some View {
-		Button{
-			
-		print("did tap friendship status")
-			if model.friendshipStatus == .requested{
-				guard let current = currentUserDataModel.user else { print("Can't add friend, no signed in user"); return }
-				model.cancelFriendRequest()
-			}
-            
-            if model.friendshipStatus == .notFriends {
-                guard let current = currentUserDataModel.user else { print("Can't add friend, no signed in user"); return }
-                model.addFriend(currentSignedInUser: current)
-            }
-            
-            if model.friendshipStatus == .awaiting{
-                guard let current = currentUserDataModel.user else { print("Can't add friend, no signed in user"); return }
-                model.acceptFriendRequest()
-        
-            }
-            
-			
-		}
-	label: {
-        
-        
-        FriendshipStatusView(friendshipStatus: model.friendshipStatus)
-            .frame(width: 35)
-            .transition(.scale)
-	}
-    .disabled( model.friendshipStatus == .friends)
-	}
-	
-    @available(*, deprecated, message: "This function will be removed soon. ")
-	@ViewBuilder
-	fileprivate func addFriend() -> some View {
-		
-	
-			Button {
-				
-				if model.friendshipStatus == .notFriends {
-					guard let current = currentUserDataModel.user else { print("Can't add friend, no signed in user"); return }
-					model.addFriend(currentSignedInUser: current)
-				}
-                
-                if model.friendshipStatus == .awaiting{
-                    guard let current = currentUserDataModel.user else { print("Can't add friend, no signed in user"); return }
-                    model.acceptFriendRequest()
-            
-                }
-				
-				
-				
-			} label: {
-				
+   
 
-						
-						Image(systemName: "person.fill.badge.plus")
-							.resizable()
-							.frame(width: 35, height: 35)
-							.foregroundColor(model.friendshipStatus == .awaiting ? .green : .amare)
-							.transition(.scale)
-							.opacity(model.friendshipStatus == .friends || model.friendshipStatus == .requested ? 0: 1)
-							
-						
-
-				
-				
-			}
-			.frame(width: 20, height: 50)
-		
-
-		
-			
-	}
-
-    @ViewBuilder
-    @available(*, deprecated, message: "This function will be removed soon.")
-    fileprivate func rejectFriend() -> some View {
-        
-        Button {
-            
-            if model.friendshipStatus == .awaiting{
-                guard let current = currentUserDataModel.user else { print("Can't add friend, no signed in user"); return }
-                model.rejectFriendRequest()
-            }
-            
-        } label: {
-            Image(systemName: UserFriendshipStatus.notFriends.imageName)
-            .resizable()
-            .frame(width: 35, height: 25)
-            .foregroundColor(.red)
-            .transition(.scale)
-        }
-        .opacity(model.friendshipStatus == .awaiting ? 1 : 0 )
-
-    }
     
     
     fileprivate func menuOptionsButton(username: String?) -> some View {

@@ -38,6 +38,12 @@ struct PicturesCollectionView: View {
                             }
                     }
                     
+                    Image(systemName: "camera.fill")
+                            .font(.largeTitle)
+                            .foregroundColor(.gray)
+                            .frame(width: width, height: width)
+                            .background(Color.secondary.opacity(0.1))
+                            .overlay(Rectangle().stroke(Color.black, lineWidth: 0.5))
                     
                 }
             }

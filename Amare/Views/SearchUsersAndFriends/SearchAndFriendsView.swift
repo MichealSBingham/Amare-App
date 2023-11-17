@@ -163,7 +163,7 @@ struct SearchAndFriendsView: View {
             }
             .scrollContentBackground(.hidden)
 			.background(
-						NavigationLink(destination: UserProfileView(model: tappedUser),
+						NavigationLink(destination: UserProfileView2(model: tappedUser),
 									   isActive: $selectedUser) { EmptyView() }
 					)
 			.sheet(isPresented: $showCustomProfileCreation, content: {
