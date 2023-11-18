@@ -181,7 +181,7 @@ struct UserProfileView2: View {
                 //MARK: - Profile Picture
                 CircularProfileImageView(profileImageUrl: model.user?.profileImageUrl, isNotable: model.user?.isNotable, winked: model.winkStatus != nil)
                     .frame(width: 100, height: 100)
-                    .border(.red)
+                   
                 // .padding()
                 
                 // MARK: - Name and Username
@@ -240,7 +240,7 @@ struct UserProfileView2: View {
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 15)
                     // .conditionalColorInvert()
-                    Text(model.natalChart?.planets.get(planet: .Moon)?.sign.rawValue ?? "Capricorn")
+                    Text(model.natalChart?.angles.get(planet: .asc)?.sign.rawValue ?? "Capricorn")
                         .fontWeight(.ultraLight)
                         .font(.subheadline)
                     
@@ -422,9 +422,11 @@ struct UserProfileView2_Previews: PreviewProvider {
     
     static var previews: some View {
         var helper = NearbyInteractionHelper()
-        UserProfileView2(model: UserProfileModel.previewInstance())
-            .environmentObject(UserProfileModel.previewInstance())
-            .environmentObject(helper)
-            .environmentObject(BackgroundViewModel())
+        NavigationView{
+            UserProfileView2(model: UserProfileModel.previewInstance())
+                .environmentObject(UserProfileModel.previewInstance())
+                .environmentObject(helper)
+                .environmentObject(BackgroundViewModel())
+        }
     }
 }

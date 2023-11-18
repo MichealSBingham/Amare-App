@@ -54,12 +54,26 @@ class AuthService: ObservableObject {
 		do {
 			
 			try Auth.auth().signOut()
+            logoutChat()
 			completion?(.success(()))
 		} catch {
 			print("Sign out error: \(error)")
 			completion?(.failure(error))
 		}
 	}
+    
+    private func logoutChat() {
+        // Revoke Stream token
+        Functions.functions().httpsCallable("ext-auth-chat-revokeStreamUserToken").call { result, error in
+            // Handle response or error
+        }
+
+        
+
+        // Disconnect from Stream Chat
+        ChatClient.shared.disconnect()
+    }
+
 
 
 	func login(with verificationCode: String, completion: @escaping (Result<User, Error>) -> Void) {
@@ -126,8 +140,14 @@ class AuthService: ObservableObject {
             docRef.getDocument { (document, error) in
                 if let document = document, document.exists {
                     self.isOnboardingComplete = true
+                    print("user info after onbaording: \(document.data())")
+                    let name = document.data()?["name"] as? String ?? ""
+                    let url = document.data()?["profile_image_url"] as? String ?? ""
+                    print("the name \(name) and url is \(url)")
+                    self.fetchStreamTokenFromFirebase(andUpdate: name, profileImageURL: url)
                 } else {
                     self.isOnboardingComplete = false
+                    self.fetchStreamTokenFromFirebase()
                 }
             }
         }
@@ -169,36 +189,75 @@ class AuthService: ObservableObject {
     
    
 /// This fetches the stream Token From Firebase,.. you *also* need to call this whenever we're updating the user's name or profile image url
-    func fetchStreamTokenFromFirebase(andUpdate name: String = "", profileImageURL: String = "" ) {
-        print("Fetching stream token from firebase ")
+    func fetchStreamTokenFromFirebase(andUpdate name: String? = nil , profileImageURL: String? = nil ) {
+        print("Fetching stream token from firebase for name: \(name) and image \(profileImageURL)")
+
         Functions.functions().httpsCallable("ext-auth-chat-getStreamUserToken").call { result, error in
             if let error = error {
-                // Handle error
-                print("\(error) trying to etchStreamTokenFromFirebase")
+                print("Error fetching stream token from Firebase: \(error)")
                 return
             }
-            if let token = (result?.data as? [String: Any])?["token"] as? String {
-                print("token for fetching stream token \(token)")
-                self.connectToStreamChat(with: token, name: name, imageURL: profileImageURL)
+
+            // Print the entire result for debugging
+            print("Result from Firebase Function: \(String(describing: result?.data))")
+
+            if let token = result?.data as? String {
+                print("Token received: \(token)")
+                if let name = name, let profileImageURL = profileImageURL {
+                    self.connectToStreamChat(with: token, name: name, imageURL: profileImageURL)
+                } else{
+                    self.connectToStreamChat(with: token )
+                }
+               
+            } else {
+                print("Token not found in result")
             }
         }
     }
 
-    func connectToStreamChat(with token: String, name: String = "", imageURL: String = "") {
-        let userId = Auth.auth().currentUser?.uid ?? ""
-        
 
-        ChatClient.shared.connectUser(userInfo: .init(id: userId,
-                                                      name: name,
-                                                      imageURL: URL(string: imageURL)!), token: .init(stringLiteral: token)) { error in
-            if let error = error {
-                // Handle error
-                print("error connecting to chatClient: \(error)")
+    func connectToStreamChat(with token: String, name: String? = nil, imageURL: String? = nil) {
+        guard let userId = Auth.auth().currentUser?.uid else {
+            print("Firebase user ID not found")
+            return
+        }
+
+        if let name = name, let imageURL = imageURL, let url = URL(string: imageURL) {
+            // Both name and imageURL are provided
+            print("sending in name and image url \(name) image \(url)")
+            ChatClient.shared.connectUser(userInfo: .init(id: userId, name: name, imageURL: url), token: .init(stringLiteral: token)) { error in
+                print("the error connecting in \(error)")
+                self.handleConnectionResult(error)
             }
-            // User is now connected to Stream Chat
+        } else if let name = name {
+            // Only name is provided
+            print("sending in name")
+            ChatClient.shared.connectUser(userInfo: .init(id: userId, name: name), token: .init(stringLiteral: token)) { error in
+                self.handleConnectionResult(error)
+            }
+        } else if let imageURL = imageURL, let url = URL(string: imageURL) {
+            // Only imageURL is provided
+            print("sending in image url")
+            ChatClient.shared.connectUser(userInfo: .init(id: userId,  imageURL: url), token: .init(stringLiteral: token)) { error in
+                self.handleConnectionResult(error)
+            }
+        } else {
+            // Neither name nor imageURL is provided
+            print("connecting chat user without name or image url ")
+            ChatClient.shared.connectUser(userInfo: .init(id: userId), token: .init(stringLiteral: token)) { error in
+                self.handleConnectionResult(error)
+            }
         }
     }
-  
+
+    private func handleConnectionResult(_ error: Error?) {
+        if let error = error {
+            // Handle error
+            print("Error connecting to chatClient: \(error)")
+        }
+        // User is now connected to Stream Chat
+    }
+
 
 
 	
