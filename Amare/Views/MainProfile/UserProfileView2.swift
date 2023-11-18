@@ -181,6 +181,7 @@ struct UserProfileView2: View {
                 //MARK: - Profile Picture
                 CircularProfileImageView(profileImageUrl: model.user?.profileImageUrl, isNotable: model.user?.isNotable, winked: model.winkStatus != nil)
                     .frame(width: 100, height: 100)
+                    .padding(.top, 65)
                    
                 // .padding()
                 
@@ -196,6 +197,7 @@ struct UserProfileView2: View {
                             .frame(width: 35)
                             .padding()
                     }
+                
                 }
                 
                 /*
@@ -249,11 +251,11 @@ struct UserProfileView2: View {
                     
                 }
                 
-                
+                /*
                 // MARK: - Radial Chart
                 RadialChart(progress: model.score)
                     .padding()
-                
+                */
                 //MARK: - Actions, winking messaging, ewtc
                 
                 HStack{
@@ -287,7 +289,8 @@ struct UserProfileView2: View {
                     
                     
                 }
-                .padding(.top, -10)
+                .padding()
+               // .padding(.top, -10)
                 
                 
                 // MARK: - Tab Bar
@@ -297,7 +300,8 @@ struct UserProfileView2: View {
                 // MARK: - Content for Tab Bar
                 TabView(selection: self.$selection) {
                     
-                    Text("Compatibility Insights Here")
+                    RadialChartAdjustableSize(progress: model.score, size: 200)
+                        .padding()
                         .tag(0)
                     // MARK: - Planets
                     MiniPlacementsScrollView(interpretations: model.natalChart?.interpretations ?? generateRandomPlanetInfoDictionary(), planets: model.natalChart?.planets ?? Planet.randomArray(ofLength: 10))
@@ -319,6 +323,7 @@ struct UserProfileView2: View {
                 
             }
             .navigationBarBackButtonHidden(true)
+            .edgesIgnoringSafeArea(.top)
             .toolbar{
                 ToolbarItemGroup(placement: .topBarLeading) {
                     BackButton()
