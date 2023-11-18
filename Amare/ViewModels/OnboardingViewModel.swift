@@ -216,6 +216,7 @@ class OnboardingViewModel: ObservableObject{
         
         var newUser = AppUser(id: userID, name: name, hometown: ht, birthday: bday, knownBirthTime: knowsBirthTime, residence: rs, profileImageUrl: profileImageUrl, images: [], sex: gender, orientation: orientation, username: username, phoneNumber: phoneNumber ?? "", reasonsForUse: reasonsForUse)
         
+        AuthService.shared.fetchStreamTokenFromFirebase(andUpdate: name, profileImageURL: profileImageUrl)
         
         FirestoreService.shared.setOnboardingData(forUser: newUser) { result in
             

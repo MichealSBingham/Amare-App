@@ -9,6 +9,9 @@ import Foundation
 import Firebase
 import Combine
 import FirebaseFirestore
+import FirebaseFunctions
+import StreamChat
+import StreamChatSwiftUI
 
 class AuthService: ObservableObject {
 	private var authStateDidChangeListenerHandle: AuthStateDidChangeListenerHandle?
@@ -35,6 +38,7 @@ class AuthService: ObservableObject {
 		authStateDidChangeListenerHandle = Auth.auth().addStateDidChangeListener({ (auth, user) in
 			self.user = user
             if let user = user {
+                self.fetchStreamTokenFromFirebase()
                 // check if onboarding complete
                 self.checkOnboardingStatus(for: user.uid)
             } else {
@@ -162,6 +166,41 @@ class AuthService: ObservableObject {
 		}
 	}
 */
+    
+   
+/// This fetches the stream Token From Firebase,.. you *also* need to call this whenever we're updating the user's name or profile image url
+    func fetchStreamTokenFromFirebase(andUpdate name: String = "", profileImageURL: String = "" ) {
+        print("Fetching stream token from firebase ")
+        Functions.functions().httpsCallable("ext-auth-chat-getStreamUserToken").call { result, error in
+            if let error = error {
+                // Handle error
+                print("\(error) trying to etchStreamTokenFromFirebase")
+                return
+            }
+            if let token = (result?.data as? [String: Any])?["token"] as? String {
+                print("token for fetching stream token \(token)")
+                self.connectToStreamChat(with: token, name: name, imageURL: profileImageURL)
+            }
+        }
+    }
+
+    func connectToStreamChat(with token: String, name: String = "", imageURL: String = "") {
+        let userId = Auth.auth().currentUser?.uid ?? ""
+        
+
+        ChatClient.shared.connectUser(userInfo: .init(id: userId,
+                                                      name: name,
+                                                      imageURL: URL(string: imageURL)!), token: .init(stringLiteral: token)) { error in
+            if let error = error {
+                // Handle error
+                print("error connecting to chatClient: \(error)")
+            }
+            // User is now connected to Stream Chat
+        }
+    }
+  
+
+
 	
 	deinit {
 		if let listener = authStateDidChangeListenerHandle {

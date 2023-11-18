@@ -158,6 +158,8 @@
 		26D1A7FA2AF9AAE900C290D4 /* MiniPlacementsTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D1A7F92AF9AAE900C290D4 /* MiniPlacementsTabView.swift */; };
 		26D229ED2A5CDFC500BFA3BB /* OnboardingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D229EC2A5CDFC400BFA3BB /* OnboardingError.swift */; };
 		26D685922A6A001E0070CE79 /* SearchedUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D685912A6A001E0070CE79 /* SearchedUser.swift */; };
+		26E0EF922B0914E400BE0B5E /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = 26E0EF912B0914E400BE0B5E /* FirebaseFunctions */; };
+		26E0EF942B0914E400BE0B5E /* FirebaseFunctionsCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 26E0EF932B0914E400BE0B5E /* FirebaseFunctionsCombine-Community */; };
 		26E10BAD28679A6E007666F9 /* MessagesChannelListTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E10BAC28679A6D007666F9 /* MessagesChannelListTopView.swift */; };
 		26E264532AE9F2D3004DEB11 /* OutgoingWink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E264522AE9F2D3004DEB11 /* OutgoingWink.swift */; };
 		26E264552AE9F2DD004DEB11 /* IncomingWink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E264542AE9F2DD004DEB11 /* IncomingWink.swift */; };
@@ -366,8 +368,10 @@
 				262712EC2A61D57A00E36906 /* LoremSwiftum in Frameworks */,
 				262712F72A61D6E600E36906 /* MbSwiftUIFirstResponder in Frameworks */,
 				262712E92A61D50200E36906 /* FirebaseStorage in Frameworks */,
+				26E0EF942B0914E400BE0B5E /* FirebaseFunctionsCombine-Community in Frameworks */,
 				262712F22A61D66600E36906 /* URLImage in Frameworks */,
 				2684C6662A65F9800048BB4E /* SDWebImageSwiftUI in Frameworks */,
+				26E0EF922B0914E400BE0B5E /* FirebaseFunctions in Frameworks */,
 				262712E52A61D50200E36906 /* FirebaseFirestore in Frameworks */,
 				262712E72A61D50200E36906 /* FirebaseFirestoreSwift in Frameworks */,
 				267ABC482AFC574A008BFA60 /* EffectsLibrary in Frameworks */,
@@ -1036,6 +1040,8 @@
 				262712F92A61D76B00E36906 /* PushNotifications */,
 				2684C6652A65F9800048BB4E /* SDWebImageSwiftUI */,
 				267ABC472AFC574A008BFA60 /* EffectsLibrary */,
+				26E0EF912B0914E400BE0B5E /* FirebaseFunctions */,
+				26E0EF932B0914E400BE0B5E /* FirebaseFunctionsCombine-Community */,
 			);
 			productName = Love;
 			productReference = 26B1AFD22678FFE500A170B3 /* Amare.app */;
@@ -2003,6 +2009,14 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 2684C6642A65F97F0048BB4E /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
 			productName = SDWebImageSwiftUI;
+		};
+		26E0EF912B0914E400BE0B5E /* FirebaseFunctions */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FirebaseFunctions;
+		};
+		26E0EF932B0914E400BE0B5E /* FirebaseFunctionsCombine-Community */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = "FirebaseFunctionsCombine-Community";
 		};
 /* End XCSwiftPackageProductDependency section */
 

@@ -147,7 +147,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
        
 		ChatClient.shared = ChatClient(config: config)
 		
-		connectUser()
+		
+        
 		// The `StreamChat` instance we need to assign
 		streamChat = StreamChat(chatClient: ChatClient.shared, appearance: appearance, utils: utils)
 		
@@ -157,26 +158,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
 	// The `connectUser` function we need to add.
-    private func connectUser() {
+  /*  private func connectUser() {
         
         
-    //	guard Account.shared.data?.isComplete() ?? false else { print("Data is not complete, thus we will not connect the user to messaging SDK. "); return }
-        
-        
-    //	print("Data is complete, thus we will connect to the user.")
-        
-    //	let name = Account.shared.data?.name ?? ""
-    //	let id = Account.shared.data?.id
-    //	let imageURL: String  = (Account.shared.data?.profile_image_url!)!
-        
-        //guard let id = id else { print("We don't have the user id so we are not connecting to Messaging"); return }
+
         
             let id: String = "micheal"
             let name: String = "Micheal Bingham"
             let imageURL: String = AppUser.generateMockData().profileImageUrl!
         // This is a hardcoded token valid on Stream's tutorial environment.
         //let token = try! Token(rawValue: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoibHVrZV9za3l3YWxrZXIifQ.kFSLHRB5X62t0Zlc7nwczWUfsQMwfkpylC6jCUZ6Mc0")
-            
+    
             let token = try! Token(rawValue: "eeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoibWljaGVhbCJ9.FFwAA6_jdJgAkWYBAb_jKorjOTpfhZkTg7zdsE1GiNI")
         // Call `connectUser` on our SDK to get started.
             ChatClient.shared.connectUser(
@@ -192,7 +184,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
         }
     }
-	
+	*/
 	
 	
 	

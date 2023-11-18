@@ -254,9 +254,46 @@ struct UserProfileView2: View {
                 RadialChart(progress: model.score)
                     .padding()
                 
+                //MARK: - Actions, winking messaging, ewtc
+                
+                HStack{
+                    
+                    
+                    messageButton()
+                        .padding()
+                    
+                    Spacer()
+                    
+                    nearbyConnectionButton()
+                        .padding()
+                        .sheet(isPresented: $showNearbyInteraction,  content: {
+                            FindNearbyUserView( user: model.user! , blindMode: false)
+                        })
+                    
+                    
+                    Spacer()
+                    
+                    winkButton()
+                       
+                        .padding()
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                }
+                .padding(.top, -10)
+                
+                
                 // MARK: - Tab Bar
                 TabBarView(currentTab: $selection, tabBarOptions: menuOptions)
                     .padding()
+                    .padding(.top, -20)
                 // MARK: - Content for Tab Bar
                 TabView(selection: self.$selection) {
                     
