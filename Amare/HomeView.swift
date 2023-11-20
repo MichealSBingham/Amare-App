@@ -17,6 +17,8 @@ struct HomeView: View {
 	@EnvironmentObject var viewModel: OnboardingViewModel
 	
 	@EnvironmentObject var currentUserDataModel: UserProfileModel
+    
+    @EnvironmentObject var viewRouter: ViewRouter
 	
     
     @State var tabSelection: Int = 3
@@ -34,7 +36,7 @@ struct HomeView: View {
 		
 	
         
-        
+        /*
         TabView(selection: $tabSelection){
             
            
@@ -106,7 +108,13 @@ struct HomeView: View {
             
             
         }
-        
+        */
+        ZStack{
+            VStack{
+                CustomBottomTabBar()
+                    .environmentObject(viewRouter)
+            }
+        }
         
         
 		.environmentObject(authService)
@@ -127,5 +135,6 @@ struct HomeView_Previews: PreviewProvider {
 			.environmentObject(BackgroundViewModel())
 			.environmentObject(OnboardingViewModel())
             .environmentObject(UserProfileModel())
+            .environmentObject(ViewRouter())
     }
 }

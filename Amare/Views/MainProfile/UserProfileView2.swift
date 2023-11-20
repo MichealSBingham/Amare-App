@@ -30,10 +30,7 @@ struct UserProfileView2: View {
   
     fileprivate func messageButton() -> some View {
 
-        return NavigationLink(destination: DirectMessageView().tabBar(hidden: true)/*ChatChannelView(
-            viewFactory: CustomViewFactory(),
-            channelController: try! chatClient.channelController(createDirectMessageChannelWith: ["micheal", "elizabeth"], extraData: [:])
-        )*/)
+        return NavigationLink(destination: DirectMessageView(with: model.user?.id ?? "").tabBar(hidden: true))
         
         {
             Image(systemName: "envelope.circle")
@@ -176,13 +173,13 @@ struct UserProfileView2: View {
     
     
     var body: some View {
-       
+      
             VStack{
                 //MARK: - Profile Picture
                 CircularProfileImageView(profileImageUrl: model.user?.profileImageUrl, isNotable: model.user?.isNotable, winked: model.winkStatus != nil)
                     .frame(width: 100, height: 100)
                     .padding(.top, 65)
-                   
+                
                 // .padding()
                 
                 // MARK: - Name and Username
@@ -190,14 +187,14 @@ struct UserProfileView2: View {
                     
                     NameLabelView(name: model.user?.name, username: model.user?.username)
                     
-                   // MARK: - Friendship Button
+                    // MARK: - Friendship Button
                     HStack{
                         Spacer()
                         friendshipStatusButton()
                             .frame(width: 35)
                             .padding()
                     }
-                
+                    
                 }
                 
                 /*
@@ -252,10 +249,10 @@ struct UserProfileView2: View {
                 }
                 
                 /*
-                // MARK: - Radial Chart
-                RadialChart(progress: model.score)
-                    .padding()
-                */
+                 // MARK: - Radial Chart
+                 RadialChart(progress: model.score)
+                 .padding()
+                 */
                 //MARK: - Actions, winking messaging, ewtc
                 
                 HStack{
@@ -276,7 +273,7 @@ struct UserProfileView2: View {
                     Spacer()
                     
                     winkButton()
-                       
+                    
                         .padding()
                     
                     
@@ -290,7 +287,7 @@ struct UserProfileView2: View {
                     
                 }
                 .padding()
-               // .padding(.top, -10)
+                // .padding(.top, -10)
                 
                 
                 // MARK: - Tab Bar
@@ -418,7 +415,7 @@ struct UserProfileView2: View {
                 }
                 
             }
-            
+        
         
     }
 }

@@ -17,6 +17,8 @@ struct ContentView: View {
 	@StateObject var onboardingModel: OnboardingViewModel = OnboardingViewModel()
 	
 	@StateObject var dataModel: UserProfileModel = UserProfileModel()
+    
+    @StateObject var viewRouter: ViewRouter = ViewRouter()
 
 	// Flag to limit unnecessary updates
 	@State var initialCheckDone: Bool = false
@@ -57,6 +59,7 @@ struct ContentView: View {
 		.environmentObject(authService)
 		.environmentObject(onboardingModel)
 		.environmentObject(dataModel)
+        .environmentObject(viewRouter)
 		.animation(.default, value: authService.user)
 		.animation(.default, value: authService.isOnboardingComplete)
 		.onAppear {
