@@ -20,6 +20,8 @@ struct UserProfileView2: View {
     
     @State var showNearbyInteraction: Bool = false
     
+    @EnvironmentObject var viewRouter: ViewRouter
+    
     
     
     var menuOptions: [String]  = ["Insights", "Their Planets", "Their Story", "Media", "Birth Chart"]

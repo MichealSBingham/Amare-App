@@ -12,6 +12,7 @@ import StreamChatSwiftUI
 class ViewRouter: ObservableObject {
     
     @Published var currentPage: Page = .home
+    @Published var showBottomTabBar: Bool = true 
     
 }
 
@@ -28,11 +29,8 @@ enum Page {
 struct CustomBottomTabBar: View {
     
     @EnvironmentObject var viewRouter: ViewRouter
-    
     @State var showPopUp = false
-    
     @EnvironmentObject var model: UserProfileModel
-    
     @EnvironmentObject var authService: AuthService
     
     var body: some View {
@@ -45,54 +43,68 @@ struct CustomBottomTabBar: View {
                 case .discover:
                     SearchAndFriendsView()
                 case .map:
-                   Text("Sign Out")
+                    Text("Sign Out")
                         .onTapGesture {
                             authService.signOut()
                         }
                 case .messages:
                     ChatChannelListView(viewFactory: CustomViewFactory(), title: "Messages")
-                                                
                 case .user:
                     MainProfileView()
                 }
                 Spacer()
-                ZStack {
-                    if showPopUp {
-                        PlusMenu(widthAndHeight: geometry.size.width/7)
-                            .offset(y: -geometry.size.height/6)
-                    }
-                    HStack {
-                        TabBarIcon(viewRouter: viewRouter, assignedPage: .home, width: geometry.size.width/5, height: geometry.size.height/28, systemIconName: "homekit", tabName: "Home")
-                        TabBarIcon(viewRouter: viewRouter, assignedPage: .discover, width: geometry.size.width/5, height: geometry.size.height/28, systemIconName: "magnifyingglass", tabName: "Search")
-                        ZStack {
-                            Circle()
-                                .foregroundColor(.white)
-                                .frame(width: geometry.size.width/7, height: geometry.size.width/7)
-                                .shadow(radius: 4)
-                            Image(systemName: "mappin.circle.fill")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: geometry.size.width/7-6 , height: geometry.size.width/7-6)
-                                .foregroundColor(.amare)
-                                .rotationEffect(SwiftUI.Angle(degrees: showPopUp ? 90 : 0))
-                        }
-                            .offset(y: -geometry.size.height/8/2)
-                            .onTapGesture {
-                                withAnimation {
-                                    showPopUp.toggle()
-                                }
-                            }
-                        TabBarIcon(viewRouter: viewRouter, assignedPage: .messages, width: geometry.size.width/5, height: geometry.size.height/28, systemIconName: "message.fill", tabName: "Messages")
-                        TabBarIcon(viewRouter: viewRouter, assignedPage: .user, width: geometry.size.width/5, height: geometry.size.height/28, imageURL: model.user?.profileImageUrl ?? "", tabName: "You")
-                    }
-                        .frame(width: geometry.size.width, height: geometry.size.height/8)
-                        .background(Color("TabBarBackground").shadow(radius: 2).opacity(0.3))
+
+                // Only show the tab bar if the current page is not 'messages'
+                if viewRouter.currentPage != .messages {
+                    customTabBar(geometry: geometry)
                 }
             }
-                .edgesIgnoringSafeArea(.bottom)
+            .edgesIgnoringSafeArea(.bottom)
+        }
+    }
+
+    // Custom Tab Bar
+    private func customTabBar(geometry: GeometryProxy) -> some View {
+        ZStack {
+            if showPopUp {
+                PlusMenu(widthAndHeight: geometry.size.width/7)
+                    .offset(y: -geometry.size.height/6)
+            }
+            HStack {
+                TabBarIcon(viewRouter: viewRouter, assignedPage: .home, width: geometry.size.width/5, height: geometry.size.height/28, systemIconName: "homekit", tabName: "Home")
+                TabBarIcon(viewRouter: viewRouter, assignedPage: .discover, width: geometry.size.width/5, height: geometry.size.height/28, systemIconName: "magnifyingglass", tabName: "Search")
+                plusButton(geometry: geometry)
+                TabBarIcon(viewRouter: viewRouter, assignedPage: .messages, width: geometry.size.width/5, height: geometry.size.height/28, systemIconName: "message.fill", tabName: "Messages")
+                TabBarIcon(viewRouter: viewRouter, assignedPage: .user, width: geometry.size.width/5, height: geometry.size.height/28, imageURL: model.user?.profileImageUrl ?? "", tabName: "You")
+            }
+            .frame(width: geometry.size.width, height: geometry.size.height/8)
+            .background(Color("TabBarBackground").shadow(radius: 2).opacity(0.3))
+        }
+    }
+
+    // Plus Button
+    private func plusButton(geometry: GeometryProxy) -> some View {
+        ZStack {
+            Circle()
+                .foregroundColor(.white)
+                .frame(width: geometry.size.width/7, height: geometry.size.width/7)
+                .shadow(radius: 4)
+            Image(systemName: "mappin.circle.fill")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: geometry.size.width/7-6, height: geometry.size.width/7-6)
+                .foregroundColor(.amare)
+                .rotationEffect(SwiftUI.Angle(degrees: showPopUp ? 90 : 0))
+        }
+        .offset(y: -geometry.size.height/8/2)
+        .onTapGesture {
+            withAnimation {
+                showPopUp.toggle()
+            }
         }
     }
 }
+
 
 struct CustomBottomTabBar_Previews: PreviewProvider {
     static var previews: some View {
