@@ -23,6 +23,8 @@ public struct InputVerificationCode: View {
 	@EnvironmentObject var model: OnboardingViewModel
 	
 	@EnvironmentObject var authService: AuthService
+    
+    @EnvironmentObject var viewRouter: ViewRouter
 
     
     
@@ -228,10 +230,15 @@ public struct InputVerificationCode: View {
 			
 			authService.login(with: pin) { result in
 							switch result {
-							case .success(let user):
+							case .success(let (user, didFinishOnboarding)):
 								print("Logged in user: \(user.uid)")
 								withAnimation{
-									model.currentPage = .name
+                                    if !didFinishOnboarding{
+                                        model.currentPage = .name
+                                    } else {
+                                        viewRouter.screenToShow = .home
+                                    }
+									
 								}
 							case .failure(let error):
 								print("Error logging in: \(error.localizedDescription)")

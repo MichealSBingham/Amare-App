@@ -76,36 +76,32 @@ class AuthService: ObservableObject {
 
 
 
-	func login(with verificationCode: String, completion: @escaping (Result<User, Error>) -> Void) {
-		
-		
-		guard let verificationID = getVerificationID() else {
-			completion(.failure(GlobalError.cantGetVerificationID))
-			return
-		}
-		
-		
-		let credential = PhoneAuthProvider.provider().credential(
-			withVerificationID: verificationID,
-			verificationCode: verificationCode
-		)
-		
-		Auth.auth().signIn(with: credential) { authData, error in
-			
-            if let error = error/*, let authError = AuthErrorCode(error._code) */{
-				//let mappedError = self.mapAuthErrorToAppError(authError)
-				completion(.failure(error))
-			} else if let user = authData?.user {
-			
-				self.user = user
-				completion(.success(user))
-				
-				
-			} else {
-				completion(.failure(GlobalError.unknown))
-			}
-		}
-	}
+    func login(with verificationCode: String, completion: @escaping (Result<(User, Bool), Error>) -> Void) {
+        
+        guard let verificationID = getVerificationID() else {
+            completion(.failure(GlobalError.cantGetVerificationID))
+            return
+        }
+        
+        let credential = PhoneAuthProvider.provider().credential(
+            withVerificationID: verificationID,
+            verificationCode: verificationCode
+        )
+        
+        Auth.auth().signIn(with: credential) { authData, error in
+            if let error = error {
+                completion(.failure(error))
+            } else if let user = authData?.user {
+                self.user = user
+                self.checkOnboardingStatus(for: user.uid) { finishedOnBoarding in
+                    // Now returning a tuple with User and the onboarding status
+                    completion(.success((user, finishedOnBoarding)))
+                }
+            } else {
+                completion(.failure(GlobalError.unknown))
+            }
+        }
+    }
 
 	
 	func sendVerificationCode(to phoneNumber: String, completion: @escaping ((Result<Void, Error>) -> Void)) {

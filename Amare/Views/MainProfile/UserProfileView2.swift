@@ -177,152 +177,157 @@ struct UserProfileView2: View {
     
     var body: some View {
       
-            VStack{
-                //MARK: - Profile Picture
-                CircularProfileImageView(profileImageUrl: model.user?.profileImageUrl, isNotable: model.user?.isNotable, winked: model.winkStatus != nil)
-                    .frame(width: 100, height: 100)
-                    .padding(.top, 65)
+        VStack{
+            
+            ScrollView{ 
+            //MARK: - Profile Picture
+            CircularProfileImageView(profileImageUrl: model.user?.profileImageUrl, isNotable: model.user?.isNotable, winked: model.winkStatus != nil)
+                .frame(width: 100, height: 100)
+                .padding(.top, 65)
+            
+            // .padding()
+            
+            // MARK: - Name and Username
+            ZStack{
                 
-                // .padding()
+                NameLabelView(name: model.user?.name, username: model.user?.username)
                 
-                // MARK: - Name and Username
-                ZStack{
-                    
-                    NameLabelView(name: model.user?.name, username: model.user?.username)
-                    
-                    // MARK: - Friendship Button
-                    HStack{
-                        Spacer()
-                        friendshipStatusButton()
-                            .frame(width: 35)
-                            .padding()
-                    }
-                    
-                }
-                
-                /*
-                 Text(oneLinerSummary ?? "" )
-                 .multilineTextAlignment(.center)
-                 // .frame(height: 38)
-                 .font(.caption)
-                 .padding(.horizontal)
-                 //  .border(.white)
-                 */
-                
-                
-                //MARK: - Friend Count & "Big 3"
+                // MARK: - Friendship Button
                 HStack{
-                    
-                    Text(model.user?.numberOfFriends?.formattedWithAbbreviations() ?? "0")
-                        .fontWeight(.black)
-                    // .foregroundColor(.blue)
-                    
-                    
-                    Text("Friends")
-                        .fontWeight(.ultraLight)
-                        .font(.subheadline)
-                    
-                    PlanetName.Sun.image()
-                        .frame(width: 20)
-                        .conditionalColorInvert()
-                    Text(model.natalChart?.planets.get(planet: .Sun)?.sign.rawValue ?? "Cancer")
-                        .fontWeight(.ultraLight)
-                        .font(.subheadline)
-                    
-                    PlanetName.Moon.image()
-                        .frame(width: 15)
-                        .conditionalColorInvert()
-                    Text(model.natalChart?.planets.get(planet: .Moon)?.sign.rawValue ?? "Scorpio")
-                        .fontWeight(.ultraLight)
-                        .font(.subheadline)
-                    
-                    
-                    Image(systemName: "arrow.up")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 15)
-                    // .conditionalColorInvert()
-                    Text(model.natalChart?.angles.get(planet: .asc)?.sign.rawValue ?? "Capricorn")
-                        .fontWeight(.ultraLight)
-                        .font(.subheadline)
-                    
-                    
-                    
-                    
-                }
-                
-                /*
-                 // MARK: - Radial Chart
-                 RadialChart(progress: model.score)
-                 .padding()
-                 */
-                //MARK: - Actions, winking messaging, ewtc
-                
-                HStack{
-                    
-                    
-                    messageButton()
-                        .padding()
-                    
                     Spacer()
-                    
-                    nearbyConnectionButton()
+                    friendshipStatusButton()
+                        .frame(width: 35)
                         .padding()
-                        .sheet(isPresented: $showNearbyInteraction,  content: {
-                            FindNearbyUserView( user: model.user! , blindMode: false)
-                        })
-                    
-                    
-                    Spacer()
-                    
-                    winkButton()
-                    
-                        .padding()
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
                 }
-                .padding()
-                // .padding(.top, -10)
+                
+            }
+            
+            /*
+             Text(oneLinerSummary ?? "" )
+             .multilineTextAlignment(.center)
+             // .frame(height: 38)
+             .font(.caption)
+             .padding(.horizontal)
+             //  .border(.white)
+             */
+            
+            
+            //MARK: - Friend Count & "Big 3"
+            HStack{
+                
+                Text(model.user?.numberOfFriends?.formattedWithAbbreviations() ?? "0")
+                    .fontWeight(.black)
+                // .foregroundColor(.blue)
                 
                 
-                // MARK: - Tab Bar
-                TabBarView(currentTab: $selection, tabBarOptions: menuOptions)
-                    .padding()
-                    .padding(.top, -20)
-                // MARK: - Content for Tab Bar
-                TabView(selection: self.$selection) {
-                    
-                    RadialChartAdjustableSize(progress: model.score, size: 200)
-                        .padding()
-                        .tag(0)
-                    // MARK: - Planets
-                    MiniPlacementsScrollView(interpretations: model.natalChart?.interpretations ?? generateRandomPlanetInfoDictionary(), planets: model.natalChart?.planets ?? Planet.randomArray(ofLength: 10))
-                        .tag(1)
-                    
-                    Text("Planetary Aspects Go Here").tag(2)
-                    
-                    PicturesCollectionView(images: peopleImages).tag(3)
-                    
-                    PlanetGridView(planets: model.natalChart?.planets ?? Planet.randomArray(ofLength: 5),
-                                   interpretations: model.natalChart?.interpretations ?? generateRandomPlanetInfoDictionary())
-                    .tag(4)
-                    
-                    
-                }
-                .tabViewStyle(.page(indexDisplayMode: .never))
+                Text("Friends")
+                    .fontWeight(.ultraLight)
+                    .font(.subheadline)
+                
+                PlanetName.Sun.image()
+                    .frame(width: 20)
+                    .conditionalColorInvert()
+                Text(model.natalChart?.planets.get(planet: .Sun)?.sign.rawValue ?? "Cancer")
+                    .fontWeight(.ultraLight)
+                    .font(.subheadline)
+                
+                PlanetName.Moon.image()
+                    .frame(width: 15)
+                    .conditionalColorInvert()
+                Text(model.natalChart?.planets.get(planet: .Moon)?.sign.rawValue ?? "Scorpio")
+                    .fontWeight(.ultraLight)
+                    .font(.subheadline)
+                
+                
+                Image(systemName: "arrow.up")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 15)
+                // .conditionalColorInvert()
+                Text(model.natalChart?.angles.get(planet: .asc)?.sign.rawValue ?? "Capricorn")
+                    .fontWeight(.ultraLight)
+                    .font(.subheadline)
+                
                 
                 
                 
             }
+            
+            /*
+             // MARK: - Radial Chart
+             RadialChart(progress: model.score)
+             .padding()
+             */
+            //MARK: - Actions, winking messaging, ewtc
+            
+            HStack{
+                
+                
+                messageButton()
+                    .padding()
+                
+                Spacer()
+                
+                nearbyConnectionButton()
+                    .padding()
+                    .sheet(isPresented: $showNearbyInteraction,  content: {
+                        FindNearbyUserView( user: model.user! , blindMode: false)
+                    })
+                
+                
+                Spacer()
+                
+                winkButton()
+                
+                    .padding()
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            }
+            .padding()
+            // .padding(.top, -10)
+            
+            
+            // MARK: - Tab Bar
+            TabBarView(currentTab: $selection, tabBarOptions: menuOptions)
+                .padding()
+                .padding(.top, -20)
+            // MARK: - Content for Tab Bar
+            TabView(selection: self.$selection) {
+                
+                RadialChartAdjustableSize(progress: model.score, size: 200)
+                    .padding()
+                    .tag(0)
+                // MARK: - Planets
+                MiniPlacementsScrollView(interpretations: model.natalChart?.interpretations ?? generateRandomPlanetInfoDictionary(), planets: model.natalChart?.planets ?? Planet.randomArray(ofLength: 10))
+                    .tag(1)
+                
+                Text("Planetary Aspects Go Here").tag(2)
+                
+                PicturesCollectionView(images: peopleImages).tag(3)
+                
+                PlanetGridView(planets: model.natalChart?.planets ?? Planet.randomArray(ofLength: 5),
+                               interpretations: model.natalChart?.interpretations ?? generateRandomPlanetInfoDictionary())
+                .tag(4)
+                
+                
+            }
+            .frame(height: 500)
+            .tabViewStyle(.page(indexDisplayMode: .never))
+            
+            
+        }
+            }
             .navigationBarBackButtonHidden(true)
+            .navigationBarColor(backgroundColor: .systemBackground, titleColor: nil)
+            .navigationBarTitleDisplayMode(.inline)
             .edgesIgnoringSafeArea(.top)
             .toolbar{
                 ToolbarItemGroup(placement: .topBarLeading) {

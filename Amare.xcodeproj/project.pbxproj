@@ -66,6 +66,7 @@
 		262F8F982A773A3300EE709E /* FriendshipStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262F8F972A773A3300EE709E /* FriendshipStatus.swift */; };
 		262F8F9A2A7B3E6300EE709E /* IncomingFriendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262F8F992A7B3E6300EE709E /* IncomingFriendRequest.swift */; };
 		262F8F9C2A7B42E100EE709E /* OutgoingFriendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262F8F9B2A7B42E100EE709E /* OutgoingFriendRequest.swift */; };
+		2632BFF32B0D20E900873BE7 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2632BFF22B0D20E900873BE7 /* SettingsView.swift */; };
 		263695ED269B7872006EEA79 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 263695EC269B7872006EEA79 /* GoogleService-Info.plist */; };
 		263695EE269B7872006EEA79 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 263695EC269B7872006EEA79 /* GoogleService-Info.plist */; };
 		263695EF269B7872006EEA79 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 263695EC269B7872006EEA79 /* GoogleService-Info.plist */; };
@@ -244,6 +245,7 @@
 		262F8F972A773A3300EE709E /* FriendshipStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendshipStatus.swift; sourceTree = "<group>"; };
 		262F8F992A7B3E6300EE709E /* IncomingFriendRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomingFriendRequest.swift; sourceTree = "<group>"; };
 		262F8F9B2A7B42E100EE709E /* OutgoingFriendRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutgoingFriendRequest.swift; sourceTree = "<group>"; };
+		2632BFF22B0D20E900873BE7 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		263695E9269B495F006EEA79 /* GoogleService-Info .plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info .plist"; sourceTree = "<group>"; };
 		263695EC269B7872006EEA79 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		263C9CB82B04F21D009C1626 /* MediaUploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaUploadView.swift; sourceTree = "<group>"; };
@@ -516,6 +518,7 @@
 		2626D2E52A210799007F5C77 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				2632BFF12B0D20DA00873BE7 /* Settings */,
 				263C9CC02B065F5A009C1626 /* MainProfile */,
 				26011FF62AED9A1B004C4D77 /* Natal */,
 				260954BA2A60AD6700114C56 /* SearchUsersAndFriends */,
@@ -557,6 +560,14 @@
 				262F8F932A7719E200EE709E /* DocumentSnapshot+Extensions.swift */,
 			);
 			path = Firestore;
+			sourceTree = "<group>";
+		};
+		2632BFF12B0D20DA00873BE7 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				2632BFF22B0D20E900873BE7 /* SettingsView.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		263C9CC02B065F5A009C1626 /* MainProfile */ = {
@@ -1282,6 +1293,7 @@
 				26A137CE2A5F4466003C6657 /* FriendRequest.swift in Sources */,
 				26F9205F26A760E500A4F8C6 /* Animations.swift in Sources */,
 				2693C51D2B07EAC900D26640 /* PicturesCollectionView.swift in Sources */,
+				2632BFF32B0D20E900873BE7 /* SettingsView.swift in Sources */,
 				26B1AFD62678FFE500A170B3 /* AmareApp.swift in Sources */,
 				26006E852ADA26F30063802E /* centerImage.swift in Sources */,
 				262F2A522A4BBB2200C980D3 /* String+Extensions.swift in Sources */,

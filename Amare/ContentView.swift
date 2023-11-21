@@ -22,7 +22,7 @@ struct ContentView: View{
         
         switch viewRouter.screenToShow {
         case .loading:
-            Text("Loading")
+            Text("Loading...")
                    .onAppear(perform: {
                     // MARK: - Checking sign in status
                     if let user = Auth.auth().currentUser{
@@ -66,6 +66,7 @@ struct ContentView: View{
                 .environmentObject(viewRouter)
         case .home:
             HomeView()
+                .onAppear { dataModel.loadUser() }
                 .environmentObject(bgModel)
                 .environmentObject(authService)
                 .environmentObject(onboardingModel)
