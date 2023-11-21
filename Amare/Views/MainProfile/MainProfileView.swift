@@ -118,7 +118,7 @@ struct MainProfileView: View {
                             }
                 .buttonStyle(.plain)
                         )
-            .navigationBarColor(backgroundColor: .systemBackground, titleColor: nil)
+            .navigationBarColor(backgroundColor: .clear, titleColor: .black)
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle(Text("\(model.user?.name ?? "") @\(model.user?.username ?? "")"))
             .sheet(isPresented: $showSettings) {

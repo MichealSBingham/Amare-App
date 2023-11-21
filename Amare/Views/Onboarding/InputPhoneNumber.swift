@@ -20,11 +20,6 @@ struct InputPhoneNumber: View {
 	@EnvironmentObject var authService: AuthService
 	
     
-  
-
-
-
-    
     /// Without country code
     @State private var phonenumber = ""
     

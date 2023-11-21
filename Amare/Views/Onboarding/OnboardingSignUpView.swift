@@ -15,6 +15,8 @@ struct OnboardingSignUpView: View {
 	
 	@EnvironmentObject var authService: AuthService
     
+    @EnvironmentObject var viewRouter: ViewRouter
+    
     @State var page: OnboardingScreen = .phoneNumber
     
 	@State var showProgressBar: Bool = false
@@ -107,6 +109,7 @@ struct OnboardingSignUpView: View {
                 .environmentObject(viewModel)
 				.environmentObject(background)
 				.environmentObject(authService)
+                .environmentObject(viewRouter)
                
                 
                 

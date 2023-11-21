@@ -104,6 +104,8 @@ struct UsernameInputView: View {
                         withAnimation{
                             authService.isOnboardingComplete = true
                             print("Onboarding is finished should go to home screen now.")
+                            viewRouter.screenToShow = .home
+                            
                         }
                         //model.error = err
                     case .failure(let error):
@@ -170,6 +172,7 @@ struct UsernameInputView: View {
             
             model.createUser(forUser: id) { result in
                 
+                print("creating the user model.createUser... ")
                 switch result{
                 case .success():
                     withAnimation{
@@ -181,6 +184,7 @@ struct UsernameInputView: View {
                     //model.error = err
                 case .failure(let error):
                     self.errorMessage = error.localizedDescription
+                    print("failed to create user \(error)")
                     self.someErrorOccured = true
 
                 }
