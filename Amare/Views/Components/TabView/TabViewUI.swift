@@ -13,9 +13,18 @@ class ViewRouter: ObservableObject {
     
     @Published var currentPage: Page = .home
     @Published var showBottomTabBar: Bool = true 
+    @Published var screenToShow:AppLaunchScreen = .loading
     
 }
 
+/// Enum for the screen to show during app launch
+enum AppLaunchScreen{
+    case loading
+    case signInOrUp
+    case onboarding
+    case home 
+    
+}
 
 enum Page {
     case home
@@ -55,7 +64,7 @@ struct CustomBottomTabBar: View {
                 Spacer()
 
                 // Only show the tab bar if the current page is not 'messages'
-                if viewRouter.currentPage != .messages {
+                if viewRouter.showBottomTabBar {
                     customTabBar(geometry: geometry)
                 }
             }

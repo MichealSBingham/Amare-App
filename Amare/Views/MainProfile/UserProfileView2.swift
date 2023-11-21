@@ -33,6 +33,7 @@ struct UserProfileView2: View {
     fileprivate func messageButton() -> some View {
 
         return NavigationLink(destination: DirectMessageView(with: model.user?.id ?? "").tabBar(hidden: true))
+           
         
         {
             Image(systemName: "envelope.circle")

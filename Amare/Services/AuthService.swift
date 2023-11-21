@@ -40,9 +40,9 @@ class AuthService: ObservableObject {
             if let user = user {
                 self.fetchStreamTokenFromFirebase()
                 // check if onboarding complete
-                self.checkOnboardingStatus(for: user.uid)
+                //self.checkOnboardingStatus(for: user.uid)
             } else {
-                self.isOnboardingComplete = false
+                //self.isOnboardingComplete = false
             }
 			
 		})
@@ -134,20 +134,20 @@ class AuthService: ObservableObject {
 	}
 
 	
-    func checkOnboardingStatus(for userID: String) {
+    func checkOnboardingStatus(for userID: String, completion: @escaping (Bool) -> Void) {
             let docRef = Firestore.firestore().collection("users").document(userID)
             
             docRef.getDocument { (document, error) in
                 if let document = document, document.exists {
                     self.isOnboardingComplete = true
-                    print("user info after onbaording: \(document.data())")
                     let name = document.data()?["name"] as? String ?? ""
                     let url = document.data()?["profile_image_url"] as? String ?? ""
-                    print("the name \(name) and url is \(url)")
                     self.fetchStreamTokenFromFirebase(andUpdate: name, profileImageURL: url)
+                    completion((true))
                 } else {
                     self.isOnboardingComplete = false
                     self.fetchStreamTokenFromFirebase()
+                    completion(false)
                 }
             }
         }

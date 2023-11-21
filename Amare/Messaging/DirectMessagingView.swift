@@ -12,6 +12,7 @@ import FirebaseAuth
 struct DirectMessageView: View {
     // Assume chatClient is already initialized and connected
     @Injected(\.chatClient) var chatClient
+    @EnvironmentObject var viewRouter: ViewRouter
 
     /// user id to begin the direct message view with
     var with: String = ""
@@ -22,6 +23,16 @@ struct DirectMessageView: View {
                 viewFactory: CustomViewFactory(),
                 channelController: try! chatClient.channelController(createDirectMessageChannelWith: [Auth.auth().currentUser?.uid ?? "", with], extraData: [:])
             )
+            .onAppear(perform: {
+                withAnimation{
+                    viewRouter.showBottomTabBar = false
+                }
+            })
+            .onDisappear(perform: {
+                withAnimation{
+                    viewRouter.showBottomTabBar = true
+                }
+            })
       
     }
     

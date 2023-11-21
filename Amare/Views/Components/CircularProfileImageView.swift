@@ -62,7 +62,7 @@ struct CircularProfileImageView: View {
                         .aspectRatio(contentMode: .fill)
                         .clipShape(Circle())
                         .shadow(radius: 15)
-                        
+                
                     
                     // Wink Emoji
                     if winked ?? false{

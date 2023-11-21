@@ -8,235 +8,122 @@
 import SwiftUI
 import FirebaseFirestore
 import FirebaseAuth
+import Combine
 
-struct ContentView: View {
-	@EnvironmentObject var authService: AuthService
-	
-	@StateObject var bgModel = BackgroundViewModel()
-	
-	@StateObject var onboardingModel: OnboardingViewModel = OnboardingViewModel()
-	
-	@StateObject var dataModel: UserProfileModel = UserProfileModel()
+struct ContentView: View{
     
-    @StateObject var viewRouter: ViewRouter = ViewRouter()
-
-	// Flag to limit unnecessary updates
-	@State var initialCheckDone: Bool = false
-
-	var body: some View {
-		ZStack {
-			if authService.user != nil {
-				if authService.isOnboardingComplete {
-					HomeView()
-						.onAppear{
-							dataModel.loadUser()
-						}
-						//.transition(.opacity)
-				} else {
-                    OnboardingSignUpView(skipLogin: true)
-                        .onAppear{
-                            withAnimation{
-                                onboardingModel.currentPage = .name
-                            }
+    @EnvironmentObject var authService: AuthService
+    @StateObject var bgModel = BackgroundViewModel()
+    @StateObject var onboardingModel = OnboardingViewModel()
+    @StateObject var dataModel = UserProfileModel()
+    @StateObject var viewRouter = ViewRouter()
+    
+    var body: some View{
+        
+        switch viewRouter.screenToShow {
+        case .loading:
+            Text("Loading")
+                   .onAppear(perform: {
+                    // MARK: - Checking sign in status
+                    if let user = Auth.auth().currentUser{
+                        //MARK: - User is signed in
+                        AuthService.shared.checkOnboardingStatus(for: user.uid) { didFinish in
                             
+                            if didFinish{
+                                //MARK: - Show Home Screen
+                                viewRouter.screenToShow = .home
+                                
+                            } else {
+                                
+                                //MARK: - Show onboaring screen
+                                viewRouter.screenToShow = .onboarding
+                            }
                         }
-						
-				}
-			} else {
-				SignInOrUpView()
-					.transition(.opacity)
-                    .onAppear{
-                        withAnimation{
-                            bgModel.isSolidColor = false
-                        }
-                       
-                        initialCheckDone = false
                     }
-                
-			}
-		}
-		.environmentObject(bgModel)
-		.environmentObject(authService)
-		.environmentObject(onboardingModel)
-		.environmentObject(dataModel)
-        .environmentObject(viewRouter)
-		.animation(.default, value: authService.user)
-		.animation(.default, value: authService.isOnboardingComplete)
-		.onAppear {
-			if !initialCheckDone {
-				// Here, you might check the auth state and only update authService.user
-				// and authService.isOnboardingComplete if the check has not been done before
-				initialCheckDone = true
-			}
-		}
-	}
+                    else{
+                        viewRouter.screenToShow = .signInOrUp
+                    }
+                })
+
+                .environmentObject(bgModel)
+                .environmentObject(authService)
+                .environmentObject(onboardingModel)
+                .environmentObject(dataModel)
+                .environmentObject(viewRouter)
+        case .signInOrUp:
+            SignInOrUpView()
+                .environmentObject(bgModel)
+                .environmentObject(authService)
+                .environmentObject(onboardingModel)
+                .environmentObject(dataModel)
+                .environmentObject(viewRouter)
+        case .onboarding:
+            OnboardingSignUpView(skipLogin: true )
+                .environmentObject(bgModel)
+                .environmentObject(authService)
+                .environmentObject(onboardingModel)
+                .environmentObject(dataModel)
+                .environmentObject(viewRouter)
+        case .home:
+            HomeView()
+                .environmentObject(bgModel)
+                .environmentObject(authService)
+                .environmentObject(onboardingModel)
+                .environmentObject(dataModel)
+                .environmentObject(viewRouter)
+        }
+           
+        
+     
+        
+    }
 }
 
 
+struct ContentViewWorkingish: View {
+    @EnvironmentObject var authService: AuthService
+    @StateObject var bgModel = BackgroundViewModel()
+    @StateObject var onboardingModel = OnboardingViewModel()
+    @StateObject var dataModel = UserProfileModel()
+    @StateObject var viewRouter = ViewRouter()
 
-struct ContentView2: View {
-	
-	@ObservedObject var bgModel = BackgroundViewModel()
-	@EnvironmentObject var authService: AuthService
-	@ObservedObject var onboardingModel: OnboardingViewModel = OnboardingViewModel()
-	
-	
-	
-	
-	@State var userIsSignedIn: Bool = false
-	@State var onboardingComplete: Bool = false
-	
-	@State var userSignedOut: Bool = false
-	
-	var body: some View {
-		ZStack {
-			if userIsSignedIn && onboardingComplete {
-				AnyView(HomeView( )
-					.transition(.move(edge: .leading)))
-			} else if userIsSignedIn {
-				AnyView(ZStack {
-					Background()
-					OnboardingSignUpView()
-				}.onAppear {
-					withAnimation{
-						bgModel.solidColor = .black
-						bgModel.isSolidColor = true
-						onboardingModel.currentPage = .name
-					}
-				}.transition(.move(edge: .leading)))
-			} else {
-				AnyView(ZStack {
-					Background()
-					SignInOrUpView()
-				}.transition(.move(edge: .leading)))
-			}
-		}
-		.environmentObject(bgModel)
-		.environmentObject(authService)
-		.environmentObject(onboardingModel)
-		.onAppear {
-			Auth.auth().addStateDidChangeListener { auth, user in
-				print("auth: \(auth) user: \(user)")
-				if let _ = user {
-					// User is signed in
-					guard !authService.AUTH_STATUS_CHECKED_ALREADY else { return }
-					withAnimation{
-						userIsSignedIn = true
-						onboardingComplete = false // Bool.random()
-					}
-				} else {
-					// User is signed out
-					userIsSignedIn = false; print("user is not signed in ")
-				}
-			}
-		}
-	}
+    @State private var currentView: AnyView = AnyView(LoadingView2())
 
+    var body: some View {
+        currentView
+            .onAppear {
+                determineView()
+            }
+            .environmentObject(bgModel)
+            .environmentObject(authService)
+            .environmentObject(onboardingModel)
+            .environmentObject(dataModel)
+            .environmentObject(viewRouter)
+    }
 
-	
-	/*
-	var body: some View{
-		
-		ZStack{
-			
-			
-			
-			
-			 if userIsSignedIn && onboardingComplete{
-				HomeView(dismissView: $userIsSignedIn)
-					.onAppear{
-					//	authService.AUTH_STATUS_CHECKED_ALREADY = true
-					}
-			}
-			
-			
-			
-			
-			else if userIsSignedIn && !onboardingComplete{
-				
-				Background()
-				OnboardingSignUpView()
-					.onAppear{
-						//authService.AUTH_STATUS_CHECKED_ALREADY = true
-						
-						withAnimation{
-							bgModel.solidColor = .black
-							bgModel.isSolidColor = true 
-							onboardingModel.currentPage = .name
-						}
-						
-					}
-			}
-			
-			
-			
-			else{
-				
-				Background()
-				SignInOrUpView()
-					.onAppear{
-						//authService.AUTH_STATUS_CHECKED_ALREADY = true
-					}
-			}
-		
-			
-		}
-		.transition(.opacity)
-		.onAppear {
-					Auth.auth().addStateDidChangeListener { auth, user in
-						
-						print("auth: \(auth) user: \(user)")
-						
-						if let _ = user {
-							// User is signed in
-							guard !authService.AUTH_STATUS_CHECKED_ALREADY else { return }
-							
-							withAnimation{
-								userIsSignedIn = true
-								
-								onboardingComplete = false // Bool.random()
-							}
-							
-							
-							// ... do something with user
-						} else {
-							// User is signed out
-							userIsSignedIn = false; print("user is not signed in ")
-						}
-					}
-				}
-		
-		/*
-		.onAppear{
-			if Auth.auth().currentUser != nil {
-				print(" user signed in")
-				// the user is signed in
-				// check now if they completed onboarding
-				
-				guard !authService.AUTH_STATUS_CHECKED_ALREADY else { return }
-				
-				withAnimation{
-					userIsSignedIn = true
-					
-					onboardingComplete = true // Bool.random()
-				}
-				
-				authService.AUTH_STATUS_CHECKED_ALREADY = true
-				
-			} else { userIsSignedIn = false; print("user is not signed in ") }
-		}
-		 */
-		.environmentObject(bgModel)
-		.environmentObject(authService)
-		.environmentObject(onboardingModel)
-		
-		
-	
-		
-	}
-	 
-	 */
+    private func determineView() {
+        // Assuming there's a slight delay in fetching the user and onboarding status
+        DispatchQueue.main.async {
+            if let user = authService.user {
+                if authService.isOnboardingComplete {
+                    currentView = AnyView(HomeView().onAppear { dataModel.loadUser() })
+                } else {
+                    currentView = AnyView(OnboardingSignUpView(skipLogin: true).onAppear { onboardingModel.currentPage = .name })
+                }
+            } else {
+                currentView = AnyView(SignInOrUpView().onAppear { bgModel.isSolidColor = false })
+            }
+        }
+    }
 }
+
+struct LoadingView2: View {
+    var body: some View {
+        // Customize your loading view
+        Text("Loading...")
+    }
+}
+
 
 
 
