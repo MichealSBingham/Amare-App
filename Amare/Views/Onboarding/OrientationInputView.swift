@@ -72,11 +72,7 @@ struct OrientationInputView: View {
             
             NextButtonView {
                 withAnimation {
-                    print("about to generate traits")
-                    model.generateTraits { result in
-                        
-                        
-                    }
+                    
                     model.currentPage = .traitPredictor
                 }
             }

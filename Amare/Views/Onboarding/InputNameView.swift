@@ -13,6 +13,11 @@ enum FirstResponders: Int {
         case city
     }
 
+enum Field: Int, Hashable{
+    case enterName
+    case enterCity
+}
+
 struct InputNameView: View {
     
     @EnvironmentObject var model: OnboardingViewModel
@@ -44,6 +49,8 @@ struct InputNameView: View {
    
     
     @State var changeText: Bool = false
+    
+    @FocusState var focusField: Field?
     
     var config = SnowConfig( intensity: Intensity.low, lifetime: Lifetime.long, initialVelocity: InitialVelocity.fast, spreadRadius: SpreadRadius.high)
     
@@ -85,6 +92,7 @@ struct InputNameView: View {
                         .padding(.bottom)
                         .onAppear{
                             firstResponder = .name
+                            focusField = .enterName
                         }
                     
                         .opacity(isExpanded ? 1: 0)
@@ -238,38 +246,43 @@ struct InputNameView: View {
         
         return    TextField("What's your name?", text: $name, onCommit:  {
             
-            //TODO: Make sure the user can ONLY tap this once so we need to do something about this, ensure a unique tap for pressing 'return' so that this code is only executed once. 
-          
-            
-			
-		
-			
-            guard !(name.isEmpty) else{
+            if !isExpanded{
                 
+               // Should go to next view now
+                withAnimation{
+                    model.currentPage = .birthday
+                }
+            }
+            
+            guard !(name.isEmpty) else{
                 // User entered an empty name
-              /// - TODO: Do something to tell the user to enter a name
+                /// - TODO: Do something to tell the user to enter a name
                 return
             }
             
-         
-          
             name = name.trimmingCharacters(in: .whitespacesAndNewlines)
             
-                
             // Set the name in the OnboardingModel
             model.name = name
             
-         
-          
-          withAnimation {
-              model.currentPage = .hometown
-          }
+            withAnimation() {
+                
+                isExpanded.toggle()
+                firstResponder = .city
+                model.currentPage = .hometown
+                
+                withAnimation {
+                    changeText.toggle()
+                }
+            }
             
           
             
         })
+        .focused($focusField, equals: .enterName)
 		
-		.firstResponder(id: FirstResponders.name, firstResponder: $firstResponder, resignableUserOperations: .none)
+	/*	.firstResponder(id: FirstResponders.name, firstResponder: $firstResponder, resignableUserOperations: .none) */
+        
         .font(.largeTitle)
         .autocorrectionDisabled()
         

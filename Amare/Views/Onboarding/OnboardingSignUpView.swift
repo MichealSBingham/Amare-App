@@ -74,8 +74,6 @@ struct OnboardingSignUpView: View {
                         .tag(OnboardingScreen.name)
 						
 					
-					
-                    
                     
                     BirthdayInputView()
                         .tag(OnboardingScreen.birthday)
@@ -126,6 +124,10 @@ struct OnboardingSignUpView: View {
 						
 					}
 				}
+                
+                if !skipLogin{
+                    viewModel.currentPage = .phoneNumber
+                }
 			}
 			
             

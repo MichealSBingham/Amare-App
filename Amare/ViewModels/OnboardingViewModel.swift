@@ -38,7 +38,13 @@ class OnboardingViewModel: ObservableObject{
 	
 	@Published var homeCity: MKPlacemark?
 	
-	@Published var gender: Sex = .none
+    @Published var gender: Sex = .none {
+        didSet{
+                self.generateTraits { result in
+                    
+                }
+        }
+    }
     
     @Published var residence: MKPlacemark?
     
@@ -326,40 +332,42 @@ class OnboardingViewModel: ObservableObject{
 		print("long: \(homeCity.coordinate.longitude)")
 		
 		let data = UserTraitsData(name: name, gender: gender.rawValue, latitude:homeCity.coordinate.latitude, longitude: homeCity.coordinate.longitude, birthdayInSecondsSince1970: bd!.timeIntervalSince1970, knowsBirthtime: knowsBirthTime)
-		APIService.shared.predictTraitsFrom(data: data) { result in
-			switch result {
-			case .success(let traits):
-				
-                DispatchQueue.main.async {
-                    // TODO: check if this is proper because publishing changing from background threads is not allowed. 
-                    let traitsDictionary = traits as? [String : String] ?? [:]
+        
+        DispatchQueue.global(qos: .userInitiated).async{
+            APIService.shared.predictTraitsFrom(data: data) { result in
+                switch result {
+                case .success(let traits):
                     
-                    // Convert to an array of 'Trait'
-                    let traits = traitsDictionary.map { (key, value) -> PredictedTrait in
-                        // Here, 'key' is the trait name, and 'value' is the category as a string
-                        if let category = TraitCategory(rawValue: value) {
-                            return PredictedTrait(name: key, category: category)
-                        } else {
-                            // Handle the case where the category does not match any case of the enum
-                            // This should not happen if your API guarantees only those three values
-                            // Here, we default to 'neutral' for safety, or you could throw an error
-                            return PredictedTrait(name: key, category: .neutral)
+                    DispatchQueue.main.async {
+                        // TODO: check if this is proper because publishing changing from background threads is not allowed.
+                        let traitsDictionary = traits as? [String : String] ?? [:]
+                        
+                        // Convert to an array of 'Trait'
+                        let traits = traitsDictionary.map { (key, value) -> PredictedTrait in
+                            // Here, 'key' is the trait name, and 'value' is the category as a string
+                            if let category = TraitCategory(rawValue: value) {
+                                return PredictedTrait(name: key, category: category)
+                            } else {
+                                // Handle the case where the category does not match any case of the enum
+                                // This should not happen if your API guarantees only those three values
+                                // Here, we default to 'neutral' for safety, or you could throw an error
+                                return PredictedTrait(name: key, category: .neutral)
+                            }
                         }
+                        
+                        self.predictedTraits = traits
+                        print("traits are ... \(self.predictedTraits)")
+                        
+                        completion(.success(traits))
                     }
                     
-                    self.predictedTraits = traits
-                    print("traits are ... \(self.predictedTraits)")
-                    
-                    completion(.success(traits))
+                case .failure(let failure):
+                    print("FAILED predicting traits \(failure)")
+                    completion(.failure(failure))
                 }
-				
-			case .failure(let failure):
-				print("FAILED predicting traits \(failure)")
-				completion(.failure(failure))
-			}
-		}
-		
-	
+            }
+            
+        }
 		
 	}
       

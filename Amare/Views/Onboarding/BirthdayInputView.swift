@@ -29,7 +29,7 @@ struct BirthdayInputView: View {
     
     var body: some View {
         ZStack{
-            SpaceFloatingView()
+            //SpaceFloatingView()
            // FireworksView(config: config)
             VStack{
                 

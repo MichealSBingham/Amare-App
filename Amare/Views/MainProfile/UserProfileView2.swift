@@ -326,7 +326,7 @@ struct UserProfileView2: View {
         }
             }
             .navigationBarBackButtonHidden(true)
-            .navigationBarColor(backgroundColor: .clear, titleColor: .black)
+            .navigationBarColor(backgroundColor: .clear, titleColor: Color.secondary.uiColor())
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle(Text("\(model.user?.name ?? "") @\(model.user?.username ?? "")"))
             .edgesIgnoringSafeArea(.top)
