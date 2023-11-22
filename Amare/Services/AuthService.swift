@@ -38,7 +38,7 @@ class AuthService: ObservableObject {
 		authStateDidChangeListenerHandle = Auth.auth().addStateDidChangeListener({ (auth, user) in
 			self.user = user
             if let user = user {
-                self.fetchStreamTokenFromFirebase()
+                
                 // check if onboarding complete
                 //self.checkOnboardingStatus(for: user.uid)
             } else {
@@ -138,11 +138,12 @@ class AuthService: ObservableObject {
                     self.isOnboardingComplete = true
                     let name = document.data()?["name"] as? String ?? ""
                     let url = document.data()?["profile_image_url"] as? String ?? ""
-                    self.fetchStreamTokenFromFirebase(andUpdate: name, profileImageURL: url)
+                    let username = document.data()?["username"] as? String ?? ""
+                    self.fetchStreamTokenFromFirebase(andUpdate: name, profileImageURL: url, username: username)
                     completion((true))
                 } else {
                     self.isOnboardingComplete = false
-                    self.fetchStreamTokenFromFirebase()
+                   
                     completion(false)
                 }
             }
@@ -185,7 +186,7 @@ class AuthService: ObservableObject {
     
    
 /// This fetches the stream Token From Firebase,.. you *also* need to call this whenever we're updating the user's name or profile image url
-    func fetchStreamTokenFromFirebase(andUpdate name: String? = nil , profileImageURL: String? = nil ) {
+    func fetchStreamTokenFromFirebase(andUpdate name: String? = nil , profileImageURL: String? = nil, username: String? = nil ) {
         print("Fetching stream token from firebase for name: \(name) and image \(profileImageURL)")
 
         Functions.functions().httpsCallable("ext-auth-chat-getStreamUserToken").call { result, error in
@@ -200,7 +201,7 @@ class AuthService: ObservableObject {
             if let token = result?.data as? String {
                 print("Token received: \(token)")
                 if let name = name, let profileImageURL = profileImageURL {
-                    self.connectToStreamChat(with: token, name: name, imageURL: profileImageURL)
+                    self.connectToStreamChat(with: token, name: name, imageURL: profileImageURL, username: username)
                 } else{
                     self.connectToStreamChat(with: token )
                 }
@@ -212,16 +213,20 @@ class AuthService: ObservableObject {
     }
 
 
-    func connectToStreamChat(with token: String, name: String? = nil, imageURL: String? = nil) {
+    func connectToStreamChat(with token: String, name: String? = nil, imageURL: String? = nil, username: String? = nil) {
         guard let userId = Auth.auth().currentUser?.uid else {
             print("Firebase user ID not found")
             return
         }
+        
+        
 
         if let name = name, let imageURL = imageURL, let url = URL(string: imageURL) {
             // Both name and imageURL are provided
             print("sending in name and image url \(name) image \(url)")
-            ChatClient.shared.connectUser(userInfo: .init(id: userId, name: name, imageURL: url), token: .init(stringLiteral: token)) { error in
+            
+            
+            ChatClient.shared.connectUser(userInfo: .init(id: username ?? userId, name: name, imageURL: url), token: .init(stringLiteral: token)) { error in
                 print("the error connecting in \(error)")
                 self.handleConnectionResult(error)
             }
