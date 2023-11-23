@@ -124,7 +124,7 @@ struct MainProfileView: View {
             .navigationTitle(Text("\(model.user?.name ?? "") @\(model.user?.username ?? "")"))
             .sheet(isPresented: $showSettings) {
                             SettingsView()
-                    .environmentObject(authService)
+                    //.environmentObject(authService)
                     .environmentObject(model)
                         }
             

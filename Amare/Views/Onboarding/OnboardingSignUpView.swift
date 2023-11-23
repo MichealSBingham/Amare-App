@@ -125,9 +125,7 @@ struct OnboardingSignUpView: View {
 					}
 				}
                 
-                if !skipLogin{
-                    viewModel.currentPage = .phoneNumber
-                }
+              
 			}
 			
             

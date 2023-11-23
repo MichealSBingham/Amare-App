@@ -14,109 +14,86 @@ import Firebase
 import StreamChat
 import StreamChatSwiftUI
 
-class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-    
-    var window: UIWindow?
-	var authService: AuthService = AuthService.shared
-	
-    
-    
 
+class SceneDelegate: UIResponder, UIWindowSceneDelegate, ObservableObject {
     
-   
+    weak var windowScene: UIWindowScene?
+    var tabWindow: UIWindow?
+    
+    //var window: UIWindow?
+//	var authService: AuthService = AuthService.shared
+   // weak var windowScene: UIWindowScene?
+   // var hudWindow: UIWindow?
+    
+   // var viewRouter: ViewRouter = ViewRouter()
+  //  var profileModel: UserProfileModel = UserProfileModel()
+    
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
-      
+        windowScene = scene as? UIWindowScene
         
+        /*
         let urlImageService = URLImageService(fileStore: nil, inMemoryStore: URLImageInMemoryStore())
 		
+        
+        
 	
 		let contentView = ContentView()
-     //  let contentView = OnboardingSignUpView(skipLogin: true).environmentObject(OnboardingViewModel())
-      
-       // let contentView = HomeView().environmentObject(authService).environmentObject(UserProfileModel()).environmentObject(OnboardingViewModel())
-        
-       // let contentView = PredictedPersonalityStatementsView().environmentObject(OnboardingViewModel())
-       // let contentView = MediaUploadView().environmentObject(OnboardingViewModel())
 		.environmentObject(authService)
 		.environmentObject(BackgroundViewModel())
-		
-		
+        .environmentObject(viewRouter)
+        .environmentObject(profileModel)
+        
 
 				if let windowScene = scene as? UIWindowScene {
+                    
+                   
+                    
 					let window = UIWindow(windowScene: windowScene)
 					window.rootViewController = UIHostingController(rootView: contentView) // Set contentView as the root view
 					self.window = window
 					window.makeKeyAndVisible()
+                    
+                    self.windowScene = windowScene
+                    
+                   // addTabBar(in: windowScene, viewRouter: viewRouter, profileModel)
 				}
-			
-		
-		
-        /*
-		 
-================================================== OLD WAY OF DOING THINGS ==========================
-        if let windowScene = scene as? UIWindowScene {
-            let window = UIWindow(windowScene: windowScene)
-            
-          
-            var firstView = RootView()
-                                    .environmentObject(self.account)
-                                    .environment(\.urlImageService, urlImageService)
-                                    .environmentObject(dataSource)
-            
-            
-            let testView = OnboardingSignUpView()
-			
-			
-            
-            
-			
-			//let firstView =   ChatChannelListView(viewFactory: CustomViewFactory())
-                                    
-			///
-			window.overrideUserInterfaceStyle = .dark
-                                        
-            
-            
-            switch AppConfig.environment{
-            case .development:
-                window.rootViewController = UIHostingController(rootView: testView)
-            case .testing:
-                window.rootViewController = UIHostingController(rootView: testView)
-            case .production:
-                window.rootViewController = UIHostingController(rootView: firstView)
-            }
-            
-            self.window = window
-            window.makeKeyAndVisible()
-        }
-		
-		*/
-    }
-    
-    func sceneWillEnterForeground(_ scene: UIScene) {
         
-		
-
+        */
+			
+        
+    }
+    
+   
+    
+    func addTabBar( viewRouter: ViewRouter, _ profileModel: UserProfileModel){
+        
+        guard let scene = windowScene else {
+            return
+        }
+        
+        let tabBarController = UIHostingController(rootView: CustomBottomTabBar()
+            .environmentObject(viewRouter)
+            .environmentObject(profileModel)
+        )
+        tabBarController.view.backgroundColor = .clear
+        ///Window
+        let tabWindow = PassThroughWindow(windowScene: scene)
+        tabWindow.rootViewController = tabBarController
+        tabWindow.isHidden = false
+        self.tabWindow = tabWindow
+        
     }
     
     
-func sceneDidEnterBackground(_ scene: UIScene) {
-    
-    
-    
-    
 }
-    
-func sceneWillResignActive(_ scene: UIScene) {
-    
 
-}
-    
-    
-func sceneDidDisconnect(_ scene: UIScene) {
 
-}
-    
+/// PassThrough UIWindow
+class PassThroughWindow: UIWindow {
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        guard let view = super.hitTest(point, with: event) else { return nil }
+        return rootViewController?.view == view ? nil : view
+    }
 }

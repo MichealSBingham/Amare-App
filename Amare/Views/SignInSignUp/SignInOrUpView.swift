@@ -11,7 +11,8 @@ import SwiftUI
 struct SignInOrUpView: View {
 	
 	@EnvironmentObject var background: BackgroundViewModel
-	
+    @EnvironmentObject var viewModel: OnboardingViewModel
+
     
     static let id = String(describing: Self.self)
   
@@ -469,7 +470,8 @@ struct SignInOrUpView: View {
     
     
     func goToNextView()  {
-        
+        // ensures the onboarding page is on the enter phone number view
+        viewModel.currentPage = .phoneNumber
 		withAnimation{
 			
 			beginOnboardingFlow = true

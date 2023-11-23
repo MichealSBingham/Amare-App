@@ -11,7 +11,7 @@ import StreamChatSwiftUI
 
 class ViewRouter: ObservableObject {
     
-    @Published var currentPage: Page = .home
+    @Published var currentPage: Page = .map
     @Published var showBottomTabBar: Bool = true 
     @Published var screenToShow:AppLaunchScreen = .loading
     
@@ -41,6 +41,7 @@ struct CustomBottomTabBar: View {
     @State var showPopUp = false
     @EnvironmentObject var model: UserProfileModel
     @EnvironmentObject var authService: AuthService
+    @EnvironmentObject private var sceneDelegate: SceneDelegate
     
     var body: some View {
         GeometryReader { geometry in
@@ -48,18 +49,18 @@ struct CustomBottomTabBar: View {
                 Spacer()
                 switch viewRouter.currentPage {
                 case .home:
-                    Text("Home")
+                    Text("This where the feed should be")
+                    
                 case .discover:
                     SearchAndFriendsView()
                 case .map:
-                    Text("Sign Out")
-                        .onTapGesture {
-                            authService.signOut()
-                        }
+                    Text("The map view is here")
+                    
                 case .messages:
                     ChatChannelListView(viewFactory: CustomViewFactory(), title: "Messages")
                 case .user:
                     MainProfileView()
+                        
                 }
                 Spacer()
 
@@ -108,7 +109,8 @@ struct CustomBottomTabBar: View {
         .offset(y: -geometry.size.height/8/2)
         .onTapGesture {
             withAnimation {
-                showPopUp.toggle()
+                //showPopUp.toggle()
+                viewRouter.currentPage = .map
             }
         }
     }

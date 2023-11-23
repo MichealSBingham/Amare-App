@@ -92,6 +92,7 @@
 		2662ED1B2842D17600B0EA57 /* ProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2662ED182842D17600B0EA57 /* ProfileImageView.swift */; };
 		2662ED1C2842D17600B0EA57 /* PulsingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2662ED192842D17600B0EA57 /* PulsingView.swift */; };
 		267ABC482AFC574A008BFA60 /* EffectsLibrary in Frameworks */ = {isa = PBXBuildFile; productRef = 267ABC472AFC574A008BFA60 /* EffectsLibrary */; };
+		267B37C82B0EC61000782A65 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267B37C72B0EC61000782A65 /* MapView.swift */; };
 		2684C6632A65F8110048BB4E /* CircularProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2684C6622A65F8110048BB4E /* CircularProfileImageView.swift */; };
 		2684C6662A65F9800048BB4E /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 2684C6652A65F9800048BB4E /* SDWebImageSwiftUI */; };
 		268E542826DCEC6400E61F40 /* InputVerificationCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268E542726DCEC6400E61F40 /* InputVerificationCode.swift */; };
@@ -269,6 +270,7 @@
 		2662ED162842D17600B0EA57 /* FindNearbyUserView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindNearbyUserView.swift; sourceTree = "<group>"; };
 		2662ED182842D17600B0EA57 /* ProfileImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileImageView.swift; sourceTree = "<group>"; };
 		2662ED192842D17600B0EA57 /* PulsingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PulsingView.swift; sourceTree = "<group>"; };
+		267B37C72B0EC61000782A65 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		2684C6622A65F8110048BB4E /* CircularProfileImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProfileImageView.swift; sourceTree = "<group>"; };
 		268E542726DCEC6400E61F40 /* InputVerificationCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputVerificationCode.swift; sourceTree = "<group>"; };
 		268F26C0268018EE00FBEA7D /* ForNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForNavigation.swift; sourceTree = "<group>"; };
@@ -518,6 +520,7 @@
 		2626D2E52A210799007F5C77 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				267B37C62B0EC5E500782A65 /* Map */,
 				2632BFF12B0D20DA00873BE7 /* Settings */,
 				263C9CC02B065F5A009C1626 /* MainProfile */,
 				26011FF62AED9A1B004C4D77 /* Natal */,
@@ -630,6 +633,14 @@
 				26006E842ADA26F30063802E /* centerImage.swift */,
 			);
 			path = CustomSubViews;
+			sourceTree = "<group>";
+		};
+		267B37C62B0EC5E500782A65 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				267B37C72B0EC61000782A65 /* MapView.swift */,
+			);
+			path = Map;
 			sourceTree = "<group>";
 		};
 		268F26BD2680080F00FBEA7D /* UserAccount */ = {
@@ -1239,6 +1250,7 @@
 				26A5FBDE2A732E4C00D94476 /* House.swift in Sources */,
 				269013AF2AE470A600397075 /* BackButton.swift in Sources */,
 				26C466512A34FEC0000EC8BC /* UsernameInputView.swift in Sources */,
+				267B37C82B0EC61000782A65 /* MapView.swift in Sources */,
 				2601359C2A485A7F007878BD /* InputHomeCityView.swift in Sources */,
 				26A5FBDA2A732E4C00D94476 /* Aspect.swift in Sources */,
 				26BD69412AB759BC0062B18B /* APIService.swift in Sources */,
@@ -1580,7 +1592,7 @@
 				INFOPLIST_FILE = Amare/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Amāre";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1615,7 +1627,7 @@
 				INFOPLIST_FILE = Amare/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Amāre";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

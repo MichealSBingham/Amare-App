@@ -13,10 +13,16 @@ import Combine
 struct ContentView: View{
     
     @EnvironmentObject var authService: AuthService
+    @EnvironmentObject var viewRouter: ViewRouter
+    @EnvironmentObject var dataModel: UserProfileModel
     @StateObject var bgModel = BackgroundViewModel()
     @StateObject var onboardingModel = OnboardingViewModel()
-    @StateObject var dataModel = UserProfileModel()
-    @StateObject var viewRouter = ViewRouter()
+   // @StateObject var dataModel = UserProfileModel()
+    //@StateObject var viewRouter = ViewRouter()
+    
+    @EnvironmentObject private var sceneDelegate: SceneDelegate
+    
+    @State var showSheetForMap: Bool = true
     
     var body: some View{
         
@@ -65,20 +71,83 @@ struct ContentView: View{
                 .environmentObject(dataModel)
                 .environmentObject(viewRouter)
         case .home:
-            HomeView()
-                .onAppear { dataModel.loadUser() }
+           /* MapView()
+                .opacity(viewRouter.currentPage == .map ? 1: 0) */
+            ZStack{
+                MapView()
+                    .opacity(viewRouter.currentPage == .map ? 1: 0)
+                    .onChange(of: viewRouter.currentPage) {
+                        page in
+                        
+                        if page == .map {
+                            withAnimation { showSheetForMap = true }
+                        } else {
+                            withAnimation { showSheetForMap = false }
+                        }
+                    }
+                
+                HomeView()
+                
+            }
+            
+            .tabSheet(showSheet: $showSheetForMap , initialHeight: 200, sheetCornerRadius: 15) {
+                     NavigationStack {
+                         ScrollView {
+                             /// Showing Some Sample Mock Devices
+                             VStack(spacing: 15) {
+                                 Text("Tab sheet content")
+                                 Text("Tab sheet content")
+                                 Text("Tab sheet content")
+                                 }
+                             }
+                             .padding(.horizontal, 15)
+                             .padding(.vertical, 10)
+                         }
+                         .scrollIndicators(.hidden)
+                         .scrollContentBackground(.hidden)
+                         .toolbar(content: {
+                             /// Leading Title
+                             ToolbarItem(placement: .topBarLeading) {
+                                 Text("Tab Sheet")
+                                     .font(.title3.bold())
+                             }
+                             
+                            
+                         })
+                         .background {
+                             if #unavailable(iOS 16.4) {
+                                 ClearBackground()
+                             }
+                         }
+                }
+             
+                 .onAppear {
+                     dataModel.loadUser()
+                     
+                     guard sceneDelegate.tabWindow == nil else { return }
+
+                     sceneDelegate.addTabBar(viewRouter: viewRouter, dataModel)
+                 }
                 .environmentObject(bgModel)
                 .environmentObject(authService)
                 .environmentObject(onboardingModel)
                 .environmentObject(dataModel)
                 .environmentObject(viewRouter)
+            
+        
+            
         }
-           
+        
+        //Text("Content View")
+       
+
+        }
+       
         
      
         
     }
-}
+
 
 
 struct ContentViewWorkingish: View {

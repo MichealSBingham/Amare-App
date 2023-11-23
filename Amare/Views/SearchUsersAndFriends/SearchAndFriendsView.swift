@@ -203,6 +203,7 @@ struct SearchAndFriendsView: View {
             
             .navigationTitle(Text("Friends"))
         }
+        
     }
 }
 

@@ -11,7 +11,6 @@ import FirebaseAuth
 import URLImage
 import URLImageStore
 import PushNotifications
-
 import StreamChat
 import StreamChatSwiftUI
 import UIKit
@@ -25,18 +24,38 @@ struct AmareApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     let persistenceController = PersistenceController.shared
     
+    let urlImageService = URLImageService(fileStore: nil, inMemoryStore: URLImageInMemoryStore())
+    
+    //var authService: AuthService = AuthService.shared
+    
+    let beamsClient = PushNotifications.shared
+    
+    // This is the `StreamChat` reference we need to add
+    var streamChat: StreamChat?
+    
+    @StateObject var viewRouter: ViewRouter = ViewRouter()
+    @StateObject var profileModel: UserProfileModel = UserProfileModel()
 
-
+    init(){
+        
+        
+        
+    }
     var body: some Scene {
         
-       
-        
         WindowGroup {
-			
+            
+        ContentView()
+            .environmentObject(AuthService.shared)
+            .environmentObject(BackgroundViewModel())
+            .environmentObject(viewRouter)
+            .environmentObject(profileModel)
         }
         
-       
     }
+    
+   
+    
     
     /// Dismisses the keyboard
     func dismissKeyboard(completion: (() -> Void)? = nil )  {
@@ -62,24 +81,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 	
 	// This is the `StreamChat` reference we need to add
 	var streamChat: StreamChat?
-
-		// This is the `chatClient`, with config we need to add
-/*	var chatClient: ChatClient = {
-			//For the tutorial we use a hard coded api key and application group identifier
-		var config = ChatClientConfig(apiKey: .init("8br4watad788"))
-		
-		// Real API Key
-			//var config = ChatClientConfig(apiKey: .init("6vb87hptvk7d"))
-		
-			config.applicationGroupIdentifier = "group.com.findamare"
-		//tutorial config
-		//config.applicationGroupIdentifier = "group.io.getstream.iOS.ChatDemoAppSwiftUI"
-
-			// The resulting config is passed into a new `ChatClient` instance.
-			let client = ChatClient(config: config)
-			return client
-		}()
-	*/
 
 
     
@@ -201,7 +202,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     
     // Notification received in foreground
-    
    
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
@@ -215,15 +215,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
-        
-        return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
+        let config = UISceneConfiguration(name: nil, sessionRole: connectingSceneSession.role)
+        config.delegateClass = SceneDelegate.self
+        return config
 
     }
-    
-    
-    
-    
-    
     
     
 
@@ -243,6 +239,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         try? self.beamsClient.addDeviceInterest(interest: "hello")
         try? self.beamsClient.addDeviceInterest(interest: "debug-hello")
     }
+    
+   
     
     
     

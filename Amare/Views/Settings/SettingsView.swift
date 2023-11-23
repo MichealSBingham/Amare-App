@@ -10,7 +10,7 @@ import SwiftUI
 struct SettingsView: View {
     @EnvironmentObject var userDataModel: UserProfileModel
     
-    @EnvironmentObject var authService: AuthService
+    //@EnvironmentObject var authService: AuthService
     
     @EnvironmentObject var viewRouter: ViewRouter
     
@@ -25,7 +25,7 @@ struct SettingsView: View {
             
             Section {
                 Button("Sign Out", action: {
-                    authService.signOut { result in
+                    AuthService.shared.signOut { result in
                         switch result{
                         case .success(_):
                             print("Signed out ")
