@@ -16,9 +16,8 @@ struct MapView: View {
 
     var body: some View {
         Map(coordinateRegion: $region)
-            
-
-          //  .ignoresSafeArea()
+      
+           .ignoresSafeArea()
         //.edgesIgnoringSafeArea(.all) // Makes the map full screen
     }
 }
