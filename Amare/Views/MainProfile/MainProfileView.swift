@@ -13,6 +13,8 @@ struct MainProfileView: View {
 
     @EnvironmentObject var model: UserProfileModel
     
+    
+    
     @State var selection: Int = 0
     
     @State var showSettings: Bool = false
@@ -126,6 +128,7 @@ struct MainProfileView: View {
                             SettingsView()
                     //.environmentObject(authService)
                     .environmentObject(model)
+                    
                         }
             
         }

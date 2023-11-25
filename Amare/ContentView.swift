@@ -21,7 +21,7 @@ struct ContentView: View{
    // @StateObject var dataModel = UserProfileModel()
     //@StateObject var viewRouter = ViewRouter()
     
-    @EnvironmentObject private var sceneDelegate: SceneDelegate
+    @EnvironmentObject  var sceneDelegate: SceneDelegate
     
     @State var showSheetForMap: Bool = true
     
@@ -64,6 +64,14 @@ struct ContentView: View{
                 .environmentObject(onboardingModel)
                 .environmentObject(dataModel)
                 .environmentObject(viewRouter)
+                .onAppear(perform: {
+                    withAnimation {
+                       
+                        guard sceneDelegate.tabWindow != nil else { return }
+                        sceneDelegate.removeTabBar()
+                    }
+                })
+           
         case .onboarding:
             OnboardingSignUpView(skipLogin: true )
                 .environmentObject(bgModel)
@@ -85,6 +93,8 @@ struct ContentView: View{
                         } else {
                             withAnimation { showSheetForMap = false }
                         }
+                        
+                       
                     }
                 
                 HomeView()
@@ -149,6 +159,7 @@ struct ContentView: View{
                 .environmentObject(dataModel)
                 .environmentObject(viewRouter)
                 .environmentObject(mapViewModel)
+                .environmentObject(sceneDelegate)
             
         
             

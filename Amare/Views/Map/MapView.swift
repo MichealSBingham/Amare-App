@@ -103,7 +103,7 @@ struct MapView2: View {
 struct MapViewPreview: View {
     
     @StateObject var viewModel = MapViewModel()
-    
+    @State var users: [AppUser] = []
     var body: some View {
         MapView()
             .environmentObject(viewModel)
@@ -113,7 +113,7 @@ struct MapViewPreview: View {
                         VStack{
                             
                             HStack{
-                                Text("\(viewModel.nearbyUsers.count) \(viewModel.nearbyUsers.count == 1 ? "Person" : "People") Near You")
+                                Text("\(users.count) \(users.count == 1 ? "Person" : "People") Near You")
                                     .font(.title3.bold())
                                      
                                     // .foregroundColor(.amare)
@@ -124,7 +124,7 @@ struct MapViewPreview: View {
                             ScrollView(.horizontal, showsIndicators: false){
                                 HStack{
                                     
-                                    ForEach(viewModel.nearbyUsers) { user in
+                                    ForEach(users) { user in
                                         
                                       
                                             
@@ -158,7 +158,8 @@ struct MapViewPreview: View {
                 }
             }
             .onAppear{
-                viewModel.nearbyUsers = AppUser.generateMockData(of: 10)
+                viewModel.nearbyUsers = AppUser.generateMockData(of: 28)
+                users = AppUser.generateMockData(of: 28)
             }
         
     }

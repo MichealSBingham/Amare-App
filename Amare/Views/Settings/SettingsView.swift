@@ -13,7 +13,8 @@ struct SettingsView: View {
     //@EnvironmentObject var authService: AuthService
     
     @EnvironmentObject var viewRouter: ViewRouter
-    
+  
+    @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
         Form {
@@ -29,7 +30,12 @@ struct SettingsView: View {
                         switch result{
                         case .success(_):
                             print("Signed out ")
-                            withAnimation{ viewRouter.screenToShow = .signInOrUp}
+                            withAnimation{
+                                presentationMode.wrappedValue.dismiss()
+                                viewRouter.screenToShow = .signInOrUp
+                                viewRouter.currentPage = .map // remove this if you're having issues with relogin in after sign out
+                                
+                            }
                         case .failure(let error):
                             print("Could not sign out with error \(error)")
                         }

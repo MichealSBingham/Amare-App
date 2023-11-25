@@ -86,6 +86,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, ObservableObject {
         
     }
     
+    func removeTabBar() {
+        print("removing tab bar scene delegate")
+        self.tabWindow?.isHidden = true
+        self.tabWindow = nil // Remove the reference, allowing it to be recreated later
+    }
+
+
+    
     
 }
 

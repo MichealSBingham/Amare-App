@@ -60,6 +60,7 @@ struct CustomBottomTabBar: View {
                     ChatChannelListView(viewFactory: CustomViewFactory(), title: "Messages")
                 case .user:
                     MainProfileView()
+                      
                         
                 }
                 Spacer()
