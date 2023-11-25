@@ -28,7 +28,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
         locationManager.allowsBackgroundLocationUpdates = true
-        locationManager.distanceFilter = 25
+        locationManager.distanceFilter = 10
         locationManager.startUpdatingLocation()
     }
     

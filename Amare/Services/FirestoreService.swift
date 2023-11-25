@@ -793,32 +793,38 @@ class FirestoreService {
         }
     }
     
-    func updateGeohashEntryExit( newGeohash: String, oldGeohash: String, location: CLLocation, completion: @escaping (Error?) -> Void) {
-            let timestamp = Timestamp(date: Date())
-        
-        guard let userId = Auth.auth().currentUser?.uid else { completion(NSError(domain: "FirestoreService", code: 3, userInfo: [NSLocalizedDescriptionKey: "You're not signed in."])); return }
-
-            // Update exit timestamp for the old geohash if it's different from the new one
-            if !oldGeohash.isEmpty && oldGeohash != newGeohash {
-                let oldGeohashRef = db.collection("encounters").document(oldGeohash)
-                oldGeohashRef.setData(["users.\(userId).exitTimestamp": timestamp], merge: true)
+    func updateGeohashEntryExit(newGeohash: String, oldGeohash: String, location: CLLocation, completion: ((Error?) -> Void)? = nil) {
+            guard let userId = Auth.auth().currentUser?.uid, !userId.isEmpty else {
+                completion?(NSError(domain: "FirestoreService", code: 0, userInfo: [NSLocalizedDescriptionKey: "User ID not found"]))
+                return
             }
 
-            // Update entry timestamp for the new geohash
-            let newGeohashRef = db.collection("encounters").document(newGeohash)
-            newGeohashRef.setData(["users.\(userId).enterTimestamp": timestamp], merge: true)
+            let timestamp = Timestamp(date: Date())
 
-            // Update the user's current 9-digit geohash location
+            // Handle the old geohash being empty (e.g., first time location update)
+            if !oldGeohash.isEmpty && oldGeohash != newGeohash {
+                let oldUserRef = db.collection("encounters").document(oldGeohash).collection("users").document(userId)
+                oldUserRef.updateData(["exitTimestamp": timestamp]) { error in
+                    completion?(error)
+                }
+            }
+
+            // Always update the entry timestamp for the new geohash
+            let newUserRef = db.collection("encounters").document(newGeohash).collection("users").document(userId)
+            newUserRef.setData(["enterTimestamp": timestamp], merge: true) { error in
+                completion?(error)
+            }
+
+            // Update user's current 9-digit geohash location
             let geohash9 = location.geohash(precision: 9) ?? ""
             let locationData: [String: Any] = [
                 "location": GeoPoint(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude),
                 "geohash": geohash9
             ]
             db.collection("users").document(userId).updateData(locationData) { error in
-                completion(error)
+                completion?(error)
             }
         }
-    
     func listenForUsers(near geohash: String, completion: @escaping (Result<[AppUser], Error>) -> Void) -> ListenerRegistration? {
             guard !geohash.isEmpty else {
                 completion(.failure(NSError(domain: "FirestoreService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Geohash is empty"])))
