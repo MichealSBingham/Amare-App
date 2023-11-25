@@ -16,10 +16,10 @@ class MapViewModel: ObservableObject {
     @Published var nearbyUsers: [AppUser] = []
     private var nearbyUsersListener: ListenerRegistration?
     
-    // Listen for nearby users based on the geohash
+    /// Listen for nearby users based on the geohash
        func listenForNearbyUsers(geohash: String) {
            // Only update the listener if the geohash has changed
-           
+           print("Just called MapViewModel.listenForNearbyUsers")
 
            // Remove any existing listener
            nearbyUsersListener?.remove()
@@ -30,6 +30,7 @@ class MapViewModel: ObservableObject {
                case .success(let users):
                    DispatchQueue.main.async {
                        // Update nearby users, considering not updating if the contents are the same
+                       print("did get nearby users \(users)")
                        if !(self?.nearbyUsers.elementsEqual(users, by: { $0.id == $1.id }) ?? false) {
                            withAnimation {
                                self?.nearbyUsers = users

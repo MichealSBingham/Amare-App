@@ -48,6 +48,8 @@ struct CircularProfileImageView: View {
     /// Sometimes if the image is too small/large, you will need to experiment with changing this paramter to make the famous/notable indicator higher or lower
     var offsetFamousIndicator: Int = 20
     
+    var showShadow: Bool = true
+    
     @Environment(\.colorScheme) var colorScheme
 
     
@@ -61,7 +63,7 @@ struct CircularProfileImageView: View {
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .clipShape(Circle())
-                        .shadow(radius: 15)
+                        .shadow(radius: showShadow ? 15: 0 )
                 
                     
                     // Wink Emoji

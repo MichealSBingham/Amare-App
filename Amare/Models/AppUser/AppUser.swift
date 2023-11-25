@@ -129,6 +129,10 @@ struct AppUser: Codable, Identifiable {
                 numberOfFriends: Double.random(in: 0..<7000000000)
 			)
 		}
+    
+    static func generateMockData(of length: Int) -> [AppUser] {
+       return  (1...length).map { _ in AppUser.generateMockData() }
+    }
 }
 
 

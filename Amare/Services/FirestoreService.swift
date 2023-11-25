@@ -775,7 +775,8 @@ class FirestoreService {
             let geohashString = String(describing: geohashObject.geohash)
             let locationData: [String: Any] = [
                 "location": GeoPoint(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude),
-                "geohash": geohashString  // Storing as a String
+                "geohash": geohashString,  // Storing as a String
+                "geohash6": location.geohash(precision: 6) ?? ""
             ]
             
             db.collection("users").document(userId).updateData(locationData) { error in
@@ -826,6 +827,7 @@ class FirestoreService {
             }
         }
     func listenForUsers(near geohash: String, completion: @escaping (Result<[AppUser], Error>) -> Void) -> ListenerRegistration? {
+        print("FirestoreService.listenForUsers near geohash \(geohash)")
             guard !geohash.isEmpty else {
                 completion(.failure(NSError(domain: "FirestoreService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Geohash is empty"])))
                 return nil
@@ -838,18 +840,22 @@ class FirestoreService {
 
             let neighbors = geohashObject.neighbors
             let allGeohashes = (neighbors?.all.map { $0.geohash } ?? []) + [geohash]
+        
+            print("all geohases: \(allGeohashes)")
 
             let usersListener = db.collection("users")
-                .whereField("geohash", in: allGeohashes)
+                .whereField("geohash6", in: allGeohashes)
                 .addSnapshotListener { snapshot, error in
                     if let error = error {
                         completion(.failure(error))
                         return
                     }
                     guard let documents = snapshot?.documents else {
+                        print("could not get documents for nearby users .. \(snapshot?.documents)")
                         completion(.success([]))
                         return
                     }
+                    print("the documents are ... \(snapshot?.documents)")
                     let users = documents.compactMap { try? $0.data(as: AppUser.self) }
                     completion(.success(users))
                 }

@@ -15,6 +15,7 @@ struct ContentView: View{
     @EnvironmentObject var authService: AuthService
     @EnvironmentObject var viewRouter: ViewRouter
     @EnvironmentObject var dataModel: UserProfileModel
+    @StateObject var mapViewModel: MapViewModel = MapViewModel()
     @StateObject var bgModel = BackgroundViewModel()
     @StateObject var onboardingModel = OnboardingViewModel()
    // @StateObject var dataModel = UserProfileModel()
@@ -90,36 +91,50 @@ struct ContentView: View{
                 
             }
             
-            .tabSheet(showSheet: $showSheetForMap , initialHeight: 200, sheetCornerRadius: 15) {
-                     NavigationStack {
-                         ScrollView {
-                             /// Showing Some Sample Mock Devices
-                             VStack(spacing: 15) {
-                                 Text("Tab sheet content")
-                                 Text("Tab sheet content")
-                                 Text("Tab sheet content")
-                                 }
-                             }
-                             .padding(.horizontal, 15)
-                             .padding(.vertical, 10)
-                         }
-                         .scrollIndicators(.hidden)
-                         .scrollContentBackground(.hidden)
-                         .toolbar(content: {
-                             /// Leading Title
-                             ToolbarItem(placement: .topBarLeading) {
-                                 Text("Tab Sheet")
-                                     .font(.title3.bold())
-                             }
-                             
+            .tabSheet(showSheet: $showSheetForMap, initialHeight: 250, sheetCornerRadius: 15) {
+                NavigationStack{
+                    ScrollView{
+                        VStack{
                             
-                         })
-                         .background {
-                             if #unavailable(iOS 16.4) {
-                                 ClearBackground()
-                             }
-                         }
+                            HStack{
+                                Text("\(mapViewModel.nearbyUsers.count) \(mapViewModel.nearbyUsers.count == 1 ? "Person" : "People") Near You")
+                                    .font(.title3.bold())
+                                    // .foregroundColor(.amare)
+                                    Spacer()
+                            }
+                            //MARK: - Show nearby users
+                            ScrollView(.horizontal, showsIndicators: false){
+                                HStack{
+                                    
+                                    ForEach(mapViewModel.nearbyUsers) { user in
+                                        
+                                            
+                                        CircularProfileImageView(profileImageUrl: user.profileImageUrl, isNotable: false , showShadow: false)
+                                                .frame(width: 80)
+                                                .padding()
+                                                
+                                                //.padding(.vertical, 10)
+                                            
+                                    }
+                                    
+                                }
+                                .frame(minHeight: 90)
+                                
+                            }.scrollContentBackground(.hidden).background(Color.clear)
+                               
+                        }
+                    }
+                    .padding()
+                    .padding(.vertical, 10)
+                    .scrollIndicators(.hidden)
+                    .scrollContentBackground(.hidden)
+                    
+                }.background {
+                    if #unavailable(iOS 16.4) {
+                        ClearBackground()
+                    }
                 }
+            }
              
                  .onAppear {
                      dataModel.loadUser()
@@ -133,6 +148,7 @@ struct ContentView: View{
                 .environmentObject(onboardingModel)
                 .environmentObject(dataModel)
                 .environmentObject(viewRouter)
+                .environmentObject(mapViewModel)
             
         
             
@@ -199,19 +215,30 @@ struct LoadingView2: View {
 
 
 
-
+struct PreviewHome: View {
+    var bgmodel = BackgroundViewModel()
+    var vr = ViewRouter()
+    var body: some View{
+        ContentView()
+            .onAppear{
+                vr.screenToShow = .home
+            }
+            .environmentObject(AuthService.shared)
+            .environmentObject(bgmodel)
+    
+            .environmentObject(OnboardingViewModel())
+            .environmentObject(MapViewModel()
+            )
+            .environmentObject(vr)
+            .environmentObject(UserProfileModel())
+    }
+}
 
 struct ContentView_Previews: PreviewProvider {
     
     static var bgmodel = BackgroundViewModel()
+    static var vr = ViewRouter()
     static var previews: some View {
-        ContentView()
-            .onAppear{
-                bgmodel.isSolidColor = false
-            }
-			.environmentObject(AuthService.shared)
-			.environmentObject(bgmodel)
-	
-			.environmentObject(OnboardingViewModel())
+        PreviewHome()
     }
 }
