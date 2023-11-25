@@ -10,7 +10,8 @@ import FirebaseFirestoreSwift
 import Firebase
 import SwiftUI
 import LoremSwiftum
-
+import FirebaseFirestore
+import MapKit
 
 struct AppUser: Codable, Identifiable {
 	@DocumentID public var id: String?
@@ -37,6 +38,9 @@ struct AppUser: Codable, Identifiable {
 	var bio: String?
 	var notes: [String]?
 	var wikipedia_link: String?
+    
+    var location: GeoPoint?  // Firestore GeoPoint for latitude and longitude
+    var geohash: String?     // Geohash representation of the location
 
 	enum CodingKeys: String, CodingKey {
 		case id
@@ -60,6 +64,9 @@ struct AppUser: Codable, Identifiable {
 		case notes
 		case wikipedia_link
 		case bio
+        
+        case location
+        case geohash
 	}
 
 	enum ReasonsForUse: String, Codable {
@@ -127,3 +134,12 @@ struct AppUser: Codable, Identifiable {
 
 
 
+extension AppUser {
+    func distance(to otherUser: AppUser) -> CLLocationDistance? {
+        guard let myLocation = self.location?.toCLLocation(),
+              let otherLocation = otherUser.location?.toCLLocation() else {
+            return nil
+        }
+        return myLocation.distance(from: otherLocation)
+    }
+}

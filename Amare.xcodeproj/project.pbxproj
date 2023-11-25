@@ -88,6 +88,10 @@
 		265C4BD02AFC1EE0007D0925 /* PredictedPersonalityStatementsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265C4BCF2AFC1EE0007D0925 /* PredictedPersonalityStatementsView.swift */; };
 		265C4BD22AFC25DA007D0925 /* PersonalityGuesserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265C4BD12AFC25DA007D0925 /* PersonalityGuesserView.swift */; };
 		265C4BD52AFC2665007D0925 /* PersonalityStatement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265C4BD42AFC2665007D0925 /* PersonalityStatement.swift */; };
+		2662A8082B1132A800BDDD6E /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2662A8072B1132A800BDDD6E /* LocationManager.swift */; };
+		2662A80A2B1132DF00BDDD6E /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2662A8092B1132DF00BDDD6E /* MapViewModel.swift */; };
+		2662A80D2B113D7B00BDDD6E /* GeohashKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2662A80C2B113D7B00BDDD6E /* GeohashKit */; };
+		2662A80F2B1149FD00BDDD6E /* Map+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2662A80E2B1149FD00BDDD6E /* Map+Extensions.swift */; };
 		2662ED1A2842D17600B0EA57 /* FindNearbyUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2662ED162842D17600B0EA57 /* FindNearbyUserView.swift */; };
 		2662ED1B2842D17600B0EA57 /* ProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2662ED182842D17600B0EA57 /* ProfileImageView.swift */; };
 		2662ED1C2842D17600B0EA57 /* PulsingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2662ED192842D17600B0EA57 /* PulsingView.swift */; };
@@ -267,6 +271,9 @@
 		265C4BCF2AFC1EE0007D0925 /* PredictedPersonalityStatementsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictedPersonalityStatementsView.swift; sourceTree = "<group>"; };
 		265C4BD12AFC25DA007D0925 /* PersonalityGuesserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalityGuesserView.swift; sourceTree = "<group>"; };
 		265C4BD42AFC2665007D0925 /* PersonalityStatement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalityStatement.swift; sourceTree = "<group>"; };
+		2662A8072B1132A800BDDD6E /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		2662A8092B1132DF00BDDD6E /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
+		2662A80E2B1149FD00BDDD6E /* Map+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Map+Extensions.swift"; sourceTree = "<group>"; };
 		2662ED162842D17600B0EA57 /* FindNearbyUserView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindNearbyUserView.swift; sourceTree = "<group>"; };
 		2662ED182842D17600B0EA57 /* ProfileImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileImageView.swift; sourceTree = "<group>"; };
 		2662ED192842D17600B0EA57 /* PulsingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PulsingView.swift; sourceTree = "<group>"; };
@@ -375,6 +382,7 @@
 				26E0EF942B0914E400BE0B5E /* FirebaseFunctionsCombine-Community in Frameworks */,
 				262712F22A61D66600E36906 /* URLImage in Frameworks */,
 				2684C6662A65F9800048BB4E /* SDWebImageSwiftUI in Frameworks */,
+				2662A80D2B113D7B00BDDD6E /* GeohashKit in Frameworks */,
 				26E0EF922B0914E400BE0B5E /* FirebaseFunctions in Frameworks */,
 				262712E52A61D50200E36906 /* FirebaseFirestore in Frameworks */,
 				262712E72A61D50200E36906 /* FirebaseFirestoreSwift in Frameworks */,
@@ -457,6 +465,7 @@
 				269013B42AE603B700397075 /* View+Extensions.swift */,
 				269013B62AE603E700397075 /* Tabbar+Extensions.swift */,
 				263C9CBE2B0505C4009C1626 /* Images+Extensions.swift */,
+				2662A80E2B1149FD00BDDD6E /* Map+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -854,6 +863,7 @@
 				26C3EE152A45010300CCA9E0 /* FirestoreService.swift */,
 				262F2A5A2A5086CC00C980D3 /* AuthService.swift */,
 				26BD69402AB759BC0062B18B /* APIService.swift */,
+				2662A8072B1132A800BDDD6E /* LocationManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -952,6 +962,7 @@
 				26A0B9DA2A24F88A00DCAB5F /* RGQuizViewModel.swift */,
 				26C466542A34FEDF000EC8BC /* OnboardingViewModel.swift */,
 				263C9CBA2B04F67C009C1626 /* MediaUploadModel.swift */,
+				2662A8092B1132DF00BDDD6E /* MapViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -1064,6 +1075,7 @@
 				267ABC472AFC574A008BFA60 /* EffectsLibrary */,
 				26E0EF912B0914E400BE0B5E /* FirebaseFunctions */,
 				26E0EF932B0914E400BE0B5E /* FirebaseFunctionsCombine-Community */,
+				2662A80C2B113D7B00BDDD6E /* GeohashKit */,
 			);
 			productName = Love;
 			productReference = 26B1AFD22678FFE500A170B3 /* Amare.app */;
@@ -1166,6 +1178,7 @@
 				262712F82A61D76B00E36906 /* XCRemoteSwiftPackageReference "push-notifications-swift" */,
 				2684C6642A65F97F0048BB4E /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 				267ABC462AFC574A008BFA60 /* XCRemoteSwiftPackageReference "effects-library" */,
+				2662A80B2B113D7B00BDDD6E /* XCRemoteSwiftPackageReference "GeohashKit" */,
 			);
 			productRefGroup = 26B1AFD32678FFE500A170B3 /* Products */;
 			projectDirPath = "";
@@ -1323,6 +1336,7 @@
 				26C4664F2A34FEC0000EC8BC /* AnswerView.swift in Sources */,
 				26A5FBEF2A733B1100D94476 /* NatalChartTabView.swift in Sources */,
 				26C399C92A5DCFA90061F9B8 /* URL+Extensions.swift in Sources */,
+				2662A80F2B1149FD00BDDD6E /* Map+Extensions.swift in Sources */,
 				26C466532A34FEC0000EC8BC /* OnboardingSignUpView.swift in Sources */,
 				26A5FBDD2A732E4C00D94476 /* Planet.swift in Sources */,
 				26C4664C2A34FEC0000EC8BC /* QuestionView.swift in Sources */,
@@ -1333,6 +1347,7 @@
 				2693C51B2B07946400D26640 /* TabBarView.swift in Sources */,
 				265C4BD52AFC2665007D0925 /* PersonalityStatement.swift in Sources */,
 				2656D1072AF828D9000A13B2 /* PredictedTrait.swift in Sources */,
+				2662A80A2B1132DF00BDDD6E /* MapViewModel.swift in Sources */,
 				26A5FBCE2A73221400D94476 /* UserProfileModel.swift in Sources */,
 				2656D1012AF6E4B6000A13B2 /* OrientationInputView.swift in Sources */,
 				268F26C1268018EE00FBEA7D /* ForNavigation.swift in Sources */,
@@ -1353,6 +1368,7 @@
 				265C4BD02AFC1EE0007D0925 /* PredictedPersonalityStatementsView.swift in Sources */,
 				263FBDE0283BE4B4008F35C5 /* MathUtilities.swift in Sources */,
 				26011FF82AED9A29004C4D77 /* MainPlacementView.swift in Sources */,
+				2662A8082B1132A800BDDD6E /* LocationManager.swift in Sources */,
 				26C466502A34FEC0000EC8BC /* RGQuizView.swift in Sources */,
 				263C9CC42B068AB5009C1626 /* UserProfileView2.swift in Sources */,
 				26A5FBF12A73444D00D94476 /* UserListRowView.swift in Sources */,
@@ -1867,6 +1883,14 @@
 				minimumVersion = 4.0.0;
 			};
 		};
+		2662A80B2B113D7B00BDDD6E /* XCRemoteSwiftPackageReference "GeohashKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ualch9/GeohashKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
 		2678DD8328B04DDF009A057C /* XCRemoteSwiftPackageReference "swiftui-navigation-stack" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/matteopuc/swiftui-navigation-stack";
@@ -2023,6 +2047,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 262712F82A61D76B00E36906 /* XCRemoteSwiftPackageReference "push-notifications-swift" */;
 			productName = PushNotifications;
+		};
+		2662A80C2B113D7B00BDDD6E /* GeohashKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2662A80B2B113D7B00BDDD6E /* XCRemoteSwiftPackageReference "GeohashKit" */;
+			productName = GeohashKit;
 		};
 		267ABC472AFC574A008BFA60 /* EffectsLibrary */ = {
 			isa = XCSwiftPackageProductDependency;
