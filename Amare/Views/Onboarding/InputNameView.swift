@@ -61,7 +61,7 @@ struct InputNameView: View {
 
         
         ZStack{
-            MovingImageView(speed: 1.5)
+          //  MovingImageView(speed: 1.5)
             SnowView(config: config)
                 .colorMultiply(.pink)
                 //.opacity(0.5)

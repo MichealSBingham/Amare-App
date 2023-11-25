@@ -234,7 +234,8 @@ public struct InputVerificationCode: View {
 								print("Logged in user: \(user.uid)")
 								withAnimation{
                                     if !didFinishOnboarding{
-                                        model.currentPage = .name
+                                    
+                                        viewRouter.screenToShow = .onboarding
                                     } else {
                                         viewRouter.screenToShow = .home
                                     }
