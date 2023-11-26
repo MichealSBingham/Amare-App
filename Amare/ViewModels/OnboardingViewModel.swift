@@ -119,6 +119,35 @@ class OnboardingViewModel: ObservableObject{
         return total > 0 ? (Double(correctPersonalityGuesses) / Double(total))  : 0
     }
     
+    func resetData() {
+            currentPage = .phoneNumber
+            phoneNumber = nil
+            name = nil
+            username = ""
+            isUsernameAvailable = nil
+            birthday = Date()
+            birthtime = Date()
+            knowsBirthTime = nil
+            homeCityTimeZone = nil
+            homeCity = nil
+            gender = .none
+            residence = nil
+            profileImageUrl = URL.randomProfileImageURL(isMale: Bool.random())!.absoluteString
+            friendshipSelected = false
+            datingSelected = false
+            selfDiscoverySelected = false
+            reasonsForUse = []
+            womenSelected = false
+            menSelected = false
+            TmenSelected = false
+            TwomenSelected = false
+            nonBinarySelected = false
+            orientation = []
+            progress = Double(OnboardingScreen.allCases.firstIndex(of: .phoneNumber) ?? 0) / Double(OnboardingScreen.allCases.count - 1)
+            error = nil
+            predictedTraits = []
+            traitFeedback = [:]
+        }
     //MARK: - Functions
     
 	

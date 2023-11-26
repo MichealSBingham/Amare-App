@@ -10,6 +10,8 @@ import SwiftUI
 struct SettingsView: View {
     @EnvironmentObject var userDataModel: UserProfileModel
     
+   
+    
     //@EnvironmentObject var authService: AuthService
     
     @EnvironmentObject var viewRouter: ViewRouter
@@ -34,6 +36,9 @@ struct SettingsView: View {
                                 presentationMode.wrappedValue.dismiss()
                                 viewRouter.screenToShow = .signInOrUp
                                 viewRouter.currentPage = .map // remove this if you're having issues with relogin in after sign out
+                               
+                                userDataModel.resetData()
+                                
                                 
                             }
                         case .failure(let error):

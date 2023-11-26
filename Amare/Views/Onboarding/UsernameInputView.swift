@@ -15,6 +15,7 @@ struct UsernameInputView: View {
     @EnvironmentObject var authService: AuthService
 
     @EnvironmentObject var viewRouter: ViewRouter
+    @EnvironmentObject var dataModel: UserProfileModel
     
     //@State var username: String = ""
 	
@@ -178,6 +179,7 @@ struct UsernameInputView: View {
                     withAnimation{
                         authService.isOnboardingComplete = true
                         print("Onboarding is finished should go to home screen now.")
+                        dataModel.loadUser()
                         viewRouter.screenToShow = .home
                         
                     }

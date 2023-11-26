@@ -49,7 +49,38 @@ class UserProfileModel: ObservableObject{
     private var winkStatusListener: ListenerRegistration?
     
     var interpretationsListener: ListenerRegistration?
+    
+    func resetData() {
+            user = nil
+            natalChart = nil
+            friendshipStatus = .unknown
+            friendRequests = []
+            winkedAtMe = nil
+            winkStatus = nil
+            didSendFriendRequest = nil
+            oneLiner = nil
+            interpretations = nil
+            score = nil
+            error = nil
+
+            // Deregister Firestore listeners if they are active
+            userListener?.remove()
+            friendRequestsListener?.remove()
+            winkStatusListener?.remove()
+            interpretationsListener?.remove()
+            
+            // Reset the listener variables
+            userListener = nil
+            friendRequestsListener = nil
+            winkStatusListener = nil
+            interpretationsListener = nil
+
+            // Clear any additional arrays or collections that are being listened to
+            friendshipStatusListeners.forEach { $0.remove() }
+            friendshipStatusListeners = []
+        }
 	
+    //MARK: - Functions
 	
 	
 	func loadUser(userId: String = Auth.auth().currentUser?.uid ?? "" ){

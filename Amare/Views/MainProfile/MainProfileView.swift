@@ -115,18 +115,7 @@ struct MainProfileView: View {
                     
                     
                 }
-           /* .navigationBarItems(trailing:
-                            Button(action: {
-                                showSettings = true
-                            }) {
-                                Image(systemName: "gear")
-                            }
-                .buttonStyle(.plain)
-                        ) */
-            
-              //  .navigationBarColor(backgroundColor: .clear, titleColor: Color.secondary.uiColor())
-          //  .navigationBarTitleDisplayMode(.inline)
-         //   .navigationTitle(Text("\(model.user?.name ?? "") @\(model.user?.username ?? "")").font(.largeTitle))
+          
             .toolbar(.hidden)
             .sheet(isPresented: $showSettings) {
                             SettingsView()

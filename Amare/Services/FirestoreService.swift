@@ -351,24 +351,24 @@ class FirestoreService {
     
     
     
-    func sendFriendRequest(from micheal: AppUser, to elizabeth: String, completion: @escaping (Result<Void, Error>) -> Void) {
+    func sendFriendRequest(from micheal: AppUser, to dasha: String, completion: @escaping (Result<Void, Error>) -> Void) {
         
         guard let micheal_id = micheal.id else { completion(.failure(NSError.init(domain: "Not Signed In", code: 1))); return }
         let now = Timestamp(date: Date())
         
-        let outgoingFriendRequest = OutgoingFriendRequest(id: elizabeth, status: .pending, from: micheal_id, /*to: elizabeth,*/ time: now)
+        let outgoingFriendRequest = OutgoingFriendRequest(id: dasha, status: .pending, from: micheal_id, /*to: dasha,*/ time: now)
         
         let incomingFriendRequestForOtherUser = IncomingFriendRequest(id: micheal_id, status: .pending, isNotable: micheal.isNotable, name: micheal.name, profileImageURL: micheal.profileImageUrl ?? "", from: micheal_id, time: now)
         
         // Create an outgoing request document.
-        db.collection("users").document(micheal_id).collection("outgoingRequests").document(elizabeth)
+        db.collection("users").document(micheal_id).collection("outgoingRequests").document(dasha)
             .setData(outgoingFriendRequest.asDictionary()) { err in
                 if let err = err {
                     completion(.failure(err))
                 } else {
                     
                     // Create an incoming request document for the other user.
-                    self.db.collection("users").document(elizabeth).collection("incomingRequests").document(micheal_id)
+                    self.db.collection("users").document(dasha).collection("incomingRequests").document(micheal_id)
                         .setData(incomingFriendRequestForOtherUser.asDictionary()) { err in
                             if let err = err {
                                 completion(.failure(err))
@@ -381,7 +381,7 @@ class FirestoreService {
             }
     }
     
-    func cancelFriendRequest(to elizabeth: String, completion: @escaping (Result<Void, Error>) -> Void) {
+    func cancelFriendRequest(to dasha: String, completion: @escaping (Result<Void, Error>) -> Void) {
         
         
         
@@ -390,7 +390,7 @@ class FirestoreService {
             return
         }
         // Reference to the outgoing request document.
-        let outgoingRequestRef = db.collection("users").document(micheal_id).collection("outgoingRequests").document(elizabeth)
+        let outgoingRequestRef = db.collection("users").document(micheal_id).collection("outgoingRequests").document(dasha)
         
         // Delete the outgoing request document.
         outgoingRequestRef.delete() { err in
@@ -447,24 +447,24 @@ class FirestoreService {
     }
     
     
-    func sendWink(from micheal: AppUser, to elizabeth: String, completion: @escaping (Result<Void, Error>) -> Void) {
+    func sendWink(from micheal: AppUser, to dasha: String, completion: @escaping (Result<Void, Error>) -> Void) {
         
         guard let micheal_id = micheal.id else { completion(.failure(NSError.init(domain: "Not Signed In", code: 1))); return }
         let now = Timestamp(date: Date())
         
-        let outgoingWink = OutgoingWink(id: elizabeth,  from: micheal_id, time: now)
+        let outgoingWink = OutgoingWink(id: dasha,  from: micheal_id, time: now)
         
         let incomingWink = IncomingWink(id: micheal_id,  isNotable: micheal.isNotable, name: micheal.name, profileImageURL: micheal.profileImageUrl ?? "", from: micheal_id, time: now)
         
         // Create an outgoing request document.
-        db.collection("users").document(micheal_id).collection("outgoingWinks").document(elizabeth)
+        db.collection("users").document(micheal_id).collection("outgoingWinks").document(dasha)
             .setData(outgoingWink.asDictionary()) { err in
                 if let err = err {
                     completion(.failure(err))
                 } else {
                     
                     // Create an incoming request document for the other user.
-                    self.db.collection("users").document(elizabeth).collection("incomingWinks").document(micheal_id)
+                    self.db.collection("users").document(dasha).collection("incomingWinks").document(micheal_id)
                         .setData(incomingWink.asDictionary()) { err in
                             if let err = err {
                                 completion(.failure(err))
@@ -477,7 +477,7 @@ class FirestoreService {
             }
     }
     
-    func cancelWink(to elizabeth: String, completion: @escaping (Result<Void, Error>) -> Void) {
+    func cancelWink(to dasha: String, completion: @escaping (Result<Void, Error>) -> Void) {
         
         
         
@@ -486,7 +486,7 @@ class FirestoreService {
             return
         }
         // Reference to the outgoing request document.
-        let outgoingWinkRef = db.collection("users").document(micheal_id).collection("outgoingWinks").document(elizabeth)
+        let outgoingWinkRef = db.collection("users").document(micheal_id).collection("outgoingWinks").document(dasha)
         
         // Delete the outgoing request document.
         outgoingWinkRef.delete() { err in
