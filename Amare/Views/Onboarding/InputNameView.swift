@@ -109,10 +109,13 @@ struct InputNameView: View {
                 NextButtonView {
                     
                     if !isExpanded{
-                        
+                        print("Should go to birthday view")
                        // Should go to next view now
                         withAnimation{
-                            model.currentPage = .birthday
+                            DispatchQueue.main.async {
+                                    model.currentPage = .birthday
+                                }
+                           
                         }
                     }
                     
@@ -128,11 +131,12 @@ struct InputNameView: View {
                     model.name = name
                     
                     withAnimation() {
-                        
+                        print("going to . hometown")
                         isExpanded.toggle()
                         firstResponder = .city
+                        print("the current page is \(model.currentPage)")
                         model.currentPage = .hometown
-                        
+                        print("the page AFTER is now \(model.currentPage)")
                         withAnimation {
                             changeText.toggle()
                         }

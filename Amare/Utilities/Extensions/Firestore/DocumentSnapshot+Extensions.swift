@@ -38,13 +38,15 @@ extension DocumentSnapshot {
 
 		let hometown = createPlace(from: hometownData)
 		let residence = createPlace(from: residenceData)
+        
+        let totalFriendCount = data["totalFriendCount"] as? Double
 
 		return AppUser(
 			id: self.documentID, name: name, hometown: hometown, birthday: birthday,
 			knownBirthTime: knownTime, residence: residence, profileImageUrl: profileImageUrl,
 			images: images, sex: Sex(rawValue: sex) ?? .none, orientation: orientation.map { Sex(rawValue: $0) ?? .none },
-			username: username, isReal: isReal, isNotable: isNotable, bio: bio,
-			notes: notes, wikipedia_link: wikipediaLink
+            username: username, isReal: isReal, isNotable: isNotable, totalFriendCount: totalFriendCount, bio: bio,
+            notes: notes, wikipedia_link: wikipediaLink
 		)
 	}
 	

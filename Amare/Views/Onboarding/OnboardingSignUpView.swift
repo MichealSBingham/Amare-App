@@ -114,7 +114,7 @@ struct OnboardingSignUpView: View {
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
 			.onAppear{
-                viewModel.resetData()
+                //viewModel.resetData()
 				if viewModel.currentPage == .name{
 					withAnimation {
 						

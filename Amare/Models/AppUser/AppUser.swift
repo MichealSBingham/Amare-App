@@ -25,14 +25,14 @@ struct AppUser: Codable, Identifiable {
 	var images: [String] = []
 	var sex: Sex
 	var orientation: [Sex] = []
-	//var natalChart: NatalChart
+	
 	var username: String
 	var phoneNumber: String?
 	var isReal: Bool = true
 	var isNotable: Bool = false
 	var reasonsForUse: [ReasonsForUse] = []
     
-    var numberOfFriends: Double?
+    var totalFriendCount: Double?
 	
 	// For Celebrites Only
 	var bio: String?
@@ -53,13 +53,13 @@ struct AppUser: Codable, Identifiable {
 		case images
 		case sex
 		case orientation
-		//case natalChart = "natal_chart"
+		
 		case username
 		case phoneNumber
 		case isReal
 		case isNotable
 		case reasonsForUse
-        case numberOfFriends
+        case totalFriendCount
 		
 		case notes
 		case wikipedia_link
@@ -126,7 +126,7 @@ struct AppUser: Codable, Identifiable {
 				isReal: randomIsReal,
 				isNotable: randomIsNotable,
 				reasonsForUse: randomReasonsForUse,
-                numberOfFriends: Double.random(in: 0..<7000000000)
+                totalFriendCount: Double.random(in: 0..<7000000000)
 			)
 		}
     

@@ -300,6 +300,8 @@ class FirestoreService {
         let usersListener = listenForUserDataChanges(in: "users", userId: userId) { [self] result in
             switch result {
             case .success(let user):
+                print("\n\n\n\nthe user friend number is .. \(user.totalFriendCount)") // this is where it is 0
+                print("the user data is \(user)\n\n\n")
                 completion(.success(user))
             case .failure(let error):
                 print("Error from 'users' collection: \(error)")

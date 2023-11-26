@@ -18,10 +18,10 @@ struct MapView: View {
     @EnvironmentObject  var viewModel: MapViewModel
     
     var body: some View {
-        Map()
+        Map(coordinateRegion: $viewModel.region, interactionModes: .all, showsUserLocation: true)
             .ignoresSafeArea()
-            .onChange(of: locationManager.currentGeoHash6) { oldGeoHash, geohash in
-                print("Geohash did change from \(oldGeoHash) to \(geohash). === \n QUERYING For nearby users ")
+            .onChange(of: locationManager.currentGeoHash6) {  geohash in
+               // print("Geohash did change from \(oldGeoHash) to \(geohash). === \n QUERYING For nearby users ")
                 // Query nearby users
                 viewModel.listenForNearbyUsers(geohash: geohash)
             }

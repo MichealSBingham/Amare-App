@@ -217,7 +217,7 @@ struct UserProfileView2: View {
             //MARK: - Friend Count & "Big 3"
             HStack{
                 
-                Text(model.user?.numberOfFriends?.formattedWithAbbreviations() ?? "0")
+                Text(model.user?.totalFriendCount?.formattedWithAbbreviations() ?? "0")
                     .fontWeight(.black)
                 // .foregroundColor(.blue)
                 
