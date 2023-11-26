@@ -179,6 +179,8 @@ struct UserProfileView2: View {
       
         VStack{
             
+            CustomNavigationBarView2(name: model.user?.name ?? "", username: model.user?.username ?? "", cancelFriendRequestAction: cancelFriendRequestAction, acceptFriendAction: acceptFriendAction, model: model)
+            
             ScrollView{ 
             //MARK: - Profile Picture
             CircularProfileImageView(profileImageUrl: model.user?.profileImageUrl, isNotable: model.user?.isNotable, winked: model.winkStatus != nil)
@@ -326,11 +328,11 @@ struct UserProfileView2: View {
         }
             }
             .navigationBarBackButtonHidden(true)
-            .navigationBarColor(backgroundColor: .clear, titleColor: Color.secondary.uiColor())
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationTitle(Text("\(model.user?.name ?? "") @\(model.user?.username ?? "")"))
-            .edgesIgnoringSafeArea(.top)
-            .toolbar{
+            //.navigationBarColor(backgroundColor: .clear, titleColor: Color.secondary.uiColor())
+            //.navigationBarTitleDisplayMode(.inline)
+            //.navigationTitle(Text("\(model.user?.name ?? "") @\(model.user?.username ?? "")"))
+            //.edgesIgnoringSafeArea(.top)
+          /*  .toolbar{
                 ToolbarItemGroup(placement: .topBarLeading) {
                     BackButton()
                         .padding()
@@ -424,7 +426,7 @@ struct UserProfileView2: View {
                 }
                 
             }
-        
+        */
         
     }
 }

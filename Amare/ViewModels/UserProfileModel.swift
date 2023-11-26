@@ -30,6 +30,7 @@ class UserProfileModel: ObservableObject{
     
     @Published var oneLiner: String?
     
+    // may not be needed because we absorb the 
     @Published var interpretations: [String: String]?
 	
 	//TODO: compatibility score
@@ -66,7 +67,7 @@ class UserProfileModel: ObservableObject{
         
         self.getCompatibilityScore(for: userId)
         
-        self.getInterpretations(for: userId)
+       self.getInterpretations(for: userId)
         
         
 

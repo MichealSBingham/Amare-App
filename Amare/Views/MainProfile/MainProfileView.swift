@@ -26,7 +26,10 @@ struct MainProfileView: View {
             
           
             VStack{
-                
+                CustomNavigationBarView(name: "\(model.user?.name ?? "")", username: "\(model.user?.username ?? "")", action: {
+                                showSettings = true
+                            })
+
                 ScrollView{
                     //MARK: - Profile Image
                     CircularProfileImageView(profileImageUrl: model.user?.profileImageUrl, isNotable: model.user?.isNotable)
@@ -36,7 +39,7 @@ struct MainProfileView: View {
                     
                     //MARK: - Name and Username
                     NameLabelView(name: model.user?.name, username: model.user?.username)
-                        .padding()
+                           .padding()
                     //MARK: - Friend Count & "Big 3"
                     HStack{
                         
@@ -52,14 +55,14 @@ struct MainProfileView: View {
                         PlanetName.Sun.image()
                             .frame(width: 20)
                             .conditionalColorInvert()
-                        Text(model.natalChart?.planets.get(planet: .Sun)?.sign.rawValue ?? "Cancer")
+                        Text(model.natalChart?.planets.get(planet: .Sun)?.sign.rawValue ?? "-")
                             .fontWeight(.ultraLight)
                             .font(.subheadline)
                         
                         PlanetName.Moon.image()
                             .frame(width: 15)
                             .conditionalColorInvert()
-                        Text(model.natalChart?.planets.get(planet: .Moon)?.sign.rawValue ?? "Scorpio")
+                        Text(model.natalChart?.planets.get(planet: .Moon)?.sign.rawValue ?? "-")
                             .fontWeight(.ultraLight)
                             .font(.subheadline)
                         
@@ -69,7 +72,7 @@ struct MainProfileView: View {
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 15)
                         // .conditionalColorInvert()
-                        Text(model.natalChart?.planets.get(planet: .Moon)?.sign.rawValue ?? "Capricorn")
+                        Text(model.natalChart?.angles.get(planet: .asc)?.sign.rawValue ?? "-")
                             .fontWeight(.ultraLight)
                             .font(.subheadline)
                         
@@ -87,7 +90,7 @@ struct MainProfileView: View {
                     TabView(selection: self.$selection) {
                         
                         // MARK: - Planets
-                      MiniPlacementsScrollView(interpretations: model.natalChart?.interpretations ?? generateRandomPlanetInfoDictionary(), planets: model.natalChart?.planets ?? Planet.randomArray(ofLength: 10))
+                        MiniPlacementsScrollView(interpretations: model.interpretations ?? generateRandomPlanetInfoDictionary(), planets: model.natalChart?.planets ?? Planet.randomArray(ofLength: 10))
                             .tag(0)
                         
                         Text("Planetary Aspects Go Here").tag(1)
@@ -112,18 +115,19 @@ struct MainProfileView: View {
                     
                     
                 }
-            .navigationBarItems(trailing:
+           /* .navigationBarItems(trailing:
                             Button(action: {
                                 showSettings = true
                             }) {
                                 Image(systemName: "gear")
                             }
                 .buttonStyle(.plain)
-                        )
+                        ) */
             
-                .navigationBarColor(backgroundColor: .clear, titleColor: Color.secondary.uiColor())
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationTitle(Text("\(model.user?.name ?? "") @\(model.user?.username ?? "")"))
+              //  .navigationBarColor(backgroundColor: .clear, titleColor: Color.secondary.uiColor())
+          //  .navigationBarTitleDisplayMode(.inline)
+         //   .navigationTitle(Text("\(model.user?.name ?? "") @\(model.user?.username ?? "")").font(.largeTitle))
+            .toolbar(.hidden)
             .sheet(isPresented: $showSettings) {
                             SettingsView()
                     //.environmentObject(authService)
@@ -157,3 +161,4 @@ struct MainProfileView_Preview: View {
     MainProfileView_Preview()
         .preferredColorScheme(.dark)
 }
+

@@ -92,6 +92,7 @@
 		2662A80A2B1132DF00BDDD6E /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2662A8092B1132DF00BDDD6E /* MapViewModel.swift */; };
 		2662A80D2B113D7B00BDDD6E /* GeohashKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2662A80C2B113D7B00BDDD6E /* GeohashKit */; };
 		2662A80F2B1149FD00BDDD6E /* Map+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2662A80E2B1149FD00BDDD6E /* Map+Extensions.swift */; };
+		2662A8112B138EA600BDDD6E /* CustomNavigationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2662A8102B138EA600BDDD6E /* CustomNavigationBarView.swift */; };
 		2662ED1A2842D17600B0EA57 /* FindNearbyUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2662ED162842D17600B0EA57 /* FindNearbyUserView.swift */; };
 		2662ED1B2842D17600B0EA57 /* ProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2662ED182842D17600B0EA57 /* ProfileImageView.swift */; };
 		2662ED1C2842D17600B0EA57 /* PulsingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2662ED192842D17600B0EA57 /* PulsingView.swift */; };
@@ -274,6 +275,7 @@
 		2662A8072B1132A800BDDD6E /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		2662A8092B1132DF00BDDD6E /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		2662A80E2B1149FD00BDDD6E /* Map+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Map+Extensions.swift"; sourceTree = "<group>"; };
+		2662A8102B138EA600BDDD6E /* CustomNavigationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationBarView.swift; sourceTree = "<group>"; };
 		2662ED162842D17600B0EA57 /* FindNearbyUserView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindNearbyUserView.swift; sourceTree = "<group>"; };
 		2662ED182842D17600B0EA57 /* ProfileImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileImageView.swift; sourceTree = "<group>"; };
 		2662ED192842D17600B0EA57 /* PulsingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PulsingView.swift; sourceTree = "<group>"; };
@@ -586,7 +588,6 @@
 			isa = PBXGroup;
 			children = (
 				263C9CC12B065FE3009C1626 /* MainProfileView.swift */,
-				263C9CC32B068AB5009C1626 /* UserProfileView2.swift */,
 			);
 			path = MainProfile;
 			sourceTree = "<group>";
@@ -687,6 +688,7 @@
 				2662ED152842D17600B0EA57 /* NearbyUsers */,
 				26A5FBE92A73395A00D94476 /* NatalChartTabView */,
 				26A5FBC82A7320DC00D94476 /* ImageForUserProfileView.swift */,
+				2662A8102B138EA600BDDD6E /* CustomNavigationBarView.swift */,
 			);
 			path = Subviews;
 			sourceTree = "<group>";
@@ -694,6 +696,7 @@
 		26A5FBCB2A7320EA00D94476 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				263C9CC32B068AB5009C1626 /* UserProfileView2.swift */,
 				2627C5422A71EF43008ED5DB /* UserProfileView.swift */,
 				26A5FBCA2A7320E000D94476 /* Subviews */,
 			);
@@ -1369,6 +1372,7 @@
 				263FBDE0283BE4B4008F35C5 /* MathUtilities.swift in Sources */,
 				26011FF82AED9A29004C4D77 /* MainPlacementView.swift in Sources */,
 				2662A8082B1132A800BDDD6E /* LocationManager.swift in Sources */,
+				2662A8112B138EA600BDDD6E /* CustomNavigationBarView.swift in Sources */,
 				26C466502A34FEC0000EC8BC /* RGQuizView.swift in Sources */,
 				263C9CC42B068AB5009C1626 /* UserProfileView2.swift in Sources */,
 				26A5FBF12A73444D00D94476 /* UserListRowView.swift in Sources */,

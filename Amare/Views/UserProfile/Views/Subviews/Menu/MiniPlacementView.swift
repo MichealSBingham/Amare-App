@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import LoremSwiftum
 
 struct MiniPlacementView: View {
     var interpretation: String?
@@ -21,8 +22,9 @@ struct MiniPlacementView: View {
             planetBody?.image_3D()
                 .opacity(0.4)
             VStack{
-                Text(interpretation?.firstNSentences(numSentences) ?? "")
+                (Text(interpretation?.firstNSentences(numSentences) ?? Lorem.sentences(3)) + Text("..."))
                 //.font(Font.custom("SF Pro Rounded", size: 14))
+                    .redacted(reason: interpretation == nil ? .placeholder : [])
                     .multilineTextAlignment(.center)
                     .padding()
                    // .frame(width: 239, alignment: .top)

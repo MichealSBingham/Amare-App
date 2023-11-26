@@ -19,17 +19,6 @@ struct NameLabelView: View {
                 .fontWeight(.medium)
                 .font(.headline)
             
-            /*
-              .font(
-                Font.custom("SF Pro", size: 16)
-                  .weight(.medium)
-              )
-              .foregroundColor(.white)
-             */
-            
-            Text("@\(username ?? "micheal")")
-                .fontWeight(.ultraLight)
-                .font(.subheadline)
         }
         .redacted(reason: name == nil ? .placeholder : [])
     }
