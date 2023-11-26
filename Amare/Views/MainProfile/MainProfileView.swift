@@ -90,7 +90,7 @@ struct MainProfileView: View {
                     TabView(selection: self.$selection) {
                         
                         // MARK: - Planets
-                        MiniPlacementsScrollView(interpretations: model.interpretations ?? generateRandomPlanetInfoDictionary(), planets: model.natalChart?.planets ?? Planet.randomArray(ofLength: 10))
+                        MiniPlacementsScrollView(interpretations: model.natalChart?.interpretations ?? generateRandomPlanetInfoDictionary(), planets: model.natalChart?.planets ?? Planet.randomArray(ofLength: 10))
                             .tag(0)
                         
                         Text("Planetary Aspects Go Here").tag(1)

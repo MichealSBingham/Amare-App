@@ -319,10 +319,10 @@ class FirestoreService {
     
     
     
-    func fetchNatalChart(userId: String, completion: @escaping (Result<NatalChart, Error>) -> Void) {
+    func listenForNatalChartChanges(userId: String, completion: @escaping (Result<NatalChart, Error>) -> Void) -> ListenerRegistration? {
         let db = Firestore.firestore()
         
-        db.collection("users").document(userId).collection("public").document("natal_chart").getDocument { (document, error) in
+       let natalChartListener =  db.collection("users").document(userId).collection("public").document("natal_chart").addSnapshotListener { (document, error) in
             
             
             
@@ -346,6 +346,7 @@ class FirestoreService {
                 }
             }
         }
+        return nil
     }
     
     

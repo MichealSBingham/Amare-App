@@ -11,181 +11,183 @@ import Firebase
 import FirebaseFirestore
 //TODO: Consider the error handling
 class UserProfileModel: ObservableObject{
-	
-	@Published var user: AppUser?
-	
-	@Published var natalChart: NatalChart?
-	
-	@Published var friendshipStatus: UserFriendshipStatus = .unknown
-	
-	@Published var friendRequests: [IncomingFriendRequest] = []
-	
+    
+    @Published var user: AppUser?
+    
+    @Published var natalChart: NatalChart?
+    
+    @Published var friendshipStatus: UserFriendshipStatus = .unknown
+    
+    @Published var friendRequests: [IncomingFriendRequest] = []
+    
     //TODO:
-	///Bool to indicate whether the user winked `at` the current `signed in user` /
-	@Published var winkedAtMe: Bool?
+    ///Bool to indicate whether the user winked `at` the current `signed in user` /
+    @Published var winkedAtMe: Bool?
     @Published var winkStatus: IncomingWink?
-	
-	/// TODO: make sure this data is updated n the initial LoadUser() function, right now, only changes if the user sends the friend request .. perhaps update the `friendshipStatus` variable here.
-	@Published var didSendFriendRequest: Bool?
+    
+    /// TODO: make sure this data is updated n the initial LoadUser() function, right now, only changes if the user sends the friend request .. perhaps update the `friendshipStatus` variable here.
+    @Published var didSendFriendRequest: Bool?
     
     @Published var oneLiner: String?
     
-    // may not be needed because we absorb the 
+    // may not be needed because we absorb the
     @Published var interpretations: [String: String]?
-	
-	//TODO: compatibility score
+    
+    //TODO: compatibility score
     @Published var score: Double?
-	
-	@Published var error: Error?
-	
-	///Firestore listener for the profile that the user is currently looking at , must detach the listener when it is done
-	private var userListener: ListenerRegistration?
-	
-	
-	var friendshipStatusListeners: [ListenerRegistration] = []
-	
-	private var friendRequestsListener: ListenerRegistration?
-	
+    
+    @Published var error: Error?
+    
+    ///Firestore listener for the profile that the user is currently looking at , must detach the listener when it is done
+    private var userListener: ListenerRegistration?
+    
+    
+    var friendshipStatusListeners: [ListenerRegistration] = []
+    
+    private var friendRequestsListener: ListenerRegistration?
+    
     private var winkStatusListener: ListenerRegistration?
+    
+    private var natalChartListener: ListenerRegistration?
     
     var interpretationsListener: ListenerRegistration?
     
     func resetData() {
-            user = nil
-            natalChart = nil
-            friendshipStatus = .unknown
-            friendRequests = []
-            winkedAtMe = nil
-            winkStatus = nil
-            didSendFriendRequest = nil
-            oneLiner = nil
-            interpretations = nil
-            score = nil
-            error = nil
-
-            // Deregister Firestore listeners if they are active
-            userListener?.remove()
-            friendRequestsListener?.remove()
-            winkStatusListener?.remove()
-            interpretationsListener?.remove()
-            
-            // Reset the listener variables
-            userListener = nil
-            friendRequestsListener = nil
-            winkStatusListener = nil
-            interpretationsListener = nil
-
-            // Clear any additional arrays or collections that are being listened to
-            friendshipStatusListeners.forEach { $0.remove() }
-            friendshipStatusListeners = []
-        }
-	
+        user = nil
+        natalChart = nil
+        friendshipStatus = .unknown
+        friendRequests = []
+        winkedAtMe = nil
+        winkStatus = nil
+        didSendFriendRequest = nil
+        oneLiner = nil
+        interpretations = nil
+        score = nil
+        error = nil
+        
+        // Deregister Firestore listeners if they are active
+        userListener?.remove()
+        friendRequestsListener?.remove()
+        winkStatusListener?.remove()
+        interpretationsListener?.remove()
+        
+        // Reset the listener variables
+        userListener = nil
+        friendRequestsListener = nil
+        winkStatusListener = nil
+        interpretationsListener = nil
+        
+        // Clear any additional arrays or collections that are being listened to
+        friendshipStatusListeners.forEach { $0.remove() }
+        friendshipStatusListeners = []
+    }
+    
     //MARK: - Functions
-	
-	
-	func loadUser(userId: String = Auth.auth().currentUser?.uid ?? "" ){
-		
-		
-		self.startListeningForUserDataChanges(userId: userId)
-		
-		if Auth.auth().currentUser?.uid != userId { self.getFriendshipStatus(with: userId)}
-		
-		self.getNatalChart(userId: userId)
+    
+    
+    func loadUser(userId: String = Auth.auth().currentUser?.uid ?? "" ){
+        
+        
+        self.startListeningForUserDataChanges(userId: userId)
+        
+        if Auth.auth().currentUser?.uid != userId { self.getFriendshipStatus(with: userId)}
+        
+        self.getNatalChart(userId: userId)
         
         if Auth.auth().currentUser?.uid != userId { self.getWinkStatus(with: userId) }
-		
-		if Auth.auth().currentUser?.uid == userId { self.listenForAllFriendRequests()}
+        
+        if Auth.auth().currentUser?.uid == userId { self.listenForAllFriendRequests()}
         
         self.getCompatibilityScore(for: userId)
         
-       self.getInterpretations(for: userId)
+        self.getInterpretations(for: userId)
         
         
-
-		
-	}
+        
+        
+    }
     
-        //TODO: get the compatibility score
+    //TODO: get the compatibility score
     func getCompatibilityScore(for userID: String) {
         // get's the compatibility score
         AmareApp().delay(2) {
             self.score = Double.random(in: 0...1)
         }
         
-   
+        
     }
     
     func getOneLiner(for userID: String){
         AmareApp().delay(2) {
             self.oneLiner = "Enjoy this while you can because days of length you shall not have..="
         }
+    }
+    
+    //TODO: Reconsider this !
+    func unloadUser()  {
+        /*
+         self.stopListeningForUserDataChanges()
+         self.stopListeningForFriendshipStatus()
+         self.user = nil
+         self.natalChart = nil
+         self.winkedAtMe = nil
+         */
+    }
+    
+    
+    func addFriend(currentSignedInUser: AppUser){
+        
+        guard let userToAddID = self.user?.id else {
+            self.error = NSError(domain: "Cannot load data", code: 0, userInfo: nil)
+            return
+            
         }
-	
-	//TODO: Reconsider this !
-	func unloadUser()  {
-		/*
-		self.stopListeningForUserDataChanges()
-		self.stopListeningForFriendshipStatus()
-		self.user = nil
-		self.natalChart = nil
-		self.winkedAtMe = nil
-		 */
-	}
-	
-
-	func addFriend(currentSignedInUser: AppUser){
-		
-		guard let userToAddID = self.user?.id else {
-			self.error = NSError(domain: "Cannot load data", code: 0, userInfo: nil)
-			return
-		
-		}
-		
-		guard userToAddID != Auth.auth().currentUser?.uid else { print("can't add yourself as a friend"); return }
-		
-		
-		FirestoreService.shared.sendFriendRequest(from: currentSignedInUser, to: userToAddID) { result in
-			switch result {
-			case .success(let success):
-				DispatchQueue.main.async {
-					withAnimation{
-						self.didSendFriendRequest = true
-					}
-					
-				}
-			case .failure(let failure):
-				self.error = NSError(domain: "Something went wrong", code: 0)
-				print("Couldn't send friend request with error \(failure)")
-			}
-		}
-	}
-	
-	func cancelFriendRequest(){
-		
-		guard let userToAddID = self.user?.id else {
-			self.error = NSError(domain: "Cannot load data", code: 0, userInfo: nil)
-			return
-		
-		}
-		
-		guard userToAddID != Auth.auth().currentUser?.uid else { print("can't add yourself as a friend"); return }
-		
-		
-		FirestoreService.shared.cancelFriendRequest( to: userToAddID) { result in
-			switch result {
-			case .success(let success):
-				DispatchQueue.main.async {
-					withAnimation{
-						self.didSendFriendRequest = false
-					}
-					
-				}
-			case .failure(let failure):
-				self.error = NSError(domain: "Something went wrong", code: 0)
-				print("Couldn't send friend request with error \(failure)")
-			}
-		}
-	}
+        
+        guard userToAddID != Auth.auth().currentUser?.uid else { print("can't add yourself as a friend"); return }
+        
+        
+        FirestoreService.shared.sendFriendRequest(from: currentSignedInUser, to: userToAddID) { result in
+            switch result {
+            case .success(let success):
+                DispatchQueue.main.async {
+                    withAnimation{
+                        self.didSendFriendRequest = true
+                    }
+                    
+                }
+            case .failure(let failure):
+                self.error = NSError(domain: "Something went wrong", code: 0)
+                print("Couldn't send friend request with error \(failure)")
+            }
+        }
+    }
+    
+    func cancelFriendRequest(){
+        
+        guard let userToAddID = self.user?.id else {
+            self.error = NSError(domain: "Cannot load data", code: 0, userInfo: nil)
+            return
+            
+        }
+        
+        guard userToAddID != Auth.auth().currentUser?.uid else { print("can't add yourself as a friend"); return }
+        
+        
+        FirestoreService.shared.cancelFriendRequest( to: userToAddID) { result in
+            switch result {
+            case .success(let success):
+                DispatchQueue.main.async {
+                    withAnimation{
+                        self.didSendFriendRequest = false
+                    }
+                    
+                }
+            case .failure(let failure):
+                self.error = NSError(domain: "Something went wrong", code: 0)
+                print("Couldn't send friend request with error \(failure)")
+            }
+        }
+    }
     
     func rejectFriendRequest(){
         
@@ -262,57 +264,60 @@ class UserProfileModel: ObservableObject{
             }
         }
     }
-
-	
-	
-	private func getNatalChart(userId: String){
-		
-		FirestoreService.shared.fetchNatalChart(userId: userId) { result in
-			
-			switch result {
-			case .success(let chart):
-				withAnimation{
-					print("got the natal chart")
-					self.error = nil
-					self.natalChart = chart
-				}
-			case .failure(let failure):
-				withAnimation{
-					print("can't get chart .\(failure)")
-
-					self.error = failure
-				}
-			}
-		}
-		
-	}
-	
-	 func startListeningForUserDataChanges(userId: String = Auth.auth().currentUser?.uid ?? "") {
-		guard !userId.isEmpty else { self.error = AccountError.notSignedIn; return }
-		   userListener = FirestoreService.shared.listenForUser(userId: userId) { result in
-			   switch result {
-			   case .success(let user):
-				   DispatchQueue.main.async {
-					   withAnimation {
-						   //self.error = nil
-						   self.user = user
-					   }
-					  
-				   }
-			   case .failure(let error):
-				   print("Error fetching user data: \(error)")
-				   withAnimation{
-					   self.error = error
-				   }
-				  
-			   }
-		   }
-	   }
-	
-	private func stopListeningForUserDataChanges() {
-			userListener?.remove() // Call this function when you want to detach the listener
-		}
     
+    
+    
+    private func getNatalChart(userId: String){
+        
+        natalChartListener = FirestoreService.shared.listenForNatalChartChanges(userId: userId) { result in
+            
+            switch result {
+            case .success(let chart):
+                withAnimation{
+                    print("got the natal chart")
+                    self.error = nil
+                    self.natalChart = chart
+                }
+            case .failure(let failure):
+                withAnimation{
+                    print("can't get chart .\(failure)")
+                    
+                    self.error = failure
+                }
+            }
+        }
+        
+    }
+    
+    func startListeningForUserDataChanges(userId: String = Auth.auth().currentUser?.uid ?? "") {
+        guard !userId.isEmpty else { self.error = AccountError.notSignedIn; return }
+        userListener = FirestoreService.shared.listenForUser(userId: userId) { result in
+            switch result {
+            case .success(let user):
+                DispatchQueue.main.async {
+                    withAnimation {
+                        //self.error = nil
+                        self.user = user
+                    }
+                    
+                }
+            case .failure(let error):
+                print("Error fetching user data: \(error)")
+                withAnimation{
+                    self.error = error
+                }
+                
+            }
+        }
+    }
+    
+    private func stopListeningForUserDataChanges() {
+        userListener?.remove() // Call this function when you want to detach the listener
+    }
+    
+    private func stopListeningForNatalChartChanges(){
+        natalChartListener?.remove() 
+    }
     
     
     private func getWinkStatus(with otherUserID: String){

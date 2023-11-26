@@ -229,14 +229,14 @@ struct UserProfileView2: View {
                 PlanetName.Sun.image()
                     .frame(width: 20)
                     .conditionalColorInvert()
-                Text(model.natalChart?.planets.get(planet: .Sun)?.sign.rawValue ?? "Cancer")
+                Text(model.natalChart?.planets.get(planet: .Sun)?.sign.rawValue ?? "-")
                     .fontWeight(.ultraLight)
                     .font(.subheadline)
                 
                 PlanetName.Moon.image()
                     .frame(width: 15)
                     .conditionalColorInvert()
-                Text(model.natalChart?.planets.get(planet: .Moon)?.sign.rawValue ?? "Scorpio")
+                Text(model.natalChart?.planets.get(planet: .Moon)?.sign.rawValue ?? "-")
                     .fontWeight(.ultraLight)
                     .font(.subheadline)
                 
@@ -246,7 +246,7 @@ struct UserProfileView2: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 15)
                 // .conditionalColorInvert()
-                Text(model.natalChart?.angles.get(planet: .asc)?.sign.rawValue ?? "Capricorn")
+                Text(model.natalChart?.angles.get(planet: .asc)?.sign.rawValue ?? "-")
                     .fontWeight(.ultraLight)
                     .font(.subheadline)
                 
@@ -328,105 +328,7 @@ struct UserProfileView2: View {
         }
             }
             .navigationBarBackButtonHidden(true)
-            //.navigationBarColor(backgroundColor: .clear, titleColor: Color.secondary.uiColor())
-            //.navigationBarTitleDisplayMode(.inline)
-            //.navigationTitle(Text("\(model.user?.name ?? "") @\(model.user?.username ?? "")"))
-            //.edgesIgnoringSafeArea(.top)
-          /*  .toolbar{
-                ToolbarItemGroup(placement: .topBarLeading) {
-                    BackButton()
-                        .padding()
-                    
-                }
-                
-                ToolbarItemGroup(placement: .topBarTrailing) {
-                    Menu {
-                        //MARK: - Button for removing friend
-                        if model.friendshipStatus == .friends {
-                            Button(action: {
-                                cancelFriendRequestAction()
-                            }) {
-                                HStack {
-                                    Text("Remove as Friend")
-                                    Image(systemName: "person.fill.xmark")
-                                }
-                            }
-                            .foregroundColor(.red)
-                        }
-                        
-                        //MARK: - Button for cancelling SENT friend request
-                        if model.friendshipStatus == .requested {
-                            Button(action: {
-                                cancelFriendRequestAction()
-                            }) {
-                                HStack {
-                                    Text("Cancel Friend Request")
-                                    Image(systemName: "person.fill.xmark")
-                                }
-                            }
-                            .foregroundColor(.red)
-                        }
-                        
-                        //MARK: - Button fors for accepting and rejecting friend requests
-                        
-                        if model.friendshipStatus == .awaiting{
-                            Button(action: {
-                                acceptFriendAction()
-                            }) {
-                                HStack {
-                                    Text("Accept Friend Request")
-                                    Image(systemName: "person.fill.checkmark")
-                                }
-                            }
-                            
-                            
-                            Button(action: {
-                                model.rejectFriendRequest()
-                            }) {
-                                HStack {
-                                    Text("Reject Friend Request")
-                                    Image(systemName: "person.fill.xmark")
-                                }
-                            }
-                            .foregroundColor(.red)
-                        }
-                        
-                        
-                        
-                        
-                        //MARK: - Button for Blocking
-                        Button(action: {
-                            // Your block action here
-                        }) {
-                            HStack {
-                                Text("Block @\(model.user?.username ?? "")")
-                                    .foregroundColor(.red)
-                                Image(systemName: "hand.raised.fill")
-                                    .foregroundColor(.red)
-                            }
-                        }
-                        
-                        //MARK: - Button for Reporting
-                        
-                        Button(action: {
-                            // Your report action here
-                        }) {
-                            HStack {
-                                Text("Report @\(model.user?.username ?? "" )")
-                                Image(systemName: "flag.fill")
-                            }
-                        }
-                    } label: {
-                        MenuOptionsView()
-                            .padding()
-                            .buttonStyle(PlainButtonStyle())
-                        
-                    }
-                    .buttonStyle(PlainButtonStyle())
-                }
-                
-            }
-        */
+            
         
     }
 }
