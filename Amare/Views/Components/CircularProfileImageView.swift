@@ -16,7 +16,6 @@ import SDWebImageSwiftUI
 
 enum ProfileOverlayIcon: String {
     case famousIndicator = "star.fill"
-   
 }
 
 /**
@@ -48,7 +47,7 @@ struct CircularProfileImageView: View {
     /// Sometimes if the image is too small/large, you will need to experiment with changing this paramter to make the famous/notable indicator higher or lower
     var offsetFamousIndicator: Int = 20
     
-    var showShadow: Bool = true
+    var showShadow: Bool = false
     
     @Environment(\.colorScheme) var colorScheme
 
@@ -80,7 +79,6 @@ struct CircularProfileImageView: View {
                 .frame(width: geometry.size.width * 0.25, height: geometry.size.height * 0.25)
                 .offset(CGSize(width: 0, height: Int(-geometry.size.height)/2 - offsetFamousIndicator))
                 }
-                
                 
             }
             .frame(width: geometry.size.width, height: geometry.size.height)

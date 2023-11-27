@@ -29,6 +29,7 @@
 		2601359C2A485A7F007878BD /* InputHomeCityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2601359B2A485A7F007878BD /* InputHomeCityView.swift */; };
 		2601359E2A488496007878BD /* Birthday.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2601359D2A488496007878BD /* Birthday.swift */; };
 		260135A02A4884A6007878BD /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2601359F2A4884A6007878BD /* Place.swift */; };
+		260191142B15207C00FB7A3B /* NearbyUsersSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260191132B15207C00FB7A3B /* NearbyUsersSheet.swift */; };
 		2608CF46268FE27300826FDA /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2608CF45268FE27300826FDA /* ImagePickerView.swift */; };
 		2608CF482691425E00826FDA /* QR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2608CF472691425E00826FDA /* QR.swift */; };
 		2608CF512697529600826FDA /* GlobalErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2608CF502697529600826FDA /* GlobalErrors.swift */; };
@@ -224,6 +225,7 @@
 		2601359B2A485A7F007878BD /* InputHomeCityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputHomeCityView.swift; sourceTree = "<group>"; };
 		2601359D2A488496007878BD /* Birthday.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Birthday.swift; sourceTree = "<group>"; };
 		2601359F2A4884A6007878BD /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
+		260191132B15207C00FB7A3B /* NearbyUsersSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyUsersSheet.swift; sourceTree = "<group>"; };
 		2608CF45268FE27300826FDA /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
 		2608CF472691425E00826FDA /* QR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QR.swift; sourceTree = "<group>"; };
 		2608CF502697529600826FDA /* GlobalErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalErrors.swift; sourceTree = "<group>"; };
@@ -472,6 +474,14 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		260191122B15201500FB7A3B /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				260191132B15207C00FB7A3B /* NearbyUsersSheet.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		2608CF4F2697522300826FDA /* Errors */ = {
 			isa = PBXGroup;
 			children = (
@@ -648,6 +658,7 @@
 		267B37C62B0EC5E500782A65 /* Map */ = {
 			isa = PBXGroup;
 			children = (
+				260191122B15201500FB7A3B /* Components */,
 				267B37C72B0EC61000782A65 /* MapView.swift */,
 			);
 			path = Map;
@@ -1314,6 +1325,7 @@
 				26D1A7F72AF88C6800C290D4 /* CometView.swift in Sources */,
 				2601359A2A477354007878BD /* Date+Extensions.swift in Sources */,
 				26FCD2582A23D2ED00A09569 /* AppEnvironment.swift in Sources */,
+				260191142B15207C00FB7A3B /* NearbyUsersSheet.swift in Sources */,
 				260135902A47597A007878BD /* UsernameAvailabilityView.swift in Sources */,
 				260954BF2A60B4A400114C56 /* SegmentedMenuView.swift in Sources */,
 				26006E7C2AD9F8E50063802E /* NearbyInteractionHelper.swift in Sources */,
@@ -1612,7 +1624,7 @@
 				INFOPLIST_FILE = Amare/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Amāre";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1647,7 +1659,7 @@
 				INFOPLIST_FILE = Amare/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Amāre";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

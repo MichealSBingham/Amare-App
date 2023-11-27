@@ -21,8 +21,7 @@ struct MapView: View {
         Map(coordinateRegion: $viewModel.region, interactionModes: .all, showsUserLocation: true)
             .ignoresSafeArea()
             .onChange(of: locationManager.currentGeoHash6) {  geohash in
-               // print("Geohash did change from \(oldGeoHash) to \(geohash). === \n QUERYING For nearby users ")
-                // Query nearby users
+               
                 viewModel.listenForNearbyUsers(geohash: geohash)
             }
     }
@@ -104,6 +103,7 @@ struct MapViewPreview: View {
     
     @StateObject var viewModel = MapViewModel()
     @State var users: [AppUser] = []
+    @State var showUserSheet: Bool = false
     var body: some View {
         MapView()
             .environmentObject(viewModel)
@@ -127,13 +127,20 @@ struct MapViewPreview: View {
                                     ForEach(users) { user in
                                         
                                       
+                                        Button {
+                                            withAnimation{
+                                                showUserSheet = true
+                                            }
+                                        } label: {
                                             
-                                        CircularProfileImageView(profileImageUrl: user.profileImageUrl, isNotable: false , showShadow: false)
-                            
-                                                .frame(width: 80)
-                                                .padding()
+                                            CircularProfileImageView(profileImageUrl: user.profileImageUrl, isNotable: false , showShadow: false)
+                                                    .frame(width: 80)
+                                                    .padding()
                                                 
-                                                //.padding(.vertical, 10)
+                                        }
+                                        .buttonStyle(.plain)
+
+                                        
                                             
                                                 
                                     
@@ -157,6 +164,7 @@ struct MapViewPreview: View {
                     }
                 }
             }
+            
             .onAppear{
                 viewModel.nearbyUsers = AppUser.generateMockData(of: 28)
                 users = AppUser.generateMockData(of: 28)

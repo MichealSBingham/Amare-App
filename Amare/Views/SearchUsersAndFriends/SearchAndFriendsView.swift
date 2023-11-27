@@ -43,7 +43,7 @@ struct SearchAndFriendsView: View {
 						
                         
 						Button {
-						print("Tapped userId \(user.userId) and id: \(user.id)")
+						
 						tappedUser.loadUser(userId: user.userId)
 							selectedUser = true
 						} label: {
@@ -56,17 +56,6 @@ struct SearchAndFriendsView: View {
 						.listRowInsets(EdgeInsets())
 						.listRowSeparator(.hidden)
 					
-
-							
-								
-						
-						
-						
-
-						
-						
-                        
-                        
                     }
 					.listStyle(.plain)
 					.padding(0)
@@ -77,7 +66,22 @@ struct SearchAndFriendsView: View {
                 if segmentationSelection == .friends{
                     
                     List(dataModel.friends) { friend in
-                        UserListRowView(imageUrl: friend.profileImageURL , text: friend.name, isNotable: friend.isNotable)
+                        
+                        Button {
+                        
+                        tappedUser.loadUser(userId: friend.id ?? "")
+                            selectedUser = true
+                        } label: {
+                            
+                            UserListRowView(imageUrl: friend.profileImageURL , text: friend.name, isNotable: friend.isNotable)
+                            
+                        
+                        }
+                        .buttonStyle(.plain)
+                        .listRowInsets(EdgeInsets())
+                        .listRowSeparator(.hidden)
+                        
+                        
                     }
 					.listStyle(.plain)
 					.padding(0)
@@ -111,6 +115,29 @@ struct SearchAndFriendsView: View {
 					
 
                     
+                }
+                
+                if segmentationSelection == .historicals{
+                    List(dataModel.historical) { user in
+                        
+                        
+                        Button {
+                        print("Tapped userId \(user.userId) and id: \(user.id)")
+                        tappedUser.loadUser(userId: user.userId)
+                            selectedUser = true
+                        } label: {
+                            
+                            UserListRowView(imageUrl: user.profile_image_url ?? "", text: user.username, isNotable: user.isNotable)
+                            
+                        
+                        }
+                        .buttonStyle(.plain)
+                        .listRowInsets(EdgeInsets())
+                        .listRowSeparator(.hidden)
+                    
+                    }
+                    .listStyle(.plain)
+                    .padding(0)
                 }
                 
                 if segmentationSelection == .custom{
@@ -184,7 +211,7 @@ struct SearchAndFriendsView: View {
                 
                 switch segmentationSelection {
                 case .all:
-                    dataModel.searchUsers(matching: text)
+                    dataModel.searchRegularUsers(matching: text)
                 case .friends:
                     if let id = Auth.auth().currentUser?.uid{
                         dataModel.listenForAllFriends()
@@ -194,6 +221,8 @@ struct SearchAndFriendsView: View {
                     if let id = Auth.auth().currentUser?.uid{
                         dataModel.listenForAllFriendRequests()
                     }
+                case .historicals:
+                    dataModel.searchHistoricalUsers(matching: text)
                 case .suggestions:
                     break
                 case .custom:

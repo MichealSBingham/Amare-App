@@ -200,7 +200,36 @@ class FirestoreService {
         }
     }
     
-    
+    func searchRegularUsers(matching prefix: String, completion: @escaping (Result<[SearchedUser], Error>) -> Void) {
+        let usersQuery = db.collection("usernames").whereField("username", isGreaterThanOrEqualTo: prefix.lowercased()).whereField("username", isLessThanOrEqualTo: prefix.lowercased() + "\u{f8ff}").limit(to: 10)
+
+        usersQuery.getDocuments { querySnapshot, error in
+            if let querySnapshot = querySnapshot {
+                let users = querySnapshot.documents.compactMap { document -> SearchedUser? in
+                    try? document.data(as: SearchedUser.self)
+                }
+                completion(.success(users))
+            } else if let error = error {
+                completion(.failure(error))
+            }
+        }
+    }
+
+    func searchNotableUsersNotOnHere(matching prefix: String, completion: @escaping (Result<[SearchedUser], Error>) -> Void) {
+        let notablesQuery = db.collection("notable_usernames_not_on_here").whereField("username", isGreaterThanOrEqualTo: prefix.lowercased()).whereField("username", isLessThanOrEqualTo: prefix.lowercased() + "\u{f8ff}").limit(to: 10)
+
+        notablesQuery.getDocuments { querySnapshot, error in
+            if let querySnapshot = querySnapshot {
+                let notables = querySnapshot.documents.compactMap { document -> SearchedUser? in
+                    try? document.data(as: SearchedUser.self)
+                }
+                completion(.success(notables))
+            } else if let error = error {
+                completion(.failure(error))
+            }
+        }
+    }
+
     
     
     /**
@@ -653,7 +682,7 @@ class FirestoreService {
     
     func listenForAllFriends(for userId: String, completion: @escaping (Result<[Friend], Error>) -> Void) -> ListenerRegistration {
         
-        let friends = db.collection("friends").document(userId).collection("myFriends")
+        let friends = db.collection("users").document(userId).collection("myFriends")
         
         let listener = friends.addSnapshotListener { (snapshot, error) in
             if let error = error {

@@ -18,6 +18,7 @@ class SearchAndFriendsViewModel: ObservableObject {
 	
 	
 	@Published var all: [SearchedUser] =  []
+    @Published var historical: [SearchedUser] =  []
 	@Published var friendRequests: [IncomingFriendRequest] =  []
 	@Published var friends: [Friend] =  []
 	@Published var error: Error?
@@ -148,15 +149,38 @@ class SearchAndFriendsViewModel: ObservableObject {
     
    
     
-    func searchUsers(matching prefix: String) {
+    func searchRegularUsers(matching prefix: String) {
         guard !prefix.isEmpty else { self.all = []; return }
-        FirestoreService.shared.searchUsers(matching: prefix) { result in
+        FirestoreService.shared.searchRegularUsers(matching: prefix) { result in
             switch result {
-            case .success(let (users, notables)):
+            case .success(let (users)):
                 self.error = nil
                 DispatchQueue.main.async {
                                 withAnimation {
-                                    self.all = users + notables
+                                    self.all = users
+                                }
+                            }
+            case .failure(let error):
+                print("Failed to search users: \(error.localizedDescription)")
+                self.error = error
+                DispatchQueue.main.async {
+                                withAnimation {
+                                    self.all = []
+                                }
+                            }
+            }
+        }
+    }
+    
+    func searchHistoricalUsers(matching prefix: String) {
+        guard !prefix.isEmpty else { self.all = []; return }
+        FirestoreService.shared.searchNotableUsersNotOnHere(matching: prefix) { result in
+            switch result {
+            case .success(let ( notables)):
+                self.error = nil
+                DispatchQueue.main.async {
+                                withAnimation {
+                                    self.historical =   notables
                                 }
                             }
             case .failure(let error):

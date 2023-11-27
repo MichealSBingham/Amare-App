@@ -22,7 +22,7 @@ struct UserProfileView2: View {
     
     @EnvironmentObject var viewRouter: ViewRouter
     
-    
+    var hideCustomNavBar: Bool = false
     
     var menuOptions: [String]  = ["Insights", "Their Planets", "Their Story", "Media", "Birth Chart"]
     
@@ -179,7 +179,10 @@ struct UserProfileView2: View {
       
         VStack{
             
-            CustomNavigationBarView2(name: model.user?.name ?? "", username: model.user?.username ?? "", cancelFriendRequestAction: cancelFriendRequestAction, acceptFriendAction: acceptFriendAction, model: model)
+            if !hideCustomNavBar{
+                CustomNavigationBarView2(name: model.user?.name ?? "", username: model.user?.username ?? "", cancelFriendRequestAction: cancelFriendRequestAction, acceptFriendAction: acceptFriendAction, model: model)
+            }
+           
             
             ScrollView{ 
             //MARK: - Profile Picture
