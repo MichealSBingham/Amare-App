@@ -120,7 +120,29 @@ class FirestoreService {
     
     
     
+    func addNewImage(imageURL: String, imagesArray: [String], completion: @escaping (Error?) -> Void){
+        guard !imageURL.isEmpty else {
+            completion(FirestoreError.invalidInput)
+            return
+        }
+        guard let userID = Auth.auth().currentUser?.uid else {
+            completion(FirestoreError.userNotLoggedIn)
+            return
+        }
+        
+      
+       
 
+        // Prepare the new images array
+        var newImagesArray = imagesArray
+        newImagesArray.append(imageURL)
+        
+        Firestore.firestore().collection("users").document(userID).updateData(["images": newImagesArray]) { error in
+            completion(error)
+        }
+        
+       
+    }
   
 
     func updateProfileImage(croppedProfileImageURL: String, fullProfileImageURL: String, oldFullProfileImageURL: String, imagesArray: [String], username: String, completion: @escaping (Error?) -> Void) {

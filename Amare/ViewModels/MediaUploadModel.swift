@@ -21,6 +21,8 @@ class ExtraMediaUploadViewModel: ObservableObject {
     @Published var croppedProfileImage2: UIImage?
     @Published var originalProfileImage2: UIImage?
     
+    
+    
     // Upload two sets of images
     func uploadExtraImages(completion: @escaping ((URL?, URL?, URL?, URL?, Error?) -> Void)) {
         let uploadGroup = DispatchGroup()
@@ -73,7 +75,40 @@ class ExtraMediaUploadViewModel: ObservableObject {
         }
     }
 
-    
+    func uploadImage(completion: @escaping ((URL?, URL? , Error?) -> Void)){
+        
+        var firstCroppedURL: URL?
+        var firstOriginalURL: URL?
+        var encounteredError: Error?
+        
+        let name = UUID().uuidString
+        
+        // Upload first set of images
+        if let cropImage1 = croppedProfileImage1, let orgImage1 = originalProfileImage1 {
+            
+            FirestoreService.shared.uploadProfileAndOriginalImagesToFirebaseStorage(croppedImage: cropImage1, originalImage: orgImage1, name: name) { result in
+                switch result {
+                case .success(let (croppedURL, originalURL)):
+                    firstCroppedURL = croppedURL
+                    firstOriginalURL = originalURL
+                    DispatchQueue.main.async{
+                        completion(croppedURL, originalURL, nil)
+                    }
+                case .failure(let error):
+                    print("Error with the first image: \(error)")
+                    encounteredError = error
+                    DispatchQueue.main.async{
+                        completion(nil, nil, encounteredError)
+                    }
+                }
+                
+            }
+        }
+        
+      
+        
+        
+    }
 }
 
 
