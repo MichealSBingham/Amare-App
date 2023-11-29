@@ -95,7 +95,7 @@ struct MainProfileView: View {
                         
                         Text("Planetary Aspects Go Here").tag(1)
                         
-                        PicturesCollectionView(images: peopleImages).tag(2)
+                        PicturesCollectionView(images: model.user?.images ?? []).tag(2)
                         
                         PlanetGridView(planets: model.natalChart?.planets ?? Planet.randomArray(ofLength: 5),
                                        interpretations: model.natalChart?.interpretations ?? generateRandomPlanetInfoDictionary())
