@@ -27,6 +27,13 @@ extension View{
             }
         }
     
+    @ViewBuilder
+        func cropSquareImagePicker(options: [Crop], show: Binding<Bool>, originalImage: Binding<UIImage?>, croppedImage: Binding<UIImage?>) -> some View {
+            CustomSquareImagePicker(options: options, show: show, originalImage: originalImage, croppedImage: croppedImage) {
+                self
+            }
+        }
+    
     /// - For Making it Simple and easy to use
     @ViewBuilder
     func frame(_ size: CGSize)->some View{
@@ -103,6 +110,70 @@ fileprivate struct CustomImagePicker<Content: View>: View {
     }
 }
 
+fileprivate struct CustomSquareImagePicker<Content: View>: View {
+    var content: Content
+    var options: [Crop]
+    @Binding var show: Bool
+    @Binding var originalImage: UIImage?
+    @Binding var croppedImage: UIImage?
+    init(options: [Crop], show: Binding<Bool>, originalImage: Binding<UIImage?>, croppedImage: Binding<UIImage?>, @ViewBuilder content: @escaping () -> Content) {
+        self.content = content()
+        self._show = show
+        self._originalImage = originalImage
+        self._croppedImage = croppedImage
+        self.options = options
+    }
+    
+    /// - View Properties
+    @State private var photosItem: PhotosPickerItem?
+    @State private var selectedImage: UIImage?
+    @State private var showDialog: Bool = false
+    @State private var selectedCropType: Crop = .square
+    @State private var showCropView: Bool = false
+    
+    var body: some View {
+        content
+            .photosPicker(isPresented: $show, selection: $photosItem)
+        
+            .onChange(of: photosItem) { newValue in
+                if let newValue {
+                    Task {
+                        if let imageData = try? await newValue.loadTransferable(type: Data.self), let image = UIImage(data: imageData) {
+                            await MainActor.run(body: {
+                                DispatchQueue.main.async{
+                                    selectedImage = image
+                                    originalImage = image
+                                }
+                                // Save the original image
+                                showCropView.toggle()
+                            })
+                        }
+                    }
+                }
+            }
+            .confirmationDialog("", isPresented: $showDialog) {
+                /// - Displaying All the Options
+                ForEach(options.indices,id: \.self){index in
+                    Button(options[index].name()){
+                        selectedCropType = options[index]
+                        showCropView.toggle()
+                    }
+                }
+            }
+            .fullScreenCover(isPresented: $showCropView) {
+                /// When Exited Clearing the old Selected Image
+                selectedImage = nil
+            } content: {
+                CropView(crop: selectedCropType, image: selectedImage) { croppedImage, status in
+                    if let croppedImage{
+                        self.croppedImage = croppedImage
+                    }
+                }
+            }
+    }
+}
+
+
 struct CropView: View{
     var crop: Crop
     var image: UIImage?
@@ -120,7 +191,7 @@ struct CropView: View{
     var body: some View{
         NavigationStack{
             ImageView()
-                .navigationTitle("Crop View")
+                .navigationTitle("Crop Your Picture")
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbarBackground(.visible, for: .navigationBar)
                 .toolbarBackground(Color.black, for: .navigationBar)

@@ -32,6 +32,8 @@
 		260191142B15207C00FB7A3B /* NearbyUsersSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260191132B15207C00FB7A3B /* NearbyUsersSheet.swift */; };
 		2601911A2B162E8100FB7A3B /* Crop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260191192B162E8100FB7A3B /* Crop.swift */; };
 		2601911E2B162EC500FB7A3B /* CustomImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2601911D2B162EC500FB7A3B /* CustomImagePicker.swift */; };
+		260191202B17906700FB7A3B /* ExtraMediaUploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2601911F2B17906700FB7A3B /* ExtraMediaUploadView.swift */; };
+		260191222B17C18B00FB7A3B /* ChangeProfilePictureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260191212B17C18A00FB7A3B /* ChangeProfilePictureView.swift */; };
 		2608CF46268FE27300826FDA /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2608CF45268FE27300826FDA /* ImagePickerView.swift */; };
 		2608CF482691425E00826FDA /* QR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2608CF472691425E00826FDA /* QR.swift */; };
 		2608CF512697529600826FDA /* GlobalErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2608CF502697529600826FDA /* GlobalErrors.swift */; };
@@ -230,6 +232,8 @@
 		260191132B15207C00FB7A3B /* NearbyUsersSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyUsersSheet.swift; sourceTree = "<group>"; };
 		260191192B162E8100FB7A3B /* Crop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Crop.swift; sourceTree = "<group>"; };
 		2601911D2B162EC500FB7A3B /* CustomImagePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomImagePicker.swift; sourceTree = "<group>"; };
+		2601911F2B17906700FB7A3B /* ExtraMediaUploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtraMediaUploadView.swift; sourceTree = "<group>"; };
+		260191212B17C18A00FB7A3B /* ChangeProfilePictureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeProfilePictureView.swift; sourceTree = "<group>"; };
 		2608CF45268FE27300826FDA /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
 		2608CF472691425E00826FDA /* QR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QR.swift; sourceTree = "<group>"; };
 		2608CF502697529600826FDA /* GlobalErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalErrors.swift; sourceTree = "<group>"; };
@@ -612,6 +616,7 @@
 			isa = PBXGroup;
 			children = (
 				2632BFF22B0D20E900873BE7 /* SettingsView.swift */,
+				260191212B17C18A00FB7A3B /* ChangeProfilePictureView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -958,6 +963,7 @@
 				26BD69422AB7DFF30062B18B /* PredictedTraitsView.swift */,
 				265C4BCF2AFC1EE0007D0925 /* PredictedPersonalityStatementsView.swift */,
 				263C9CB82B04F21D009C1626 /* MediaUploadView.swift */,
+				2601911F2B17906700FB7A3B /* ExtraMediaUploadView.swift */,
 				26C466492A34FEC0000EC8BC /* UsernameInputView.swift */,
 			);
 			path = Onboarding;
@@ -1302,6 +1308,7 @@
 				267B37C82B0EC61000782A65 /* MapView.swift in Sources */,
 				2601359C2A485A7F007878BD /* InputHomeCityView.swift in Sources */,
 				26A5FBDA2A732E4C00D94476 /* Aspect.swift in Sources */,
+				260191202B17906700FB7A3B /* ExtraMediaUploadView.swift in Sources */,
 				26BD69412AB759BC0062B18B /* APIService.swift in Sources */,
 				2662ED1C2842D17600B0EA57 /* PulsingView.swift in Sources */,
 				263D6F9A2684087300CBBECC /* AmareUser.swift in Sources */,
@@ -1328,6 +1335,7 @@
 				260120012AEE9717004C4D77 /* PlanetImageView.swift in Sources */,
 				26006E802ADA21330063802E /* NearbyInteractionError.swift in Sources */,
 				26D229ED2A5CDFC500BFA3BB /* OnboardingError.swift in Sources */,
+				260191222B17C18B00FB7A3B /* ChangeProfilePictureView.swift in Sources */,
 				263D6F962683F77C00CBBECC /* Location.swift in Sources */,
 				26970699268101B0007E7961 /* SceneDelegate.swift in Sources */,
 				26A5FBE82A7334F100D94476 /* PlanetView.swift in Sources */,

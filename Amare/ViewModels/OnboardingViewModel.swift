@@ -50,6 +50,7 @@ class OnboardingViewModel: ObservableObject{
     
     @Published var profileImageUrl: String = ""
     @Published var images: [String] = []
+    @Published var extraImages: [String] = []
 	
 	@Published var friendshipSelected: Bool = false
 	@Published var datingSelected: Bool = false
@@ -245,7 +246,8 @@ class OnboardingViewModel: ObservableObject{
         
         
         
-        let images = images
+        var images = images
+        images.append(contentsOf: extraImages)
         
         let myProfileImage = profileImageUrl
         

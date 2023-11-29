@@ -69,12 +69,9 @@ struct OnboardingSignUpView: View {
                     }
 					
 					 
-                     
                     InputNameView()
                         .tag(OnboardingScreen.name)
 						
-					
-                    
                     BirthdayInputView()
                         .tag(OnboardingScreen.birthday)
 					
@@ -100,6 +97,9 @@ struct OnboardingSignUpView: View {
                     MediaUploadView()
                         .tag(OnboardingScreen.mediaUpload)
                     
+                    ExtraMediaUploadView()
+                        .tag(OnboardingScreen.extraImageUpload)
+                    
                     UsernameInputView()
                         .tag(OnboardingScreen.username)
                     
@@ -114,7 +114,7 @@ struct OnboardingSignUpView: View {
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
 			.onAppear{
-                //viewModel.resetData()
+                
 				if viewModel.currentPage == .name{
 					withAnimation {
 						

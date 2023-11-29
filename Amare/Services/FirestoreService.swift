@@ -120,6 +120,50 @@ class FirestoreService {
     
     
     
+
+  
+
+    func updateProfileImage(croppedProfileImageURL: String, fullProfileImageURL: String, oldFullProfileImageURL: String, imagesArray: [String], username: String, completion: @escaping (Error?) -> Void) {
+        // Guard to ensure all URLs and username are not empty
+        guard !croppedProfileImageURL.isEmpty, !fullProfileImageURL.isEmpty, !oldFullProfileImageURL.isEmpty, !username.isEmpty else {
+            completion(FirestoreError.invalidInput)
+            return
+        }
+
+        // Guard to ensure imagesArray contains the old full profile image URL
+        guard imagesArray.contains(oldFullProfileImageURL) else {
+            completion(FirestoreError.oldImageNotFound)
+            return
+        }
+
+        guard let userID = Auth.auth().currentUser?.uid else {
+            completion(FirestoreError.userNotLoggedIn)
+            return
+        }
+
+        let userRef = Firestore.firestore().collection("users").document(userID)
+        let usernameRef = Firestore.firestore().collection("usernames").document(username)
+
+        // Prepare the new images array
+        var newImagesArray = imagesArray.filter { $0 != oldFullProfileImageURL }
+        newImagesArray.insert(fullProfileImageURL, at: 0)
+
+        // Perform the update
+        Firestore.firestore().runTransaction({ (transaction, errorPointer) -> Any? in
+            transaction.updateData(["profile_image_url": croppedProfileImageURL], forDocument: userRef)
+            transaction.updateData(["images": newImagesArray], forDocument: userRef)
+            transaction.updateData(["profile_image_url": croppedProfileImageURL], forDocument: usernameRef)
+            return nil
+        }) { (object, error) in
+            completion(error)
+        }
+    }
+
+    
+
+
+    
+    
     
     /**
      Searches both the 'usernames' and 'notables_not_on_here' collections for usernames that match or start with a given prefix.
@@ -743,7 +787,7 @@ class FirestoreService {
 
     
 
-    func uploadProfileAndOriginalImagesToFirebaseStorage(croppedImage: UIImage, originalImage: UIImage, completion: @escaping (Result<(URL, URL), Error>) -> Void) {
+    func uploadProfileAndOriginalImagesToFirebaseStorage(croppedImage: UIImage, originalImage: UIImage, name: String? = nil, completion: @escaping (Result<(URL, URL), Error>) -> Void) {
         guard let userID = Auth.auth().currentUser?.uid else {
             completion(.failure(ImageError.notSignedIn))
             return
@@ -755,9 +799,17 @@ class FirestoreService {
             completion(.failure(ImageError.dataConversionFailed))
             return
         }
+        
+        let randString = UUID().uuidString
+        
+        var croppedImagePath = "users/\(userID)/pictures/croppedProfileImage\(randString).jpg"
+        var originalImagePath = "users/\(userID)/pictures/originalImage\(randString).jpg"
 
-        let croppedImagePath = "users/\(userID)/pictures/croppedProfileImage.jpg"
-        let originalImagePath = "users/\(userID)/pictures/originalImage.jpg"
+        if let name = name {
+             croppedImagePath = "users/\(userID)/media/\(name)\(randString)_small.jpg"
+             originalImagePath = "users/\(userID)/media/\(name)\(randString).jpg"
+            
+        } 
 
         uploadImage(imageData: croppedImageData, path: croppedImagePath) { [self] croppedResult in
             switch croppedResult {

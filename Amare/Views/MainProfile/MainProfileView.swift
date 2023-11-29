@@ -18,6 +18,7 @@ struct MainProfileView: View {
     @State var selection: Int = 0
     
     @State var showSettings: Bool = false
+    @State var showProfilePicChange: Bool = false
     
     var menuOptions: [String]  = ["Your Planets", "Your Story", "Media", "Birth Chart"]
     
@@ -31,11 +32,18 @@ struct MainProfileView: View {
                             })
 
                 ScrollView{
+                    
                     //MARK: - Profile Image
-                    CircularProfileImageView(profileImageUrl: model.user?.profileImageUrl, isNotable: model.user?.isNotable)
-                        .frame(width: 100, height: 100)
-                    //  .border(.white)
-                    // .padding()
+                    Button {
+                        showProfilePicChange.toggle()
+                    } label: {
+                        CircularProfileImageView(profileImageUrl: model.user?.profileImageUrl, isNotable: model.user?.isNotable)
+                            .frame(width: 100, height: 100)
+                    }
+                    .buttonStyle(.plain)
+
+                    
+        
                     
                     //MARK: - Name and Username
                     NameLabelView(name: model.user?.name, username: model.user?.username)
@@ -123,6 +131,10 @@ struct MainProfileView: View {
                     .environmentObject(model)
                     
                         }
+            .sheet(isPresented: $showProfilePicChange){
+                ChangeProfilePictureView()
+                    .environmentObject(model)
+            }
             
         }
     }
