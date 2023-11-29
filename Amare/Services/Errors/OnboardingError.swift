@@ -12,3 +12,8 @@ enum OnboardingError: Error{
     case incompleteData
     case dateError
 }
+enum ImageError: Error {
+    case dataConversionFailed
+    case uploadFailed
+    case notSignedIn
+}

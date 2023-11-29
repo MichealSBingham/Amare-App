@@ -12,6 +12,7 @@ import Firebase
 import FirebaseStorage
 import CoreLocation
 import GeohashKit
+import UIKit
 
 class FirestoreService {
     
@@ -75,30 +76,7 @@ class FirestoreService {
     }
     
     
-    /// Do not use this. Use `setOnboardingData(forUser appUser)` instead.
-    func setOnboardingData(forUser userId: String, username: String, withData data: [String: Any], completion: @escaping (Result<Void, Error>) -> Void) {
-        let group = DispatchGroup()
-        
-        group.enter()
-        db.collection("users").document(userId).setData(data) { error in
-            if let error = error {
-                completion(.failure(error))
-            }
-            group.leave()
-        }
-        
-        group.enter()
-        db.collection("usernames").document(username).setData(["isNotable": false, "userId": userId, "username": username]) { error in
-            if let error = error {
-                completion(.failure(error))
-            }
-            group.leave()
-        }
-        
-        group.notify(queue: .main) {
-            completion(.success(()))
-        }
-    }
+   
     
     
     
@@ -110,7 +88,7 @@ class FirestoreService {
     func setOnboardingData(forUser appUser: AppUser, completion: @escaping (Result<Void, Error>) -> Void) {
         
         // Preparing the username data
-        let usernameData = ["isNotable": appUser.isNotable, "userId": appUser.id, "username": appUser.username] as [String : Any]
+        let usernameData = ["isNotable": appUser.isNotable, "userId": appUser.id, "username": appUser.username, "profile_image_url": appUser.profileImageUrl] as [String : Any]
         
         // Writing to "usernames" collection first
         db.collection("usernames").document(appUser.username).setData(usernameData) { error in
@@ -762,6 +740,63 @@ class FirestoreService {
     
     
     
+
+    
+
+    func uploadProfileAndOriginalImagesToFirebaseStorage(croppedImage: UIImage, originalImage: UIImage, completion: @escaping (Result<(URL, URL), Error>) -> Void) {
+        guard let userID = Auth.auth().currentUser?.uid else {
+            completion(.failure(ImageError.notSignedIn))
+            return
+        }
+
+    
+        guard let croppedImageData = croppedImage.jpegData(compressionQuality: 1.0),
+              let originalImageData = originalImage.jpegData(compressionQuality: 1.0) else {
+            completion(.failure(ImageError.dataConversionFailed))
+            return
+        }
+
+        let croppedImagePath = "users/\(userID)/pictures/croppedProfileImage.jpg"
+        let originalImagePath = "users/\(userID)/pictures/originalImage.jpg"
+
+        uploadImage(imageData: croppedImageData, path: croppedImagePath) { [self] croppedResult in
+            switch croppedResult {
+            case .failure(let error):
+                completion(.failure(error))
+            case .success(let croppedURL):
+                uploadImage(imageData: originalImageData, path: originalImagePath) { originalResult in
+                    switch originalResult {
+                    case .failure(let error):
+                        completion(.failure(error))
+                    case .success(let originalURL):
+                        completion(.success((croppedURL, originalURL)))
+                    }
+                }
+            }
+        }
+    }
+
+    private func uploadImage(imageData: Data, path: String, completion: @escaping (Result<URL, Error>) -> Void) {
+        let storageRef = Storage.storage().reference().child(path)
+        let metadata = StorageMetadata()
+        metadata.contentType = "image/jpeg"
+
+        storageRef.putData(imageData, metadata: metadata) { metadata, error in
+            guard metadata != nil else {
+                completion(.failure(error ?? ImageError.uploadFailed))
+                return
+            }
+
+            storageRef.downloadURL { url, error in
+                guard let downloadURL = url else {
+                    completion(.failure(error ?? ImageError.uploadFailed))
+                    return
+                }
+                completion(.success(downloadURL))
+            }
+        }
+    }
+
     
     func uploadImageToFirebaseStorage(imageData: Data, completion: @escaping (Result<URL, Error>) -> Void) {
         

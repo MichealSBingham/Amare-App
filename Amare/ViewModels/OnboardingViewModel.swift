@@ -48,8 +48,8 @@ class OnboardingViewModel: ObservableObject{
     
     @Published var residence: MKPlacemark?
     
-    @Published var profileImageUrl: String = URL.randomProfileImageURL(isMale: Bool.random())!.absoluteString
-	
+    @Published var profileImageUrl: String = ""
+    @Published var images: [String] = []
 	
 	@Published var friendshipSelected: Bool = false
 	@Published var datingSelected: Bool = false
@@ -132,7 +132,8 @@ class OnboardingViewModel: ObservableObject{
             homeCity = nil
             gender = .none
             residence = nil
-            profileImageUrl = URL.randomProfileImageURL(isMale: Bool.random())!.absoluteString
+            profileImageUrl = ""
+            images.removeAll()
             friendshipSelected = false
             datingSelected = false
             selfDiscoverySelected = false
@@ -244,14 +245,17 @@ class OnboardingViewModel: ObservableObject{
         
         
         
+        let images = images
+        
+        let myProfileImage = profileImageUrl
         
         
     // MARK: - Now create the new user
         
         
-        var newUser = AppUser(id: userID, name: name, hometown: ht, birthday: bday, knownBirthTime: knowsBirthTime, residence: rs, profileImageUrl: profileImageUrl, images: [], sex: gender, orientation: orientation, username: username, phoneNumber: phoneNumber ?? "", reasonsForUse: reasonsForUse)
+        var newUser = AppUser(id: userID, name: name, hometown: ht, birthday: bday, knownBirthTime: knowsBirthTime, residence: rs, profileImageUrl: myProfileImage, images: images, sex: gender, orientation: orientation, username: username, phoneNumber: phoneNumber ?? "", reasonsForUse: reasonsForUse)
         
-        AuthService.shared.fetchStreamTokenFromFirebase(andUpdate: name, profileImageURL: profileImageUrl, username: username)
+        AuthService.shared.fetchStreamTokenFromFirebase(andUpdate: name, profileImageURL: myProfileImage, username: username)
         
         FirestoreService.shared.setOnboardingData(forUser: newUser) { result in
             
