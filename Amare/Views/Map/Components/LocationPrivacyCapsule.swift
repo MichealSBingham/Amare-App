@@ -47,7 +47,7 @@ struct LocationPrivacyCapsule: View {
                
                 
 
-                Text(model.user?.locationSettings.rawValue.description ?? "")
+                Text(model.user?.locationSettings?.rawValue.description ?? "")
                     .font(.caption)
                     .foregroundColor(.gray)
             }
