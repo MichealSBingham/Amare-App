@@ -18,12 +18,26 @@ struct MapView: View {
     @EnvironmentObject  var viewModel: MapViewModel
     
     var body: some View {
-        Map(coordinateRegion: $viewModel.region, interactionModes: .all, showsUserLocation: true)
-            .ignoresSafeArea()
-            .onChange(of: locationManager.currentGeoHash6) {  geohash in
-               
-                viewModel.listenForNearbyUsers(geohash: geohash)
+        
+        ZStack{
+            
+            
+            Map(coordinateRegion: $viewModel.region, interactionModes: .all, showsUserLocation: true)
+                .ignoresSafeArea()
+                .onChange(of: locationManager.currentGeoHash6) {  geohash in
+                   
+                    viewModel.listenForNearbyUsers(geohash: geohash)
+                }
+            
+            VStack{
+                LocationPrivacyCapsule()
+                    .padding()
+                Spacer()
             }
+            
+           
+
+        }
     }
     
 }

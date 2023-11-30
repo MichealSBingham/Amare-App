@@ -27,6 +27,8 @@ struct ContentView: View{
     
     @State var showUserSheet: Bool = false
     
+    @State var mapSheetDetent: PresentationDetent = .fraction(0.35)
+    
     var body: some View{
         
         switch viewRouter.screenToShow {
@@ -121,66 +123,16 @@ struct ContentView: View{
             })
             
             .sheet(isPresented: $showSheetForMap, content: {
-                /*
-                NavigationStack{
-                    ScrollView{
-                        VStack{
-                            
-                            HStack{
-                                Text("\(mapViewModel.nearbyUsers.count) \(mapViewModel.nearbyUsers.count == 1 ? "Person" : "People") Near You")
-                                    .font(.title3.bold())
-                                    Spacer()
-                            }
-                            //MARK: - Show nearby users
-                            ScrollView(.horizontal, showsIndicators: false){
-                                HStack{
-                                    
-                                    ForEach(mapViewModel.nearbyUsers) { user in
-                                        
-                                            
-                                        CircularProfileImageView(profileImageUrl: user.profileImageUrl, isNotable: false , showShadow: false)
-                                                .frame(width: 80)
-                                                .padding()
-                                                .onTapGesture{
-                                                    showSheetForMap = false
-                                                    
-                                                    AmareApp().delay(1.0) {
-                                                        showUserSheet = true
-                                                    }
-                                                    
-                                                    
-                                                    
-                                                }
-                                                
-                                                //.padding(.vertical, 10)
-                                            
-                                    }
-                                    
-                                }
-                                .frame(minHeight: 90)
-                                
-                            }.scrollContentBackground(.hidden).background(Color.clear)
-                               
-                        }
-                    }
-                    .padding()
-                    .padding(.vertical, 10)
-                    .scrollIndicators(.hidden)
-                    .scrollContentBackground(.hidden)
-                    
-                }.background {
-                    if #unavailable(iOS 16.4) {
-                        ClearBackground()
-                    }
-                }
-                */
-                NearbyUsersSheet(showUserSheet: $showUserSheet)
+                
+                NearbyUsersSheet(showUserSheet: $showUserSheet, presentationDetent: $mapSheetDetent)
+                    .cornerRadius(20)
                     .environmentObject(mapViewModel)
-                    .presentationDetents([.fraction(0.35), .medium, .large])
+                    .presentationDetents([.fraction(0.35), .medium, .large], selection: $mapSheetDetent)
                 .presentationBackgroundInteraction(
                     .enabled(upThrough: .medium)
                 )
                 .presentationBackground(.thinMaterial)
+                .environmentObject(viewRouter)
             })
             
             /* .tabSheet(showSheet: $showSheetForMap, initialHeight: 250, sheetCornerRadius: 15) {

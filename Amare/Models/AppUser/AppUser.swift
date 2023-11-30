@@ -41,6 +41,8 @@ struct AppUser: Codable, Identifiable {
     
     var location: GeoPoint?  // Firestore GeoPoint for latitude and longitude
     var geohash: String?     // Geohash representation of the location
+    
+    var locationSettings: LocationPrivacySettings? = .off
 
 	enum CodingKeys: String, CodingKey {
 		case id
@@ -67,6 +69,8 @@ struct AppUser: Codable, Identifiable {
         
         case location
         case geohash
+        
+        case locationSettings
 	}
 
 	enum ReasonsForUse: String, Codable {
@@ -126,7 +130,8 @@ struct AppUser: Codable, Identifiable {
 				isReal: randomIsReal,
 				isNotable: randomIsNotable,
 				reasonsForUse: randomReasonsForUse,
-                totalFriendCount: Double.random(in: 0..<7000000000)
+                totalFriendCount: Double.random(in: 0..<7000000000),
+                locationSettings: [.off, .approximate, .on].randomElement()!
 			)
 		}
     

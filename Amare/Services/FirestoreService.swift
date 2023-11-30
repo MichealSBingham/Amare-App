@@ -935,6 +935,19 @@ class FirestoreService {
         }
     }
     
+    func update(location privacy: LocationPrivacySettings, completion: ((Error?) -> Void)? = nil ){
+        guard let userId = Auth.auth().currentUser?.uid, !userId.isEmpty else {
+            completion?(NSError(domain: "FirestoreService", code: 0, userInfo: [NSLocalizedDescriptionKey: "User ID not found"]))
+            return
+        }
+        let settings: [String: Any] = ["locationSettings": privacy]
+        
+        db.collection("users").document(userId).updateData(settings) { error in
+            completion?(error)
+        }
+        
+    }
+    
     func updateGeohashEntryExit(newGeohash: String, oldGeohash: String, location: CLLocation, completion: ((Error?) -> Void)? = nil) {
             guard let userId = Auth.auth().currentUser?.uid, !userId.isEmpty else {
                 completion?(NSError(domain: "FirestoreService", code: 0, userInfo: [NSLocalizedDescriptionKey: "User ID not found"]))

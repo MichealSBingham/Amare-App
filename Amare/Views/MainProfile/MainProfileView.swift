@@ -20,6 +20,9 @@ struct MainProfileView: View {
     @State var showSettings: Bool = false
     @State var showProfilePicChange: Bool = false
     
+    @State private var navigateToFriends = false
+
+    
     var menuOptions: [String]  = ["Your Planets", "Your Story", "Media", "Birth Chart"]
     
     var body: some View {
@@ -51,14 +54,27 @@ struct MainProfileView: View {
                     //MARK: - Friend Count & "Big 3"
                     HStack{
                         
-                        Text(model.user?.totalFriendCount?.formattedWithAbbreviations() ?? "0")
-                            .fontWeight(.black)
-                        // .foregroundColor(.blue)
+                        NavigationLink(destination: FriendsListView(), isActive: $navigateToFriends) {
+                            
+                            Group {
+                                Text(model.user?.totalFriendCount?.formattedWithAbbreviations() ?? "0")
+                                    .fontWeight(.black)
+                                
+                                Text("Friends")
+                                    .fontWeight(.ultraLight)
+                                    .font(.subheadline)
+                            }
+                            
+                                     .onTapGesture {
+                                        self.navigateToFriends = true
+                                                }
+                                        }
+                        .buttonStyle(.plain)
                         
                         
-                        Text("Friends")
-                            .fontWeight(.ultraLight)
-                            .font(.subheadline)
+                                                
+                        
+                      
                         
                         PlanetName.Sun.image()
                             .frame(width: 20)

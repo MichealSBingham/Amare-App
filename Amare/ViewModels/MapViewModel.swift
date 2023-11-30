@@ -59,6 +59,15 @@ class MapViewModel: ObservableObject {
     func stopFetchingUsers() {
         // Stop fetching nearby users
     }
+    
+    // Static function to create a mock instance
+       static func mockInstance() -> MapViewModel {
+           let viewModel = MapViewModel()
+           viewModel.nearbyUsers = AppUser.generateMockData(of: 10) // Assuming this function returns mock users
+           return viewModel
+       }
+    
+        
 }
 
 /*
