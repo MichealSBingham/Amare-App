@@ -141,42 +141,62 @@ struct SearchAndFriendsView: View {
                 }
                 
                 if segmentationSelection == .custom{
+                    
+                    List{
+                        Section(header: Text("Create A Custom Profile")) {
+                            
+                            Button {
+                                withAnimation{ showCustomProfileCreation = true }
+                                
+                            } label: {
+                                
+                                HStack{
+                                    
+                                    
+                                    Image(systemName: "person.fill.badge.plus")
+                                        .resizable()
+                                        .frame(width: 50, height: 50)
+                                        .padding()
+                                    
+                                    Text("Create a custom profile")
+                                        .lineLimit(1)
+                                        .font(.subheadline)
+                                        //.padding()
+                                    
+                                    
+                                    
+                                    Spacer()
+                                }
+                            }
+                            
+
+                                
+                            
+                        }
+                    }
+                    .frame(height: 125)
+                 
 					
                     
-                    List {
+                    List(dataModel.customProfiles) { customUser in
 						
 						
-						Section(header: Text("Create A Custom Profile")) {
-							
-							Button {
-								withAnimation{ showCustomProfileCreation = true }
-								
-							} label: {
-								
-								HStack{
-									
-									
-									Image(systemName: "person.fill.badge.plus")
-										.resizable()
-										.frame(width: 50, height: 50)
-										.padding()
-									
-									Text("Create a custom profile")
-										.lineLimit(1)
-										.font(.subheadline)
-										//.padding()
-									
-									
-									
-									Spacer()
-								}
-							}
-							
-
-								
-							
-						}
 						
+                        
+                        
+                        Button {
+                        
+                        tappedUser.loadUser(userId: customUser.id ?? "")
+                            selectedUser = true
+                        } label: {
+                            
+                            UserListRowView(imageUrl: AppUser.generateMockData().profileImageUrl! , text: customUser.name, isNotable: false)
+                            
+                        
+                        }
+                        .buttonStyle(.plain)
+                        .listRowInsets(EdgeInsets())
+                        .listRowSeparator(.hidden)
 						
 						
 						
@@ -195,6 +215,7 @@ struct SearchAndFriendsView: View {
 					)
 			.sheet(isPresented: $showCustomProfileCreation, content: {
 				CustomProfileCreationView()
+                    .ignoresSafeArea(.keyboard)
 			})
 
             
@@ -214,18 +235,19 @@ struct SearchAndFriendsView: View {
                     dataModel.searchRegularUsers(matching: text)
                 case .friends:
                     if let id = Auth.auth().currentUser?.uid{
-                        dataModel.listenForAllFriends()
+                       // dataModel.listenForAllFriends()
                     }
                     
                 case .requests:
                     if let id = Auth.auth().currentUser?.uid{
-                        dataModel.listenForAllFriendRequests()
+                       // dataModel.listenForAllFriendRequests()
                     }
                 case .historicals:
                     dataModel.searchHistoricalUsers(matching: text)
                 case .suggestions:
                     break
                 case .custom:
+                    
                     break
                 }
             }

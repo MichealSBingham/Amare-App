@@ -21,6 +21,7 @@ class SearchAndFriendsViewModel: ObservableObject {
     @Published var historical: [SearchedUser] =  []
 	@Published var friendRequests: [IncomingFriendRequest] =  []
 	@Published var friends: [Friend] =  []
+    @Published var customProfiles: [AppUser] = []
 	@Published var error: Error?
 	
 
@@ -30,6 +31,7 @@ class SearchAndFriendsViewModel: ObservableObject {
     
     private var friendRequestsListener: ListenerRegistration?
     private var friendsListener: ListenerRegistration?
+    private var customProfilesListener: ListenerRegistration?
     
     
     init() {
@@ -41,6 +43,7 @@ class SearchAndFriendsViewModel: ObservableObject {
             self.error = nil
             listenForAllFriendRequests()
             listenForAllFriends()
+            listenForAllCustomProfiles()
         } else {
             self.error = AccountError.notSignedIn
         }
@@ -51,6 +54,8 @@ class SearchAndFriendsViewModel: ObservableObject {
     
     deinit {
             friendRequestsListener?.remove()
+            friendsListener?.remove()
+            customProfilesListener?.remove()
         }
 	
 	
@@ -140,6 +145,21 @@ class SearchAndFriendsViewModel: ObservableObject {
             case .success(let success):
                 withAnimation{
                     self.friends = success 
+                }
+            case .failure(let failure):
+                self.error = failure
+            }
+        })
+    }
+    
+    func listenForAllCustomProfiles(){
+        guard let currentUserID = Auth.auth().currentUser?.uid else { self.error = AccountError.notSignedIn; return }
+        
+        customProfilesListener = FirestoreService.shared.listenForAllCustomProfiles(for: currentUserID, completion: { result in
+            switch result {
+            case .success(let success):
+                withAnimation{
+                    self.customProfiles = success
                 }
             case .failure(let failure):
                 self.error = failure

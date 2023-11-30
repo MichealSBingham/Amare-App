@@ -23,9 +23,7 @@ struct CustomProfileCreationView: View {
 			InputNameView(customAccount: true)
 				.tag(OnboardingScreen.name)
 			
-			InputHomeCityView(customAccount: true)
-				.tag(OnboardingScreen.hometown)
-			
+        
 			BirthdayInputView(customAccount: true)
 				.tag(OnboardingScreen.birthday)
 			
@@ -58,6 +56,6 @@ struct CustomProfileCreationView: View {
 struct CustomProfileCreationView_Previews: PreviewProvider {
     static var previews: some View {
         CustomProfileCreationView()
-			//.environmentObject(OnboardingViewModel())
+			.environmentObject(OnboardingViewModel())
     }
 }
