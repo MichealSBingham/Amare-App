@@ -147,10 +147,10 @@ class OnboardingViewModel: ObservableObject{
             orientation = []
             progress = Double(OnboardingScreen.allCases.firstIndex(of: .phoneNumber) ?? 0) / Double(OnboardingScreen.allCases.count - 1)
             error = nil
-            predictedTraits = []
-            traitFeedback = [:]
-            predictedPersonalityStatements = []
-            personalityStatementsFeedback = [:]
+        predictedTraits.removeAll()
+        traitFeedback.removeAll()
+        predictedPersonalityStatements.removeAll()
+        personalityStatementsFeedback.removeAll()
         
         }
     //MARK: - Functions

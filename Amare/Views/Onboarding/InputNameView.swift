@@ -429,6 +429,7 @@ struct CitySearchView: View {
                 
                 
             })
+            .disableAutocorrection(true)
                 .firstResponder(id: FirstResponders.city, firstResponder: $firstResponder, resignableUserOperations: .none)
             
                 .padding()

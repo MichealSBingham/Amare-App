@@ -41,6 +41,7 @@ struct CustomBottomTabBar: View {
     @State var showPopUp = false
     @EnvironmentObject var model: UserProfileModel
     @EnvironmentObject var authService: AuthService
+    
     @EnvironmentObject private var sceneDelegate: SceneDelegate
     
     var body: some View {

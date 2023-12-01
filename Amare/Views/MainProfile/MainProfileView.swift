@@ -13,6 +13,7 @@ struct MainProfileView: View {
 
     @EnvironmentObject var model: UserProfileModel
     
+  
     
     
     @State var selection: Int = 0
@@ -146,6 +147,7 @@ struct MainProfileView: View {
                             SettingsView()
                     //.environmentObject(authService)
                     .environmentObject(model)
+                   
                     
                         }
             .sheet(isPresented: $showProfilePicChange){
@@ -165,6 +167,7 @@ struct MainProfileView_Preview: View {
         MainProfileView()
             .environmentObject(AuthService.shared)
             .environmentObject(model)
+           
             .onAppear {
                 model.user = AppUser.generateMockData()
                 model.natalChart?.planets = Planet.randomArray(ofLength: 5)
