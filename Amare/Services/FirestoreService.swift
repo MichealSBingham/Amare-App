@@ -523,7 +523,63 @@ class FirestoreService {
     }
     
     
+
     func sendWink(from micheal: AppUser, to dasha: String, completion: @escaping (Result<Void, Error>) -> Void) {
+        guard let micheal_id = micheal.id else {
+            completion(.failure(NSError(domain: "Not Signed In", code: 1)))
+            return
+        }
+        let now = Timestamp(date: Date())
+        
+        let outgoingWink = OutgoingWink(id: dasha, from: micheal_id, time: now)
+        let incomingWink = IncomingWink(id: micheal_id, isNotable: micheal.isNotable, name: micheal.name, profileImageURL: micheal.profileImageUrl ?? "", from: micheal_id, time: now)
+        
+        let db = Firestore.firestore()
+        db.runTransaction({ (transaction, errorPointer) -> Any? in
+            let outgoingWinkDoc = db.collection("users").document(micheal_id).collection("outgoingWinks").document(dasha)
+            let incomingWinkDoc = db.collection("users").document(dasha).collection("incomingWinks").document(micheal_id)
+            
+            transaction.setData(outgoingWink.asDictionary(), forDocument: outgoingWinkDoc)
+            transaction.setData(incomingWink.asDictionary(), forDocument: incomingWinkDoc)
+            
+            return nil
+        }) { (object, error) in
+            if let error = error {
+                completion(.failure(error))
+            } else {
+                completion(.success(()))
+            }
+        }
+    }
+
+    
+
+    func deleteWink(from micheal: AppUser, to dasha: String, completion: @escaping (Result<Void, Error>) -> Void) {
+        guard let micheal_id = micheal.id else {
+            completion(.failure(NSError(domain: "Not Signed In", code: 1)))
+            return
+        }
+
+        let db = Firestore.firestore()
+        db.runTransaction({ (transaction, errorPointer) -> Any? in
+            let outgoingWinkDoc = db.collection("users").document(micheal_id).collection("outgoingWinks").document(dasha)
+            let incomingWinkDoc = db.collection("users").document(dasha).collection("incomingWinks").document(micheal_id)
+
+            transaction.deleteDocument(outgoingWinkDoc)
+            transaction.deleteDocument(incomingWinkDoc)
+
+            return nil
+        }) { (object, error) in
+            if let error = error {
+                completion(.failure(error))
+            } else {
+                completion(.success(()))
+            }
+        }
+    }
+
+    
+    func sendWink_deprecated(from micheal: AppUser, to dasha: String, completion: @escaping (Result<Void, Error>) -> Void) {
         
         guard let micheal_id = micheal.id else { completion(.failure(NSError.init(domain: "Not Signed In", code: 1))); return }
         let now = Timestamp(date: Date())

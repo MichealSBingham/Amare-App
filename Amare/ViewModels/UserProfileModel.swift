@@ -247,6 +247,7 @@ class UserProfileModel: ObservableObject{
         }
     }
     
+    // will send a wink and also remove it if a wink is already there
     func sendWink(from: AppUser, completion: @escaping (Error?) -> Void) {
         guard let to = self.user?.id else {
             completion(NSError(domain: "Cannot load data", code: 0, userInfo: nil))
@@ -256,6 +257,25 @@ class UserProfileModel: ObservableObject{
         guard to != Auth.auth().currentUser?.uid else {
             print("can't wink yourself as a friend")
             completion(nil)
+            return
+        }
+        
+        guard let didWink = winkedAtThem  else {
+            completion(NSError(domain: "Haven't loaded data yet", code: 0, userInfo: nil))
+            return
+        }
+        
+        guard !didWink else {
+            FirestoreService.shared.deleteWink(from: from, to: to) { result in
+                switch result {
+                case .success(let success):
+                    print(success)
+                    completion(nil)
+                case .failure(let failure):
+                    print(failure)
+                    completion(failure)
+                }
+            }
             return
         }
         
