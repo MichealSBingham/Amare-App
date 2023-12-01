@@ -28,6 +28,9 @@ struct MapView: View {
                     viewModel.listenForNearbyUsers(geohash: geohash)
                 }
             
+            Color.black.opacity(userDataModel.user?.locationSettings == .off ? 0.5: 0).ignoresSafeArea()
+                
+            
             VStack{
                 LocationPrivacyCapsule()
                     .environmentObject(userDataModel)
@@ -35,7 +38,7 @@ struct MapView: View {
                 Spacer()
             }
             
-           
+            
 
         }
     }
@@ -189,7 +192,10 @@ struct MapViewPreview: View {
 
 
 #Preview {
-    MapViewPreview()
+    MapView()
+        .environmentObject(MapViewModel())
+        .environmentObject(UserProfileModel())
+    
     /*
         .tabSheet(showSheet: .constant(true) , initialHeight: 200, sheetCornerRadius: 15) {
                  NavigationStack {

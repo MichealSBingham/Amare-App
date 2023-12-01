@@ -80,6 +80,8 @@ struct LocationPrivacyCapsule: View {
     ZStack{
       
         LocationPrivacyCapsule()
+            .environmentObject(UserProfileModel())
+        
     }
     
 }

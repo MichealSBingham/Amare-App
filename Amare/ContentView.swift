@@ -125,6 +125,7 @@ struct ContentView: View{
             .sheet(isPresented: $showSheetForMap, content: {
                 
                 NearbyUsersSheet(showUserSheet: $showUserSheet, presentationDetent: $mapSheetDetent)
+                    
                     .cornerRadius(20)
                     .environmentObject(mapViewModel)
                     .presentationDetents([.fraction(0.35), .medium, .large], selection: $mapSheetDetent)
@@ -290,8 +291,10 @@ struct PreviewHome: View {
 struct ContentView_Previews: PreviewProvider {
     
     static var bgmodel = BackgroundViewModel()
+    static var sceneDelegate = SceneDelegate()
     static var vr = ViewRouter()
     static var previews: some View {
         PreviewHome()
+            .environmentObject(sceneDelegate)
     }
 }
