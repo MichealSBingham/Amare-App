@@ -91,9 +91,9 @@ extension Date {
 		}
 	
 	
-	func string(from timezone: TimeZone? = .current) -> String {
+    func string(from timezone: TimeZone? = .current, showTime: Bool = true) -> String {
 			 let formatter = DateFormatter()
-			 formatter.dateFormat = "cccc, MMMM d, YYYY h:m a vvvv"
+            formatter.dateFormat = showTime ? "cccc, MMMM d, YYYY h:mm a vvvv" : "cccc, MMMM d, YYYY"
 			 formatter.timeZone = timezone
 			 return formatter.string(from: self)
 				

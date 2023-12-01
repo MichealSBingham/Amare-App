@@ -70,37 +70,48 @@ struct OnboardingSignUpView: View {
 					
 					 
                     InputNameView()
+                        .contentShape(Rectangle()).gesture(DragGesture())
                         .tag(OnboardingScreen.name)
 						
                     BirthdayInputView()
+                        .contentShape(Rectangle()).gesture(DragGesture())
                         .tag(OnboardingScreen.birthday)
 					
 					BirthtimeInputView()
+                        .contentShape(Rectangle()).gesture(DragGesture())
 						.tag(OnboardingScreen.birthtime)
 					
 					GenderInputView()
+                        .contentShape(Rectangle()).gesture(DragGesture())
 						.tag(OnboardingScreen.genderSelection)
 					
 					IntentionInputView()
+                        .contentShape(Rectangle()).gesture(DragGesture())
 						.tag(OnboardingScreen.intention)
 					
 					OrientationInputView()
+                        .contentShape(Rectangle()).gesture(DragGesture())
                         .tag(OnboardingScreen.orientation)
 					
                     
                     PredictedTraitsView()
+                        .contentShape(Rectangle()).gesture(DragGesture())
                         .tag(OnboardingScreen.traitPredictor)
                     
                     PredictedPersonalityStatementsView()
+                        .contentShape(Rectangle()).gesture(DragGesture())
                         .tag(OnboardingScreen.personality)
                     
                     MediaUploadView()
+                        .contentShape(Rectangle()).gesture(DragGesture())
                         .tag(OnboardingScreen.mediaUpload)
                     
                     ExtraMediaUploadView()
+                        .contentShape(Rectangle()).gesture(DragGesture())
                         .tag(OnboardingScreen.extraImageUpload)
                     
                     UsernameInputView()
+                        .contentShape(Rectangle()).gesture(DragGesture())
                         .tag(OnboardingScreen.username)
                     
                 }
@@ -112,6 +123,7 @@ struct OnboardingSignUpView: View {
                 
                 
             }
+            // .gesture(DragGesture(minimumDistance: 10000))
             .tabViewStyle(.page(indexDisplayMode: .never))
 			.onAppear{
                 
@@ -159,6 +171,7 @@ struct OnboardingSignUpView_Previews: PreviewProvider {
 				.environmentObject(BackgroundViewModel())
 				.environmentObject(OnboardingViewModel())
 				.environmentObject(AuthService.shared)
+                .environmentObject(ViewRouter())
 		}
         
 			

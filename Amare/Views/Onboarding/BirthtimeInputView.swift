@@ -128,6 +128,7 @@ struct BirthtimeInputView: View {
 			
 			
 			dismissButton: .default(Text("Ok"), action: {
+                showAlertForNoTimeSelection = false
 				withAnimation{
 					model.currentPage = .hometown
 				}
@@ -144,7 +145,7 @@ struct BirthtimeInputView: View {
 			
 			
 			primaryButton: .default(Text("I'll find it"), action: {
-				
+				showAlertForNoTimeSelection = false
 				
 			}),
 			
@@ -152,9 +153,16 @@ struct BirthtimeInputView: View {
 				// Set the user time to 12pm Noon
 				model.knowsBirthTime = false
 				model.birthday = model.birthday.setToNoon()!
+                showAlertForNoTimeSelection = false
+                AmareApp().delay(1) {
+                    DispatchQueue.main.async{
+                        showBDayConfirmationAlert = true
+                    }
+                }
+                
 				withAnimation {
 					
-					model.currentPage = .genderSelection
+					//model.currentPage = .genderSelection
 				}
 
 			})
@@ -166,7 +174,7 @@ struct BirthtimeInputView: View {
 		
 		Alert(
 			title: Text(!customAccount ? "Is this when you were born?" : "Is this when they were born?"),
-			message: Text("\(model.birthday.string(from: model.homeCityTimeZone))"),
+            message: Text("\(model.birthday.string(from: model.homeCityTimeZone, showTime: model.knowsBirthTime ?? false)) in \(model.homeCity?.cityStateCountry ?? "")"),
 			
 			
 			primaryButton: .default(Text("Yes"), action: {
@@ -181,6 +189,10 @@ struct BirthtimeInputView: View {
 			
 			secondaryButton: .destructive(Text("No"), action: {
 				// Set the user time to 12pm Noon
+                // go back to the first view because their information is wrong
+                withAnimation{
+                    model.currentPage = .name 
+                }
 				
 
 			})

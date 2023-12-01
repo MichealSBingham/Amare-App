@@ -38,3 +38,24 @@ extension CLLocation {
         return geohashObject.geohash
     }
 }
+
+
+extension MKPlacemark {
+    var cityStateCountry: String {
+        var components = [String]()
+
+        if let locality = locality {
+            components.append(locality)
+        }
+
+        if let administrativeArea = administrativeArea {
+            components.append(administrativeArea)
+        }
+
+        if let country = country {
+            components.append(country)
+        }
+
+        return components.joined(separator: ", ")
+    }
+}
