@@ -149,6 +149,9 @@ class OnboardingViewModel: ObservableObject{
             error = nil
             predictedTraits = []
             traitFeedback = [:]
+            predictedPersonalityStatements = []
+            personalityStatementsFeedback = [:]
+        
         }
     //MARK: - Functions
     
@@ -251,11 +254,16 @@ class OnboardingViewModel: ObservableObject{
         
         let myProfileImage = profileImageUrl
         
+        let posTraits = getPositiveFeedbackTraits(predictedTraits: predictedTraits, traitFeedback: traitFeedback)
+        print("posTraits: \(posTraits)")
+        let traits = posTraits.likelyTraitNames()
+        print("traits: \(traits)")
+        
         
     // MARK: - Now create the new user
         
         
-        var newUser = AppUser(id: userID, name: name, hometown: ht, birthday: bday, knownBirthTime: knowsBirthTime, residence: rs, profileImageUrl: myProfileImage, images: images, sex: gender, orientation: orientation, username: username, phoneNumber: phoneNumber ?? "", reasonsForUse: reasonsForUse)
+        var newUser = AppUser(id: userID, name: name, hometown: ht, birthday: bday, knownBirthTime: knowsBirthTime, residence: rs, profileImageUrl: myProfileImage, images: images, sex: gender, orientation: orientation, username: username, phoneNumber: phoneNumber ?? "", reasonsForUse: reasonsForUse, traits: traits)
         
         AuthService.shared.fetchStreamTokenFromFirebase(andUpdate: name, profileImageURL: myProfileImage, username: username)
         
@@ -409,6 +417,13 @@ class OnboardingViewModel: ObservableObject{
     func generatePersonality(){
         self.predictedPersonalityStatements = PersonalityStatement.random(n: 10)
     }
+    
+    private func getPositiveFeedbackTraits(predictedTraits: [PredictedTrait], traitFeedback: [String: Bool]) -> [PredictedTrait] {
+        return predictedTraits.filter { predictedTrait in
+            traitFeedback[predictedTrait.name] == true
+        }
+    }
+
     
     
 }

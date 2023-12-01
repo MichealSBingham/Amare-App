@@ -38,3 +38,11 @@ extension PredictedTrait {
         return traitNames.map { PredictedTrait(name: $0, category: TraitCategory.allCases.randomElement()!) }
     }
 }
+
+
+extension Array where Element == PredictedTrait {
+    func likelyTraitNames() -> [String] {
+        return self.filter { $0.category == .likely }
+                   .map { $0.name }
+    }
+}

@@ -160,6 +160,7 @@ struct TraitsFeedbackView: View {
                 
                 ForEach(Array(viewModel.predictedTraits.enumerated()), id: \.element.name) { (index, trait) in
                     TraitFeedbackCardView(trait: trait.name, category: trait.category)
+                        .contentShape(Rectangle()).gesture(DragGesture())
                     .onAppear { self.currentTrait  = trait }
                     .tag(index)
                 }

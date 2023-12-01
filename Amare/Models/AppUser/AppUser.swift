@@ -43,6 +43,8 @@ struct AppUser: Codable, Identifiable {
     var geohash: String?     // Geohash representation of the location
     
     var locationSettings: LocationPrivacySettings? 
+    
+    var traits: [String] = []
 
 	enum CodingKeys: String, CodingKey {
 		case id
@@ -71,6 +73,8 @@ struct AppUser: Codable, Identifiable {
         case geohash
         
         case locationSettings
+        
+        case traits
 	}
 
 	enum ReasonsForUse: String, Codable {
@@ -115,6 +119,8 @@ struct AppUser: Codable, Identifiable {
 		let randomIsReal = Int.random(in: 1...100) <= 80
 		let randomIsNotable = Bool.random()
 		let randomReasonsForUse: [ReasonsForUse] = [.friendship, .dating, .selfDiscovery]
+        
+        let traits = PredictedTrait.uniqueTraits.likelyTraitNames()
 
 			// Creating and returning the AppUser instance
 			return AppUser(
@@ -134,7 +140,8 @@ struct AppUser: Codable, Identifiable {
 				isNotable: randomIsNotable,
 				reasonsForUse: randomReasonsForUse,
                 totalFriendCount: Double.random(in: 0..<7000000000),
-                locationSettings: [.off, .approximate, .on].randomElement()!
+                locationSettings: [.off, .approximate, .on].randomElement()!,
+                traits: traits
 			)
 		}
     

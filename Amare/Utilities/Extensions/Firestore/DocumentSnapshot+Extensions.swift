@@ -46,7 +46,7 @@ extension DocumentSnapshot {
         let locationSettingsString = data["locationSettings"] as? String ?? "OFF"
         let locationSettings = LocationPrivacySettings(rawValue: locationSettingsString)
 
-        
+        let traits = data["traits"] as? [String] ?? []
         
         
         print("locationSettings: \(locationSettings) but data is \(data["locationSettings"])")
@@ -56,7 +56,7 @@ extension DocumentSnapshot {
 			knownBirthTime: knownTime, residence: residence, profileImageUrl: profileImageUrl,
 			images: images, sex: Sex(rawValue: sex) ?? .none, orientation: orientation.map { Sex(rawValue: $0) ?? .none },
             username: username, isReal: isReal, isNotable: isNotable, totalFriendCount: totalFriendCount, bio: bio,
-            notes: notes, wikipedia_link: wikipediaLink, locationSettings: locationSettings
+            notes: notes, wikipedia_link: wikipediaLink, locationSettings: locationSettings, traits: traits
 		)
 	}
 	

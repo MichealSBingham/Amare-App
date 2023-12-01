@@ -33,11 +33,12 @@ struct SettingsView: View {
                         case .success(_):
                             print("Signed out ")
                             withAnimation{
+                                userDataModel.resetData()
                                 presentationMode.wrappedValue.dismiss()
                                 viewRouter.screenToShow = .signInOrUp
                                 viewRouter.currentPage = .map // remove this if you're having issues with relogin in after sign out
                                
-                                userDataModel.resetData()
+                                
                                 
                                 
                             }
