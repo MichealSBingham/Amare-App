@@ -429,8 +429,9 @@ struct CitySearchView: View {
                 
                 
             })
+            .firstResponder(id: FirstResponders.city, firstResponder: $firstResponder, resignableUserOperations: .none)
             .disableAutocorrection(true)
-                .firstResponder(id: FirstResponders.city, firstResponder: $firstResponder, resignableUserOperations: .none)
+                
             
                 .padding()
                 .onChange(of: searchText) { newValue in

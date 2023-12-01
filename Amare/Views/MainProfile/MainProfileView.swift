@@ -157,6 +157,8 @@ struct MainProfileView: View {
             
         }
     }
+    
+    
 }
 
 struct MainProfileView_Preview: View {

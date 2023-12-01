@@ -205,9 +205,9 @@ struct UsernameInputView: View {
           
             
         } )
+        .firstResponder(id: FirstResponders.username, firstResponder: $firstResponder, resignableUserOperations: .none)
         .disableAutocorrection(true)
         .autocapitalization(.none)
-            .firstResponder(id: FirstResponders.username, firstResponder: $firstResponder, resignableUserOperations: .none)
         .font(.largeTitle)
 		.alert("Error", isPresented: Binding<Bool>(
 					get: { model.error != nil },

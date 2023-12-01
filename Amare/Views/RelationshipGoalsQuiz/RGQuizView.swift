@@ -148,6 +148,7 @@ struct RGQuizView: View {
 struct QuizView_Previews: PreviewProvider {
     static var previews: some View {
         RGQuizView(/*viewModel: QuizViewModel()*/)
+            .environmentObject(RGQuizViewModel())
     }
 }
 

@@ -575,6 +575,7 @@ class FirestoreService {
     }
     
     func listenForIncomingWink(to currentUserID: String, from otherUserID: String, completion: @escaping (Result<IncomingWink?, Error>) -> Void) -> ListenerRegistration {
+        
         let incomingWinksListener = db.collection("users").document(currentUserID).collection("incomingWinks").document(otherUserID).addSnapshotListener { snapshot, error in
             if let error = error {
                 completion(.failure(error))
@@ -589,6 +590,26 @@ class FirestoreService {
             completion(.success(incomingWink))
         }
         return incomingWinksListener
+    }
+    
+    func listenForOutgoingWink(to dasha: String,  completion: @escaping (Result<Bool, Error>) -> Void) -> ListenerRegistration? {
+        guard let micheal  = Auth.auth().currentUser?.uid else { completion(.failure(NSError.init(domain: "Not Signed In", code: 1)));  return nil}
+        
+        let outgoingWinksListener = db.collection("users").document(micheal).collection("outgoingWinks").document(dasha).addSnapshotListener { snapshot, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            guard let snapshot = snapshot, let data = snapshot.data() else {
+                completion(.success(false))
+                return
+            }
+            
+           // let incomingWink = try? snapshot.data(as: IncomingWink.self)
+            
+            completion(.success(true))
+        }
+        return outgoingWinksListener
     }
     
     
