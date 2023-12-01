@@ -23,6 +23,8 @@ struct BirthtimeInputView: View {
 	
 	/// If this is true, it will adjust the content of the view so that it's for creating another custom profile instead of onboarding the sign up user. i.e. instead of `Enter your name` it'll say `Enter their name`
 	var customAccount: Bool = false
+    
+    @State var knowsBirthTime: Bool = true
 	
 	var body: some View {
 		
@@ -109,6 +111,7 @@ struct BirthtimeInputView: View {
 	
 	func notSureOfBirthTimeView() -> some View {
 		Button {
+            knowsBirthTime = false
 			showAlertForNoTimeSelection = true
 		} label: {
 			Text(!customAccount ? "I'm not sure when I was born." : "I'm not sure when they were born." )
@@ -129,6 +132,7 @@ struct BirthtimeInputView: View {
 			
 			dismissButton: .default(Text("Ok"), action: {
                 showAlertForNoTimeSelection = false
+                knowsBirthTime = true
 				withAnimation{
 					model.currentPage = .hometown
 				}
@@ -146,6 +150,7 @@ struct BirthtimeInputView: View {
 			
 			primaryButton: .default(Text("I'll find it"), action: {
 				showAlertForNoTimeSelection = false
+                knowsBirthTime = true
 				
 			}),
 			
@@ -174,7 +179,7 @@ struct BirthtimeInputView: View {
 		
 		Alert(
 			title: Text(!customAccount ? "Is this when you were born?" : "Is this when they were born?"),
-            message: Text("\(model.birthday.string(from: model.homeCityTimeZone, showTime: model.knowsBirthTime ?? false)) in \(model.homeCity?.cityStateCountry ?? "")"),
+            message: Text("\(model.birthday.string(from: model.homeCityTimeZone, showTime: knowsBirthTime)) in \(model.homeCity?.cityStateCountry ?? "")"),
 			
 			
 			primaryButton: .default(Text("Yes"), action: {
