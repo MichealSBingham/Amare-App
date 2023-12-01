@@ -940,9 +940,10 @@ class FirestoreService {
             completion?(NSError(domain: "FirestoreService", code: 0, userInfo: [NSLocalizedDescriptionKey: "User ID not found"]))
             return
         }
-        let settings: [String: Any] = ["locationSettings": privacy]
+        let settings: [String: Any] = ["locationSettings": privacy.rawValue]
         
         db.collection("users").document(userId).updateData(settings) { error in
+            print("error updating location: \(error)")
             completion?(error)
         }
         

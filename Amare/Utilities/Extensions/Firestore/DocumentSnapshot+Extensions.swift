@@ -11,6 +11,7 @@ import Firebase
 extension DocumentSnapshot {
 	/// Converts a document snapshot to an AppUser object
 	func toAppUser() -> AppUser? {
+        //TODO: Add reasons for use
 		guard let  data = self.data() else { return nil}
 
 		let isReal = data["isReal"] as? Bool ?? true
@@ -40,13 +41,22 @@ extension DocumentSnapshot {
 		let residence = createPlace(from: residenceData)
         
         let totalFriendCount = data["totalFriendCount"] as? Double
+        
+        
+        let locationSettingsString = data["locationSettings"] as? String ?? "OFF"
+        let locationSettings = LocationPrivacySettings(rawValue: locationSettingsString)
+
+        
+        
+        
+        print("locationSettings: \(locationSettings) but data is \(data["locationSettings"])")
 
 		return AppUser(
 			id: self.documentID, name: name, hometown: hometown, birthday: birthday,
 			knownBirthTime: knownTime, residence: residence, profileImageUrl: profileImageUrl,
 			images: images, sex: Sex(rawValue: sex) ?? .none, orientation: orientation.map { Sex(rawValue: $0) ?? .none },
             username: username, isReal: isReal, isNotable: isNotable, totalFriendCount: totalFriendCount, bio: bio,
-            notes: notes, wikipedia_link: wikipediaLink
+            notes: notes, wikipedia_link: wikipediaLink, locationSettings: locationSettings
 		)
 	}
 	

@@ -42,7 +42,7 @@ struct AppUser: Codable, Identifiable {
     var location: GeoPoint?  // Firestore GeoPoint for latitude and longitude
     var geohash: String?     // Geohash representation of the location
     
-    var locationSettings: LocationPrivacySettings? = .off
+    var locationSettings: LocationPrivacySettings? 
 
 	enum CodingKeys: String, CodingKey {
 		case id
@@ -76,6 +76,9 @@ struct AppUser: Codable, Identifiable {
 	enum ReasonsForUse: String, Codable {
 		case friendship, dating, selfDiscovery
 	}
+    
+  
+
 	
 	
 	///Generates random mock data

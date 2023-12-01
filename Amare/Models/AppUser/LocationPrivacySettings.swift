@@ -15,7 +15,7 @@ enum LocationPrivacySettings: String, Codable{
     var description: String {
         switch self {
         case .approximate:
-            return "Approximate"
+            return "Only Your Approximate Location Shown"
         case .off:
             return "No One Can See You"
         case .on:

@@ -19,8 +19,8 @@ struct LocationPrivacyCapsule: View {
         Menu{
             
             Button("Only show my approximate location") { updatePrivacySetting(.approximate) }
-                        Button("Hide my location") { updatePrivacySetting(.off) }
-                        Button("Only those that pass by me can see me") { updatePrivacySetting(.on) }
+            Button("Hide my location") { updatePrivacySetting(.off) }
+            Button("Only those that pass by me can see me") { updatePrivacySetting(.on) }
             
         }  label: {
             VStack(spacing: 1) { // Reduced spacing between text and description
@@ -31,23 +31,24 @@ struct LocationPrivacyCapsule: View {
                         Image(systemName: "chevron.down")
                             .resizable()
                             .scaledToFit()
+                            .foregroundColor(.white)
                             .frame(height: 8)
                             .offset(x: 30)
                     }
                    
                     
                     HStack {
-                        Text(model.user?.locationSettings?.rawValue ?? "OFF")
+                        Text(model.user?.locationSettings?.rawValue ?? "Nothing")
                             .font(.headline)
                             .bold()
-                            .foregroundColor(model.user?.locationSettings? == .off ? .primary : .amare )
+                            .foregroundColor((model.user?.locationSettings ?? .off) == .off ? .primary : .amare )
                         
                     }
                 }
                
                 
 
-                Text(model.user?.locationSettings?.rawValue.description ?? "")
+                Text(model.user?.locationSettings?.description ?? "Nothing set yet")
                     .font(.caption)
                     .foregroundColor(.gray)
             }
@@ -60,27 +61,17 @@ struct LocationPrivacyCapsule: View {
         }
         
         
-        /*
-        .buttonStyle(PlainButtonStyle())
-        .actionSheet(isPresented: $showMenu) {
-            ActionSheet(
-                title: Text("Privacy Setting"),
-                buttons: [
-                    .default(Text("Only show my approximate location")) { updatePrivacySetting(.approximate) },
-                    .default(Text("Hide my location")) { updatePrivacySetting(.off) },
-                    .default(Text("Only those that pass by me can see me")) { updatePrivacySetting(.on) },
-                    .cancel()
-                ]
-            )
-        }
-        */
+        
     }
 
     func updatePrivacySetting(_ setting: LocationPrivacySettings) {
       
-        FirestoreService.shared.update(location: setting) { error in
-            print("some error happened updating location")
+        DispatchQueue.main.async {
+            FirestoreService.shared.update(location: setting) { error in
+                print("The new location is ... \(model.user?.locationSettings)")
+            }
         }
+        
     }
 }
 

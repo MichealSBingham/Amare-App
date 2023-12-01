@@ -8,8 +8,7 @@
 import SwiftUI
 import MapKit
 
-import SwiftUI
-import MapKit
+
 
 
 struct MapView: View {
@@ -31,6 +30,7 @@ struct MapView: View {
             
             VStack{
                 LocationPrivacyCapsule()
+                    .environmentObject(userDataModel)
                     .padding()
                 Spacer()
             }
