@@ -31,6 +31,8 @@ struct AppUser: Codable, Identifiable {
 	var isReal: Bool = true
 	var isNotable: Bool = false
 	var reasonsForUse: [ReasonsForUse] = []
+    var isForDating: Bool?
+    var isForFriends: Bool?
     
     var totalFriendCount: Double?
 	
@@ -65,6 +67,8 @@ struct AppUser: Codable, Identifiable {
 		case isReal
 		case isNotable
 		case reasonsForUse
+        case isForDating
+        case isForFriends
         case totalFriendCount
 		
 		case notes
@@ -139,6 +143,8 @@ struct AppUser: Codable, Identifiable {
 				isReal: randomIsReal,
 				isNotable: randomIsNotable,
 				reasonsForUse: randomReasonsForUse,
+                isForDating: Bool.random(),
+                isForFriends: Bool.random(),
                 totalFriendCount: Double.random(in: 0..<7000000000),
                 locationSettings: [.off, .approximate, .on].randomElement()!,
                 traits: traits,

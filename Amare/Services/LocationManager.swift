@@ -88,7 +88,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         
         
         let geoPoint = GeoPoint(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-        let geohash = location.geohash(precision: 9) ?? ""
+        let geohash = location.geohash(precision: 6) ?? ""
         
         FirestoreService.shared.addDice(for: user, location: geoPoint, geohash: geohash) { result in
             switch result{

@@ -20,7 +20,7 @@ struct NearbyUsersSheet: View {
     private let thresholdHeight = UIScreen.main.bounds.size.height * 0.45
   
 
-    let mockUsers : [AppUser] = AppUser.generateMockData(of: 24)
+   // let mockUsers : [AppUser] = AppUser.generateMockData(of: 24)
     
     var body: some View {
         GeometryReader { geometry in
@@ -172,21 +172,22 @@ struct ClearBackgroundView: View {
 // CircularProfileImageView should be defined here, or if it's defined elsewhere, ensure it's imported correctly.
 
 #Preview {
-    NearbyUsersSheet_Previews()
+    NearbyUsersSheet( showUserSheet: .constant(true), presentationDetent: .constant(.medium))
+        .environmentObject(MapViewModel())
 }
 
 
 struct NearbyUsersSheet_Previews:  View {
-    @StateObject var  helper = MapViewModel()
+    //@StateObject var  helper = MapViewModel()
      var body: some View {
         
-        NavigationView{
+       // NavigationView{
             
             NearbyUsersSheet( showUserSheet: .constant(true), presentationDetent: .constant(.medium))
-                .environmentObject(helper)
+                .environmentObject(MapViewModel())
                 .onAppear {
                    
                 }
-        }
+       // }
     }
 }

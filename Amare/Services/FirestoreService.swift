@@ -1095,6 +1095,145 @@ class FirestoreService {
             return usersListener
         }
     
+    func listenForDices(near geohash: String, sex: Sex, forDating: Bool, forFriendship: Bool, orientation: [Sex],  completion: @escaping (Result<[Dice], Error>) -> Void) -> ListenerRegistration? {
+        
+            guard !geohash.isEmpty else {
+                completion(.failure(NSError(domain: "FirestoreService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Geohash is empty"])))
+                return nil
+            }
+        
+        //Be sure that we're only using the first 6 characters of the geohash
+        print("my sex: \(sex), am I dating: \(forDating), for friendship \(forFriendship) , orientation: \(orientation)")
+
+        guard let geohashObject = Geohash(geohash: String(geohash.prefix(6))) else {
+                completion(.failure(NSError(domain: "FirestoreService", code: 1, userInfo: [NSLocalizedDescriptionKey: "Geohash generation failed"])))
+                return nil
+            }
+
+            let neighbors = geohashObject.neighbors
+            let allGeohashes = (neighbors?.all.map { $0.geohash } ?? []) + [String(geohash.prefix(6))]
+        
+        print("\n\n\n\n***FirestoreService.Listening for dices\nsex: \(sex.rawValue)\nallGeohashes: \(allGeohashes)")
+        
+            var diceListener: ListenerRegistration?
+        
+            if forDating && !forFriendship{
+                print("**====listening  just for dating")
+                diceListener = db.collection("dices")
+                    .whereField("geohash", in: allGeohashes) // --> this is breaking my query
+                    .whereField("isForDating", isEqualTo: true) // Those who want to date
+                    .whereField("orientation", arrayContains: sex.rawValue) // Those attracted to my orientation
+                    .addSnapshotListener { snapshot, error in
+                        if let error = error {
+                            completion(.failure(error))
+                            return
+                        }
+                        guard let documents = snapshot?.documents else {
+                            // Handle no documents
+                            print("*** NO Documents for isDating")
+                            return
+                        }
+                        print("**==the documents from listenForDices: \(documents)")
+                        let allDices = documents.compactMap { try? $0.data(as: Dice.self) }
+                        
+                        print("***got dices \(allDices)")
+                        // Client-side filtering for the second level of orientation matching
+                        var filteredDices = allDices.filter { dice in
+                            orientation.contains(dice.sex)
+                        }
+                        
+                        for index in filteredDices.indices {
+                            filteredDices[index].type = .friends
+                        }
+
+                        completion(.success(filteredDices))
+                    }
+
+            }
+        
+       else if forFriendship && !forDating {
+            // for friendship and not for dating
+            // only show me people that
+            print("====listening  just for friendship")
+            diceListener = db.collection("dices")
+                .whereField("geohash", in: allGeohashes) // Nearby people
+                .whereField("isForFriends", isEqualTo: true) // Those who want to date
+                .whereField("sex", isEqualTo: sex.rawValue) // Those who are my same gender
+                .addSnapshotListener { snapshot, error in
+                    if let error = error {
+                        completion(.failure(error))
+                        return
+                    }
+                    guard let documents = snapshot?.documents else {
+                        // Handle no documents
+                        return
+                    }
+                    let allDices = documents.compactMap { try? $0.data(as: Dice.self) }
+
+                    // Client-side filtering for the second level of orientation matching
+                    var filteredDices = allDices.filter { dice in
+                        !orientation.contains(dice.sex)
+                    }
+
+                    for index in filteredDices.indices {
+                        var dice = filteredDices[index]
+                        dice.type = .friends
+                        filteredDices[index] = dice // Reassign the modified dice back to the array
+                    }
+
+                    completion(.success(filteredDices))
+
+                }
+        } else{
+            print("====listening  for all")
+            diceListener = db.collection("dices")
+                .whereField("geohash", in: allGeohashes)
+                .addSnapshotListener { snapshot, error in
+                    if let error = error {
+                        completion(.failure(error))
+                        return
+                    }
+                    guard let documents = snapshot?.documents else {
+                        print("could not get documents for nearby users .. \(snapshot?.documents)")
+                        completion(.success([]))
+                        return
+                    }
+                    print("**the documents for dices **are ... \(snapshot?.documents)")
+                    var dices = documents.compactMap { try? $0.data(as: Dice.self) }
+
+                    for index in dices.indices {
+                        if dices[index].isForDating && forDating {
+                            // Check mutual orientation match for dating
+                            if orientation.contains(dices[index].sex) && dices[index].orientation.contains(sex) {
+                                dices[index].type = .dating
+                            } else {
+                                // No mutual orientation match for dating
+                                dices[index].type = .doNotShow
+                            }
+                        }
+                        // Check if either is interested in friends
+                        else if dices[index].isForFriends || forFriendship {
+                            // Potential friends match
+                            dices[index].type = .friends
+                        }
+                        // No matching intentions
+                        else {
+                            dices[index].type = .doNotShow
+                        }
+                    }
+
+                    // Client-side filtering and marking as love interest or friend is done above
+                    completion(.success(dices))
+
+                }
+
+            
+        }
+        
+            
+            return diceListener
+    }
+    
 
 
     func addDice(for user: AppUser?, location: GeoPoint?, geohash: String?, completion: @escaping (Result<Void, Error>) -> Void) {
@@ -1107,6 +1246,7 @@ class FirestoreService {
             completion(.failure(NSError(domain: "FirestoreService", code: 1, userInfo: [NSLocalizedDescriptionKey: "No user data"])))
             return
         }
+    
 
         let dice = Dice(
             userId: userId,
@@ -1116,6 +1256,8 @@ class FirestoreService {
             sex: user.sex ,
             orientation: user.orientation ,
             reasonsForUse: user.reasonsForUse ,
+            isForDating: user.isForDating ?? false,
+            isForFriends: user.isForFriends ?? false,
             location: location,
             geohash: geohash,
             date: Date()

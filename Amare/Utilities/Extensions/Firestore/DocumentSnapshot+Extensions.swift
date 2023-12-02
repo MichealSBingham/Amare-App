@@ -29,6 +29,7 @@ extension DocumentSnapshot {
 		let sex = data["sex"] as? String ?? ""
 		let birthdayData = data["birthday"] as? [String: Any] ?? [:]
 		let orientation = data["orientation"] as? [String] ?? []
+        let intentions = data["reasonsForUse"] as? [String] ?? []
 
 		let day = birthdayData["day"] as? Int ?? 0
 		let month = birthdayData["month"] as? String ?? ""
@@ -41,6 +42,8 @@ extension DocumentSnapshot {
 		let residence = createPlace(from: residenceData)
         
         let totalFriendCount = data["totalFriendCount"] as? Double
+        let isForDating = data["isForDating"] as? Bool
+        let isForFriends = data["isForFriends"] as? Bool
         
         
         let locationSettingsString = data["locationSettings"] as? String ?? "OFF"
@@ -50,14 +53,14 @@ extension DocumentSnapshot {
         
         let isDiceActive = data["isDiceActive"] as? Bool ?? false
         
-        
+        let reasonsForUse = intentions.map { ReasonsForUse(rawValue: $0) ?? .dating}
         print("locationSettings: \(locationSettings) but data is \(data["locationSettings"])")
 
 		return AppUser(
 			id: self.documentID, name: name, hometown: hometown, birthday: birthday,
 			knownBirthTime: knownTime, residence: residence, profileImageUrl: profileImageUrl,
 			images: images, sex: Sex(rawValue: sex) ?? .none, orientation: orientation.map { Sex(rawValue: $0) ?? .none },
-            username: username, isReal: isReal, isNotable: isNotable, totalFriendCount: totalFriendCount, bio: bio,
+            username: username, isReal: isReal, isNotable: isNotable, reasonsForUse: reasonsForUse,  isForDating: isForDating, isForFriends: isForFriends, totalFriendCount: totalFriendCount, bio: bio,
             notes: notes, wikipedia_link: wikipediaLink, locationSettings: locationSettings, traits: traits, isDiceActive: isDiceActive
 		)
 	}

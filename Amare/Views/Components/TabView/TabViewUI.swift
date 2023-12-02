@@ -14,6 +14,7 @@ class ViewRouter: ObservableObject {
     @Published var currentPage: Page = .map
     @Published var showBottomTabBar: Bool = true 
     @Published var screenToShow:AppLaunchScreen = .loading
+     
     
 }
 

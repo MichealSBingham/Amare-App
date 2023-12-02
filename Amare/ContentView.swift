@@ -18,8 +18,7 @@ struct ContentView: View{
     @StateObject var mapViewModel: MapViewModel = MapViewModel()
     @StateObject var bgModel = BackgroundViewModel()
     @StateObject var onboardingModel = OnboardingViewModel()
-   // @StateObject var dataModel = UserProfileModel()
-    //@StateObject var viewRouter = ViewRouter()
+   
     
     @EnvironmentObject  var sceneDelegate: SceneDelegate
     
@@ -88,6 +87,7 @@ struct ContentView: View{
                 .opacity(viewRouter.currentPage == .map ? 1: 0) */
             ZStack{
                 MapView()
+                    .environmentObject(viewRouter)
                     .opacity(viewRouter.currentPage == .map ? 1: 0)
                     .onChange(of: viewRouter.currentPage) {
                         page in

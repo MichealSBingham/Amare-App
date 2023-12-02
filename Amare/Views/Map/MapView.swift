@@ -27,9 +27,22 @@ struct MapView: View {
                 .onChange(of: locationManager.currentGeoHash6) {  geohash in
                    
                     viewModel.listenForNearbyUsers(geohash: geohash)
+                    
+                    AmareApp().delay(2) {
+                        
+                        guard let user = userDataModel.user else {
+                            print("can't listen for dices")
+                            return }
+                        
+                        print("should start listening for a nearby dice")
+                        viewModel.listenForNearbyDices(geohash: geohash, mySex: user.sex, forDating: user.isForDating ?? false, forFriendship: user.isForFriends ?? false, myOrientation: user.orientation)
+                    }
+                   
+                    
                 }
             
             Color.black.opacity(userDataModel.user?.locationSettings == .off ? 0.5: 0).ignoresSafeArea()
+                
                 
             
             VStack{
@@ -57,7 +70,13 @@ struct MapView: View {
                 Spacer()
             }
             
-            
+            // Just for Debugging, we're going to add this elsewhere
+          /*  HStack{
+                ScrollView(.horizontal) {
+                    
+                }
+            }
+            */
 
         }
     }
@@ -67,6 +86,7 @@ struct MapView: View {
             FirestoreService.shared.deleteDice { error in
                 
             }
+            return 
         }
         
         locationManager.addDiceToMap(user: userDataModel.user) { error in

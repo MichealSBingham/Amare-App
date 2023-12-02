@@ -21,7 +21,19 @@ struct Dice: Codable, Identifiable {
     var sex: Sex
     var orientation: [Sex]
     var reasonsForUse: [ReasonsForUse]
+    var isForDating: Bool
+    var isForFriends: Bool
     var location: GeoPoint
     var geohash: String
     var date: Date
+    
+    var type: DiceType? = DiceType.none
+}
+
+enum DiceType: String, Codable{
+    case dating
+    case friends
+    case doNotShow
+    
+    case none
 }

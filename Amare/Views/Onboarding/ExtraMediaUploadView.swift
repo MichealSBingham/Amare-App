@@ -48,7 +48,8 @@ struct ExtraMediaUploadView: View {
             .padding()
             
             Button {
-                model.datingSelected = false
+                //toDO: warn user that if they don't upload 3 pics they can't use amare for daeting
+               // model.datingSelected = false
                 withAnimation{
                     model.currentPage = .username
                 }
