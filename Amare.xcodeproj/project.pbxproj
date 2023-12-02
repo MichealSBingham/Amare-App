@@ -37,6 +37,8 @@
 		260191242B17E90000FB7A3B /* UploadNewImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260191232B17E90000FB7A3B /* UploadNewImageView.swift */; };
 		260191272B18E9A200FB7A3B /* FriendsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260191262B18E9A200FB7A3B /* FriendsListView.swift */; };
 		260191292B18FEBC00FB7A3B /* NearbyUserRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260191282B18FEBC00FB7A3B /* NearbyUserRowView.swift */; };
+		260718942B1B67680096DBAA /* DiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260718932B1B67680096DBAA /* DiceView.swift */; };
+		260718972B1B86590096DBAA /* Dice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260718962B1B86590096DBAA /* Dice.swift */; };
 		2608CF46268FE27300826FDA /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2608CF45268FE27300826FDA /* ImagePickerView.swift */; };
 		2608CF482691425E00826FDA /* QR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2608CF472691425E00826FDA /* QR.swift */; };
 		2608CF512697529600826FDA /* GlobalErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2608CF502697529600826FDA /* GlobalErrors.swift */; };
@@ -244,6 +246,8 @@
 		260191232B17E90000FB7A3B /* UploadNewImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadNewImageView.swift; sourceTree = "<group>"; };
 		260191262B18E9A200FB7A3B /* FriendsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsListView.swift; sourceTree = "<group>"; };
 		260191282B18FEBC00FB7A3B /* NearbyUserRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyUserRowView.swift; sourceTree = "<group>"; };
+		260718932B1B67680096DBAA /* DiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiceView.swift; sourceTree = "<group>"; };
+		260718962B1B86590096DBAA /* Dice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dice.swift; sourceTree = "<group>"; };
 		2608CF45268FE27300826FDA /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
 		2608CF472691425E00826FDA /* QR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QR.swift; sourceTree = "<group>"; };
 		2608CF502697529600826FDA /* GlobalErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalErrors.swift; sourceTree = "<group>"; };
@@ -502,6 +506,7 @@
 				260191132B15207C00FB7A3B /* NearbyUsersSheet.swift */,
 				260191282B18FEBC00FB7A3B /* NearbyUserRowView.swift */,
 				267D5C9C2B19498800F80375 /* LocationPrivacyCapsule.swift */,
+				260718932B1B67680096DBAA /* DiceView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -528,6 +533,14 @@
 				260191262B18E9A200FB7A3B /* FriendsListView.swift */,
 			);
 			path = SubViews;
+			sourceTree = "<group>";
+		};
+		260718952B1B86080096DBAA /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				260718962B1B86590096DBAA /* Dice.swift */,
+			);
+			path = Map;
 			sourceTree = "<group>";
 		};
 		2608CF4F2697522300826FDA /* Errors */ = {
@@ -571,6 +584,7 @@
 		2626D2E42A21078F007F5C77 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				260718952B1B86080096DBAA /* Map */,
 				267D5CA22B1A73C200F80375 /* Animations */,
 				260191182B162E7000FB7A3B /* ImagePicker */,
 				262F2A622A50A98B00C980D3 /* BackgroundViewModel.swift */,
@@ -1328,6 +1342,7 @@
 				260954C42A60BE6700114C56 /* UserTypeSelection.swift in Sources */,
 				26A5FBDC2A732E4C00D94476 /* ZodiacSign.swift in Sources */,
 				262F2A682A521C0400C980D3 /* AppUser.swift in Sources */,
+				260718942B1B67680096DBAA /* DiceView.swift in Sources */,
 				26B1AFDF2678FFE700A170B3 /* Persistence.swift in Sources */,
 				262F8F9C2A7B42E100EE709E /* OutgoingFriendRequest.swift in Sources */,
 				2608CF512697529600826FDA /* GlobalErrors.swift in Sources */,
@@ -1374,6 +1389,7 @@
 				260120012AEE9717004C4D77 /* PlanetImageView.swift in Sources */,
 				26006E802ADA21330063802E /* NearbyInteractionError.swift in Sources */,
 				26D229ED2A5CDFC500BFA3BB /* OnboardingError.swift in Sources */,
+				260718972B1B86590096DBAA /* Dice.swift in Sources */,
 				260191222B17C18B00FB7A3B /* ChangeProfilePictureView.swift in Sources */,
 				263D6F962683F77C00CBBECC /* Location.swift in Sources */,
 				26970699268101B0007E7961 /* SceneDelegate.swift in Sources */,

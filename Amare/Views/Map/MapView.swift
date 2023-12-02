@@ -15,6 +15,7 @@ struct MapView: View {
     @EnvironmentObject var userDataModel: UserProfileModel
     @StateObject var locationManager: LocationManager = LocationManager()
     @EnvironmentObject  var viewModel: MapViewModel
+
     
     var body: some View {
         
@@ -35,12 +36,43 @@ struct MapView: View {
                 LocationPrivacyCapsule()
                     .environmentObject(userDataModel)
                     .padding()
+                
+                Spacer()
+                
+                HStack{
+                    Spacer()
+                    DiceButtonView(status: userDataModel.user?.isDiceActive ?? false, onTap: {
+                        
+                        addOrRemoveDice()
+                        
+                    })
+                        
+                        .padding()
+                }
+                
+                
+                Spacer()
+                Spacer()
+                Spacer()
                 Spacer()
             }
             
             
 
         }
+    }
+    
+    func addOrRemoveDice(){
+        guard userDataModel.user?.isDiceActive == false else {
+            FirestoreService.shared.deleteDice { error in
+                
+            }
+        }
+        
+        locationManager.addDiceToMap(user: userDataModel.user) { error in
+            print("the error adding dice to map is \(error)")
+        }
+
     }
     
 }

@@ -1094,4 +1094,78 @@ class FirestoreService {
             
             return usersListener
         }
+    
+
+
+    func addDice(for user: AppUser?, location: GeoPoint?, geohash: String?, completion: @escaping (Result<Void, Error>) -> Void) {
+        guard let userId = Auth.auth().currentUser?.uid, !userId.isEmpty else {
+            completion(.failure(NSError(domain: "FirestoreService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Not Signed In"])))
+            return
+        }
+
+        guard let user = user, let location = location, let geohash = geohash else {
+            completion(.failure(NSError(domain: "FirestoreService", code: 1, userInfo: [NSLocalizedDescriptionKey: "No user data"])))
+            return
+        }
+
+        let dice = Dice(
+            userId: userId,
+            name: user.name ,
+            profileImageUrl: user.profileImageUrl ?? "",
+            images: user.images ,
+            sex: user.sex ,
+            orientation: user.orientation ,
+            reasonsForUse: user.reasonsForUse ,
+            location: location,
+            geohash: geohash,
+            date: Date()
+        )
+
+        let db = Firestore.firestore()
+        db.runTransaction({ (transaction, errorPointer) -> Any? in
+            let diceRef = db.collection("dices").document(userId)
+            transaction.setData(try! Firestore.Encoder().encode(dice), forDocument: diceRef)
+
+            let userRef = db.collection("users").document(userId)
+            transaction.updateData(["isDiceActive": true], forDocument: userRef)
+
+            return nil
+        }) { (object, error) in
+            if let error = error {
+                print("Error in transaction: \(error)")
+                completion(.failure(error))
+            } else {
+                completion(.success(()))
+            }
+        }
+    }
+
+
+
+    func deleteDice(completion: @escaping (Error?) -> Void) {
+        guard let userId = Auth.auth().currentUser?.uid, !userId.isEmpty else {
+            completion(NSError(domain: "FirestoreService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Not Signed In"]))
+            return
+        }
+
+        let db = Firestore.firestore()
+        db.runTransaction({ (transaction, errorPointer) -> Any? in
+            let diceRef = db.collection("dices").document(userId)
+            transaction.deleteDocument(diceRef)
+
+            let userRef = db.collection("users").document(userId)
+            transaction.updateData(["isDiceActive": false], forDocument: userRef)
+
+            return nil
+        }) { (_, error) in
+            if let error = error {
+                print("Error in transaction: \(error)")
+                completion(error)
+            } else {
+                completion(nil)
+            }
+        }
+    }
+
+    
 }

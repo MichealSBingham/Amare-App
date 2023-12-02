@@ -7,7 +7,9 @@
 
 import CoreLocation
 import Combine
-
+import MapKit
+import Firebase
+import FirebaseFirestoreSwift
 import CoreLocation
 import Combine
 
@@ -71,6 +73,29 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
                 } else {
                     print("User location updated in Firestore successfully")
                 }
+            }
+        }
+    }
+    
+    
+    func addDiceToMap(user: AppUser?, completion: @escaping (Error?) -> Void){
+        guard let location = self.userLocation else {
+            // we don't have the user location so we can't do anything
+            completion(NSError(domain: "LocationManager", code: 0, userInfo: [NSLocalizedDescriptionKey: "We don't have the user location."]))
+            return
+        }
+        
+        
+        
+        let geoPoint = GeoPoint(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+        let geohash = location.geohash(precision: 9) ?? ""
+        
+        FirestoreService.shared.addDice(for: user, location: geoPoint, geohash: geohash) { result in
+            switch result{
+            case .failure(let err):
+                completion(err)
+            case .success(()):
+                completion(nil)
             }
         }
     }

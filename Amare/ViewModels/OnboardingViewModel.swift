@@ -58,7 +58,7 @@ class OnboardingViewModel: ObservableObject{
     
    
     
-    var reasonsForUse: [AppUser.ReasonsForUse] = []
+    var reasonsForUse: [ReasonsForUse] = []
     
     @Published var womenSelected: Bool = false
     @Published var menSelected: Bool = false

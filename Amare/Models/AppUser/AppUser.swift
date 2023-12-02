@@ -45,6 +45,8 @@ struct AppUser: Codable, Identifiable {
     var locationSettings: LocationPrivacySettings? 
     
     var traits: [String] = []
+    
+    var isDiceActive: Bool? = false
 
 	enum CodingKeys: String, CodingKey {
 		case id
@@ -75,12 +77,10 @@ struct AppUser: Codable, Identifiable {
         case locationSettings
         
         case traits
+        case isDiceActive
 	}
 
-	enum ReasonsForUse: String, Codable {
-		case friendship, dating, selfDiscovery
-	}
-    
+	
   
 
 	
@@ -141,7 +141,8 @@ struct AppUser: Codable, Identifiable {
 				reasonsForUse: randomReasonsForUse,
                 totalFriendCount: Double.random(in: 0..<7000000000),
                 locationSettings: [.off, .approximate, .on].randomElement()!,
-                traits: traits
+                traits: traits,
+                isDiceActive: Bool.random()
 			)
 		}
     
@@ -151,6 +152,9 @@ struct AppUser: Codable, Identifiable {
 }
 
 
+enum ReasonsForUse: String, Codable {
+    case friendship, dating, selfDiscovery
+}
 
 
 extension AppUser {
