@@ -108,7 +108,7 @@ struct InputNameView: View {
                 
                 NextButtonView {
                     
-                    if !isExpanded{
+                    guard isExpanded else {
                         print("Should go to birthday view")
                        // Should go to next view now
                         withAnimation{
@@ -117,6 +117,7 @@ struct InputNameView: View {
                                 }
                            
                         }
+                        return 
                     }
                     
                     guard !(name.isEmpty) else{

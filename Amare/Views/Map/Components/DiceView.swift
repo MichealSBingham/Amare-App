@@ -83,7 +83,7 @@ struct DiceButtonView: View {
                         .fill(status ? activeTint.opacity(0.25) : Color("ButtonColor"))
                 }
         }
-        .preferredColorScheme(.dark)
+       // .preferredColorScheme(.dark)
     }
 }
 
