@@ -108,6 +108,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             UNUserNotificationCenter.current().requestAuthorization(options: authOptions, completionHandler: {_, _ in })
             application.registerForRemoteNotifications()
 		
+        //MARK: - Push the device token to the database
+        // Listener for authentication state
+        Auth.auth().addStateDidChangeListener { [weak self] (auth, user) in
+                    if let user = user {
+                        // User is signed in, update token
+                        self?.updateFirestoreWithFCMToken(token: Messaging.messaging().fcmToken, userID: user.uid)
+                    } else {
+                        // User is signed out, remove token
+                        self?.removeFCMTokenForSignedOutUser()
+                    }
+                }
 		
 		//MARK: - Customizing Stream Chat Messaging  Design
 		
@@ -227,6 +238,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     }
     
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        print("FCM Token: \(String(describing: fcmToken))")
+        if let token = fcmToken {
+            UserDefaults.standard.set(token, forKey: "FCMToken")
+        }
+    }
+
     
 
     
@@ -235,7 +253,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         Auth.auth().setAPNSToken(deviceToken, type: .prod)
         Messaging.messaging().apnsToken = deviceToken
 
-        
+        let tokenParts = deviceToken.map { data in String(format: "%02.2hhx", data) }
+            let token = tokenParts.joined()
+            print("Device Token: \(token)")
+
+            // Store the token in UserDefaults
+            UserDefaults.standard.set(token, forKey: "DeviceToken")
        
     }
     
@@ -265,7 +288,135 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("Failed to register for remote notifications: \(error)")
     }
+    
+    private func updateDeviceTokenForUser(userID: String?, addingToken: Bool) {
+            guard let deviceToken = UserDefaults.standard.string(forKey: "DeviceToken") else { return }
 
+            guard let userID = userID else {
+                // If there's no user ID (user signed out), exit early
+                return
+            }
+
+            let db = Firestore.firestore()
+            let userDeviceTokenRef = db.collection("deviceTokens").document(userID)
+
+            // Transaction to ensure atomic update of the device tokens array
+            db.runTransaction({ (transaction, errorPointer) -> Any? in
+                let userDocument: DocumentSnapshot
+                do {
+                    try userDocument = transaction.getDocument(userDeviceTokenRef)
+                } catch let fetchError as NSError {
+                    errorPointer?.pointee = fetchError
+                    return nil
+                }
+
+                // Get current device tokens, if they exist
+                var deviceTokens = userDocument.data()?["tokens"] as? [String] ?? []
+
+                if addingToken {
+                    // Add new token if it's not already in the array
+                    if !deviceTokens.contains(deviceToken) {
+                        deviceTokens.append(deviceToken)
+                    }
+                } else {
+                    // Remove the token if the user is signing out
+                    if let index = deviceTokens.firstIndex(of: deviceToken) {
+                        deviceTokens.remove(at: index)
+                    }
+                }
+
+                // Update the Firestore document
+                transaction.updateData(["tokens": deviceTokens], forDocument: userDeviceTokenRef)
+                return nil
+            }) { (_, error) in
+                if let error = error {
+                    print("Error updating device tokens: \(error)")
+                }
+            }
+        }
+
+    private func updateDeviceTokenForUser(userID: String) {
+            guard let deviceToken = UserDefaults.standard.string(forKey: "DeviceToken") else { return }
+
+            let db = Firestore.firestore()
+            let userDeviceTokenRef = db.collection("deviceTokens").document(userID)
+
+            // Transaction to ensure atomic update of the device tokens array
+            db.runTransaction({ (transaction, errorPointer) -> Any? in
+                let userDocument: DocumentSnapshot
+                do {
+                    try userDocument = transaction.getDocument(userDeviceTokenRef)
+                } catch let fetchError as NSError {
+                    errorPointer?.pointee = fetchError
+                    return nil
+                }
+
+                // Get current device tokens, if they exist
+                var deviceTokens = userDocument.data()?["tokens"] as? [String] ?? []
+
+                // Add new token if it's not already in the array
+                if !deviceTokens.contains(deviceToken) {
+                    deviceTokens.append(deviceToken)
+                }
+
+                // Update the Firestore document
+                transaction.updateData(["tokens": deviceTokens], forDocument: userDeviceTokenRef)
+                return nil
+            }) { (_, error) in
+                if let error = error {
+                    print("Error updating device tokens: \(error)")
+                }
+            }
+        }
+    
+    private func updateFirestoreWithFCMToken(token: String?, userID: String) {
+        guard let token = token else { return }
+
+        let userDeviceTokenRef = Firestore.firestore().collection("deviceTokens").document(userID)
+        userDeviceTokenRef.getDocument { (document, error) in
+            if let document = document, document.exists {
+                var deviceTokens = document.data()?["tokens"] as? [String] ?? []
+                if !deviceTokens.contains(token) {
+                    deviceTokens.append(token)
+                }
+                userDeviceTokenRef.updateData(["tokens": deviceTokens])
+            } else {
+                userDeviceTokenRef.setData(["tokens": [token]])
+            }
+        }
+    }
+
+
+
+
+
+        private func removeFCMTokenForSignedOutUser() {
+            guard let userID = Auth.auth().currentUser?.uid,
+                  let tokenToRemove = Messaging.messaging().fcmToken else { return }
+
+            let db = Firestore.firestore()
+            let userDeviceTokenRef = db.collection("deviceTokens").document(userID)
+
+            db.runTransaction({ (transaction, errorPointer) -> Any? in
+                let userDocument: DocumentSnapshot
+                do {
+                    try userDocument = transaction.getDocument(userDeviceTokenRef)
+                } catch let fetchError as NSError {
+                    errorPointer?.pointee = fetchError
+                    return nil
+                }
+
+                var deviceTokens = userDocument.data()?["tokens"] as? [String] ?? []
+                deviceTokens.removeAll { $0 == tokenToRemove }
+
+                transaction.updateData(["tokens": deviceTokens], forDocument: userDeviceTokenRef)
+                return nil
+            }, completion: { _, error in
+                if let error = error {
+                    print("Error removing device token: \(error)")
+                }
+            })
+        }
     
 }
 
