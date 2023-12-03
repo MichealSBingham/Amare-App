@@ -33,6 +33,9 @@ struct PersonalityGuesserView: View {
     
     let timer = Timer.publish(every: 2, on: .main, in: .common).autoconnect()
     
+    let  timeoutSeconds: Double  = 45
+    @State var didTimeout: Bool = false
+    
     var body: some View {
         ZStack {
             VStack {
@@ -101,6 +104,7 @@ struct PersonalityGuesserView: View {
                 
                 ForEach(Array(viewModel.predictedPersonalityStatements.enumerated()), id: \.element.description) { (index, statement) in
                     PersonalityFeedbackCardView(statement: statement.description)
+                        .contentShape(Rectangle()).gesture(DragGesture())
                     .onAppear { self.currentStatement  = statement }
                     .tag(index)
                     
@@ -112,8 +116,23 @@ struct PersonalityGuesserView: View {
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             .opacity(!showIntroText && !finished ? 1: 0 )
             
+           
+            
             ProgressView()
-                .opacity(viewModel.predictedPersonalityStatements.isEmpty && !showIntroText ? 1: 0 )
+                .opacity( viewModel.predictedPersonalityStatements.isEmpty && !showIntroText && !didTimeout ? 1: 0 )
+                .onAppear(perform: {
+                    AmareApp().delay(timeoutSeconds) {
+                        if viewModel.predictedPersonalityStatements.isEmpty {
+                            // did timeout
+                            withAnimation {
+                                didTimeout = true
+                            }
+                        }
+                    }
+                })
+            
+            Text("Our servers are overloaded, skip this for now.")
+                .opacity(didTimeout ? 1: 0)
             
             //This *was* in trait feedback card but we want to move it out of the page view
             VStack {

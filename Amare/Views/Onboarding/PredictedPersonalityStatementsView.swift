@@ -33,9 +33,7 @@ struct PredictedPersonalityStatementsView: View {
             
             PersonalityGuesserView()
                 .frame(height: 360)
-                .onAppear{
-                    model.generatePersonality()
-                }
+                 
         
             
             

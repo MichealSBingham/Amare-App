@@ -50,7 +50,7 @@ extension DocumentSnapshot {
         let locationSettings = LocationPrivacySettings(rawValue: locationSettingsString)
 
         let traits = data["traits"] as? [String] ?? []
-        
+        let statements = data["statements"] as? [String] ?? []
         let isDiceActive = data["isDiceActive"] as? Bool ?? false
         
         let reasonsForUse = intentions.map { ReasonsForUse(rawValue: $0) ?? .dating}
@@ -61,7 +61,7 @@ extension DocumentSnapshot {
 			knownBirthTime: knownTime, residence: residence, profileImageUrl: profileImageUrl,
 			images: images, sex: Sex(rawValue: sex) ?? .none, orientation: orientation.map { Sex(rawValue: $0) ?? .none },
             username: username, isReal: isReal, isNotable: isNotable, reasonsForUse: reasonsForUse,  isForDating: isForDating, isForFriends: isForFriends, totalFriendCount: totalFriendCount, bio: bio,
-            notes: notes, wikipedia_link: wikipediaLink, locationSettings: locationSettings, traits: traits, isDiceActive: isDiceActive
+            notes: notes, wikipedia_link: wikipediaLink, locationSettings: locationSettings, traits: traits, statements: statements, isDiceActive: isDiceActive
 		)
 	}
 	

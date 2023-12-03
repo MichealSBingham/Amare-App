@@ -47,6 +47,7 @@ struct AppUser: Codable, Identifiable {
     var locationSettings: LocationPrivacySettings? 
     
     var traits: [String] = []
+    var statements: [String] = []
     
     var isDiceActive: Bool? = false
 
@@ -82,6 +83,8 @@ struct AppUser: Codable, Identifiable {
         
         case traits
         case isDiceActive
+        
+        case statements
 	}
 
 	
@@ -125,6 +128,10 @@ struct AppUser: Codable, Identifiable {
 		let randomReasonsForUse: [ReasonsForUse] = [.friendship, .dating, .selfDiscovery]
         
         let traits = PredictedTrait.uniqueTraits.likelyTraitNames()
+        let statements = PersonalityStatement.random(n: 10)
+        let s = statements.map { state in
+            return state.description
+        }
 
 			// Creating and returning the AppUser instance
 			return AppUser(
@@ -148,6 +155,7 @@ struct AppUser: Codable, Identifiable {
                 totalFriendCount: Double.random(in: 0..<7000000000),
                 locationSettings: [.off, .approximate, .on].randomElement()!,
                 traits: traits,
+                statements: s,
                 isDiceActive: Bool.random()
 			)
 		}

@@ -29,6 +29,7 @@ struct PlacementReadData: Codable {
 enum APIEndpoint: String {
     case predictTraits = "/predict_traits"
     case placementRead = "/placement_read"
+    case predictStatements = "/predict_statements"
 }
 
 
@@ -48,7 +49,7 @@ class APIService {
     func predictTraitsFrom(data: UserTraitsData, completion: @escaping (Result<Any, Error>) -> Void) {
         guard let url = constructURL(for: .predictTraits) else { return }
         
-        var request = URLRequest(url: url)
+        var request = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 300.0)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
@@ -81,10 +82,46 @@ class APIService {
         }.resume()
     }
     
+    func predictStatements(from data: UserTraitsData, completion: @escaping (Result<Any, Error>) -> Void) {
+        guard let url = constructURL(for: .predictStatements) else { return }
+        
+        var request = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 300.0)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        do {
+            let jsonData = try JSONEncoder().encode(data)
+            request.httpBody = jsonData
+        } catch {
+            completion(.failure(error))
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            guard let data = data else { return }
+            do {
+                let jsonResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+                
+                if let statements = jsonResponse?["statements"] as? [String] {
+                    completion(.success(statements))
+                } else {
+                    completion(.failure(GlobalError.unknown))
+                }
+            } catch {
+                completion(.failure(error))
+            }
+        }.resume()
+    }
+    
     func getPlacementRead(data: PlacementReadData, completion: @escaping (Result<String, Error>) -> Void) {
         guard let url = constructURL(for: .placementRead) else { return }
         
-        var request = URLRequest(url: url)
+        var request = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 300.0)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         

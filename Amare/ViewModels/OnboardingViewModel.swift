@@ -40,9 +40,18 @@ class OnboardingViewModel: ObservableObject{
 	
     @Published var gender: Sex = .none {
         didSet{
-                self.generateTraits { result in
-                    
-                }
+            self.generatePersonality { result in
+                
+            }
+            
+            self.generateTraits { result in
+                
+            }
+            
+           
+                
+            
+            
         }
     }
     
@@ -103,7 +112,7 @@ class OnboardingViewModel: ObservableObject{
     
    //MARK: - Properties for Personality Prediction
     
-    @Published var predictedPersonalityStatements: [PersonalityStatement]  =  PersonalityStatement.random(n: 10)// []
+    @Published var predictedPersonalityStatements: [PersonalityStatement]  =   []
     
     // Tracking user feedback
     @Published var personalityStatementsFeedback: [String: Bool] = [:]
@@ -261,12 +270,17 @@ class OnboardingViewModel: ObservableObject{
         let traits = posTraits.likelyTraitNames()
         print("traits: \(traits)")
         
+        var trueStatements: [String] {
+            return personalityStatementsFeedback.filter { $0.value }.map { $0.key }
+        }
+
+        
         let isDating = datingSelected
         let isFriends = friendshipSelected
     // MARK: - Now create the new user
         
         
-        let newUser = AppUser(id: userID, name: name, hometown: ht, birthday: bday, knownBirthTime: knowsBirthTime, residence: rs, profileImageUrl: myProfileImage, images: images, sex: gender, orientation: myOrientation, username: username, phoneNumber: phoneNumber ?? "", reasonsForUse: intentions, isForDating: isDating, isForFriends: isFriends, traits: traits)
+        let newUser = AppUser(id: userID, name: name, hometown: ht, birthday: bday, knownBirthTime: knowsBirthTime, residence: rs, profileImageUrl: myProfileImage, images: images, sex: gender, orientation: myOrientation, username: username, phoneNumber: phoneNumber ?? "", reasonsForUse: intentions, isForDating: isDating, isForFriends: isFriends, traits: traits, statements: trueStatements)
         
         AuthService.shared.fetchStreamTokenFromFirebase(andUpdate: name, profileImageURL: myProfileImage, username: username)
         
@@ -345,7 +359,7 @@ class OnboardingViewModel: ObservableObject{
 /// Generates traits that might describe the user based on their astrological profile+basic info using large language model
 	func generateTraits(completion: @escaping (Result<Any, Error>) -> Void){
 		// just making sure we have the user data saved otherwise the user needs to be taking back to the sign up onboarding ..
-		print("Generating Traits")
+		
 		guard let name = name,
 				let knowsBirthTime = knowsBirthTime,
 				let tz = homeCityTimeZone,
@@ -369,13 +383,7 @@ class OnboardingViewModel: ObservableObject{
 		
 		
 		// Now send the gender, name, birthday utc timestamp seconds, and lat/long to api.
-		print("\n\n\n================Sending the data to api to generate traits: ")
-		print(name)
-		print(gender.rawValue)
-		print("time interval: \(bd!.timeIntervalSince1970)")
-		print("timestamp: \(Timestamp(date: bd!).seconds)")
-		print("lat: \(homeCity.coordinate.latitude)")
-		print("long: \(homeCity.coordinate.longitude)")
+		
 		
 		let data = UserTraitsData(name: name, gender: gender.rawValue, latitude:homeCity.coordinate.latitude, longitude: homeCity.coordinate.longitude, birthdayInSecondsSince1970: bd!.timeIntervalSince1970, knowsBirthtime: knowsBirthTime)
         
@@ -417,8 +425,60 @@ class OnboardingViewModel: ObservableObject{
 		
 	}
       
-    func generatePersonality(){
-        self.predictedPersonalityStatements = PersonalityStatement.random(n: 10)
+    func generatePersonality(completion: @escaping (Result<Any, Error>) -> Void){
+        print("Generating personality statements")
+        guard let name = name,
+                let knowsBirthTime = knowsBirthTime,
+                let tz = homeCityTimeZone,
+              let homeCity = homeCity else  {
+            completion(.failure(OnboardingError.incompleteData))
+            return
+        }
+        
+        
+        guard  gender != .none else {
+            completion(.failure(OnboardingError.incompleteData))
+            return
+        }
+        
+        let ht = Place(latitude: homeCity.coordinate.latitude, longitude: homeCity.coordinate.longitude, city: homeCity.city, state: homeCity.state, country: homeCity.country, geohash: homeCity.geohash)
+        
+        let  bd = (knowsBirthTime ?  birthday.combineWithTime(time: birthtime, in: tz) :  birthday.setToNoon(timeZone: tz) )
+        
+        if bd == nil { completion(.failure(OnboardingError.dateError))}
+        
+        
+
+        
+        let data = UserTraitsData(name: name, gender: gender.rawValue, latitude:homeCity.coordinate.latitude, longitude: homeCity.coordinate.longitude, birthdayInSecondsSince1970: bd!.timeIntervalSince1970, knowsBirthtime: knowsBirthTime)
+        
+        DispatchQueue.global(qos: .userInitiated).async{
+            APIService.shared.predictStatements(from: data) { result in
+                switch result {
+                case .success(let statements):
+                    
+                    DispatchQueue.main.async {
+                        // TODO: check if this is proper because publishing changing from background threads is not allowed.
+                        let statements = statements as? [String] ?? []
+                        
+                        let personalityStatements = statements.map { sentence in
+                            return PersonalityStatement(description: sentence, judgement: nil)
+                        }
+                        
+                        self.predictedPersonalityStatements = personalityStatements
+                        print("statements are ... \(self.predictedPersonalityStatements)")
+                        
+                        completion(.success(personalityStatements))
+                    }
+                    
+                case .failure(let failure):
+                    print("FAILED predicting statements \(failure)")
+                    completion(.failure(failure))
+                }
+            }
+            
+        }
+
     }
     
     private func getPositiveFeedbackTraits(predictedTraits: [PredictedTrait], traitFeedback: [String: Bool]) -> [PredictedTrait] {
