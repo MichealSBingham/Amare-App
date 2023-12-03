@@ -58,6 +58,9 @@
 		262712F72A61D6E600E36906 /* MbSwiftUIFirstResponder in Frameworks */ = {isa = PBXBuildFile; productRef = 262712F62A61D6E600E36906 /* MbSwiftUIFirstResponder */; };
 		262712FA2A61D76B00E36906 /* PushNotifications in Frameworks */ = {isa = PBXBuildFile; productRef = 262712F92A61D76B00E36906 /* PushNotifications */; };
 		2627C5432A71EF43008ED5DB /* UserProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2627C5422A71EF43008ED5DB /* UserProfileView.swift */; };
+		262AD9F02B1D0D830069519E /* FirebaseInAppMessaging-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 262AD9EF2B1D0D830069519E /* FirebaseInAppMessaging-Beta */; };
+		262AD9F22B1D0D830069519E /* FirebaseInAppMessagingSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 262AD9F12B1D0D830069519E /* FirebaseInAppMessagingSwift-Beta */; };
+		262AD9F42B1D0D830069519E /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 262AD9F32B1D0D830069519E /* FirebaseMessaging */; };
 		262F2A4B2A491AC100C980D3 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260135992A477354007878BD /* Date+Extensions.swift */; };
 		262F2A4C2A491B4E00C980D3 /* DateExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262F2A492A49077400C980D3 /* DateExtensionsTests.swift */; };
 		262F2A4E2A4A38D400C980D3 /* TileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262F2A4D2A4A38D400C980D3 /* TileView.swift */; };
@@ -402,7 +405,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				262AD9F42B1D0D830069519E /* FirebaseMessaging in Frameworks */,
 				262712F42A61D66600E36906 /* URLImageStore in Frameworks */,
+				262AD9F22B1D0D830069519E /* FirebaseInAppMessagingSwift-Beta in Frameworks */,
 				262712FA2A61D76B00E36906 /* PushNotifications in Frameworks */,
 				262712EF2A61D5B200E36906 /* StreamChatSwiftUI in Frameworks */,
 				262712E32A61D50200E36906 /* FirebaseAuth in Frameworks */,
@@ -413,6 +418,7 @@
 				262712F22A61D66600E36906 /* URLImage in Frameworks */,
 				2684C6662A65F9800048BB4E /* SDWebImageSwiftUI in Frameworks */,
 				2662A80D2B113D7B00BDDD6E /* GeohashKit in Frameworks */,
+				262AD9F02B1D0D830069519E /* FirebaseInAppMessaging-Beta in Frameworks */,
 				26E0EF922B0914E400BE0B5E /* FirebaseFunctions in Frameworks */,
 				262712E52A61D50200E36906 /* FirebaseFirestore in Frameworks */,
 				262712E72A61D50200E36906 /* FirebaseFirestoreSwift in Frameworks */,
@@ -1169,6 +1175,9 @@
 				26E0EF912B0914E400BE0B5E /* FirebaseFunctions */,
 				26E0EF932B0914E400BE0B5E /* FirebaseFunctionsCombine-Community */,
 				2662A80C2B113D7B00BDDD6E /* GeohashKit */,
+				262AD9EF2B1D0D830069519E /* FirebaseInAppMessaging-Beta */,
+				262AD9F12B1D0D830069519E /* FirebaseInAppMessagingSwift-Beta */,
+				262AD9F32B1D0D830069519E /* FirebaseMessaging */,
 			);
 			productName = Love;
 			productReference = 26B1AFD22678FFE500A170B3 /* Amare.app */;
@@ -2155,6 +2164,18 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 262712F82A61D76B00E36906 /* XCRemoteSwiftPackageReference "push-notifications-swift" */;
 			productName = PushNotifications;
+		};
+		262AD9EF2B1D0D830069519E /* FirebaseInAppMessaging-Beta */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = "FirebaseInAppMessaging-Beta";
+		};
+		262AD9F12B1D0D830069519E /* FirebaseInAppMessagingSwift-Beta */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = "FirebaseInAppMessagingSwift-Beta";
+		};
+		262AD9F32B1D0D830069519E /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FirebaseMessaging;
 		};
 		2662A80C2B113D7B00BDDD6E /* GeohashKit */ = {
 			isa = XCSwiftPackageProductDependency;

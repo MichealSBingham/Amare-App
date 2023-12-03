@@ -14,6 +14,8 @@ import PushNotifications
 import StreamChat
 import StreamChatSwiftUI
 import UIKit
+import FirebaseMessaging
+import FirebaseInAppMessagingSwift
 
 @main
 struct AmareApp: App {
@@ -95,12 +97,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 		
 		// MARK: - Configuring Beams Push Notification API
         
-       configureBeamsPushNotifications()
+       //configureBeamsPushNotifications()
 		
 		
 		// MARK: -  Configuring Firebase
        FirebaseApp.configure()
-		
+        // Register for push notifications
+            UNUserNotificationCenter.current().delegate = self
+            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+            UNUserNotificationCenter.current().requestAuthorization(options: authOptions, completionHandler: {_, _ in })
+            application.registerForRemoteNotifications()
 		
 		
 		//MARK: - Customizing Stream Chat Messaging  Design
@@ -191,7 +197,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 	
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         
-        self.beamsClient.handleNotification(userInfo: userInfo)
+        
 
         
         if Auth.auth().canHandleNotification(userInfo){
@@ -211,7 +217,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // check if it is a winking notification ..
         //NotificationCenter.default.post(name: NSNotification.gotWinkedAt, object: nil)
         
-        completionHandler([.alert, .badge, .sound])
+        completionHandler([.alert, .badge, .sound, .banner])
     }
     
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
@@ -225,24 +231,41 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        
+        print("registering remote notificaitons with token \(deviceToken)")
         Auth.auth().setAPNSToken(deviceToken, type: .prod)
-        self.beamsClient.registerDeviceToken(deviceToken)
+        Messaging.messaging().apnsToken = deviceToken
+
         
        
     }
     
     // MARK: - Configuring Beams Push Notification API
     func configureBeamsPushNotifications() {
-        self.beamsClient.start(instanceId: "ac1386a2-eac8-4f11-aaab-cad17174260a")
+        print("configuring beams push notifications")
+        self.beamsClient.start(instanceId: "de066573-35a5-496c-aae2-16b1d465ebcd")
         self.beamsClient.registerForRemoteNotifications()
-        try? self.beamsClient.addDeviceInterest(interest: "hello")
-        try? self.beamsClient.addDeviceInterest(interest: "debug-hello")
+        
+        do {
+            try self.beamsClient.addDeviceInterest(interest: "hello")
+        } catch {
+            print("Error adding device interest 'hello': \(error)")
+        }
+        
+       //  Uncomment and use the following if you want to add additional interests with error handling
+         do {
+             try self.beamsClient.addDeviceInterest(interest: "debug-hello")
+         } catch {
+             print("Error adding device interest 'debug-hello': \(error)")
+         }
     }
+
     
    
     
-    
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print("Failed to register for remote notifications: \(error)")
+    }
+
     
 }
 

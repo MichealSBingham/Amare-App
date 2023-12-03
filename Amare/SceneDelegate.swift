@@ -13,24 +13,27 @@ import URLImageStore
 import Firebase
 import StreamChat
 import StreamChatSwiftUI
-
+import PushNotifications
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate, ObservableObject {
     
+    let pushNotifications = PushNotifications.shared
     weak var windowScene: UIWindowScene?
     var tabWindow: UIWindow?
     
-    //var window: UIWindow?
-//	var authService: AuthService = AuthService.shared
-   // weak var windowScene: UIWindowScene?
-   // var hudWindow: UIWindow?
-    
-   // var viewRouter: ViewRouter = ViewRouter()
-  //  var profileModel: UserProfileModel = UserProfileModel()
+
     
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        
+     /*   pushNotifications.start(instanceId: "de066573-35a5-496c-aae2-16b1d465ebcd")
+            pushNotifications.registerForRemoteNotifications()
+            try? pushNotifications.addDeviceInterest(interest: "hello")
+
+            // Handling push notifications when the app launches due to a push
+            if let notificationResponse = connectionOptions.notificationResponse {
+                self.pushNotifications.handleNotification(userInfo: notificationResponse.notification.request.content.userInfo)
+            }
+        */
         windowScene = scene as? UIWindowScene
         
         /*
@@ -94,7 +97,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, ObservableObject {
 
 
     
-    
+    func scene(_ scene: UIScene, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+     //   pushNotifications.registerDeviceToken(deviceToken)
+        print("registering device with token \(deviceToken)")
+    }
+
+    func scene(_ scene: UIScene, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        // Handle error
+        print("error failing remote notifications  \(error)")
+    }
+
 }
 
 
