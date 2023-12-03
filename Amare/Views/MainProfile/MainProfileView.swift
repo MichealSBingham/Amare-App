@@ -13,11 +13,16 @@ struct MainProfileView: View {
 
     @EnvironmentObject var model: UserProfileModel
     
+  
     
     
     @State var selection: Int = 0
     
     @State var showSettings: Bool = false
+    @State var showProfilePicChange: Bool = false
+    
+    @State private var navigateToFriends = false
+
     
     var menuOptions: [String]  = ["Your Planets", "Your Story", "Media", "Birth Chart"]
     
@@ -31,11 +36,18 @@ struct MainProfileView: View {
                             })
 
                 ScrollView{
+                    
                     //MARK: - Profile Image
-                    CircularProfileImageView(profileImageUrl: model.user?.profileImageUrl, isNotable: model.user?.isNotable)
-                        .frame(width: 100, height: 100)
-                    //  .border(.white)
-                    // .padding()
+                    Button {
+                        showProfilePicChange.toggle()
+                    } label: {
+                        CircularProfileImageView(profileImageUrl: model.user?.profileImageUrl, isNotable: model.user?.isNotable)
+                            .frame(width: 100, height: 100)
+                    }
+                    .buttonStyle(.plain)
+
+                    
+        
                     
                     //MARK: - Name and Username
                     NameLabelView(name: model.user?.name, username: model.user?.username)
@@ -43,14 +55,27 @@ struct MainProfileView: View {
                     //MARK: - Friend Count & "Big 3"
                     HStack{
                         
-                        Text(model.user?.totalFriendCount?.formattedWithAbbreviations() ?? "0")
-                            .fontWeight(.black)
-                        // .foregroundColor(.blue)
+                        NavigationLink(destination: FriendsListView(), isActive: $navigateToFriends) {
+                            
+                            Group {
+                                Text(model.user?.totalFriendCount?.formattedWithAbbreviations() ?? "0")
+                                    .fontWeight(.black)
+                                
+                                Text("Friends")
+                                    .fontWeight(.ultraLight)
+                                    .font(.subheadline)
+                            }
+                            
+                                     .onTapGesture {
+                                        self.navigateToFriends = true
+                                                }
+                                        }
+                        .buttonStyle(.plain)
                         
                         
-                        Text("Friends")
-                            .fontWeight(.ultraLight)
-                            .font(.subheadline)
+                                                
+                        
+                      
                         
                         PlanetName.Sun.image()
                             .frame(width: 20)
@@ -95,7 +120,8 @@ struct MainProfileView: View {
                         
                         Text("Planetary Aspects Go Here").tag(1)
                         
-                        PicturesCollectionView(images: peopleImages).tag(2)
+                        PicturesCollectionView(images: model.user?.images ?? [], isSignedInUser: true).tag(2)
+                            .environmentObject(model)
                         
                         PlanetGridView(planets: model.natalChart?.planets ?? Planet.randomArray(ofLength: 5),
                                        interpretations: model.natalChart?.interpretations ?? generateRandomPlanetInfoDictionary())
@@ -121,11 +147,18 @@ struct MainProfileView: View {
                             SettingsView()
                     //.environmentObject(authService)
                     .environmentObject(model)
+                   
                     
                         }
+            .sheet(isPresented: $showProfilePicChange){
+                ChangeProfilePictureView()
+                    .environmentObject(model)
+            }
             
         }
     }
+    
+    
 }
 
 struct MainProfileView_Preview: View {
@@ -136,6 +169,7 @@ struct MainProfileView_Preview: View {
         MainProfileView()
             .environmentObject(AuthService.shared)
             .environmentObject(model)
+           
             .onAppear {
                 model.user = AppUser.generateMockData()
                 model.natalChart?.planets = Planet.randomArray(ofLength: 5)

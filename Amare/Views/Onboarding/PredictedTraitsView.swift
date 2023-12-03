@@ -11,7 +11,7 @@ struct PredictedTraitsView: View {
 	
 	@EnvironmentObject var model: OnboardingViewModel
     
-    @State var traits: [String] = ["ambitious", "sincere", "emotional", "mean", "determined"]
+    @State var traits: [String] = []
     
    
     
@@ -44,7 +44,7 @@ struct PredictedTraitsView: View {
             }
             .padding()
             .onChange(of: model.traitFeedback) { num in
-                print("num \(num.count) , feedback: \(model.predictedTraits.count)")
+               
                 if num.count == model.predictedTraits.count && num.count != 0 {
                     withAnimation { didFinishTraitSelection.toggle() }
                 }

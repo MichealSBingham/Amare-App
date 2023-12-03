@@ -25,6 +25,8 @@ class UserProfileModel: ObservableObject{
     @Published var winkedAtMe: Bool?
     @Published var winkStatus: IncomingWink?
     
+    @Published var winkedAtThem: Bool?
+    
     /// TODO: make sure this data is updated n the initial LoadUser() function, right now, only changes if the user sends the friend request .. perhaps update the `friendshipStatus` variable here.
     @Published var didSendFriendRequest: Bool?
     
@@ -47,6 +49,7 @@ class UserProfileModel: ObservableObject{
     private var friendRequestsListener: ListenerRegistration?
     
     private var winkStatusListener: ListenerRegistration?
+    private var outgoingWinkStatusListener: ListenerRegistration?
     
     private var natalChartListener: ListenerRegistration?
     
@@ -59,6 +62,7 @@ class UserProfileModel: ObservableObject{
         friendRequests = []
         winkedAtMe = nil
         winkStatus = nil
+        winkedAtThem = nil
         didSendFriendRequest = nil
         oneLiner = nil
         interpretations = nil
@@ -95,6 +99,8 @@ class UserProfileModel: ObservableObject{
         self.getNatalChart(userId: userId)
         
         if Auth.auth().currentUser?.uid != userId { self.getWinkStatus(with: userId) }
+        
+        if Auth.auth().currentUser?.uid != userId { self.getOutgoingWinkStatus(with: userId) }
         
         if Auth.auth().currentUser?.uid == userId { self.listenForAllFriendRequests()}
         
@@ -241,6 +247,7 @@ class UserProfileModel: ObservableObject{
         }
     }
     
+    // will send a wink and also remove it if a wink is already there
     func sendWink(from: AppUser, completion: @escaping (Error?) -> Void) {
         guard let to = self.user?.id else {
             completion(NSError(domain: "Cannot load data", code: 0, userInfo: nil))
@@ -250,6 +257,25 @@ class UserProfileModel: ObservableObject{
         guard to != Auth.auth().currentUser?.uid else {
             print("can't wink yourself as a friend")
             completion(nil)
+            return
+        }
+        
+        guard let didWink = winkedAtThem  else {
+            completion(NSError(domain: "Haven't loaded data yet", code: 0, userInfo: nil))
+            return
+        }
+        
+        guard !didWink else {
+            FirestoreService.shared.deleteWink(from: from, to: to) { result in
+                switch result {
+                case .success(let success):
+                    print(success)
+                    completion(nil)
+                case .failure(let failure):
+                    print(failure)
+                    completion(failure)
+                }
+            }
             return
         }
         
@@ -339,6 +365,27 @@ class UserProfileModel: ObservableObject{
                     
                 }
                 print("Error trying to obtain wink status: \(failure)")
+            }
+        })
+    }
+    
+    private func getOutgoingWinkStatus(with dasha: String){
+        outgoingWinkStatusListener = FirestoreService.shared.listenForOutgoingWink(to: dasha, completion: { result in
+            
+            switch result {
+            case .success(let didWink):
+                DispatchQueue.main.async{
+                    withAnimation{
+                        print("did wink at the user : ... \(didWink)")
+                        self.winkedAtThem = didWink
+                    }
+                }
+            case .failure(let failure):
+                withAnimation{
+                    self.error = failure
+                    
+                }
+                print("Error trying to obtain if we winked at the user status: \(failure)")
             }
         })
     }

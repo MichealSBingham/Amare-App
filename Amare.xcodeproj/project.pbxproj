@@ -29,6 +29,16 @@
 		2601359C2A485A7F007878BD /* InputHomeCityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2601359B2A485A7F007878BD /* InputHomeCityView.swift */; };
 		2601359E2A488496007878BD /* Birthday.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2601359D2A488496007878BD /* Birthday.swift */; };
 		260135A02A4884A6007878BD /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2601359F2A4884A6007878BD /* Place.swift */; };
+		260191142B15207C00FB7A3B /* NearbyUsersSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260191132B15207C00FB7A3B /* NearbyUsersSheet.swift */; };
+		2601911A2B162E8100FB7A3B /* Crop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260191192B162E8100FB7A3B /* Crop.swift */; };
+		2601911E2B162EC500FB7A3B /* CustomImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2601911D2B162EC500FB7A3B /* CustomImagePicker.swift */; };
+		260191202B17906700FB7A3B /* ExtraMediaUploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2601911F2B17906700FB7A3B /* ExtraMediaUploadView.swift */; };
+		260191222B17C18B00FB7A3B /* ChangeProfilePictureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260191212B17C18A00FB7A3B /* ChangeProfilePictureView.swift */; };
+		260191242B17E90000FB7A3B /* UploadNewImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260191232B17E90000FB7A3B /* UploadNewImageView.swift */; };
+		260191272B18E9A200FB7A3B /* FriendsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260191262B18E9A200FB7A3B /* FriendsListView.swift */; };
+		260191292B18FEBC00FB7A3B /* NearbyUserRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260191282B18FEBC00FB7A3B /* NearbyUserRowView.swift */; };
+		260718942B1B67680096DBAA /* DiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260718932B1B67680096DBAA /* DiceView.swift */; };
+		260718972B1B86590096DBAA /* Dice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260718962B1B86590096DBAA /* Dice.swift */; };
 		2608CF46268FE27300826FDA /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2608CF45268FE27300826FDA /* ImagePickerView.swift */; };
 		2608CF482691425E00826FDA /* QR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2608CF472691425E00826FDA /* QR.swift */; };
 		2608CF512697529600826FDA /* GlobalErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2608CF502697529600826FDA /* GlobalErrors.swift */; };
@@ -98,6 +108,10 @@
 		2662ED1C2842D17600B0EA57 /* PulsingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2662ED192842D17600B0EA57 /* PulsingView.swift */; };
 		267ABC482AFC574A008BFA60 /* EffectsLibrary in Frameworks */ = {isa = PBXBuildFile; productRef = 267ABC472AFC574A008BFA60 /* EffectsLibrary */; };
 		267B37C82B0EC61000782A65 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267B37C72B0EC61000782A65 /* MapView.swift */; };
+		267D5C9D2B19498800F80375 /* LocationPrivacyCapsule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267D5C9C2B19498800F80375 /* LocationPrivacyCapsule.swift */; };
+		267D5C9F2B19530100F80375 /* LocationPrivacySettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267D5C9E2B19530100F80375 /* LocationPrivacySettings.swift */; };
+		267D5CA12B1A30D900F80375 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267D5CA02B1A30D900F80375 /* CustomTextField.swift */; };
+		267D5CA42B1A73E600F80375 /* Particle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267D5CA32B1A73E600F80375 /* Particle.swift */; };
 		2684C6632A65F8110048BB4E /* CircularProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2684C6622A65F8110048BB4E /* CircularProfileImageView.swift */; };
 		2684C6662A65F9800048BB4E /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 2684C6652A65F9800048BB4E /* SDWebImageSwiftUI */; };
 		268E542826DCEC6400E61F40 /* InputVerificationCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268E542726DCEC6400E61F40 /* InputVerificationCode.swift */; };
@@ -224,6 +238,16 @@
 		2601359B2A485A7F007878BD /* InputHomeCityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputHomeCityView.swift; sourceTree = "<group>"; };
 		2601359D2A488496007878BD /* Birthday.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Birthday.swift; sourceTree = "<group>"; };
 		2601359F2A4884A6007878BD /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
+		260191132B15207C00FB7A3B /* NearbyUsersSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyUsersSheet.swift; sourceTree = "<group>"; };
+		260191192B162E8100FB7A3B /* Crop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Crop.swift; sourceTree = "<group>"; };
+		2601911D2B162EC500FB7A3B /* CustomImagePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomImagePicker.swift; sourceTree = "<group>"; };
+		2601911F2B17906700FB7A3B /* ExtraMediaUploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtraMediaUploadView.swift; sourceTree = "<group>"; };
+		260191212B17C18A00FB7A3B /* ChangeProfilePictureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeProfilePictureView.swift; sourceTree = "<group>"; };
+		260191232B17E90000FB7A3B /* UploadNewImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadNewImageView.swift; sourceTree = "<group>"; };
+		260191262B18E9A200FB7A3B /* FriendsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsListView.swift; sourceTree = "<group>"; };
+		260191282B18FEBC00FB7A3B /* NearbyUserRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyUserRowView.swift; sourceTree = "<group>"; };
+		260718932B1B67680096DBAA /* DiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiceView.swift; sourceTree = "<group>"; };
+		260718962B1B86590096DBAA /* Dice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dice.swift; sourceTree = "<group>"; };
 		2608CF45268FE27300826FDA /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
 		2608CF472691425E00826FDA /* QR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QR.swift; sourceTree = "<group>"; };
 		2608CF502697529600826FDA /* GlobalErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalErrors.swift; sourceTree = "<group>"; };
@@ -280,6 +304,10 @@
 		2662ED182842D17600B0EA57 /* ProfileImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileImageView.swift; sourceTree = "<group>"; };
 		2662ED192842D17600B0EA57 /* PulsingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PulsingView.swift; sourceTree = "<group>"; };
 		267B37C72B0EC61000782A65 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		267D5C9C2B19498800F80375 /* LocationPrivacyCapsule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPrivacyCapsule.swift; sourceTree = "<group>"; };
+		267D5C9E2B19530100F80375 /* LocationPrivacySettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPrivacySettings.swift; sourceTree = "<group>"; };
+		267D5CA02B1A30D900F80375 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		267D5CA32B1A73E600F80375 /* Particle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Particle.swift; sourceTree = "<group>"; };
 		2684C6622A65F8110048BB4E /* CircularProfileImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProfileImageView.swift; sourceTree = "<group>"; };
 		268E542726DCEC6400E61F40 /* InputVerificationCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputVerificationCode.swift; sourceTree = "<group>"; };
 		268F26C0268018EE00FBEA7D /* ForNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForNavigation.swift; sourceTree = "<group>"; };
@@ -472,6 +500,49 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		260191122B15201500FB7A3B /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				260191132B15207C00FB7A3B /* NearbyUsersSheet.swift */,
+				260191282B18FEBC00FB7A3B /* NearbyUserRowView.swift */,
+				267D5C9C2B19498800F80375 /* LocationPrivacyCapsule.swift */,
+				260718932B1B67680096DBAA /* DiceView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		260191152B162E4200FB7A3B /* ImagePicker */ = {
+			isa = PBXGroup;
+			children = (
+				2601911D2B162EC500FB7A3B /* CustomImagePicker.swift */,
+			);
+			path = ImagePicker;
+			sourceTree = "<group>";
+		};
+		260191182B162E7000FB7A3B /* ImagePicker */ = {
+			isa = PBXGroup;
+			children = (
+				260191192B162E8100FB7A3B /* Crop.swift */,
+			);
+			path = ImagePicker;
+			sourceTree = "<group>";
+		};
+		260191252B18E98800FB7A3B /* SubViews */ = {
+			isa = PBXGroup;
+			children = (
+				260191262B18E9A200FB7A3B /* FriendsListView.swift */,
+			);
+			path = SubViews;
+			sourceTree = "<group>";
+		};
+		260718952B1B86080096DBAA /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				260718962B1B86590096DBAA /* Dice.swift */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
 		2608CF4F2697522300826FDA /* Errors */ = {
 			isa = PBXGroup;
 			children = (
@@ -513,6 +584,9 @@
 		2626D2E42A21078F007F5C77 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				260718952B1B86080096DBAA /* Map */,
+				267D5CA22B1A73C200F80375 /* Animations */,
+				260191182B162E7000FB7A3B /* ImagePicker */,
 				262F2A622A50A98B00C980D3 /* BackgroundViewModel.swift */,
 				265C4BD32AFC2625007D0925 /* PersonalityPredicting */,
 				2656D1052AF828BD000A13B2 /* Traits */,
@@ -531,6 +605,7 @@
 		2626D2E52A210799007F5C77 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				260191152B162E4200FB7A3B /* ImagePicker */,
 				267B37C62B0EC5E500782A65 /* Map */,
 				2632BFF12B0D20DA00873BE7 /* Settings */,
 				263C9CC02B065F5A009C1626 /* MainProfile */,
@@ -564,6 +639,7 @@
 				2601359F2A4884A6007878BD /* Place.swift */,
 				2601359D2A488496007878BD /* Birthday.swift */,
 				262F2A672A521C0400C980D3 /* AppUser.swift */,
+				267D5C9E2B19530100F80375 /* LocationPrivacySettings.swift */,
 			);
 			path = AppUser;
 			sourceTree = "<group>";
@@ -580,6 +656,7 @@
 			isa = PBXGroup;
 			children = (
 				2632BFF22B0D20E900873BE7 /* SettingsView.swift */,
+				260191212B17C18A00FB7A3B /* ChangeProfilePictureView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -587,6 +664,7 @@
 		263C9CC02B065F5A009C1626 /* MainProfile */ = {
 			isa = PBXGroup;
 			children = (
+				260191252B18E98800FB7A3B /* SubViews */,
 				263C9CC12B065FE3009C1626 /* MainProfileView.swift */,
 			);
 			path = MainProfile;
@@ -648,9 +726,18 @@
 		267B37C62B0EC5E500782A65 /* Map */ = {
 			isa = PBXGroup;
 			children = (
+				260191122B15201500FB7A3B /* Components */,
 				267B37C72B0EC61000782A65 /* MapView.swift */,
 			);
 			path = Map;
+			sourceTree = "<group>";
+		};
+		267D5CA22B1A73C200F80375 /* Animations */ = {
+			isa = PBXGroup;
+			children = (
+				267D5CA32B1A73E600F80375 /* Particle.swift */,
+			);
+			path = Animations;
 			sourceTree = "<group>";
 		};
 		268F26BD2680080F00FBEA7D /* UserAccount */ = {
@@ -925,6 +1012,7 @@
 				26BD69422AB7DFF30062B18B /* PredictedTraitsView.swift */,
 				265C4BCF2AFC1EE0007D0925 /* PredictedPersonalityStatementsView.swift */,
 				263C9CB82B04F21D009C1626 /* MediaUploadView.swift */,
+				2601911F2B17906700FB7A3B /* ExtraMediaUploadView.swift */,
 				26C466492A34FEC0000EC8BC /* UsernameInputView.swift */,
 			);
 			path = Onboarding;
@@ -953,6 +1041,8 @@
 				269013AE2AE470A600397075 /* BackButton.swift */,
 				269013B02AE474A000397075 /* MenuOptionsView.swift */,
 				2693C51C2B07EAC900D26640 /* PicturesCollectionView.swift */,
+				260191232B17E90000FB7A3B /* UploadNewImageView.swift */,
+				267D5CA02B1A30D900F80375 /* CustomTextField.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -1252,6 +1342,7 @@
 				260954C42A60BE6700114C56 /* UserTypeSelection.swift in Sources */,
 				26A5FBDC2A732E4C00D94476 /* ZodiacSign.swift in Sources */,
 				262F2A682A521C0400C980D3 /* AppUser.swift in Sources */,
+				260718942B1B67680096DBAA /* DiceView.swift in Sources */,
 				26B1AFDF2678FFE700A170B3 /* Persistence.swift in Sources */,
 				262F8F9C2A7B42E100EE709E /* OutgoingFriendRequest.swift in Sources */,
 				2608CF512697529600826FDA /* GlobalErrors.swift in Sources */,
@@ -1263,12 +1354,15 @@
 				262F2A612A50A8C000C980D3 /* Background.swift in Sources */,
 				2608CF532697C9D600826FDA /* SystemErrors.swift in Sources */,
 				26C4665B2A35276A000EC8BC /* ProgressBarView.swift in Sources */,
+				267D5C9F2B19530100F80375 /* LocationPrivacySettings.swift in Sources */,
 				26A5FBDE2A732E4C00D94476 /* House.swift in Sources */,
 				269013AF2AE470A600397075 /* BackButton.swift in Sources */,
 				26C466512A34FEC0000EC8BC /* UsernameInputView.swift in Sources */,
+				260191292B18FEBC00FB7A3B /* NearbyUserRowView.swift in Sources */,
 				267B37C82B0EC61000782A65 /* MapView.swift in Sources */,
 				2601359C2A485A7F007878BD /* InputHomeCityView.swift in Sources */,
 				26A5FBDA2A732E4C00D94476 /* Aspect.swift in Sources */,
+				260191202B17906700FB7A3B /* ExtraMediaUploadView.swift in Sources */,
 				26BD69412AB759BC0062B18B /* APIService.swift in Sources */,
 				2662ED1C2842D17600B0EA57 /* PulsingView.swift in Sources */,
 				263D6F9A2684087300CBBECC /* AmareUser.swift in Sources */,
@@ -1295,6 +1389,8 @@
 				260120012AEE9717004C4D77 /* PlanetImageView.swift in Sources */,
 				26006E802ADA21330063802E /* NearbyInteractionError.swift in Sources */,
 				26D229ED2A5CDFC500BFA3BB /* OnboardingError.swift in Sources */,
+				260718972B1B86590096DBAA /* Dice.swift in Sources */,
+				260191222B17C18B00FB7A3B /* ChangeProfilePictureView.swift in Sources */,
 				263D6F962683F77C00CBBECC /* Location.swift in Sources */,
 				26970699268101B0007E7961 /* SceneDelegate.swift in Sources */,
 				26A5FBE82A7334F100D94476 /* PlanetView.swift in Sources */,
@@ -1309,11 +1405,13 @@
 				26A0B9DB2A24F88A00DCAB5F /* RGQuizViewModel.swift in Sources */,
 				262F2A652A51C3CE00C980D3 /* HomeView.swift in Sources */,
 				262F2A502A4BB9C600C980D3 /* IntentionInputView.swift in Sources */,
+				2601911E2B162EC500FB7A3B /* CustomImagePicker.swift in Sources */,
 				269013AB2AE34AC100397075 /* FriendshipStatusView.swift in Sources */,
 				260135922A475B4A007878BD /* NextButtonView.swift in Sources */,
 				26D1A7F72AF88C6800C290D4 /* CometView.swift in Sources */,
 				2601359A2A477354007878BD /* Date+Extensions.swift in Sources */,
 				26FCD2582A23D2ED00A09569 /* AppEnvironment.swift in Sources */,
+				260191142B15207C00FB7A3B /* NearbyUsersSheet.swift in Sources */,
 				260135902A47597A007878BD /* UsernameAvailabilityView.swift in Sources */,
 				260954BF2A60B4A400114C56 /* SegmentedMenuView.swift in Sources */,
 				26006E7C2AD9F8E50063802E /* NearbyInteractionHelper.swift in Sources */,
@@ -1333,14 +1431,18 @@
 				260135952A475BBB007878BD /* PulsingModifier.swift in Sources */,
 				26C466522A34FEC0000EC8BC /* InputNameView.swift in Sources */,
 				263C9CB92B04F21E009C1626 /* MediaUploadView.swift in Sources */,
+				267D5C9D2B19498800F80375 /* LocationPrivacyCapsule.swift in Sources */,
 				262F2A582A4D111B00C980D3 /* Sex+Extensions.swift in Sources */,
+				2601911A2B162E8100FB7A3B /* Crop.swift in Sources */,
 				2684C6632A65F8110048BB4E /* CircularProfileImageView.swift in Sources */,
 				26D685922A6A001E0070CE79 /* SearchedUser.swift in Sources */,
 				26C4664F2A34FEC0000EC8BC /* AnswerView.swift in Sources */,
 				26A5FBEF2A733B1100D94476 /* NatalChartTabView.swift in Sources */,
 				26C399C92A5DCFA90061F9B8 /* URL+Extensions.swift in Sources */,
+				267D5CA12B1A30D900F80375 /* CustomTextField.swift in Sources */,
 				2662A80F2B1149FD00BDDD6E /* Map+Extensions.swift in Sources */,
 				26C466532A34FEC0000EC8BC /* OnboardingSignUpView.swift in Sources */,
+				267D5CA42B1A73E600F80375 /* Particle.swift in Sources */,
 				26A5FBDD2A732E4C00D94476 /* Planet.swift in Sources */,
 				26C4664C2A34FEC0000EC8BC /* QuestionView.swift in Sources */,
 				26C4663F2A34FE96000EC8BC /* RGResponse.swift in Sources */,
@@ -1360,6 +1462,7 @@
 				26006E7E2ADA20DC0063802E /* DiscoveryTokenDocument.swift in Sources */,
 				26011FFA2AEE904F004C4D77 /* MoreInfoOnPlanetView.swift in Sources */,
 				263C9CBB2B04F67C009C1626 /* MediaUploadModel.swift in Sources */,
+				260191272B18E9A200FB7A3B /* FriendsListView.swift in Sources */,
 				263C9CBD2B04F729009C1626 /* EditibleProfileImage.swift in Sources */,
 				2656D1042AF80860000A13B2 /* TraitsView.swift in Sources */,
 				26C399CB2A5E23350061F9B8 /* SearchAndFriendsView.swift in Sources */,
@@ -1372,6 +1475,7 @@
 				263FBDE0283BE4B4008F35C5 /* MathUtilities.swift in Sources */,
 				26011FF82AED9A29004C4D77 /* MainPlacementView.swift in Sources */,
 				2662A8082B1132A800BDDD6E /* LocationManager.swift in Sources */,
+				260191242B17E90000FB7A3B /* UploadNewImageView.swift in Sources */,
 				2662A8112B138EA600BDDD6E /* CustomNavigationBarView.swift in Sources */,
 				26C466502A34FEC0000EC8BC /* RGQuizView.swift in Sources */,
 				263C9CC42B068AB5009C1626 /* UserProfileView2.swift in Sources */,
@@ -1612,7 +1716,7 @@
 				INFOPLIST_FILE = Amare/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Amāre";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1647,7 +1751,7 @@
 				INFOPLIST_FILE = Amare/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Amāre";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

@@ -18,12 +18,15 @@ struct ContentView: View{
     @StateObject var mapViewModel: MapViewModel = MapViewModel()
     @StateObject var bgModel = BackgroundViewModel()
     @StateObject var onboardingModel = OnboardingViewModel()
-   // @StateObject var dataModel = UserProfileModel()
-    //@StateObject var viewRouter = ViewRouter()
+   
     
     @EnvironmentObject  var sceneDelegate: SceneDelegate
     
     @State var showSheetForMap: Bool = true
+    
+    @State var showUserSheet: Bool = false
+    
+    @State var mapSheetDetent: PresentationDetent = .fraction(0.35)
     
     var body: some View{
         
@@ -84,6 +87,7 @@ struct ContentView: View{
                 .opacity(viewRouter.currentPage == .map ? 1: 0) */
             ZStack{
                 MapView()
+                    .environmentObject(viewRouter)
                     .opacity(viewRouter.currentPage == .map ? 1: 0)
                     .onChange(of: viewRouter.currentPage) {
                         page in
@@ -100,8 +104,39 @@ struct ContentView: View{
                 HomeView()
                 
             }
+            .sheet(isPresented: $showUserSheet, onDismiss: {
+                showSheetForMap = true
+            }, content: {
+                VStack{
+                    
+                    CircularProfileImageView(profileImageUrl: AppUser.generateMockData().profileImageUrl, isNotable: AppUser.generateMockData().isNotable, winked: Bool.random(),  showShadow: false)
+                        .frame(width: 100, height: 100)
+                    
+                    NameLabelView(name: AppUser.generateMockData().name, username: AppUser.generateMockData().username)
+                    
+                }
+                    .presentationDetents([.medium])
+                    .presentationBackgroundInteraction(
+                        .enabled(upThrough: .medium)
+                    )
+                    
+            })
             
-            .tabSheet(showSheet: $showSheetForMap, initialHeight: 250, sheetCornerRadius: 15) {
+            .sheet(isPresented: $showSheetForMap, content: {
+                
+                NearbyUsersSheet(showUserSheet: $showUserSheet, presentationDetent: $mapSheetDetent)
+                    
+                    .cornerRadius(20)
+                    .environmentObject(mapViewModel)
+                    .presentationDetents([.fraction(0.35), .medium, .large], selection: $mapSheetDetent)
+                .presentationBackgroundInteraction(
+                    .enabled(upThrough: .medium)
+                )
+                .presentationBackground(.thinMaterial)
+                .environmentObject(viewRouter)
+            })
+            
+            /* .tabSheet(showSheet: $showSheetForMap, initialHeight: 250, sheetCornerRadius: 15) {
                 NavigationStack{
                     ScrollView{
                         VStack{
@@ -109,7 +144,6 @@ struct ContentView: View{
                             HStack{
                                 Text("\(mapViewModel.nearbyUsers.count) \(mapViewModel.nearbyUsers.count == 1 ? "Person" : "People") Near You")
                                     .font(.title3.bold())
-                                    // .foregroundColor(.amare)
                                     Spacer()
                             }
                             //MARK: - Show nearby users
@@ -122,6 +156,16 @@ struct ContentView: View{
                                         CircularProfileImageView(profileImageUrl: user.profileImageUrl, isNotable: false , showShadow: false)
                                                 .frame(width: 80)
                                                 .padding()
+                                                .onTapGesture{
+                                                    showSheetForMap = false
+                                                    
+                                                    AmareApp().delay(1.0) {
+                                                        showUserSheet = true
+                                                    }
+                                                    
+                                                    
+                                                    
+                                                }
                                                 
                                                 //.padding(.vertical, 10)
                                             
@@ -144,15 +188,14 @@ struct ContentView: View{
                         ClearBackground()
                     }
                 }
-            }
-             
-                 .onAppear {
-                     dataModel.loadUser()
-                     
-                     guard sceneDelegate.tabWindow == nil else { return }
+            } */
+                .onAppear {
+                    dataModel.loadUser()
+                    
+                    guard sceneDelegate.tabWindow == nil else { return }
 
-                     sceneDelegate.addTabBar(viewRouter: viewRouter, dataModel)
-                 }
+                    sceneDelegate.addTabBar(viewRouter: viewRouter, dataModel)
+                }
                 .environmentObject(bgModel)
                 .environmentObject(authService)
                 .environmentObject(onboardingModel)
@@ -248,8 +291,10 @@ struct PreviewHome: View {
 struct ContentView_Previews: PreviewProvider {
     
     static var bgmodel = BackgroundViewModel()
+    static var sceneDelegate = SceneDelegate()
     static var vr = ViewRouter()
     static var previews: some View {
         PreviewHome()
+            .environmentObject(sceneDelegate)
     }
 }

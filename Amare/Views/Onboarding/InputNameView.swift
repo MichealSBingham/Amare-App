@@ -250,6 +250,8 @@ struct InputNameView: View {
         
         return    TextField("What's your name?", text: $name, onCommit:  {
             
+            
+            /*
             if !isExpanded{
                 
                // Should go to next view now
@@ -280,9 +282,9 @@ struct InputNameView: View {
                 }
             }
             
-          
+          */
             
-        })
+        }  )
         .focused($focusField, equals: .enterName)
 		
 	/*	.firstResponder(id: FirstResponders.name, firstResponder: $firstResponder, resignableUserOperations: .none) */
@@ -427,7 +429,9 @@ struct CitySearchView: View {
                 
                 
             })
-                .firstResponder(id: FirstResponders.city, firstResponder: $firstResponder, resignableUserOperations: .none)
+            .firstResponder(id: FirstResponders.city, firstResponder: $firstResponder, resignableUserOperations: .none)
+            .disableAutocorrection(true)
+                
             
                 .padding()
                 .onChange(of: searchText) { newValue in

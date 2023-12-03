@@ -48,8 +48,9 @@ class OnboardingViewModel: ObservableObject{
     
     @Published var residence: MKPlacemark?
     
-    @Published var profileImageUrl: String = URL.randomProfileImageURL(isMale: Bool.random())!.absoluteString
-	
+    @Published var profileImageUrl: String = ""
+    @Published var images: [String] = []
+    @Published var extraImages: [String] = []
 	
 	@Published var friendshipSelected: Bool = false
 	@Published var datingSelected: Bool = false
@@ -57,7 +58,7 @@ class OnboardingViewModel: ObservableObject{
     
    
     
-    var reasonsForUse: [AppUser.ReasonsForUse] = []
+    var reasonsForUse: [ReasonsForUse] = []
     
     @Published var womenSelected: Bool = false
     @Published var menSelected: Bool = false
@@ -132,21 +133,25 @@ class OnboardingViewModel: ObservableObject{
             homeCity = nil
             gender = .none
             residence = nil
-            profileImageUrl = URL.randomProfileImageURL(isMale: Bool.random())!.absoluteString
+            profileImageUrl = ""
+            images.removeAll()
             friendshipSelected = false
             datingSelected = false
             selfDiscoverySelected = false
-            reasonsForUse = []
+            reasonsForUse.removeAll()
             womenSelected = false
             menSelected = false
             TmenSelected = false
             TwomenSelected = false
             nonBinarySelected = false
-            orientation = []
+            orientation.removeAll()
             progress = Double(OnboardingScreen.allCases.firstIndex(of: .phoneNumber) ?? 0) / Double(OnboardingScreen.allCases.count - 1)
             error = nil
-            predictedTraits = []
-            traitFeedback = [:]
+        predictedTraits.removeAll()
+        traitFeedback.removeAll()
+        predictedPersonalityStatements.removeAll()
+        personalityStatementsFeedback.removeAll()
+        
         }
     //MARK: - Functions
     
@@ -210,48 +215,60 @@ class OnboardingViewModel: ObservableObject{
         
         // MARK: - adding reasons for use and the user's sexual orientation
         
-        reasonsForUse.removeAll()
+        var intentions: [ReasonsForUse] = []
 
                 // Check each selection and append to the array if true
+        print("***=====frindshipSelected: \(friendshipSelected) datingSelected: \(datingSelected) selfDiscovery: \(selfDiscoverySelected)")
                 if friendshipSelected {
-                    reasonsForUse.append(.friendship)
+                    intentions.append(.friendship)
                 }
                 if datingSelected {
-                    reasonsForUse.append(.dating)
+                    intentions.append(.dating)
                 }
                 if selfDiscoverySelected {
-                    reasonsForUse.append(.selfDiscovery)
+                    intentions.append(.selfDiscovery)
                 }
         
-        orientation.removeAll()
+        //orientation.removeAll()
+        var myOrientation: [Sex] = []
 
                 // Check each selection and append to the array if true
                 if womenSelected {
-                    orientation.append(.female)
+                    myOrientation.append(.female)
                 }
                 if menSelected {
-                    orientation.append(.male)
+                    myOrientation.append(.male)
                 }
                 if TmenSelected {
-                    orientation.append(.transmale)
+                    myOrientation.append(.transmale)
                 }
                 if TwomenSelected {
-                    orientation.append(.transfemale)
+                    myOrientation.append(.transfemale)
                 }
                 if nonBinarySelected {
-                    orientation.append(.non_binary)
+                    myOrientation.append(.non_binary)
                 }
         
         
         
+        var images = images
+        images.append(contentsOf: extraImages)
         
+        let myProfileImage = profileImageUrl
         
+        let posTraits = getPositiveFeedbackTraits(predictedTraits: predictedTraits, traitFeedback: traitFeedback)
+        print("posTraits: \(posTraits)")
+        let traits = posTraits.likelyTraitNames()
+        print("traits: \(traits)")
+        
+        let isDating = datingSelected
+        let isFriends = friendshipSelected
     // MARK: - Now create the new user
         
         
-        var newUser = AppUser(id: userID, name: name, hometown: ht, birthday: bday, knownBirthTime: knowsBirthTime, residence: rs, profileImageUrl: profileImageUrl, images: [], sex: gender, orientation: orientation, username: username, phoneNumber: phoneNumber ?? "", reasonsForUse: reasonsForUse)
+        let newUser = AppUser(id: userID, name: name, hometown: ht, birthday: bday, knownBirthTime: knowsBirthTime, residence: rs, profileImageUrl: myProfileImage, images: images, sex: gender, orientation: myOrientation, username: username, phoneNumber: phoneNumber ?? "", reasonsForUse: intentions, isForDating: isDating, isForFriends: isFriends, traits: traits)
         
-        AuthService.shared.fetchStreamTokenFromFirebase(andUpdate: name, profileImageURL: profileImageUrl, username: username)
+        AuthService.shared.fetchStreamTokenFromFirebase(andUpdate: name, profileImageURL: myProfileImage, username: username)
         
         FirestoreService.shared.setOnboardingData(forUser: newUser) { result in
             
@@ -403,6 +420,13 @@ class OnboardingViewModel: ObservableObject{
     func generatePersonality(){
         self.predictedPersonalityStatements = PersonalityStatement.random(n: 10)
     }
+    
+    private func getPositiveFeedbackTraits(predictedTraits: [PredictedTrait], traitFeedback: [String: Bool]) -> [PredictedTrait] {
+        return predictedTraits.filter { predictedTrait in
+            traitFeedback[predictedTrait.name] == true
+        }
+    }
+
     
     
 }

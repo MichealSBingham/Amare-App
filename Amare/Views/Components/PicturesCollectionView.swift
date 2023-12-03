@@ -17,7 +17,10 @@ struct IdentifiableImage: Identifiable {
 
 struct PicturesCollectionView: View {
     var images: [String] = []
+    var isSignedInUser: Bool = false
     @State var selectedImage: IdentifiableImage?
+    @State var showNewImageUpload: Bool = false
+    @EnvironmentObject var signedInUserDataModel: UserProfileModel
 
     var body: some View {
         GeometryReader { geometry in
@@ -38,12 +41,23 @@ struct PicturesCollectionView: View {
                             }
                     }
                     
-                    Image(systemName: "camera.fill")
-                            .font(.largeTitle)
-                            .foregroundColor(.gray)
-                            .frame(width: width, height: width)
-                            .background(Color.secondary.opacity(0.1))
-                            .overlay(Rectangle().stroke(Color.black, lineWidth: 0.5))
+                    if isSignedInUser{
+                        
+                        Button {
+                            showNewImageUpload.toggle()
+                        } label: {
+                            
+                            Image(systemName: "camera.fill")
+                                    .font(.largeTitle)
+                                    .foregroundColor(.gray)
+                                    .frame(width: width, height: width)
+                                    .background(Color.secondary.opacity(0.1))
+                                    .overlay(Rectangle().stroke(Color.black, lineWidth: 0.5))
+                        }
+                        .buttonStyle(.plain)
+
+                    }
+                   
                     
                 }
             }
@@ -52,6 +66,10 @@ struct PicturesCollectionView: View {
         .sheet(item: $selectedImage) { imageUrl in
             FullScreenImageView(imageUrl: imageUrl.imageUrl)
         }
+        .sheet(isPresented: $showNewImageUpload, content: {
+            UploadNewImageView()
+                .environmentObject(signedInUserDataModel)
+        })
     }
 }
 

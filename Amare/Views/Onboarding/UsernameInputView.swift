@@ -105,6 +105,7 @@ struct UsernameInputView: View {
                         withAnimation{
                             authService.isOnboardingComplete = true
                             print("Onboarding is finished should go to home screen now.")
+                            model.resetData()
                             viewRouter.screenToShow = .home
                             
                         }
@@ -204,7 +205,9 @@ struct UsernameInputView: View {
           
             
         } )
-            .firstResponder(id: FirstResponders.username, firstResponder: $firstResponder, resignableUserOperations: .none)
+        .firstResponder(id: FirstResponders.username, firstResponder: $firstResponder, resignableUserOperations: .none)
+        .disableAutocorrection(true)
+        .autocapitalization(.none)
         .font(.largeTitle)
 		.alert("Error", isPresented: Binding<Bool>(
 					get: { model.error != nil },

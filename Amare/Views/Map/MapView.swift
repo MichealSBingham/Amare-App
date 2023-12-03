@@ -8,23 +8,91 @@
 import SwiftUI
 import MapKit
 
-import SwiftUI
-import MapKit
+
 
 
 struct MapView: View {
     @EnvironmentObject var userDataModel: UserProfileModel
     @StateObject var locationManager: LocationManager = LocationManager()
     @EnvironmentObject  var viewModel: MapViewModel
+
     
     var body: some View {
-        Map(coordinateRegion: $viewModel.region, interactionModes: .all, showsUserLocation: true)
-            .ignoresSafeArea()
-            .onChange(of: locationManager.currentGeoHash6) {  geohash in
-               // print("Geohash did change from \(oldGeoHash) to \(geohash). === \n QUERYING For nearby users ")
-                // Query nearby users
-                viewModel.listenForNearbyUsers(geohash: geohash)
+        
+        ZStack{
+            
+            
+            Map(coordinateRegion: $viewModel.region, interactionModes: .all, showsUserLocation: true)
+                .ignoresSafeArea()
+                .onChange(of: locationManager.currentGeoHash6) {  geohash in
+                   
+                    viewModel.listenForNearbyUsers(geohash: geohash)
+                    
+                    AmareApp().delay(2) {
+                        
+                        guard let user = userDataModel.user else {
+                            print("can't listen for dices")
+                            return }
+                        
+                        print("should start listening for a nearby dice")
+                        viewModel.listenForNearbyDices(geohash: geohash, mySex: user.sex, forDating: user.isForDating ?? false, forFriendship: user.isForFriends ?? false, myOrientation: user.orientation)
+                    }
+                   
+                    
+                }
+            
+            Color.black.opacity(userDataModel.user?.locationSettings == .off ? 0.5: 0).ignoresSafeArea()
+                
+                
+            
+            VStack{
+                LocationPrivacyCapsule()
+                    .environmentObject(userDataModel)
+                    .padding()
+                
+                Spacer()
+                
+                HStack{
+                    Spacer()
+                    DiceButtonView(status: userDataModel.user?.isDiceActive ?? false, onTap: {
+                        
+                        addOrRemoveDice()
+                        
+                    })
+                        
+                        .padding()
+                }
+                
+                
+                Spacer()
+                Spacer()
+                Spacer()
+                Spacer()
             }
+            
+            // Just for Debugging, we're going to add this elsewhere
+          /*  HStack{
+                ScrollView(.horizontal) {
+                    
+                }
+            }
+            */
+
+        }
+    }
+    
+    func addOrRemoveDice(){
+        guard userDataModel.user?.isDiceActive == false else {
+            FirestoreService.shared.deleteDice { error in
+                
+            }
+            return 
+        }
+        
+        locationManager.addDiceToMap(user: userDataModel.user) { error in
+            print("the error adding dice to map is \(error)")
+        }
+
     }
     
 }
@@ -104,6 +172,7 @@ struct MapViewPreview: View {
     
     @StateObject var viewModel = MapViewModel()
     @State var users: [AppUser] = []
+    @State var showUserSheet: Bool = false
     var body: some View {
         MapView()
             .environmentObject(viewModel)
@@ -127,13 +196,20 @@ struct MapViewPreview: View {
                                     ForEach(users) { user in
                                         
                                       
+                                        Button {
+                                            withAnimation{
+                                                showUserSheet = true
+                                            }
+                                        } label: {
                                             
-                                        CircularProfileImageView(profileImageUrl: user.profileImageUrl, isNotable: false , showShadow: false)
-                            
-                                                .frame(width: 80)
-                                                .padding()
+                                            CircularProfileImageView(profileImageUrl: user.profileImageUrl, isNotable: false , showShadow: false)
+                                                    .frame(width: 80)
+                                                    .padding()
                                                 
-                                                //.padding(.vertical, 10)
+                                        }
+                                        .buttonStyle(.plain)
+
+                                        
                                             
                                                 
                                     
@@ -157,6 +233,7 @@ struct MapViewPreview: View {
                     }
                 }
             }
+            
             .onAppear{
                 viewModel.nearbyUsers = AppUser.generateMockData(of: 28)
                 users = AppUser.generateMockData(of: 28)
@@ -167,7 +244,10 @@ struct MapViewPreview: View {
 
 
 #Preview {
-    MapViewPreview()
+    MapView()
+        .environmentObject(MapViewModel())
+        .environmentObject(UserProfileModel())
+    
     /*
         .tabSheet(showSheet: .constant(true) , initialHeight: 200, sheetCornerRadius: 15) {
                  NavigationStack {

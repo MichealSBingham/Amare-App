@@ -271,6 +271,8 @@ class DemoAppFactory: ViewFactory {
     }
 }
 
+
+
 class CustomViewFactory: ViewFactory {
 	@Injected(\.chatClient) public var chatClient
 
@@ -284,6 +286,7 @@ class CustomViewFactory: ViewFactory {
 			CustomChannelModifier(title: title)
 		}
 	
+    
 	func makeChannelListTopView(searchText: Binding<String>) -> some View {
 		MessagesChannelListTopView(searchText: searchText)
 	}

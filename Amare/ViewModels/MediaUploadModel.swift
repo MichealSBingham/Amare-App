@@ -10,122 +10,142 @@ import PhotosUI
 import CoreTransferable
 import SwiftUI
 
+class ExtraMediaUploadViewModel: ObservableObject {
+    
+    @Published var firstImageURL: String = ""
+    @Published var secondImageURL: String = ""
+    
+    @Published var croppedProfileImage1: UIImage?
+    @Published var originalProfileImage1: UIImage?
+    
+    @Published var croppedProfileImage2: UIImage?
+    @Published var originalProfileImage2: UIImage?
+    
+    
+    
+    // Upload two sets of images
+    func uploadExtraImages(completion: @escaping ((URL?, URL?, URL?, URL?, Error?) -> Void)) {
+        let uploadGroup = DispatchGroup()
 
+        var firstCroppedURL: URL?
+        var firstOriginalURL: URL?
+        var secondCroppedURL: URL?
+        var secondOriginalURL: URL?
+        var encounteredError: Error?
+
+        // Upload first set of images
+        if let cropImage1 = croppedProfileImage1, let orgImage1 = originalProfileImage1 {
+            uploadGroup.enter()
+            FirestoreService.shared.uploadProfileAndOriginalImagesToFirebaseStorage(croppedImage: cropImage1, originalImage: orgImage1, name: "1") { result in
+                switch result {
+                case .success(let (croppedURL, originalURL)):
+                    firstCroppedURL = croppedURL
+                    firstOriginalURL = originalURL
+                case .failure(let error):
+                    print("Error with the first image: \(error)")
+                    encounteredError = error
+                }
+                uploadGroup.leave()
+            }
+        }
+
+        // Upload second set of images
+        if let cropImage2 = croppedProfileImage2, let orgImage2 = originalProfileImage2 {
+            uploadGroup.enter()
+            FirestoreService.shared.uploadProfileAndOriginalImagesToFirebaseStorage(croppedImage: cropImage2, originalImage: orgImage2, name: "2") { result in
+                switch result {
+                case .success(let (croppedURL, originalURL)):
+                    secondCroppedURL = croppedURL
+                    secondOriginalURL = originalURL
+                case .failure(let error):
+                    print("Error with the second image: \(error)")
+                    encounteredError = error
+                }
+                uploadGroup.leave()
+            }
+        }
+
+        // Handle completion
+        uploadGroup.notify(queue: .main) {
+            if let error = encounteredError {
+                completion(nil, nil, nil, nil, error)
+            } else {
+                completion(firstCroppedURL, firstOriginalURL, secondCroppedURL, secondOriginalURL, nil)
+            }
+        }
+    }
+
+    func uploadImage(completion: @escaping ((URL?, URL? , Error?) -> Void)){
+        
+        var firstCroppedURL: URL?
+        var firstOriginalURL: URL?
+        var encounteredError: Error?
+        
+        let name = UUID().uuidString
+        
+        // Upload first set of images
+        if let cropImage1 = croppedProfileImage1, let orgImage1 = originalProfileImage1 {
+            
+            FirestoreService.shared.uploadProfileAndOriginalImagesToFirebaseStorage(croppedImage: cropImage1, originalImage: orgImage1, name: name) { result in
+                switch result {
+                case .success(let (croppedURL, originalURL)):
+                    firstCroppedURL = croppedURL
+                    firstOriginalURL = originalURL
+                    DispatchQueue.main.async{
+                        completion(croppedURL, originalURL, nil)
+                    }
+                case .failure(let error):
+                    print("Error with the first image: \(error)")
+                    encounteredError = error
+                    DispatchQueue.main.async{
+                        completion(nil, nil, encounteredError)
+                    }
+                }
+                
+            }
+        }
+        
+      
+        
+        
+    }
+}
 
 
 class MediaUploadModel: ObservableObject {
     
-    // MARK: - Profile Image
-    enum ImageState {
-        case empty
-        case loading(Progress)
-        case success(Image)
-        case failure(Error)
-    }
     
-    enum TransferError: Error {
-        case importFailed
-    }
-    
-    struct ProfileImage: Transferable {
-        let image: Image
-        let data: Data
-        
-        static var transferRepresentation: some TransferRepresentation {
-            DataRepresentation(importedContentType: .image) { data in
-            #if canImport(AppKit)
-                guard let nsImage = NSImage(data: data) else {
-                    throw TransferError.importFailed
-                }
-                let image = Image(nsImage: nsImage)
-                return ProfileImage(image: image)
-            #elseif canImport(UIKit)
-                guard let uiImage = UIImage(data: data) else {
-                    throw TransferError.importFailed
-                }
-            
-                let image = Image(uiImage: uiImage)
-                return ProfileImage(image: image, data: data)
-            #else
-                throw TransferError.importFailed
-            #endif
-            }
-        }
-    }
     
    
     
     @Published var urlToProfileImage: String = ""
     
-    @Published var error: Error? {
-        didSet{
-            errorDidHappen = error != nil
+    @Published var croppedProfileImage: UIImage?
+    @Published var originalProfileImage: UIImage? 
+    
+    
+ 
+    
+    // MARK: -  Methods
+    
+    func uploadProfileImage(croppedImage: UIImage?, originalImage: UIImage?, completion: @escaping ((URL?, URL?, Error?) -> Void)){
+        guard let croppedImage = croppedImage, let originalImage = originalImage else {
+            return
         }
-    }
-    @Published var errorDidHappen: Bool = false
-    
-    
-    @Published private(set) var imageState: ImageState = .empty
-
-    
-    @Published var imageSelection: PhotosPickerItem? = nil {
-        didSet {
-            if let imageSelection {
-                let progress = loadTransferable(from: imageSelection)
-                imageState = .loading(progress)
-            } else {
-                imageState = .empty
-            }
-        }
-    }
-    
-    // MARK: - Private Methods
-    
-    private func loadTransferable(from imageSelection: PhotosPickerItem) -> Progress {
-        return imageSelection.loadTransferable(type: ProfileImage.self) { result in
-            DispatchQueue.main.async { [self] in
-                guard imageSelection == self.imageSelection else {
-                    print("Failed to get the selected item.")
-                    return
-                }
-                switch result {
-                case .success(let profileImage?):
-                    self.imageState = .success(profileImage.image)
-                    upload(imageData: profileImage.data)
-                case .success(nil):
-                    self.imageState = .empty
+        FirestoreService.shared.uploadProfileAndOriginalImagesToFirebaseStorage(croppedImage: croppedImage, originalImage: originalImage) { result in
+            
+            switch result {
+                case .success(let (croppedURL, originalURL)):
+                    print("Cropped Image URL: \(croppedURL)")
+                    print("Original Image URL: \(originalURL)")
+                completion(croppedURL, originalURL, nil)
                 case .failure(let error):
-                    self.imageState = .failure(error)
+                    print("Error uploading images: \(error)")
+           
+                completion(nil, nil, error)
                 }
-            }
         }
     }
     
-    private func upload(imageData: Data?) {
-            #if canImport(UIKit)
-        
-        if let data = imageData {
-                // Now you have the image data for iOS
-                // Continue with your Firebase upload..
-                FirestoreService.shared.uploadImageToFirebaseStorage(imageData: data) { result in
-                    
-                    switch result {
-                    case .success(let success):
-                        self.urlToProfileImage = success.absoluteString
-                    case .failure(let failure):
-                        print("could not upload image due to .. \(failure)")
-                        self.error = failure
-                    }
-                }
-                
-            }
-            #elseif canImport(AppKit)
-            if let imageData = image.nsImage.toData() {
-                // Now you have the image data for macOS
-                // Continue with your Firebase upload...
-                // No need for this because we're not making a macOS app
-            }
-            #endif
-        }
     }
 

@@ -14,6 +14,7 @@ class ViewRouter: ObservableObject {
     @Published var currentPage: Page = .map
     @Published var showBottomTabBar: Bool = true 
     @Published var screenToShow:AppLaunchScreen = .loading
+     
     
 }
 
@@ -41,6 +42,7 @@ struct CustomBottomTabBar: View {
     @State var showPopUp = false
     @EnvironmentObject var model: UserProfileModel
     @EnvironmentObject var authService: AuthService
+    
     @EnvironmentObject private var sceneDelegate: SceneDelegate
     
     var body: some View {
@@ -54,7 +56,7 @@ struct CustomBottomTabBar: View {
                 case .discover:
                     SearchAndFriendsView()
                 case .map:
-                    Text("The map view is here")
+                    Text("")
                     
                 case .messages:
                     ChatChannelListView(viewFactory: CustomViewFactory(), title: "Messages")

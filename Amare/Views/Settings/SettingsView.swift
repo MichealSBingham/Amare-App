@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SettingsView: View {
     @EnvironmentObject var userDataModel: UserProfileModel
-    
+   
    
     
     //@EnvironmentObject var authService: AuthService
@@ -33,11 +33,14 @@ struct SettingsView: View {
                         case .success(_):
                             print("Signed out ")
                             withAnimation{
+                                
+                               
                                 presentationMode.wrappedValue.dismiss()
                                 viewRouter.screenToShow = .signInOrUp
                                 viewRouter.currentPage = .map // remove this if you're having issues with relogin in after sign out
-                               
                                 userDataModel.resetData()
+                               
+                                
                                 
                                 
                             }

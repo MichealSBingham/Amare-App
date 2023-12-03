@@ -22,7 +22,7 @@ struct UserProfileView2: View {
     
     @EnvironmentObject var viewRouter: ViewRouter
     
-    
+    var hideCustomNavBar: Bool = false
     
     var menuOptions: [String]  = ["Insights", "Their Planets", "Their Story", "Media", "Birth Chart"]
     
@@ -41,6 +41,21 @@ struct UserProfileView2: View {
                 .frame(width: 30, height: 30)
         }
         .buttonStyle(.plain)
+    }
+    
+    func winkAtTheUser() {
+        guard let me = currentUserDataModel.user else {
+            return
+        }
+        
+        model.sendWink(from: me) { error in
+            guard error == nil else {
+                print("could not send wink : error \(error)")
+                return
+            }
+            print("did send wink")
+        }
+
     }
 
     
@@ -179,7 +194,10 @@ struct UserProfileView2: View {
       
         VStack{
             
-            CustomNavigationBarView2(name: model.user?.name ?? "", username: model.user?.username ?? "", cancelFriendRequestAction: cancelFriendRequestAction, acceptFriendAction: acceptFriendAction, model: model)
+            if !hideCustomNavBar{
+                CustomNavigationBarView2(name: model.user?.name ?? "", username: model.user?.username ?? "", cancelFriendRequestAction: cancelFriendRequestAction, acceptFriendAction: acceptFriendAction, model: model)
+            }
+           
             
             ScrollView{ 
             //MARK: - Profile Picture
@@ -279,7 +297,10 @@ struct UserProfileView2: View {
                 
                 Spacer()
                 
-                winkButton()
+                HeartButton(systemImage: "suit.heart.fill", status: model.winkedAtThem ?? false, activeTint: .pink, inActiveTint: .gray) {
+                    
+                    winkAtTheUser()
+                }
                 
                     .padding()
                 
@@ -313,7 +334,8 @@ struct UserProfileView2: View {
                 
                 Text("Planetary Aspects Go Here").tag(2)
                 
-                PicturesCollectionView(images: peopleImages).tag(3)
+                PicturesCollectionView(images: model.user?.images ?? []).tag(2)
+                    .environmentObject(currentUserDataModel)
                 
                 PlanetGridView(planets: model.natalChart?.planets ?? Planet.randomArray(ofLength: 5),
                                interpretations: model.natalChart?.interpretations ?? generateRandomPlanetInfoDictionary())
@@ -331,6 +353,31 @@ struct UserProfileView2: View {
             
         
     }
+    
+    
+    /// Custom Button View
+    @ViewBuilder
+    func HeartButton(systemImage: String, status: Bool, activeTint: Color, inActiveTint: Color, onTap: @escaping () -> ()) -> some View {
+        Button(action: onTap) {
+            Image(systemName: systemImage)
+                .font(.title2)
+                .particleEffect(
+                    systemImage: systemImage,
+                    font: .body,
+                    status: status,
+                    activeTint: activeTint,
+                    inActiveTint: inActiveTint
+                )
+                .foregroundColor(status ? activeTint : inActiveTint)
+                .padding(.horizontal, 18)
+                .padding(.vertical, 8)
+                .background {
+                    Capsule()
+                        .fill(status ? activeTint.opacity(0.25) : Color("ButtonColor"))
+                }
+        }
+    }
+
 }
 
 struct UserProfileView2_Previews: PreviewProvider {

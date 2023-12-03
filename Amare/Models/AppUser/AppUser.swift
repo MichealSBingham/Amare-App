@@ -31,6 +31,8 @@ struct AppUser: Codable, Identifiable {
 	var isReal: Bool = true
 	var isNotable: Bool = false
 	var reasonsForUse: [ReasonsForUse] = []
+    var isForDating: Bool?
+    var isForFriends: Bool?
     
     var totalFriendCount: Double?
 	
@@ -41,6 +43,12 @@ struct AppUser: Codable, Identifiable {
     
     var location: GeoPoint?  // Firestore GeoPoint for latitude and longitude
     var geohash: String?     // Geohash representation of the location
+    
+    var locationSettings: LocationPrivacySettings? 
+    
+    var traits: [String] = []
+    
+    var isDiceActive: Bool? = false
 
 	enum CodingKeys: String, CodingKey {
 		case id
@@ -59,6 +67,8 @@ struct AppUser: Codable, Identifiable {
 		case isReal
 		case isNotable
 		case reasonsForUse
+        case isForDating
+        case isForFriends
         case totalFriendCount
 		
 		case notes
@@ -67,11 +77,16 @@ struct AppUser: Codable, Identifiable {
         
         case location
         case geohash
+        
+        case locationSettings
+        
+        case traits
+        case isDiceActive
 	}
 
-	enum ReasonsForUse: String, Codable {
-		case friendship, dating, selfDiscovery
-	}
+	
+  
+
 	
 	
 	///Generates random mock data
@@ -108,6 +123,8 @@ struct AppUser: Codable, Identifiable {
 		let randomIsReal = Int.random(in: 1...100) <= 80
 		let randomIsNotable = Bool.random()
 		let randomReasonsForUse: [ReasonsForUse] = [.friendship, .dating, .selfDiscovery]
+        
+        let traits = PredictedTrait.uniqueTraits.likelyTraitNames()
 
 			// Creating and returning the AppUser instance
 			return AppUser(
@@ -126,7 +143,12 @@ struct AppUser: Codable, Identifiable {
 				isReal: randomIsReal,
 				isNotable: randomIsNotable,
 				reasonsForUse: randomReasonsForUse,
-                totalFriendCount: Double.random(in: 0..<7000000000)
+                isForDating: Bool.random(),
+                isForFriends: Bool.random(),
+                totalFriendCount: Double.random(in: 0..<7000000000),
+                locationSettings: [.off, .approximate, .on].randomElement()!,
+                traits: traits,
+                isDiceActive: Bool.random()
 			)
 		}
     
@@ -136,6 +158,9 @@ struct AppUser: Codable, Identifiable {
 }
 
 
+enum ReasonsForUse: String, Codable {
+    case friendship, dating, selfDiscovery
+}
 
 
 extension AppUser {

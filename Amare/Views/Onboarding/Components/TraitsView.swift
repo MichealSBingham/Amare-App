@@ -89,6 +89,9 @@ struct TraitsFeedbackView: View {
     
     let timer = Timer.publish(every: 2, on: .main, in: .common).autoconnect()
     
+    let  timeoutSeconds: Double  = 45
+    @State var didTimeout: Bool = false
+    
     var body: some View {
         ZStack {
             VStack {
@@ -157,6 +160,7 @@ struct TraitsFeedbackView: View {
                 
                 ForEach(Array(viewModel.predictedTraits.enumerated()), id: \.element.name) { (index, trait) in
                     TraitFeedbackCardView(trait: trait.name, category: trait.category)
+                        .contentShape(Rectangle()).gesture(DragGesture())
                     .onAppear { self.currentTrait  = trait }
                     .tag(index)
                 }
@@ -165,7 +169,20 @@ struct TraitsFeedbackView: View {
             .opacity(!showIntroText && !finished ? 1: 0 )
             
             ProgressView()
-                .opacity(viewModel.predictedTraits.isEmpty && !showIntroText ? 1: 0 )
+                .opacity( viewModel.predictedTraits.isEmpty && !showIntroText && !didTimeout ? 1: 0 )
+                .onAppear(perform: {
+                    AmareApp().delay(timeoutSeconds) {
+                        if viewModel.predictedTraits.isEmpty {
+                            // did timeout
+                            withAnimation {
+                                didTimeout = true
+                            }
+                        }
+                    }
+                })
+            
+            Text("Our servers are overloaded, skip this for now.")
+                .opacity(didTimeout ? 1: 0)
             
             //This *was* in trait feedback card but we want to move it out of the page view
             VStack {

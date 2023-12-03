@@ -33,3 +33,10 @@ enum AccountError: Error {
 
     
 }
+
+
+enum FirestoreError: Error {
+    case userNotLoggedIn
+    case invalidInput
+    case oldImageNotFound
+}
