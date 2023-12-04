@@ -14,6 +14,8 @@ class ViewRouter: ObservableObject {
     @Published var currentPage: Page = .map
     @Published var showBottomTabBar: Bool = true 
     @Published var screenToShow:AppLaunchScreen = .loading
+    
+    @Published var showSheetForMap: Bool = false 
      
     
 }
@@ -43,7 +45,9 @@ struct CustomBottomTabBar: View {
     @EnvironmentObject var model: UserProfileModel
     @EnvironmentObject var authService: AuthService
     
-    @EnvironmentObject private var sceneDelegate: SceneDelegate
+   // @EnvironmentObject private var sceneDelegate: SceneDelegate
+    
+    @EnvironmentObject var bg: BackgroundViewModel
     
     var body: some View {
         GeometryReader { geometry in
@@ -59,7 +63,7 @@ struct CustomBottomTabBar: View {
                     Text("")
                     
                 case .messages:
-                    ChatChannelListView(viewFactory: CustomViewFactory(), title: "Messages")
+                    ChatChannelListView(viewFactory: DemoAppFactory(), title: "Messages")
                 case .user:
                     MainProfileView()
                       
@@ -72,6 +76,11 @@ struct CustomBottomTabBar: View {
                     customTabBar(geometry: geometry)
                 }
             }
+            .environmentObject(bg)
+            .environmentObject(authService)
+            .environmentObject(model)
+            .environmentObject(viewRouter)
+           // .environmentObject(sceneDelegate)
             .edgesIgnoringSafeArea(.bottom)
         }
     }
@@ -88,6 +97,7 @@ struct CustomBottomTabBar: View {
                 TabBarIcon(viewRouter: viewRouter, assignedPage: .discover, width: geometry.size.width/5, height: geometry.size.height/28, systemIconName: "magnifyingglass", tabName: "Search")
                 plusButton(geometry: geometry)
                 TabBarIcon(viewRouter: viewRouter, assignedPage: .messages, width: geometry.size.width/5, height: geometry.size.height/28, systemIconName: "message.fill", tabName: "Messages")
+                    .badge(10)
                 TabBarIcon(viewRouter: viewRouter, assignedPage: .user, width: geometry.size.width/5, height: geometry.size.height/28, imageURL: model.user?.profileImageUrl ?? "", tabName: "You")
             }
             .frame(width: geometry.size.width, height: geometry.size.height/8)
@@ -97,25 +107,33 @@ struct CustomBottomTabBar: View {
 
     // Plus Button
     private func plusButton(geometry: GeometryProxy) -> some View {
-        ZStack {
-            Circle()
-                .foregroundColor(.white)
-                .frame(width: geometry.size.width/7, height: geometry.size.width/7)
-                .shadow(radius: 4)
-            Image(systemName: "mappin.circle.fill")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: geometry.size.width/7-6, height: geometry.size.width/7-6)
-                .foregroundColor(.amare)
-                .rotationEffect(SwiftUI.Angle(degrees: showPopUp ? 90 : 0))
-        }
-        .offset(y: -geometry.size.height/8/2)
-        .onTapGesture {
+        
+        Button {
+            
             withAnimation {
-                //showPopUp.toggle()
                 viewRouter.currentPage = .map
+                viewRouter.showSheetForMap = true
             }
+            
+        } label: {
+            
+            ZStack {
+                Circle()
+                    .foregroundColor(.white)
+                    .frame(width: geometry.size.width/7, height: geometry.size.width/7)
+                    .shadow(radius: 4)
+                Image(systemName: "mappin.circle.fill")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: geometry.size.width/7-6, height: geometry.size.width/7-6)
+                    .foregroundColor(.amare)
+                    .rotationEffect(SwiftUI.Angle(degrees: showPopUp ? 90 : 0))
+            }
+            .offset(y: -geometry.size.height/8/2)
         }
+        .buttonStyle(.plain)
+
+    
     }
 }
 

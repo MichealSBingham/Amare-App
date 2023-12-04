@@ -22,7 +22,7 @@ struct ContentView: View{
     
     @EnvironmentObject  var sceneDelegate: SceneDelegate
     
-    @State var showSheetForMap: Bool = true
+   // @State var showSheetForMap: Bool = true
     
     @State var showUserSheet: Bool = false
     
@@ -83,8 +83,7 @@ struct ContentView: View{
                 .environmentObject(dataModel)
                 .environmentObject(viewRouter)
         case .home:
-           /* MapView()
-                .opacity(viewRouter.currentPage == .map ? 1: 0) */
+           
             ZStack{
                 MapView()
                     .environmentObject(viewRouter)
@@ -93,9 +92,9 @@ struct ContentView: View{
                         page in
                         
                         if page == .map {
-                            withAnimation { showSheetForMap = true }
+                            withAnimation { viewRouter.showSheetForMap = true }
                         } else {
-                            withAnimation { showSheetForMap = false }
+                            withAnimation { viewRouter.showSheetForMap = false }
                         }
                         
                        
@@ -105,7 +104,7 @@ struct ContentView: View{
                 
             }
             .sheet(isPresented: $showUserSheet, onDismiss: {
-                showSheetForMap = true
+                viewRouter.showSheetForMap = true
             }, content: {
                 VStack{
                     
@@ -122,7 +121,7 @@ struct ContentView: View{
                     
             })
             
-            .sheet(isPresented: $showSheetForMap, content: {
+            .sheet(isPresented: $viewRouter.showSheetForMap, content: {
                 
                 NearbyUsersSheet(showUserSheet: $showUserSheet, presentationDetent: $mapSheetDetent)
                     
@@ -194,7 +193,7 @@ struct ContentView: View{
                     
                     guard sceneDelegate.tabWindow == nil else { return }
 
-                    sceneDelegate.addTabBar(viewRouter: viewRouter, dataModel)
+                    sceneDelegate.addTabBar(viewRouter: viewRouter, dataModel, background: bgModel)
                 }
                 .environmentObject(bgModel)
                 .environmentObject(authService)
@@ -208,7 +207,7 @@ struct ContentView: View{
             
         }
         
-        //Text("Content View")
+     
        
 
         }

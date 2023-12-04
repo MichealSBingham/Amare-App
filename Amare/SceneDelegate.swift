@@ -70,7 +70,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, ObservableObject {
     
    
     
-    func addTabBar( viewRouter: ViewRouter, _ profileModel: UserProfileModel){
+    func addTabBar( viewRouter: ViewRouter, _ profileModel: UserProfileModel, background: BackgroundViewModel){
         
         guard let scene = windowScene else {
             return
@@ -79,6 +79,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, ObservableObject {
         let tabBarController = UIHostingController(rootView: CustomBottomTabBar()
             .environmentObject(viewRouter)
             .environmentObject(profileModel)
+            .environmentObject(background)
+            .environmentObject(AuthService.shared)
         )
         tabBarController.view.backgroundColor = .clear
         ///Window
