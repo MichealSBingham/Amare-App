@@ -209,8 +209,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         
         
-
-        
         if Auth.auth().canHandleNotification(userInfo){
             completionHandler(.noData)
             return
@@ -222,12 +220,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
    
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-    
-        print("**** RECEIVED Notification **** ")
-        
-        // check if it is a winking notification ..
-        //NotificationCenter.default.post(name: NSNotification.gotWinkedAt, object: nil)
-        
+
         completionHandler([.alert, .badge, .sound, .banner])
     }
     
@@ -252,13 +245,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         print("registering remote notificaitons with token \(deviceToken)")
         Auth.auth().setAPNSToken(deviceToken, type: .prod)
         Messaging.messaging().apnsToken = deviceToken
+        
+        UserDefaults.standard.set(deviceToken, forKey: "deviceTokenData")
+
 
         let tokenParts = deviceToken.map { data in String(format: "%02.2hhx", data) }
             let token = tokenParts.joined()
-            print("Device Token: \(token)")
-
             // Store the token in UserDefaults
             UserDefaults.standard.set(token, forKey: "DeviceToken")
+        
+        guard ChatClient.shared.currentUserId != nil else {
+                log.warning("cannot add the device without connecting as user first, did you call connectUser")
+                return
+            }
+
+        guard let tk = Messaging.messaging().fcmToken else { return }
+      
+        ChatClient.shared.currentUserController().addDevice(.firebase(token: tk, providerName: "firebase")) { error in
+                if let error = error {
+                    log.warning("adding a device failed with an error \(error)")
+                }
+            }
        
     }
     
@@ -384,6 +391,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 userDeviceTokenRef.setData(["tokens": [token]])
             }
         }
+        
+        
+            ChatClient.shared.currentUserController().addDevice(.firebase(token: token, providerName: "firebase")) { error in
+                if let error = error {
+                    log.warning("adding a device failed with an error \(error)")
+                }
+            }
+
+        
+
+        
     }
 
 

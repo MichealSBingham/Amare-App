@@ -12,6 +12,7 @@ import FirebaseFirestore
 import FirebaseFunctions
 import StreamChat
 import StreamChatSwiftUI
+import FirebaseMessaging
 
 class AuthService: ObservableObject {
 	private var authStateDidChangeListenerHandle: AuthStateDidChangeListenerHandle?
@@ -67,12 +68,29 @@ class AuthService: ObservableObject {
         Functions.functions().httpsCallable("ext-auth-chat-revokeStreamUserToken").call { result, error in
             // Handle response or error
         }
+        
+        
+        guard let deviceId = Messaging.messaging().fcmToken /* ChatClient.shared.currentUserController().currentUser?.devices.last?.id */ else {
+            return
+        }
+        
+            
+            // Disconnect from Stream Chat
+            ChatClient.shared.disconnect()
+            
+            ChatClient.shared.currentUserController().removeDevice(id: deviceId) { error in
+                if let error = error {
+                    log.warning("removing the device failed with an error \(error)")
+                }
+            }
+        }
+
+       
 
         
 
-        // Disconnect from Stream Chat
-        ChatClient.shared.disconnect()
-    }
+       
+    
 
 
 
@@ -187,7 +205,6 @@ class AuthService: ObservableObject {
    
 /// This fetches the stream Token From Firebase,.. you *also* need to call this whenever we're updating the user's name or profile image url
     func fetchStreamTokenFromFirebase(andUpdate name: String? = nil , profileImageURL: String? = nil, username: String? = nil ) {
-        print("Fetching stream token from firebase for name: \(name) and image \(profileImageURL)")
 
         Functions.functions().httpsCallable("ext-auth-chat-getStreamUserToken").call { result, error in
             if let error = error {
@@ -228,8 +245,22 @@ class AuthService: ObservableObject {
             
             ChatClient.shared.connectUser(userInfo: .init(id: username ?? userId, name: name, imageURL: url), token: .init(stringLiteral: token)) { error in
                 print("the error connecting in \(error)")
+                if error == nil {
+                    UNUserNotificationCenter
+                            .current()
+                            .requestAuthorization(options: [.alert, .sound, .badge]) { granted, _ in
+                                if granted {
+                                    DispatchQueue.main.async {
+                                        UIApplication.shared.registerForRemoteNotifications()
+                                    }
+                                }
+                            }
+                }
                 self.handleConnectionResult(error)
+                
             }
+            
+            
         } else if let name = name {
             // Only name is provided
             print("sending in name")
