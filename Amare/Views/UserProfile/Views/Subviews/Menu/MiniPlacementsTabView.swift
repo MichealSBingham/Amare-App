@@ -24,6 +24,50 @@ struct MiniPlacementsTabView: View {
     }
 }
 
+
+struct MiniPlacementVerticalPageView: View {
+    var interpretations: [String: String] = [:]
+    var planets: [Planet] = []
+
+    @State  var selectedPlanet: Planet // Use a UUID or any unique identifier for planets
+
+    var body: some View {
+        TabView(selection: $selectedPlanet) {
+            
+            ForEach(planets) { planet in
+                
+            DetailedMiniPlacementView(
+                        interpretation: interpretations[planet.name.rawValue],
+                        planetBody: planet.name,
+                        sign: planet.sign,
+                        house: planet.house,
+                        angle: planet.angle,
+                        element: planet.element
+                    )
+                    //.rotationEffect(.degrees(-90), anchor: .center)
+                    //.frame(width: .infinity, height: .infinity)
+                    .tag(planet)
+                .buttonStyle(PlainButtonStyle())
+            }
+        }
+       // .rotationEffect(.degrees(90), anchor: .center)
+        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+        .onAppear {
+            // Set the selected planet when the view appears (e.g., set it to the first planet)
+           // selectedPlanetID = planets.first?.id
+        }
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItemGroup(placement: .topBarLeading) {
+                BackButton()
+                    .padding()
+                
+            }
+        }
+    }
+}
+
+
 struct MiniPlacementsScrollView: View {
     var interpretations: [String:String] = [:]
     var planets: [Planet] = []
@@ -35,15 +79,9 @@ struct MiniPlacementsScrollView: View {
                 
                 NavigationLink{
                     
-                    DetailedPlacementInfoView(
-                        isShown: .constant(true), planetName: planet.name,
-                        sign: planet.sign,
-                        house: planet.house,
-                        angle: planet.angle,
-                        longDescription:interpretations[planet.name.rawValue],
-                        element: planet.element
-                        
-                    )
+                 
+                    MiniPlacementVerticalPageView(interpretations: interpretations, planets: planets, selectedPlanet: planet)
+                    
 
                     
                 } label: {

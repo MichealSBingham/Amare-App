@@ -39,6 +39,7 @@ class DetailedPlacementInfoViewModel: ObservableObject {
 }
 
 
+
 struct DetailedPlacementInfoView: View {
     @EnvironmentObject var profileDataModel: UserProfileModel
     
@@ -222,7 +223,7 @@ struct DetailedPlacementInfoView: View {
                 
             }) */
         }
-            .navigationBarBackButtonHidden(true)
+            /* .navigationBarBackButtonHidden(true)
             .toolbar {
                 ToolbarItemGroup(placement: .topBarLeading) {
                     BackButton()
@@ -230,6 +231,8 @@ struct DetailedPlacementInfoView: View {
                     
                 }
             }
+        */
+        
      
         
           
@@ -237,6 +240,7 @@ struct DetailedPlacementInfoView: View {
         
     }
 }
+
 
 #Preview {
     DetailedPlacementInfoView(isShown: .constant(true), planetName: .Moon, sign: .Scorpio, house: 2,  shortDescription: "Deep. Intense. Magnetic.", longDescription: Lorem.paragraphs(5), imagesOfFriendsWithSamePlacement: peopleImages)

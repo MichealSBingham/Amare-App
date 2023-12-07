@@ -464,6 +464,7 @@
 		26011FF62AED9A1B004C4D77 /* Natal */ = {
 			isa = PBXGroup;
 			children = (
+				26E3C4982B226D0A0027B539 /* AspectView */,
 				26011FFF2AEE96CA004C4D77 /* DetailedPlacements */,
 				26011FFB2AEE9094004C4D77 /* MoreInfoOnPlanetViewModel.swift */,
 				26011FF92AEE904F004C4D77 /* MoreInfoOnPlanetView.swift */,
@@ -1100,6 +1101,13 @@
 				26D685912A6A001E0070CE79 /* SearchedUser.swift */,
 			);
 			path = SearchedUsersAndFriends;
+			sourceTree = "<group>";
+		};
+		26E3C4982B226D0A0027B539 /* AspectView */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = AspectView;
 			sourceTree = "<group>";
 		};
 		26F9206926A8752200A4F8C6 /* FontResources */ = {
