@@ -15,6 +15,8 @@ class MapViewModel: ObservableObject {
     
     @Published var nearbyUsers: [AppUser] = []
     @Published var nearbyDices: [Dice] = []
+    @Published var diceUserID: String = ""
+    @Published var showDiceUser: Bool = false
     private var nearbyUsersListener: ListenerRegistration?
     private var nearbyDicesListener: ListenerRegistration?
     

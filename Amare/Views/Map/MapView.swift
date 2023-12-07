@@ -15,6 +15,9 @@ struct MapView: View {
     @EnvironmentObject var userDataModel: UserProfileModel
     @StateObject var locationManager: LocationManager = LocationManager()
     @EnvironmentObject  var viewModel: MapViewModel
+    @EnvironmentObject var viewRouter: ViewRouter
+    
+    @State private var selectedTag: Int?
 
     
     var body: some View {
@@ -22,10 +25,83 @@ struct MapView: View {
         ZStack{
             
             
-            Map(coordinateRegion: $viewModel.region, interactionModes: .all, showsUserLocation: true)
+            Map(selection: $selectedTag/*coordinateRegion: $viewModel.region, interactionModes: .all, showsUserLocation: true*/){
+                
+            
+                
+                ForEach(viewModel.nearbyDices){ dice in
+                    Annotation("", coordinate: dice.location.toCLLocationCoordinate2D()) {
+                
+                        Button{
+                            withAnimation {
+                                viewModel.diceUserID = dice.id ?? ""
+                                viewRouter.showSheetForMap = true
+                                viewModel.showDiceUser = true
+                                viewRouter.showBottomTabBar = false
+                               
+                            }
+                            
+                            
+                        } label: {
+                             
+                            Image("dice/dice")
+                                       .resizable()
+                                       .aspectRatio(contentMode: .fit)
+                                       .frame(width: 50)
+                                     /*  .overlay(
+                                           Image(systemName: "heart.fill")
+                                               .foregroundColor(.green)
+                                               .font(.system(size: 20))
+                                               .padding(4),
+                                           alignment: .topTrailing
+                                       )
+                            */
+                            
+                                
+                        }
+                        
+                        
+                    }
+                    
+                }
+                
+                ForEach(viewModel.nearbyUsers){ nearUser in
+                    if !(nearUser.isDiceActive ?? false){
+                        Annotation("", coordinate: nearUser.location!.toCLLocationCoordinate2D()) {
+                            
+                            Button{
+                                
+                            } label: {
+                                
+                                
+                                CircularProfileImageView(profileImageUrl: nearUser.profileImageUrl)
+                                    .frame(width: 50)
+                                
+                                
+                                
+                            }
+                            
+                            
+                        }
+                    }
+                }
+                
+            }
+                .mapControls {
+                    //MapUserLocationButton()
+                    //MapCompass()
+                   // MapScaleView()
+                }
                 .ignoresSafeArea()
                 .onChange(of: locationManager.currentGeoHash6) {  geohash in
                    
+                    /*  NOT WORKING===== YET
+                    guard userDataModel.user?.locationSettings != .off || userDataModel.user?.locationSettings != nil else {
+                        print("can't listen because location settings off or undetermined ")
+                        return
+                    }
+                    */
+              
                     viewModel.listenForNearbyUsers(geohash: geohash)
                     
                     AmareApp().delay(2) {
@@ -46,22 +122,29 @@ struct MapView: View {
                 
             
             VStack{
-                LocationPrivacyCapsule()
-                    .environmentObject(userDataModel)
-                    .padding()
+                
+                ZStack{
+                    HStack{
+                        Spacer()
+                        DiceButtonView(status: userDataModel.user?.isDiceActive ?? false, onTap: {
+        
+                            addOrRemoveDice()
+                            
+                        })
+                        .disabled(userDataModel.user?.locationSettings == nil || userDataModel.user?.locationSettings == .off ? true: false )
+                            
+                            .padding()
+                    }
+                    LocationPrivacyCapsule()
+                        .environmentObject(userDataModel)
+                        .padding()
+                }
+                
+                
                 
                 Spacer()
                 
-                HStack{
-                    Spacer()
-                    DiceButtonView(status: userDataModel.user?.isDiceActive ?? false, onTap: {
-                        
-                        addOrRemoveDice()
-                        
-                    })
-                        
-                        .padding()
-                }
+                
                 
                 
                 Spacer()
@@ -70,30 +153,44 @@ struct MapView: View {
                 Spacer()
             }
             
-            // Just for Debugging, we're going to add this elsewhere
-          /*  HStack{
-                ScrollView(.horizontal) {
-                    
-                }
+            
+            Color.black.opacity(CLLocationManager.authorizationStatus() == .denied ? 0.7: 0).ignoresSafeArea()
+            
+            Button{
+                openSettings()
+            } label: {
+                Text("Please Enable Your Location To Use This Feature")
+                    .foregroundColor(.white)
             }
-            */
+            .buttonStyle(.plain)
+            .opacity(CLLocationManager.authorizationStatus() == .denied ? 1: 0)
+        
+            
+            
+          
 
         }
     }
     
     func addOrRemoveDice(){
+        
         guard userDataModel.user?.isDiceActive == false else {
+         
             FirestoreService.shared.deleteDice { error in
-                
+               
             }
             return 
         }
-        
+    
         locationManager.addDiceToMap(user: userDataModel.user) { error in
-            print("the error adding dice to map is \(error)")
         }
 
     }
+    
+    private func openSettings() {
+            guard let settingsURL = URL(string: UIApplication.openSettingsURLString) else { return }
+            UIApplication.shared.open(settingsURL)
+        }
     
 }
 

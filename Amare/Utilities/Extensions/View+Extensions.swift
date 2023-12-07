@@ -72,7 +72,7 @@ fileprivate struct BottomSheetModifier<SheetContent: View>: ViewModifier {
                         .fill(.clear)
                         .frame(height: 55)
                 }
-                .presentationDetents([.height(initialHeight), .medium, .fraction(0.99)])
+                .presentationDetents([.fraction(0.35), .fraction(0.50), .fraction(0.99)])
                 .addSheetProperties(sheetCornerRadius)
                 .interactiveDismissDisabled()
                /* .onChange(of: viewRouter.currentPage, perform: { page in

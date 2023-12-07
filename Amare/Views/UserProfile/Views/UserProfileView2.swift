@@ -26,6 +26,8 @@ struct UserProfileView2: View {
     
     var menuOptions: [String]  = ["Insights", "Their Planets", "Their Story", "Media", "Birth Chart"]
     
+    // Hide certain things about the profile if this is true.
+    var diceUser: Bool = false
     
    
     
@@ -201,11 +203,12 @@ struct UserProfileView2: View {
             
             ScrollView{ 
             //MARK: - Profile Picture
-            CircularProfileImageView(profileImageUrl: model.user?.profileImageUrl, isNotable: model.user?.isNotable, winked: model.winkStatus != nil)
-                .frame(width: 100, height: 100)
-                .padding(.top, 65)
+                
+                CircularProfileImageView(profileImageUrl: diceUser ? ImageLinks.question.rawValue : model.user?.profileImageUrl, isNotable: model.user?.isNotable, winked: model.winkStatus != nil)
+                        .frame(width: 100, height: 100)
+                        .padding(.top, 65)
+                
             
-            // .padding()
             
             // MARK: - Name and Username
             ZStack{
@@ -334,7 +337,7 @@ struct UserProfileView2: View {
                 
                 Text("Planetary Aspects Go Here").tag(2)
                 
-                PicturesCollectionView(images: model.user?.images ?? []).tag(2)
+                PicturesCollectionView(images: model.user?.images ?? []).tag(3)
                     .environmentObject(currentUserDataModel)
                 
                 PlanetGridView(planets: model.natalChart?.planets ?? Planet.randomArray(ofLength: 5),
@@ -347,8 +350,9 @@ struct UserProfileView2: View {
             .tabViewStyle(.page(indexDisplayMode: .never))
             
             
-        }
+            }.offset(y: diceUser ? -50: 0 )
             }
+        
             .navigationBarBackButtonHidden(true)
             
         
@@ -378,6 +382,12 @@ struct UserProfileView2: View {
         }
     }
 
+}
+
+struct VisualEffectView: UIViewRepresentable {
+    var effect: UIVisualEffect?
+    func makeUIView(context: UIViewRepresentableContext<Self>) -> UIVisualEffectView { UIVisualEffectView() }
+    func updateUIView(_ uiView: UIVisualEffectView, context: UIViewRepresentableContext<Self>) { uiView.effect = effect }
 }
 
 struct UserProfileView2_Previews: PreviewProvider {

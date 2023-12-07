@@ -15,7 +15,7 @@ class ViewRouter: ObservableObject {
     @Published var showBottomTabBar: Bool = true 
     @Published var screenToShow:AppLaunchScreen = .loading
     
-    @Published var showSheetForMap: Bool = false 
+    @Published var showSheetForMap: Bool = false
      
     
 }
@@ -113,6 +113,7 @@ struct CustomBottomTabBar: View {
             withAnimation {
                 viewRouter.currentPage = .map
                 viewRouter.showSheetForMap = true
+            
             }
             
         } label: {

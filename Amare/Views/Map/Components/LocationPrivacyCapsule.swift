@@ -39,6 +39,8 @@ struct LocationPrivacyCapsule: View {
                     
                     HStack {
                         Text(model.user?.locationSettings?.rawValue ?? "Nothing")
+                            .redacted(reason:
+                                      model.user?.locationSettings ==  nil ? .placeholder: [])
                             .font(.headline)
                             .bold()
                             .foregroundColor((model.user?.locationSettings ?? .off) == .off ? .primary : .amare )
@@ -49,6 +51,8 @@ struct LocationPrivacyCapsule: View {
                 
 
                 Text(model.user?.locationSettings?.description ?? "Nothing set yet")
+                    .redacted(reason:
+                              model.user?.locationSettings ==  nil ? .placeholder: [])
                     .font(.caption)
                     .foregroundColor(.gray)
             }
@@ -68,7 +72,7 @@ struct LocationPrivacyCapsule: View {
       
         DispatchQueue.main.async {
             FirestoreService.shared.update(location: setting) { error in
-                print("The new location is ... \(model.user?.locationSettings)")
+                
             }
         }
         

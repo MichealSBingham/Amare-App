@@ -135,6 +135,22 @@ struct ContentView: View{
                 .environmentObject(viewRouter)
             })
             
+            /*
+            .tabSheet(showSheet: $viewRouter.showSheetForMap, sheetCornerRadius: 15, content: {
+                
+                NearbyUsersSheet(showUserSheet: $showUserSheet, presentationDetent: $mapSheetDetent)
+                    
+                    .cornerRadius(20)
+                    .environmentObject(mapViewModel)
+                    .presentationDetents([.fraction(0.35), .medium, .large], selection: $mapSheetDetent)
+                .presentationBackgroundInteraction(
+                    .enabled(upThrough: .medium)
+                )
+                .presentationBackground(.thinMaterial)
+                .environmentObject(viewRouter)
+            })
+            */
+            
             /* .tabSheet(showSheet: $showSheetForMap, initialHeight: 250, sheetCornerRadius: 15) {
                 NavigationStack{
                     ScrollView{

@@ -14,6 +14,10 @@ import SDWebImageSwiftUI
 import SwiftUI
 import SDWebImageSwiftUI
 
+enum ImageLinks: String{
+    case question = "https://firebasestorage.googleapis.com/v0/b/findamare.appspot.com/o/question.png?alt=media&token=1c140181-5f77-4778-ade4-c1af75c6405e"
+}
+
 enum ProfileOverlayIcon: String {
     case famousIndicator = "star.fill"
 }
@@ -56,13 +60,17 @@ struct CircularProfileImageView: View {
         GeometryReader { geometry in
             ZStack {
                 
-                
+                    
                     // Profile Image
                     WebImage(url: URL(string: profileImageUrl ?? "https://via.placeholder.com/150"))
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .clipShape(Circle())
                         .shadow(radius: showShadow ? 15: 0 )
+                        
+                        
+              
+                                
                 
                     
                     // Wink Emoji
@@ -138,3 +146,23 @@ struct CircularProfileImageView_Previews: PreviewProvider {
     
 }
 */
+
+
+struct Blur: UIViewRepresentable {
+    let style: UIBlurEffect.Style = .systemUltraThinMaterial
+
+    func makeUIView(context: Context) -> UIVisualEffectView {
+        return UIVisualEffectView(effect: UIBlurEffect(style: style))
+    }
+
+    func updateUIView(_ uiView: UIVisualEffectView, context: Context) {
+        uiView.effect = UIBlurEffect(style: style)
+    }
+}
+
+struct BlurCircle: View {
+    var body: some View {
+        Blur()
+            .clipShape(Circle())
+    }
+}

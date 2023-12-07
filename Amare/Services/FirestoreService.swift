@@ -1088,8 +1088,12 @@ class FirestoreService {
                         return
                     }
                     print("the documents are ... \(snapshot?.documents)")
-                    let users = documents.compactMap { try? $0.data(as: AppUser.self) }
-                    completion(.success(users))
+                    var users = documents.compactMap { try? $0.data(as: AppUser.self) }
+                    
+                    let filteredUsers = users.filter { user in
+                        return user.id != Auth.auth().currentUser?.uid ?? "" && !(user.isDiceActive ?? false) 
+                    }
+                    completion(.success(filteredUsers))
                 }
             
             return usersListener
@@ -1139,13 +1143,13 @@ class FirestoreService {
                         print("***got dices \(allDices)")
                         // Client-side filtering for the second level of orientation matching
                         var filteredDices = allDices.filter { dice in
-                            orientation.contains(dice.sex)
+                            orientation.contains(dice.sex) && dice.id != Auth.auth().currentUser?.uid ?? ""
                         }
                         
                         for index in filteredDices.indices {
                             filteredDices[index].type = .friends
                         }
-
+                       
                         completion(.success(filteredDices))
                     }
 
@@ -1172,7 +1176,7 @@ class FirestoreService {
 
                     // Client-side filtering for the second level of orientation matching
                     var filteredDices = allDices.filter { dice in
-                        !orientation.contains(dice.sex)
+                        !orientation.contains(dice.sex) && dice.id != Auth.auth().currentUser?.uid ?? ""
                     }
 
                     for index in filteredDices.indices {
@@ -1200,6 +1204,10 @@ class FirestoreService {
                     }
                     print("**the documents for dices **are ... \(snapshot?.documents)")
                     var dices = documents.compactMap { try? $0.data(as: Dice.self) }
+                    
+                    dices = dices.filter { dice in
+                        return  dice.id != Auth.auth().currentUser?.uid ?? ""
+                    }
 
                     for index in dices.indices {
                         if dices[index].isForDating && forDating {

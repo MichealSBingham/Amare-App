@@ -27,12 +27,15 @@ struct NearbyUsersSheet: View {
             
             NavigationStack {
              userCountTitle
+                    .opacity(!mapViewModel.showDiceUser ? 1: 0 )
                     .onAppear(perform: {
                     
-                        viewRouter.showBottomTabBar = true
+                       // viewRouter.showBottomTabBar = true
                     })
                     .padding()
                 ZStack{
+                    
+                    
                     VStack{
                         nearbyUsersScrollView
                             .opacity(geometry.size.height >= thresholdHeight ? 0 : 1)
@@ -57,6 +60,7 @@ struct NearbyUsersSheet: View {
                                                 }
                                                 userDataModel.loadUser(userId: user.id ?? "" )
                                             })
+                                            .id(user.id)
                                         
                                     } label: {
                                         
@@ -81,6 +85,17 @@ struct NearbyUsersSheet: View {
                     .padding(.vertical, 10)
                    
                     .opacity(geometry.size.height >= thresholdHeight ? 1 : 0)
+                    
+                    
+                    
+                    userDiceView
+                        .opacity(mapViewModel.showDiceUser ? 1: 0 )
+                      
+                    
+                    
+                        
+                    
+                    
                 }
                
                
@@ -88,6 +103,15 @@ struct NearbyUsersSheet: View {
             }
             .background(ClearBackgroundView())
         }
+        .onDisappear(perform: {
+            // Ensures the tab bar shows if the sheet disappears 
+            withAnimation {
+                viewRouter.showBottomTabBar = true
+                mapViewModel.showDiceUser = false
+                
+            }
+           
+        })
         
 
         
@@ -160,6 +184,27 @@ struct NearbyUsersSheet: View {
             })
             
     }
+    
+    private var userDiceView: some View {
+       UserProfileView2(model: userDataModel, hideCustomNavBar: true, diceUser: true)
+            .environmentObject(signedInUserDataModel)
+            .environmentObject(AuthService.shared)
+            .onAppear(perform: {
+               // guard !mapViewModel.diceUserID.isEmpty else { return }
+              //  userDataModel.loadUser(userId: mapViewModel.diceUserID)
+                presentationDetent = .medium
+                guard !mapViewModel.diceUserID.isEmpty else { return }
+                userDataModel.loadUser(userId: mapViewModel.diceUserID)
+               
+               
+               
+            })
+            
+        
+            
+    }
+    
+    
 }
 
 struct ClearBackgroundView: View {
