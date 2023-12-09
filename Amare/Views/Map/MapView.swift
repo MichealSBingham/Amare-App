@@ -19,7 +19,7 @@ struct MapView: View {
     
     @State private var selectedTag: Int?
 
-    
+    @State var dummy: Bool = false
     var body: some View {
         
         ZStack{
