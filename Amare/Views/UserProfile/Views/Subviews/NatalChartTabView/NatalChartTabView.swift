@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Shimmer
 
 struct NatalChartTabView: View {
 	
@@ -37,6 +38,7 @@ struct NatalChartTabView: View {
         } label: {
             PlanetView(planet: planet )
                 .redacted(reason: planet == nil ? .placeholder : [])
+                //.shimmering()
             
         }
         .buttonStyle(PlainButtonStyle())
@@ -57,6 +59,7 @@ struct NatalChartTabView: View {
         } label: {
             SunSignView(planet: planet)
                 .redacted(reason: planet == nil ? .placeholder : [])
+                //.shimmering()
             
         }
         .buttonStyle(PlainButtonStyle())

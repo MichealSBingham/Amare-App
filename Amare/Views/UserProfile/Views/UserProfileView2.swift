@@ -332,16 +332,17 @@ struct UserProfileView2: View {
                     .padding()
                     .tag(0)
                 // MARK: - Planets
-                MiniPlacementsScrollView(interpretations: model.natalChart?.interpretations ?? generateRandomPlanetInfoDictionary(), planets: model.natalChart?.planets ?? Planet.randomArray(ofLength: 10))
+                MiniPlacementsScrollView(interpretations: model.natalChart?.interpretations ?? [:], planets: model.natalChart?.planets ?? [])
                     .tag(1)
                 
-                Text("Planetary Aspects Go Here").tag(2)
+                MiniAspectScrollView(interpretations: model.natalChart?.interpretations ?? [:], aspects: model.natalChart?.aspects ?? [])
+                    .tag(2)
                 
                 PicturesCollectionView(images: model.user?.images ?? []).tag(3)
                     .environmentObject(currentUserDataModel)
                 
-                PlanetGridView(planets: model.natalChart?.planets ?? Planet.randomArray(ofLength: 5),
-                               interpretations: model.natalChart?.interpretations ?? generateRandomPlanetInfoDictionary())
+                PlanetGridView(planets: model.natalChart?.planets ?? [],
+                               interpretations: model.natalChart?.interpretations ?? [:])
                 .tag(4)
                 
                 

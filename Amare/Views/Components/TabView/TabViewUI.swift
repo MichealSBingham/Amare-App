@@ -8,6 +8,8 @@
 import SwiftUI
 import StreamChat
 import StreamChatSwiftUI
+import Firebase
+import Combine
 
 class ViewRouter: ObservableObject {
     
@@ -48,7 +50,9 @@ struct CustomBottomTabBar: View {
    // @EnvironmentObject private var sceneDelegate: SceneDelegate
     
     @EnvironmentObject var bg: BackgroundViewModel
+     var cancellables: Set<AnyCancellable> = []
     
+    @State var shiftButtonDown: Bool = false
     var body: some View {
         GeometryReader { geometry in
             VStack {
@@ -63,7 +67,18 @@ struct CustomBottomTabBar: View {
                     Text("")
                     
                 case .messages:
-                    ChatChannelListView(viewFactory: DemoAppFactory(), title: "Messages")
+                    ChatChannelListScreen(title: "Messages")
+                        .onAppear {
+                            withAnimation(.spring) {
+                                shiftButtonDown = true
+                            }
+                        }
+                        .onDisappear {
+                            withAnimation(.spring) {
+                                shiftButtonDown = false
+                            }
+                        }
+                   
                 case .user:
                     MainProfileView()
                       
@@ -96,6 +111,7 @@ struct CustomBottomTabBar: View {
                 TabBarIcon(viewRouter: viewRouter, assignedPage: .home, width: geometry.size.width/5, height: geometry.size.height/28, systemIconName: "homekit", tabName: "Home")
                 TabBarIcon(viewRouter: viewRouter, assignedPage: .discover, width: geometry.size.width/5, height: geometry.size.height/28, systemIconName: "magnifyingglass", tabName: "Search")
                 plusButton(geometry: geometry)
+                    .offset(y: shiftButtonDown ? 30 : 0 )
                 TabBarIcon(viewRouter: viewRouter, assignedPage: .messages, width: geometry.size.width/5, height: geometry.size.height/28, systemIconName: "message.fill", tabName: "Messages")
                     .badge(10)
                 TabBarIcon(viewRouter: viewRouter, assignedPage: .user, width: geometry.size.width/5, height: geometry.size.height/28, imageURL: model.user?.profileImageUrl ?? "", tabName: "You")

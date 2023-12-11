@@ -14,7 +14,43 @@ import StreamChat
 import StreamChatSwiftUI
 import FirebaseMessaging
 
-class AuthService: ObservableObject {
+class AuthService: ObservableObject , EventsControllerDelegate{
+    
+    //This is for the StreamChatSDK so that we can listen to events
+    var eventsController: EventsController!
+    
+    /// Delegate method to detect when a new message is sent to a user
+    func eventsController(_ controller: EventsController, didReceiveEvent event: Event) {
+        
+         
+        switch event {
+        case let messageNewEvent as MessageNewEvent:
+            
+            // Check if it's in the "dasha" chat
+            
+            guard let id = Auth.auth().currentUser?.uid else {   return }
+            
+            
+            guard messageNewEvent.channel.cid.rawValue == "messaging:\(id)-dasha" else {  return }
+
+            // Check if the message is sent by you
+            if messageNewEvent.user.id == id {
+                // Access the message content
+                let message = messageNewEvent.message
+                let text = message.text ?? ""
+                
+                
+                // Send to API
+                APIService.shared.messageDasha(message: text)
+                
+                
+            }
+        default:
+            break
+        }
+    }
+
+    
 	private var authStateDidChangeListenerHandle: AuthStateDidChangeListenerHandle?
 
 	@Published var user: User?
@@ -30,6 +66,7 @@ class AuthService: ObservableObject {
 	private init() {
 		addAuthListener()
 	}
+    
 	
 	private func addAuthListener() {
 		if authStateDidChangeListenerHandle != nil {
@@ -243,7 +280,7 @@ class AuthService: ObservableObject {
             print("sending in name and image url \(name) image \(url)")
             
             
-            ChatClient.shared.connectUser(userInfo: .init(id: username ?? userId, name: name, imageURL: url), token: .init(stringLiteral: token)) { error in
+            ChatClient.shared.connectUser(userInfo: .init(id: username ?? userId, name: name, imageURL: url), token: .init(stringLiteral: token)) { [self] error in
                 print("the error connecting in \(error)")
                 if error == nil {
                     UNUserNotificationCenter
@@ -255,6 +292,9 @@ class AuthService: ObservableObject {
                                     }
                                 }
                             }
+                    
+                    self.eventsController = ChatClient.shared.eventsController()
+                    eventsController.delegate = self
                 }
                 self.handleConnectionResult(error)
                 

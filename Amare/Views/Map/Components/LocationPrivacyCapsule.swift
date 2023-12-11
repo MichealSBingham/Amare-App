@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+import Shimmer
 
 struct LocationPrivacyCapsule: View {
     
@@ -44,6 +44,7 @@ struct LocationPrivacyCapsule: View {
                             .font(.headline)
                             .bold()
                             .foregroundColor((model.user?.locationSettings ?? .off) == .off ? .primary : .amare )
+                            //.shimmering()
                         
                     }
                 }

@@ -47,6 +47,10 @@
 		260954BF2A60B4A400114C56 /* SegmentedMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260954BE2A60B4A400114C56 /* SegmentedMenuView.swift */; };
 		260954C22A60B84000114C56 /* CustomSegmentedMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260954C12A60B84000114C56 /* CustomSegmentedMenuView.swift */; };
 		260954C42A60BE6700114C56 /* UserTypeSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260954C32A60BE6700114C56 /* UserTypeSelection.swift */; };
+		261782A02B26251500BEDB8B /* MiniAspectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2617829F2B26251500BEDB8B /* MiniAspectView.swift */; };
+		261782A22B26282800BEDB8B /* MiniAspectScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261782A12B26282800BEDB8B /* MiniAspectScrollView.swift */; };
+		261782A42B26325400BEDB8B /* MiniAspectVerticalPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261782A32B26325400BEDB8B /* MiniAspectVerticalPageView.swift */; };
+		261782A62B268CE000BEDB8B /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = 261782A52B268CE000BEDB8B /* Shimmer */; };
 		262712E32A61D50200E36906 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 262712E22A61D50200E36906 /* FirebaseAuth */; };
 		262712E52A61D50200E36906 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 262712E42A61D50200E36906 /* FirebaseFirestore */; };
 		262712E72A61D50200E36906 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 262712E62A61D50200E36906 /* FirebaseFirestoreSwift */; };
@@ -187,6 +191,8 @@
 		26E10BAD28679A6E007666F9 /* MessagesChannelListTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E10BAC28679A6D007666F9 /* MessagesChannelListTopView.swift */; };
 		26E264532AE9F2D3004DEB11 /* OutgoingWink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E264522AE9F2D3004DEB11 /* OutgoingWink.swift */; };
 		26E264552AE9F2DD004DEB11 /* IncomingWink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E264542AE9F2DD004DEB11 /* IncomingWink.swift */; };
+		26ED7D202B24DB7F00687D96 /* CustomChannelListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26ED7D1F2B24DB7F00687D96 /* CustomChannelListView.swift */; };
+		26ED7D232B24EA2400687D96 /* GlobalChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26ED7D222B24EA2400687D96 /* GlobalChatViewModel.swift */; };
 		26F9205F26A760E500A4F8C6 /* Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F9205E26A760E500A4F8C6 /* Animations.swift */; };
 		26F9206B26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 26F9206A26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf */; };
 		26F9206C26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 26F9206A26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf */; };
@@ -259,6 +265,9 @@
 		260954BE2A60B4A400114C56 /* SegmentedMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedMenuView.swift; sourceTree = "<group>"; };
 		260954C12A60B84000114C56 /* CustomSegmentedMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSegmentedMenuView.swift; sourceTree = "<group>"; };
 		260954C32A60BE6700114C56 /* UserTypeSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTypeSelection.swift; sourceTree = "<group>"; };
+		2617829F2B26251500BEDB8B /* MiniAspectView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MiniAspectView.swift; sourceTree = "<group>"; };
+		261782A12B26282800BEDB8B /* MiniAspectScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniAspectScrollView.swift; sourceTree = "<group>"; };
+		261782A32B26325400BEDB8B /* MiniAspectVerticalPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniAspectVerticalPageView.swift; sourceTree = "<group>"; };
 		2627C5422A71EF43008ED5DB /* UserProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileView.swift; sourceTree = "<group>"; };
 		262F2A402A4906EF00C980D3 /* OnboardingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OnboardingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		262F2A492A49077400C980D3 /* DateExtensionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensionsTests.swift; sourceTree = "<group>"; };
@@ -387,6 +396,8 @@
 		26E10BAC28679A6D007666F9 /* MessagesChannelListTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesChannelListTopView.swift; sourceTree = "<group>"; };
 		26E264522AE9F2D3004DEB11 /* OutgoingWink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutgoingWink.swift; sourceTree = "<group>"; };
 		26E264542AE9F2DD004DEB11 /* IncomingWink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomingWink.swift; sourceTree = "<group>"; };
+		26ED7D1F2B24DB7F00687D96 /* CustomChannelListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomChannelListView.swift; sourceTree = "<group>"; };
+		26ED7D222B24EA2400687D96 /* GlobalChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalChatViewModel.swift; sourceTree = "<group>"; };
 		26F2E0A9281845B500E66B57 /* TimeZoneLocate.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TimeZoneLocate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		26F9205E26A760E500A4F8C6 /* Animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animations.swift; sourceTree = "<group>"; };
 		26F9206A26A8756200A4F8C6 /* MontserratAlternates-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MontserratAlternates-SemiBold.ttf"; sourceTree = "<group>"; };
@@ -419,6 +430,7 @@
 				2684C6662A65F9800048BB4E /* SDWebImageSwiftUI in Frameworks */,
 				2662A80D2B113D7B00BDDD6E /* GeohashKit in Frameworks */,
 				262AD9F02B1D0D830069519E /* FirebaseInAppMessaging-Beta in Frameworks */,
+				261782A62B268CE000BEDB8B /* Shimmer in Frameworks */,
 				26E0EF922B0914E400BE0B5E /* FirebaseFunctions in Frameworks */,
 				262712E52A61D50200E36906 /* FirebaseFirestore in Frameworks */,
 				262712E72A61D50200E36906 /* FirebaseFirestoreSwift in Frameworks */,
@@ -591,6 +603,7 @@
 		2626D2E42A21078F007F5C77 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				26ED7D212B24EA1800687D96 /* Messages */,
 				260718952B1B86080096DBAA /* Map */,
 				267D5CA22B1A73C200F80375 /* Animations */,
 				260191182B162E7000FB7A3B /* ImagePicker */,
@@ -612,6 +625,7 @@
 		2626D2E52A210799007F5C77 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				26ED7D1E2B24DB6400687D96 /* Messaging */,
 				260191152B162E4200FB7A3B /* ImagePicker */,
 				267B37C62B0EC5E500782A65 /* Map */,
 				2632BFF12B0D20DA00873BE7 /* Settings */,
@@ -1106,8 +1120,27 @@
 		26E3C4982B226D0A0027B539 /* AspectView */ = {
 			isa = PBXGroup;
 			children = (
+				2617829F2B26251500BEDB8B /* MiniAspectView.swift */,
+				261782A12B26282800BEDB8B /* MiniAspectScrollView.swift */,
+				261782A32B26325400BEDB8B /* MiniAspectVerticalPageView.swift */,
 			);
 			path = AspectView;
+			sourceTree = "<group>";
+		};
+		26ED7D1E2B24DB6400687D96 /* Messaging */ = {
+			isa = PBXGroup;
+			children = (
+				26ED7D1F2B24DB7F00687D96 /* CustomChannelListView.swift */,
+			);
+			path = Messaging;
+			sourceTree = "<group>";
+		};
+		26ED7D212B24EA1800687D96 /* Messages */ = {
+			isa = PBXGroup;
+			children = (
+				26ED7D222B24EA2400687D96 /* GlobalChatViewModel.swift */,
+			);
+			path = Messages;
 			sourceTree = "<group>";
 		};
 		26F9206926A8752200A4F8C6 /* FontResources */ = {
@@ -1186,6 +1219,7 @@
 				262AD9EF2B1D0D830069519E /* FirebaseInAppMessaging-Beta */,
 				262AD9F12B1D0D830069519E /* FirebaseInAppMessagingSwift-Beta */,
 				262AD9F32B1D0D830069519E /* FirebaseMessaging */,
+				261782A52B268CE000BEDB8B /* Shimmer */,
 			);
 			productName = Love;
 			productReference = 26B1AFD22678FFE500A170B3 /* Amare.app */;
@@ -1367,6 +1401,7 @@
 				262F2A5D2A50895100C980D3 /* ContentView.swift in Sources */,
 				263D6F982684012000CBBECC /* AccountErrors.swift in Sources */,
 				262F2A562A4D0F3300C980D3 /* Sex.swift in Sources */,
+				26ED7D202B24DB7F00687D96 /* CustomChannelListView.swift in Sources */,
 				2608CF46268FE27300826FDA /* ImagePickerView.swift in Sources */,
 				262F2A612A50A8C000C980D3 /* Background.swift in Sources */,
 				2608CF532697C9D600826FDA /* SystemErrors.swift in Sources */,
@@ -1390,6 +1425,7 @@
 				26C3EE192A4510D900CCA9E0 /* AppConfig.swift in Sources */,
 				2627C5432A71EF43008ED5DB /* UserProfileView.swift in Sources */,
 				26C4664D2A34FEC0000EC8BC /* BeginQuizBodyView.swift in Sources */,
+				26ED7D232B24EA2400687D96 /* GlobalChatViewModel.swift in Sources */,
 				260120052AF685F6004C4D77 /* KeyboardPlaceholder.swift in Sources */,
 				269013B32AE5FB2000397075 /* DirectMessagingView.swift in Sources */,
 				26B1B011267C28E000A170B3 /* Extensions.swift in Sources */,
@@ -1412,6 +1448,7 @@
 				26970699268101B0007E7961 /* SceneDelegate.swift in Sources */,
 				26A5FBE82A7334F100D94476 /* PlanetView.swift in Sources */,
 				269013A92AE3468800397075 /* NameLabelView.swift in Sources */,
+				261782A22B26282800BEDB8B /* MiniAspectScrollView.swift in Sources */,
 				26C466402A34FE96000EC8BC /* RGQuizQuestion.swift in Sources */,
 				262F8F9A2A7B3E6300EE709E /* IncomingFriendRequest.swift in Sources */,
 				263C9CC22B065FE3009C1626 /* MainProfileView.swift in Sources */,
@@ -1491,6 +1528,7 @@
 				265C4BD02AFC1EE0007D0925 /* PredictedPersonalityStatementsView.swift in Sources */,
 				263FBDE0283BE4B4008F35C5 /* MathUtilities.swift in Sources */,
 				26011FF82AED9A29004C4D77 /* MainPlacementView.swift in Sources */,
+				261782A02B26251500BEDB8B /* MiniAspectView.swift in Sources */,
 				2662A8082B1132A800BDDD6E /* LocationManager.swift in Sources */,
 				260191242B17E90000FB7A3B /* UploadNewImageView.swift in Sources */,
 				2662A8112B138EA600BDDD6E /* CustomNavigationBarView.swift in Sources */,
@@ -1498,6 +1536,7 @@
 				263C9CC42B068AB5009C1626 /* UserProfileView2.swift in Sources */,
 				26A5FBF12A73444D00D94476 /* UserListRowView.swift in Sources */,
 				26A5FBED2A733A0100D94476 /* Numbers+Extensions.swift in Sources */,
+				261782A42B26325400BEDB8B /* MiniAspectVerticalPageView.swift in Sources */,
 				265117892A82F42500B15CDF /* CustomProfileCreationView.swift in Sources */,
 				269013AD2AE43B5C00397075 /* RadialChart.swift in Sources */,
 				26BD69432AB7DFF30062B18B /* PredictedTraitsView.swift in Sources */,
@@ -2123,6 +2162,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		261782A52B268CE000BEDB8B /* Shimmer */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2696FAB928381CFD00584768 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */;
+			productName = Shimmer;
+		};
 		262712E22A61D50200E36906 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 262712D82A61BE4700E36906 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;

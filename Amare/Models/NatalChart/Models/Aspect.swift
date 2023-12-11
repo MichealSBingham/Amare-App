@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 
-struct Aspect: Codable, Identifiable, Equatable {
+struct Aspect: Codable, Identifiable, Equatable, Hashable {
     
     /// Name of the aspect etc "Jupiter Asc"
     let name: String
@@ -35,10 +35,17 @@ struct Aspect: Codable, Identifiable, Equatable {
     
     //var id: (String) { name }
     
-    let id = UUID()
+    var id: String { "\(name)" }
     
 
+    static func ==(lhs: Aspect, rhs: Aspect) -> Bool {
+        return lhs.id == rhs.id
+    }
 
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
     
 }
 

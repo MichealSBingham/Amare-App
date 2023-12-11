@@ -115,16 +115,18 @@ struct MainProfileView: View {
                     TabView(selection: self.$selection) {
                         
                         // MARK: - Planets
-                        MiniPlacementsScrollView(interpretations: model.natalChart?.interpretations ?? generateRandomPlanetInfoDictionary(), planets: model.natalChart?.planets ?? Planet.randomArray(ofLength: 10))
+                        MiniPlacementsScrollView(interpretations: model.natalChart?.interpretations ?? [:], planets: model.natalChart?.planets ?? [])
                             .tag(0)
                         
-                        Text("Planetary Aspects Go Here").tag(1)
+                        MiniAspectScrollView(interpretations: model.natalChart?.interpretations ?? [:], aspects: model.natalChart?.aspects ?? [])
+                            .tag(1 )
+                            .environmentObject(model)
                         
                         PicturesCollectionView(images: model.user?.images ?? [], isSignedInUser: true).tag(2)
                             .environmentObject(model)
                         
-                        PlanetGridView(planets: model.natalChart?.planets ?? Planet.randomArray(ofLength: 5),
-                                       interpretations: model.natalChart?.interpretations ?? generateRandomPlanetInfoDictionary())
+                        PlanetGridView(planets: model.natalChart?.planets ?? [],
+                                       interpretations: model.natalChart?.interpretations ?? [:])
                         .tag(3)
                         
                         

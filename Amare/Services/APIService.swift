@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+import Firebase
 
 struct UserTraitsData: Codable {
 	var name: String
@@ -30,6 +30,7 @@ enum APIEndpoint: String {
     case predictTraits = "/predict_traits"
     case placementRead = "/placement_read"
     case predictStatements = "/predict_statements"
+    case messageDasha = "/message_dasha"
 }
 
 
@@ -165,7 +166,51 @@ class APIService {
     }
     
     
-
+    func messageDasha( message: String, completion: @escaping (Result<Any, Error>) -> Void = { _ in }) {
+            guard let url = constructURL(for: .messageDasha) else {
+                completion(.failure(NSError(domain: "Invalid URL", code: 0, userInfo: nil)))
+                return
+            }
+        
+        guard !message.isEmpty else {
+            completion(.failure(NSError(domain: "No Message Sent", code: 0, userInfo: nil)))
+            return
+        }
+        guard let userID = Auth.auth().currentUser?.uid else {
+            completion(.failure(NSError(domain: "Not Signed In", code: 0, userInfo: nil)))
+            return
+        }
+            
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            
+            let parameters: [String: Any] = ["userID": userID, "message": message]
+            do {
+                request.httpBody = try JSONSerialization.data(withJSONObject: parameters)
+            } catch {
+                completion(.failure(error))
+                return
+            }
+            
+            let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                }
+                
+                if let data = data {
+                    do {
+                        let json = try JSONSerialization.jsonObject(with: data, options: [])
+                        completion(.success(json))
+                    } catch {
+                        completion(.failure(error))
+                    }
+                }
+            }
+            
+            task.resume()
+        }
     
     
     

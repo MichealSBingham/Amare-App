@@ -7,7 +7,7 @@
 
 import SwiftUI
 import LoremSwiftum
-
+import Shimmer
 import Foundation
 import Combine
 
@@ -199,6 +199,7 @@ struct DetailedPlacementInfoView: View {
                             .padding()
                             .foregroundColor(Color.primary.opacity(0.4))
                             .redacted(reason: longDescription == nil /*&& viewModel.interpretation == nil*/ ? .placeholder : [])
+                            //.shimmering()
 
                         if longDescription == nil /*&& viewModel.interpretation == nil*/ {
                             ProgressView() // SwiftUI's built-in loading indicator

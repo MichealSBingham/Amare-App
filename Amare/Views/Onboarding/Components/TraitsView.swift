@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+import Shimmer
 
 
 
@@ -320,6 +320,7 @@ struct TraitsFeedbackView2: View {
             }
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             .redacted(reason: viewModel.predictedTraits.isEmpty ? .placeholder : [])
+            //.shimmering()
 
             ProgressView()
                 .opacity(viewModel.predictedTraits.isEmpty && (activeTabIndex != 0) ? 1: 0 )

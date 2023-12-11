@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+import Shimmer
 
 
 struct NameLabelView: View {
@@ -21,6 +21,7 @@ struct NameLabelView: View {
             
         }
         .redacted(reason: name == nil ? .placeholder : [])
+        //.shimmering()
     }
 }
 

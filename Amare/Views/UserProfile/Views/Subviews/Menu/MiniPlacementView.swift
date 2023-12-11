@@ -7,7 +7,7 @@
 
 import SwiftUI
 import LoremSwiftum
-
+import Shimmer
 struct MiniPlacementView: View {
     var interpretation: String?
     var planetBody: PlanetName?
@@ -25,6 +25,7 @@ struct MiniPlacementView: View {
                 (Text(interpretation?.firstNSentences(numSentences) ?? Lorem.sentences(3)) + Text("..."))
                 //.font(Font.custom("SF Pro Rounded", size: 14))
                     .redacted(reason: interpretation == nil ? .placeholder : [])
+                    //.shimmering()
                     .multilineTextAlignment(.center)
                     .padding()
                    // .frame(width: 239, alignment: .top)
@@ -76,6 +77,7 @@ struct DetailedMiniPlacementView: View {
                         .lineLimit(100)
                         .truncationMode(.tail)
                     .redacted(reason: interpretation == nil ? .placeholder : [])
+                    //.shimmering()
                     .multilineTextAlignment(.center)
                     .padding()
                 

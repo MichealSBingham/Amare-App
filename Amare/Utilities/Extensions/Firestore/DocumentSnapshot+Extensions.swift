@@ -53,6 +53,8 @@ extension DocumentSnapshot {
         let statements = data["statements"] as? [String] ?? []
         let isDiceActive = data["isDiceActive"] as? Bool ?? false
         
+        let dashaThreadID = data["dashaThreadID"] as? String ?? ""
+        
         let reasonsForUse = intentions.map { ReasonsForUse(rawValue: $0) ?? .dating}
         print("locationSettings: \(locationSettings) but data is \(data["locationSettings"])")
 
@@ -61,7 +63,7 @@ extension DocumentSnapshot {
 			knownBirthTime: knownTime, residence: residence, profileImageUrl: profileImageUrl,
 			images: images, sex: Sex(rawValue: sex) ?? .none, orientation: orientation.map { Sex(rawValue: $0) ?? .none },
             username: username, isReal: isReal, isNotable: isNotable, reasonsForUse: reasonsForUse,  isForDating: isForDating, isForFriends: isForFriends, totalFriendCount: totalFriendCount, bio: bio,
-            notes: notes, wikipedia_link: wikipediaLink, locationSettings: locationSettings, traits: traits, statements: statements, isDiceActive: isDiceActive
+            notes: notes, wikipedia_link: wikipediaLink, locationSettings: locationSettings, traits: traits, statements: statements, isDiceActive: isDiceActive, dashaThreadID: dashaThreadID
 		)
 	}
 	

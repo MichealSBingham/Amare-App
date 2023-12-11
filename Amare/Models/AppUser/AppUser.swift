@@ -50,6 +50,11 @@ struct AppUser: Codable, Identifiable {
     var statements: [String] = []
     
     var isDiceActive: Bool? = false
+    var dashaThreadID: String?
+    
+    var historicalPlanetPlacementUnlocksLeft: Int? = 1
+    var historicalStoriesUnlocksLeft: Int? = 1
+    var historicalCelebCompatibilityUnlocksLeft: Int? = 1
 
 	enum CodingKeys: String, CodingKey {
 		case id
@@ -85,6 +90,11 @@ struct AppUser: Codable, Identifiable {
         case isDiceActive
         
         case statements
+        case dashaThreadID
+        
+        case historicalPlanetPlacementUnlocksLeft
+        case historicalStoriesUnlocksLeft
+        case historicalCelebCompatibilityUnlocksLeft
 	}
 
 	
