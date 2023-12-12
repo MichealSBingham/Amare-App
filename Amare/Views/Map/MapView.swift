@@ -236,6 +236,7 @@ struct MapView: View {
                     print("showing second help message")
                     withAnimation {
                         showSecondDashaHelpMessage = false
+                        UserDefaults.setNotFirstAppLaunch()
                     }
                 }
             }

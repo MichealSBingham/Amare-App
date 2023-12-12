@@ -39,30 +39,34 @@ struct MainProfileView: View {
                     CustomNavigationBarView(name: "\(model.user?.name ?? "")", username: "\(model.user?.username ?? "")", action: {
                                     showSettings = true
                                 })
+                    .alert(isPresented: $wantMoreAlert) {
+                                Alert(
+                                    title: Text("Want more stars?"),
+                                    message: Text("You have to add friends for more stars. Share with friends and tell them to add you!"),
+                                    primaryButton: .cancel(),
+                                    secondaryButton: .default(Text("I'll share")) {
+                                        shareApp()
+                                    }
+                                )
+                            }
                     
                     HStack{
                       
                         Button{
-                            wantMoreAlert.toggle()
-                           // ShareLink(item: link)
+                            wantMoreAlert = true
+                           print("did tap want more")
 
                         } label: {
                             Text("\(model.user?.stars ?? 0)⭐️")
                                 .bold()
-                                .offset(y: 50)
                                 .padding()
                         }
+                        .offset(y: 50)
+                        .frame(width: 75, height: 75)
+                        
+                    
                         .buttonStyle(.plain)
-                        .alert(isPresented: $wantMoreAlert) {
-                                    Alert(
-                                        title: Text("Want more stars?"),
-                                        message: Text("You have to add friends for more stars. Share with friends and tell them to add you!"),
-                                        primaryButton: .cancel(),
-                                        secondaryButton: .default(Text("I'll share")) {
-                                            shareApp()
-                                        }
-                                    )
-                                }
+                      
                         
                         
                         Spacer()
