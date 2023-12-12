@@ -35,6 +35,10 @@ struct FriendsListView: View {
                     // This is needed to prevent the navigation bar from hiding the search bar when the list is scrolled
                     UITableView.appearance().contentInset.top = -35
                 }
+                .background(
+                            NavigationLink(destination: UserProfileView2(model: tappedUser),
+                                           isActive: $selectedUser) { EmptyView() }
+                        )
 
             // List of friends
             List(filteredFriends) { friend in

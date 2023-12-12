@@ -12,7 +12,7 @@ import StreamChat
 struct ChatWithDasha: View {
     
     @State private var typedText = ""
-    var message: String? = "🌌 Click to explore and chat with me about your unique bond! 👫✨ Discover your cosmic connection and learn more about your dynamics in detail!"
+     @Binding var message: String
 
     var body: some View {
         
@@ -31,13 +31,15 @@ struct ChatWithDasha: View {
                   .clipShape(BubbleShape(myMessage: false))
                    .foregroundColor(.white)
                    .onAppear {
-                       //typeWriterEffect(for: message ?? "")
+                     //  typedText = ""
+                       typeWriterEffect(for: message ?? "")
                            }
             }.onChange(of: message) { old, new in
+                //typedText = ""
                 typeWriterEffect(for: new ?? "")
-            }
+           }
             
-        }
+        }.opacity(typedText.isEmpty ? 0 : 1 )
        
     }
     
@@ -101,6 +103,6 @@ struct ChatWithDasha: View {
 //                            
 //
 #Preview {
-    ChatWithDasha()
+    ChatWithDasha(message: .constant("Hello"))
         .preferredColorScheme(.dark)
 }

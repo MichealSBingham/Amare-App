@@ -40,7 +40,11 @@ struct CustomNavigationBarView2: View {
     var cancelFriendRequestAction: () -> Void
     var acceptFriendAction: () -> Void
     var model: UserProfileModel 
+    
+    @Environment(\.presentationMode) var presentationMode
 
+
+    @State var showAlert: Bool = false
     var body: some View {
         HStack {
             // Back button
@@ -55,6 +59,21 @@ struct CustomNavigationBarView2: View {
                     .lineLimit(1)
                     .minimumScaleFactor(0.01)
                     .padding(.horizontal)
+                    .alert(isPresented: $showAlert) {
+                                    Alert(
+                                        title: Text("Block This User"),
+                                        message: Text("Are you sure you want to report and block this user?"),
+                                        primaryButton: .destructive(Text("Yes")) {
+                                            // Run block action
+                                            // self.model.block()
+                                            model.block(user: model.user?.username ?? "")
+                                            presentationMode.wrappedValue.dismiss()
+                                            
+                                            print("Blocking user...")
+                                        },
+                                        secondaryButton: .cancel()
+                                    )
+                                }
             
 
             Spacer()
@@ -116,6 +135,7 @@ struct CustomNavigationBarView2: View {
                 //MARK: - Button for Blocking
                 Button(action: {
                     // Your block action here
+                    showAlert.toggle()
                 }) {
                     HStack {
                         Text("Block @\(model.user?.username ?? "")")
@@ -129,6 +149,7 @@ struct CustomNavigationBarView2: View {
                 
                 Button(action: {
                     // Your report action here
+                    showAlert.toggle()
                 }) {
                     HStack {
                         Text("Report @\(model.user?.username ?? "" )")
@@ -138,11 +159,13 @@ struct CustomNavigationBarView2: View {
             } label: {
                 MenuOptionsView()
                     .frame(width: 25)
-                    
+                    .padding()
                     .buttonStyle(PlainButtonStyle())
                 
             }
             .buttonStyle(PlainButtonStyle())
+            .contentShape(Rectangle())
+            .padding(10) 
         }
         .padding(.vertical, 0) // Reduced vertical padding
         .padding(.horizontal)

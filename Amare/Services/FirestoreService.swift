@@ -197,6 +197,8 @@ class FirestoreService {
      */
     func searchUsers(matching prefix: String, completion: @escaping (Result<([SearchedUser], [SearchedUser]), Error>) -> Void) {
         
+        let blockedUsers = UserDefaults.standard.array(forKey: "BlockedUsers") as? [String] ?? []
+
         let usersQuery = db.collection("usernames").whereField("username", isGreaterThanOrEqualTo: prefix.lowercased()).whereField("username", isLessThanOrEqualTo: prefix.lowercased() + "\u{f8ff}").limit(to: 10)
         
         let notablesQuery = db.collection("notable_usernames_not_on_here").whereField("username", isGreaterThanOrEqualTo: prefix.lowercased()).whereField("username", isLessThanOrEqualTo: prefix.lowercased() + "\u{f8ff}").limit(to: 10)
@@ -212,7 +214,12 @@ class FirestoreService {
                 let users = querySnapshot.documents.compactMap { document -> SearchedUser? in
                     try? document.data(as: SearchedUser.self)
                 }
-                usersResult = .success(users)
+                
+                let filteredUsers = users.filter { user in
+                    !blockedUsers.contains(user.id ?? "$$") && user.id != Auth.auth().currentUser?.uid ?? ""
+                    }
+                
+                usersResult = .success(filteredUsers)
             } else if let error = error {
                 usersResult = .failure(error)
             }
@@ -247,12 +254,19 @@ class FirestoreService {
     func searchRegularUsers(matching prefix: String, completion: @escaping (Result<[SearchedUser], Error>) -> Void) {
         let usersQuery = db.collection("usernames").whereField("username", isGreaterThanOrEqualTo: prefix.lowercased()).whereField("username", isLessThanOrEqualTo: prefix.lowercased() + "\u{f8ff}").limit(to: 10)
 
+        let blockedUsers = UserDefaults.standard.array(forKey: "BlockedUsers") as? [String] ?? []
+        print("blockedUsers is .. \(blockedUsers)")
+
         usersQuery.getDocuments { querySnapshot, error in
             if let querySnapshot = querySnapshot {
                 let users = querySnapshot.documents.compactMap { document -> SearchedUser? in
                     try? document.data(as: SearchedUser.self)
                 }
-                completion(.success(users))
+                let filteredUsers = users.filter { user in
+                    print("the id is ..\(user.id)")
+                   return  !blockedUsers.contains(user.id ?? "&") && user.id != Auth.auth().currentUser?.uid ?? ""
+                    }
+                completion(.success(filteredUsers))
             } else if let error = error {
                 completion(.failure(error))
             }
@@ -392,7 +406,43 @@ class FirestoreService {
         return usersListener
     }
     
-    
+    func listenForSynastry(with otherUserID: String?, completion: @escaping (Result<Synastry?, Error>) -> Void) -> ListenerRegistration? {
+        
+        guard let currentUserID = Auth.auth().currentUser?.uid, let otherUserID = otherUserID else {
+            // Handle nil current user ID
+            print("can't get synastry because one of the user ids is nil ")
+            completion(.failure(GlobalError.unknown))
+            return nil
+        }
+
+        let incomingRequestListener = db.collection("users").document(currentUserID).collection("insights").document(otherUserID).addSnapshotListener { snapshot, error in
+            if let error = error {
+                print("no insights due to error \(error)")
+                completion(.failure(error))
+                return
+            }
+
+            guard let snapshot = snapshot, let data = snapshot.data() else {
+                // Handle no data case
+                print("no data here")
+                completion(.success(nil))
+                return
+            }
+
+            do {
+                let synastry = try snapshot.data(as: Synastry.self)
+                print("got synastry object \(synastry)")
+                completion(.success(synastry))
+            } catch {
+                // Handle decoding error
+                print("got error listenForSynastry \(error)")
+                completion(.failure(error))
+            }
+        }
+
+        return incomingRequestListener
+    }
+
     
     func listenForNatalChartChanges(userId: String, completion: @escaping (Result<NatalChart, Error>) -> Void) -> ListenerRegistration? {
         let db = Firestore.firestore()
@@ -803,6 +853,8 @@ class FirestoreService {
     
     func listenForAllFriends(for userId: String, completion: @escaping (Result<[Friend], Error>) -> Void) -> ListenerRegistration {
         
+        let blockedUsers = UserDefaults.standard.array(forKey: "BlockedUsers") as? [String] ?? []
+
         let friends = db.collection("users").document(userId).collection("myFriends")
         
         let listener = friends.addSnapshotListener { (snapshot, error) in
@@ -820,7 +872,13 @@ class FirestoreService {
                 try? document.data(as: Friend.self)
             }
             
-            completion(.success(friends))
+
+            let filteredUsers = friends.filter { user in
+                !blockedUsers.contains(user.id ?? "^") && user.id != Auth.auth().currentUser?.uid ?? ""
+                }
+            
+            
+            completion(.success(filteredUsers))
         }
         
         return listener

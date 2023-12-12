@@ -62,7 +62,7 @@ struct SearchAndFriendsView: View {
                     
                    
                 }
-                
+                /*
                 if segmentationSelection == .friends{
                     
                     List(dataModel.friends) { friend in
@@ -87,6 +87,7 @@ struct SearchAndFriendsView: View {
 					.padding(0)
                     
                 }
+                 */
                 
                 if segmentationSelection == .requests{
                     
@@ -117,6 +118,7 @@ struct SearchAndFriendsView: View {
                     
                 }
                 
+                /*
                 if segmentationSelection == .historicals{
                     List(dataModel.historical) { user in
                         
@@ -205,7 +207,7 @@ struct SearchAndFriendsView: View {
 					.padding(0)
                     
                 }
-                
+                */
                 
             }
             .scrollContentBackground(.hidden)
@@ -233,17 +235,18 @@ struct SearchAndFriendsView: View {
                 switch segmentationSelection {
                 case .all:
                     dataModel.searchRegularUsers(matching: text)
-                case .friends:
+               case .friends:
                     if let id = Auth.auth().currentUser?.uid{
                        // dataModel.listenForAllFriends()
                     }
-                    
+              
                 case .requests:
                     if let id = Auth.auth().currentUser?.uid{
                        // dataModel.listenForAllFriendRequests()
                     }
-                case .historicals:
+               case .historicals:
                     dataModel.searchHistoricalUsers(matching: text)
+             
                 case .suggestions:
                     break
                 case .custom:
@@ -252,7 +255,7 @@ struct SearchAndFriendsView: View {
                 }
             }
             
-            .navigationTitle(Text("Friends"))
+            .navigationTitle(Text("Discover"))
         }
         
     }

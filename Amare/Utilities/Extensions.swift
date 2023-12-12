@@ -400,3 +400,10 @@ struct EnumeratedForEach<ItemType, ContentView: View>: View {
 }
 
 
+extension UserDefaults {
+    static func blockUser(userID: String) {
+        var blockedUsers = UserDefaults.standard.array(forKey: "BlockedUsers") as? [String] ?? []
+        blockedUsers.append(userID)
+        UserDefaults.standard.set(blockedUsers, forKey: "BlockedUsers")
+    }
+}

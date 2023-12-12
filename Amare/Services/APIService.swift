@@ -37,6 +37,11 @@ struct AspectReadData: Codable {
     var requesting_user_id: String
 }
 
+struct TellMeAboutReadData: Codable {
+    var requestingUserID: String
+    var targetUserID: String
+}
+
 
 enum APIEndpoint: String {
     case predictTraits = "/predict_traits"
@@ -44,6 +49,7 @@ enum APIEndpoint: String {
     case predictStatements = "/predict_statements"
     case messageDasha = "/message_dasha"
     case aspect_read = "/aspect_read"
+    case tell_me_about = "/tell_me_about"
 }
 
 
@@ -263,6 +269,8 @@ class APIService {
                 if let data = data {
                     do {
                         let json = try JSONSerialization.jsonObject(with: data, options: [])
+                        
+                        
                         print("DASHA API: \(json)")
                         completion(.success(json))
                     } catch {
@@ -275,6 +283,55 @@ class APIService {
             
             task.resume()
         }
+    
+    
+    func tellMeAbout( data: TellMeAboutReadData, completion: @escaping (Result<Any, Error>) -> Void = { _ in }) {
+            guard let url = constructURL(for: .tell_me_about) else {
+                completion(.failure(NSError(domain: "Invalid URL", code: 0, userInfo: nil)))
+                return
+            }
+        
+       
+        guard let userID = Auth.auth().currentUser?.uid else {
+            completion(.failure(NSError(domain: "Not Signed In", code: 0, userInfo: nil)))
+            return
+        }
+            
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            
+        let parameters: [String: Any] = ["requestingUserID": data.requestingUserID, "targetUserID": data.targetUserID]
+            do {
+                request.httpBody = try JSONSerialization.data(withJSONObject: parameters)
+            } catch {
+                completion(.failure(error))
+                return
+            }
+            
+            let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                if let error = error {
+                    print("DASHA API: \(error)")
+                    completion(.failure(error))
+                    return
+                }
+                
+                if let data = data {
+                    do {
+                        let json = try JSONSerialization.jsonObject(with: data, options: [])
+                        print("DASHA API: \(json)")
+                        completion(.success(json))
+                    } catch {
+                        print("DASHA API: \(error)")
+                        completion(.failure(error))
+                        
+                    }
+                }
+            }
+            
+            task.resume()
+        }
+    
     
     
     

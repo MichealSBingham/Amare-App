@@ -122,6 +122,7 @@
 		2684C6632A65F8110048BB4E /* CircularProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2684C6622A65F8110048BB4E /* CircularProfileImageView.swift */; };
 		2684C6662A65F9800048BB4E /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 2684C6652A65F9800048BB4E /* SDWebImageSwiftUI */; };
 		268D59AE2B28105A00FE59ED /* BubbleShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268D59AD2B28105A00FE59ED /* BubbleShape.swift */; };
+		268D59B12B28A84400FE59ED /* Synastry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268D59B02B28A84400FE59ED /* Synastry.swift */; };
 		268E542826DCEC6400E61F40 /* InputVerificationCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268E542726DCEC6400E61F40 /* InputVerificationCode.swift */; };
 		268F26C1268018EE00FBEA7D /* ForNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268F26C0268018EE00FBEA7D /* ForNavigation.swift */; };
 		269013A72AE339C000397075 /* UPSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269013A62AE339C000397075 /* UPSectionView.swift */; };
@@ -325,6 +326,7 @@
 		267D5CA32B1A73E600F80375 /* Particle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Particle.swift; sourceTree = "<group>"; };
 		2684C6622A65F8110048BB4E /* CircularProfileImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProfileImageView.swift; sourceTree = "<group>"; };
 		268D59AD2B28105A00FE59ED /* BubbleShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleShape.swift; sourceTree = "<group>"; };
+		268D59B02B28A84400FE59ED /* Synastry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Synastry.swift; sourceTree = "<group>"; };
 		268E542726DCEC6400E61F40 /* InputVerificationCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputVerificationCode.swift; sourceTree = "<group>"; };
 		268F26C0268018EE00FBEA7D /* ForNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForNavigation.swift; sourceTree = "<group>"; };
 		269013A62AE339C000397075 /* UPSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UPSectionView.swift; sourceTree = "<group>"; };
@@ -609,6 +611,7 @@
 		2626D2E42A21078F007F5C77 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				268D59AF2B28A80F00FE59ED /* Synastry */,
 				26ED7D212B24EA1800687D96 /* Messages */,
 				260718952B1B86080096DBAA /* Map */,
 				267D5CA22B1A73C200F80375 /* Animations */,
@@ -765,6 +768,14 @@
 				267D5CA32B1A73E600F80375 /* Particle.swift */,
 			);
 			path = Animations;
+			sourceTree = "<group>";
+		};
+		268D59AF2B28A80F00FE59ED /* Synastry */ = {
+			isa = PBXGroup;
+			children = (
+				268D59B02B28A84400FE59ED /* Synastry.swift */,
+			);
+			path = Synastry;
 			sourceTree = "<group>";
 		};
 		268F26BD2680080F00FBEA7D /* UserAccount */ = {
@@ -1543,6 +1554,7 @@
 				26A5FBDB2A732E4C00D94476 /* Element.swift in Sources */,
 				26C3EE162A45010300CCA9E0 /* FirestoreService.swift in Sources */,
 				2601359E2A488496007878BD /* Birthday.swift in Sources */,
+				268D59B12B28A84400FE59ED /* Synastry.swift in Sources */,
 				260120032AEEBA9A004C4D77 /* ProfileImagesStack.swift in Sources */,
 				265C4BD02AFC1EE0007D0925 /* PredictedPersonalityStatementsView.swift in Sources */,
 				263FBDE0283BE4B4008F35C5 /* MathUtilities.swift in Sources */,

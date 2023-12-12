@@ -8,18 +8,92 @@
 import SwiftUI
 import StreamChat
 import StreamChatSwiftUI
+import Firebase
 
-class CompatibilityViewModel: ObservableObject{
-    @Published var message: String = "🌌 Click to explore and chat with me about your unique bond! 👫✨ Discover your cosmic connection and learn more about your dynamics in detail!"
+class SynastryViewModel: ObservableObject{
+    @Published var message: String = ""
+    
+    @Published var isLoading: Bool = false
+    
+    @Published var synastry: Synastry?
+    
+    @Published var score: Double?
+    
+    
+
+    
+    
+    private var insightsListener: ListenerRegistration?
+    
+    
+    
+    
+    func loadInsights( with user2: String?)  {
+        
+        guard let user1id=Auth.auth().currentUser?.uid, let user2id = user2 else {
+            print("can't load insights with no user id")
+            return
+        }
+        
+        insightsListener =   FirestoreService.shared.listenForSynastry(with: user2id) { result in
+            switch result {
+            case .success(let success):
+                print("did succeed \(success)")
+                self.synastry = success
+                if let syn = success {
+                    self.message = syn.summary ?? ""
+                    if let d = syn.score {
+                        self.score = d
+                    }
+                }
+                
+            case .failure(let failure):
+                print("some error getting synastry \(failure)")
+                self.synastry = nil
+            }
+        }
+        
+        
+    }
+    
+    
     
     func tellMeAbout(them: String){
         // triggers function DashaChatbot.tellMeAbout
+        //callAPI
+        print("synastryViewModel.tellmeAbout")
+        guard let me = Auth.auth().currentUser?.uid else { return }
+        withAnimation {
+            isLoading = true
+        }
+        
+        
+        let data = TellMeAboutReadData(requestingUserID: me, targetUserID: them)
+        
+        APIService.shared.tellMeAbout(data: data) { result in
+            switch result {
+            case .success(let success):
+                self.isLoading = false
+                print("Tell me about API response: \(success)")
+            case .failure(let failure):
+                print("Tell me about API response error : \(failure)")
+                self.isLoading = false
+            }
+        }
+        
+    
+    }
+    
+    deinit{
+        insightsListener?.remove()
     }
 }
 
 struct UserProfileView2: View {
     
     @Injected(\.chatClient) var chatClient
+    @Environment(\.presentationMode) var presentationMode
+
     
     @EnvironmentObject var currentUserDataModel: UserProfileModel
     @ObservedObject  var model: UserProfileModel
@@ -32,15 +106,19 @@ struct UserProfileView2: View {
     
     var hideCustomNavBar: Bool = false
     
-    var menuOptions: [String]  = ["Insights", "Their Planets", "Their Story", "Media", "Birth Chart"]
+    var menuOptions: [String]  = ["Insights", "Their Planets", "Their Story", "Media"]
     
     // Hide certain things about the profile if this is true.
     var diceUser: Bool = false
     
-    @StateObject var compatViewModel: CompatibilityViewModel = CompatibilityViewModel()
+    @StateObject var compatViewModel: SynastryViewModel = SynastryViewModel()
     
    
     @State var showDasha: Bool = false
+    
+    @State var textForDasha: String = ""
+    @State var unlockAlert: Bool = false
+    @State  var showBlockAlert = false
   
     fileprivate func messageButton() -> some View {
 
@@ -54,6 +132,7 @@ struct UserProfileView2: View {
         }
         .buttonStyle(.plain)
         .disabled(model.friendshipStatus != .friends)
+        
     }
     
     func winkAtTheUser() {
@@ -182,6 +261,9 @@ struct UserProfileView2: View {
                             
                             Button(action: {
                                 // Your block action here
+                                print("blocking .. \(username)")
+                                model.block(user: username ?? "")
+                                presentationMode.wrappedValue.dismiss()
                             }) {
                                 HStack {
                                     Text("Block \(username ?? "")")
@@ -192,6 +274,7 @@ struct UserProfileView2: View {
                             
                             Button(action: {
                                 // Your report action here
+                                model.block(user: username ?? "")
                             }) {
                                 HStack {
                                     Text("Report")
@@ -226,10 +309,45 @@ struct UserProfileView2: View {
             ZStack{
                 
                 NameLabelView(name: model.user?.name, username: model.user?.username)
-                    .onAppear(perform: {
-                        if model.friendshipStatus != .friends{
-                            compatViewModel.message = "Add @\(model.user?.name ?? "") as a friend to chat me with me about your energy together. ⚡️"
+                    .onChange(of: model.user?.username, { old, new in
+                        
+                        var status = model.friendshipStatus
+                        
+                        if status == .notFriends || status == .awaiting || status == .requested {
+                            // users are not friends yet
+                            print("Should change dasha text to energy..")
+                            
+                
+                                textForDasha = "Add @\(model.user?.username ?? "") as a friend to chat with me about your energy together. ⚡️"
+                          
                         }
+                        
+                        
+                        else  if currentUserDataModel.user?.stars ?? 0 >= 1 && model.friendshipStatus == .friends && compatViewModel.synastry == nil  {
+                            // AND if no compatibility profile yet
+                           textForDasha = "🌌 Click to explore and chat with me about your unique bond! 👫✨ Discover your cosmic connection and learn more about your dynamics in detail!"
+                            
+                       }
+
+                        else  if currentUserDataModel.user?.stars ?? 0 >= 1 && model.friendshipStatus == .friends && compatViewModel.synastry != nil  {
+                            // AND if no compatibility profile yet
+                            textForDasha = compatViewModel.synastry?.summary ?? ""
+                            
+                       }
+                        
+                        else{
+                           
+                           print("ran none of the blocks")
+                       }
+                        
+                        
+                    })
+                
+                    .onAppear(perform: {
+                       
+                        
+                                                
+                        
                     })
                 
                 // MARK: - Friendship Button
@@ -292,7 +410,8 @@ struct UserProfileView2: View {
                 
                 
             }
-            
+            .blur(radius: model.friendshipStatus != .friends ? 3 : 0)
+           // .redacted(reason: model.friendshipStatus != .friends ? .placeholder: [])
             /*
              // MARK: - Radial Chart
              RadialChart(progress: model.score)
@@ -358,9 +477,12 @@ struct UserProfileView2: View {
                 PicturesCollectionView(images: model.user?.images ?? [], viewedUserModel: model).tag(3)
                     .environmentObject(currentUserDataModel)
                 
+                /*
                 PlanetGridView(planets: model.natalChart?.planets ?? [],
                                interpretations: model.natalChart?.interpretations ?? [:])
+                
                 .tag(4)
+                 */
                 
                 
             }
@@ -397,6 +519,10 @@ struct UserProfileView2: View {
                     Capsule()
                         .fill(status ? activeTint.opacity(0.25) : Color("ButtonColor"))
                 }
+        }.onAppear {
+           
+            
+            
         }
     }
     
@@ -407,18 +533,43 @@ struct UserProfileView2: View {
                 
                 Button{
                     
-                    if currentUserDataModel.user?.stars ?? 0  >= 1 {
+                    if currentUserDataModel.user?.stars ?? 0  >= 1  && compatViewModel.synastry == nil {
+                        // user tapped button but hasn't unlocked synastry
                         withAnimation{
                             
-                            showDasha.toggle()
+                           
+                            unlockAlert.toggle()
+                           
+                            
                         }
-                    } else {
-                        compatViewModel.message = "You're out of ⭐️'s. Add friends or come back later for more 🔥."
+                    } else if currentUserDataModel.user?.stars ?? 0  < 1  && compatViewModel.synastry == nil {
+                        textForDasha = "You're out of ⭐️'s. Add friends or come back later for more 🔥."
+                    }
+                    
+                    else if compatViewModel.synastry != nil {
+                        showDasha.toggle()
                     }
                     
                 } label: {
-                    ChatWithDasha(message: compatViewModel.message)
-                        .padding(.vertical)
+                    ZStack{
+                        ChatWithDasha(message: $textForDasha)
+                            .padding(.vertical)
+                            .opacity(compatViewModel.isLoading ? 0: 1)
+                            
+                        
+                            .onChange(of: compatViewModel.message) { oldValue, newValue in
+                                if !newValue.isEmpty {
+                                    print("got synastry so changing text")
+                                    textForDasha = newValue
+                                }
+                            }
+                        
+                        
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle())
+                            .opacity(compatViewModel.isLoading ? 1: 0)
+                    }
+                 
                 }.background (
                     
                     
@@ -437,7 +588,9 @@ struct UserProfileView2: View {
                         })
                     .buttonStyle(.plain)
                 )
-                
+                .disabled(model.friendshipStatus != .friends )
+                // Confirmation
+               
                 
                
 
@@ -445,7 +598,7 @@ struct UserProfileView2: View {
                 
                 
                 
-                RadialChartAdjustableSize(progress: model.score, size: 150)
+                RadialChartAdjustableSize(progress: compatViewModel.score, size: 150)
                     .padding(.top)
                 
                 
@@ -453,7 +606,22 @@ struct UserProfileView2: View {
             }
          
         }
-        
+        .alert(isPresented: $unlockAlert) {
+                    // Present the alert when unlockAlert is true
+                    Alert(
+                        title: Text("Confirmation"),
+                        message: Text("Would you like to unlock compatibility insights for **1 star**?\nIt may take a few moments."),
+                        primaryButton: .default(Text("Yes")) {
+                      
+                            print("User tapped Yes")
+                            let user = model.user?.id ?? ""
+                            compatViewModel.tellMeAbout(them: user)
+                           
+                            
+                        },
+                        secondaryButton: .cancel(Text("No"))
+                    )
+                }
 
         
     }

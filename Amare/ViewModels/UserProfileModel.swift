@@ -460,6 +460,10 @@ class UserProfileModel: ObservableObject{
 			friendshipStatusListeners.forEach { $0.remove() }
 			friendshipStatusListeners.removeAll()
 		}
+    
+    func block(user: String){
+        UserDefaults.blockUser(userID: user)
+    }
 
 	/// Convenience initializer for preview with mock data
 	#if DEBUG
