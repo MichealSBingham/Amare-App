@@ -9,6 +9,14 @@ import SwiftUI
 import StreamChat
 import StreamChatSwiftUI
 
+class CompatibilityViewModel: ObservableObject{
+    @Published var message: String = "🌌 Click to explore and chat with me about your unique bond! 👫✨ Discover your cosmic connection and learn more about your dynamics in detail!"
+    
+    func tellMeAbout(them: String){
+        // triggers function DashaChatbot.tellMeAbout
+    }
+}
+
 struct UserProfileView2: View {
     
     @Injected(\.chatClient) var chatClient
@@ -29,8 +37,10 @@ struct UserProfileView2: View {
     // Hide certain things about the profile if this is true.
     var diceUser: Bool = false
     
-   
+    @StateObject var compatViewModel: CompatibilityViewModel = CompatibilityViewModel()
     
+   
+    @State var showDasha: Bool = false
   
     fileprivate func messageButton() -> some View {
 
@@ -216,6 +226,11 @@ struct UserProfileView2: View {
             ZStack{
                 
                 NameLabelView(name: model.user?.name, username: model.user?.username)
+                    .onAppear(perform: {
+                        if model.friendshipStatus != .friends{
+                            compatViewModel.message = "Add @\(model.user?.name ?? "") as a friend to chat me with me about your energy together. ⚡️"
+                        }
+                    })
                 
                 // MARK: - Friendship Button
                 HStack{
@@ -329,8 +344,7 @@ struct UserProfileView2: View {
                 .padding(.top, -20)
             // MARK: - Content for Tab Bar
             TabView(selection: self.$selection) {
-                
-                RadialChartAdjustableSize(progress: model.score, size: 200)
+                    insights()
                     .padding()
                     .tag(0)
                 // MARK: - Planets
@@ -384,6 +398,64 @@ struct UserProfileView2: View {
                         .fill(status ? activeTint.opacity(0.25) : Color("ButtonColor"))
                 }
         }
+    }
+    
+    @ViewBuilder
+    func insights() -> some View {
+        ScrollView{
+            VStack{
+                
+                Button{
+                    
+                    if currentUserDataModel.user?.stars ?? 0  >= 1 {
+                        withAnimation{
+                            
+                            showDasha.toggle()
+                        }
+                    } else {
+                        compatViewModel.message = "You're out of ⭐️'s. Add friends or come back later for more 🔥."
+                    }
+                    
+                } label: {
+                    ChatWithDasha(message: compatViewModel.message)
+                        .padding(.vertical)
+                }.background (
+                    
+                    
+                    
+                    NavigationLink(destination: DirectMessageView(with: "dasha", ignoreBottomTabBar: true ) .onAppear(perform: {
+                        withAnimation {
+                            viewRouter.showBottomTabBar = false
+                        }
+                    })
+                        .onDisappear(perform: {
+                            withAnimation{
+                                viewRouter.showBottomTabBar = true
+                            }
+                        }), isActive: $showDasha, label: {
+                             EmptyView()
+                        })
+                    .buttonStyle(.plain)
+                )
+                
+                
+               
+
+                
+                
+                
+                
+                RadialChartAdjustableSize(progress: model.score, size: 150)
+                    .padding(.top)
+                
+                
+                
+            }
+         
+        }
+        
+
+        
     }
 
 }
