@@ -51,7 +51,15 @@ struct FriendsListView: View {
             .listStyle(.plain)
         }
         .navigationBarTitle("@\(you.user?.username ?? "" )")
+        .navigationBarBackButtonHidden()
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItemGroup(placement: .topBarLeading) {
+                BackButton()
+                    .padding()
+                
+            }
+        }
     }
 }
 

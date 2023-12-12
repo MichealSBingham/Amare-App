@@ -52,9 +52,9 @@ struct AppUser: Codable, Identifiable {
     var isDiceActive: Bool? = false
     var dashaThreadID: String?
     
-    var historicalPlanetPlacementUnlocksLeft: Int? = 1
-    var historicalStoriesUnlocksLeft: Int? = 1
-    var historicalCelebCompatibilityUnlocksLeft: Int? = 1
+    var stars: Int? = 6
+    var sentDashaMessages: Int? = 0
+    
 
 	enum CodingKeys: String, CodingKey {
 		case id
@@ -79,6 +79,7 @@ struct AppUser: Codable, Identifiable {
 		
 		case notes
 		case wikipedia_link
+        
 		case bio
         
         case location
@@ -92,9 +93,9 @@ struct AppUser: Codable, Identifiable {
         case statements
         case dashaThreadID
         
-        case historicalPlanetPlacementUnlocksLeft
-        case historicalStoriesUnlocksLeft
-        case historicalCelebCompatibilityUnlocksLeft
+        case stars
+        case sentDashaMessages
+        
 	}
 
 	

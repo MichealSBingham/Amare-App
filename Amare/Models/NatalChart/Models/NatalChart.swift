@@ -40,6 +40,7 @@ public struct NatalChart: Codable, Equatable {
     /// Placement interpretations
     var interpretations: [String: String]?
    
+    var aspects_interpretations: [String: String]?
     
     func aspectsInvolving(some planet: Planet) -> [Aspect] {
         

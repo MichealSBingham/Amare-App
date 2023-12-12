@@ -24,7 +24,7 @@ struct MainProfileView: View {
     @State private var navigateToFriends = false
 
     
-    var menuOptions: [String]  = ["Your Planets", "Your Story", "Media", "Birth Chart"]
+    var menuOptions: [String]  = ["Your Planets", "Your Story", "Media", "Chart"]
     
     var body: some View {
         NavigationView{
@@ -115,20 +115,22 @@ struct MainProfileView: View {
                     TabView(selection: self.$selection) {
                         
                         // MARK: - Planets
-                        MiniPlacementsScrollView(interpretations: model.natalChart?.interpretations ?? [:], planets: model.natalChart?.planets ?? [])
+                        MiniPlacementsScrollView(viewedUserModel: model, interpretations: model.natalChart?.interpretations ?? [:], planets: model.natalChart?.planets ?? [])
+                            .environmentObject(model)
                             .tag(0)
                         
-                        MiniAspectScrollView(interpretations: model.natalChart?.interpretations ?? [:], aspects: model.natalChart?.aspects ?? [])
+                        MiniAspectScrollView(viewedUserModel: model, interpretations: model.natalChart?.aspects_interpretations ?? [:], aspects: model.natalChart?.aspects ?? [])
                             .tag(1 )
                             .environmentObject(model)
                         
-                        PicturesCollectionView(images: model.user?.images ?? [], isSignedInUser: true).tag(2)
+                        PicturesCollectionView(images: model.user?.images ?? [], isSignedInUser: true, viewedUserModel: model).tag(2)
                             .environmentObject(model)
                         
                         PlanetGridView(planets: model.natalChart?.planets ?? [],
                                        interpretations: model.natalChart?.interpretations ?? [:])
                         .tag(3)
                         
+                    
                         
                     }
                     .frame(height: 500)

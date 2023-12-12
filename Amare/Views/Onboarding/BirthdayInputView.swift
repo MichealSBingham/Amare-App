@@ -57,7 +57,7 @@ struct BirthdayInputView: View {
                     .padding()
                 
                 
-                DatePicker("", selection: $model.birthday, in: ...Date().dateFor(years: -13),  displayedComponents: .date)
+                DatePicker("", selection: $model.birthday, in: Date().dateFor(years: -80)...Date().dateFor(years: -18), displayedComponents: .date)
                     .datePickerStyle(.wheel)
                     .padding()
                     .labelsHidden()

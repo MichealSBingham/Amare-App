@@ -69,35 +69,56 @@ struct MiniPlacementVerticalPageView: View {
 
 
 struct MiniPlacementsScrollView: View {
+    @EnvironmentObject var model: UserProfileModel
+    
+    @StateObject var viewedUserModel: UserProfileModel
+    
     var interpretations: [String:String] = [:]
     var planets: [Planet] = []
     
     var body: some View {
-    
-        ScrollView{
-            ForEach(planets) { planet in
-                
-                NavigationLink{
+        ZStack{
+            ScrollView{
+                ForEach(planets) { planet in
                     
-                 
-                    MiniPlacementVerticalPageView(interpretations: interpretations, planets: planets, selectedPlanet: planet)
-                    
+                    NavigationLink{
+                        
+                     
+                        MiniPlacementVerticalPageView(interpretations: interpretations, planets: planets, selectedPlanet: planet)
+                        
 
+                        
+                    } label: {
+                        MiniPlacementView(interpretation: interpretations[planet.name.rawValue], planetBody: planet.name, sign: planet.sign)
+                    }
+                    .buttonStyle(PlainButtonStyle())
                     
-                } label: {
-                    MiniPlacementView(interpretation: interpretations[planet.name.rawValue], planetBody: planet.name, sign: planet.sign)
                 }
-                .buttonStyle(PlainButtonStyle())
+               
+                .disabled(!( viewedUserModel.friendshipStatus == .friends || (viewedUserModel.user?.id == model.user?.id) ) )
+                .blur(radius: viewedUserModel.friendshipStatus == .friends || (viewedUserModel.user?.id == model.user?.id) ? 0 : 3.0)
                 
+                
+            
+              
             }
+            
+            Text("This profile is private, send a friend request.")
+                .padding()
+                .multilineTextAlignment(.center)
+                .lineLimit(3)
+                .minimumScaleFactor(0.01)
+                .opacity(viewedUserModel.friendshipStatus == .friends || (viewedUserModel.user?.id == model.user?.id) ? 0 : 1)
+                .offset(y:-100)
         }
+        
         
         
     }
 }
 
 #Preview {
-    MiniPlacementsScrollView(interpretations: generateRandomPlanetInfoDictionary(), planets: Planet.randomArray(ofLength: 5))
+    MiniPlacementsScrollView(viewedUserModel: UserProfileModel(), interpretations: generateRandomPlanetInfoDictionary(), planets: Planet.randomArray(ofLength: 5))
         
 }
 

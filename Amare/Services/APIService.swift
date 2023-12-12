@@ -20,9 +20,21 @@ struct UserTraitsData: Codable {
 struct PlacementReadData: Codable {
     var gender: String?
     var planet: String
-    var sign: String
+    var type: String
     var house: String?
     var user_id: String?
+}
+
+
+struct AspectReadData: Codable {
+    var gender: String
+    var planet1: String
+    var planet2: String
+    var name: String
+    var orb: Double
+    var type: String
+    var user_id: String
+    var requesting_user_id: String
 }
 
 
@@ -31,6 +43,7 @@ enum APIEndpoint: String {
     case placementRead = "/placement_read"
     case predictStatements = "/predict_statements"
     case messageDasha = "/message_dasha"
+    case aspect_read = "/aspect_read"
 }
 
 
@@ -166,6 +179,53 @@ class APIService {
     }
     
     
+    func getAspectRead(data: AspectReadData, completion: @escaping (Result<String, Error>) -> Void) {
+        guard let url = constructURL(for: .aspect_read) else { return }
+        
+        var request = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 300.0)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .withoutEscapingSlashes
+        
+        do {
+            let jsonData = try encoder.encode(data)
+            print("\n\n\n*****THE Aspect READ DATA SENT TO THE API IS \(jsonData)")
+            request.httpBody = jsonData
+        } catch {
+            completion(.failure(error))
+            print("some error happened trying to getPlacementRead \(error)")
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                completion(.failure(error))
+                print("some error happened trying to getPlacementRead \(error)")
+                return
+            }
+            
+            guard let data = data else { return }
+            do {
+                let jsonResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+                print("Did get a response .. \(jsonResponse)")
+             
+                if let interpretation = jsonResponse?["interpretation"] as? String {
+                    completion(.success(interpretation))
+                } else if let errorMessage = jsonResponse?["error"] as? String {
+                    completion(.failure(NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: errorMessage])))
+                } else {
+                    completion(.failure(GlobalError.unknown))
+                }
+                
+            } catch {
+                completion(.failure(error))
+                print("Did get an error \(error) ..")
+            }
+        }.resume()
+    }
+    
     func messageDasha( message: String, completion: @escaping (Result<Any, Error>) -> Void = { _ in }) {
             guard let url = constructURL(for: .messageDasha) else {
                 completion(.failure(NSError(domain: "Invalid URL", code: 0, userInfo: nil)))
@@ -195,6 +255,7 @@ class APIService {
             
             let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
                 if let error = error {
+                    print("DASHA API: \(error)")
                     completion(.failure(error))
                     return
                 }
@@ -202,9 +263,12 @@ class APIService {
                 if let data = data {
                     do {
                         let json = try JSONSerialization.jsonObject(with: data, options: [])
+                        print("DASHA API: \(json)")
                         completion(.success(json))
                     } catch {
+                        print("DASHA API: \(error)")
                         completion(.failure(error))
+                        
                     }
                 }
             }

@@ -16,23 +16,66 @@ struct DirectMessageView: View {
 
     /// user id to begin the direct message view with
     var with: String = ""
+    var ignoreBottomTabBar: Bool = false
 
     var body: some View {
-    
+        
+        if let id = Auth.auth().currentUser?.uid, with == "dasha"{
+            ChatChannelView(
+                viewFactory: CustomViewFactory(),
+                channelController: try!  chatClient.channelController(createChannelWithId:   ChannelId(type: .messaging, id: "\(id)-dasha"))
+                   
+            )
+            .onAppear(perform: {
+                withAnimation{
+                    
+                    if !ignoreBottomTabBar{
+                        viewRouter.showBottomTabBar = false
+                    }
+                    
+                }
+            })
+            .onDisappear(perform: {
+                withAnimation{
+                    if !ignoreBottomTabBar{
+                        viewRouter.showBottomTabBar = true
+                    }
+                  
+                }
+            })
+        
+        }
+       
+        
+        else {
             ChatChannelView(
                 viewFactory: CustomViewFactory(),
                 channelController: try! chatClient.channelController(createDirectMessageChannelWith: [Auth.auth().currentUser?.uid ?? "", with], extraData: [:])
             )
             .onAppear(perform: {
                 withAnimation{
-                    viewRouter.showBottomTabBar = false
+                    
+                    if !ignoreBottomTabBar{
+                        viewRouter.showBottomTabBar = false
+                    }
+                    
                 }
             })
             .onDisappear(perform: {
                 withAnimation{
-                    viewRouter.showBottomTabBar = true
+                    if !ignoreBottomTabBar{
+                        viewRouter.showBottomTabBar = true
+                    }
+                  
                 }
             })
+        
+        }
+        
+            
+        
+        
+            
       
     }
     

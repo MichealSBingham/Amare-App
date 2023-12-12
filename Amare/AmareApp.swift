@@ -17,6 +17,8 @@ import UIKit
 import FirebaseMessaging
 import FirebaseInAppMessagingSwift
 
+let APPURL = "https://findamare.com"
+
 @main
 struct AmareApp: App {
  

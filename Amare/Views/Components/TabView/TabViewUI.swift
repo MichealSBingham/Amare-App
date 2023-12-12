@@ -59,7 +59,21 @@ struct CustomBottomTabBar: View {
                 Spacer()
                 switch viewRouter.currentPage {
                 case .home:
-                    Text("This where the feed should be")
+                    NavigationStack{
+                        DirectMessageView(with: "dasha", ignoreBottomTabBar: true )
+                            .onAppear(perform: {
+                                withAnimation {
+                                    shiftButtonDown = true
+                                }
+                            })
+                            .onDisappear(perform: {
+                                withAnimation{
+                                    shiftButtonDown = false
+                                }
+                            })
+                    }
+                    
+                    
                     
                 case .discover:
                     SearchAndFriendsView()

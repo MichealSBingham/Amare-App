@@ -12,6 +12,7 @@ import SwiftUI
 struct MiniAspectVerticalPageView: View {
     var interpretations: [String: String] = [:]
     var aspects: [Aspect] = []
+    var user_id: String
 
     @State  var selectedAspect: Aspect // Use a UUID or any unique identifier for planets
 
@@ -20,7 +21,7 @@ struct MiniAspectVerticalPageView: View {
             
             ForEach(aspects) { aspect in
                 
-                MiniAspectView(interpretation: interpretations[aspect.name], firstBody:aspect.first , secondBody: aspect.second, orb: aspect.orb, name: aspect.name, aspectType: aspect.type)
+                MiniAspectView(interpretation: interpretations[aspect.name.replacingOccurrences(of: " ", with: "")], firstBody:aspect.first , secondBody: aspect.second, orb: aspect.orb, name: aspect.name, aspectType: aspect.type, belongsToUserID: user_id)
             
                     .tag(aspect)
                 .buttonStyle(PlainButtonStyle())

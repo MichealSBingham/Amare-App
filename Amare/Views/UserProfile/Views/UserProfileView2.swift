@@ -43,6 +43,7 @@ struct UserProfileView2: View {
                 .frame(width: 30, height: 30)
         }
         .buttonStyle(.plain)
+        .disabled(model.friendshipStatus != .friends)
     }
     
     func winkAtTheUser() {
@@ -103,6 +104,7 @@ struct UserProfileView2: View {
                 
         }
         .buttonStyle(.plain)
+        .disabled(model.user?.isNotable ?? false && model.user?.wikipedia_link != nil )
     }
     
     func cancelFriendRequestAction() {
@@ -332,13 +334,14 @@ struct UserProfileView2: View {
                     .padding()
                     .tag(0)
                 // MARK: - Planets
-                MiniPlacementsScrollView(interpretations: model.natalChart?.interpretations ?? [:], planets: model.natalChart?.planets ?? [])
+                MiniPlacementsScrollView(viewedUserModel: model, interpretations: model.natalChart?.interpretations ?? [:], planets: model.natalChart?.planets ?? [])
+                    .environmentObject(currentUserDataModel)
                     .tag(1)
                 
-                MiniAspectScrollView(interpretations: model.natalChart?.interpretations ?? [:], aspects: model.natalChart?.aspects ?? [])
+                MiniAspectScrollView(viewedUserModel: model, interpretations: model.natalChart?.aspects_interpretations ?? [:], aspects: model.natalChart?.aspects ?? [], belongsToUserID: model.user?.id ?? "")
                     .tag(2)
                 
-                PicturesCollectionView(images: model.user?.images ?? []).tag(3)
+                PicturesCollectionView(images: model.user?.images ?? [], viewedUserModel: model).tag(3)
                     .environmentObject(currentUserDataModel)
                 
                 PlanetGridView(planets: model.natalChart?.planets ?? [],
