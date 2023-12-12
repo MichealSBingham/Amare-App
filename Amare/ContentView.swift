@@ -32,7 +32,7 @@ struct ContentView: View{
         
         switch viewRouter.screenToShow {
         case .loading:
-            Text("Loading...")
+            LoadingView()
                    .onAppear(perform: {
                     // MARK: - Checking sign in status
                     if let user = Auth.auth().currentUser{

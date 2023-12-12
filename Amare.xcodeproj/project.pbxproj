@@ -123,6 +123,7 @@
 		2684C6662A65F9800048BB4E /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 2684C6652A65F9800048BB4E /* SDWebImageSwiftUI */; };
 		268D59AE2B28105A00FE59ED /* BubbleShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268D59AD2B28105A00FE59ED /* BubbleShape.swift */; };
 		268D59B12B28A84400FE59ED /* Synastry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268D59B02B28A84400FE59ED /* Synastry.swift */; };
+		268D59B32B28E72B00FE59ED /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268D59B22B28E72B00FE59ED /* LoadingView.swift */; };
 		268E542826DCEC6400E61F40 /* InputVerificationCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268E542726DCEC6400E61F40 /* InputVerificationCode.swift */; };
 		268F26C1268018EE00FBEA7D /* ForNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268F26C0268018EE00FBEA7D /* ForNavigation.swift */; };
 		269013A72AE339C000397075 /* UPSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269013A62AE339C000397075 /* UPSectionView.swift */; };
@@ -327,6 +328,7 @@
 		2684C6622A65F8110048BB4E /* CircularProfileImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProfileImageView.swift; sourceTree = "<group>"; };
 		268D59AD2B28105A00FE59ED /* BubbleShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleShape.swift; sourceTree = "<group>"; };
 		268D59B02B28A84400FE59ED /* Synastry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Synastry.swift; sourceTree = "<group>"; };
+		268D59B22B28E72B00FE59ED /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		268E542726DCEC6400E61F40 /* InputVerificationCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputVerificationCode.swift; sourceTree = "<group>"; };
 		268F26C0268018EE00FBEA7D /* ForNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForNavigation.swift; sourceTree = "<group>"; };
 		269013A62AE339C000397075 /* UPSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UPSectionView.swift; sourceTree = "<group>"; };
@@ -649,6 +651,7 @@
 				26C466482A34FEC0000EC8BC /* Onboarding */,
 				26C466412A34FEBE000EC8BC /* RelationshipGoalsQuiz */,
 				26D1A7F62AF88C6800C290D4 /* CometView.swift */,
+				268D59B22B28E72B00FE59ED /* LoadingView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1529,6 +1532,7 @@
 				267D5CA42B1A73E600F80375 /* Particle.swift in Sources */,
 				26A5FBDD2A732E4C00D94476 /* Planet.swift in Sources */,
 				26C4664C2A34FEC0000EC8BC /* QuestionView.swift in Sources */,
+				268D59B32B28E72B00FE59ED /* LoadingView.swift in Sources */,
 				26C4663F2A34FE96000EC8BC /* RGResponse.swift in Sources */,
 				265C4BD22AFC25DA007D0925 /* PersonalityGuesserView.swift in Sources */,
 				26B1AFE22678FFE700A170B3 /* Love.xcdatamodeld in Sources */,
@@ -1796,7 +1800,7 @@
 				CODE_SIGN_ENTITLEMENTS = Amare/Amare.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 27;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Amare/Preview Content\"";
 				DEVELOPMENT_TEAM = HGQ8Q53DV8;
 				ENABLE_PREVIEWS = YES;
@@ -1809,7 +1813,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1;
+				MARKETING_VERSION = 1.0.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = app.amare;
@@ -1831,7 +1835,7 @@
 				CODE_SIGN_ENTITLEMENTS = Amare/Amare.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 27;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Amare/Preview Content\"";
 				DEVELOPMENT_TEAM = HGQ8Q53DV8;
 				ENABLE_PREVIEWS = YES;
@@ -1844,7 +1848,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1;
+				MARKETING_VERSION = 1.0.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = app.amare;

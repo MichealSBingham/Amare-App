@@ -407,3 +407,33 @@ extension UserDefaults {
         UserDefaults.standard.set(blockedUsers, forKey: "BlockedUsers")
     }
 }
+
+
+
+extension UserDefaults {
+    private static let fireworksShownKey = "FireworksShownForUser"
+
+    static func hasShownFireworks(forUserId userId: String) -> Bool {
+        let key = "\(fireworksShownKey)_\(userId)"
+        return UserDefaults.standard.bool(forKey: key)
+    }
+
+    static func setFireworksShown(forUserId userId: String) {
+        let key = "\(fireworksShownKey)_\(userId)"
+        UserDefaults.standard.set(true, forKey: key)
+    }
+}
+
+
+
+extension UserDefaults {
+    private static let firstAppLaunchKey = "FirstAppLaunchKey"
+
+    static func isFirstAppLaunch() -> Bool {
+        return UserDefaults.standard.object(forKey: firstAppLaunchKey) == nil
+    }
+
+    static func setNotFirstAppLaunch() {
+        UserDefaults.standard.set(false, forKey: firstAppLaunchKey)
+    }
+}

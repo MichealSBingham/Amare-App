@@ -23,17 +23,52 @@ struct MainProfileView: View {
     
     @State private var navigateToFriends = false
 
+    @State var wantMoreAlert: Bool = false
     
     var menuOptions: [String]  = ["Your Planets", "Your Story", "Media", "Chart"]
+    
+   // let link = URL(string: "https://www.findamare.com")!
+
     
     var body: some View {
         NavigationView{
             
           
             VStack{
-                CustomNavigationBarView(name: "\(model.user?.name ?? "")", username: "\(model.user?.username ?? "")", action: {
-                                showSettings = true
-                            })
+                ZStack{
+                    CustomNavigationBarView(name: "\(model.user?.name ?? "")", username: "\(model.user?.username ?? "")", action: {
+                                    showSettings = true
+                                })
+                    
+                    HStack{
+                      
+                        Button{
+                            wantMoreAlert.toggle()
+                           // ShareLink(item: link)
+
+                        } label: {
+                            Text("\(model.user?.stars ?? 0)⭐️")
+                                .bold()
+                                .offset(y: 50)
+                                .padding()
+                        }
+                        .buttonStyle(.plain)
+                        .alert(isPresented: $wantMoreAlert) {
+                                    Alert(
+                                        title: Text("Want more stars?"),
+                                        message: Text("You have to add friends for more stars. Share with friends and tell them to add you!"),
+                                        primaryButton: .cancel(),
+                                        secondaryButton: .default(Text("I'll share")) {
+                                            shareApp()
+                                        }
+                                    )
+                                }
+                        
+                        
+                        Spacer()
+                    }
+                }
+               
 
                 ScrollView{
                     
@@ -128,6 +163,7 @@ struct MainProfileView: View {
                         
                         PlanetGridView(planets: model.natalChart?.planets ?? [],
                                        interpretations: model.natalChart?.interpretations ?? [:])
+                        
                         .tag(3)
                         
                     
@@ -163,6 +199,16 @@ struct MainProfileView: View {
     }
     
     
+    
+    func shareApp() {
+        guard let urlShare = URL(string: "https://findamare.com") else { return }
+        
+        if let lastWindow = UIApplication.shared.windows.last {
+            let activityVC = UIActivityViewController(activityItems: [urlShare], applicationActivities: nil)
+            lastWindow.rootViewController?.present(activityVC, animated: true, completion: nil)
+        }
+    }
+
 }
 
 struct MainProfileView_Preview: View {

@@ -153,20 +153,14 @@ struct MiniAspectView: View {
     }
 
     func shareApp() {
-            // Code to open the native share sheet
-            if let appURL = URL(string: APPURL) {
-                let activityViewController = UIActivityViewController(activityItems: [appURL], applicationActivities: nil)
-                
-                if let sceneDelegate = UIApplication.shared.connectedScenes
-                    .first?.delegate as? SceneDelegate {
-                    // Now you have access to your SceneDelegate
-                    print("Found the scne in bottom sheet")
-                     sceneDelegate.windowScene?.windows.first?.rootViewController?.present(activityViewController, animated: true, completion: nil)
-                }
-                
-             
-            }
+        guard let urlShare = URL(string: "https://findamare.com") else { return }
+        
+        if let lastWindow = UIApplication.shared.windows.last {
+            let activityVC = UIActivityViewController(activityItems: [urlShare], applicationActivities: nil)
+            lastWindow.rootViewController?.present(activityVC, animated: true, completion: nil)
         }
+    }
+
 
     
    fileprivate func Aspectname() -> some View {

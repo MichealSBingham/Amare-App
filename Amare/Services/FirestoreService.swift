@@ -1085,6 +1085,12 @@ class FirestoreService {
     }
     
     func updateGeohashEntryExit(newGeohash: String, oldGeohash: String, location: CLLocation, completion: ((Error?) -> Void)? = nil) {
+           
+        guard false else {
+            print("We've disabled this for now")
+            return
+        }
+        
             guard let userId = Auth.auth().currentUser?.uid, !userId.isEmpty else {
                 completion?(NSError(domain: "FirestoreService", code: 0, userInfo: [NSLocalizedDescriptionKey: "User ID not found"]))
                 return

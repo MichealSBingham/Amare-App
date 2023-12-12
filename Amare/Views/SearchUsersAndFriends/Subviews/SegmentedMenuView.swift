@@ -10,7 +10,7 @@ import SwiftUI
 struct SegmentedMenuView: View {
     @Binding var segmentationSelection: UserTypeSection
     
-    let choices: [UserTypeSection] = [.all, .friends, .requests]
+    let choices: [UserTypeSection] = [.all,  .requests]
     //[.all, .friends, .requests, .historicals, .custom]
     
     

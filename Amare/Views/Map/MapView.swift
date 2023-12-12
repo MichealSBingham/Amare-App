@@ -20,6 +20,16 @@ struct MapView: View {
     @State private var selectedTag: Int?
 
     @State var dummy: Bool = false
+    
+    @State var dashaHelpMessage: String = ""
+    
+    
+    @State var showFirstDashaHelpMessage: Bool = false
+    @State var showSecondDashaHelpMessage: Bool = false
+    
+    @State var inTutorial: Bool = UserDefaults.isFirstAppLaunch()
+    
+    @State var canProceed: Bool = false
     var body: some View {
         
         ZStack{
@@ -131,6 +141,7 @@ struct MapView: View {
                             addOrRemoveDice()
                             
                         })
+                        .opacity(0)
                         .disabled(userDataModel.user?.locationSettings == nil || userDataModel.user?.locationSettings == .off ? true: false )
                             
                             .padding()
@@ -166,10 +177,83 @@ struct MapView: View {
             .opacity(CLLocationManager.authorizationStatus() == .denied ? 1: 0)
         
             
+            VStack {
+                    Spacer()
+
+                    if showFirstDashaHelpMessage {
+                        ChatWithDasha(message: $dashaHelpMessage)
+                            .offset(y: -100)
+                            .onAppear(perform: {
+                                canProceed = false
+                                AmareApp().delay(3) {
+                                    canProceed = true
+                                }
+                            })
+                            .onAppear {
+                                dashaHelpMessage = "👀 Missed Connections & Nearby Matches! 🌟 We're all about REAL connections, so as you go about your day, we'll notify you if a potential match is nearby! Feeling shy? 😘 Give them a wink, and we'll reveal if it's mutual. Click the button to see other users. "
+                            }
+                    }
+                }
+                .opacity(showFirstDashaHelpMessage ? 1 : 0)
+
+                VStack {
+                    if showSecondDashaHelpMessage {
+                        ChatWithDasha(message: $dashaHelpMessage)
+                            .onAppear(perform: {
+                                canProceed = false
+                                AmareApp().delay(3) {
+                                    canProceed = true
+                                }
+                            })
+                            .offset(y: 100)
+                            .onAppear {
+                                dashaHelpMessage = "Don't stress! Only those in your sight can see you, and you can always turn it off. 🚫👁️‍🗨️ If you miss someone special, no worries! I'll catch you up later in the day for a second chance encounter! 🕰️💖 Turn the map ON and let the magic happen wherever you go! 🌈✨."
+                            }
+                    }
+                    Spacer()
+                }
+                .opacity(showSecondDashaHelpMessage ? 1 : 0)
+                
+            
+            
+                
+          
+            
             
           
 
+        }.onTapGesture {
+            if inTutorial {
+                guard canProceed else { return }
+                if showFirstDashaHelpMessage {
+                    print("showing first help message")
+                    withAnimation {
+                        showFirstDashaHelpMessage = false
+                        showSecondDashaHelpMessage = true
+                        
+                    }
+                } else if showSecondDashaHelpMessage {
+                    print("showing second help message")
+                    withAnimation {
+                        showSecondDashaHelpMessage = false
+                    }
+                }
+            }
         }
+        .onAppear(perform: {
+            if inTutorial {
+                AmareApp().delay(3) {
+                    withAnimation { 
+                        showFirstDashaHelpMessage = true
+                        
+                        
+                        
+                    }
+                }
+              
+            }
+            
+        })
     }
     
     func addOrRemoveDice(){

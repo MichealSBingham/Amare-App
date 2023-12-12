@@ -160,7 +160,7 @@ class AuthService: ObservableObject , EventsControllerDelegate{
 
 	
 	func sendVerificationCode(to phoneNumber: String, completion: @escaping ((Result<Void, Error>) -> Void)) {
-		Auth.auth().settings?.isAppVerificationDisabledForTesting = true
+		//Auth.auth().settings?.isAppVerificationDisabledForTesting = true
 		PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber, uiDelegate: nil) { verificationID, error in
 			if let error = error {
 				

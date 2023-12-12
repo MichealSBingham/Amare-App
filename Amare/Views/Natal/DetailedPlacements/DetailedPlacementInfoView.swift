@@ -213,7 +213,17 @@ struct DetailedPlacementInfoView: View {
                 .padding(.top, -50) //TODO: See how this padding works on all screens, it's good on my iPhone but check on other screen sizes (- Micheal)
                 
                 }
-            }/*.onAppear(perform: {
+            }
+            .navigationBarBackButtonHidden()
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItemGroup(placement: .topBarLeading) {
+                    BackButton()
+                        .padding()
+                    
+                }
+            }
+                /*.onAppear(perform: {
                 // If there is no interpretation in the database, we need to read it from our API
                 guard longDescription == nil else { return }
                 if let planet = planetName?.rawValue, let sign = sign?.rawValue, let id = profileDataModel.user?.id {

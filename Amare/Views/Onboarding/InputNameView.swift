@@ -449,6 +449,7 @@ struct CitySearchView: View {
             ScrollView {
                 LazyVStack {
                     ForEach(searchCompleter.results, id: \.title) { result in
+                        
                         HStack {
                             Text(result.title)
                             

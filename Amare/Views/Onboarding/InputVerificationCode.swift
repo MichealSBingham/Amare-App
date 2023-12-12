@@ -26,7 +26,8 @@ public struct InputVerificationCode: View {
     
     @EnvironmentObject var viewRouter: ViewRouter
 
-    
+    @Environment(\.presentationMode) private var presentationMode
+
     
     
     
@@ -392,7 +393,9 @@ public struct InputVerificationCode: View {
         
      
 		withAnimation{
+            model.phoneNumber = nil 
 			model.currentPage = .phoneNumber
+            presentationMode.wrappedValue.dismiss()
 		}
 		
     

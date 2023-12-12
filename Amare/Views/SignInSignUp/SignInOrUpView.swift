@@ -77,6 +77,10 @@ struct SignInOrUpView: View {
                     Spacer()
                     
                     needHelp()
+                      .sheet(isPresented: $needsHelp) {
+                                  MailComposeView(recipient: "love@findamare.com", subject: "I need some help with my account...")
+                              }
+                      
                     
                     
                     
@@ -440,22 +444,22 @@ struct SignInOrUpView: View {
         var attributedString = try! AttributedString(markdown:"I agree to the **9 Laws**, Privacy Policy, Terms, and Cookie Policy.")
         
         let ninelaws = attributedString.range(of: "9 Laws")!
-        attributedString[ninelaws].link = URL(string: "https://www.example.com")
+        attributedString[ninelaws].link = URL(string: "https://www.findamare.com/legal")
         attributedString[ninelaws].foregroundColor = .white
         attributedString[ninelaws].underlineColor = .white
         
         let pp = attributedString.range(of: "Privacy Policy")!
-        attributedString[pp].link = URL(string: "https://www.example.com")
+        attributedString[pp].link = URL(string: "https://www.findamare.com/legal")
         attributedString[pp].foregroundColor = .white
         attributedString[pp].underlineColor = .white
         
         let terms = attributedString.range(of: "Terms")!
-        attributedString[terms].link = URL(string: "https://www.example.com")
+        attributedString[terms].link = URL(string: "https://www.findamare.com/legal")
         attributedString[terms].foregroundColor = .white
         attributedString[terms].underlineColor = .white
         
         let cp = attributedString.range(of: "Cookie Policy")!
-        attributedString[cp].link = URL(string: "https://www.example.com")
+        attributedString[cp].link = URL(string: "hhttps://www.findamare.com/legal")
         attributedString[cp].foregroundColor = .white
         attributedString[cp].underlineColor = .white
         

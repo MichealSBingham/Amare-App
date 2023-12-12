@@ -18,7 +18,9 @@ struct LocationPrivacyCapsule: View {
     var body: some View {
         Menu{
             
+            /*
             Button("Only show my approximate location") { updatePrivacySetting(.approximate) }
+            */
             Button("Hide my location") { updatePrivacySetting(.off) }
             Button("Only those that pass by me can see me") { updatePrivacySetting(.on) }
             

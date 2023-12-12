@@ -37,6 +37,7 @@ struct OrientationInputView: View {
             } label: {
                 
                 Text("I need help answering this.")
+                    .opacity(0)
                      .font(.system(size: 20))
                      //.foregroundColor(.white)
                      .padding()

@@ -9,10 +9,14 @@ import SwiftUI
 import StreamChat
 
 
+
+
 struct ChatWithDasha: View {
     
     @State private var typedText = ""
      @Binding var message: String
+    
+    
 
     var body: some View {
         
@@ -31,11 +35,13 @@ struct ChatWithDasha: View {
                   .clipShape(BubbleShape(myMessage: false))
                    .foregroundColor(.white)
                    .onAppear {
-                     //  typedText = ""
-                       typeWriterEffect(for: message ?? "")
+                       AmareApp().delay(1) {
+                        //   typeWriterEffect(for: message ?? "")
+                       }
+                       
                            }
             }.onChange(of: message) { old, new in
-                //typedText = ""
+                
                 typeWriterEffect(for: new ?? "")
            }
             
@@ -44,6 +50,7 @@ struct ChatWithDasha: View {
     }
     
         private func typeWriterEffect(for text: String) {
+            typedText = ""
             for (index, character) in text.enumerated() {
                 DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.05) {
                     typedText += String(character)

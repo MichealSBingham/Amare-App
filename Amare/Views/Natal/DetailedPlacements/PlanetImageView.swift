@@ -64,7 +64,9 @@ struct PlanetGridView: View {
                 }
             }
         }
+       
 
+        
     }
 }
 
