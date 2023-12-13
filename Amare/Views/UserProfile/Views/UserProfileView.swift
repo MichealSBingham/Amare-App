@@ -327,8 +327,8 @@ struct UserProfileView_Previews: PreviewProvider {
     
     static var previews: some View {
         var helper = NearbyInteractionHelper()
-		UserProfileView(model: UserProfileModel.previewInstance())
-			.environmentObject(UserProfileModel.previewInstance())
+		UserProfileView(model: UserProfileModel())
+			.environmentObject(UserProfileModel())
             .environmentObject(helper)
             .environmentObject(BackgroundViewModel())
     }
