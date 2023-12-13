@@ -2,23 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>We need to hear your voice to send messages to other users.</string>
-	<key>LSSupportsOpeningDocumentsInPlace</key>
-	<false/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
 	<string>Amāre</string>
 	<key>CFBundleDocumentTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeName</key>
-			<string>MKDirectionsRequest</string>
-			<key>LSHandlerRank</key>
-			<string>Default</string>
-		</dict>
-	</array>
+	<array/>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIcons</key>
@@ -62,12 +51,10 @@
 	<string></string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<false/>
 	<key>MKDirectionsApplicationSupportedModes</key>
-	<array>
-		<string>MKDirectionsModePedestrian</string>
-		<string>MKDirectionsModeSubway</string>
-		<string>MKDirectionsModeTaxi</string>
-	</array>
+	<array/>
 	<key>NSAppTransportSecurity</key>
 	<dict/>
 	<key>NSBonjourServices</key>
@@ -79,13 +66,15 @@
 	<key>NSLocalNetworkUsageDescription</key>
 	<string>We need to be able to find other Amāre users locally near you</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Your soulmate might be right next to you when you&apos;re out shopping or getting a haircut! We&apos;ll let you know if someone compatible is near you in real time but we&apos;ll never reveal your location without your permission. You need to have this on for the app to work the way it was designed!</string>
+	<string>Your soulmate might be right next to you when you're out shopping or getting a haircut! We'll let you know if someone compatible is near you in real time but we'll never reveal your location without your permission. You need to have this on for the app to work the way it was designed!</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Your soulmate might be right next to you when you&apos;re out shopping or getting a haircut! We&apos;ll let you know if someone compatible is near you in real time but we&apos;ll never reveal your location without your permission. You need to have this on for the app to work the way it was designed!</string>
+	<string>Your soulmate might be right next to you when you're out shopping or getting a haircut! We'll let you know if someone compatible is near you in real time but we'll never reveal your location without your permission. You need to have this on for the app to work the way it was designed!</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>This will make it easier to find what city you live in.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>We need to hear your voice to send messages to other users.</string>
 	<key>NSNearbyInteractionUsageDescription</key>
-	<string>Hi, this is so that you will be able to find them if you&apos;re near them. </string>
+	<string>Hi, this is so that you will be able to find them if you're near them. </string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>For sending and uploading media!</string>
 	<key>UIAppFonts</key>
