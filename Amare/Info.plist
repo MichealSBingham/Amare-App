@@ -2,7 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -67,17 +66,17 @@
 	<key>NSLocalNetworkUsageDescription</key>
 	<string>We need to be able to find other Amāre users locally near you</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Your soulmate might be right next to you when you're out shopping or getting a haircut! We'll let you know if someone compatible is near you in real time but we'll never reveal your location without your permission. You need to have this on for the app to work the way it was designed!</string>
+	<string>Your soulmate might be right next to you when you&apos;re out shopping or getting a haircut! We&apos;ll let you know if someone compatible is near you in real time but we&apos;ll never reveal your location without your permission. You need to have this on for the app to work the way it was designed!</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Your soulmate might be right next to you when you're out shopping or getting a haircut! We'll let you know if someone compatible is near you in real time but we'll never reveal your location without your permission. You need to have this on for the app to work the way it was designed!</string>
+	<string>Your soulmate might be right next to you when you&apos;re out shopping or getting a haircut! We&apos;ll let you know if someone compatible is near you in real time but we&apos;ll never reveal your location without your permission. You need to have this on for the app to work the way it was designed!</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>This will make it easier to find what city you live in.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>We need to hear your voice to send messages to other users.</string>
 	<key>NSNearbyInteractionUsageDescription</key>
-	<string>Hi, this is so that you will be able to find them if you're near them. </string>
+	<string>Hi, this is so that you will be able to find them if you&apos;re near them. </string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>We need access to your photos so that you can upload them to your user profile, and send and share media with others.</string>
+	<string>We require access to your photo library to enable you to personalize your profile with a photo and to enhance your experience by sharing images in chats. We respect your privacy and ensure that your photos are used solely for these purposes within the app.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>MontserratAlternates-SemiBold.ttf</string>

@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+import Photos 
 struct MainProfileView: View {
     
     @EnvironmentObject var authService: AuthService
@@ -78,7 +78,9 @@ struct MainProfileView: View {
                     
                     //MARK: - Profile Image
                     Button {
-                        showProfilePicChange.toggle()
+                        
+                        changeProfilePicture()
+                        
                     } label: {
                         CircularProfileImageView(profileImageUrl: model.user?.profileImageUrl, isNotable: model.user?.isNotable)
                             .frame(width: 100, height: 100)
@@ -203,6 +205,20 @@ struct MainProfileView: View {
     }
     
     
+    func changeProfilePicture() {
+        let status = PHPhotoLibrary.authorizationStatus()
+        if status == .notDetermined {
+            PHPhotoLibrary.requestAuthorization { newStatus in
+                if newStatus == .authorized {
+                    self.showProfilePicChange = true
+                }
+            }
+        } else if status == .authorized {
+            self.showProfilePicChange = true
+        } else {
+            // Handle the case where permission is denied.
+        }
+    }
     
     func shareApp() {
         guard let urlShare = URL(string: "https://findamare.com") else { return }
