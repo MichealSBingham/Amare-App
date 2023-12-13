@@ -7,135 +7,115 @@
 
 import SwiftUI
 import UIKit
-import NavigationStack
+//import NavigationStack
 import URLImage
 import URLImageStore
-import MultipeerKit
 import Firebase
 import StreamChat
 import StreamChatSwiftUI
+import PushNotifications
 
-class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+class SceneDelegate: UIResponder, UIWindowSceneDelegate, ObservableObject {
     
-    var window: UIWindow?
-    var account: Account = Account()
+    let pushNotifications = PushNotifications.shared
+    weak var windowScene: UIWindowScene?
+    var tabWindow: UIWindow?
+    
+
+    
+    
+    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+     /*   pushNotifications.start(instanceId: "de066573-35a5-496c-aae2-16b1d465ebcd")
+            pushNotifications.registerForRemoteNotifications()
+            try? pushNotifications.addDeviceInterest(interest: "hello")
+
+            // Handling push notifications when the app launches due to a push
+            if let notificationResponse = connectionOptions.notificationResponse {
+                self.pushNotifications.handleNotification(userInfo: notificationResponse.notification.request.content.userInfo)
+            }
+        */
+        windowScene = scene as? UIWindowScene
+        
+        /*
+        let urlImageService = URLImageService(fileStore: nil, inMemoryStore: URLImageInMemoryStore())
+		
+        
+        
 	
-	var authViewModel: AuthenticationViewModel = AuthenticationViewModel()
-    
-    private lazy var transceiver: MultipeerTransceiver = {
-            var config = MultipeerConfiguration.default
-            config.serviceType = "Amare"
-
-            config.security.encryptionPreference = .required
+		let contentView = ContentView()
+		.environmentObject(authService)
+		.environmentObject(BackgroundViewModel())
+        .environmentObject(viewRouter)
+        .environmentObject(profileModel)
         
-            if let deviceID = UIDevice.current.identifierForVendor?.uuidString {
-            config.peerName = deviceID
-        }
-     
-            let t = MultipeerTransceiver(configuration: config)
-        
-            return t
-        }()
 
-    private lazy var dataSource: MultipeerDataSource = {
-        MultipeerDataSource(transceiver: transceiver)
-    }()
-    
+				if let windowScene = scene as? UIWindowScene {
+                    
+                   
+                    
+					let window = UIWindow(windowScene: windowScene)
+					window.rootViewController = UIHostingController(rootView: contentView) // Set contentView as the root view
+					self.window = window
+					window.makeKeyAndVisible()
+                    
+                    self.windowScene = windowScene
+                    
+                   // addTabBar(in: windowScene, viewRouter: viewRouter, profileModel)
+				}
+        
+        */
+			
+        
+    }
     
    
     
-    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+    func addTabBar( viewRouter: ViewRouter, _ profileModel: UserProfileModel, background: BackgroundViewModel){
         
-        account.listen()
-        
-        let urlImageService = URLImageService(fileStore: nil, inMemoryStore: URLImageInMemoryStore())
-        
-        
-        
-       
-        transceiver.resume()
-        
-       
-        
-        
-        if let windowScene = scene as? UIWindowScene {
-            let window = UIWindow(windowScene: windowScene)
-            
-          
-            let firstView = ContentView()//RootView()
-                                    //.environmentObject(self.account)
-				                    .environmentObject(authViewModel)
-                                    .environment(\.urlImageService, urlImageService)
-                                    .environmentObject(dataSource)
-			
-			
-			
-			//let firstView =   ChatChannelListView(viewFactory: CustomViewFactory())
-                                    
-			///
-			window.overrideUserInterfaceStyle = .dark
-                                        
-            window.rootViewController = UIHostingController(rootView: firstView)
-            
-           
-            
-            self.window = window
-            window.makeKeyAndVisible()
+        guard let scene = windowScene else {
+            return
         }
+        
+        let tabBarController = UIHostingController(rootView: CustomBottomTabBar()
+            .environmentObject(viewRouter)
+            .environmentObject(profileModel)
+            .environmentObject(background)
+            .environmentObject(AuthService.shared)
+        )
+        tabBarController.view.backgroundColor = .clear
+        ///Window
+        let tabWindow = PassThroughWindow(windowScene: scene)
+        tabWindow.rootViewController = tabBarController
+        tabWindow.isHidden = false
+        self.tabWindow = tabWindow
+        
     }
     
-    func sceneWillEnterForeground(_ scene: UIScene) {
-        
-        print("the account data is \(account.data)")
-        
-        if (account.data?.isComplete() ?? false) && account.isSignedIn {
-            print("!Just entered foreground ")
-        }
+    func removeTabBar() {
+        print("removing tab bar scene delegate")
+        self.tabWindow?.isHidden = true
+        self.tabWindow = nil // Remove the reference, allowing it to be recreated later
+    }
 
-    }
-    
-    
-func sceneDidEnterBackground(_ scene: UIScene) {
-    
-    /*  We MIGHT not need this. This signs out user if app goes into background and if they aren't finished signing up in app
-     
-    if !(isDoneWithSignUp()){
-            // if not done with sign up... log user out.
-        account.signOut {
-            //
-        } cantSignOut: { error in
-            //
-        }
 
+    
+    func scene(_ scene: UIScene, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+     //   pushNotifications.registerDeviceToken(deviceToken)
+        print("registering device with token \(deviceToken)")
     }
-    */
-    
-    
-}
-    
-func sceneWillResignActive(_ scene: UIScene) {
-    
+
+    func scene(_ scene: UIScene, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        // Handle error
+        print("error failing remote notifications  \(error)")
+    }
 
 }
-    
-    
-func sceneDidDisconnect(_ scene: UIScene) {
-    /*
-    print("application WILL terminate ")
-    if !(isDoneWithSignUp()){
-            // if not done with sign up... log user out.
-        print("not done with sign up ... signing out..")
-        account.signOut { error in
-            
-            guard error == nil else{
-                return
-            }
-            
-        }
-        
-        
+
+
+/// PassThrough UIWindow
+class PassThroughWindow: UIWindow {
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        guard let view = super.hitTest(point, with: event) else { return nil }
+        return rootViewController?.view == view ? nil : view
     }
-    */
-}
-    
 }

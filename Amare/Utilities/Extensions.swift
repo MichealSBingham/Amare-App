@@ -11,6 +11,8 @@ import Firebase
 import StreamChat
 import StreamChatSwiftUI
 
+var peopleImages: [String] = ["https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cG9ydHJhaXR8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60", "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTF8fHBvcnRyYWl0fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60", "https://images.unsplash.com/photo-1504257432389-52343af06ae3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fHBvcnRyYWl0fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60", "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTR8fHBvcnRyYWl0fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60", "https://images.unsplash.com/photo-1528892952291-009c663ce843?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjZ8fHBvcnRyYWl0fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60", "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mzd8fHBvcnRyYWl0fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60"]
+
 ///  We extend this so that we can use it outside of didFinishLaunching
 extension ChatClient {
 	static var shared: ChatClient!
@@ -154,92 +156,7 @@ extension NSNotification {
 }
 
 
-extension Date {
-    func get(_ components: Calendar.Component..., calendar: Calendar = Calendar.current) -> DateComponents {
-        return calendar.dateComponents(Set(components), from: self)
-    }
 
-    func get(_ component: Calendar.Component, calendar: Calendar = Calendar.current) -> Int {
-        return calendar.component(component, from: self)
-    }
-    
-    /// Returns the day of the date
-    func day() -> Int {
-        return self.get(.day, .month, .year).day ?? 0
-    }
-    
-    /// Returns the year of the date
-    func year() -> Int {
-        return self.get(.day, .month, .year).year ?? 0
-    }
-    
-    /// Returns the month of a date object. Or an empty string if something's wrong or no date given.
-    func month() -> String {
-        
-        
-        switch self.get(.day, .month, .year).month {
-            
-        case 1:
-            return "January"
-        case 2:
-            return "February"
-        case 3:
-            return "March"
-        case 4:
-            return "April"
-        case 5:
-            return "May"
-        case 6:
-            return "June"
-        case 7:
-            return "July"
-        case 8:
-            return "August"
-        case 9:
-            return "September"
-        case 10:
-            return "October"
-        case 11:
-            return "November"
-        case 12:
-            return "December"
-        default:
-            return ""
-            
-        }
-    }
-    
-    /// Returns proper date to ensure the time zone is correct. Pass in a time zone and it'll return the proper UTC time
-    /// - Warning: This is Broken! Do not use this..
-    func toUTC(from localTimeZone: TimeZone) -> Date {
-        
-        
-                let timezone = localTimeZone
-               let seconds = -TimeInterval(timezone.secondsFromGMT(for: self))
-               return Date(timeInterval: seconds, since: self)
-    }
-    
-    
-    /// Returns the proper Date object in consideration of its time zone
-    func corrected(by localTimeZone: TimeZone) -> Date {
-        
-        // 1) Get the current TimeZone's seconds from GMT. Since I am in Chicago this will be: 60*60*5 (18000)
-        let timezoneOffset =  localTimeZone.secondsFromGMT()
-         
-        // 2) Get the current date (GMT) in seconds since 1970. Epoch datetime.
-        let epochDate = self.timeIntervalSince1970
-         
-        // 3) Perform a calculation with timezoneOffset + epochDate to get the total seconds for the
-        //    local date since 1970.
-        //    This may look a bit strange, but since timezoneOffset is given as -18000.0, adding epochDate and timezoneOffset
-        //    calculates correctly.
-        let timezoneEpochOffset = (epochDate + Double(timezoneOffset))
-         
-        // 4) Finally, create a date using the seconds offset since 1970 for the local date.
-        return Date(timeIntervalSince1970: timezoneEpochOffset)
-    }
-    
-}
 
 
 extension Timestamp{
@@ -483,67 +400,40 @@ struct EnumeratedForEach<ItemType, ContentView: View>: View {
 }
 
 
-extension UIImage {
-	var isPortrait:  Bool    { size.height > size.width }
-	var isLandscape: Bool    { size.width > size.height }
-	var breadth:     CGFloat { min(size.width, size.height) }
-	var breadthSize: CGSize  { .init(width: breadth, height: breadth) }
-	var breadthRect: CGRect  { .init(origin: .zero, size: breadthSize) }
-	var circleMasked: UIImage? {
-		guard let cgImage = cgImage?
-			.cropping(to: .init(origin: .init(x: isLandscape ? ((size.width-size.height)/2).rounded(.down) : 0,
-											  y: isPortrait  ? ((size.height-size.width)/2).rounded(.down) : 0),
-								size: breadthSize)) else { return nil }
-		let format = imageRendererFormat
-		format.opaque = false
-		return UIGraphicsImageRenderer(size: breadthSize, format: format).image { _ in
-			UIBezierPath(ovalIn: breadthRect).addClip()
-			UIImage(cgImage: cgImage, scale: format.scale, orientation: imageOrientation)
-			.draw(in: .init(origin: .zero, size: breadthSize))
-		}
-	}
+extension UserDefaults {
+    static func blockUser(userID: String) {
+        var blockedUsers = UserDefaults.standard.array(forKey: "BlockedUsers") as? [String] ?? []
+        blockedUsers.append(userID)
+        UserDefaults.standard.set(blockedUsers, forKey: "BlockedUsers")
+    }
 }
 
-extension UIImage {
-	func resizeImage(_ dimension: CGFloat, opaque: Bool = false , contentMode: UIView.ContentMode = .scaleAspectFit) -> UIImage {
-		  var width: CGFloat
-		  var height: CGFloat
-		  var newImage: UIImage
 
-		  let size = self.size
-		  let aspectRatio =  size.width/size.height
 
-		  switch contentMode {
-			  case .scaleAspectFit:
-				  if aspectRatio > 1 {                            // Landscape image
-					  width = dimension
-					  height = dimension / aspectRatio
-				  } else {                                        // Portrait image
-					  height = dimension
-					  width = dimension * aspectRatio
-				  }
+extension UserDefaults {
+    private static let fireworksShownKey = "FireworksShownForUser"
 
-		  default:
-			  fatalError("UIIMage.resizeToFit(): FATAL: Unimplemented ContentMode")
-		  }
+    static func hasShownFireworks(forUserId userId: String) -> Bool {
+        let key = "\(fireworksShownKey)_\(userId)"
+        return UserDefaults.standard.bool(forKey: key)
+    }
 
-		  if #available(iOS 10.0, *) {
-			  let renderFormat = UIGraphicsImageRendererFormat.default()
-			  renderFormat.opaque = opaque
-			  let renderer = UIGraphicsImageRenderer(size: CGSize(width: width, height: height), format: renderFormat)
-			  newImage = renderer.image {
-				  (context) in
-				  self.draw(in: CGRect(x: 0, y: 0, width: width, height: height))
-			  }
-		  } else {
-			  UIGraphicsBeginImageContextWithOptions(CGSize(width: width, height: height), opaque, 0)
-				  self.draw(in: CGRect(x: 0, y: 0, width: width, height: height))
-				  newImage = UIGraphicsGetImageFromCurrentImageContext()!
-			  UIGraphicsEndImageContext()
-		  }
-		
-		
+    static func setFireworksShown(forUserId userId: String) {
+        let key = "\(fireworksShownKey)_\(userId)"
+        UserDefaults.standard.set(true, forKey: key)
+    }
+}
 
-		  return newImage
-	  }
-  }
+
+
+extension UserDefaults {
+    private static let firstAppLaunchKey = "FirstAppLaunchKey"
+
+    static func isFirstAppLaunch() -> Bool {
+        return UserDefaults.standard.object(forKey: firstAppLaunchKey) == nil
+    }
+
+    static func setNotFirstAppLaunch() {
+        UserDefaults.standard.set(false, forKey: firstAppLaunchKey)
+    }
+}

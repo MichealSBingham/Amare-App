@@ -11,11 +11,13 @@ import FirebaseAuth
 import URLImage
 import URLImageStore
 import PushNotifications
-import GooglePlaces
-import EasyFirebase
 import StreamChat
 import StreamChatSwiftUI
 import UIKit
+import FirebaseMessaging
+import FirebaseInAppMessagingSwift
+
+let APPURL = "https://findamare.com"
 
 @main
 struct AmareApp: App {
@@ -26,36 +28,38 @@ struct AmareApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     let persistenceController = PersistenceController.shared
     
+    let urlImageService = URLImageService(fileStore: nil, inMemoryStore: URLImageInMemoryStore())
+    
+    //var authService: AuthService = AuthService.shared
+    
+    let beamsClient = PushNotifications.shared
+    
+    // This is the `StreamChat` reference we need to add
+    var streamChat: StreamChat?
+    
+    @StateObject var viewRouter: ViewRouter = ViewRouter()
+    @StateObject var profileModel: UserProfileModel = UserProfileModel()
 
-
+    init(){
+        
+        
+        
+    }
     var body: some Scene {
         
-       
-        
         WindowGroup {
-			
+            
+        ContentView()
+            .environmentObject(AuthService.shared)
+            .environmentObject(BackgroundViewModel())
+            .environmentObject(viewRouter)
+            .environmentObject(profileModel)
         }
         
-        .onChange(of: scenePhase) { newScenePhase in
-            
-            switch scenePhase{
-                
-            case .background:
-                print("\n\n Scence Phase: Background")
-                
-                break
-            case .inactive:
-                print("\n\n Scence Phase: Inactive ")
-                break
-            case .active:
-                print("\n\n Scence Phase: Active ")
-                break
-            @unknown default:
-                print("\n\n Scence Phase: Unknown ")
-                break
-            }
-        }
     }
+    
+   
+    
     
     /// Dismisses the keyboard
     func dismissKeyboard(completion: (() -> Void)? = nil )  {
@@ -82,58 +86,56 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 	// This is the `StreamChat` reference we need to add
 	var streamChat: StreamChat?
 
-		// This is the `chatClient`, with config we need to add
-/*	var chatClient: ChatClient = {
-			//For the tutorial we use a hard coded api key and application group identifier
-		var config = ChatClientConfig(apiKey: .init("8br4watad788"))
-		
-		// Real API Key
-			//var config = ChatClientConfig(apiKey: .init("6vb87hptvk7d"))
-		
-			config.applicationGroupIdentifier = "group.com.findamare"
-		//tutorial config
-		//config.applicationGroupIdentifier = "group.io.getstream.iOS.ChatDemoAppSwiftUI"
-
-			// The resulting config is passed into a new `ChatClient` instance.
-			let client = ChatClient(config: config)
-			return client
-		}()
-	*/
-
 
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         
         UNUserNotificationCenter.current().delegate = self
           
-		//-MARK: Configuing Google Places API
+		// MARK: - Configuing Google Places API
       //  GMSServices.provideAPIKey("YOUR_API_KEY")
-        GMSPlacesClient.provideAPIKey("AIzaSyDezwobB5BsaO8E8RuuBA715EIc5CeZSCc")
+            // GMSPlacesClient.provideAPIKey("AIzaSyDezwobB5BsaO8E8RuuBA715EIc5CeZSCc")
         
 		
-		//-MARK: Configuring Beams Push Notification API
-        self.beamsClient.start(instanceId: "ac1386a2-eac8-4f11-aaab-cad17174260a")
-                self.beamsClient.registerForRemoteNotifications()
-        try? self.beamsClient.addDeviceInterest(interest: "hello")
-        try? self.beamsClient.addDeviceInterest(interest: "debug-hello")
+		// MARK: - Configuring Beams Push Notification API
+        
+       //configureBeamsPushNotifications()
 		
 		
-		//-MARK: Configuring Firebase
-     //   FirebaseApp.configure()
-		EasyFirebase.configure()
+		// MARK: -  Configuring Firebase
+       FirebaseApp.configure()
+        // Register for push notifications
+            UNUserNotificationCenter.current().delegate = self
+            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+            UNUserNotificationCenter.current().requestAuthorization(options: authOptions, completionHandler: {_, _ in })
+            application.registerForRemoteNotifications()
+		
+        //MARK: - Push the device token to the database
+        // Listener for authentication state
+        Auth.auth().addStateDidChangeListener { [weak self] (auth, user) in
+                    if let user = user {
+                        // User is signed in, update token
+                        self?.updateFirestoreWithFCMToken(token: Messaging.messaging().fcmToken, userID: user.uid)
+                    } else {
+                        // User is signed out, remove token
+                        self?.removeFCMTokenForSignedOutUser()
+                    }
+                }
+		
+		//MARK: - Customizing Stream Chat Messaging  Design
 		
 		
-		//MARK: Customizing Stream Chat Messaging  Design
-		
-		
-		
+		var mycolors = [
+			Color(UIColor(red: 1.00, green: 0.01, blue: 0.40, alpha: 1.00)),
+			Color(UIColor(red: 0.94, green: 0.16, blue: 0.77, alpha: 1.00))
+		]
 			var colors = ColorPalette()
 			//let streamBlue = UIColor(red: 0, green: 108.0 / 255.0, blue: 255.0 / 255.0, alpha: 1)
 			//colors.tintColor = Color(streamBlue)
-			let amarePink = UIColor(Background().colors.first!)
-			colors.tintColor = Background().colors.first!
+			let amarePink = UIColor(mycolors.first!)
+			colors.tintColor = mycolors.first!
 		var colorsToUse: [UIColor] = []
-		for color in Background().colors{
+		for color in mycolors{
 			colorsToUse.append(color.uiColor())
 		}
 		colors.messageOtherUserBackground = colorsToUse
@@ -153,16 +155,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 			}
 
 			let utils = Utils(channelNamer: DefaultChatChannelNamer())
-	
+        let messageListConfig = MessageListConfig(
+            becomesFirstResponderOnOpen: false
+        )
+        
+        utils.messageListConfig = messageListConfig
+      
+    
 		
-			
-		var config = ChatClientConfig(apiKey: .init("6vb87hptvk7d"))
-		
-		
-		
+        var config = ChatClientConfig(apiKey: .init("92jyyxebed2m"))
+       
 		ChatClient.shared = ChatClient(config: config)
 		
 		
+        
 		// The `StreamChat` instance we need to assign
 		streamChat = StreamChat(chatClient: ChatClient.shared, appearance: appearance, utils: utils)
 		
@@ -172,45 +178,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
 	// The `connectUser` function we need to add.
-		/*	private func connectUser() {
-			
-			
-			guard Account.shared.data?.isComplete() ?? false else { print("Data is not complete, thus we will not connect the user to messaging SDK. "); return }
-			
-			
-			print("Data is complete, thus we will connect to the user.")
-			
-			let name = Account.shared.data?.name ?? ""
-			let id = Account.shared.data?.id
-			let imageURL: String  = (Account.shared.data?.profile_image_url!)!
-			
-			guard let id = id else { print("We don't have the user id so we are not connecting to Messaging"); return }
-			
-			// This is a hardcoded token valid on Stream's tutorial environment.
-			let token = try! Token(rawValue: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoibHVrZV9za3l3YWxrZXIifQ.kFSLHRB5X62t0Zlc7nwczWUfsQMwfkpylC6jCUZ6Mc0")
+  /*  private func connectUser() {
+        
+        
 
-			// Call `connectUser` on our SDK to get started.
-			chatClient.connectUser(
-					userInfo: .init(id: id,
-									name: name,
-									imageURL: URL(string: imageURL)!),
-					token: token
-			) { error in
-				if let error = error {
-					// Some very basic error handling only logging the error.
-					log.error("connecting the user failed \(error)")
-					return
-				}
-			}
-		}*/
-	
+        
+            let id: String = "micheal"
+            let name: String = "Micheal Bingham"
+            let imageURL: String = AppUser.generateMockData().profileImageUrl!
+        // This is a hardcoded token valid on Stream's tutorial environment.
+        //let token = try! Token(rawValue: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoibHVrZV9za3l3YWxrZXIifQ.kFSLHRB5X62t0Zlc7nwczWUfsQMwfkpylC6jCUZ6Mc0")
+    
+            let token = try! Token(rawValue: "eeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoibWljaGVhbCJ9.FFwAA6_jdJgAkWYBAb_jKorjOTpfhZkTg7zdsE1GiNI")
+        // Call `connectUser` on our SDK to get started.
+            ChatClient.shared.connectUser(
+                userInfo: .init(id: id,
+                                name: name,
+                                imageURL: URL(string: imageURL)!),
+                token: .development(userId: id)
+        ) { error in
+            if let error = error {
+                // Some very basic error handling only logging the error.
+                log.error("connecting the user failed \(error)")
+                return
+            }
+        }
+    }
+	*/
 	
 	
 	
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         
-        self.beamsClient.handleNotification(userInfo: userInfo)
-
         
         if Auth.auth().canHandleNotification(userInfo){
             completionHandler(.noData)
@@ -220,97 +219,224 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     
     // Notification received in foreground
-    
    
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-    
-        print("**** RECEIVED Notification **** ")
-        
-        // check if it is a winking notification ..
-        //NotificationCenter.default.post(name: NSNotification.gotWinkedAt, object: nil)
-        
-        completionHandler([.alert, .badge, .sound])
+
+        completionHandler([.alert, .badge, .sound, .banner])
     }
     
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
-        
-        return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
+        let config = UISceneConfiguration(name: nil, sessionRole: connectingSceneSession.role)
+        config.delegateClass = SceneDelegate.self
+        return config
 
     }
     
-    /*
-    func applicationWillResignActive(_ application: UIApplication) {
-        
-        if !(isDoneWithSignUp()){
-                // if not done with sign up... log user out.
-            print("not done with sign up ... signing out..")
-            account.signOut { error in
-                
-                guard error == nil else{
-                    return
-                }
-                
-            }
-            
-          
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        print("FCM Token: \(String(describing: fcmToken))")
+        if let token = fcmToken {
+            UserDefaults.standard.set(token, forKey: "FCMToken")
         }
     }
-    */
-    
-    
-    func applicationWillTerminate(_ application: UIApplication) {
-        
-        /* Alternative Solution is to just sign them out if the data isn't complete on the homepage
-        print("application WILL terminate ")
-        if !(isDoneWithSignUp()){
-                // if not done with sign up... log user out.
-            print("not done with sign up ... signing out..")
-            account.signOut { error in
-                
-                guard error == nil else{
-                    return
-                }
-                
-            }
-            
-          
-        }
-        
-        */
-        
-        
-        
-        
-    }
-    
-    func applicationDidEnterBackground(_ application: UIApplication) {
-        
-        /*
-        if !(isDoneWithSignUp()){
-                // if not done with sign up... log user out.
-            account.signOut { error in
-                //
-                guard error == nil else { return }
-                //NavigationUtil.popToRootView()
-            }
 
-        }
-        
-        */
     
 
-    }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        
+        print("registering remote notificaitons with token \(deviceToken)")
         Auth.auth().setAPNSToken(deviceToken, type: .prod)
-        self.beamsClient.registerDeviceToken(deviceToken)
+        Messaging.messaging().apnsToken = deviceToken
         
+        UserDefaults.standard.set(deviceToken, forKey: "deviceTokenData")
+
+
+        let tokenParts = deviceToken.map { data in String(format: "%02.2hhx", data) }
+            let token = tokenParts.joined()
+            // Store the token in UserDefaults
+            UserDefaults.standard.set(token, forKey: "DeviceToken")
+        
+        guard ChatClient.shared.currentUserId != nil else {
+                log.warning("cannot add the device without connecting as user first, did you call connectUser")
+                return
+            }
+
+        guard let tk = Messaging.messaging().fcmToken else { return }
+      
+        ChatClient.shared.currentUserController().addDevice(.firebase(token: tk, providerName: "firebase")) { error in
+                if let error = error {
+                    log.warning("adding a device failed with an error \(error)")
+                }
+            }
        
     }
     
+    // MARK: - Configuring Beams Push Notification API
+    func configureBeamsPushNotifications() {
+        print("configuring beams push notifications")
+        self.beamsClient.start(instanceId: "de066573-35a5-496c-aae2-16b1d465ebcd")
+        self.beamsClient.registerForRemoteNotifications()
+        
+        do {
+            try self.beamsClient.addDeviceInterest(interest: "hello")
+        } catch {
+            print("Error adding device interest 'hello': \(error)")
+        }
+        
+       //  Uncomment and use the following if you want to add additional interests with error handling
+         do {
+             try self.beamsClient.addDeviceInterest(interest: "debug-hello")
+         } catch {
+             print("Error adding device interest 'debug-hello': \(error)")
+         }
+    }
+
     
+   
+    
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print("Failed to register for remote notifications: \(error)")
+    }
+    
+    private func updateDeviceTokenForUser(userID: String?, addingToken: Bool) {
+            guard let deviceToken = UserDefaults.standard.string(forKey: "DeviceToken") else { return }
+
+            guard let userID = userID else {
+                // If there's no user ID (user signed out), exit early
+                return
+            }
+
+            let db = Firestore.firestore()
+            let userDeviceTokenRef = db.collection("deviceTokens").document(userID)
+
+            // Transaction to ensure atomic update of the device tokens array
+            db.runTransaction({ (transaction, errorPointer) -> Any? in
+                let userDocument: DocumentSnapshot
+                do {
+                    try userDocument = transaction.getDocument(userDeviceTokenRef)
+                } catch let fetchError as NSError {
+                    errorPointer?.pointee = fetchError
+                    return nil
+                }
+
+                // Get current device tokens, if they exist
+                var deviceTokens = userDocument.data()?["tokens"] as? [String] ?? []
+
+                if addingToken {
+                    // Add new token if it's not already in the array
+                    if !deviceTokens.contains(deviceToken) {
+                        deviceTokens.append(deviceToken)
+                    }
+                } else {
+                    // Remove the token if the user is signing out
+                    if let index = deviceTokens.firstIndex(of: deviceToken) {
+                        deviceTokens.remove(at: index)
+                    }
+                }
+
+                // Update the Firestore document
+                transaction.updateData(["tokens": deviceTokens], forDocument: userDeviceTokenRef)
+                return nil
+            }) { (_, error) in
+                if let error = error {
+                    print("Error updating device tokens: \(error)")
+                }
+            }
+        }
+
+    private func updateDeviceTokenForUser(userID: String) {
+            guard let deviceToken = UserDefaults.standard.string(forKey: "DeviceToken") else { return }
+
+            let db = Firestore.firestore()
+            let userDeviceTokenRef = db.collection("deviceTokens").document(userID)
+
+            // Transaction to ensure atomic update of the device tokens array
+            db.runTransaction({ (transaction, errorPointer) -> Any? in
+                let userDocument: DocumentSnapshot
+                do {
+                    try userDocument = transaction.getDocument(userDeviceTokenRef)
+                } catch let fetchError as NSError {
+                    errorPointer?.pointee = fetchError
+                    return nil
+                }
+
+                // Get current device tokens, if they exist
+                var deviceTokens = userDocument.data()?["tokens"] as? [String] ?? []
+
+                // Add new token if it's not already in the array
+                if !deviceTokens.contains(deviceToken) {
+                    deviceTokens.append(deviceToken)
+                }
+
+                // Update the Firestore document
+                transaction.updateData(["tokens": deviceTokens], forDocument: userDeviceTokenRef)
+                return nil
+            }) { (_, error) in
+                if let error = error {
+                    print("Error updating device tokens: \(error)")
+                }
+            }
+        }
+    
+    private func updateFirestoreWithFCMToken(token: String?, userID: String) {
+        guard let token = token else { return }
+
+        let userDeviceTokenRef = Firestore.firestore().collection("deviceTokens").document(userID)
+        userDeviceTokenRef.getDocument { (document, error) in
+            if let document = document, document.exists {
+                var deviceTokens = document.data()?["tokens"] as? [String] ?? []
+                if !deviceTokens.contains(token) {
+                    deviceTokens.append(token)
+                }
+                userDeviceTokenRef.updateData(["tokens": deviceTokens])
+            } else {
+                userDeviceTokenRef.setData(["tokens": [token]])
+            }
+        }
+        
+        
+            ChatClient.shared.currentUserController().addDevice(.firebase(token: token, providerName: "firebase")) { error in
+                if let error = error {
+                    log.warning("adding a device failed with an error \(error)")
+                }
+            }
+
+        
+
+        
+    }
+
+
+
+
+
+        private func removeFCMTokenForSignedOutUser() {
+            guard let userID = Auth.auth().currentUser?.uid,
+                  let tokenToRemove = Messaging.messaging().fcmToken else { return }
+
+            let db = Firestore.firestore()
+            let userDeviceTokenRef = db.collection("deviceTokens").document(userID)
+
+            db.runTransaction({ (transaction, errorPointer) -> Any? in
+                let userDocument: DocumentSnapshot
+                do {
+                    try userDocument = transaction.getDocument(userDeviceTokenRef)
+                } catch let fetchError as NSError {
+                    errorPointer?.pointee = fetchError
+                    return nil
+                }
+
+                var deviceTokens = userDocument.data()?["tokens"] as? [String] ?? []
+                deviceTokens.removeAll { $0 == tokenToRemove }
+
+                transaction.updateData(["tokens": deviceTokens], forDocument: userDeviceTokenRef)
+                return nil
+            }, completion: { _, error in
+                if let error = error {
+                    print("Error removing device token: \(error)")
+                }
+            })
+        }
     
 }
 
@@ -326,6 +452,20 @@ extension UIApplication {
 
 
 //MARK: Customizing The Chat UI
+class DemoAppFactory: ViewFactory {
+
+    @Injected(\.chatClient) public var chatClient
+
+     init() {}
+
+    public static let shared = DemoAppFactory()
+
+    func makeChannelListHeaderViewModifier(title: String) -> some ChannelListHeaderViewModifier {
+        CustomChannelModifier(title: title)
+    }
+}
+
+
 
 class CustomViewFactory: ViewFactory {
 	@Injected(\.chatClient) public var chatClient
@@ -340,6 +480,7 @@ class CustomViewFactory: ViewFactory {
 			CustomChannelModifier(title: title)
 		}
 	
+    
 	func makeChannelListTopView(searchText: Binding<String>) -> some View {
 		MessagesChannelListTopView(searchText: searchText)
 	}

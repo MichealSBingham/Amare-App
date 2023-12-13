@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1330"
+   LastUpgradeVersion = "1500"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -45,6 +45,17 @@
                BlueprintIdentifier = "26B1AFF22678FFE700A170B3"
                BuildableName = "AmareUITests.xctest"
                BlueprintName = "AmareUITests"
+               ReferencedContainer = "container:Amare.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "262F2A3F2A4906EF00C980D3"
+               BuildableName = "OnboardingTests.xctest"
+               BlueprintName = "OnboardingTests"
                ReferencedContainer = "container:Amare.xcodeproj">
             </BuildableReference>
          </TestableReference>
