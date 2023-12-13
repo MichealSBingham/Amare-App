@@ -9,8 +9,6 @@
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
-		<key>LSHandlerRank</key>
-        <string>Default</string>
 			<key>CFBundleTypeName</key>
 			<string>MKDirectionsRequest</string>
 			<key>LSItemContentTypes</key>
@@ -140,5 +138,4 @@
 </dict>
 <key>LSSupportsOpeningDocumentsInPlace</key>
 <false/>
-
 </plist>
