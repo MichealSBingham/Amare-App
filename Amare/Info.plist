@@ -2,6 +2,7 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -76,7 +77,7 @@
 	<key>NSNearbyInteractionUsageDescription</key>
 	<string>Hi, this is so that you will be able to find them if you're near them. </string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>For sending and uploading media!</string>
+	<string>We need access to your photos so that you can upload them to your user profile, and send and share media with others.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>MontserratAlternates-SemiBold.ttf</string>
