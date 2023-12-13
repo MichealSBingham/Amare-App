@@ -303,6 +303,7 @@ struct UserProfileView2: View {
       
         ZStack{
             FireworksView()
+                .opacity(showFireworks ? 1: 0)
                 .onAppear{
                     if model.friendshipStatus == .friends || (model.winkedAtThem ?? false &&  model.winkedAtMe ?? false ) {
                         
