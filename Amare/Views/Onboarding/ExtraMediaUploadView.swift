@@ -55,7 +55,7 @@ struct ExtraMediaUploadView: View {
                 }
                 
             } label: {
-                Text("I'm not using Amare for dating.")
+                Text("I'll do this later.")
             }
 
             
