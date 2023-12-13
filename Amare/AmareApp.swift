@@ -139,6 +139,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 			colorsToUse.append(color.uiColor())
 		}
 		colors.messageOtherUserBackground = colorsToUse
+        colors.messageOtherUserTextColor = .white
 
 		//	var fonts = Fonts()
 		//	fonts.footnoteBold = Font.footnote
