@@ -85,11 +85,12 @@ struct ExtraMediaUploadView: View {
         }
         .alert(isPresented: $errorDidHappen, content: {
             Alert(
-                title: Text("Something went wrong..."),
-                message: Text("Please try again or another picture."),
+                title: Text("Photos Need Approval"),
+                message: Text("We'll let you know when we approve these pictures."),
                 dismissButton: .default(Text("OK"), action: {
                     // Reset the variable when the alert's button is pressed
                     self.errorDidHappen = false
+                    model.currentPage = .username
                 })
             )
         })
